@@ -60,7 +60,12 @@ This document defines the shared collaboration conventions (for both humans and 
 
 ## 5. Build Conventions
 
-- The repository currently does not enforce a single build script; if adding one, document the entry command and output path in commit notes.
+- Canonical local build commands are:
+  - `pnpm run build` (build both `main.opy` and `devMain.opy`)
+  - `pnpm run build:main`
+  - `pnpm run build:dev`
+  - `pnpm run build:release` (dual-language release artifacts)
+- CI auto release workflow is `.github/workflows/release.yml` and is triggered by pushed `v*` tags.
 - When using the OverPy toolchain, prioritize independent compile/decompile verification for both `main.opy` and `devMain.opy`.
 - `build/` is an artifact directory and should not contain business/source logic.
 
@@ -84,7 +89,7 @@ For each change, verify at least:
 4. Whether new events are synced across config, implementation, and copy/text.
 5. Whether unrelated formatting/reordering was introduced (should be avoided).
 6. If the change is seasonal/event-specific, whether it should go to a dedicated branch instead of current mainline.
-7. Run `tools/check_locale_keys.sh` and ensure locale key sync checks pass (missing/duplicate/invalid references), and event dynamic numbers come from constants via formatting.
+7. Run `./tools/check_locale_keys.sh` and ensure locale key sync checks pass (missing/duplicate/invalid references), and event dynamic numbers come from constants via formatting.
 
 ## 8. AI Agent Collaboration Requirements
 
