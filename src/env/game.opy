@@ -10,9 +10,6 @@ globalvar savedIsWinner 20
 globalvar savedSkipCount 21
 globalvar savedJoinTime 22
 globalvar savedWinnerTime 49
-globalvar savedA36TGrenade 51
-globalvar savedA36TGrenadeHit 52
-globalvar savedA36TGrenadeDmg 53
 globalvar savedA36TGrenadeAlive 54
 globalvar difficulty
 globalvar difficultyText

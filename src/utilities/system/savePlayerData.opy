@@ -27,12 +27,6 @@ def savePlayerData():
         savedWinnerTime[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.winnerTime
         lbl_0:
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedA36TGrenade[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.A36TGrenade
-        wait(getAverageServerLoad() / 100 * 0.5)
-        savedA36TGrenadeHit[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.A36TGrenadeHit
-        wait(getAverageServerLoad() / 100 * 0.5)
-        savedA36TGrenadeDmg[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.A36TGrenadeDmg
-        wait(getAverageServerLoad() / 100 * 0.5)
         savedA36TGrenadeAlive[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.A36TGrenadeAlive
         savedJoinTime[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)
