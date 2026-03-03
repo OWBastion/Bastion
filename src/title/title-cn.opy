@@ -398,8 +398,8 @@ enum MapTITLEKey:
 # 皇家赛道
 #!define DATA_CIRCUIT_ROYAL [ \
    playerNameToIndexDelimited(["他又","别感冒"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河","寒霜冰湮","豆本豆豆奶","眼镜小宅","EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河","寒霜冰湮","豆本豆豆奶","眼镜小宅","EruIluvatar"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河","寒霜冰湮","豆本豆豆奶","眼镜小宅","EruIluvatar","雨鸢"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河","寒霜冰湮","豆本豆豆奶","眼镜小宅","EruIluvatar","雨鸢"], "-")\
 ]
 
 # 花村
