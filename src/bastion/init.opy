@@ -247,7 +247,6 @@ rule "bastion secondary fires if he has a target":
     
     wait(random.uniform(0.032, 0.16), Wait.ABORT_WHEN_FALSE)
     eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
-    eventPlayer.target.A36TGrenade++
     wait(1.488)
     if ruleCondition:
         loop()
@@ -267,7 +266,6 @@ rule "bastion secondary fires if he has nano":
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     if eventPlayer.target == null:
         goto lbl_0
-    eventPlayer.target.A36TGrenade++
     lbl_0:
     wait(getAverageServerLoad() / 100 * 0.032)
     if ruleCondition:
@@ -451,18 +449,6 @@ rule "bastions whose position is far above the ground instead stay at that posit
 
 
 rule "bastion A-36 Tactical Grenade hit player":
-    @Event playerReceivedKnockback
-    @Team 1
-    @Condition difficulty == 5
-    @Condition attacker.getHero() == Hero.BASTION
-    @Condition attacker != eventPlayer
-    @Condition eventAbility == Button.SECONDARY_FIRE
-    
-    victim.A36TGrenadeHit++
-    wait(0.032)
-
-
-rule "bastion A-36 Tactical Grenade hit player":
     @Event playerTookDamage
     @Team 1
     @Condition any([difficulty == 5, bastionBotSeconFire, dlcVishkarEvent]) == true
@@ -478,7 +464,6 @@ rule "bastion A-36 Tactical Grenade hit player":
         eventPlayer.setStatusEffect(attacker, Status.FROZEN, 1.5)
     eventPlayer.startDamageOverTime(attacker, 3, ceil(ceil(victim.getMaxHealth() * 0.25 / 3) / 4))
     lbl_0:
-    victim.A36TGrenadeDmg += eventDamage + ceil(ceil(victim.getMaxHealth() * 0.25 / 3) / 4)
     wait()
 
 

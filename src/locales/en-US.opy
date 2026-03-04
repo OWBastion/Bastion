@@ -331,8 +331,6 @@
 #!define STR_HUD_ACHIEVEMENT_DISABLED "Achievements Disabled {0}"
 #!define STR_HUD_RUN_DEATHS "Run Deaths: {0}"
 #!define STR_HUD_RUN_SKIPS "Run Skips: {0}"
-#!define STR_HUD_GRENADE_DMG "Grenade Dmg: {0}"
-#!define STR_HUD_GRENADE_HIT "Grenade Hit/Lock: {0}/{1}"
 #!define STR_HUD_SURVIVOR "Survivor {0} "
 #!define STR_HUD_GAMBLER_KING "Gambling King {0} "
 #!define STR_HUD_TOTAL_TIME "Total Time: {0}"
@@ -358,17 +356,13 @@
 #!define STR_HUD_PANEL_BOTTOM "└──────────┘"
 
 # Stats Panel Content
-# {0}=Deaths/Skips, {1}=Grenade Stats, {2}=Event Stats
+# {0}=Deaths/Skips, {1}=Event Stats, {2}=Total Time
 #!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}"
 
 # Deaths/Skips
 # {0}=Deaths, {1}=Skips
 #!define STR_HUD_STATS_DEATH_SKIP "Deaths/Skips \n{0}/{1}"
 
-# Grenade Stats
-# {0}=Hit/Lock/Dmg
-#!define STR_HUD_STATS_GRENADE "Grenade Hit/Lock/Dmg\r\n{0}"
-#!define STR_HUD_STATS_GRENADE_VAL "{0}/{1}/{2}"
 
 # Event Stats
 # {0}=Buff, {1}=Debuff, {2}=Total

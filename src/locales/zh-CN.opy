@@ -337,8 +337,6 @@
 #!define STR_HUD_ACHIEVEMENT_DISABLED "成就挑战已禁用 {0}"
 #!define STR_HUD_RUN_DEATHS "本轮共计 {0} 次阵亡"
 #!define STR_HUD_RUN_SKIPS "本轮共计 {0} 次跳过"
-#!define STR_HUD_GRENADE_DMG "榴弹共计 {0} 点伤害"
-#!define STR_HUD_GRENADE_HIT "榴弹共计 {0}/{1} 命中/锁定"
 #!define STR_HUD_SURVIVOR "大难不死 {0} "
 #!define STR_HUD_GAMBLER_KING "赌王 {0} "
 #!define STR_HUD_TOTAL_TIME "\n通关总计耗时\n{0}"
@@ -364,17 +362,13 @@
 #!define STR_HUD_PANEL_BOTTOM "└──────────┘"
 
 # 统计面板内容 (多行格式)
-# {0}=阵亡/跳过数值, {1}=榴弹数据, {2}=事件统计(可选)
-#!define STR_HUD_STATS_PANEL "{0}\n{1}{2}{3}"
+# {0}=阵亡/跳过数值, {1}=事件统计(可选), {2}=通关总耗时
+#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}"
 
 # 阵亡/跳过
 # {0}=阵亡数, {1}=跳过数
 #!define STR_HUD_STATS_DEATH_SKIP "总计阵亡/跳过 \n{0}/{1}"
 
-# 榴弹数据
-# {0}=命中/锁定/伤害
-#!define STR_HUD_STATS_GRENADE "榴弹命中/锁定/伤害\r\n{0}\n"
-#!define STR_HUD_STATS_GRENADE_VAL "{0}/{1}/{2}"
 
 # 事件统计
 # {0}=增益, {1}=减益, {2}=总计
