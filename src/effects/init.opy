@@ -35,13 +35,10 @@ rule "initialize effects":
         # 1. 阵亡/跳过
         STR_HUD_STATS_DEATH_SKIP.format(localPlayer.runDeathCount, localPlayer.skipCount),
         
-        # 2. 榴弹数据
-        STR_HUD_STATS_GRENADE.format(STR_HUD_STATS_GRENADE_VAL.format(localPlayer.A36TGrenadeHit, localPlayer.A36TGrenade, ceil(localPlayer.A36TGrenadeDmg))) if difficulty == 5 else "",
-        
-        # 3. 事件统计 (仅在开启DLC时显示)
+        # 2. 事件统计 (仅在开启DLC时显示)
         STR_HUD_STATS_EVENT.format(localPlayer.eventCount[0], localPlayer.eventCount[1], localPlayer.eventCount[0] + localPlayer.eventCount[1] + localPlayer.eventCount[2]) if dlcVishkarEvent else "",
 
-        # 4. 总耗时 (仅在通关后显示)
+        # 3. 总耗时 (仅在通关后显示)
         STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(
             STR_TIME_UNIT_HOUR.format(floor(localPlayer.winnerTime / 3600)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 3600 else "", 
             STR_TIME_UNIT_MIN.format(floor(localPlayer.winnerTime % 3600 / 60)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 60 else "", 

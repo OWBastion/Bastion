@@ -24,9 +24,6 @@ rule "when a player joins, load player data if they have it and initialize them"
         eventPlayer.skipCount = savedSkipCount[savedIndex.index("{0}".format(eventPlayer))]
         eventPlayer.winnerTime = savedWinnerTime[savedIndex.index("{0}".format(eventPlayer))]
         wait(eventPlayer.getSlot() * 0.032)
-        eventPlayer.A36TGrenade = savedA36TGrenade[savedIndex.index("{0}".format(eventPlayer))]
-        eventPlayer.A36TGrenadeHit = savedA36TGrenadeHit[savedIndex.index("{0}".format(eventPlayer))]
-        eventPlayer.A36TGrenadeDmg = savedA36TGrenadeDmg[savedIndex.index("{0}".format(eventPlayer))]
         eventPlayer.A36TGrenadeAlive = savedA36TGrenadeAlive[savedIndex.index("{0}".format(eventPlayer))]
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = savedJoinTime[savedIndex.index("{0}".format(eventPlayer))]

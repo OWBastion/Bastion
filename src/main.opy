@@ -192,9 +192,6 @@ playervar winnerTime 42
 playervar playerTitles 43
 playervar playerTitleIndex 44
 playervar playerTitleRelationIndex 45
-playervar A36TGrenade 50
-playervar A36TGrenadeHit 51
-playervar A36TGrenadeDmg 52
 playervar A36TGrenadeAlive 53
 playervar ignoreObstrucVis 57
 playervar eventMission 58
