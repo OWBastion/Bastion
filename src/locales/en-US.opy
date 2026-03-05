@@ -375,6 +375,10 @@
 # {0}=Name, {1}=Time, {2}=Desc
 #!define STR_HUD_EVENT_DETAIL "{0} ({1})\n{2}"
 
+# Attribute panel
+# {0}=Heartsteel stacks, {1}=Permanent movement speed bonus, {2}=Permanent damage reduction, {3}=Healing power
+#!define STR_HUD_ATTR_PANEL "Heartsteel {0}\r\nPermanent Speed {1}%\r\nPermanent DR {2}%\r\nHealing Power {3}%"
+
 
 # ------------------------------------------------
 # World Text (In-World)
