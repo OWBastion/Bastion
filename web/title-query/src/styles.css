@@ -408,9 +408,10 @@ code {
 }
 
 .title-tag-retired {
-  border-color: rgba(255, 142, 102, 0.52);
-  color: #ffd2c3;
-  background: rgba(96, 35, 24, 0.56);
+  border-color: rgba(255, 116, 82, 0.85);
+  color: #ffe8e0;
+  background: rgba(143, 45, 22, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(255, 173, 149, 0.22);
 }
 
 .title-condition {

@@ -80,6 +80,15 @@ const sourceDisplay = computed(() => {
   return meta.value.sourceVersion ? `${sourceLabel} ${meta.value.sourceVersion}` : sourceLabel;
 });
 
+function isRetiredTitle(title) {
+  if (title?.availability === 'retired') {
+    return true;
+  }
+
+  const conditionText = String(title?.condition || '');
+  return /不再发放|历史称号/.test(conditionText);
+}
+
 async function loadData() {
   loading.value = true;
   error.value = '';
@@ -203,8 +212,8 @@ onMounted(() => {
           <h2>已获取 / 未获取</h2>
         </header>
 
-        <div v-if="loading" class="state-block">正在生成称号对照…</div>
-        <div v-else-if="error" class="state-block state-error">当前无法显示称号对照。</div>
+        <div v-if="loading" class="state-block">正在生成称号进度…</div>
+        <div v-else-if="error" class="state-block state-error">当前无法显示称号进度。</div>
         <div v-else class="title-groups">
           <article class="title-group title-group-owned">
             <h3>已获取（{{ groupedTitles.owned.length }}）</h3>
@@ -214,9 +223,9 @@ onMounted(() => {
                   <span class="title-head">
                     <span class="title-label">{{ title.label }}</span>
                     <span class="title-tag">{{ title.category }}</span>
-                    <span class="title-tag title-tag-retired" v-if="title.availability === 'retired'">不再发放</span>
+                    <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
                   </span>
-                  <span class="title-condition">条件：{{ title.condition }}</span>
+                  <span class="title-condition">{{ title.condition }}</span>
                 </span>
               </li>
             </ul>
@@ -231,9 +240,9 @@ onMounted(() => {
                   <span class="title-head">
                     <span class="title-label">{{ title.label }}</span>
                     <span class="title-tag">{{ title.category }}</span>
-                    <span class="title-tag title-tag-retired" v-if="title.availability === 'retired'">不再发放</span>
+                    <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
                   </span>
-                  <span class="title-condition">条件：{{ title.condition }}</span>
+                  <span class="title-condition">{{ title.condition }}</span>
                 </span>
               </li>
             </ul>
