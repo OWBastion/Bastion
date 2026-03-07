@@ -29,7 +29,7 @@ Status model:
 
 | ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
 |---|---|---|---|---|---|---|---|
-| P0-001 | P0 | `Decay Overhealth` | `src/utilities/system/overhealthDecay.opy` | Nested `while` contains inner loop body without explicit `wait`; potential busy-loop spike if enabled later. | Refactor inner health-clamp logic to guaranteed throttled progression (add bounded tick pacing or loop break strategy) while preserving decay behavior. | No waitless unbounded/long-running inner loop path remains; decay result unchanged for representative overhealth states. | TODO |
+| P0-001 | P0 | `Decay Overhealth` | `src/utilities/system/overhealthDecay.opy` | Legacy disabled module with no active include path; retained code adds maintenance overhead and loop-safety review noise. | Remove unused `overhealthDecay` module and compatibility shim; keep docs/index aligned. | No remaining `overhealthDecay`/`StoreOverhealth`/`storedOverhealth` code references in `src`; no entry include references in `main.opy`/`devMain.opy`. | DONE |
 | P0-002 | P0 | `bastion constantly searches for targets in line of sight` | `src/bastion/init.opy` | High-frequency target scan does repeated `getLivingPlayers` + LoS + `sorted`/`distance`; hot-path CPU pressure scales with player count. | Apply layered gates and sparse evaluation rhythm; reduce redundant scans/sorts per tick; keep target quality logic intact. | Target acquisition behavior unchanged functionally; scan cadence is explicitly controlled; hotspot expression count per cycle reduced. | TODO |
 | P0-003 | P0 | `players pick up speed while not targeted for 3 seconds` + control-jump related eachPlayer rules | `src/main.opy` and `src/devMain.opy` | Expensive radius/distance checks appear early in eachPlayer gating; extra reevaluation load every tick. | Reorder conditions to high-selectivity/low-cost first; keep expensive radius/distance checks behind cheap gates; preserve `main/devMain` parity. | Condition order follows performance guideline; gameplay behavior unchanged; `main.opy` and `devMain.opy` remain aligned for touched rules. | TODO |
 | P0-004 | P0 | Debuff/Mech continuous effect loops | `src/events/effects/debuffEffects.opy`, `src/events/effects/mechEffects.opy` | Multiple sustained loop rules execute heavy checks and effect operations at short intervals; cumulative server-load risk under concurrency. | Standardize loop throttling floor and move costly lookups behind narrower gates; split bursty action chains when needed. | No newly introduced waitless loops; sustained-event rules keep original effects while reducing per-cycle heavy operations. | TODO |
@@ -61,7 +61,14 @@ Template:
 - `Notes`:
 
 Current:
-- None yet.
+- `Date`: 2026-03-08
+- `ID`: P0-001
+- `Change Summary`: Removed deprecated `overhealthDecay` implementation and shim (`src/utilities/system/overhealthDecay.opy`, `src/utilities/overhealthDecay.opy`) and synchronized module docs/index.
+- `Validation`:
+  - static scan: `rg` confirms no `overhealthDecay`/`StoreOverhealth`/`storedOverhealth` source references remain.
+  - behavior checks: no runtime behavior impact expected because module was disabled and not included by entry files.
+  - perf observation: eliminates a flagged waitless-loop risk surface by retiring dead code.
+- `Notes`: Scoped as deprecation cleanup for P0-001.
 
 ## 4) Regression Checklist
 

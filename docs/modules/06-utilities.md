@@ -36,7 +36,6 @@
 - `hashtag.opy`
 - `anticrash.opy`
 - `dashDetector.opy`
-- `overhealthDecay.opy`
 
 ### C. `utilities/dev_support/`
 
