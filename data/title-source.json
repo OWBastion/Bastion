@@ -1,0 +1,957 @@
+{
+  "meta": {
+    "sourceLabel": "躲避堡垒3"
+  },
+  "titles": [
+    {
+      "key": "PIONEER",
+      "label": "开拓者",
+      "category": "社区贡献系列",
+      "condition": "在新地图内测/公测中完成对应地图地狱通关（群内审核发放）。",
+      "availability": "active",
+      "displayExpr": "\"{0}{1}\".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else \"开拓者\")",
+      "colorExpr": "heroColor[12]"
+    },
+    {
+      "key": "TEST_LONG",
+      "label": "这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡",
+      "category": "开发保留",
+      "condition": "测试占位称号，不对外发放。",
+      "availability": "active",
+      "displayExpr": "\"这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "NOT_MY_MAP",
+      "label": "地图不是我做的",
+      "category": "开发保留",
+      "condition": "开发/管理用途，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"地图不是我做的\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "WILD_DEV",
+      "label": "野生开发者",
+      "category": "开发保留",
+      "condition": "开发/管理用途，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"野生开发者\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "ARCHITECT",
+      "label": "堡垒建筑师",
+      "category": "开发保留",
+      "condition": "开发/管理用途，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"堡垒建筑师\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "MAINTAINER",
+      "label": "友善的地图维护者",
+      "category": "开发保留",
+      "condition": "开发/管理用途，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"友善的地图维护者\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "THREE_IN_ONE",
+      "label": "三合一地图作者",
+      "category": "开发保留",
+      "condition": "开发/管理用途，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"三合一地图作者\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "BLACK_SHEEP",
+      "label": "害群之马",
+      "category": "开发保留",
+      "condition": "历史/内部称号，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"害群之马\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "PURE_HARM",
+      "label": "纯害战士",
+      "category": "开发保留",
+      "condition": "历史/内部称号，文档未提供公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"纯害战士\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "CONQUEROR",
+      "label": "征服者",
+      "category": "地图精通系列",
+      "condition": "通关对应地图传奇难度。",
+      "availability": "active",
+      "displayExpr": "\"{0}征服者\".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())",
+      "colorExpr": "heroColor[43]"
+    },
+    {
+      "key": "DOMINATOR",
+      "label": "主宰",
+      "category": "地图精通系列",
+      "condition": "通关对应地图地狱难度。",
+      "availability": "active",
+      "displayExpr": "\"{0}主宰\".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())",
+      "colorExpr": "heroColor[44]"
+    },
+    {
+      "key": "SURVIVOR_EXPERT",
+      "label": "专家幸存者",
+      "category": "难度挑战系列",
+      "condition": "历史称号（当前不再发放）。",
+      "availability": "retired",
+      "displayExpr": "\"专家幸存者\"",
+      "colorExpr": "vect(236, 153, 0)"
+    },
+    {
+      "key": "CHALLENGER_LEGEND",
+      "label": "传奇挑战者",
+      "category": "难度挑战系列",
+      "condition": "成功通关任意地图传奇难度。",
+      "availability": "active",
+      "displayExpr": "\"传奇挑战者\"",
+      "colorExpr": "vect(200, 0, 19)"
+    },
+    {
+      "key": "TRAVELER_HELL",
+      "label": "地狱穿梭者",
+      "category": "难度挑战系列",
+      "condition": "成功通关任意地图地狱难度。",
+      "availability": "active",
+      "displayExpr": "\"地狱穿梭者\"",
+      "colorExpr": "vect(161, 73, 197)"
+    },
+    {
+      "key": "DODGE_ULTIMATE",
+      "label": "终极闪避",
+      "category": "极限操作系列",
+      "condition": "单局阵亡次数 ≤ 15 且成功通关。",
+      "availability": "active",
+      "displayExpr": "\"终极闪避\"",
+      "colorExpr": "heroColor[1]"
+    },
+    {
+      "key": "LIGHT_PACK",
+      "label": "轻装上阵",
+      "category": "待补充",
+      "condition": "文档未提供该称号的公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"轻装上阵\"",
+      "colorExpr": "heroColor[2]"
+    },
+    {
+      "key": "FLAWLESS",
+      "label": "完美无缺",
+      "category": "极限操作系列",
+      "condition": "单局跳过英雄次数为 0 且通关。",
+      "availability": "active",
+      "displayExpr": "\"完美无缺\"",
+      "colorExpr": "vect(0, 230, 151)"
+    },
+    {
+      "key": "NEVER_GIVE_UP",
+      "label": "永不言弃",
+      "category": "极限操作系列",
+      "condition": "单局跳过英雄次数为 43 且通关（当前暂停/历史发放）。",
+      "availability": "retired",
+      "displayExpr": "\"永不言弃\"",
+      "colorExpr": "vect(0, 230, 151)"
+    },
+    {
+      "key": "PERSEVERANCE",
+      "label": "坚韧不拔",
+      "category": "待补充",
+      "condition": "文档未提供该称号的公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"坚韧不拔\"",
+      "colorExpr": "vect(255, 255, 255)"
+    },
+    {
+      "key": "SPEEDRUN",
+      "label": "速通传奇",
+      "category": "极限操作系列",
+      "condition": "传奇及以上难度，通关时间 < 1 小时 30 分钟。",
+      "availability": "active",
+      "displayExpr": "\"速通传奇\"",
+      "colorExpr": "vect(0, 230, 151)"
+    },
+    {
+      "key": "DODGE_GOD",
+      "label": "闪避の神",
+      "category": "生存与闪避系列",
+      "condition": "地狱难度单局未被任何榴弹命中并通关（历史称号）。",
+      "availability": "retired",
+      "displayExpr": "\"闪避の神\"",
+      "colorExpr": "heroColor[28]"
+    },
+    {
+      "key": "ZENYATTA",
+      "label": "智瞳开拓者",
+      "category": "待补充",
+      "condition": "文档未提供该称号的公开挑战条件。",
+      "availability": "active",
+      "displayExpr": "\"智瞳开拓者\"",
+      "colorExpr": "heroColor[12]"
+    },
+    {
+      "key": "HARD_TO_KILL",
+      "label": "大难不死",
+      "category": "生存与闪避系列",
+      "condition": "受到榴弹伤害后剩余 1-5 点生命并存活。",
+      "availability": "active",
+      "displayExpr": "\"大难不死\"",
+      "colorExpr": "heroColor[45]"
+    },
+    {
+      "key": "WIN_HEAVEN",
+      "label": "胜天半子",
+      "category": "活动限定",
+      "condition": "随机事件 2.0 限时挑战达成指定组合条件。",
+      "availability": "active",
+      "displayExpr": "\"胜天半子\"",
+      "colorExpr": "breathOrange"
+    },
+    {
+      "key": "IDOL",
+      "label": "堡垒の偶像",
+      "category": "倒霉蛋系列",
+      "condition": "历史称号（当前不再发放）。",
+      "availability": "retired",
+      "displayExpr": "\"堡垒の偶像\"",
+      "colorExpr": "vect(200, 0, 19)"
+    },
+    {
+      "key": "EGG_FIRST",
+      "label": "第一颗蛋",
+      "category": "倒霉蛋系列",
+      "condition": "历史称号（当前不再发放）。",
+      "availability": "retired",
+      "displayExpr": "\"第一颗蛋\"",
+      "colorExpr": "vect(200, 0, 19)"
+    },
+    {
+      "key": "EAT_MORE",
+      "label": "我还能吃",
+      "category": "倒霉蛋系列",
+      "condition": "历史称号（当前不再发放）。",
+      "availability": "retired",
+      "displayExpr": "\"我还能吃\"",
+      "colorExpr": "vect(238, 75, 43)"
+    },
+    {
+      "key": "ALL_IN_ONE",
+      "label": "万象归一",
+      "category": "地图精通系列",
+      "condition": "获得所有地图“征服者”头衔。",
+      "availability": "active",
+      "displayExpr": "\"万象归一\"",
+      "colorExpr": "breathRed"
+    },
+    {
+      "key": "TRAVELER",
+      "label": "守望旅行家",
+      "category": "地图精通系列",
+      "condition": "获得所有可用地图的难度挑战头衔。",
+      "availability": "active",
+      "displayExpr": "\"守望旅行家\"",
+      "colorExpr": "heroColor[33]"
+    },
+    {
+      "key": "SKY",
+      "label": "万域天穹",
+      "category": "地图精通系列",
+      "condition": "获得所有地图“主宰”头衔。",
+      "availability": "active",
+      "displayExpr": "\"万域天穹\"",
+      "colorExpr": "breathPurple"
+    },
+    {
+      "key": "FLAME",
+      "label": "狂暴烈焰",
+      "category": "活动限定",
+      "condition": "狂暴之心限定挑战：低伤害+低阵亡并 25 分钟内通关。",
+      "availability": "active",
+      "displayExpr": "\"狂暴烈焰\"",
+      "colorExpr": "heroColor[28]"
+    },
+    {
+      "key": "PASS_EGGS",
+      "label": "万蛋丛中过",
+      "category": "活动限定",
+      "condition": "狂暴之心限定挑战：单局阵亡数 ≤ 5 并通关。",
+      "availability": "active",
+      "displayExpr": "\"万蛋丛中过\"",
+      "colorExpr": "heroColor[28]"
+    },
+    {
+      "key": "CHOSEN",
+      "label": "天选之子",
+      "category": "随机事件系列",
+      "condition": "单局增益事件数量达到减益事件的 1.5 倍及以上。",
+      "availability": "active",
+      "displayExpr": "\"天选之子\"",
+      "colorExpr": "heroColor[11]"
+    },
+    {
+      "key": "LUCKY_STAR",
+      "label": "幸运星",
+      "category": "随机事件系列",
+      "condition": "连续 10 次抽到增益事件并通关。",
+      "availability": "active",
+      "displayExpr": "\"幸运星\"",
+      "colorExpr": "heroColor[3]"
+    },
+    {
+      "key": "GAMBLE_KING",
+      "label": "赌王",
+      "category": "活动限定",
+      "condition": "随机事件 3.0 限时挑战：赌徒类事件连续 5 次增益。",
+      "availability": "active",
+      "displayExpr": "\"赌王\"",
+      "colorExpr": "breathGold"
+    },
+    {
+      "key": "LUCKY_SHINE",
+      "label": "福星高照",
+      "category": "随机事件系列",
+      "condition": "单局抽到减益事件次数低于 10。",
+      "availability": "active",
+      "displayExpr": "\"福星高照\"",
+      "colorExpr": "heroColor[32]"
+    },
+    {
+      "key": "UNLUCKY",
+      "label": "倒霉蛋",
+      "category": "随机事件系列",
+      "condition": "单局减益事件数量达到增益事件的 1.5 倍及以上并通关。",
+      "availability": "active",
+      "displayExpr": "\"倒霉蛋\"",
+      "colorExpr": "heroColor[22]"
+    },
+    {
+      "key": "MANBA",
+      "label": "What can i say",
+      "category": "随机事件系列",
+      "condition": "连续 10 次抽到减益事件并通关。",
+      "availability": "active",
+      "displayExpr": "\"What can i say\"",
+      "colorExpr": "heroColor[11]"
+    },
+    {
+      "key": "MY_FATE",
+      "label": "我命由我",
+      "category": "活动限定",
+      "condition": "随机事件 1.0 限时挑战达成指定组合条件。",
+      "availability": "active",
+      "displayExpr": "\"我命由我\"",
+      "colorExpr": "breathBlue"
+    },
+    {
+      "key": "GOD_GAMBLER",
+      "label": "赌神",
+      "category": "活动限定",
+      "condition": "随机事件 4.0 限时挑战：达成幸运星+钢门并满足赌徒连胜条件。",
+      "availability": "active",
+      "displayExpr": "\"赌神\"",
+      "colorExpr": "breathGold"
+    },
+    {
+      "key": "LAO_DA",
+      "label": "牢 大",
+      "category": "活动限定",
+      "condition": "随机事件 4.0 限时挑战：达成 What Can I Say + 倒霉蛋并满足赌徒连败条件。",
+      "availability": "active",
+      "displayExpr": "\" 牢 大 \"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "V_50",
+      "label": "V我50",
+      "category": "随机事件系列",
+      "condition": "使用“吸血鬼 ProMax”从队友吸取 5000+ 生命并通关。",
+      "availability": "active",
+      "displayExpr": "\"V我50\"",
+      "colorExpr": "heroColor[37]"
+    },
+    {
+      "key": "STEEL",
+      "label": "钢门",
+      "category": "随机事件系列",
+      "condition": "心之钢层数达到 1200 层并通关。",
+      "availability": "active",
+      "displayExpr": "\"钢门\"",
+      "colorExpr": "heroColor[11]"
+    },
+    {
+      "key": "HACKING",
+      "label": "开了",
+      "category": "随机事件系列",
+      "condition": "地狱难度单局触发所有作弊事件并通关。",
+      "availability": "active",
+      "displayExpr": "\"开了\"",
+      "colorExpr": "heroColor[20]"
+    },
+    {
+      "key": "RED_PACKET",
+      "label": "红包收藏家",
+      "category": "活动限定",
+      "condition": "鸿运当头挑战：单局拾取 88 个红包。",
+      "availability": "active",
+      "displayExpr": "\"红包收藏家\"",
+      "colorExpr": "heroColor[43]"
+    },
+    {
+      "key": "GOOD_LUCK",
+      "label": "好运来",
+      "category": "活动限定",
+      "condition": "鸿运当头挑战：累计触发 50 次增益事件。",
+      "availability": "active",
+      "displayExpr": "\"好运来\"",
+      "colorExpr": "breathGold"
+    },
+    {
+      "key": "LONE_WALKER",
+      "label": "千里独行",
+      "category": "活动限定",
+      "condition": "鸿运当头挑战：累计触发 20 次“一马当先”并在该对局通关。",
+      "availability": "active",
+      "displayExpr": "\"千里独行\"",
+      "colorExpr": "heroColor[33]"
+    },
+    {
+      "key": "GREEN_MOUNTAIN",
+      "label": "踏遍青山",
+      "category": "活动限定",
+      "condition": "鸿运当头挑战：通关漓江塔夜市/庭院/控制中心。",
+      "availability": "active",
+      "displayExpr": "\"踏遍青山\"",
+      "colorExpr": "vect(0, 200, 50)"
+    },
+    {
+      "key": "SUAN_BU_LA",
+      "label": "我不会放过你的酸不辣",
+      "category": "活动限定",
+      "condition": "鸿运当头挑战：累计拾取 18 个“红包刺客”。",
+      "availability": "active",
+      "displayExpr": "\"我不会放过你的酸不辣\"",
+      "colorExpr": "heroColor[18]"
+    }
+  ],
+  "players": [
+    {
+      "name": "他又",
+      "titleKeys": [
+        "PIONEER",
+        "TEST_LONG",
+        "NOT_MY_MAP",
+        "WILD_DEV",
+        "ARCHITECT",
+        "MAINTAINER",
+        "THREE_IN_ONE",
+        "BLACK_SHEEP",
+        "PURE_HARM",
+        "CONQUEROR",
+        "DOMINATOR",
+        "SURVIVOR_EXPERT",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "DODGE_ULTIMATE",
+        "LIGHT_PACK",
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "PERSEVERANCE",
+        "SPEEDRUN",
+        "DODGE_GOD",
+        "ZENYATTA",
+        "HARD_TO_KILL",
+        "WIN_HEAVEN",
+        "IDOL",
+        "EGG_FIRST",
+        "EAT_MORE",
+        "ALL_IN_ONE",
+        "TRAVELER",
+        "SKY",
+        "FLAME",
+        "PASS_EGGS",
+        "CHOSEN",
+        "LUCKY_STAR",
+        "GAMBLE_KING",
+        "LUCKY_SHINE",
+        "UNLUCKY",
+        "MANBA",
+        "MY_FATE",
+        "GOD_GAMBLER",
+        "LAO_DA",
+        "V_50",
+        "STEEL",
+        "HACKING",
+        "SUAN_BU_LA",
+        "RED_PACKET",
+        "GOOD_LUCK",
+        "LONE_WALKER",
+        "GREEN_MOUNTAIN"
+      ]
+    },
+    {
+      "name": "别感冒",
+      "titleKeys": [
+        "PIONEER",
+        "TEST_LONG",
+        "NOT_MY_MAP",
+        "WILD_DEV",
+        "ARCHITECT",
+        "MAINTAINER",
+        "THREE_IN_ONE",
+        "BLACK_SHEEP",
+        "PURE_HARM",
+        "CONQUEROR",
+        "DOMINATOR",
+        "SURVIVOR_EXPERT",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "DODGE_ULTIMATE",
+        "LIGHT_PACK",
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "PERSEVERANCE",
+        "SPEEDRUN",
+        "DODGE_GOD",
+        "ZENYATTA",
+        "HARD_TO_KILL",
+        "WIN_HEAVEN",
+        "IDOL",
+        "EGG_FIRST",
+        "EAT_MORE",
+        "ALL_IN_ONE",
+        "TRAVELER",
+        "SKY",
+        "FLAME",
+        "PASS_EGGS",
+        "CHOSEN",
+        "LUCKY_STAR",
+        "GAMBLE_KING",
+        "LUCKY_SHINE",
+        "UNLUCKY",
+        "MANBA",
+        "MY_FATE",
+        "GOD_GAMBLER",
+        "LAO_DA",
+        "V_50",
+        "STEEL",
+        "HACKING",
+        "SUAN_BU_LA",
+        "RED_PACKET",
+        "GOOD_LUCK",
+        "LONE_WALKER",
+        "GREEN_MOUNTAIN"
+      ]
+    },
+    {
+      "name": "草艮",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "烛台与南九",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "EGG_FIRST"
+      ]
+    },
+    {
+      "name": "顾北酒笙",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "FLAWLESS",
+        "SPEEDRUN",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "WildRage",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "EGG_FIRST"
+      ]
+    },
+    {
+      "name": "尘风歌者",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "FLAWLESS",
+        "PERSEVERANCE",
+        "SPEEDRUN",
+        "LIGHT_PACK",
+        "DODGE_ULTIMATE",
+        "HARD_TO_KILL",
+        "EGG_FIRST",
+        "PASS_EGGS"
+      ]
+    },
+    {
+      "name": "吾携秋水揽星河",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "TRAVELER_HELL",
+        "SPEEDRUN",
+        "HARD_TO_KILL",
+        "LIGHT_PACK",
+        "DODGE_ULTIMATE",
+        "ALL_IN_ONE",
+        "TRAVELER",
+        "SKY",
+        "CHOSEN",
+        "LUCKY_STAR",
+        "LUCKY_SHINE",
+        "HACKING",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "寒霜冰湮",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "TRAVELER_HELL",
+        "SPEEDRUN",
+        "HARD_TO_KILL",
+        "LIGHT_PACK",
+        "DODGE_ULTIMATE",
+        "ALL_IN_ONE",
+        "TRAVELER",
+        "SKY",
+        "LUCKY_STAR",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "Cold",
+      "titleKeys": [
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "SPEEDRUN",
+        "HARD_TO_KILL",
+        "LIGHT_PACK",
+        "DODGE_ULTIMATE",
+        "EGG_FIRST",
+        "PASS_EGGS",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "豆本豆豆奶",
+      "titleKeys": [
+        "FLAWLESS",
+        "CHALLENGER_LEGEND",
+        "NEVER_GIVE_UP",
+        "SPEEDRUN",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "DODGE_ULTIMATE",
+        "EGG_FIRST",
+        "GOOD_LUCK",
+        "UNLUCKY"
+      ]
+    },
+    {
+      "name": "神之岛風咲",
+      "titleKeys": [
+        "FLAWLESS"
+      ]
+    },
+    {
+      "name": "溪云初起日沉阁",
+      "titleKeys": [
+        "SPEEDRUN",
+        "FLAWLESS",
+        "NEVER_GIVE_UP",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "EGG_FIRST",
+        "UNLUCKY"
+      ]
+    },
+    {
+      "name": "卖核弹的小女孩",
+      "titleKeys": [
+        "SPEEDRUN",
+        "FLAWLESS",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "ALL_IN_ONE",
+        "TRAVELER",
+        "SKY",
+        "LUCKY_STAR",
+        "MANBA",
+        "HACKING",
+        "UNLUCKY",
+        "RED_PACKET",
+        "GOOD_LUCK",
+        "GREEN_MOUNTAIN",
+        "DODGE_ULTIMATE"
+      ]
+    },
+    {
+      "name": "挽风",
+      "titleKeys": [
+        "LIGHT_PACK",
+        "DODGE_ULTIMATE",
+        "SPEEDRUN",
+        "FLAWLESS",
+        "CHALLENGER_LEGEND"
+      ]
+    },
+    {
+      "name": "水濑祈",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "别打老顾我啊",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "FLAWLESS",
+        "SPEEDRUN",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "看啊情",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "FLAWLESS",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "眼镜小宅",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "DODGE_ULTIMATE",
+        "LIGHT_PACK",
+        "FLAWLESS",
+        "SPEEDRUN",
+        "HARD_TO_KILL",
+        "LUCKY_STAR"
+      ]
+    },
+    {
+      "name": "初一吖",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "FLAWLESS",
+        "HARD_TO_KILL",
+        "EGG_FIRST",
+        "PASS_EGGS",
+        "CHOSEN",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "锦木千束",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "FLAWLESS"
+      ]
+    },
+    {
+      "name": "她说话有股孩子气",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "FLAWLESS",
+        "SPEEDRUN"
+      ]
+    },
+    {
+      "name": "白银之鹰",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "SPEEDRUN"
+      ]
+    },
+    {
+      "name": "蝎子莱莱",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "FLAWLESS",
+        "SPEEDRUN",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "雨鸢",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "LUCKY_STAR",
+        "HACKING",
+        "UNLUCKY",
+        "MANBA",
+        "SPEEDRUN"
+      ]
+    },
+    {
+      "name": "Jargon",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "我心飞扬",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "绿里奇迹",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "SPEEDRUN"
+      ]
+    },
+    {
+      "name": "EruIluvatar",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "SPEEDRUN",
+        "HARD_TO_KILL",
+        "HACKING",
+        "UNLUCKY"
+      ]
+    },
+    {
+      "name": "糯米进脑子",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "SPEEDRUN",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "半夜汽笛",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "雷个大憨憨",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "一痕沙",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "Augenstern",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "LUCKY_STAR"
+      ]
+    },
+    {
+      "name": "明月有时",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "旅店老板",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "谁能体谅我的雨天",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "HARD_TO_KILL"
+      ]
+    },
+    {
+      "name": "锄禾日当午",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "HARD_TO_KILL",
+        "HACKING",
+        "LUCKY_STAR",
+        "UNLUCKY",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "板鸭",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "八十万萝莉总教头",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL",
+        "UNLUCKY",
+        "MANBA"
+      ]
+    },
+    {
+      "name": "岂不六哉",
+      "titleKeys": []
+    }
+  ]
+}

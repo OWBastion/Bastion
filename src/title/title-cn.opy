@@ -9,56 +9,59 @@
 # ------------------------------
 # 1. 定义称号枚举 (Enums)
 # ------------------------------
+# BEGIN AUTO-GENERATED TITLE ENUM
 enum TITLE:
-    PIONEER,            # 0 开拓者
-    TEST_LONG,          # 1 长文本测试
-    NOT_MY_MAP,         # 2 地图不是我做的
-    WILD_DEV,           # 3 野生开发者
-    ARCHITECT,          # 4 堡垒建筑师
-    MAINTAINER,         # 5 友善的地图维护者
-    THREE_IN_ONE,       # 6 三合一地图作者
-    BLACK_SHEEP,        # 7 害群之马
-    PURE_HARM,          # 8 纯害战士
-    CONQUEROR,          # 9 征服者
-    DOMINATOR,          # 10 主宰
-    SURVIVOR_EXPERT,    # 11 专家幸存者
-    CHALLENGER_LEGEND,  # 12 传奇挑战者
-    TRAVELER_HELL,      # 13 地狱穿梭者
-    DODGE_ULTIMATE,     # 14 终极闪避
-    LIGHT_PACK,         # 15 轻装上阵
-    FLAWLESS,           # 16 完美无缺
-    NEVER_GIVE_UP,      # 17 永不言弃
-    PERSEVERANCE,       # 18 坚韧不拔
-    SPEEDRUN,           # 19 速通传奇
-    DODGE_GOD,          # 20 闪避の神
-    ZENYATTA,           # 21 智瞳开拓者
-    HARD_TO_KILL,       # 22 大难不死
-    WIN_HEAVEN,         # 23 胜天半子
-    IDOL,               # 24 堡垒の偶像
-    EGG_FIRST,          # 25 第一颗蛋
-    EAT_MORE,           # 26 我还能吃
-    ALL_IN_ONE,         # 27 万象归一
-    TRAVELER,           # 28 守望旅行家
-    SKY,                # 29 万域天穹
-    FLAME,              # 30 狂暴烈焰
-    PASS_EGGS,          # 31 万蛋丛中过
-    CHOSEN,             # 32 天选之子
-    LUCKY_STAR,         # 33 幸运星
-    GAMBLE_KING,        # 34 赌王
-    LUCKY_SHINE,        # 35 福星高照
-    UNLUCKY,            # 36 倒霉蛋
-    MANBA,              # 37 What can i say
-    MY_FATE,            # 38 我命由我
-    GOD_GAMBLER,        # 39 赌神
-    LAO_DA,             # 40 牢 大
-    V_50,               # 41 V我50
-    STEEL,              # 42 钢门
-    HACKING,             # 43 开了
-    RED_PACKET,         # 44 红包收藏家
-    GOOD_LUCK,          # 45 好运来
-    LONE_WALKER,        # 46 千里独行
-    GREEN_MOUNTAIN,     # 47 踏遍青山
-    SUAN_BU_LA          # 48 我不会放过你的酸不辣
+    PIONEER,          # 0 开拓者
+    TEST_LONG,        # 1 这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡
+    NOT_MY_MAP,       # 2 地图不是我做的
+    WILD_DEV,         # 3 野生开发者
+    ARCHITECT,        # 4 堡垒建筑师
+    MAINTAINER,       # 5 友善的地图维护者
+    THREE_IN_ONE,     # 6 三合一地图作者
+    BLACK_SHEEP,      # 7 害群之马
+    PURE_HARM,        # 8 纯害战士
+    CONQUEROR,        # 9 征服者
+    DOMINATOR,        # 10 主宰
+    SURVIVOR_EXPERT,  # 11 专家幸存者
+    CHALLENGER_LEGEND,# 12 传奇挑战者
+    TRAVELER_HELL,    # 13 地狱穿梭者
+    DODGE_ULTIMATE,   # 14 终极闪避
+    LIGHT_PACK,       # 15 轻装上阵
+    FLAWLESS,         # 16 完美无缺
+    NEVER_GIVE_UP,    # 17 永不言弃
+    PERSEVERANCE,     # 18 坚韧不拔
+    SPEEDRUN,         # 19 速通传奇
+    DODGE_GOD,        # 20 闪避の神
+    ZENYATTA,         # 21 智瞳开拓者
+    HARD_TO_KILL,     # 22 大难不死
+    WIN_HEAVEN,       # 23 胜天半子
+    IDOL,             # 24 堡垒の偶像
+    EGG_FIRST,        # 25 第一颗蛋
+    EAT_MORE,         # 26 我还能吃
+    ALL_IN_ONE,       # 27 万象归一
+    TRAVELER,         # 28 守望旅行家
+    SKY,              # 29 万域天穹
+    FLAME,            # 30 狂暴烈焰
+    PASS_EGGS,        # 31 万蛋丛中过
+    CHOSEN,           # 32 天选之子
+    LUCKY_STAR,       # 33 幸运星
+    GAMBLE_KING,      # 34 赌王
+    LUCKY_SHINE,      # 35 福星高照
+    UNLUCKY,          # 36 倒霉蛋
+    MANBA,            # 37 What can i say
+    MY_FATE,          # 38 我命由我
+    GOD_GAMBLER,      # 39 赌神
+    LAO_DA,           # 40 牢 大
+    V_50,             # 41 V我50
+    STEEL,            # 42 钢门
+    HACKING,          # 43 开了
+    RED_PACKET,       # 44 红包收藏家
+    GOOD_LUCK,        # 45 好运来
+    LONE_WALKER,      # 46 千里独行
+    GREEN_MOUNTAIN,   # 47 踏遍青山
+    SUAN_BU_LA        # 48 我不会放过你的酸不辣
+# END AUTO-GENERATED TITLE ENUM
+
 
 enum MapTITLEKey:
   PIONEER = 0
@@ -69,15 +72,16 @@ enum MapTITLEKey:
 # 2. 定义玩家数据 (Database)
 # 注意：Key (name, titles) 必须不加引号，否则 splitDictArray 会报错
 # ------------------------------
-#!define TP_ALL [TITLE.PIONEER, TITLE.TEST_LONG, TITLE.NOT_MY_MAP, TITLE.WILD_DEV, TITLE.ARCHITECT, TITLE.MAINTAINER, TITLE.THREE_IN_ONE, TITLE.BLACK_SHEEP, TITLE.PURE_HARM, TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.SURVIVOR_EXPERT, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.LIGHT_PACK, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.PERSEVERANCE, TITLE.SPEEDRUN, TITLE.DODGE_GOD, TITLE.ZENYATTA, TITLE.HARD_TO_KILL, TITLE.WIN_HEAVEN, TITLE.IDOL, TITLE.EGG_FIRST, TITLE.EAT_MORE, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.FLAME, TITLE.PASS_EGGS, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.GAMBLE_KING, TITLE.LUCKY_SHINE, TITLE.UNLUCKY, TITLE.MANBA, TITLE.MY_FATE, TITLE.GOD_GAMBLER, TITLE.LAO_DA, TITLE.V_50, TITLE.STEEL, TITLE.HACKING, TITLE.SUAN_BU_LA, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.LONE_WALKER, TITLE.GREEN_MOUNTAIN ]
+# BEGIN AUTO-GENERATED TITLE PLAYER DATABASE
+#!define TP_ALL [TITLE.PIONEER, TITLE.TEST_LONG, TITLE.NOT_MY_MAP, TITLE.WILD_DEV, TITLE.ARCHITECT, TITLE.MAINTAINER, TITLE.THREE_IN_ONE, TITLE.BLACK_SHEEP, TITLE.PURE_HARM, TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.SURVIVOR_EXPERT, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.LIGHT_PACK, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.PERSEVERANCE, TITLE.SPEEDRUN, TITLE.DODGE_GOD, TITLE.ZENYATTA, TITLE.HARD_TO_KILL, TITLE.WIN_HEAVEN, TITLE.IDOL, TITLE.EGG_FIRST, TITLE.EAT_MORE, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.FLAME, TITLE.PASS_EGGS, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.GAMBLE_KING, TITLE.LUCKY_SHINE, TITLE.UNLUCKY, TITLE.MANBA, TITLE.MY_FATE, TITLE.GOD_GAMBLER, TITLE.LAO_DA, TITLE.V_50, TITLE.STEEL, TITLE.HACKING, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.LONE_WALKER, TITLE.GREEN_MOUNTAIN, TITLE.SUAN_BU_LA]
 #!define player_database [ \
     { \
         name: "他又", \
-        titles: TP_ALL \
+        titles: [TITLE.PIONEER, TITLE.TEST_LONG, TITLE.NOT_MY_MAP, TITLE.WILD_DEV, TITLE.ARCHITECT, TITLE.MAINTAINER, TITLE.THREE_IN_ONE, TITLE.BLACK_SHEEP, TITLE.PURE_HARM, TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.SURVIVOR_EXPERT, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.LIGHT_PACK, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.PERSEVERANCE, TITLE.SPEEDRUN, TITLE.DODGE_GOD, TITLE.ZENYATTA, TITLE.HARD_TO_KILL, TITLE.WIN_HEAVEN, TITLE.IDOL, TITLE.EGG_FIRST, TITLE.EAT_MORE, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.FLAME, TITLE.PASS_EGGS, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.GAMBLE_KING, TITLE.LUCKY_SHINE, TITLE.UNLUCKY, TITLE.MANBA, TITLE.MY_FATE, TITLE.GOD_GAMBLER, TITLE.LAO_DA, TITLE.V_50, TITLE.STEEL, TITLE.HACKING, TITLE.SUAN_BU_LA, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.LONE_WALKER, TITLE.GREEN_MOUNTAIN] \
     }, \
     { \
         name: "别感冒", \
-        titles: TP_ALL \
+        titles: [TITLE.PIONEER, TITLE.TEST_LONG, TITLE.NOT_MY_MAP, TITLE.WILD_DEV, TITLE.ARCHITECT, TITLE.MAINTAINER, TITLE.THREE_IN_ONE, TITLE.BLACK_SHEEP, TITLE.PURE_HARM, TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.SURVIVOR_EXPERT, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.LIGHT_PACK, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.PERSEVERANCE, TITLE.SPEEDRUN, TITLE.DODGE_GOD, TITLE.ZENYATTA, TITLE.HARD_TO_KILL, TITLE.WIN_HEAVEN, TITLE.IDOL, TITLE.EGG_FIRST, TITLE.EAT_MORE, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.FLAME, TITLE.PASS_EGGS, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.GAMBLE_KING, TITLE.LUCKY_SHINE, TITLE.UNLUCKY, TITLE.MANBA, TITLE.MY_FATE, TITLE.GOD_GAMBLER, TITLE.LAO_DA, TITLE.V_50, TITLE.STEEL, TITLE.HACKING, TITLE.SUAN_BU_LA, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.LONE_WALKER, TITLE.GREEN_MOUNTAIN] \
     }, \
     { \
         name: "草艮", \
@@ -101,7 +105,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "吾携秋水揽星河", \
-        titles: [TITLE.CHALLENGER_LEGEND, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.TRAVELER_HELL, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.LIGHT_PACK, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.LUCKY_SHINE, TITLE.HACKING, TITLE.MANBA] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.FLAWLESS, TITLE.NEVER_GIVE_UP, TITLE.TRAVELER_HELL, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.LIGHT_PACK, TITLE.DODGE_ULTIMATE, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.LUCKY_SHINE, TITLE.HACKING, TITLE.MANBA] \
     }, \
     { \
         name: "寒霜冰湮", \
@@ -125,7 +129,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "卖核弹的小女孩", \
-        titles: [TITLE.SPEEDRUN, TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.LUCKY_STAR, TITLE.MANBA,TITLE.HACKING, TITLE.UNLUCKY, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.GREEN_MOUNTAIN, TITLE.DODGE_ULTIMATE] \
+        titles: [TITLE.SPEEDRUN, TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.ALL_IN_ONE, TITLE.TRAVELER, TITLE.SKY, TITLE.LUCKY_STAR, TITLE.MANBA, TITLE.HACKING, TITLE.UNLUCKY, TITLE.RED_PACKET, TITLE.GOOD_LUCK, TITLE.GREEN_MOUNTAIN, TITLE.DODGE_ULTIMATE] \
     }, \
     { \
         name: "挽风", \
@@ -236,6 +240,9 @@ enum MapTITLEKey:
         titles: [] \
     } \
 ]
+# END AUTO-GENERATED TITLE PLAYER DATABASE
+
+
 
 # ------------------------------
 # 3. 定义地图数据宏 (Map Macros)
@@ -503,6 +510,7 @@ enum MapTITLEKey:
 rule "initialize title array":
     wait(getAverageServerLoad() / 100 * 0.5)
     waitUntil(__currentMap___ != null, MAX_TIME)
+    # BEGIN AUTO-GENERATED ALL_TITLE
     allTitle = [
         # 0: PIONEER
         ["{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者"), heroColor[12]],
@@ -592,16 +600,18 @@ rule "initialize title array":
         ["钢门", heroColor[11]],
         # 43: HACKING
         ["开了", heroColor[20]],
-        # 44: 红包收藏家
+        # 44: RED_PACKET
         ["红包收藏家", heroColor[43]],
-        ["好运来", breathGold], 
-        # 46: LONE_WALKER (千里独行 - 独行侠风格，推荐使用旅行家同款或冷色调)
-        ["千里独行", heroColor[33]], 
-        # 47: GREEN_MOUNTAIN (踏遍青山 - 这里的青山建议用源氏绿或深绿)
+        # 45: GOOD_LUCK
+        ["好运来", breathGold],
+        # 46: LONE_WALKER
+        ["千里独行", heroColor[33]],
+        # 47: GREEN_MOUNTAIN
         ["踏遍青山", vect(0, 200, 50)],
-        # 48: SUAN_BU_LA (我不会放过你的酸不辣 - 特殊梗，配个显眼的颜色，如狂鼠炸弹色)
+        # 48: SUAN_BU_LA
         ["我不会放过你的酸不辣", heroColor[18]]
     ]
+    # END AUTO-GENERATED ALL_TITLE
     splitDictArray({
         name: titlePlayer,
         titles: playerTitleRelation
