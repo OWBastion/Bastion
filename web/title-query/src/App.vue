@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const query = ref('');
 const loading = ref(true);
@@ -8,6 +8,8 @@ const players = ref([]);
 const titles = ref([]);
 const mapTitles = ref([]);
 const meta = ref(null);
+const expandedSeriesKeys = ref(new Set());
+const collapsedDefaultSeriesKeys = ref(new Set());
 const hasQuery = computed(() => query.value.trim().length > 0);
 const MAP_TITLE_LABELS = {
   PIONEER: '开拓者',
@@ -140,6 +142,49 @@ const sourceDisplay = computed(() => {
   return meta.value.sourceVersion ? `${sourceLabel} ${meta.value.sourceVersion}` : sourceLabel;
 });
 
+function getSeriesKey(groupType, seriesName) {
+  return `${groupType}:${seriesName}`;
+}
+
+function getSeriesBodyId(groupType, seriesName) {
+  const normalized = String(seriesName)
+    .toLocaleLowerCase()
+    .replace(/[^a-z0-9\u4e00-\u9fff]+/gi, '-')
+    .replace(/^-+|-+$/g, '');
+  return `series-body-${groupType}-${normalized || 'default'}`;
+}
+
+function isSeriesExpanded(groupType, index, seriesName) {
+  const seriesKey = getSeriesKey(groupType, seriesName);
+  if (collapsedDefaultSeriesKeys.value.has(seriesKey)) {
+    return false;
+  }
+  if (expandedSeriesKeys.value.has(seriesKey)) {
+    return true;
+  }
+  return index < 2;
+}
+
+function toggleSeries(groupType, index, seriesName) {
+  const seriesKey = getSeriesKey(groupType, seriesName);
+  const nextExpanded = !isSeriesExpanded(groupType, index, seriesName);
+
+  if (index < 2) {
+    if (nextExpanded) {
+      collapsedDefaultSeriesKeys.value.delete(seriesKey);
+    } else {
+      collapsedDefaultSeriesKeys.value.add(seriesKey);
+    }
+    return;
+  }
+
+  if (nextExpanded) {
+    expandedSeriesKeys.value.add(seriesKey);
+  } else {
+    expandedSeriesKeys.value.delete(seriesKey);
+  }
+}
+
 function isRetiredTitle(title) {
   if (title?.availability === 'retired') {
     return true;
@@ -174,6 +219,14 @@ async function loadData() {
 onMounted(() => {
   loadData();
 });
+
+watch(
+  () => showcasedPlayer.value?.name ?? '',
+  () => {
+    expandedSeriesKeys.value = new Set();
+    collapsedDefaultSeriesKeys.value = new Set();
+  }
+);
 </script>
 
 <template>
@@ -288,25 +341,49 @@ onMounted(() => {
             <div class="series-list" v-if="groupedTitles.ownedSeries.length">
               <article
                 class="series-card"
-                v-for="seriesGroup in groupedTitles.ownedSeries"
+                :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
+                v-for="(seriesGroup, ownedIndex) in groupedTitles.ownedSeries"
                 :key="`owned-series-${seriesGroup.series}`"
               >
                 <header class="series-head">
                   <p class="series-name">{{ seriesGroup.series }}</p>
                   <span class="series-count">{{ seriesGroup.titles.length }}</span>
-                </header>
-                <ul class="status-title-list series-title-list">
-                  <li v-for="title in seriesGroup.titles" :key="`owned-${title.id}`">
-                    <span class="title-chip title-chip-owned">
-                      <span class="title-head">
-                        <span class="title-label">{{ title.label }}</span>
-                        <span class="title-tag">{{ title.category }}</span>
-                        <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
-                      </span>
-                      <span class="title-condition">{{ title.condition }}</span>
+                  <button
+                    type="button"
+                    class="series-toggle ow-button ow-button-aux"
+                    @click="toggleSeries('owned', ownedIndex, seriesGroup.series)"
+                    :aria-expanded="isSeriesExpanded('owned', ownedIndex, seriesGroup.series)"
+                    :aria-controls="getSeriesBodyId('owned', seriesGroup.series)"
+                  >
+                    <span>{{ isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? '收起' : '展开' }}</span>
+                    <span
+                      class="series-toggle-icon"
+                      :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : ''"
+                      aria-hidden="true"
+                    >
+                      ▾
                     </span>
-                  </li>
-                </ul>
+                  </button>
+                </header>
+                <div
+                  class="series-body"
+                  :id="getSeriesBodyId('owned', seriesGroup.series)"
+                  :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
+                  :aria-hidden="!isSeriesExpanded('owned', ownedIndex, seriesGroup.series)"
+                >
+                  <ul class="status-title-list series-title-list">
+                    <li v-for="title in seriesGroup.titles" :key="`owned-${title.id}`">
+                      <span class="title-chip title-chip-owned">
+                        <span class="title-head">
+                          <span class="title-label">{{ title.label }}</span>
+                          <span class="title-tag">{{ title.category }}</span>
+                          <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
+                        </span>
+                        <span class="title-condition">{{ title.condition }}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </article>
             </div>
             <p v-else class="group-empty">当前玩家暂无已获取称号。</p>
@@ -320,25 +397,49 @@ onMounted(() => {
             <div class="series-list" v-if="groupedTitles.missingSeries.length">
               <article
                 class="series-card"
-                v-for="seriesGroup in groupedTitles.missingSeries"
+                :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
+                v-for="(seriesGroup, missingIndex) in groupedTitles.missingSeries"
                 :key="`missing-series-${seriesGroup.series}`"
               >
                 <header class="series-head">
                   <p class="series-name">{{ seriesGroup.series }}</p>
                   <span class="series-count">{{ seriesGroup.titles.length }}</span>
-                </header>
-                <ul class="status-title-list series-title-list">
-                  <li v-for="title in seriesGroup.titles" :key="`missing-${title.id}`">
-                    <span class="title-chip title-chip-missing">
-                      <span class="title-head">
-                        <span class="title-label">{{ title.label }}</span>
-                        <span class="title-tag">{{ title.category }}</span>
-                        <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
-                      </span>
-                      <span class="title-condition">{{ title.condition }}</span>
+                  <button
+                    type="button"
+                    class="series-toggle ow-button ow-button-aux"
+                    @click="toggleSeries('missing', missingIndex, seriesGroup.series)"
+                    :aria-expanded="isSeriesExpanded('missing', missingIndex, seriesGroup.series)"
+                    :aria-controls="getSeriesBodyId('missing', seriesGroup.series)"
+                  >
+                    <span>{{ isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? '收起' : '展开' }}</span>
+                    <span
+                      class="series-toggle-icon"
+                      :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : ''"
+                      aria-hidden="true"
+                    >
+                      ▾
                     </span>
-                  </li>
-                </ul>
+                  </button>
+                </header>
+                <div
+                  class="series-body"
+                  :id="getSeriesBodyId('missing', seriesGroup.series)"
+                  :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
+                  :aria-hidden="!isSeriesExpanded('missing', missingIndex, seriesGroup.series)"
+                >
+                  <ul class="status-title-list series-title-list">
+                    <li v-for="title in seriesGroup.titles" :key="`missing-${title.id}`">
+                      <span class="title-chip title-chip-missing">
+                        <span class="title-head">
+                          <span class="title-label">{{ title.label }}</span>
+                          <span class="title-tag">{{ title.category }}</span>
+                          <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
+                        </span>
+                        <span class="title-condition">{{ title.condition }}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </article>
             </div>
             <p v-else class="group-empty">当前玩家已获取全部称号。</p>

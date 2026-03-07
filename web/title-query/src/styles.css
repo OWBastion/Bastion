@@ -530,9 +530,10 @@ code {
 .series-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .series-name {
@@ -556,6 +557,61 @@ code {
   line-height: 1;
   padding: 0.12rem 0.32rem;
   background: rgba(255, 255, 255, 0.08);
+}
+
+.series-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.26rem;
+  border: 1px solid rgba(0, 154, 243, 0.55);
+  border-radius: 999px;
+  background: rgba(0, 154, 243, 0.2);
+  padding: 0.16rem 0.46rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.series-toggle:focus-visible {
+  outline: 2px solid var(--ow-orange);
+  outline-offset: 1px;
+}
+
+.series-toggle-icon {
+  display: inline-block;
+  line-height: 1;
+  transition: transform var(--ow-time-fast) ease;
+}
+
+.series-toggle-icon.is-expanded {
+  transform: rotate(180deg);
+}
+
+.series-body {
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0;
+  margin-top: 0;
+  transition:
+    max-height var(--ow-time-mid) ease,
+    opacity var(--ow-time-fast) ease,
+    margin var(--ow-time-fast) ease;
+}
+
+.series-body.is-expanded {
+  opacity: 1;
+  max-height: 120rem;
+  margin-top: 0.52rem;
+}
+
+.series-card.is-expanded {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.series-card.is-collapsed {
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .status-title-list {
