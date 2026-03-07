@@ -10,6 +10,7 @@ const mapTitles = ref([]);
 const meta = ref(null);
 const expandedSeriesKeys = ref(new Set());
 const collapsedDefaultSeriesKeys = ref(new Set());
+const completedMapsExpanded = ref(false);
 const hasQuery = computed(() => query.value.trim().length > 0);
 const MAP_TITLE_LABELS = {
   PIONEER: '开拓者',
@@ -123,22 +124,48 @@ const groupedMapTitles = computed(() => {
       });
 
     const ownedSlots = orderedSlots.filter((slot) => slot.owned).length;
+    const missingSlots = orderedSlots.length - ownedSlots;
 
     return {
       ...mapItem,
       orderedSlots,
       ownedSlots,
-      totalSlots: orderedSlots.length
+      totalSlots: orderedSlots.length,
+      missingSlots,
+      isComplete: missingSlots === 0
     };
   });
 });
 
+const incompleteMapTitles = computed(() =>
+  groupedMapTitles.value
+    .filter((mapItem) => !mapItem.isComplete)
+    .sort((left, right) => {
+      if (right.missingSlots !== left.missingSlots) {
+        return right.missingSlots - left.missingSlots;
+      }
+      return left.mapLabel.localeCompare(right.mapLabel, 'zh-Hans-CN');
+    })
+);
+
+const completeMapTitles = computed(() =>
+  groupedMapTitles.value
+    .filter((mapItem) => mapItem.isComplete)
+    .sort((left, right) => left.mapLabel.localeCompare(right.mapLabel, 'zh-Hans-CN'))
+);
+
+const mapSummary = computed(() => ({
+  incompleteCount: incompleteMapTitles.value.length,
+  completeCount: completeMapTitles.value.length,
+  totalCount: groupedMapTitles.value.length
+}));
+
 const sourceDisplay = computed(() => {
   if (!meta.value) {
-    return '躲避堡垒3';
+    return '躲避堡垒 3';
   }
 
-  const sourceLabel = meta.value.sourceLabel || '躲避堡垒3';
+  const sourceLabel = meta.value.sourceLabel || '躲避堡垒 3';
   return meta.value.sourceVersion ? `${sourceLabel} ${meta.value.sourceVersion}` : sourceLabel;
 });
 
@@ -225,6 +252,7 @@ watch(
   () => {
     expandedSeriesKeys.value = new Set();
     collapsedDefaultSeriesKeys.value = new Set();
+    completedMapsExpanded.value = false;
   }
 );
 </script>
@@ -238,7 +266,7 @@ watch(
     <main class="page-frame">
       <section class="hero-panel ow-card">
         <div class="hero-band">
-          <p class="eyebrow">Bastion Workshop</p>
+          <p class="eyebrow">躲避堡垒 3</p>
           <p class="hero-band-copy">TEAM-BASED TITLE PROGRESSION</p>
         </div>
 
@@ -276,17 +304,6 @@ watch(
         <p class="search-candidates-empty" v-else-if="hasQuery && !loading && !error">
           没有匹配到玩家，请尝试更短关键字或完整昵称。
         </p>
-
-        <div class="hero-stats" v-if="meta">
-          <article class="stat-card">
-            <strong>{{ meta.titleCount }}</strong>
-            <span>称号定义</span>
-          </article>
-          <article class="stat-card">
-            <strong>{{ filteredPlayers.length }}</strong>
-            <span>{{ hasQuery ? '搜索候选' : '搜索候选（待输入）' }}</span>
-          </article>
-        </div>
       </section>
 
       <section class="content-grid">
@@ -450,31 +467,90 @@ watch(
       <section class="catalog-panel card ow-card" v-if="hasQuery">
         <header class="card-header">
           <p>地图专属称号</p>
-          <h2>开拓者 / 征服者 / 主宰（未获得优先）</h2>
+          <h2>开拓者 / 征服者 / 主宰</h2>
         </header>
 
-        <div v-if="loading" class="state-block">正在生成地图称号进度…</div>
+        <div v-if="loading" class="state-block">正在获取地图称号进度…</div>
         <div v-else-if="error" class="state-block state-error">当前无法显示地图称号进度。</div>
         <div v-else-if="!showcasedPlayer" class="state-block">请选择玩家后查看地图专属称号。</div>
-        <div v-else class="map-title-grid">
-          <article class="map-title-card" v-for="mapItem in groupedMapTitles" :key="mapItem.mapKey">
-            <header class="map-title-head">
-              <p class="map-title-name">{{ mapItem.mapLabel }}</p>
-              <span class="map-title-progress">{{ mapItem.ownedSlots }} / {{ mapItem.totalSlots }}</span>
+        <div v-else class="map-section-stack">
+          <header class="map-summary">
+            <span class="map-summary-item map-summary-item-alert">未获得 {{ mapSummary.incompleteCount }}</span>
+            <span class="map-summary-item map-summary-item-complete">已完成 {{ mapSummary.completeCount }}</span>
+            <span class="map-summary-item">总计 {{ mapSummary.totalCount }}</span>
+          </header>
+
+          <section class="map-block map-block-priority">
+            <header class="map-block-head">
+              <h3>未获得地图</h3>
+              <span class="map-block-count">{{ mapSummary.incompleteCount }}</span>
             </header>
-            <ul class="status-title-list">
-              <li v-for="slot in mapItem.orderedSlots" :key="`${mapItem.mapKey}-${slot.key}`">
-                <span class="title-chip" :class="slot.owned ? 'title-chip-owned' : 'title-chip-missing'">
-                  <span class="title-head">
-                    <span class="title-label">{{ slot.label }}</span>
-                    <span class="title-tag" :class="slot.owned ? 'map-status-owned' : 'map-status-missing'">
-                      {{ slot.owned ? '已获得' : '未获得' }}
+            <p class="map-block-empty" v-if="!incompleteMapTitles.length">全部地图称号已收集完成。</p>
+            <div v-else class="map-title-grid">
+              <article class="map-title-card map-title-card-priority" v-for="mapItem in incompleteMapTitles" :key="mapItem.mapKey">
+                <header class="map-title-head">
+                  <p class="map-title-name">{{ mapItem.mapLabel }}</p>
+                  <span class="map-title-progress">{{ mapItem.ownedSlots }} / {{ mapItem.totalSlots }}</span>
+                </header>
+                <ul class="status-title-list">
+                  <li v-for="slot in mapItem.orderedSlots" :key="`${mapItem.mapKey}-${slot.key}`">
+                    <span class="title-chip" :class="slot.owned ? 'title-chip-owned' : 'title-chip-missing'">
+                      <span class="title-head">
+                        <span class="title-label">{{ slot.label }}</span>
+                        <span class="title-tag" :class="slot.owned ? 'map-status-owned' : 'map-status-missing'">
+                          {{ slot.owned ? '已获得' : '未获得' }}
+                        </span>
+                      </span>
                     </span>
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </article>
+                  </li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="map-block map-block-complete">
+            <header class="map-block-head">
+              <h3>已全收集地图</h3>
+              <span class="map-block-count">{{ mapSummary.completeCount }}</span>
+              <button
+                type="button"
+                class="series-toggle ow-button ow-button-aux"
+                @click="completedMapsExpanded = !completedMapsExpanded"
+                :aria-expanded="completedMapsExpanded"
+                aria-controls="complete-map-list"
+              >
+                <span>{{ completedMapsExpanded ? '收起' : '展开' }}</span>
+                <span class="series-toggle-icon" :class="completedMapsExpanded ? 'is-expanded' : ''" aria-hidden="true">▾</span>
+              </button>
+            </header>
+            <div
+              class="complete-map-body"
+              id="complete-map-list"
+              :class="completedMapsExpanded ? 'is-expanded' : 'is-collapsed'"
+              :aria-hidden="!completedMapsExpanded"
+            >
+              <div class="map-title-grid">
+                <article class="map-title-card map-title-card-complete" v-for="mapItem in completeMapTitles" :key="mapItem.mapKey">
+                  <header class="map-title-head">
+                    <p class="map-title-name">{{ mapItem.mapLabel }}</p>
+                    <span class="map-title-progress">{{ mapItem.ownedSlots }} / {{ mapItem.totalSlots }}</span>
+                  </header>
+                  <ul class="status-title-list">
+                    <li v-for="slot in mapItem.orderedSlots" :key="`${mapItem.mapKey}-${slot.key}`">
+                      <span class="title-chip" :class="slot.owned ? 'title-chip-owned' : 'title-chip-missing'">
+                        <span class="title-head">
+                          <span class="title-label">{{ slot.label }}</span>
+                          <span class="title-tag" :class="slot.owned ? 'map-status-owned' : 'map-status-missing'">
+                            {{ slot.owned ? '已获得' : '未获得' }}
+                          </span>
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
