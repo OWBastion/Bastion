@@ -1,0 +1,73 @@
+# Performance Loop Safety TODO (Risk-First)
+
+Source baseline:
+- `docs/agents/performance-loop-safety.md`
+- `docs/improve-server-stability.md`
+- `docs/Loops.md`
+
+## 1) Audit Scope and Scoring
+
+Scope:
+- `Ongoing - Global` and `Ongoing - Each Player` rules
+- Rule loops (`loop`, `Loop If*`)
+- `while` loops
+- bounded busy loops (no `wait` but finite iteration)
+- heavy condition/selection expressions (`distance`, `sorted`, player-array scans)
+
+Priority model:
+- `P0`: High crash/load risk or repeated hot-path cost in high-frequency rules.
+- `P1`: Medium risk or localized performance inefficiency with lower concurrency impact.
+- `P2`: Low risk, readability/maintainability, or optional optimizations.
+
+Status model:
+- `TODO`: not started
+- `IN_PROGRESS`: currently being optimized
+- `DONE`: implemented and validated
+- `DEFERRED`: intentionally postponed with reason
+
+## 2) Priority TODO List
+
+| ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
+|---|---|---|---|---|---|---|---|
+| P0-001 | P0 | `Decay Overhealth` | `src/utilities/system/overhealthDecay.opy` | Nested `while` contains inner loop body without explicit `wait`; potential busy-loop spike if enabled later. | Refactor inner health-clamp logic to guaranteed throttled progression (add bounded tick pacing or loop break strategy) while preserving decay behavior. | No waitless unbounded/long-running inner loop path remains; decay result unchanged for representative overhealth states. | TODO |
+| P0-002 | P0 | `bastion constantly searches for targets in line of sight` | `src/bastion/init.opy` | High-frequency target scan does repeated `getLivingPlayers` + LoS + `sorted`/`distance`; hot-path CPU pressure scales with player count. | Apply layered gates and sparse evaluation rhythm; reduce redundant scans/sorts per tick; keep target quality logic intact. | Target acquisition behavior unchanged functionally; scan cadence is explicitly controlled; hotspot expression count per cycle reduced. | TODO |
+| P0-003 | P0 | `players pick up speed while not targeted for 3 seconds` + control-jump related eachPlayer rules | `src/main.opy` and `src/devMain.opy` | Expensive radius/distance checks appear early in eachPlayer gating; extra reevaluation load every tick. | Reorder conditions to high-selectivity/low-cost first; keep expensive radius/distance checks behind cheap gates; preserve `main/devMain` parity. | Condition order follows performance guideline; gameplay behavior unchanged; `main.opy` and `devMain.opy` remain aligned for touched rules. | TODO |
+| P0-004 | P0 | Debuff/Mech continuous effect loops | `src/events/effects/debuffEffects.opy`, `src/events/effects/mechEffects.opy` | Multiple sustained loop rules execute heavy checks and effect operations at short intervals; cumulative server-load risk under concurrency. | Standardize loop throttling floor and move costly lookups behind narrower gates; split bursty action chains when needed. | No newly introduced waitless loops; sustained-event rules keep original effects while reducing per-cycle heavy operations. | TODO |
+| P0-005 | P0 | `rejecSampling` | `src/events/allocation/rejectSampling.opy` | Busy finite `while` loops (cap=8) still execute in a single frame; may contribute to startup/selection spikes under many players. | Convert to safer bounded sampling pattern with pacing or lighter per-iteration cost while preserving weighted selection intent. | Selection semantics remain equivalent (weighted rejection behavior preserved); no high-cost busy loop remains in this path. | TODO |
+
+| ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
+|---|---|---|---|---|---|---|---|
+| P1-001 | P1 | Health-pool cleanup loop | `src/utilities/system/healthPool.opy` | Per-player sort + cleanup can spike when queues grow. | Cap per-cycle removals or batch with explicit frame slicing under large queues. | Cleanup remains correct; large queue processing no longer concentrates in one frame. | TODO |
+| P1-002 | P1 | Bastion aim/turn update micro-loops | `src/bastion/init.opy` | Several independent loops each tick can stack cost on Team 2 bots. | Review merge opportunities and cadence harmonization for shared gating rules. | No behavior regression in aim/turn responsiveness; reduced duplicate reevaluation work. | TODO |
+| P1-003 | P1 | Event loop consistency pass | `src/events/effects/buffEffects.opy` | Many ongoing loop patterns with heterogeneous wait strategy increase maintenance risk. | Normalize loop pattern templates (`wait` + `loop`) and annotate exceptions. | Consistent loop safety pattern applied; exceptions documented with rationale. | TODO |
+
+| ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
+|---|---|---|---|---|---|---|---|
+| P2-001 | P2 | Performance lint-style scan automation | `tools/` (new or existing script path TBD) | Manual review can drift over time. | Add repeatable scan command for `loop/while/wait` and common heavy-expression hotspots. | One-command report available and referenced in docs workflow. | TODO |
+| P2-002 | P2 | Documentation cross-linking | `docs/agents/*`, `docs/modules/*` | Performance constraints may drift from module docs. | Add pointers from relevant module docs back to canonical loop-safety rules. | Links present; no duplicate canonical rule text introduced. | TODO |
+
+## 3) Done Log
+
+Use this section when an item reaches `DONE`.
+
+Template:
+- `Date`:
+- `ID`:
+- `Change Summary`:
+- `Validation`:
+  - static scan:
+  - behavior checks:
+  - perf observation:
+- `Notes`:
+
+Current:
+- None yet.
+
+## 4) Regression Checklist
+
+- [ ] Full scan confirms no new waitless loop paths in modified logic.
+- [ ] `Ongoing` rule conditions are ordered by high-selectivity and low-cost checks first.
+- [ ] Expensive array/distance queries are gated and not front-loaded unnecessarily.
+- [ ] Heavy action bursts are split across frames where practical.
+- [ ] `src/main.opy` and `src/devMain.opy` stay aligned for touched entry-level rules.
+- [ ] Any deferred item has explicit rationale and owner/date note.
