@@ -7,6 +7,7 @@ const error = ref('');
 const players = ref([]);
 const titles = ref([]);
 const meta = ref(null);
+const hasQuery = computed(() => query.value.trim().length > 0);
 
 const filteredPlayers = computed(() => {
   const keyword = query.value.trim().toLocaleLowerCase();
@@ -15,7 +16,7 @@ const filteredPlayers = computed(() => {
   );
 
   if (!keyword) {
-    return sortedPlayers.slice(0, 12);
+    return [];
   }
 
   return sortedPlayers.filter((player) => player.name.toLocaleLowerCase().includes(keyword));
@@ -30,7 +31,13 @@ const exactMatch = computed(() => {
   return players.value.find((player) => player.name === keyword) || null;
 });
 
-const showcasedPlayer = computed(() => exactMatch.value || filteredPlayers.value[0] || null);
+const showcasedPlayer = computed(() => {
+  if (!hasQuery.value) {
+    return null;
+  }
+
+  return exactMatch.value || filteredPlayers.value[0] || null;
+});
 const visibleTitles = computed(() => titles.value.filter((title) => title.id === 0 || title.id > 8));
 
 const groupedTitles = computed(() => {
@@ -124,8 +131,8 @@ onMounted(() => {
             <span>称号定义</span>
           </article>
           <article>
-            <strong>{{ query.trim() ? filteredPlayers.length : 12 }}</strong>
-            <span>{{ query.trim() ? '匹配结果' : '默认展示' }}</span>
+            <strong>{{ filteredPlayers.length }}</strong>
+            <span>{{ hasQuery ? '搜索候选' : '搜索候选（待输入）' }}</span>
           </article>
         </div>
       </section>
@@ -139,6 +146,39 @@ onMounted(() => {
 
           <div v-if="loading" class="state-block">正在加载称号数据…</div>
           <div v-else-if="error" class="state-block state-error">{{ error }}</div>
+          <div v-else-if="!hasQuery" class="spotlight-body">
+            <div class="player-heading">
+              <div>
+                <p class="player-name">未选择玩家</p>
+                <p class="player-meta">请输入玩家昵称后查看个人称号对照</p>
+              </div>
+              <div class="player-badge">SEARCH FIRST</div>
+            </div>
+
+            <div class="result-merged-divider"></div>
+            <p class="result-merged-heading">已获取 / 未获取 对照（当前未选择玩家）</p>
+            <div class="title-groups title-groups-stacked">
+              <article class="title-group title-group-owned">
+                <h3>已获取（{{ groupedTitles.owned.length }}）</h3>
+                <ul class="status-title-list" v-if="groupedTitles.owned.length">
+                  <li v-for="title in groupedTitles.owned" :key="`owned-inline-${title.id}`">
+                    <span class="title-chip title-chip-owned">{{ title.label }}</span>
+                  </li>
+                </ul>
+                <p v-else class="group-empty">当前玩家暂无已获取称号。</p>
+              </article>
+
+              <article class="title-group title-group-missing">
+                <h3>未获取（{{ groupedTitles.missing.length }}）</h3>
+                <ul class="status-title-list" v-if="groupedTitles.missing.length">
+                  <li v-for="title in groupedTitles.missing" :key="`missing-inline-${title.id}`">
+                    <span class="title-chip title-chip-missing">{{ title.label }}</span>
+                  </li>
+                </ul>
+                <p v-else class="group-empty">当前玩家已获取全部称号。</p>
+              </article>
+            </div>
+          </div>
           <div v-else-if="!showcasedPlayer" class="state-block">
             没有找到匹配的玩家，试试缩短关键字或直接输入完整昵称。
           </div>
@@ -158,11 +198,14 @@ onMounted(() => {
         <article class="card list-card">
           <header class="card-header">
             <p>玩家列表</p>
-            <h2>{{ query.trim() ? '匹配候选' : '默认候选' }}</h2>
+            <h2>搜索候选</h2>
           </header>
 
           <div v-if="loading" class="state-block">列表准备中…</div>
           <div v-else-if="error" class="state-block state-error">当前无法显示玩家列表。</div>
+          <div v-else-if="!hasQuery" class="state-block">
+            请输入玩家昵称后显示搜索候选。
+          </div>
           <ul v-else class="player-list">
             <li v-for="player in filteredPlayers" :key="player.name">
               <button class="player-row" type="button" @click="query = player.name">
@@ -174,7 +217,7 @@ onMounted(() => {
         </article>
       </section>
 
-      <section class="catalog-panel card">
+      <section class="catalog-panel card" v-if="hasQuery">
         <header class="card-header">
           <p>所有称号列表</p>
           <h2>已获取 / 未获取 对照</h2>

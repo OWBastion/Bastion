@@ -366,6 +366,21 @@ code {
   color: var(--muted);
 }
 
+.result-merged-divider {
+  margin: 1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.result-merged-heading {
+  margin: 0 0 0.8rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.title-groups-stacked {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 880px) {
   .content-grid {
     grid-template-columns: 1fr;
