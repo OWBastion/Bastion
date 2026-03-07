@@ -48,7 +48,21 @@ description: 为 Bastion Overwatch Workshop 项目发放玩家称号的专用流
    - `DOMINATOR` 高于 `CONQUEROR`：当玩家被加入索引 `2`（`DOMINATOR`）时，必须确保同一玩家也在索引 `1`（`CONQUEROR`）。
    - 反向不成立：加入 `CONQUEROR` 时，不应自动加入 `DOMINATOR`，除非用户明确要求。
 
-## 6) 校验
+## 6) 同步 Web 查询页面数据（必做）
+
+在修改 `src/title/title-cn.opy`（包括通用称号、玩家称号、地图称号）后，必须同步更新 web 查询页面数据：
+
+```bash
+pnpm run generate:title-query-data
+```
+
+并确认生成文件已更新：
+
+```bash
+git status --short web/title-query/public/data/titles.json
+```
+
+## 7) 校验
 
 运行：
 
@@ -56,6 +70,7 @@ description: 为 Bastion Overwatch Workshop 项目发放玩家称号的专用流
 rg -n "name: \"<PLAYER>\"" src/title/title-cn.opy
 rg -n "TITLE_PLAYER_NAMES" src/tools/playerNameToIndex.js src/tools/playerNameToIndexDelimited.js
 rg -n "DATA_<MAP>|MapTITLEKey|setPlayerTitle" src/title/title-cn.opy src/utilities/system/setPlayerTitle.opy
+rg -n "\"players\"|\"mapTitles\"|\"version\"" web/title-query/public/data/titles.json
 ```
 
 再做人工校验：
@@ -64,11 +79,13 @@ rg -n "DATA_<MAP>|MapTITLEKey|setPlayerTitle" src/title/title-cn.opy src/utiliti
 2. 两个 `TITLE_PLAYER_NAMES` 是否完全同序。
 3. 地图专属称号是否落在正确的 `DATA_*` 索引位置。
 4. 若本次新增了 `DOMINATOR`，对应玩家是否也已出现在同图的 `CONQUEROR` 列表中。
+5. `web/title-query/public/data/titles.json` 是否已随本次称号改动同步更新。
 
-## 7) 交付说明
+## 8) 交付说明
 
 回复时明确：
 
 1. 新增了哪些玩家。
 2. 每个玩家新增了哪些通用称号。
 3. 每张地图新增了哪些地图专属称号（含 `PIONEER`/`CONQUEROR`/`DOMINATOR`）。
+4. Web 查询页面数据是否已同步更新（`web/title-query/public/data/titles.json`）。
