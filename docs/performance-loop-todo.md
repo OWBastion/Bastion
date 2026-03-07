@@ -33,7 +33,7 @@ Status model:
 | P0-002 | P0 | `bastion constantly searches for targets in line of sight` | `src/bastion/init.opy` | High-frequency target scan does repeated `getLivingPlayers` + LoS + `sorted`/`distance`; hot-path CPU pressure scales with player count. | Apply layered gates and sparse evaluation rhythm; reduce redundant scans/sorts per tick; keep target quality logic intact. | Target acquisition behavior unchanged functionally; scan cadence is explicitly controlled; hotspot expression count per cycle reduced. | DONE |
 | P0-003 | P0 | `players pick up speed while not targeted for 3 seconds` + control-jump related eachPlayer rules | `src/main.opy` and `src/devMain.opy` | Expensive radius/distance checks appear early in eachPlayer gating; extra reevaluation load every tick. | Reorder conditions to high-selectivity/low-cost first; keep expensive radius/distance checks behind cheap gates; preserve `main/devMain` parity. | Condition order follows performance guideline; gameplay behavior unchanged; `main.opy` and `devMain.opy` remain aligned for touched rules. | TODO |
 | P0-004 | P0 | Debuff/Mech continuous effect loops | `src/events/effects/debuffEffects.opy`, `src/events/effects/mechEffects.opy` | Multiple sustained loop rules execute heavy checks and effect operations at short intervals; cumulative server-load risk under concurrency. | Standardize loop throttling floor and move costly lookups behind narrower gates; split bursty action chains when needed. | No newly introduced waitless loops; sustained-event rules keep original effects while reducing per-cycle heavy operations. | TODO |
-| P0-005 | P0 | `rejecSampling` | `src/events/allocation/rejectSampling.opy` | Busy finite `while` loops (cap=8) still execute in a single frame; may contribute to startup/selection spikes under many players. | Convert to safer bounded sampling pattern with pacing or lighter per-iteration cost while preserving weighted selection intent. | Selection semantics remain equivalent (weighted rejection behavior preserved); no high-cost busy loop remains in this path. | TODO |
+| P0-005 | P0 | `rejecSampling` | `src/events/allocation/rejectSampling.opy` | Busy finite `while` loops (cap=8) still execute in a single frame; may contribute to startup/selection spikes under many players. | Convert to safer bounded sampling pattern with pacing or lighter per-iteration cost while preserving weighted selection intent. | Selection semantics remain equivalent (weighted rejection behavior preserved); no high-cost busy loop remains in this path. | DONE |
 
 | ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
 |---|---|---|---|---|---|---|---|
@@ -78,6 +78,15 @@ Current:
   - behavior checks: target preference logic remains unchanged for both normal mode and `dlcVishkarEvent`; invalid or hidden targets are still cleared before the next loop.
   - perf observation: removes repeated full-array LoS scans while a target remains valid and cuts unnecessary LoS work on filtered-out candidates.
 - `Notes`: Preserves existing scan cadence constants and avoids adding new player variable slots.
+
+- `Date`: 2026-03-08
+- `ID`: P0-005
+- `Change Summary`: Refactored `src/events/allocation/rejectSampling.opy` to unify Buff/Debuff/Mech paths, cache eligible event candidates once per roll, and preserve the existing max-8 rejection attempts with last-candidate fallback.
+- `Validation`:
+  - static scan: no `exclude(...)/filter` candidate rebuild remains inside the retry loop; `rejecSampling()` call sites in `setPlayerEvent` are unchanged.
+  - behavior checks: keeps previous selection flow (`eventLastId` exclusion first, fallback to full pool if needed, accept on `random.uniform(0, eventWeight) < weight`, fallback to last sampled id after 8 misses).
+  - perf observation: removes repeated candidate-array reconstruction inside the busy loop, reducing per-roll hotspot cost.
+- `Notes`: No new variable-slot allocations or entry include changes.
 
 ## 4) Regression Checklist
 
