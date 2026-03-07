@@ -166,7 +166,11 @@ onMounted(() => {
                 <h3>已获取（{{ groupedTitles.owned.length }}）</h3>
                 <ul class="status-title-list" v-if="groupedTitles.owned.length">
                   <li v-for="title in groupedTitles.owned" :key="`owned-inline-${title.id}`">
-                    <span class="title-chip title-chip-owned">{{ title.label }}</span>
+                    <span class="title-chip title-chip-owned">
+                      <span class="title-label">{{ title.label }}</span>
+                      <span class="title-meta">类别：{{ title.category }}</span>
+                      <span class="title-meta">条件：{{ title.condition }}</span>
+                    </span>
                   </li>
                 </ul>
                 <p v-else class="group-empty">当前玩家暂无已获取称号。</p>
@@ -176,7 +180,11 @@ onMounted(() => {
                 <h3>未获取（{{ groupedTitles.missing.length }}）</h3>
                 <ul class="status-title-list" v-if="groupedTitles.missing.length">
                   <li v-for="title in groupedTitles.missing" :key="`missing-inline-${title.id}`">
-                    <span class="title-chip title-chip-missing">{{ title.label }}</span>
+                    <span class="title-chip title-chip-missing">
+                      <span class="title-label">{{ title.label }}</span>
+                      <span class="title-meta">类别：{{ title.category }}</span>
+                      <span class="title-meta">条件：{{ title.condition }}</span>
+                    </span>
                   </li>
                 </ul>
                 <p v-else class="group-empty">当前玩家已获取全部称号。</p>
@@ -234,7 +242,11 @@ onMounted(() => {
             <h3>已获取（{{ groupedTitles.owned.length }}）</h3>
             <ul class="status-title-list" v-if="groupedTitles.owned.length">
               <li v-for="title in groupedTitles.owned" :key="`owned-${title.id}`">
-                <span class="title-chip title-chip-owned">{{ title.label }}</span>
+                <span class="title-chip title-chip-owned">
+                  <span class="title-label">{{ title.label }}</span>
+                  <span class="title-meta">类别：{{ title.category }}</span>
+                  <span class="title-meta">条件：{{ title.condition }}</span>
+                </span>
               </li>
             </ul>
             <p v-else class="group-empty">当前玩家暂无已获取称号。</p>
@@ -244,7 +256,11 @@ onMounted(() => {
             <h3>未获取（{{ groupedTitles.missing.length }}）</h3>
             <ul class="status-title-list" v-if="groupedTitles.missing.length">
               <li v-for="title in groupedTitles.missing" :key="`missing-${title.id}`">
-                <span class="title-chip title-chip-missing">{{ title.label }}</span>
+                <span class="title-chip title-chip-missing">
+                  <span class="title-label">{{ title.label }}</span>
+                  <span class="title-meta">类别：{{ title.category }}</span>
+                  <span class="title-meta">条件：{{ title.condition }}</span>
+                </span>
               </li>
             </ul>
             <p v-else class="group-empty">当前玩家已获取全部称号。</p>

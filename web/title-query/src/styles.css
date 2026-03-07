@@ -246,7 +246,9 @@ code {
 
 .title-chip {
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
   padding: 0.75rem 0.95rem;
   border-radius: 14px;
   border: 1px solid rgba(124, 240, 210, 0.16);
@@ -359,6 +361,17 @@ code {
 
 .status-title-list li {
   margin: 0;
+  width: 100%;
+}
+
+.title-label {
+  font-weight: 700;
+}
+
+.title-meta {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .group-empty {

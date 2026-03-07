@@ -21,7 +21,7 @@ test('parses current title dataset shape', async () => {
   const data = await loadData();
 
   assert.equal(data.meta.titleCount, 49);
-  assert.equal(data.meta.playerCount, 40);
+  assert.equal(data.meta.playerCount, 41);
 });
 
 test('includes source label and main version metadata', async () => {
@@ -43,9 +43,27 @@ test('extracts labels from allTitle with dynamic fallback handling', async () =>
   assert.deepEqual(
     data.titles.slice(0, 3),
     [
-      { id: 0, key: 'PIONEER', label: '开拓者' },
-      { id: 1, key: 'TEST_LONG', label: '这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡' },
-      { id: 2, key: 'NOT_MY_MAP', label: '地图不是我做的' }
+      {
+        id: 0,
+        key: 'PIONEER',
+        label: '开拓者',
+        category: '社区贡献系列',
+        condition: '在新地图内测/公测中完成对应地图地狱通关（群内审核发放）。'
+      },
+      {
+        id: 1,
+        key: 'TEST_LONG',
+        label: '这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡',
+        category: '开发保留',
+        condition: '测试占位称号，不对外发放。'
+      },
+      {
+        id: 2,
+        key: 'NOT_MY_MAP',
+        label: '地图不是我做的',
+        category: '开发保留',
+        condition: '开发/管理用途，文档未提供公开挑战条件。'
+      }
     ]
   );
 });
@@ -62,7 +80,7 @@ test('maps representative players to the expected title ids', async () => {
 
   assert.deepEqual(byName.get('卖核弹的小女孩'), {
     name: '卖核弹的小女孩',
-    titleIds: [19, 16, 12, 13, 22, 27, 28, 29, 33, 37, 43, 36, 44, 45, 47],
-    titleCount: 15
+    titleIds: [19, 16, 12, 13, 22, 27, 28, 29, 33, 37, 43, 36, 44, 45, 47, 14],
+    titleCount: 16
   });
 });
