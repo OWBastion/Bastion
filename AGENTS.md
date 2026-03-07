@@ -107,6 +107,8 @@ For each change, verify at least:
 3. Do not casually rename existing rule names, constant names, or macro names unless explicitly required.
 4. Do not introduce or change build-entry conventions (scripts/commands/output paths) without explicit task requirements.
 5. In change explanations, clearly state what changed, which entry points are impacted, and what linkage/verification is needed.
+6. Never use `git commit --no-verify` (or any workflow that disables hooks) for repository changes; commits must pass configured hooks, including global `commit-msg`.
+7. Never manually add `Co-authored-by: Codex <noreply@openai.com>` to commit messages. Keep commit trailers hook-compliant.
 
 ## 9. Recommended Reading Order (New Contributors)
 
