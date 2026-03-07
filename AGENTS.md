@@ -90,15 +90,12 @@ Based on `docs/improve-server-stability.md` and existing code practices, the fol
 
 For each change, verify at least:
 
-1. Whether corresponding updates are needed in both `main.opy` and `devMain.opy`.
-2. Whether every new loop has a reasonable `wait`.
-3. Whether newly added conditions are ordered by high-selectivity low-cost-first.
-4. Whether action-side checks are only used for interval-control / shared-gate exceptions, with explicit `wait`.
-5. Whether rule declaration order changes could alter same-gate execution order.
-6. Whether new events are synced across config, implementation, and copy/text.
-7. Whether unrelated formatting/reordering was introduced (should be avoided).
-8. If the change is seasonal/event-specific, whether it should go to a dedicated branch instead of current mainline.
-9. Run `./tools/check_locale_keys.sh` and ensure locale key sync checks pass (missing/duplicate/invalid references), and event dynamic numbers come from constants via formatting.
+1. Architecture alignment checks reference `3.1-3.4` (include order, `main/devMain` parity, event config dual-check, seasonal-branch policy).
+2. Performance and loop safety checks reference `6.1-6.8` (wait usage, gate ordering, rule-order sensitivity, heavy-action pacing).
+3. Context loading scope checks reference `12.1-12.6` (directory routing, layered loading, no full-context injection).
+4. Agent workflow and commit hygiene checks reference `8.1-8.7`.
+5. Run `./tools/check_locale_keys.sh` and ensure locale key sync checks pass (missing/duplicate/invalid references), and event dynamic numbers come from constants via formatting.
+6. Check for unrelated formatting/reordering and remove it before commit.
 
 ## 8. AI Agent Collaboration Requirements
 
@@ -167,3 +164,17 @@ To reduce token usage and accidental side effects, agent context loading must fo
 4. For cross-cutting changes (entry flow, shared utilities, global constants), explicitly list why additional directories are being loaded before editing.
 5. If a task can be completed with one routed subtree, avoid scanning unrelated directories (`build/`, unrelated `src/*` domains, historical docs) during the same turn.
 6. When proposing edits, state "loaded scope" in the summary so reviewers can confirm no full-context injection occurred.
+
+## 13. Canonical Rule Index
+
+To enforce deduplication, each rule family has one canonical location:
+
+1. Entry architecture and `main/devMain` consistency -> Section 3.
+2. Event config dual-file constraints and seasonal branch policy -> Section 3.
+3. Build and validation commands -> Section 5.
+4. Performance and loop safety rules -> Section 6.
+5. Agent collaboration and commit process constraints -> Section 8.
+6. Documentation synchronization responsibilities -> Section 11.
+7. Directory routing and conditional context loading -> Section 12.
+
+If the same intent appears in another section, keep only a short reference to the canonical section instead of restating rule details.
