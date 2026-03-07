@@ -12,6 +12,7 @@ This document is the canonical rule source for server-load and loop safety.
 6. Use heavy array/distance operations carefully in per-player ongoing rules.
 7. Split heavy action bursts across frames where needed.
 8. Prefer absorbing new checks into existing gated rules when feasible to reduce startup condition explosion.
+9. In AOE-triggered event rules, do not rely on post-`wait` event target context for multi-target behavior; either move those actions before `wait`, switch to per-victim event paths (for example `Player Took Damage`), or cache and iterate bounded target sets.
 
 ## Deep References
 

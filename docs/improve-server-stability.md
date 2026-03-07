@@ -497,6 +497,15 @@ For example, if you set `Event Player.upgrades[73]` to = 1, the conditions will 
 **Avoid using too many/expensive Player Dealt/Took Damage events**
 Certain abilities and weapons trigger significantly more damage events than others (attacks with a lot of damage instances such as SMGs, dots and beams). If possible, add a short wait at the end of the rule to prevent them from triggering too often. Just keep in mind that each rule can only run one at the time, so if you add a wait to a `Player Dealt Damage` rule, and that player damages several players on the same server tick, the rule will only apply to one target (there is only one attacker who can trigger the rule). If you swap the event to `Player Took Damage`, the rule can now trigger once per target (several victims, each one triggering their own respective rule). Because of this behavior you will need to be careful with how you use your waits, or you might prevent your rules from running when you want them to.
 
+For AOE-triggered chains, treat this as a hard constraint: actions before `Wait` may affect multiple targets in the same tick, while actions after `Wait` can lose multi-target context and often continue on only one target. In testing, this tends to be the first-hit target, but this is an observed tendency, not a guaranteed engine contract.
+
+Apply the same caution model to similar trigger families (for example healing/knockback-triggered logic) when event context is expected to represent multiple targets.
+
+Preferred mitigations (in order):
+1. Place all multi-target-consistency actions before `Wait`.
+2. Switch to a per-victim event path when possible (for example `Player Took Damage`).
+3. Cache target collections explicitly and iterate with bounded loops plus throttling waits.
+
 **Using the built in array-actions**
 To a programmer coming to the workshop it might not make a lot of sense, but iterating over an array with `For Global Variable` can be a lot more expensive than doing the exact same thing with actions like `Mapped Array` / `Filtered Array` / `Sorted Array`. Working with arrays in general is pretty expensive in the workshop, especially multidimensional arrays. Using the built in array actions can be a good way to reduce server load when performing a lot of calculations on arrays.
 

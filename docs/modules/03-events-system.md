@@ -89,6 +89,7 @@
 - 「死亡延迟（Buff 11）」在致命伤害帧立即施加 `UNKILLABLE`，并增加“未处于 UNKILLABLE”前置条件，避免多段伤害（如堡垒榴弹）导致效果在死亡后才误触发。
 - 「胜利意志（Buff 19）」新增 `eventPlayer.isAlive() == true` 前置条件，避免死亡后落入无敌触发流程。
 - 「有我有你（Buff 12）」在解除附身时会同步附身者与被附身者的 `controlJumpIndex`（仅在目标索引更高时同步），避免三合一地图跨图传送后出现索引回退导致的传送点失效。
+- AOE 触发链（`Player Dealt Damage` 及同类触发如治疗/击退）默认不要依赖 `wait` 之后的事件目标上下文来继续做多目标动作；多目标一致性动作前置到 `wait` 前，或改为每受击者路径/显式缓存目标集合。
 - 清理逻辑统一走 `clearPlayerEvent()`，减少状态泄漏。
 - 数值更新统一走 `updatePlayerStats()`，避免重复写 setXxx。
 
