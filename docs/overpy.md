@@ -1,3 +1,4 @@
+Download
 # OverPy
 
 OverPy is a high level language for the Overwatch workshop with a Python-like syntax, allowing you to code your gamemodes with modern development practices: multiple files, switches, dictionaries, macros, function macros, enums, built-in JS preprocessing...
@@ -5,6 +6,57 @@ OverPy is a high level language for the Overwatch workshop with a Python-like sy
 It contains both a compiler, and a decompiler, to allow you to quickly convert your existing gamemodes to OverPy.
 
 All in-game languages are supported, meaning you do not need to switch your in-game language to English to use it.
+
+# NPM usage
+
+![NPM Version](https://img.shields.io/npm/v/overpy) ![NPM Type Definitions](https://img.shields.io/npm/types/overpy)
+
+Install:
+
+- As a dependency: `pnpm i overpy`
+- Global CLI (optional): `pnpm i -g overpy`
+- One-off CLI without install: `npx overpy --help`
+
+JS/TS API usage:
+
+```js
+// JavaScript (CommonJS)
+const overpy = require("overpy");
+
+async function main() {
+    await overpy.readyPromise;
+    const compileResult = await overpy.compile(
+        'rule "hello":\n    @Event global\n    wait(1)\n',
+        "en-US",
+        process.cwd(),
+        "inline.opy"
+    );
+    console.log(compileResult.result);
+}
+
+main().catch(console.error);
+```
+
+```ts
+// TypeScript
+import * as overpy from "overpy";
+
+async function main() {
+    await overpy.readyPromise;
+    const workshopText = "rule(\"hello\") { event { Ongoing - Global; } actions { Wait(1, Ignore Condition); } }";
+    const decompiled = overpy.decompileAllRules(workshopText, "en-US");
+    console.log(decompiled);
+}
+```
+
+CLI usage:
+
+- Compile a file: `overpy compile -i script.opy -o script.txt`
+- Compile from stdin to stdout: `cat script.opy | overpy compile > script.txt`
+- Decompile a file: `overpy decompile -i workshop.txt -o script.opy`
+- Decompile from stdin to stdout: `cat workshop.txt | overpy decompile --ignore-variable-index > script.opy`
+
+Run `overpy --help` to see all options (`-l/--language`, `--root`, `--main-file`, `--ignore-variable-index`, `--ignore-subroutine-index`).
 
 # General Syntax
 
@@ -490,9 +542,9 @@ The `#!optimizeForSize` directive prioritizes lowering the number of elements ov
 
 The `#!optimizeStrict` directive disables some optimizations that may cause issues in extreme cases of type conversion. For example:
 
-- A*0 can return vect(0,0,0) instead of 0
-- A+0 and A*1 can return 0 if A is not a number
-- A or true should return A instead of true if A is truthy
+- `A*0` can return `vect(0,0,0)` instead of `0`
+- `A+0` and `A*1` can return `0` if `A` is not a number
+- `A or true` should return `A` instead of `true` if `A` is truthy
 
 Those optimizations (and others) will be disabled so that the behavior of the gamemode will not be altered.
 
@@ -641,6 +693,33 @@ If an enum member is not given a value, it will take the previous value plus 1 (
 You can use `len(GameStatus)` to have the amount of values in the enum and `GameStatus.toArray()` to get an array of the values. This is useful to iterate on the values.
 
 Note that enum members are inlined, so if you use a value such as `getAllPlayers()` that changes during a game, the value of the enum will also change.
+
+## #!postCompileHook
+
+Runs a JavaScript post-processing script after OverPy finishes compilation. This can effectively resolve certain compilation errors caused by language translation.
+
+```hs
+#!postCompileHook "hooks/postCompileHook.js"
+```
+
+### How it works:
+
+- The compiled Workshop text is exposed to the script as a `content` variable.
+- The final value produced by the script is used as the final compiled output.
+- The hook path is resolved from the main file root path (the compile `rootPath`).
+- Only one `#!postCompileHook` directive can be defined per compilation.
+
+Example `hooks/postCompileHook.js`:
+
+```js
+content = content.replace(/abc/g, "def");
+
+// If the last operation returns an interpreter object,
+// force a plain string as final output.
+content.toString();
+```
+
+The hook script does not need to declare a wrapper function; writing statements that transform `content` is enough.
 
 # Advanced constructs
 
