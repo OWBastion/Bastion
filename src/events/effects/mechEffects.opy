@@ -447,7 +447,7 @@ rule "[VishkarEvent]: 瓦尔基里降临":
 rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Event playerTookDamage
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT]) == true
     @Condition attacker != eventPlayer
     
     eventPlayer.setUltCharge(eventPlayer.getUltCharge() + EVT_MECH_19_ULT_CHARGE_GAIN)
@@ -457,7 +457,7 @@ rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
 rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
     
     if eventPlayer.eventTargetHP == 0:
         eventPlayer.eventTargetHP = eventPlayer.getMaxHealth()
@@ -470,7 +470,7 @@ rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
 rule "[VishkarEvent]: 三位一体 (SSR)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
     
     eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_20_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_20_DMG_REDUCE_DIVISOR))
     eventPlayer.mod_speed_event = eventPlayer.mod_dmg_taken * -EVT_MECH_20_SPEED_FACTOR

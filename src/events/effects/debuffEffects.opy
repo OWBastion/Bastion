@@ -109,7 +109,11 @@ rule "[VishkarEvent]: 引力异常":
     createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     lbl_1:
-    eventPlayer.applyImpulse(directionTowards(eventPlayer, sorted(getPlayers(Team.2), lambda player: distance(eventPlayer, player))[0]), EVT_DEBUFF_5_PULL_AIR if eventPlayer.isInAir() else EVT_DEBUFF_5_PULL_GROUND, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    if getPlayers(Team.2)[1] == null:
+        eventPlayer.target = getPlayers(Team.2)[0]
+    else:
+        eventPlayer.target = sorted(getPlayers(Team.2), lambda player: distance(eventPlayer, player))[0]
+    eventPlayer.applyImpulse(directionTowards(eventPlayer, eventPlayer.target), EVT_DEBUFF_5_PULL_AIR if eventPlayer.isInAir() else EVT_DEBUFF_5_PULL_GROUND, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait()
     if ruleCondition:
         loop()
@@ -333,8 +337,9 @@ rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
     
-    eventPlayer.target = sorted(getPlayersInRadius(eventPlayer, EVT_DEBUFF_16_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer), lambda i: distance(eventPlayer, i))[0]
-    if eventPlayer.target != null:
+    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_16_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
+    if eventPlayer.target[0] != null:
+        eventPlayer.target = sorted(eventPlayer.target, lambda i: distance(eventPlayer, i))[0]
         eventPlayer.mod_dmg_taken = min(EVT_DEBUFF_16_MAX, max(0, (EVT_DEBUFF_16_RADIUS - distance(eventPlayer, eventPlayer.target)) * EVT_DEBUFF_16_FACTOR))
         eventPlayer.hudText = "受到伤害 +{0}%".format(eventPlayer.mod_dmg_taken)
     else:
@@ -417,6 +422,7 @@ rule "[VishkarEvent]: 我和你 (生命同步)":
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.HEALTH_SYNC]) == true
     @Condition len(getLivingPlayers(Team.1)) > 1
+    @Condition eventPlayer.getHealth() != 0
     
     eventPlayer.passiveRegenBlocked = true
 
@@ -438,6 +444,7 @@ rule "[VishkarEvent]: 吸血鬼 (按需吸血)":
     @Event eachPlayer
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.VAMPIRE, eventPlayer.getNormalizedHealth() != 1]) == true
+    @Condition getPlayers(Team.1)[1] != null
     
     eventPlayer.passiveRegenBlocked = true
     

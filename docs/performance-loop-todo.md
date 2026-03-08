@@ -106,11 +106,20 @@ Current:
   - perf observation: reduces avoidable per-tick math on control-jump path and skips heavy target collection when preconditions fail in sustained debuff loops.
 - `Notes`: P0-003 is closed in this wave. P0-004 remains `IN_PROGRESS`; remaining hotspots continue in next wave.
 
+- `Date`: 2026-03-08
+- `ID`: P0-004 (Wave 3)
+- `Change Summary`: Advanced sustained-loop optimization for Debuff/Mech by reducing avoidable heavy calculations in `引力异常`, `保持距离(易伤光环)`, `我和你(生命同步)`, `吸血鬼(按需吸血)`, plus alive-first gating consistency for `瓦尔基里降临 大招充能`, `瓦尔基里降临(大招持续回血)`, `三位一体(SSR)`.
+- `Validation`:
+  - static scan: `保持距离` now skips `sorted(...)` when no candidates exist; `引力异常` now bypasses sort when Team 2 has a single target; added cheap `isAlive`/team-size gates in sustained rules.
+  - behavior checks: wait cadence, durations, formulas, and Team 2 target-set semantics for `引力异常` were preserved.
+  - perf observation: fewer per-tick sort/radius evaluations under sparse or ineligible player states.
+- `Notes`: P0-004 remains `IN_PROGRESS`; remaining hotspots include `献祭` target-selection path and selected debuff AOE distance-scan rules for next wave.
+
 ## 4) Regression Checklist
 
-- [ ] Full scan confirms no new waitless loop paths in modified logic.
-- [ ] `Ongoing` rule conditions are ordered by high-selectivity and low-cost checks first.
-- [ ] Expensive array/distance queries are gated and not front-loaded unnecessarily.
+- [x] Full scan confirms no new waitless loop paths in modified logic.
+- [x] `Ongoing` rule conditions are ordered by high-selectivity and low-cost checks first.
+- [x] Expensive array/distance queries are gated and not front-loaded unnecessarily.
 - [ ] Heavy action bursts are split across frames where practical.
-- [ ] `src/main.opy` and `src/devMain.opy` stay aligned for touched entry-level rules.
+- [x] `src/main.opy` and `src/devMain.opy` stay aligned for touched entry-level rules.
 - [ ] Any deferred item has explicit rationale and owner/date note.
