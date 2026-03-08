@@ -120,6 +120,14 @@ rule "initialize effects":
     
     # 边框 Bottom
     hudSubheader(localPlayer, STR_HUD_PANEL_BOTTOM, HudPosition.LEFT, 8, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+
+    # 玩家当前属性面板
+    hudSubheader(localPlayer, STR_HUD_ATTR_PANEL.format(
+        round(localPlayer.heart_steel),
+        localPlayer.mod_speed_perma,
+        localPlayer.mod_dmg_perma,
+        localPlayer.mod_heal_event
+    ), HudPosition.LEFT, 9, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # Random Events 4.0 HUD
@@ -258,5 +266,4 @@ rule "portalPosition":
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer, 200)
     eventPlayer.teleport(nearestWalkablePosition(portalPosition.last()))
     wait(5)
-
 
