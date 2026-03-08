@@ -2,37 +2,140 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   release:
+    if: ${{ !contains(github.event.head_commit.message, '[skip release]') }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Ensure run is on current main head
+        id: freshness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          latest_main_sha="$(git rev-parse origin/main)"
+          if [[ "${latest_main_sha}" != "${GITHUB_SHA}" ]]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "Skip release flow: this run is for ${GITHUB_SHA}, but origin/main is ${latest_main_sha}"
+            exit 0
+          fi
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "Release flow continues on latest main head: ${GITHUB_SHA}"
 
       - name: Setup pnpm
+        if: steps.freshness.outputs.should_run == 'true'
         uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
+        if: steps.freshness.outputs.should_run == 'true'
         uses: actions/setup-node@v6
         with:
           cache: pnpm
 
       - name: Install dependencies
+        if: steps.freshness.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
+      - name: Bump env version
+        if: steps.freshness.outputs.should_run == 'true'
+        id: bump
+        shell: bash
+        run: |
+          set -euo pipefail
+          old_version="$(sed -n 's/^#!define VERSION "\(.*\)"$/\1/p' src/env/env.opy | head -n1)"
+          pnpm run bump:env-version
+          new_version="$(sed -n 's/^#!define VERSION "\(.*\)"$/\1/p' src/env/env.opy | head -n1)"
+
+          if [[ -z "${old_version}" || -z "${new_version}" ]]; then
+            echo "Failed to parse VERSION from src/env/env.opy" >&2
+            exit 1
+          fi
+
+          echo "old_version=${old_version}" >> "$GITHUB_OUTPUT"
+          echo "new_version=${new_version}" >> "$GITHUB_OUTPUT"
+
+          if [[ "${old_version}" == "${new_version}" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "Version bump: ${old_version} -> ${new_version}"
+
+      - name: Commit bumped version back to main
+        if: steps.freshness.outputs.should_run == 'true' && steps.bump.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/env/env.opy
+          git commit -m "chore(release): bump env version [skip release]"
+          git push origin HEAD:main
+
+      - name: Resolve release tag
+        if: steps.freshness.outputs.should_run == 'true'
+        id: release_meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.bump.outputs.new_version }}"
+          tag="v${version}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "Release tag: ${tag}"
+
       - name: Build workshop outputs
+        if: steps.freshness.outputs.should_run == 'true'
         run: pnpm run build:release
 
-      - name: Upload workshop files to GitHub Release
+      - name: Ensure git tag exists
+        if: steps.freshness.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ steps.release_meta.outputs.tag }}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${tag}" >/dev/null 2>&1; then
+            echo "Tag already exists on origin: ${tag}"
+            exit 0
+          fi
+          git tag "${tag}"
+          git push origin "${tag}"
+          echo "Created and pushed tag: ${tag}"
+
+      - name: Publish GitHub Release with build artifacts
+        if: steps.freshness.outputs.should_run == 'true'
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.release_meta.outputs.tag }}
+          name: ${{ steps.release_meta.outputs.tag }}
+          overwrite_files: true
           files: |
             build/en-US.ow
             build/zh-CN.ow
+
+      - name: Release summary
+        if: steps.freshness.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          echo "Version bump: ${{ steps.bump.outputs.old_version }} -> ${{ steps.bump.outputs.new_version }}"
+          echo "Release tag: ${{ steps.release_meta.outputs.tag }}"
+          echo "Uploaded artifacts:"
+          echo "- build/en-US.ow"
+          echo "- build/zh-CN.ow"

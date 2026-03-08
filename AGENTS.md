@@ -56,5 +56,5 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Core compile validation: `pnpm run build`
 - Title data sync and validation: `pnpm run sync:title-data` then `pnpm run test:title-data-sync`
 - Title query page build: `pnpm run build:title-query` (or `pnpm run build:pages` in CI)
-- Release trigger: `git tag vX.Y.Z` then `git push origin vX.Y.Z`
+- Release trigger: push to `main` (workflow auto-runs `pnpm run bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
 - TODO: Document one canonical local decompile verification command once standardized.
