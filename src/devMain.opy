@@ -343,11 +343,13 @@ rule STR_LICENSE_PERMIT:
 rule "players pick up speed while not targeted for 3 seconds":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent == false, getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0] == false, eventPlayer.isMoving()]) == true
+    @Condition dlcVishkarEvent == false
+    @Condition eventPlayer.isMoving()
+    @Condition getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0] == false
     
     wait(3, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setMoveSpeed(160)
-    waitUntil(getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0] or not eventPlayer.isMoving(), MAX_TIME)
+    waitUntil(not eventPlayer.isMoving() or getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0], MAX_TIME)
     eventPlayer.setMoveSpeed(100)
 
 rule "when players reaches the end and not respawn at first respawn point, they move to the first respawn point.":

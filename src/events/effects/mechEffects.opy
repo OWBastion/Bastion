@@ -82,7 +82,7 @@ rule "[VishkarEvent]: 赌徒":
 rule "[VishkarEvent]: 有点松弛":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.CHILL_MODE, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.CHILL_MODE, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     wait()
     if eventPlayer.eventEffect != null:
@@ -177,7 +177,7 @@ rule "[VishkarEvent]: 紧急避障":
 rule "[VishkarEvent]: 刹车失灵":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     eventPlayer.startThrottleInDirection(Vector.FORWARD, 1, Relativity.TO_PLAYER, Throttle.REPLACE_EXISTING, ThrottleReeval.NONE)
     wait(eventPlayer.eventDuration)
@@ -188,7 +188,7 @@ rule "[VishkarEvent]: 刹车失灵":
 rule "[VishkarEvent]: 刹车失灵":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     while eventPlayer.mod_speed_event < EVT_MECH_7_MAX_SPEED:
         eventPlayer.mod_speed_event += 5

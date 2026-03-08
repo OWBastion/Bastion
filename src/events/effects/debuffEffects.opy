@@ -40,7 +40,7 @@ rule "[VishkarEvent]: 献祭":
     @Event eachPlayer
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SACRIFICE]) == true
-    @Condition any([[player for player in getLivingPlayers(Team.1) if player.isUsingAbility1()] > 0, [player for player in getLivingPlayers(Team.1) if player.isUsingAbility2()] > 0]) == true
+    @Condition [player for player in getLivingPlayers(Team.1) if player.isUsingAbility1() or player.isUsingAbility2()] > 0
     
     eventPlayer.passiveRegenBlocked = true
 
@@ -330,7 +330,7 @@ rule "[VishkarEvent]: 舍己为人":
 rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
     
     eventPlayer.target = sorted(getPlayersInRadius(eventPlayer, EVT_DEBUFF_16_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer), lambda i: distance(eventPlayer, i))[0]
     if eventPlayer.target != null:
