@@ -38,7 +38,7 @@ Status model:
 | ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
 |---|---|---|---|---|---|---|---|
 | P1-001 | P1 | Health-pool cleanup loop | `src/utilities/system/healthPool.opy` | Per-player sort + cleanup can spike when queues grow. | Cap per-cycle removals or batch with explicit frame slicing under large queues. | Cleanup remains correct; large queue processing no longer concentrates in one frame. | TODO |
-| P1-002 | P1 | Bastion aim/turn update micro-loops | `src/bastion/init.opy` | Several independent loops each tick can stack cost on Team 2 bots. | Review merge opportunities and cadence harmonization for shared gating rules. | No behavior regression in aim/turn responsiveness; reduced duplicate reevaluation work. | TODO |
+| P1-002 | P1 | Bastion aim/turn update micro-loops | `src/bastion/init.opy` | Several independent loops each tick can stack cost on Team 2 bots. | Review merge opportunities and cadence harmonization for shared gating rules. | No behavior regression in aim/turn responsiveness; reduced duplicate reevaluation work. | DONE |
 | P1-003 | P1 | Event loop consistency pass | `src/events/effects/buffEffects.opy` | Many ongoing loop patterns with heterogeneous wait strategy increase maintenance risk. | Normalize loop pattern templates (`wait` + `loop`) and annotate exceptions. | Consistent loop safety pattern applied; exceptions documented with rationale. | TODO |
 
 | ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
@@ -114,6 +114,15 @@ Current:
   - behavior checks: wait cadence, durations, formulas, and Team 2 target-set semantics for `引力异常` were preserved.
   - perf observation: fewer per-tick sort/radius evaluations under sparse or ineligible player states.
 - `Notes`: P0-004 remains `IN_PROGRESS`; remaining hotspots include `献祭` target-selection path and selected debuff AOE distance-scan rules for next wave.
+
+- `Date`: 2026-03-08
+- `ID`: P1-002
+- `Change Summary`: Merged Bastion turn-speed tracking and no-target flick-prep micro-loops into a single shared-gating rule in `src/bastion/init.opy`, reusing aim-direction computation for the no-target path while keeping target/no-target cadence branches intact.
+- `Validation`:
+  - static scan: one independent `turnSpeed` loop rule removed; no-target path now computes `directionTowards(...)` once and reuses it for angle gate plus turn-speed update.
+  - behavior checks: preserved target semantics (`target != false` tracking path and `target == false` flick-prep path), existing wait constants, and `startFacing` trigger preconditions.
+  - perf observation: reduces duplicate reevaluation overhead from adjacent aim/turn micro-loops and avoids repeated direction reconstruction in the no-target branch.
+- `Notes`: No new player variable slots, include-order changes, or entry-file edits were introduced.
 
 ## 4) Regression Checklist
 

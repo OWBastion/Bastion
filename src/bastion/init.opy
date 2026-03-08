@@ -332,28 +332,20 @@ rule "determine bastion's aim speed, to improve smooth tracking":
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.target != false
     
-    eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition())) * turnSpeedMultiplier
-    eventPlayer.turnSpeed += eventPlayer.target.getSpeed() * turnSpeedMultiplier
-    wait(max(0.016, getAverageServerLoad() / 1000))
-    if ruleCondition:
-        loop()
-
-
-rule "increase bastion's aim speed to prep for flicking to a target entering range":
-    @Event eachPlayer
-    @Team 2
-    @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.target == false
-    @Condition angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition.getPosition())) >= 1
-    
-    eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition.getPosition()) * turnSpeedMultiplier)
-    wait(getPeakServerLoad() / 1000)
-    if ruleCondition:
-        loop()
+    if eventPlayer.target != false:
+        eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition())) * turnSpeedMultiplier
+        eventPlayer.turnSpeed += eventPlayer.target.getSpeed() * turnSpeedMultiplier
+        wait(max(0.016, getAverageServerLoad() / 1000))
+        if ruleCondition:
+            loop()
+    elif eventPlayer.aimPosition != null:
+        eventPlayer.tempAimPosition = directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition.getPosition())
+        if angleBetweenVectors(eventPlayer.getFacingDirection(), eventPlayer.tempAimPosition) >= 1:
+            eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), eventPlayer.tempAimPosition * turnSpeedMultiplier)
+            wait(getPeakServerLoad() / 1000)
+            if ruleCondition:
+                loop()
 
 
 rule "start facing bastion bots":
