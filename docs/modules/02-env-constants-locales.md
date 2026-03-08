@@ -84,5 +84,6 @@
 - 事件文案中涉及动态数值时，优先使用占位符并由 `EVT_*` 常量通过 `.format()` 注入，避免把数值硬编码在文案里。
 - 提交前运行 `tools/check_locale_keys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。
+- 发布前可执行 `pnpm run bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
 - 称号相关改动后运行 `pnpm run sync:title-data` 与 `pnpm run test:title-data-sync`。
 - `data/title-source.json` 中 `players` 顺序即索引语义；新增玩家只允许追加，禁止重排。

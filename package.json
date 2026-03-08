@@ -14,6 +14,7 @@
     "dev:title-query": "pnpm run sync:title-data && vite --config web/title-query/vite.config.mjs",
     "build:title-query": "pnpm run sync:title-data && vite build --config web/title-query/vite.config.mjs",
     "build:pages": "pnpm run build:title-query",
+    "bump:env-version": "node tools/bump-env-version.mjs",
     "test:title-data-sync": "node --test tools/generate-title-query-data.test.mjs",
     "test:title-query-data": "pnpm run test:title-data-sync",
     "build:release": "pnpm run build:main:en && pnpm run build:main:zh",
