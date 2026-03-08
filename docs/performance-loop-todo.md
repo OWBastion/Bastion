@@ -37,7 +37,7 @@ Status model:
 
 | ID | Priority | Rule | Location | Risk | Planned Fix | Acceptance Criteria | Status |
 |---|---|---|---|---|---|---|---|
-| P1-001 | P1 | Health-pool cleanup loop | `src/utilities/system/healthPool.opy` | Per-player sort + cleanup can spike when queues grow. | Cap per-cycle removals or batch with explicit frame slicing under large queues. | Cleanup remains correct; large queue processing no longer concentrates in one frame. | TODO |
+| P1-001 | P1 | Health-pool cleanup loop | `src/utilities/system/healthPool.opy` | Per-player sort + cleanup can spike when queues grow. | Cap per-cycle removals or batch with explicit frame slicing under large queues. | Cleanup remains correct; large queue processing no longer concentrates in one frame. | DONE |
 | P1-002 | P1 | Bastion aim/turn update micro-loops | `src/bastion/init.opy` | Several independent loops each tick can stack cost on Team 2 bots. | Review merge opportunities and cadence harmonization for shared gating rules. | No behavior regression in aim/turn responsiveness; reduced duplicate reevaluation work. | DONE |
 | P1-003 | P1 | Event loop consistency pass | `src/events/effects/buffEffects.opy` | Many ongoing loop patterns with heterogeneous wait strategy increase maintenance risk. | Normalize loop pattern templates (`wait` + `loop`) and annotate exceptions. | Consistent loop safety pattern applied; exceptions documented with rationale. | TODO |
 
@@ -123,6 +123,24 @@ Current:
   - behavior checks: preserved existing wait cadence and target/no-target semantics; no-target branch kept historical turn-speed formula behavior while adding only equivalent local caching/null gate.
   - perf observation: reduced repeated heavy expression construction inside each rule body (reused local eye/direction values) without introducing cross-rule coupling.
 - `Notes`: No new variable slots, include-order changes, or entry-file changes were introduced.
+
+- `Date`: 2026-03-09
+- `ID`: P1-001
+- `Change Summary`: Updated `src/utilities/system/healthPool.opy` cleaner loop to use bounded per-cycle cleanup with explicit cap (`HEALTH_POOL_CLEANUP_MAX_REMOVALS`), while preserving expiry semantics and periodic reevaluation.
+- `Validation`:
+  - static scan: full sort now runs only when queue length is greater than 1; cleanup uses capped `for` loop instead of unbounded `while` drain in one cycle.
+  - behavior checks: expired entries are still removed in timestamp order and stale entries are filtered at rule tail; no include-order or variable-slot contract changes were introduced.
+  - perf observation: large `hp_data` queues are processed across cycles instead of concentrating all removals in one frame.
+- `Notes`: Loop cadence retains existing server-load scaling and keeps explicit per-removal wait safety floor.
+
+- `Date`: 2026-03-09
+- `ID`: P1-001 (wait range tuning)
+- `Change Summary`: Tuned per-removal wait in `src/utilities/system/healthPool.opy` from short server-load scaling to a clamped linear mapping in the `0.496-0.96` range using the observed load band (`85-115`).
+- `Validation`:
+  - static scan: per-removal wait now uses constants (`HEALTH_POOL_WAIT_MIN/MAX`, `HEALTH_POOL_WAIT_LOAD_MIN/MAX`) and one clamped linear expression; tail loop wait remains unchanged.
+  - behavior checks: cleanup ordering and per-cycle cap (`HEALTH_POOL_CLEANUP_MAX_REMOVALS`) are unchanged; only inter-removal pacing is slowed.
+  - perf observation: higher load values map to longer per-removal delay, further flattening cleanup burst pressure.
+- `Notes`: Out-of-band load values are clamped to the configured min/max wait bounds.
 
 ## 4) Regression Checklist
 
