@@ -470,14 +470,15 @@ rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
 rule "[VishkarEvent]: 三位一体 (SSR)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
     
-    eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_20_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_20_DMG_REDUCE_DIVISOR))
-    eventPlayer.mod_speed_event = eventPlayer.mod_dmg_taken * -EVT_MECH_20_SPEED_FACTOR
-    updatePlayerStats()
-    eventPlayer.heart_steel += EVT_MECH_20_HEART_STEEL_PER_TICK
-    setPlayerHP()
-    eventPlayer.hudText = "伤害减免：{0}% / 移速加成：{1}% / 心之钢：{2}层".format(negToPos(eventPlayer.mod_dmg_taken), eventPlayer.mod_speed_event, round(eventPlayer.heart_steel))
+    if eventPlayer.isAlive():
+        eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_20_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_20_DMG_REDUCE_DIVISOR))
+        eventPlayer.mod_speed_event = eventPlayer.mod_dmg_taken * -EVT_MECH_20_SPEED_FACTOR
+        updatePlayerStats()
+        eventPlayer.heart_steel += EVT_MECH_20_HEART_STEEL_PER_TICK
+        setPlayerHP()
+        eventPlayer.hudText = "伤害减免：{0}% / 移速加成：{1}% / 心之钢：{2}层".format(negToPos(eventPlayer.mod_dmg_taken), eventPlayer.mod_speed_event, round(eventPlayer.heart_steel))
     wait(EVT_MECH_20_INTERVAL)
     if ruleCondition:
         loop()
