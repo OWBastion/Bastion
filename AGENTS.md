@@ -54,7 +54,10 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 
 - CI-parity install: `pnpm install --frozen-lockfile`
 - Core compile validation: `pnpm run build`
+- Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
 - Title data sync and validation: `pnpm run sync:title-data` then `pnpm run test:title-data-sync`
 - Title query page build: `pnpm run build:title-query` (or `pnpm run build:pages` in CI)
+- Release artifact build (local parity): `pnpm run build:release`
+- Manual env version bump (release helper): `pnpm run bump:env-version`
 - Release trigger: push to `main` (workflow auto-runs `pnpm run bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
 - TODO: Document one canonical local decompile verification command once standardized.
