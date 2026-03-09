@@ -206,7 +206,7 @@
       "label": "大难不死",
       "category": "生存与闪避系列",
       "condition": "受到榴弹伤害后剩余 1-5 点生命并存活。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"大难不死\"",
       "colorExpr": "heroColor[45]"
     },
