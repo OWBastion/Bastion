@@ -122,7 +122,7 @@ rule "initialize effects":
     hudSubheader(localPlayer, STR_HUD_PANEL_BOTTOM, HudPosition.LEFT, 8, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
     # 玩家当前属性面板
-    hudSubheader(localPlayer, STR_HUD_ATTR_PANEL.format(
+    hudSubheader(localPlayer if localPlayer.heart_steel > 0 else null, STR_HUD_ATTR_PANEL.format(
         round(localPlayer.heart_steel),
         localPlayer.mod_speed_perma,
         localPlayer.mod_dmg_perma,
