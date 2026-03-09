@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
-const DEFAULT_TARGETS = ['src', 'docs/performance-loop-todo.md'];
+const DEFAULT_TARGETS = ['src'];
 const SOURCE_EXTENSIONS = new Set(['.opy']);
 const LOOP_WAIT_WINDOW = 10;
 
