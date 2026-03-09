@@ -410,7 +410,8 @@
       "key": "RED_PACKET",
       "label": "红包收藏家",
       "category": "活动限定",
-      "condition": "鸿运当头挑战：单局拾取 88 个红包。",
+      "tags": ["鸿运当头", "限时挑战"],
+      "condition": "单局拾取 88 个红包。",
       "availability": "active",
       "displayExpr": "\"红包收藏家\"",
       "colorExpr": "heroColor[43]"
@@ -419,7 +420,8 @@
       "key": "GOOD_LUCK",
       "label": "好运来",
       "category": "活动限定",
-      "condition": "鸿运当头挑战：累计触发 50 次增益事件。",
+      "tags": ["鸿运当头", "限时挑战"],
+      "condition": "累计触发 50 次增益事件。",
       "availability": "active",
       "displayExpr": "\"好运来\"",
       "colorExpr": "breathGold"
@@ -428,7 +430,8 @@
       "key": "LONE_WALKER",
       "label": "千里独行",
       "category": "活动限定",
-      "condition": "鸿运当头挑战：累计触发 20 次“一马当先”并在该对局通关。",
+      "tags": ["鸿运当头", "限时挑战"],
+      "condition": "累计触发 20 次“一马当先”并在该对局通关。",
       "availability": "active",
       "displayExpr": "\"千里独行\"",
       "colorExpr": "heroColor[33]"
@@ -437,7 +440,8 @@
       "key": "GREEN_MOUNTAIN",
       "label": "踏遍青山",
       "category": "活动限定",
-      "condition": "鸿运当头挑战：通关漓江塔夜市/庭院/控制中心。",
+      "tags": ["鸿运当头", "限时挑战"],
+      "condition": "通关漓江塔夜市/庭院/控制中心。",
       "availability": "active",
       "displayExpr": "\"踏遍青山\"",
       "colorExpr": "vect(0, 200, 50)"
@@ -446,7 +450,8 @@
       "key": "SUAN_BU_LA",
       "label": "我不会放过你的酸不辣",
       "category": "活动限定",
-      "condition": "鸿运当头挑战：累计拾取 18 个“红包刺客”。",
+      "tags": ["鸿运当头", "限时挑战"],
+      "condition": "累计拾取 18 个“红包刺客”。",
       "availability": "active",
       "displayExpr": "\"我不会放过你的酸不辣\"",
       "colorExpr": "heroColor[18]"
