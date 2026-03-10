@@ -214,7 +214,10 @@
       "key": "WIN_HEAVEN",
       "label": "胜天半子",
       "category": "活动限定",
-      "tags": ["随机事件 2.0", "限时挑战"],
+      "tags": [
+        "随机事件 2.0",
+        "限时挑战"
+      ],
       "condition": "达成指定组合条件。",
       "availability": "active",
       "displayExpr": "\"胜天半子\"",
@@ -278,7 +281,10 @@
       "key": "FLAME",
       "label": "狂暴烈焰",
       "category": "活动限定",
-      "tags": ["狂暴之心", "限时挑战"],
+      "tags": [
+        "狂暴之心",
+        "限时挑战"
+      ],
       "condition": "低伤害+低阵亡并 25 分钟内通关。",
       "availability": "active",
       "displayExpr": "\"狂暴烈焰\"",
@@ -288,7 +294,10 @@
       "key": "PASS_EGGS",
       "label": "万蛋丛中过",
       "category": "活动限定",
-      "tags": ["狂暴之心", "限时挑战"],
+      "tags": [
+        "狂暴之心",
+        "限时挑战"
+      ],
       "condition": "单局阵亡数 ≤ 5 并通关。",
       "availability": "active",
       "displayExpr": "\"万蛋丛中过\"",
@@ -316,7 +325,10 @@
       "key": "GAMBLE_KING",
       "label": "赌王",
       "category": "活动限定",
-      "tags": ["随机事件 3.0", "限时挑战"],
+      "tags": [
+        "随机事件 3.0",
+        "限时挑战"
+      ],
       "condition": "赌徒类事件连续 5 次增益。",
       "availability": "active",
       "displayExpr": "\"赌王\"",
@@ -353,7 +365,10 @@
       "key": "MY_FATE",
       "label": "我命由我",
       "category": "活动限定",
-      "tags": ["随机事件 1.0", "限时挑战"],
+      "tags": [
+        "随机事件 1.0",
+        "限时挑战"
+      ],
       "condition": "达成指定组合条件。",
       "availability": "active",
       "displayExpr": "\"我命由我\"",
@@ -363,7 +378,10 @@
       "key": "GOD_GAMBLER",
       "label": "赌神",
       "category": "活动限定",
-      "tags": ["随机事件 4.0", "限时挑战"],
+      "tags": [
+        "随机事件 4.0",
+        "限时挑战"
+      ],
       "condition": "达成幸运星+钢门并满足赌徒连胜条件。",
       "availability": "active",
       "displayExpr": "\"赌神\"",
@@ -373,7 +391,10 @@
       "key": "LAO_DA",
       "label": "牢 大",
       "category": "活动限定",
-      "tags": ["随机事件 4.0", "限时挑战"],
+      "tags": [
+        "随机事件 4.0",
+        "限时挑战"
+      ],
       "condition": "达成 What Can I Say + 倒霉蛋并满足赌徒连败条件。",
       "availability": "active",
       "displayExpr": "\" 牢 大 \"",
@@ -410,7 +431,10 @@
       "key": "RED_PACKET",
       "label": "红包收藏家",
       "category": "活动限定",
-      "tags": ["鸿运当头", "限时挑战"],
+      "tags": [
+        "鸿运当头",
+        "限时挑战"
+      ],
       "condition": "单局拾取 88 个红包。",
       "availability": "active",
       "displayExpr": "\"红包收藏家\"",
@@ -420,7 +444,10 @@
       "key": "GOOD_LUCK",
       "label": "好运来",
       "category": "活动限定",
-      "tags": ["鸿运当头", "限时挑战"],
+      "tags": [
+        "鸿运当头",
+        "限时挑战"
+      ],
       "condition": "累计触发 50 次增益事件。",
       "availability": "active",
       "displayExpr": "\"好运来\"",
@@ -430,7 +457,10 @@
       "key": "LONE_WALKER",
       "label": "千里独行",
       "category": "活动限定",
-      "tags": ["鸿运当头", "限时挑战"],
+      "tags": [
+        "鸿运当头",
+        "限时挑战"
+      ],
       "condition": "累计触发 20 次“一马当先”并在该对局通关。",
       "availability": "active",
       "displayExpr": "\"千里独行\"",
@@ -440,7 +470,10 @@
       "key": "GREEN_MOUNTAIN",
       "label": "踏遍青山",
       "category": "活动限定",
-      "tags": ["鸿运当头", "限时挑战"],
+      "tags": [
+        "鸿运当头",
+        "限时挑战"
+      ],
       "condition": "通关漓江塔夜市/庭院/控制中心。",
       "availability": "active",
       "displayExpr": "\"踏遍青山\"",
@@ -450,7 +483,10 @@
       "key": "SUAN_BU_LA",
       "label": "我不会放过你的酸不辣",
       "category": "活动限定",
-      "tags": ["鸿运当头", "限时挑战"],
+      "tags": [
+        "鸿运当头",
+        "限时挑战"
+      ],
       "condition": "累计拾取 18 个“红包刺客”。",
       "availability": "active",
       "displayExpr": "\"我不会放过你的酸不辣\"",
@@ -968,19 +1004,31 @@
     },
     {
       "name": "岂不六哉",
-      "titleKeys": []
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
     },
     {
       "name": "我想吃烤地瓜",
-      "titleKeys": []
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
     },
     {
       "name": "云雀",
-      "titleKeys": []
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
     },
     {
       "name": "嘤嘤嘤丶",
-      "titleKeys": []
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
     }
   ],
   "mapTitles": [

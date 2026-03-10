@@ -237,19 +237,19 @@ enum MapTITLEKey:
     }, \
     { \
         name: "岂不六哉", \
-        titles: [] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     }, \
     { \
         name: "我想吃烤地瓜", \
-        titles: [] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     }, \
     { \
         name: "云雀", \
-        titles: [] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     }, \
     { \
         name: "嘤嘤嘤丶", \
-        titles: [] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
