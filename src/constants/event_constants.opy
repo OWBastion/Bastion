@@ -393,7 +393,7 @@
 # Weight（权重）
 #!define EVT_BUFF_33_WEIGHT 1.4
 #!define EVT_33_DMG_TAKEN -50
-#!define EVT_33_ARMOR_AMOUNT 500
+#!define EVT_33_ARMOR_AMOUNT 350
 #!define EVT_33_TARGET_WEIGHT 999
 
 # --- ID 34: 坚韧 ---
