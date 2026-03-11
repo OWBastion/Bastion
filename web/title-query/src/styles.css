@@ -1274,4 +1274,10 @@ code {
     background: rgba(7, 13, 22, 0.68);
     border: 1px dashed rgba(157, 169, 190, 0.35);
   }
+
+  :root[data-theme='light'] .title-condition {
+    color: var(--ow-text-soft);
+    background: linear-gradient(180deg, rgba(239, 245, 255, 0.92), rgba(234, 241, 252, 0.9));
+    border-color: rgba(113, 131, 164, 0.45);
+  }
 }
