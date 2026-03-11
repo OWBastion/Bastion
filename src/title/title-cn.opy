@@ -249,7 +249,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "嘤嘤嘤丶", \
-        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HACKING, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.LUCKY_STAR] \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -359,8 +359,8 @@ enum MapTITLEKey:
 # 里阿尔托
 #!define DATA_RIALTO [ \
    playerNameToIndexDelimited(["草艮", "寒霜冰湮", "Cold", "豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["草艮", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "糯米进脑子"], "-"), \
-   playerNameToIndexDelimited(["草艮", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "糯米进脑子"], "-")\
+   playerNameToIndexDelimited(["草艮", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "糯米进脑子", "嘤嘤嘤丶"], "-"), \
+   playerNameToIndexDelimited(["草艮", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "糯米进脑子", "嘤嘤嘤丶"], "-")\
 ]
 
 # 66号公路
@@ -436,8 +436,8 @@ enum MapTITLEKey:
 # 伊利奥斯
 #!define DATA_ILIOS [ \
    [], \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "别打老顾我啊", "眼镜小宅", "初一吖", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午"], "-"), \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午"], "-")\
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "别打老顾我啊", "眼镜小宅", "初一吖", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶"], "-"), \
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶"], "-")\
 ]
 
 # 漓江塔

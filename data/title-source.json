@@ -1027,7 +1027,11 @@
       "name": "嘤嘤嘤丶",
       "titleKeys": [
         "CHALLENGER_LEGEND",
-        "TRAVELER_HELL"
+        "TRAVELER_HELL",
+        "HACKING",
+        "FLAWLESS",
+        "SPEEDRUN",
+        "LUCKY_STAR"
       ]
     }
   ],
@@ -1512,7 +1516,8 @@
           "初一吖",
           "雨鸢",
           "EruIluvatar",
-          "糯米进脑子"
+          "糯米进脑子",
+          "嘤嘤嘤丶"
         ],
         "DOMINATOR": [
           "草艮",
@@ -1527,7 +1532,8 @@
           "初一吖",
           "雨鸢",
           "EruIluvatar",
-          "糯米进脑子"
+          "糯米进脑子",
+          "嘤嘤嘤丶"
         ]
       }
     },
@@ -1902,7 +1908,8 @@
           "蝎子莱莱",
           "雨鸢",
           "EruIluvatar",
-          "锄禾日当午"
+          "锄禾日当午",
+          "嘤嘤嘤丶"
         ],
         "DOMINATOR": [
           "尘风歌者",
@@ -1917,7 +1924,8 @@
           "蝎子莱莱",
           "雨鸢",
           "EruIluvatar",
-          "锄禾日当午"
+          "锄禾日当午",
+          "嘤嘤嘤丶"
         ]
       }
     },
