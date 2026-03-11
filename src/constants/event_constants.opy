@@ -861,7 +861,7 @@
 #!define EVT_MECH_10_DURATION 15
 # Weight（权重）
 #!define EVT_MECH_10_WEIGHT 1.2
-#!define EVT_MECH_10_HEART_STEEL_COST 6
+#!define EVT_MECH_10_HEART_STEEL_COST 2
 #!define EVT_MECH_10_FORCE_ROLL 20
 
 # --- ID 11 (Mech/Special): 作弊：回溯 ---
