@@ -268,8 +268,8 @@ enum MapTITLEKey:
 # 暴雪世界
 #!define DATA_BLIZZARD_WORLD [ \
    [], \
-   playerNameToIndexDelimited(["他又", "吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "雨鸢", "EruIluvatar", "糯米进脑子", "Augenstern"], "-"), \
-   playerNameToIndexDelimited(["他又", "吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "雨鸢", "EruIluvatar", "糯米进脑子", "Augenstern"], "-")\
+   playerNameToIndexDelimited(["他又", "吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "雨鸢", "EruIluvatar", "糯米进脑子", "Augenstern", "嘤嘤嘤丶"], "-"), \
+   playerNameToIndexDelimited(["他又", "吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "雨鸢", "EruIluvatar", "糯米进脑子", "Augenstern", "嘤嘤嘤丶"], "-")\
 ]
 
 # 多拉多
