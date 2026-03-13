@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Project README
+    url: https://github.com/Teakowa/Bastion/blob/main/README.md
+    about: 项目概览与构建说明 / Project overview and build instructions
+  - name: Contribution Guide
+    url: https://github.com/Teakowa/Bastion/blob/main/CONTRIBUTING.md
+    about: 贡献流程、架构约束与校验要求 / Contribution flow, architecture constraints, and validation rules
+  - name: Discussions (optional)
+    url: https://github.com/Teakowa/Bastion/discussions
+    about: 问答与非缺陷类讨论（若仓库启用 Discussions）/ Q&A and non-bug discussions (if Discussions is enabled)

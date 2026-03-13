@@ -1,0 +1,154 @@
+name: Bug Report
+description: 提交缺陷反馈以便快速定位和修复 / Report a bug for fast triage and fix
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请尽量提供可复现信息，降低 triage 往返成本。
+        Please provide reproducible context to reduce triage back-and-forth.
+
+  - type: input
+    id: summary
+    attributes:
+      label: 问题概述 / Summary
+      description: 一句话说明问题 / One-line bug summary
+      placeholder: 例如：某 Buff 事件结束后状态未清理 / e.g. Buff state is not cleared after event ends
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 影响等级 / Severity
+      description: 请选择影响程度 / Select impact level
+      options:
+        - 阻断 / Blocker
+        - 高 / High
+        - 中 / Medium
+        - 低 / Low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 发生范围 / Scope
+      description: 可多选 / Multiple selections allowed
+      multiple: true
+      options:
+        - 仅 devMain / devMain only
+        - 仅 main / main only
+        - 双入口 / both main and devMain
+        - Title Query 页面 / Title Query page
+        - 构建流程 / build pipeline
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: 复现步骤 / Reproduction Steps
+      description: 最好提供最小可复现路径 / Prefer minimal reproducible steps
+      placeholder: |
+        1. 
+        2. 
+        3. 
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果 / Expected
+      placeholder: 描述期望行为 / Describe expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果 / Actual
+      placeholder: 描述实际行为与错误表现 / Describe actual behavior and symptoms
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: 发生环境 / Environment
+      description: 首选问题首次出现的环境 / Select where issue is observed
+      options:
+        - 本地 / Local
+        - CI Build Check
+        - GitHub Release
+        - GitHub Pages (Title Query)
+        - 其他 / Other
+    validations:
+      required: true
+
+  - type: input
+    id: environment_extra
+    attributes:
+      label: 环境补充 / Environment Details
+      description: 例如 Node/pnpm 版本、操作系统、浏览器 / e.g. Node/pnpm version, OS, browser
+      placeholder: 例如 node 22, pnpm 10.6.3, macOS 15, Chrome 134
+    validations:
+      required: false
+
+  - type: textarea
+    id: version_info
+    attributes:
+      label: 版本信息 / Version Info
+      description: 选填，建议提供 commit SHA、分支、src/env/env.opy VERSION / Optional but recommended
+      placeholder: |
+        - commit SHA:
+        - branch:
+        - VERSION:
+    validations:
+      required: false
+
+  - type: textarea
+    id: context_map_hero_event
+    attributes:
+      label: 地图/英雄/事件上下文 / Map Hero Event Context
+      description: 选填但强烈建议 / Optional but strongly recommended
+      placeholder: 例如地图阶段、英雄、触发事件 ID 或名称 / e.g. map phase, hero, event id/name
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs_screenshots
+    attributes:
+      label: 日志或截图 / Logs or Screenshots
+      description: 选填，可粘贴日志或拖拽截图 / Optional logs, screenshots, recordings
+    validations:
+      required: false
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试排查 / What You Tried
+      description: "选填，写出你已排查或回避过的方法 / Optional: list attempted diagnosis/workarounds"
+    validations:
+      required: false
+
+  - type: textarea
+    id: regression
+    attributes:
+      label: 回归检查 / Regression Check
+      description: "选填，是否最近可用、疑似引入提交 / Optional: last known good and suspected introducing change"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 确认清单 / Checklist
+      options:
+        - label: 我已搜索现有 issue，确认不是重复反馈 / I searched existing issues and this is not a duplicate
+          required: true
+        - label: 我已提供可稳定复现步骤，或已明确说明偶发条件 / I provided reproducible steps or clearly described intermittent conditions
+          required: true
+        - label: 我已提供最小必要上下文（范围、环境、预期/实际）/ I provided minimum context (scope, environment, expected/actual)
+          required: true
