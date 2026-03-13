@@ -54,10 +54,20 @@
 ```bash
 pnpm run grant:title -- --input <request.json> --dry-run
 pnpm run grant:title -- --input <request.json>
+pnpm run grant:title -- --interactive --dry-run
+pnpm run grant:title -- --interactive
 pnpm run sync:title-data
 pnpm run test:title-grant
 pnpm run test:title-data-sync
 ```
+
+交互模式输入示例：
+
+1. 对象类型：`player` / `map`
+2. `player`：`玩家名称` + `通用称号(逗号分隔)` + `地图主宰(逗号分隔)`
+3. `map`：`地图(mapKey/中文名)` + `玩家列表(逗号分隔)`
+4. 派生策略：`grantDifficultyFromMaps` 与 `autoMasteryMode`
+5. 预览后确认写入
 
 ## 4) 结果校验
 

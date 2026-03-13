@@ -19,7 +19,7 @@ description: 为 Bastion Overwatch Workshop 项目发放玩家称号的专用流
 
 1. 解析请求：优先整理为 [references/grant-template.md](references/grant-template.md) 的四段结构。
 2. 口径确认：只确认派生规则开关（默认值见下）。
-3. 写入 source：仅改 `data/title-source.json`（建议用 `pnpm run grant:title -- --input <request.json>`）。
+3. 写入 source：仅改 `data/title-source.json`（批处理或交互二选一）。
 4. 同步：`pnpm run sync:title-data`。
 5. 测试：`pnpm run test:title-data-sync`，必要时再跑 `pnpm run test:title-grant`。
 6. 回执：按“交付说明”输出新增玩家、称号和执行命令结果。
@@ -58,6 +58,7 @@ description: 为 Bastion Overwatch Workshop 项目发放玩家称号的专用流
 
 ```bash
 pnpm run grant:title -- --input <request.json> [--dry-run]
+pnpm run grant:title -- --interactive [--dry-run]
 ```
 
 输入结构：
@@ -77,6 +78,13 @@ pnpm run grant:title -- --input <request.json> [--dry-run]
   }
 }
 ```
+
+交互模式（轻量问答）：
+
+1. 首先选择对象类型：`player` 或 `map`。
+2. `player` 模式：输入单玩家，发放通用称号 + 地图主宰。
+3. `map` 模式：输入单地图，逗号分隔多玩家批量发放主宰。
+4. 最后确认派生策略并预览摘要，确认后才写入。
 
 说明：
 

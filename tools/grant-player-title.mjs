@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import readline from 'node:readline/promises';
+import { stdin as input, stdout as output } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +23,35 @@ function ensureString(value, message) {
   if (typeof value !== 'string' || value.trim() === '') {
     throw new Error(message);
   }
+}
+
+function splitCsv(value) {
+  if (!value || typeof value !== 'string') {
+    return [];
+  }
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseYesNo(value, defaultValue = false) {
+  const raw = String(value ?? '').trim().toLowerCase();
+  if (raw === '') {
+    return defaultValue;
+  }
+  return ['y', 'yes', 'true', '1'].includes(raw);
+}
+
+function normalizeAutoMasteryMode(value) {
+  const raw = String(value ?? '').trim().toLowerCase();
+  if (raw === '') {
+    return 'check_only';
+  }
+  if (!['off', 'check_only', 'grant'].includes(raw)) {
+    throw new Error('autoMasteryMode must be one of: off, check_only, grant');
+  }
+  return raw;
 }
 
 function normalizeTitleInput(value, titleKeySet, titlesByLabel) {
@@ -119,6 +150,67 @@ function parseRequest(raw) {
   });
 
   return { players, options };
+}
+
+export function buildInteractiveRequest({
+  targetType,
+  playerName,
+  generalTitles,
+  mapDominators,
+  mapKey,
+  targetPlayers,
+  options
+}) {
+  const normalizedTargetType = String(targetType ?? '').trim().toLowerCase();
+
+  if (!['player', 'map'].includes(normalizedTargetType)) {
+    throw new Error('targetType must be player or map');
+  }
+
+  const requestOptions = {
+    grantDifficultyFromMaps: options?.grantDifficultyFromMaps === true,
+    autoMasteryMode: normalizeAutoMasteryMode(options?.autoMasteryMode)
+  };
+
+  if (normalizedTargetType === 'player') {
+    ensureString(playerName, 'playerName is required for player mode');
+
+    const req = {
+      players: [
+        {
+          name: playerName.trim(),
+          generalTitles: splitCsv(generalTitles),
+          mapDominators: splitCsv(mapDominators)
+        }
+      ],
+      options: requestOptions
+    };
+
+    if (!req.players[0].generalTitles.length && !req.players[0].mapDominators.length) {
+      throw new Error('At least one general title or map dominator is required in player mode');
+    }
+
+    return req;
+  }
+
+  const normalizedMapKey = String(mapKey ?? '').trim();
+  if (!normalizedMapKey) {
+    throw new Error('mapKey is required for map mode');
+  }
+
+  const players = splitCsv(targetPlayers);
+  if (!players.length) {
+    throw new Error('targetPlayers is required for map mode');
+  }
+
+  return {
+    players: players.map((name) => ({
+      name,
+      generalTitles: [],
+      mapDominators: [normalizedMapKey]
+    })),
+    options: requestOptions
+  };
 }
 
 export async function loadTitleSource(sourceFile = SOURCE_FILE) {
@@ -263,22 +355,27 @@ export function applyGrantRequest(sourceData, requestData) {
 export async function grantPlayerTitle({
   sourceFile = SOURCE_FILE,
   inputFile,
+  requestData,
   dryRun = false
 } = {}) {
-  if (!inputFile) {
-    throw new Error('Missing --input <request.json>');
+  const hasInputFile = Boolean(inputFile);
+  const hasRequestData = Boolean(requestData);
+
+  if (!hasInputFile && !hasRequestData) {
+    throw new Error('Missing --input <request.json> or requestData');
   }
 
-  const [sourceData, inputRaw] = await Promise.all([
-    loadTitleSource(sourceFile),
-    fs.readFile(path.resolve(inputFile), 'utf8')
-  ]);
+  const sourceData = await loadTitleSource(sourceFile);
 
-  const parsedInput = JSON.parse(inputRaw);
+  let parsedInput = requestData;
+  if (hasInputFile) {
+    const inputRaw = await fs.readFile(path.resolve(inputFile), 'utf8');
+    parsedInput = JSON.parse(inputRaw);
+  }
+
   const beforeText = `${JSON.stringify(sourceData, null, 2)}\n`;
   const workingCopy = JSON.parse(beforeText);
   const { sourceData: nextData, summary } = applyGrantRequest(workingCopy, parsedInput);
-
   const afterText = `${JSON.stringify(nextData, null, 2)}\n`;
 
   if (!dryRun) {
@@ -297,8 +394,8 @@ export async function grantPlayerTitle({
   };
 }
 
-function parseCliArgs(argv) {
-  const args = { dryRun: false };
+export function parseCliArgs(argv) {
+  const args = { dryRun: false, interactive: false };
 
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
@@ -310,6 +407,11 @@ function parseCliArgs(argv) {
       }
       args.inputFile = value;
       i += 1;
+      continue;
+    }
+
+    if (token === '--interactive') {
+      args.interactive = true;
       continue;
     }
 
@@ -329,19 +431,121 @@ function parseCliArgs(argv) {
   return args;
 }
 
+export function validateCliArgs(args) {
+  if (args.interactive && args.inputFile) {
+    throw new Error('--interactive and --input are mutually exclusive');
+  }
+
+  if (!args.help && !args.interactive && !args.inputFile) {
+    throw new Error('Either --interactive or --input <request.json> is required');
+  }
+}
+
+export async function collectInteractiveRequest(sourceData, io = { input, output }) {
+  const rl = readline.createInterface(io);
+  try {
+    const typeAnswer = (await rl.question('发放对象类型 [player/map] (默认 player): ')).trim().toLowerCase();
+    const targetType = typeAnswer || 'player';
+
+    if (!['player', 'map'].includes(targetType)) {
+      throw new Error('对象类型必须是 player 或 map');
+    }
+
+    let requestPayload;
+
+    if (targetType === 'player') {
+      let playerName = '';
+      while (!playerName) {
+        playerName = (await rl.question('玩家名称: ')).trim();
+      }
+
+      const generalTitles = await rl.question('通用称号（逗号分隔，可空）: ');
+      const mapDominators = await rl.question('地图主宰（逗号分隔，可空）: ');
+
+      requestPayload = {
+        targetType,
+        playerName,
+        generalTitles,
+        mapDominators
+      };
+    } else {
+      const mapHints = sourceData.mapTitles
+        .slice(0, 8)
+        .map((item) => `${item.mapLabel}(${item.mapKey})`)
+        .join('、');
+      const mapKey = await rl.question(`地图（mapKey/中文名，示例：${mapHints}）: `);
+      const targetPlayers = await rl.question('玩家列表（逗号分隔）: ');
+
+      requestPayload = {
+        targetType,
+        mapKey,
+        targetPlayers
+      };
+    }
+
+    const difficultyAnswer = await rl.question('自动补发难度挑战称号? [y/N]: ');
+    const autoMasteryRaw = await rl.question('地图精通模式 [off/check_only/grant] (默认 check_only): ');
+
+    const requestData = buildInteractiveRequest({
+      ...requestPayload,
+      options: {
+        grantDifficultyFromMaps: parseYesNo(difficultyAnswer, false),
+        autoMasteryMode: normalizeAutoMasteryMode(autoMasteryRaw)
+      }
+    });
+
+    return requestData;
+  } finally {
+    rl.close();
+  }
+}
+
 const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
 
 if (invokedPath === __filename) {
   Promise.resolve()
     .then(async () => {
       const args = parseCliArgs(process.argv.slice(2));
+      validateCliArgs(args);
 
       if (args.help) {
-        console.log('Usage: node tools/grant-player-title.mjs --input <request.json> [--dry-run]');
+        console.log('Usage:');
+        console.log('  node tools/grant-player-title.mjs --input <request.json> [--dry-run]');
+        console.log('  node tools/grant-player-title.mjs --interactive [--dry-run]');
         process.exit(0);
       }
 
-      const result = await grantPlayerTitle(args);
+      let requestData = null;
+      if (args.interactive) {
+        const sourceData = await loadTitleSource(SOURCE_FILE);
+        requestData = await collectInteractiveRequest(sourceData);
+
+        const preview = await grantPlayerTitle({
+          sourceFile: SOURCE_FILE,
+          requestData,
+          dryRun: true
+        });
+
+        console.log('\n变更预览:');
+        console.log(JSON.stringify(preview.preview, null, 2));
+
+        const rl = readline.createInterface({ input, output });
+        try {
+          const confirm = await rl.question('确认写入? [y/N]: ');
+          if (!parseYesNo(confirm, false)) {
+            console.log('已取消，不做写入。');
+            process.exit(0);
+          }
+        } finally {
+          rl.close();
+        }
+      }
+
+      const result = await grantPlayerTitle({
+        inputFile: args.inputFile,
+        requestData,
+        dryRun: args.dryRun
+      });
       console.log(JSON.stringify(result, null, 2));
     })
     .catch((error) => {
