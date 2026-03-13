@@ -17,7 +17,7 @@ test('loads unified title source shape', async () => {
   const data = await loadTitleSource(sourceFile);
 
   assert.equal(data.titles.length, 49);
-  assert.equal(data.players.length, 44);
+  assert.equal(data.players.length, 46);
   assert.equal(data.mapTitles.length, 36);
   assert.equal(data.titles[0].key, 'PIONEER');
   assert.equal(data.players.find((player) => player.name === '草艮')?.titleKeys.length, 2);
@@ -208,7 +208,7 @@ test('sync can run in dry-run mode with existing files', async () => {
   const result = await syncTitleData({ sourceFile, titleFile, envFile, dryRun: true });
 
   assert.equal(result.sourceData.titles.length, 49);
-  assert.equal(result.webPayload.players.length, 44);
+  assert.equal(result.webPayload.players.length, 46);
   assert.equal(result.webPayload.mapTitles.length, 36);
 });
 
