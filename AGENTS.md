@@ -56,14 +56,17 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Core compile validation: `pnpm run build`
 - Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
 - Title data sync and validation: `pnpm run sync:title-data` then `pnpm run test:title-data-sync`
+- Title data sync test alias: `pnpm run test:title-query-data`
 - Title data sync alias (script parity): `pnpm run generate:title-query-data`
 - Title query local dev server (auto-sync + Vite): `pnpm run dev:title-query`
 - Title query page build: `pnpm run build:title-query` (or `pnpm run build:pages` in CI)
+- Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`
 - Performance loop scan helper: `pnpm run perf:scan`
 - Release artifact build (local parity): `pnpm run build:release`
 - Locale-specific release builds: `pnpm run build:main:en` and `pnpm run build:main:zh`
 - Manual env version bump (release helper): `pnpm run bump:env-version`
 - Release trigger: push to `main` (workflow auto-runs `pnpm run bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
+- Release freshness guard: workflow skips stale runs when `github.sha` is not current `origin/main` head.
 - Release skip guard: include `[skip release]` in a `main` commit message to bypass release workflow.
 - TODO: Document one canonical local decompile verification command once standardized.
 
