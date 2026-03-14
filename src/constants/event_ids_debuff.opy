@@ -23,32 +23,28 @@ enum DebuffEventId:
     # legacy numeric id: 8
     ENERGY_LEAK
     # legacy numeric id: 9
-    STILLNESS_IS_LIFE
-    # legacy numeric id: 10
     SHARE_THE_PAIN
-    # legacy numeric id: 11
+    # legacy numeric id: 10
     FEAST_FRENZY
-    # legacy numeric id: 12
+    # legacy numeric id: 11
     POWERLESS_SPOUSE
-    # legacy numeric id: 13
+    # legacy numeric id: 12
     GRIEVOUS_WOUNDS
-    # legacy numeric id: 14
+    # legacy numeric id: 13
     HALVED
-    # legacy numeric id: 15
+    # legacy numeric id: 14
     SELFLESS_GIVEAWAY
-    # legacy numeric id: 16
+    # legacy numeric id: 15
     KEEP_DISTANCE_AURA
-    # legacy numeric id: 17
+    # legacy numeric id: 16
     ERROR_404
-    # legacy numeric id: 18
+    # legacy numeric id: 17
     CHAIN_OVERLOAD
-    # legacy numeric id: 19
+    # legacy numeric id: 18
     HEALTH_SYNC
-    # legacy numeric id: 20
+    # legacy numeric id: 19
     VAMPIRE
-    # legacy numeric id: 21
-    TONS_OF_DEBUFFS
-    # legacy numeric id: 22
+    # legacy numeric id: 20
     MOON_ROCKET
     # sentinel only for integrity checks (do not register as an event)
     COUNT

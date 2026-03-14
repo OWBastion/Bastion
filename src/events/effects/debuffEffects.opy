@@ -203,23 +203,6 @@ rule "[VishkarEvent]: 能量泄漏":
     startCombatRegen()
 
 
-rule "[VishkarEvent]: 生命在于静止":
-    @Event eachPlayer
-    @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.STILLNESS_IS_LIFE]) == true
-    
-    eventPlayer.passiveRegenBlocked = true
-    
-    wait()
-    damage(eventPlayer, null, ceil(eventPlayer.getMaxHealth() * (EVT_DEBUFF_9_DMG_MOVING if eventPlayer.isMoving() else EVT_DEBUFF_9_DMG_STILL)))
-    eventPlayer.setStatusEffect(null, Status.BURNING, EVT_DEBUFF_9_BURN_DURATION)
-    wait(EVT_DEBUFF_9_TICK_RATE)
-    if ruleCondition:
-        loop()
-    eventPlayer.passiveRegenBlocked = false
-    startCombatRegen()
-
-
 rule "[VishkarEvent]: 有难同当 Effect":
     @Event eachPlayer
     @Team 1
@@ -477,40 +460,6 @@ rule "[VishkarEvent]: 吸血鬼 (按需吸血)":
     eventPlayer.target = null
     eventPlayer.passiveRegenBlocked = false
     startCombatRegen()
-
-
-rule "[VishkarEvent]: 成吨的减益 (全属性削弱)":
-    @Event eachPlayer
-    @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.TONS_OF_DEBUFFS]) == true
-    
-    eventPlayer.mod_speed_event -= 50
-    eventPlayer.mod_dmg_taken += 50
-    eventPlayer.mod_heal_event -= 50
-    eventPlayer.heal_recv -= 50
-    # createEffect(getAllPlayers(), Effect.ZENYATTA_ORB_OF_DISCORD_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    # eventPlayer.eventEffect.append(getLastCreatedEntity())
-    # createEffect(getAllPlayers(), Effect.ZENYATTA_ORB_OF_DISCORD_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    # eventPlayer.eventEffect.append(getLastCreatedEntity())
-    # createEffect(getAllPlayers(), Effect.ANA_BIOTIC_GRENADE_NO_HEALING, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    # eventPlayer.eventEffect.append(getLastCreatedEntity())
-    playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND, Color.WHITE, eventPlayer, 200)
-    # createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    # eventPlayer.eventEffect.append(getLastCreatedEntity())
-    # createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    # eventPlayer.eventEffect.append(getLastCreatedEntity())
-    updatePlayerStats()
-    eventPlayer.sizeHealth = 0.5
-    setPlayerHP()
-    wait(eventPlayer.eventDuration)
-    eventPlayer.mod_speed_event += 50
-    eventPlayer.mod_dmg_taken -= 50
-    eventPlayer.mod_heal_event += 50
-    eventPlayer.heal_recv += 50
-    eventPlayer.sizeHealth = 1
-    setPlayerHP()
-    updatePlayerStats()
-    clearEventEffect()
 
 
 rule "[VishkarEvent]: 登月火箭":

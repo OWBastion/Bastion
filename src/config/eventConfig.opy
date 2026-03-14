@@ -190,9 +190,6 @@ rule "initialize event array":
     debuffEvent[DebuffEventId.ENERGY_LEAK] = [STR_EVT_DEBUFF_8_TITLE, STR_EVT_DEBUFF_8_DESC.format(percent(EVT_DEBUFF_8_DMG_PERCENT)), EVT_DEBUFF_8_DURATION, EVT_DEBUFF_8_WEIGHT]
     debuffEventId.append(DebuffEventId.ENERGY_LEAK)
 
-    debuffEvent[DebuffEventId.STILLNESS_IS_LIFE] = [STR_EVT_DEBUFF_9_TITLE, STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_STILL), percent(EVT_DEBUFF_9_DMG_MOVING)), EVT_DEBUFF_9_DURATION, EVT_DEBUFF_9_WEIGHT]
-    debuffEventId.append(DebuffEventId.STILLNESS_IS_LIFE)
-
     debuffEvent[DebuffEventId.SHARE_THE_PAIN] = [STR_EVT_DEBUFF_10_TITLE, STR_EVT_DEBUFF_10_DESC.format(percent(EVT_DEBUFF_10_DMG_FACTOR), EVT_DEBUFF_10_RADIUS), EVT_DEBUFF_10_DURATION, EVT_DEBUFF_10_WEIGHT]
     debuffEventId.append(DebuffEventId.SHARE_THE_PAIN)
 
@@ -357,9 +354,6 @@ rule "initialize event array":
 
     debuffEvent[DebuffEventId.VAMPIRE] = [STR_EVT_DEBUFF_20_TITLE, STR_EVT_DEBUFF_20_DESC, EVT_DEBUFF_20_DURATION, EVT_DEBUFF_20_WEIGHT]
     debuffEventId.append(DebuffEventId.VAMPIRE)
-
-    debuffEvent[DebuffEventId.TONS_OF_DEBUFFS] = [STR_EVT_DEBUFF_21_TITLE, STR_EVT_DEBUFF_21_DESC, EVT_DEBUFF_21_DURATION, EVT_DEBUFF_21_WEIGHT]
-    debuffEventId.append(DebuffEventId.TONS_OF_DEBUFFS)
 
     debuffEvent[DebuffEventId.MOON_ROCKET] = [STR_EVT_DEBUFF_22_TITLE, STR_EVT_DEBUFF_22_DESC, EVT_DEBUFF_22_DURATION, EVT_DEBUFF_22_WEIGHT]
     debuffEventId.append(DebuffEventId.MOON_ROCKET)

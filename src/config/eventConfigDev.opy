@@ -292,17 +292,6 @@ rule "initialize event array":
     debuffEventId.append(DebuffEventId.ENERGY_LEAK)
     lbl_41:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_9_TITLE, true, 9):
-        goto lbl_42
-    debuffEvent[DebuffEventId.STILLNESS_IS_LIFE] = [
-        STR_EVT_DEBUFF_9_TITLE,
-        STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_STILL), percent(EVT_DEBUFF_9_DMG_MOVING)),
-        EVT_DEBUFF_9_DURATION,
-        EVT_DEBUFF_9_WEIGHT
-    ]
-    debuffEventId.append(DebuffEventId.STILLNESS_IS_LIFE)
-    lbl_42:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_10_TITLE, true, 10):
         goto lbl_43
     debuffEvent[DebuffEventId.SHARE_THE_PAIN] = [
@@ -389,9 +378,6 @@ rule "initialize event array":
 
     debuffEvent[DebuffEventId.VAMPIRE] = [STR_EVT_DEBUFF_20_TITLE, STR_EVT_DEBUFF_20_DESC, EVT_DEBUFF_20_DURATION, EVT_DEBUFF_20_WEIGHT]
     debuffEventId.append(DebuffEventId.VAMPIRE)
-
-    debuffEvent[DebuffEventId.TONS_OF_DEBUFFS] = [STR_EVT_DEBUFF_21_TITLE, STR_EVT_DEBUFF_21_DESC, EVT_DEBUFF_21_DURATION, EVT_DEBUFF_21_WEIGHT]
-    debuffEventId.append(DebuffEventId.TONS_OF_DEBUFFS)
 
     debuffEvent[DebuffEventId.MOON_ROCKET] = [STR_EVT_DEBUFF_22_TITLE, STR_EVT_DEBUFF_22_DESC, EVT_DEBUFF_22_DURATION, EVT_DEBUFF_22_WEIGHT]
     debuffEventId.append(DebuffEventId.MOON_ROCKET)
