@@ -33,12 +33,14 @@ enum MechEventId:
     # legacy numeric id: 13
     CHEAT_SKIP_HERO
     # legacy numeric id: 14
-    NESTING_DOLL
+    TETRIS_GROWTH
     # legacy numeric id: 15
-    GAMBLER_LONG_INVESTMENT
+    NESTING_DOLL
     # legacy numeric id: 16
-    VALKYRIE_DESCENT
+    GAMBLER_LONG_INVESTMENT
     # legacy numeric id: 17
+    VALKYRIE_DESCENT
+    # legacy numeric id: 18
     TRINITY_SSR
     # sentinel only for integrity checks (do not register as an event)
     COUNT
