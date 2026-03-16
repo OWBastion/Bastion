@@ -86,6 +86,8 @@
 #!define STR_EVT_BUFF_14_DESC "Everyone gains a recoverable shield\nequal to 20% of max HP.\nShield lasts until death or event end."
 #!define STR_EVT_BUFF_16_TITLE "Rally to Me"
 #!define STR_EVT_BUFF_16_DESC "You and nearby teammates gain 2.5s damage immunity every 5s."
+#!define STR_EVT_BUFF_17_TITLE "Solo Leveling"
+#!define STR_EVT_BUFF_17_DESC "Gain damage reduction, healing boost, speed, and knockback resistance."
 #!define STR_EVT_BUFF_18_TITLE "Unwavering"
 #!define STR_EVT_BUFF_18_DESC "This event has been merged into Tenacity and no longer appears separately."
 #!define STR_EVT_BUFF_19_TITLE "Will to Win"

@@ -91,6 +91,8 @@
 #!define STR_EVT_BUFF_14_DESC "所有人获得一个可恢复的护盾\n数值为你{0}%最大生命值\n护盾持续到你阵亡或事件结束"
 #!define STR_EVT_BUFF_16_TITLE "向我靠拢"
 #!define STR_EVT_BUFF_16_DESC "你和你附近的队友每{0}秒获得{1}秒无敌"
+#!define STR_EVT_BUFF_17_TITLE "我独自闯关"
+#!define STR_EVT_BUFF_17_DESC "获得伤害减免、治疗增益、移速加成与击退抵抗"
 #!define STR_EVT_BUFF_18_TITLE "坚定"
 #!define STR_EVT_BUFF_18_DESC "该事件已并入坚韧，不再单独出现"
 #!define STR_EVT_BUFF_19_TITLE "胜利意志"
