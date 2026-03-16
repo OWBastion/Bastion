@@ -34,6 +34,8 @@ rule "initialize effects":
     hudSubheader(localPlayer, STR_HUD_STATS_PANEL.format(
         # 1. 阵亡/跳过
         STR_HUD_STATS_DEATH_SKIP.format(localPlayer.runDeathCount, localPlayer.skipCount),
+
+        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[0], localPlayer.eventCount[1], localPlayer.eventCount[0] + localPlayer.eventCount[1] + localPlayer.eventCount[2]) if dlcVishkarEvent else "",
         
         # 2. 玩家属性
         STR_HUD_ATTR_PANEL.format(
@@ -41,7 +43,7 @@ rule "initialize effects":
             localPlayer.mod_speed_perma,
             localPlayer.mod_dmg_perma,
             localPlayer.mod_heal_event
-        ),
+        ) if dlcVishkarEvent else "",
 
         # 3. 总耗时 (仅在通关后显示)
         STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(
