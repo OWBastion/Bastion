@@ -38,14 +38,18 @@ def rejecSampling():
     while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
         if eventPlayer.eventLoopCount > 0:
             wait(0.016)
-        eventPlayer.eventId = random.choice(eventPlayer.eventTempId)
+        eventPlayer.categoryRoll = random.choice(eventPlayer.eventTempId)
         if eventPlayer.eventType == 0:
-            eventPlayer.eventTempWeight = buffEvent[eventPlayer.eventId][3]
+            eventPlayer.eventTempWeight = buffEvent[eventPlayer.categoryRoll][3]
         elif eventPlayer.eventType == 1:
-            eventPlayer.eventTempWeight = debuffEvent[eventPlayer.eventId][3]
+            eventPlayer.eventTempWeight = debuffEvent[eventPlayer.categoryRoll][3]
         else:
-            eventPlayer.eventTempWeight = mechEvent[eventPlayer.eventId][3]
+            eventPlayer.eventTempWeight = mechEvent[eventPlayer.categoryRoll][3]
         if random.uniform(0, eventWeight) < eventPlayer.eventTempWeight:
+            eventPlayer.eventId = eventPlayer.categoryRoll
             eventPlayer.eventIsSelected = true
             break
         eventPlayer.eventLoopCount++
+
+    if eventPlayer.eventIsSelected == false:
+        eventPlayer.eventId = eventPlayer.categoryRoll
