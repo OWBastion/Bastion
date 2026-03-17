@@ -11,7 +11,6 @@ rule "[VishkarEvent]: 引力异常":
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != DebuffEventId.GRAVITY_PULL or eventPlayer.eventType != 1, eventPlayer.eventDuration)
-    clearEventEffect()
 
 
 rule "[VishkarEvent]: 引力异常":
