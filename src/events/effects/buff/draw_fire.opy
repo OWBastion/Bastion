@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 向我开炮":
     eventPlayer.mod_dmg_taken = EVT_27_DMG_TAKEN
     eventPlayer.targetWeight = EVT_27_TARGET_WEIGHT
     updatePlayerStats()
-    waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
+    wait(eventPlayer.eventDuration)
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.healthId[1] = null
     eventPlayer.mod_dmg_taken = 0
