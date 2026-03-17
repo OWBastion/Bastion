@@ -26,4 +26,14 @@ rule "symmetra auto-breaks tp after time limit":
     if eventPlayer.isUsingAbility2() and eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0:
         eventPlayer.forceButtonPress(Button.ABILITY_2)
 
+rule "symmetra ability 1 disabled":
+    @Event eachPlayer
+    @Team 1
+    @Hero symmetra
+    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isWinner != true) == true
 
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    eventPlayer.setAbility1Enabled(false)
+    waitUntil(eventPlayer.getHero() != Hero.SYMMETRA, MAX_TIME)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.setAbility1Enabled(true)
