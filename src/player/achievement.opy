@@ -62,7 +62,7 @@ rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
     @Team 1
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.heart_steel >= 1200
+    @Condition eventPlayer.heart_steel >= 400
     @Condition 42 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(42)
