@@ -12,7 +12,6 @@ rule "Init Achievement Data":
         37,  # What can i say 连续 10 次抽到减益事件
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
         42, # STEEL 钢门 心之钢层数达到 1200 层
-        43, # HACKING 开了 在地狱难度单局游戏中触发所有作弊事件 
     ]
 
 
@@ -67,13 +66,3 @@ rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
     @Condition 42 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(42)
-
-rule "[VishkarEvent]: Challenge 43 Track (HACKING)":
-    @Event eachPlayer
-    @Team 1
-    @Condition dlcVishkarEvent == true
-    @Condition len(challengeTitleIds) != 0
-    @Condition len(eventPlayer.dlcTimeChallenge[5]) == 4
-    @Condition 43 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(43)
