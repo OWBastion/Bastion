@@ -177,7 +177,7 @@
 #!define STR_EVT_BUFF_27_TITLE "向我开炮"
 #!define STR_EVT_BUFF_27_DESC "获得{0}点可恢复护甲与{1}%伤害减免\n成为堡垒的优先攻击目标"
 #!define STR_EVT_BUFF_28_TITLE "坚韧"
-#!define STR_EVT_BUFF_28_DESC "获得{0}%击退抵抗\n生命值低于{1}%时，在{2}秒内回复{3}%最大生命值\n内置{4}秒冷却"
+#!define STR_EVT_BUFF_28_DESC "获得{0}%击退抵抗\n生命值低于{1}%时，回复至{3}%生命值\n{4}秒冷却"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)

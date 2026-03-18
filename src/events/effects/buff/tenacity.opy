@@ -31,7 +31,7 @@ rule "[VishkarEvent]: 坚韧":
 
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     if eventPlayer.getHealth() <= eventPlayer.getMaxHealth() * EVT_28_TRIGGER_HP_PERCENT:
-        heal(eventPlayer, eventPlayer, eventPlayer.getMaxHealth() * EVT_28_HEAL_PER_SEC_MAXHP_FACTOR)
+        eventPlayer.setHealth(eventPlayer.getMaxHealth() * EVT_28_HEAL_PER_SEC_MAXHP_FACTOR)
         playEffect(getAllPlayers(), DynamicEffect.HEAL_TARGET_ACTIVE, Color.YELLOW, eventPlayer, 60)
         wait(EVT_28_HEAL_DURATION)
         wait(EVT_28_TRIGGER_COOLDOWN)
