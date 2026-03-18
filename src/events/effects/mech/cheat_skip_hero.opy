@@ -7,8 +7,19 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.CHEAT_SKIP_HERO, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
-    # todo：传送回重生室
+    # 兼容三合一：先缓存当前控制点索引，避免 progressHero() 重置到 0 后丢失进度
+    eventPlayer.controlCenterIndex = eventPlayer.controlJumpIndex
+    eventPlayer.respawn()
     progressHero()
+    wait(0.032)
+    if controlRespawnPosition != null:
+        if eventPlayer.controlCenterIndex >= len(controlRespawnPosition) or controlRespawnPosition[eventPlayer.controlCenterIndex] == null:
+            eventPlayer.controlJumpIndex = 0
+        else:
+            eventPlayer.controlJumpIndex = eventPlayer.controlCenterIndex
+        eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
+        if controlJumpPosition != null and controlJumpPosition[eventPlayer.controlJumpIndex] != null:
+            eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
     if eventPlayer.eventId not in  eventPlayer.dlcTimeChallenge[5] and 43 not in eventPlayer.earnedAchievements:
         eventPlayer.dlcTimeChallenge[5].append(eventPlayer.eventId)
     eventPlayer.eventDuration = 0
