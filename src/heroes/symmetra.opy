@@ -30,10 +30,10 @@ rule "symmetra ability 1 disabled":
     @Event eachPlayer
     @Team 1
     @Hero symmetra
-    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isWinner != true) == true
+    @Condition eventPlayer.isWinner != true
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(eventPlayer.getHero() != Hero.SYMMETRA, MAX_TIME)
+    waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.SYMMETRA, MAX_TIME)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(true)

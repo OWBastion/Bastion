@@ -12,6 +12,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     if not dlcVishkarEvent:
         goto lbl_0
     eventPlayer.eventId = -1
+    eventPlayer.event404DisabledSlot = 0
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
     lbl_0:
@@ -63,5 +64,4 @@ rule "when a player joins, load player data if they have it and initialize them"
     if "{0}".format(eventPlayer) in savedIndex:
         smallMessage(eventPlayer, "  你的进度已成功加载")
         smallMessage(getAllPlayers().exclude(eventPlayer), "  {0} 载入 {1}{2}".format(eventPlayer, heroIcon(heroList[eventPlayer.heroNumber]), heroList[eventPlayer.heroNumber]))
-
 

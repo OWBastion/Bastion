@@ -7,23 +7,23 @@ rule "[VishkarEvent]: 404 (随机禁用技能)":
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.ERROR_404]) == true
     
     if eventPlayer.getHero() == Hero.LIFEWEAVER:
-        eventPlayer.eventMission = 3
+        eventPlayer.event404DisabledSlot = 3
         goto lbl_1
 
     if eventPlayer.getHero() == Hero.TORBJORN or eventPlayer.getHero() == Hero.SYMMETRA:
-        eventPlayer.eventMission = 2
+        eventPlayer.event404DisabledSlot = 2
         goto lbl_1
         
     lbl_0:
-    eventPlayer.eventMission = random.randint(1, 3)
+    eventPlayer.event404DisabledSlot = random.randint(1, 3)
     wait()
 
     lbl_1:
-    if eventPlayer.eventMission == 1:
+    if eventPlayer.event404DisabledSlot == 1:
         eventPlayer.disallowButton(Button.ABILITY_1)
         eventPlayer.setAbility1Enabled(false)
         smallMessage(eventPlayer, "  {0}  你的技能 1 已被禁用".format(iconString(Icon.WARNING)))
-    elif eventPlayer.eventMission == 2:
+    elif eventPlayer.event404DisabledSlot == 2:
         eventPlayer.disallowButton(Button.ABILITY_2)
         eventPlayer.setAbility2Enabled(false)
         smallMessage(eventPlayer, "  {0}  你的技能 2 已被禁用".format(iconString(Icon.WARNING)))
@@ -32,14 +32,16 @@ rule "[VishkarEvent]: 404 (随机禁用技能)":
         eventPlayer.setSecondaryFireEnabled(false)
         smallMessage(eventPlayer, "  {0}  你的辅助攻击 已被禁用".format(iconString(Icon.WARNING)))
     waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
-    if eventPlayer.eventMission == 1:
-        eventPlayer.allowButton(Button.ABILITY_1)
-        eventPlayer.setAbility1Enabled(true)
-    elif eventPlayer.eventMission == 2:
-        eventPlayer.allowButton(Button.ABILITY_2)
-        eventPlayer.setAbility2Enabled(true)
+    if eventPlayer.event404DisabledSlot == 1:
+        if not (eventPlayer.getHero() == Hero.SYMMETRA and eventPlayer.isWinner != true):
+            eventPlayer.allowButton(Button.ABILITY_1)
+            eventPlayer.setAbility1Enabled(true)
+    elif eventPlayer.event404DisabledSlot == 2:
+        if not (eventPlayer.getHero() == Hero.LIFEWEAVER and eventPlayer.isWinner != true):
+            eventPlayer.allowButton(Button.ABILITY_2)
+            eventPlayer.setAbility2Enabled(true)
     else:
         eventPlayer.allowButton(Button.SECONDARY_FIRE)
         eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.eventMission = 0
+    eventPlayer.event404DisabledSlot = 0
     clearEventEffect()
