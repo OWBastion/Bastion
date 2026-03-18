@@ -8,14 +8,15 @@ rule "map - watchpoint gibraltar":
     
     __currentMapText___ = "直布罗陀"
     __currentMapPioneerText___ = __currentMapText___
-    bastionPosition[0] = vect(70.099, 9, 26.803)
-    bastionPosition[1] = vect(86.26, 7.46, 2.95)
-    bastionPosition[2] = vect(61.64, 3.67, -20.79)
-    bastionPosition[3] = vect(57.02, 4.65, -55.29)
-    bastionPosition[4] = vect(21.00, 4.2, -64.39)
-    bastionPosition[5] = vect(31.85, 7.62, -107.88)
-    bastionPosition[6] = vect(56.88, 9.23, -118.92)
-    bastionPosition[7] = vect(21.730, 8.78, -129.04)
+    bastionPosition = vect(70.099, 9, 26.803)
+    bastionPosition.append(vect(86.26, 7.46, 2.95))
+    bastionPosition.append(vect(61.64, 3.67, -20.79))
+    bastionPosition.append(vect(46.95, 7.65, -66.08))
+    bastionPosition.append(vect(32.69, 4.69, -52.38))
+    bastionPosition.append(vect(21.00, 4.2, -64.39))
+    bastionPosition.append(vect(31.85, 7.62, -107.88))
+    bastionPosition.append(vect(56.88, 9.23, -118.92))
+    bastionPosition.append(vect(18.08, 8.78, -133.02))
     endPosition = vect(43.42, 5.15, -129.34)
     thirdPersonPosition = vect(93.88, 1.06, 63.17)
     resetPosition = vect(97.55, 1.06, 60.38)
