@@ -1,0 +1,62 @@
+name: Performance Optimization
+description: 提交性能优化建议 / Propose a performance optimization
+title: "[Perf] "
+body:
+  - type: input
+    id: target
+    attributes:
+      label: 优化目标 / Target
+      description: 一句话描述要优化什么 / One-line optimization target
+      placeholder: 例如：降低事件规则的帧内负载 / e.g. Reduce per-frame load in event rules
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_pain
+    attributes:
+      label: 当前问题 / Current Pain
+      description: 现在的性能痛点是什么 / What is the current performance pain
+      placeholder: 例如：多人场景下有明显卡顿 / e.g. Noticeable stutter in multi-player scenarios
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_improvement
+    attributes:
+      label: 期望改进 / Expected Improvement
+      description: 期望达到的改善效果 / Expected improvement outcome
+      placeholder: 例如：减少卡顿、提高帧稳定性 / e.g. Less stutter, better frame stability
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 影响范围 / Scope
+      description: 可多选 / Multiple selections allowed
+      multiple: true
+      options:
+        - events
+        - heroes
+        - map
+        - utilities
+        - build/tooling
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra_context
+    attributes:
+      label: 附加信息 / Extra Context
+      description: 选填，可附日志、录像、采样结果 / Optional logs, recordings, profiling notes
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 确认项 / Checklist
+      options:
+        - label: 我已知晓性能改动需遵守 wait/门控规则 / I understand performance changes should follow wait/gating rules
+          required: true

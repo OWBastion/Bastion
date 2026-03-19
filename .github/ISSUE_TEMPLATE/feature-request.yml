@@ -1,0 +1,71 @@
+name: Feature Request
+description: 提交功能请求 / Propose a new feature
+title: "[Feature] "
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: 需求概述 / Summary
+      description: 一句话说明希望新增什么 / One-line feature summary
+      placeholder: 例如：新增可配置的地图阶段提示 / e.g. Add configurable map phase prompts
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: 使用场景 / Use Case
+      description: 这个需求在什么场景下有价值 / Where this feature is useful
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: 期望行为 / Expected Behavior
+      description: 希望系统最终如何表现 / Desired final behavior
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级 / Priority
+      options:
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: 影响模块 / Affected Area
+      description: 可多选 / Multiple selections allowed
+      multiple: true
+      options:
+        - events
+        - player/effects/title
+        - map
+        - heroes
+        - web/title-query
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra_context
+    attributes:
+      label: 附加信息 / Extra Context
+      description: 选填，可附参考链接或草图 / Optional links or mockups
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 确认项 / Checklist
+      options:
+        - label: 我已确认非季节特化需求优先走主线通用逻辑 / I confirm non-seasonal requests should target mainline general logic first
+          required: true
