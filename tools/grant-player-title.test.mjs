@@ -55,6 +55,33 @@ test('cli args enforce mutual exclusivity between --interactive and --input', ()
   assert.throws(() => validateCliArgs(args), /mutually exclusive/);
 });
 
+test('cli args parse direct player mode with general title and fail-on-missing-player', () => {
+  const args = parseCliArgs([
+    '--player-name',
+    '板鸭',
+    '--general-title',
+    'MANBA',
+    '--fail-on-missing-player'
+  ]);
+  validateCliArgs(args);
+  assert.equal(args.playerName, '板鸭');
+  assert.deepEqual(args.generalTitles, ['MANBA']);
+  assert.equal(args.failOnMissingPlayer, true);
+});
+
+test('cli args reject mixing --player-name with --input or --interactive', () => {
+  const withInput = parseCliArgs(['--player-name', '板鸭', '--general-title', 'MANBA', '--input', 'req.json']);
+  assert.throws(() => validateCliArgs(withInput), /mutually exclusive/);
+
+  const withInteractive = parseCliArgs(['--player-name', '板鸭', '--general-title', 'MANBA', '--interactive']);
+  assert.throws(() => validateCliArgs(withInteractive), /mutually exclusive/);
+});
+
+test('cli args require --general-title in --player-name mode', () => {
+  const args = parseCliArgs(['--player-name', '板鸭']);
+  assert.throws(() => validateCliArgs(args), /requires at least one --general-title/);
+});
+
 test('parseNumberSelection parses single/multi and deduplicates', () => {
   assert.deepEqual(parseNumberSelection('2', { max: 3 }), [2]);
   assert.deepEqual(parseNumberSelection('1,2,2,3', { max: 3, multi: true }), [1, 2, 3]);
@@ -123,6 +150,28 @@ test('adds missing players at tail and deduplicates general titles', () => {
   assert.equal(newPlayer.name, '新玩家');
   assert.deepEqual(newPlayer.titleKeys, ['HACKING', 'UNLUCKY']);
   assert.deepEqual(summary.addedPlayers, ['新玩家']);
+});
+
+test('failOnMissingPlayer rejects unknown players instead of auto-appending', () => {
+  const data = buildFixture();
+
+  const req = {
+    players: [
+      {
+        name: '不存在的玩家',
+        generalTitles: ['HACKING'],
+        mapDominators: []
+      }
+    ],
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'off',
+      failOnMissingPlayer: true
+    }
+  };
+
+  assert.throws(() => applyGrantRequest(data, req), /Player not found in title source/);
+  assert.equal(data.players.some((item) => item.name === '不存在的玩家'), false);
 });
 
 test('maps alias to map key and auto-adds CONQUEROR when granting DOMINATOR', () => {

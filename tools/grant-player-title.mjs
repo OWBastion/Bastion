@@ -156,11 +156,15 @@ function parseRequest(raw) {
 
   const options = {
     grantDifficultyFromMaps: raw.options?.grantDifficultyFromMaps === true,
-    autoMasteryMode: raw.options?.autoMasteryMode ?? 'check_only'
+    autoMasteryMode: raw.options?.autoMasteryMode ?? 'check_only',
+    failOnMissingPlayer: raw.options?.failOnMissingPlayer === true
   };
 
   if (!['off', 'check_only', 'grant'].includes(options.autoMasteryMode)) {
     throw new Error('options.autoMasteryMode must be one of: off, check_only, grant');
+  }
+  if (raw.options?.failOnMissingPlayer !== undefined && typeof raw.options.failOnMissingPlayer !== 'boolean') {
+    throw new Error('options.failOnMissingPlayer must be a boolean');
   }
 
   const players = raw.players.map((item, index) => {
@@ -211,7 +215,8 @@ export function buildInteractiveRequest({
 
   const requestOptions = {
     grantDifficultyFromMaps: options?.grantDifficultyFromMaps === true,
-    autoMasteryMode: normalizeAutoMasteryMode(options?.autoMasteryMode)
+    autoMasteryMode: normalizeAutoMasteryMode(options?.autoMasteryMode),
+    failOnMissingPlayer: options?.failOnMissingPlayer === true
   };
 
   if (normalizedTargetType === 'player') {
@@ -282,6 +287,9 @@ export function applyGrantRequest(sourceData, requestData) {
   for (const reqPlayer of requestPlayers) {
     let record = playersByName.get(reqPlayer.name);
     if (!record) {
+      if (options.failOnMissingPlayer) {
+        throw new Error(`Player not found in title source: ${reqPlayer.name}`);
+      }
       const player = { name: reqPlayer.name, titleKeys: [] };
       sourceData.players.push(player);
       record = { player, index: sourceData.players.length - 1 };
@@ -457,7 +465,7 @@ export async function grantPlayerTitle({
 }
 
 export function parseCliArgs(argv) {
-  const args = { dryRun: false, interactive: false };
+  const args = { dryRun: false, interactive: false, generalTitles: [], failOnMissingPlayer: false };
 
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
@@ -469,6 +477,31 @@ export function parseCliArgs(argv) {
       }
       args.inputFile = value;
       i += 1;
+      continue;
+    }
+
+    if (token === '--player-name') {
+      const value = argv[i + 1];
+      if (!value) {
+        throw new Error('Missing value for --player-name');
+      }
+      args.playerName = value;
+      i += 1;
+      continue;
+    }
+
+    if (token === '--general-title') {
+      const value = argv[i + 1];
+      if (!value) {
+        throw new Error('Missing value for --general-title');
+      }
+      args.generalTitles.push(value);
+      i += 1;
+      continue;
+    }
+
+    if (token === '--fail-on-missing-player') {
+      args.failOnMissingPlayer = true;
       continue;
     }
 
@@ -494,12 +527,25 @@ export function parseCliArgs(argv) {
 }
 
 export function validateCliArgs(args) {
-  if (args.interactive && args.inputFile) {
-    throw new Error('--interactive and --input are mutually exclusive');
+  const modeCount = Number(Boolean(args.interactive)) + Number(Boolean(args.inputFile)) + Number(Boolean(args.playerName));
+  if (modeCount > 1) {
+    throw new Error('--interactive, --input and --player-name are mutually exclusive');
   }
 
-  if (!args.help && !args.interactive && !args.inputFile) {
-    throw new Error('Either --interactive or --input <request.json> is required');
+  if (!args.help && !args.interactive && !args.inputFile && !args.playerName) {
+    throw new Error('One mode is required: --interactive, --input <request.json>, or --player-name <name>');
+  }
+
+  if (args.playerName && args.generalTitles.length === 0) {
+    throw new Error('--player-name mode requires at least one --general-title <TITLE_KEY>');
+  }
+
+  if (!args.playerName && args.generalTitles.length > 0) {
+    throw new Error('--general-title can only be used with --player-name');
+  }
+
+  if (!args.playerName && args.failOnMissingPlayer) {
+    throw new Error('--fail-on-missing-player can only be used with --player-name');
   }
 }
 
@@ -685,6 +731,9 @@ if (invokedPath === __filename) {
         console.log('Usage:');
         console.log('  node tools/grant-player-title.mjs --input <request.json> [--dry-run]');
         console.log('  node tools/grant-player-title.mjs --interactive [--dry-run]');
+        console.log(
+          '  node tools/grant-player-title.mjs --player-name <name> --general-title <TITLE_KEY> [--general-title <TITLE_KEY>] [--fail-on-missing-player] [--dry-run]'
+        );
         process.exit(0);
       }
 
@@ -712,6 +761,20 @@ if (invokedPath === __filename) {
         } finally {
           rl.close();
         }
+      }
+
+      if (args.playerName) {
+        requestData = buildInteractiveRequest({
+          targetType: 'player',
+          playerName: args.playerName,
+          generalTitles: args.generalTitles,
+          mapDominators: [],
+          options: {
+            grantDifficultyFromMaps: false,
+            autoMasteryMode: 'off',
+            failOnMissingPlayer: args.failOnMissingPlayer
+          }
+        });
       }
 
       const result = await grantPlayerTitle({
