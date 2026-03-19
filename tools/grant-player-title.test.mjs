@@ -208,6 +208,24 @@ test('resolve title key from chinese label', () => {
   assert.throws(() => resolveTitleKeyFromLabel(data, '不存在的称号'), /Unknown title label/);
 });
 
+test('blocks restricted title key grant for index 0-14 set', () => {
+  const data = buildFixture();
+  const req = {
+    players: [{ name: '老玩家', generalTitles: ['CHALLENGER_LEGEND'], mapDominators: [] }],
+    options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+  };
+  assert.throws(() => applyGrantRequest(data, req), /Restricted general title cannot be granted/);
+});
+
+test('blocks restricted title label grant for index 0-14 set', () => {
+  const data = buildFixture();
+  const req = {
+    players: [{ name: '老玩家', generalTitles: ['难度挑战'], mapDominators: [] }],
+    options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+  };
+  assert.throws(() => applyGrantRequest(data, req), /Restricted general title cannot be granted/);
+});
+
 test('maps alias to map key and auto-adds CONQUEROR when granting DOMINATOR', () => {
   const data = buildFixture();
 

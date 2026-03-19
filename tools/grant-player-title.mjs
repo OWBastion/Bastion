@@ -20,6 +20,25 @@ const TITLE_ALIAS = {
   'what can i say': 'MANBA'
 };
 
+const RESTRICTED_GENERAL_TITLE_KEYS = [
+  'PIONEER',
+  'TEST_LONG',
+  'NOT_MY_MAP',
+  'WILD_DEV',
+  'ARCHITECT',
+  'MAINTAINER',
+  'THREE_IN_ONE',
+  'BLACK_SHEEP',
+  'PURE_HARM',
+  'CONQUEROR',
+  'DOMINATOR',
+  'SURVIVOR_EXPERT',
+  'CHALLENGER_LEGEND',
+  'TRAVELER_HELL',
+  'DODGE_ULTIMATE'
+];
+const RESTRICTED_GENERAL_TITLE_INDEX_BY_KEY = new Map(RESTRICTED_GENERAL_TITLE_KEYS.map((key, index) => [key, index]));
+
 function ensureString(value, message) {
   if (typeof value !== 'string' || value.trim() === '') {
     throw new Error(message);
@@ -137,6 +156,18 @@ function ensureInArray(arr, value) {
     return true;
   }
   return false;
+}
+
+function assertGrantableGeneralTitle(titleKey, titleByKey) {
+  const restrictedIndex = RESTRICTED_GENERAL_TITLE_INDEX_BY_KEY.get(titleKey);
+  if (restrictedIndex === undefined) {
+    return;
+  }
+
+  const label = titleByKey.get(titleKey)?.label ?? '(unknown)';
+  throw new Error(
+    `Restricted general title cannot be granted: key=${titleKey}, label=${label}, index=${restrictedIndex}`
+  );
 }
 
 export function parseNumberSelection(raw, { max, allowZero = false, allowEmpty = false, multi = false } = {}) {
@@ -299,6 +330,7 @@ export function applyGrantRequest(sourceData, requestData) {
   const titleKeySet = new Set(sourceData.titles.map((item) => item.key));
   const mapKeySet = new Set(sourceData.mapTitles.map((item) => item.mapKey));
   const titlesByLabel = new Map(sourceData.titles.map((item) => [item.label, item.key]));
+  const titleByKey = new Map(sourceData.titles.map((item) => [item.key, item]));
   const mapByLabel = new Map(sourceData.mapTitles.map((item) => [item.mapLabel, item.mapKey]));
 
   const playersByName = new Map(sourceData.players.map((player, index) => [player.name, { player, index }]));
@@ -329,6 +361,7 @@ export function applyGrantRequest(sourceData, requestData) {
     const normalizedMapKeys = reqPlayer.mapDominators.map((key) => normalizeMapInput(key, mapKeySet, mapByLabel));
 
     for (const titleKey of normalizedTitleKeys) {
+      assertGrantableGeneralTitle(titleKey, titleByKey);
       const added = ensureInArray(record.player.titleKeys, titleKey);
       if (added) {
         if (!summary.generalTitleAdds[reqPlayer.name]) {
