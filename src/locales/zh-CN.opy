@@ -74,7 +74,7 @@
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
-#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{0}+{1}%最大生命值的临时生命值，并额外获得{2}%移速加成"
+#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{0}+{1}%临时生命值\n与{2}%移速加成"
 #!define STR_EVT_BUFF_6_TITLE "足力健"
 #!define STR_EVT_BUFF_6_DESC "持续移动获得{0}%可叠加的移动速度"
 #!define STR_EVT_BUFF_7_TITLE "血肉再生"
