@@ -45,7 +45,7 @@ def setPlayerEvent():
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
-    eventPlayer.eventLastId.append(eventPlayer.eventId)
+    eventPlayer.eventLastId.append(eventPlayer.eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventPlayer.eventId)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
     if eventPlayer.eventDesc == null:
@@ -71,4 +71,3 @@ def setPlayerEvent():
     lbl_2:
     setEventDuration()
     lbl_1:
-

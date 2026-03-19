@@ -7,6 +7,8 @@
 # 事件系统全局参数
 # 初始事件权重基准（用于整体权重缩放/校准）
 #!define EVT_INIT_EVENT_WEIGHT 2.5
+# 去重组合键类别倍率（组合键 = eventType * 倍率 + eventId）
+#!define EVT_DEDUP_TYPE_MULTIPLIER 1000
 # 最近事件去重窗口（排除最近 N 次抽到的事件）
 #!define EVT_RECENT_EVENT_DEDUP_COUNT 5
 
