@@ -124,7 +124,7 @@ jobs:
             chore(title): grant ${{ inputs.general_title_label }} to player-id:${{ inputs.player_id }}
 
             source: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          title: chore(title): grant ${{ inputs.general_title_label }} to player-id:${{ inputs.player_id }}
+          title: "chore(title): grant ${{ inputs.general_title_label }} to player-id:${{ inputs.player_id }}"
           body: |
             Automated title grant request.
 
