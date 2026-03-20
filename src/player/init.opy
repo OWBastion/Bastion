@@ -8,7 +8,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     @Event playerJoined
     @Team 1
     
-    eventPlayer.isDev = "{0}".format(eventPlayer) in devList
+    eventPlayer.isDev = eventPlayer.key in devList
     if not dlcVishkarEvent:
         goto lbl_0
     eventPlayer.eventId = -1
@@ -16,17 +16,17 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.earnedAchievements = []
     lbl_0:
     wait(getAverageServerLoad() / 200 * random.uniform(1, 3))
-    if "{0}".format(eventPlayer) in savedIndex:
-        eventPlayer.heroNumber = savedHero[savedIndex.index("{0}".format(eventPlayer))]
+    if eventPlayer.inSaved(savedIndex):
+        eventPlayer.heroNumber = savedHero[eventPlayer.savedIndex(savedIndex)]
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 3) * 0.05)
-        eventPlayer.runDeathCount = savedDeaths[savedIndex.index("{0}".format(eventPlayer))]
-        eventPlayer.isWinner = savedIsWinner[savedIndex.index("{0}".format(eventPlayer))]
-        eventPlayer.skipCount = savedSkipCount[savedIndex.index("{0}".format(eventPlayer))]
-        eventPlayer.winnerTime = savedWinnerTime[savedIndex.index("{0}".format(eventPlayer))]
+        eventPlayer.runDeathCount = savedDeaths[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.isWinner = savedIsWinner[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.skipCount = savedSkipCount[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.winnerTime = savedWinnerTime[eventPlayer.savedIndex(savedIndex)]
         wait(eventPlayer.getSlot() * 0.032)
-        eventPlayer.A36TGrenadeAlive = savedA36TGrenadeAlive[savedIndex.index("{0}".format(eventPlayer))]
+        eventPlayer.A36TGrenadeAlive = savedA36TGrenadeAlive[eventPlayer.savedIndex(savedIndex)]
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
-            eventPlayer.joinTime = savedJoinTime[savedIndex.index("{0}".format(eventPlayer))]
+            eventPlayer.joinTime = savedJoinTime[eventPlayer.savedIndex(savedIndex)]
     else:
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())
@@ -36,8 +36,8 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     wait(6)
-    if "{0}".format(eventPlayer) in titlePlayer:
-        eventPlayer.playerTitleRelationIndex = titlePlayer.index("{0}".format(eventPlayer))
+    if eventPlayer.key in titlePlayer:
+        eventPlayer.playerTitleRelationIndex = titlePlayer.index(eventPlayer.key)
         setPlayerTitle()
         wait(0.032)
         
@@ -60,6 +60,6 @@ rule "when a player joins, load player data if they have it and initialize them"
             eventPlayer.rgb_activated = false
 
     eventPlayer.obstrucVis = []
-    if "{0}".format(eventPlayer) in savedIndex:
+    if eventPlayer.inSaved(savedIndex):
         smallMessage(eventPlayer, "  你的进度已成功加载")
         smallMessage(getAllPlayers().exclude(eventPlayer), "  {0} 载入 {1}{2}".format(eventPlayer, heroIcon(heroList[eventPlayer.heroNumber]), heroList[eventPlayer.heroNumber]))

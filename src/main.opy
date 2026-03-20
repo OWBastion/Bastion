@@ -203,8 +203,8 @@ rule "when a player reaches the control jump point, they move on to the next map
     
     wait(0.032, Wait.ABORT_WHEN_FALSE)
     wait(0.2)
-    if ((eventPlayer.possess[0].getPosition() if (eventPlayer.possess != null and eventPlayer.possess[0] != null and entityExists(eventPlayer.possess[0])) else eventPlayer.getPosition()).y >= controlJumpPosition[eventPlayer.controlJumpIndex].y):
-        if distance((eventPlayer.possess[0].getPosition() if (eventPlayer.possess != null and eventPlayer.possess[0] != null and entityExists(eventPlayer.possess[0])) else eventPlayer.getPosition()) * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4:
+    if (eventPlayer.anchorPos(eventPlayer.possess).y >= controlJumpPosition[eventPlayer.controlJumpIndex].y):
+        if distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4:
             eventPlayer.controlJumpIndex++
             wait()
             if any([eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.hasStatus(Status.INVINCIBLE)]):
@@ -223,8 +223,8 @@ rule "when a player reaches the end, they move on to the next hero or win if the
     @Team 1
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
-    @Condition (eventPlayer.possess[0].getPosition() if (eventPlayer.possess != null and eventPlayer.possess[0] != null and entityExists(eventPlayer.possess[0])) else eventPlayer.getPosition()).y >= endPosition.y
-    @Condition distance((eventPlayer.possess[0].getPosition() if (eventPlayer.possess != null and eventPlayer.possess[0] != null and entityExists(eventPlayer.possess[0])) else eventPlayer.getPosition()) * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
+    @Condition eventPlayer.anchorPos(eventPlayer.possess).y >= endPosition.y
+    @Condition distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
     
     if len(eventPlayer.possessed) > 0:
         eventPlayer.possessed = []

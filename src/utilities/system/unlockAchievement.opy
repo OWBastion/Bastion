@@ -19,7 +19,7 @@ def unlockAchievement():
 
     playEffect(eventPlayer, DynamicEffect.GOOD_EXPLOSION, Color.AQUA, eventPlayer, 10)
 
-    if "{0}".format(eventPlayer) not in titlePlayer:
+    if eventPlayer.key not in titlePlayer:
         goto lb_1
     eventPlayer.playerTitles.append(eventPlayer.tempUnlockId)
 

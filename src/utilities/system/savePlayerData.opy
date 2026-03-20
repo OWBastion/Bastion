@@ -11,24 +11,24 @@ def savePlayerData():
     wait(getAverageServerLoad() / 100 * 0.5)
     if eventPlayer.heroNumber > 2:
         #We're saving data as a string, because although we can't hold entity id's, we can hold entity names as string.
-        if not "{0}".format(eventPlayer) in savedIndex:
-            savedIndex.append("{0}".format(eventPlayer))
+        if not eventPlayer.inSaved(savedIndex):
+            savedIndex.append(eventPlayer.key)
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 2) * 0.5)
-        savedHero[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.heroNumber
+        savedHero[eventPlayer.savedIndex(savedIndex)] = eventPlayer.heroNumber
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedDeaths[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.runDeathCount
+        savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedIsWinner[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.isWinner
+        savedIsWinner[eventPlayer.savedIndex(savedIndex)] = eventPlayer.isWinner
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedSkipCount[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.skipCount
+        savedSkipCount[eventPlayer.savedIndex(savedIndex)] = eventPlayer.skipCount
         wait(getAverageServerLoad() / 100 * 0.5)
         if eventPlayer.winnerTime == null:
             goto lbl_0
-        savedWinnerTime[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.winnerTime
+        savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.winnerTime
         lbl_0:
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedA36TGrenadeAlive[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.A36TGrenadeAlive
-        savedJoinTime[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.joinTime
+        savedA36TGrenadeAlive[eventPlayer.savedIndex(savedIndex)] = eventPlayer.A36TGrenadeAlive
+        savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)
 
         wait(2)
@@ -52,5 +52,5 @@ rule "player deaths are counted manually rather than relying on in-game statisti
     eventPlayer.runDeathCount++
     if eventPlayer in savedIndex:
         wait(0.032)
-        savedDeaths[savedIndex.index("{0}".format(eventPlayer))] = eventPlayer.runDeathCount
+        savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if controlRespawnPosition == null else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
