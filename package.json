@@ -7,7 +7,7 @@
   "scripts": {
     "build:main": "overpy compile -i src/main.opy -o build/main.ow -l zh-CN",
     "build:dev": "overpy compile -i src/devMain.opy -o build/devMain.ow -l zh-CN",
-    "build:main:en": "overpy compile -i src/main.opy -o build/en-US.ow -l en-US",
+    "build:main:en": "overpy compile -i src/en-US.main.opy -o build/en-US.ow -l en-US",
     "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
     "sync:title-data": "node tools/sync-title-data.mjs",
     "grant:title": "node tools/grant-player-title.mjs",

@@ -271,45 +271,8 @@ rule STR_LICENSE_PERMIT:
 #!include "blacklist/init.opy"
 
 #!include "utilities/system/removeFromBlacklist.opy"
-    
-#!include "env/game.opy"
 
-#!define DATA_BLIZZARD_WORLD ["", "", ""]
-#!define DATA_DORADO ["", "", ""]
-#!define DATA_EICHENWALDE ["", "", ""]
-#!define DATA_WATCHPOINT_GIBRALTAR ["", "", ""]
-#!define DATA_HAVANA ["", "", ""]
-#!define DATA_HOLLYWOOD ["", "", ""]
-#!define DATA_HORIZON_LUNAR_COLONY ["", "", ""]
-#!define DATA_JUNKERTOWN ["", "", ""]
-#!define DATA_KINGS_ROW ["", "", ""]
-#!define DATA_MIDTOWN ["", "", ""]
-#!define DATA_NUMBANI ["", "", ""]
-#!define DATA_PARAISO ["", "", ""]
-#!define DATA_PARIS ["", "", ""]
-#!define DATA_RIALTO ["", "", ""]
-#!define DATA_ROUTE66 ["", "", ""]
-#!define DATA_SHAMBALI_MONASTERY ["", "", ""]
-#!define DATA_TEMPLE_OF_ANUBIS ["", "", ""]
-#!define DATA_VOLSKAYA ["", "", ""]
-#!define DATA_ESPERANCA ["", "", ""]
-#!define DATA_COLOSSEO ["", "", ""]
-#!define DATA_RUNASAPI ["", "", ""]
-#!define DATA_NEW_QUEEN_STREET ["", "", ""]
-#!define DATA_CIRCUIT_ROYAL ["", "", ""]
-#!define DATA_HANAMURA ["", "", ""]
-#!define DATA_ILIOS ["", "", ""]
-#!define DATA_LIJIANG_TOWER ["", "", ""]
-#!define DATA_SAMOA ["", "", ""]
-#!define DATA_BUSAN ["", "", ""]
-#!define DATA_OASIS ["", "", ""]
-#!define DATA_NEW_JUNK_CITY ["", "", ""]
-#!define DATA_NEPAL ["", "", ""]
-#!define DATA_THRONE_OF_ANUBIS ["", "", ""]
-#!define DATA_HANAOKA ["", "", ""]
-#!define DATA_SURAVASA ["", "", ""]
-#!define DATA_AYUTTHAYA ["", "", ""]
-#!define DATA_AATLIS ["", "", ""]
+#!include "env/game.opy"
 
 #!include "events/init/detectFlag.opy"
 

@@ -273,7 +273,7 @@
 
 # Ending Hint
 # {0}=Icon
-#!define STR_MSG_WIN_HINT "  {0} You have completed the run! Join our Discord to claim your title!"
+#!define STR_MSG_WIN_HINT "  {0} You have completed the run! Join our Discord to share your clear with the community!"
 # ------------------------------------------------
 # System Text - Restarting
 # ------------------------------------------------
