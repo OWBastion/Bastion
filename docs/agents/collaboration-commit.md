@@ -23,7 +23,8 @@ Use a compact three-axis label model for issues and pull requests:
 1. `type/*` for the main work category.
 2. `status/*` for the current workflow state.
 3. `priority/*` for urgency and scheduling order.
-4. Domain labels such as `event` and `map` may be added alongside the three axes.
+4. Domain labels such as `event` and `map` are plain labels and do not consume a three-axis slot.
+5. Auxiliary labels such as `question`, `help wanted`, `good first issue`, `codex`, `dependencies`, `github_actions`, and `javascript` may be added when they add routing value.
 
 Current canonical label set:
 
@@ -42,10 +43,13 @@ Current canonical label set:
 - `priority/p1`
 - `priority/p2`
 - `priority/p3`
+- `event`
+- `map`
 
 Usage constraints:
 
 1. Apply at most one label from each axis on the same issue or pull request.
 2. For new issues, prefer setting `type/*` and `priority/*` during triage.
 3. For new pull requests, prefer setting `type/*` and `status/need-review`.
-4. Before merge, switch the workflow label to `status/ready-to-merge` if review is complete.
+4. Use `event` and `map` only for domain routing; do not encode those domains inside `type/*`.
+5. Before merge, switch the workflow label to `status/ready-to-merge` if review is complete.
