@@ -35,7 +35,7 @@
 
 ## 核心全局数据结构
 
-入口文件定义了完整的 `globalvar` / `playervar` 索引表，重点包含：
+入口文件通过共享/增量变量 include 形成完整的 `globalvar` / `playervar` 索引表，重点包含：
 
 - 地图点位：`bastionPosition`, `endPosition`, `controlJumpPosition`, `controlRespawnPosition`
 - 事件池：`buffEvent/debuffEvent/mechEvent` 与对应 `*Id`
