@@ -278,7 +278,7 @@ rule "winners earn their ult once per minute":
 #!include "effects/player.opy"
 
 #!include "player/status.opy"
-#!include "player/init_en-US.opy"
+#!include "player/init.opy"
 
 rule "auto reboot":
     @Condition getTotalTimeElapsed() >= rebootTime - 60
@@ -287,4 +287,4 @@ rule "auto reboot":
     wait(60)
     restartMatch()
 
-#!include "utilities/dev_support/devTool_en-US.opy"
+#!include "utilities/dev_support/devTool.opy"
