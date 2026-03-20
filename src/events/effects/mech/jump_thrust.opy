@@ -6,9 +6,12 @@ rule "[VishkarEvent]: 屁动力":
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.JUMP_THRUST, eventPlayer.isHoldingButton(Button.JUMP)]) == true
     
+    if eventPlayer.mod_dmg_taken != 0:
+        goto lb_1
     eventPlayer.mod_dmg_taken = EVT_MECH_5_DMG_TAKEN
     updatePlayerStats()
 
+    lb_1:
     eventPlayer.applyImpulse(eventPlayer.getFacingDirection(), EVT_MECH_5_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     wait()
     if ruleCondition:
