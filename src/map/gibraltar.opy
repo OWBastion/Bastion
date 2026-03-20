@@ -7,7 +7,7 @@ rule "map - watchpoint gibraltar":
     @Condition __currentMap___ == Map.WATCHPOINT_GIBRALTAR
     
     __currentMapText___ = "直布罗陀"
-    if evalOnce(random.randint(0, 1)) == 0:
+    if random.randint(0, 1) == 0:
         __currentMapPioneerText___ = "守望先锋"
         __currentPioneerText___ = ""
     else:
