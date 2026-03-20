@@ -64,6 +64,7 @@ Enable in Workshop settings.
   - Rules with identical gates are execution-order sensitive (earlier declaration runs first)
 - Module docs are under `docs/modules/`. Update related docs together with source changes when relevant.
 - Keep changes minimal; avoid unrelated include-order changes or broad formatting-only diffs.
+- Release validation baseline: use the latest Workshop code to open a new room. Existing rooms do not hot-reload new scripts, so in-room script replacement is not an acceptance path.
 
 ### CI Auto Release (pnpm)
 

@@ -14,10 +14,10 @@ def rejecSampling():
     eventPlayer.eventIsSelected = false
     if eventPlayer.eventType == 0:
         eventPlayer.eventTempId = [
-            id for id in buffEventId.exclude(eventPlayer.eventLastId)
-            if (buffEvent[id] != 0 and buffEvent[id].last() > 0)
+            id for id in buffEventId
+            if (buffEvent[id] != 0 and buffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
         ]
-        if len(eventPlayer.eventTempId) == 0:
+        if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = [id for id in buffEventId if (buffEvent[id] != 0 and buffEvent[id].last() > 0)]
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
@@ -33,10 +33,10 @@ def rejecSampling():
             eventPlayer.eventId = eventPlayer.eventCandidateId
     elif eventPlayer.eventType == 1:
         eventPlayer.eventTempId = [
-            id for id in debuffEventId.exclude(eventPlayer.eventLastId)
-            if (debuffEvent[id] != 0 and debuffEvent[id].last() > 0)
+            id for id in debuffEventId
+            if (debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (1 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
         ]
-        if len(eventPlayer.eventTempId) == 0:
+        if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = [id for id in debuffEventId if (debuffEvent[id] != 0 and debuffEvent[id].last() > 0)]
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
@@ -52,10 +52,10 @@ def rejecSampling():
             eventPlayer.eventId = eventPlayer.eventCandidateId
     else:
         eventPlayer.eventTempId = [
-            id for id in mechEventId.exclude(eventPlayer.eventLastId)
-            if (mechEvent[id] != 0 and mechEvent[id].last() > 0)
+            id for id in mechEventId
+            if (mechEvent[id] != 0 and mechEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (2 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
         ]
-        if len(eventPlayer.eventTempId) == 0:
+        if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = [id for id in mechEventId if (mechEvent[id] != 0 and mechEvent[id].last() > 0)]
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:

@@ -32,7 +32,7 @@
 
 玩家态：
 
-- `eventId`, `eventLastId`, `eventType`, `eventDuration`, `eventDurationHud`
+- `eventId`, `eventLastId`（最近 N 次去重组合键数组，格式：`eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId`）, `eventType`, `eventDuration`, `eventDurationHud`
 - `eventCount[3]`（各类别计数）
 - `eventLucky`（幸运倾向累计）
 - `eventForceRoll/eventForceCount`（强制类别调试与作弊链）
@@ -74,6 +74,18 @@
 - `81~100`：Mech
 
 `rejectSampling` 通过 `random.uniform(0, eventWeight) < 当前事件权重` 决策是否命中，高权重更易命中。
+
+去重策略：
+
+- `eventLastId` 现为最近事件历史组合键数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 5），按 `eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId` 存储，避免不同类别同数值 ID 相互误排除。
+- 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
+- 当可用事件总量过少导致候选池为空时，会降级到仅按启用状态过滤，避免抽样中断。
+
+版本假设：
+
+- 本项目发布模型不支持将新脚本热更新到已运行房间；新脚本仅对使用新 code 新建的房间生效。
+- `eventLastId` 的结构兼容按“当前房间所运行脚本版本”定义，不承诺同房间跨版本在线迁移兼容。
+- 若需验证脚本更新后的事件链路，请使用新 code 重建房间后再测试。
 
 ## 事件效果层设计
 

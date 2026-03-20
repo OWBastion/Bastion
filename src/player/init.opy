@@ -12,6 +12,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     if not dlcVishkarEvent:
         goto lbl_0
     eventPlayer.eventId = -1
+    eventPlayer.eventLastId = []
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
     lbl_0:

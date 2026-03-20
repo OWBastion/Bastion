@@ -762,7 +762,6 @@ rule "[debug.opy]: player debug (Top Right)":
     #hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室距离 Y = {0}/{1}/{2}".format(eventPlayer.getPosition().y, controlRespawnPosition[0].y, distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[0].y, 0))), HudPosition.RIGHT, 32, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     #hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室距离 Z = {0}/{1}/{2}".format(eventPlayer.getPosition().z, controlRespawnPosition[0].z, distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[0].z))), HudPosition.RIGHT, 33, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前事件 = {0}/{1}".format(localPlayer.eventName, localPlayer.eventId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "上一个事件 = {0}/{1}".format(buffEvent[localPlayer.eventLastId][0], localPlayer.eventLastId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "最近事件Key(type*{0}+id) = {1}".format(EVT_DEDUP_TYPE_MULTIPLIER, localPlayer.eventLastId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室索引 = {0}".format(localPlayer.controlJumpIndex), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-
 
