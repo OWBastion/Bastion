@@ -46,7 +46,7 @@ jobs:
 
       - name: Setup pnpm
         if: steps.freshness.outputs.should_run == 'true'
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup Node.js
         if: steps.freshness.outputs.should_run == 'true'
