@@ -276,7 +276,7 @@ rule "winners earn their ult once per minute":
     @Condition eventPlayer.isUsingUltimate() == false
     
     eventPlayer.setUltCharge(eventPlayer.getUltCharge() + 5)
-    wait(3)
+    wait(3, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
         loop()
 
