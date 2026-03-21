@@ -165,6 +165,11 @@ function assertGrantableGeneralTitle(titleKey, titleByKey) {
   }
 
   const label = titleByKey.get(titleKey)?.label ?? '(unknown)';
+  if (titleKey === 'PIONEER') {
+    throw new Error(
+      `Restricted general title cannot be granted: key=${titleKey}, label=${label}, index=${restrictedIndex}. Use --map-pioneer <MAP_KEY_OR_LABEL> instead.`
+    );
+  }
   throw new Error(
     `Restricted general title cannot be granted: key=${titleKey}, label=${label}, index=${restrictedIndex}`
   );
@@ -246,11 +251,18 @@ function parseRequest(raw) {
           return x;
         })
       : [];
+    const mapPioneers = Array.isArray(item.mapPioneers)
+      ? item.mapPioneers.map((x) => {
+          ensureString(x, `players[${index}].mapPioneers must contain non-empty strings.`);
+          return x;
+        })
+      : [];
 
     return {
       name: item.name.trim(),
       generalTitles,
-      mapDominators
+      mapDominators,
+      mapPioneers
     };
   });
 
@@ -262,6 +274,7 @@ export function buildInteractiveRequest({
   playerName,
   generalTitles,
   mapDominators,
+  mapPioneers,
   mapKey,
   targetPlayers,
   options
@@ -286,14 +299,15 @@ export function buildInteractiveRequest({
         {
           name: playerName.trim(),
           generalTitles: normalizeStringList(generalTitles),
-          mapDominators: normalizeStringList(mapDominators)
+          mapDominators: normalizeStringList(mapDominators),
+          mapPioneers: normalizeStringList(mapPioneers)
         }
       ],
       options: requestOptions
     };
 
-    if (!req.players[0].generalTitles.length && !req.players[0].mapDominators.length) {
-      throw new Error('At least one general title or map dominator is required in player mode');
+    if (!req.players[0].generalTitles.length && !req.players[0].mapDominators.length && !req.players[0].mapPioneers.length) {
+      throw new Error('At least one general title, map dominator or map pioneer is required in player mode');
     }
 
     return req;
@@ -313,7 +327,8 @@ export function buildInteractiveRequest({
     players: players.map((name) => ({
       name,
       generalTitles: [],
-      mapDominators: [normalizedMapKey]
+      mapDominators: [normalizedMapKey],
+      mapPioneers: []
     })),
     options: requestOptions
   };
@@ -359,6 +374,7 @@ export function applyGrantRequest(sourceData, requestData) {
 
     const normalizedTitleKeys = reqPlayer.generalTitles.map((key) => normalizeTitleInput(key, titleKeySet, titlesByLabel));
     const normalizedMapKeys = reqPlayer.mapDominators.map((key) => normalizeMapInput(key, mapKeySet, mapByLabel));
+    const normalizedMapPioneerKeys = reqPlayer.mapPioneers.map((key) => normalizeMapInput(key, mapKeySet, mapByLabel));
 
     for (const titleKey of normalizedTitleKeys) {
       assertGrantableGeneralTitle(titleKey, titleByKey);
@@ -378,7 +394,7 @@ export function applyGrantRequest(sourceData, requestData) {
 
       if (addedConqueror || addedDominator) {
         if (!summary.mapAdds[mapKey]) {
-          summary.mapAdds[mapKey] = { CONQUEROR: [], DOMINATOR: [] };
+          summary.mapAdds[mapKey] = { PIONEER: [], CONQUEROR: [], DOMINATOR: [] };
         }
         if (addedConqueror) {
           summary.mapAdds[mapKey].CONQUEROR.push(reqPlayer.name);
@@ -386,6 +402,18 @@ export function applyGrantRequest(sourceData, requestData) {
         if (addedDominator) {
           summary.mapAdds[mapKey].DOMINATOR.push(reqPlayer.name);
         }
+      }
+    }
+
+    for (const mapKey of normalizedMapPioneerKeys) {
+      const mapItem = mapByKey.get(mapKey);
+      const addedPioneer = ensureInArray(mapItem.holders.PIONEER, reqPlayer.name);
+
+      if (addedPioneer) {
+        if (!summary.mapAdds[mapKey]) {
+          summary.mapAdds[mapKey] = { PIONEER: [], CONQUEROR: [], DOMINATOR: [] };
+        }
+        summary.mapAdds[mapKey].PIONEER.push(reqPlayer.name);
       }
     }
   }
@@ -531,6 +559,7 @@ export function parseCliArgs(argv) {
     interactive: false,
     generalTitles: [],
     generalTitleLabels: [],
+    mapPioneers: [],
     failOnMissingPlayer: false
   };
 
@@ -592,6 +621,16 @@ export function parseCliArgs(argv) {
       continue;
     }
 
+    if (token === '--map-pioneer') {
+      const value = argv[i + 1];
+      if (!value) {
+        throw new Error('Missing value for --map-pioneer');
+      }
+      args.mapPioneers.push(value);
+      i += 1;
+      continue;
+    }
+
     if (token === '--interactive') {
       args.interactive = true;
       continue;
@@ -628,13 +667,15 @@ export function validateCliArgs(args) {
     throw new Error('One mode is required: --interactive, --input <request.json>, --player-name <name>, or --player-id <id>');
   }
 
-  const directTitleCount = args.generalTitles.length + args.generalTitleLabels.length;
-  if (directMode && directTitleCount === 0) {
-    throw new Error('Direct player mode requires --general-title <TITLE_KEY> or --general-title-label <中文称号>');
+  const directGrantCount = args.generalTitles.length + args.generalTitleLabels.length + args.mapPioneers.length;
+  if (directMode && directGrantCount === 0) {
+    throw new Error(
+      'Direct player mode requires --general-title <TITLE_KEY> or --general-title-label <中文称号> or --map-pioneer <MAP_KEY_OR_LABEL>'
+    );
   }
 
-  if (!directMode && (args.generalTitles.length > 0 || args.generalTitleLabels.length > 0)) {
-    throw new Error('--general-title / --general-title-label can only be used in direct player mode');
+  if (!directMode && (args.generalTitles.length > 0 || args.generalTitleLabels.length > 0 || args.mapPioneers.length > 0)) {
+    throw new Error('--general-title / --general-title-label / --map-pioneer can only be used in direct player mode');
   }
 
   if (!directMode && args.failOnMissingPlayer) {
@@ -884,12 +925,18 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
         allowEmpty: true,
         ui
       });
+      const mapPioneerPicked = await askMultiChoice(rl, '选择地图开拓者（多选逗号，回车跳过）', mapOptions, {
+        allowZero: false,
+        allowEmpty: true,
+        ui
+      });
 
       requestPayload = {
         targetType: 'player',
         playerName: selectedPlayer[0],
         generalTitles: titlePicked.map((index) => sourceData.titles[index - 1].key),
-        mapDominators: mapPicked.map((index) => sourceData.mapTitles[index - 1].mapKey)
+        mapDominators: mapPicked.map((index) => sourceData.mapTitles[index - 1].mapKey),
+        mapPioneers: mapPioneerPicked.map((index) => sourceData.mapTitles[index - 1].mapKey)
       };
     } else {
       const mapPicked = await askSingleChoice(rl, '选择地图编号', mapOptions, { ui });
@@ -949,10 +996,10 @@ if (invokedPath === __filename) {
         console.log('  node tools/grant-player-title.mjs --input <request.json> [--dry-run]');
         console.log('  node tools/grant-player-title.mjs --interactive [--dry-run]');
         console.log(
-          '  node tools/grant-player-title.mjs --player-name <name> --general-title <TITLE_KEY> [--general-title <TITLE_KEY>] [--fail-on-missing-player] [--dry-run]'
+          '  node tools/grant-player-title.mjs --player-name <name> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--fail-on-missing-player] [--dry-run]'
         );
         console.log(
-          '  node tools/grant-player-title.mjs --player-id <id> --general-title-label <中文称号> [--general-title-label <中文称号>] [--dry-run]'
+          '  node tools/grant-player-title.mjs --player-id <id> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--dry-run]'
         );
         process.exit(0);
       }
@@ -995,6 +1042,7 @@ if (invokedPath === __filename) {
           targetType: 'player',
           playerName: targetName,
           generalTitles: [...new Set(mergedGeneralTitles)],
+          mapPioneers: [...new Set(args.mapPioneers)],
           mapDominators: [],
           options: {
             grantDifficultyFromMaps: false,

@@ -21,6 +21,7 @@ function buildFixture() {
   return {
     meta: { sourceLabel: 'x' },
     titles: [
+      { key: 'PIONEER', label: '开拓者', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
       { key: 'CHALLENGER_LEGEND', label: '难度挑战', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
       { key: 'TRAVELER_HELL', label: '地狱行者', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
       { key: 'ALL_IN_ONE', label: '全图征服', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
@@ -129,6 +130,7 @@ test('buildInteractiveRequest supports player mode with option selections', () =
     playerName: '嘤嘤嘤丶',
     generalTitles: ['HACKING', 'MANBA'],
     mapDominators: ['DATA_ROUTE66', 'DATA_VOLSKAYA'],
+    mapPioneers: ['DATA_HORIZON_LUNAR_COLONY'],
     options: {
       grantDifficultyFromMaps: false,
       autoMasteryMode: 'check_only'
@@ -139,7 +141,19 @@ test('buildInteractiveRequest supports player mode with option selections', () =
   assert.equal(req.players[0].name, '嘤嘤嘤丶');
   assert.deepEqual(req.players[0].generalTitles, ['HACKING', 'MANBA']);
   assert.deepEqual(req.players[0].mapDominators, ['DATA_ROUTE66', 'DATA_VOLSKAYA']);
+  assert.deepEqual(req.players[0].mapPioneers, ['DATA_HORIZON_LUNAR_COLONY']);
   assert.equal(req.options.autoMasteryMode, 'check_only');
+});
+
+test('cli args parse direct player mode with --map-pioneer', () => {
+  const args = parseCliArgs(['--player-name', '板鸭', '--map-pioneer', '66号公路', '--map-pioneer', 'DATA_VOLSKAYA']);
+  validateCliArgs(args);
+  assert.deepEqual(args.mapPioneers, ['66号公路', 'DATA_VOLSKAYA']);
+});
+
+test('cli args reject --map-pioneer outside direct player mode', () => {
+  const args = parseCliArgs(['--input', 'req.json', '--map-pioneer', 'DATA_ROUTE66']);
+  assert.throws(() => validateCliArgs(args), /can only be used in direct player mode/);
 });
 
 test('buildInteractiveRequest supports map mode with multi players', () => {
@@ -239,6 +253,31 @@ test('blocks restricted title label grant for index 0-14 set', () => {
     options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
   };
   assert.throws(() => applyGrantRequest(data, req), /Restricted general title cannot be granted/);
+});
+
+test('blocks pioneer as general title and suggests --map-pioneer', () => {
+  const data = buildFixture();
+  const req = {
+    players: [{ name: '老玩家', generalTitles: ['PIONEER'], mapDominators: [] }],
+    options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+  };
+  assert.throws(() => applyGrantRequest(data, req), /Use --map-pioneer <MAP_KEY_OR_LABEL> instead/);
+});
+
+test('grants map pioneer by map key or label and deduplicates', () => {
+  const data = buildFixture();
+  const req = {
+    players: [
+      { name: '老玩家', generalTitles: [], mapDominators: [], mapPioneers: ['DATA_ROUTE66', '66号公路'] },
+      { name: '板鸭', generalTitles: [], mapDominators: [], mapPioneers: ['66号公路'] }
+    ],
+    options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+  };
+
+  const { sourceData, summary } = applyGrantRequest(data, req);
+  const route66 = sourceData.mapTitles.find((item) => item.mapKey === 'DATA_ROUTE66');
+  assert.deepEqual(route66.holders.PIONEER, ['老玩家', '板鸭']);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.PIONEER, ['老玩家', '板鸭']);
 });
 
 test('maps alias to map key and auto-adds CONQUEROR when granting DOMINATOR', () => {
@@ -455,7 +494,7 @@ test('sync failure is surfaced after source write', async () => {
 
 test('interactive enter-to-skip uses defaults for optional prompts', async () => {
   const sourceData = buildFixture();
-  const readline = createScriptedReadline(['1', '1', '', '1', '', '']);
+  const readline = createScriptedReadline(['1', '1', '', '1', '', '', '']);
   const output = { isTTY: false };
 
   const request = await collectInteractiveRequest(sourceData, { readline, output });
@@ -466,7 +505,7 @@ test('interactive enter-to-skip uses defaults for optional prompts', async () =>
     failOnMissingPlayer: false
   });
   assert.deepEqual(request.players, [
-    { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'] }
+    { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'], mapPioneers: [] }
   ]);
 });
 
@@ -483,7 +522,7 @@ test('interactive flow can override defaults with explicit difficulty/mastery in
     failOnMissingPlayer: false
   });
   assert.deepEqual(request.players, [
-    { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'] }
+    { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'], mapPioneers: [] }
   ]);
 });
 
