@@ -356,6 +356,7 @@ export function applyGrantRequest(sourceData, requestData) {
     addedPlayers: [],
     generalTitleAdds: {},
     mapAdds: {},
+    masteryTitleRemovals: {},
     masteryCheck: {},
     options
   };
@@ -429,18 +430,59 @@ export function applyGrantRequest(sourceData, requestData) {
     }
   }
 
-  for (const reqPlayer of requestPlayers) {
-    const playerName = reqPlayer.name;
-    const playerRecord = playersByName.get(playerName).player;
+  const mapCount = sourceData.mapTitles.length;
+  const masteryStatsByPlayer = new Map();
 
+  // Full-scan mastery reconciliation: remove global mastery titles that no longer meet map holders criteria.
+  for (const player of sourceData.players) {
     const conqCount = sourceData.mapTitles.reduce(
-      (count, mapItem) => count + (mapItem.holders.CONQUEROR.includes(playerName) ? 1 : 0),
+      (count, mapItem) => count + (mapItem.holders.CONQUEROR.includes(player.name) ? 1 : 0),
       0
     );
     const domCount = sourceData.mapTitles.reduce(
-      (count, mapItem) => count + (mapItem.holders.DOMINATOR.includes(playerName) ? 1 : 0),
+      (count, mapItem) => count + (mapItem.holders.DOMINATOR.includes(player.name) ? 1 : 0),
       0
     );
+    const allConqueror = conqCount === mapCount;
+    const allDominator = domCount === mapCount;
+
+    masteryStatsByPlayer.set(player.name, {
+      allConqueror,
+      allDominator,
+      conquerorCount: conqCount,
+      dominatorCount: domCount,
+      mapCount
+    });
+
+    if (!allConqueror) {
+      const beforeLength = player.titleKeys.length;
+      player.titleKeys = player.titleKeys.filter((key) => key !== 'ALL_IN_ONE');
+      if (player.titleKeys.length !== beforeLength) {
+        if (!summary.masteryTitleRemovals[player.name]) {
+          summary.masteryTitleRemovals[player.name] = [];
+        }
+        summary.masteryTitleRemovals[player.name].push('ALL_IN_ONE');
+      }
+    }
+
+    if (!allDominator) {
+      const beforeLength = player.titleKeys.length;
+      player.titleKeys = player.titleKeys.filter((key) => key !== 'SKY');
+      if (player.titleKeys.length !== beforeLength) {
+        if (!summary.masteryTitleRemovals[player.name]) {
+          summary.masteryTitleRemovals[player.name] = [];
+        }
+        summary.masteryTitleRemovals[player.name].push('SKY');
+      }
+    }
+  }
+
+  for (const reqPlayer of requestPlayers) {
+    const playerName = reqPlayer.name;
+    const playerRecord = playersByName.get(playerName).player;
+    const playerMastery = masteryStatsByPlayer.get(playerName);
+    const conqCount = playerMastery.conquerorCount;
+    const domCount = playerMastery.dominatorCount;
 
     if (options.grantDifficultyFromMaps) {
       if (conqCount > 0) {
@@ -463,8 +505,8 @@ export function applyGrantRequest(sourceData, requestData) {
       }
     }
 
-    const allConqueror = conqCount === sourceData.mapTitles.length;
-    const allDominator = domCount === sourceData.mapTitles.length;
+    const allConqueror = playerMastery.allConqueror;
+    const allDominator = playerMastery.allDominator;
 
     if (options.autoMasteryMode === 'grant') {
       if (allConqueror) {
@@ -494,7 +536,7 @@ export function applyGrantRequest(sourceData, requestData) {
         allDominator,
         conquerorCount: conqCount,
         dominatorCount: domCount,
-        mapCount: sourceData.mapTitles.length
+        mapCount
       };
     }
   }
@@ -559,7 +601,8 @@ export async function grantPlayerTitle({
     preview: {
       addedPlayers: summary.addedPlayers,
       generalTitleAdds: summary.generalTitleAdds,
-      mapAdds: summary.mapAdds
+      mapAdds: summary.mapAdds,
+      masteryTitleRemovals: summary.masteryTitleRemovals
     }
   };
 }

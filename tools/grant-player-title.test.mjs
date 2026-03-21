@@ -369,6 +369,65 @@ test('grantDifficultyFromMaps and autoMasteryMode grant behave as expected', () 
   assert.equal(summary.masteryCheck['老玩家'].allDominator, true);
 });
 
+test('full-scan mastery reconciliation removes stale ALL_IN_ONE and SKY globally', () => {
+  const data = buildFixture();
+  data.players.push({ name: '历史玩家', titleKeys: ['ALL_IN_ONE', 'SKY'] });
+
+  const req = {
+    players: [
+      {
+        name: '老玩家',
+        generalTitles: ['HACKING'],
+        mapDominators: []
+      }
+    ],
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'off'
+    }
+  };
+
+  const { sourceData, summary } = applyGrantRequest(data, req);
+  const stalePlayer = sourceData.players.find((item) => item.name === '历史玩家');
+
+  assert.deepEqual(stalePlayer.titleKeys, []);
+  assert.deepEqual(summary.masteryTitleRemovals['历史玩家'], ['ALL_IN_ONE', 'SKY']);
+});
+
+test('autoMasteryMode=grant re-grants eligible mastery titles after reconciliation', () => {
+  const data = buildFixture();
+  data.mapTitles = data.mapTitles.map((mapItem) => ({
+    ...mapItem,
+    holders: {
+      ...mapItem.holders,
+      CONQUEROR: [...new Set([...mapItem.holders.CONQUEROR, '老玩家'])],
+      DOMINATOR: [...new Set([...mapItem.holders.DOMINATOR, '老玩家'])]
+    }
+  }));
+  data.players[0].titleKeys = ['ALL_IN_ONE', 'SKY'];
+
+  const req = {
+    players: [
+      {
+        name: '老玩家',
+        generalTitles: [],
+        mapDominators: []
+      }
+    ],
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'grant'
+    }
+  };
+
+  const { sourceData, summary } = applyGrantRequest(data, req);
+  const player = sourceData.players.find((item) => item.name === '老玩家');
+
+  assert.equal(player.titleKeys.includes('ALL_IN_ONE'), true);
+  assert.equal(player.titleKeys.includes('SKY'), true);
+  assert.equal(summary.masteryTitleRemovals['老玩家'], undefined);
+});
+
 test('dry-run does not write source file for input mode', async () => {
   const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'grant-title-'));
   const sourceFile = path.join(tmpDir, 'title-source.json');
@@ -427,6 +486,29 @@ test('dry-run does not write source file for interactive-equivalent requestData'
     executed: false,
     reason: 'dry_run'
   });
+});
+
+test('dry-run preview includes masteryTitleRemovals for stale holders', async () => {
+  const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'grant-title-prune-dry-'));
+  const sourceFile = path.join(tmpDir, 'title-source.json');
+
+  const source = buildFixture();
+  source.players.push({ name: '历史玩家', titleKeys: ['ALL_IN_ONE', 'SKY'] });
+  await fs.writeFile(sourceFile, `${JSON.stringify(source, null, 2)}\n`, 'utf8');
+
+  const before = await fs.readFile(sourceFile, 'utf8');
+  const result = await grantPlayerTitle({
+    sourceFile,
+    requestData: {
+      players: [{ name: '老玩家', generalTitles: [], mapDominators: [] }],
+      options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+    },
+    dryRun: true
+  });
+  const after = await fs.readFile(sourceFile, 'utf8');
+
+  assert.equal(before, after);
+  assert.deepEqual(result.preview.masteryTitleRemovals['历史玩家'], ['ALL_IN_ONE', 'SKY']);
 });
 
 test('non-dry-run with changes triggers title sync once', async () => {
