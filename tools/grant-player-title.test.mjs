@@ -173,6 +173,22 @@ test('buildInteractiveRequest supports map mode with multi players', () => {
     ['板鸭', '蝎子莱莱', '嘤嘤嘤丶']
   );
   assert.deepEqual(req.players[0].mapDominators, ['DATA_VOLSKAYA']);
+  assert.deepEqual(req.players[0].mapPioneers, []);
+});
+
+test('buildInteractiveRequest supports map mode pioneer switch', () => {
+  const req = buildInteractiveRequest({
+    targetType: 'map',
+    mapKey: 'DATA_VOLSKAYA',
+    targetPlayers: ['板鸭'],
+    mapPioneersByMapMode: true,
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'off'
+    }
+  });
+
+  assert.deepEqual(req.players, [{ name: '板鸭', generalTitles: [], mapDominators: [], mapPioneers: ['DATA_VOLSKAYA'] }]);
 });
 
 test('adds missing players at tail and deduplicates general titles', () => {
@@ -277,7 +293,27 @@ test('grants map pioneer by map key or label and deduplicates', () => {
   const { sourceData, summary } = applyGrantRequest(data, req);
   const route66 = sourceData.mapTitles.find((item) => item.mapKey === 'DATA_ROUTE66');
   assert.deepEqual(route66.holders.PIONEER, ['老玩家', '板鸭']);
+  assert.deepEqual(route66.holders.DOMINATOR, ['老玩家', '板鸭']);
+  assert.deepEqual(route66.holders.CONQUEROR, ['老玩家', '板鸭']);
   assert.deepEqual(summary.mapAdds.DATA_ROUTE66.PIONEER, ['老玩家', '板鸭']);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.DOMINATOR, ['老玩家', '板鸭']);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.CONQUEROR, ['板鸭']);
+});
+
+test('map pioneer grant only backfills missing dominator/conqueror slots', () => {
+  const data = buildFixture();
+  data.mapTitles[0].holders.DOMINATOR = ['老玩家'];
+  data.mapTitles[0].holders.CONQUEROR = ['老玩家'];
+
+  const req = {
+    players: [{ name: '老玩家', generalTitles: [], mapDominators: [], mapPioneers: ['DATA_ROUTE66'] }],
+    options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+  };
+
+  const { summary } = applyGrantRequest(data, req);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.PIONEER, ['老玩家']);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.DOMINATOR, []);
+  assert.deepEqual(summary.mapAdds.DATA_ROUTE66.CONQUEROR, []);
 });
 
 test('maps alias to map key and auto-adds CONQUEROR when granting DOMINATOR', () => {
@@ -511,7 +547,7 @@ test('interactive enter-to-skip uses defaults for optional prompts', async () =>
 
 test('interactive flow can override defaults with explicit difficulty/mastery input', async () => {
   const sourceData = buildFixture();
-  const readline = createScriptedReadline(['2', '1', '1', '', '2', '3']);
+  const readline = createScriptedReadline(['2', '1', '1', '', '2', '2', '3']);
   const output = { isTTY: false };
 
   const request = await collectInteractiveRequest(sourceData, { readline, output });
@@ -522,7 +558,7 @@ test('interactive flow can override defaults with explicit difficulty/mastery in
     failOnMissingPlayer: false
   });
   assert.deepEqual(request.players, [
-    { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'], mapPioneers: [] }
+    { name: '老玩家', generalTitles: [], mapDominators: [], mapPioneers: ['DATA_ROUTE66'] }
   ]);
 });
 

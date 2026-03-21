@@ -277,6 +277,7 @@ export function buildInteractiveRequest({
   mapPioneers,
   mapKey,
   targetPlayers,
+  mapPioneersByMapMode = false,
   options
 }) {
   const normalizedTargetType = String(targetType ?? '').trim().toLowerCase();
@@ -327,8 +328,8 @@ export function buildInteractiveRequest({
     players: players.map((name) => ({
       name,
       generalTitles: [],
-      mapDominators: [normalizedMapKey],
-      mapPioneers: []
+      mapDominators: mapPioneersByMapMode ? [] : [normalizedMapKey],
+      mapPioneers: mapPioneersByMapMode ? [normalizedMapKey] : []
     })),
     options: requestOptions
   };
@@ -408,12 +409,22 @@ export function applyGrantRequest(sourceData, requestData) {
     for (const mapKey of normalizedMapPioneerKeys) {
       const mapItem = mapByKey.get(mapKey);
       const addedPioneer = ensureInArray(mapItem.holders.PIONEER, reqPlayer.name);
+      const addedDominator = ensureInArray(mapItem.holders.DOMINATOR, reqPlayer.name);
+      const addedConqueror = ensureInArray(mapItem.holders.CONQUEROR, reqPlayer.name);
 
-      if (addedPioneer) {
+      if (addedPioneer || addedDominator || addedConqueror) {
         if (!summary.mapAdds[mapKey]) {
           summary.mapAdds[mapKey] = { PIONEER: [], CONQUEROR: [], DOMINATOR: [] };
         }
-        summary.mapAdds[mapKey].PIONEER.push(reqPlayer.name);
+        if (addedPioneer) {
+          summary.mapAdds[mapKey].PIONEER.push(reqPlayer.name);
+        }
+        if (addedDominator) {
+          summary.mapAdds[mapKey].DOMINATOR.push(reqPlayer.name);
+        }
+        if (addedConqueror) {
+          summary.mapAdds[mapKey].CONQUEROR.push(reqPlayer.name);
+        }
       }
     }
   }
@@ -941,11 +952,23 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
     } else {
       const mapPicked = await askSingleChoice(rl, '选择地图编号', mapOptions, { ui });
       const selectedPlayers = await pickPlayersByMenu(rl, playerNames, { allowCreate: true, multi: true, ui });
+      const pioneerChoice = await askSingleChoice(
+        rl,
+        '是否发放开拓者（会自动补发主宰+征服者，回车默认：否）',
+        ['否', '是'],
+        {
+          allowEmpty: true,
+          defaultChoice: 1,
+          defaultLabel: '否',
+          ui
+        }
+      );
 
       requestPayload = {
         targetType: 'map',
         mapKey: sourceData.mapTitles[mapPicked - 1].mapKey,
-        targetPlayers: selectedPlayers
+        targetPlayers: selectedPlayers,
+        mapPioneersByMapMode: pioneerChoice === 2
       };
     }
 
