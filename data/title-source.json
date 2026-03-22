@@ -900,7 +900,9 @@
         "SPEEDRUN",
         "HARD_TO_KILL",
         "HACKING",
-        "UNLUCKY"
+        "UNLUCKY",
+        "ALL_IN_ONE",
+        "SKY"
       ]
     },
     {
