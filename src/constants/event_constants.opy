@@ -344,6 +344,15 @@
 # Weight（权重）
 #!define EVT_BUFF_29_WEIGHT 0.5
 
+# --- ID 30: 誓约 ---
+# Duration（秒）
+#!define EVT_BUFF_30_DURATION 120
+# Weight（权重）
+#!define EVT_BUFF_30_WEIGHT 1.6
+#!define EVT_30_TARGET_DURATION 4
+#!define EVT_30_DMG_TAKEN -30
+#!define EVT_30_SPEED_BOOST 30
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10

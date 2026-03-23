@@ -180,6 +180,8 @@
 #!define STR_EVT_BUFF_28_DESC "获得{0}%击退抵抗\n生命值低于{1}%时，回复至{3}%生命值\n{4}秒冷却"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时获得隐身效果"
+#!define STR_EVT_BUFF_30_TITLE "誓约"
+#!define STR_EVT_BUFF_30_DESC "治疗其他友方时，使其获得{0}秒{1}%伤害减免与{2}%移速"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)

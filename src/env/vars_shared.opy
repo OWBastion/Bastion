@@ -177,4 +177,5 @@ playervar altFormTrigger 111
 playervar tempUnlockId
 playervar earnedAchievements
 playervar menuHeroIndex
-
+playervar oathActive
+playervar oathExpireAt

@@ -174,6 +174,8 @@
 #!define STR_EVT_BUFF_28_DESC "Gain {0}% knockback resistance.\nBelow {1}% HP, restore {3}% max HP over {2}s.\nBuilt-in {4}s cooldown."
 #!define STR_EVT_BUFF_29_TITLE "Master Magician"
 #!define STR_EVT_BUFF_29_DESC "Using emotes grants invisibility."
+#!define STR_EVT_BUFF_30_TITLE "Oath"
+#!define STR_EVT_BUFF_30_DESC "Healing another ally grants them {0}s of {1}% damage reduction and {2}% speed."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

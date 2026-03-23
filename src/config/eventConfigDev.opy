@@ -203,6 +203,15 @@ rule "initialize event array":
     buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC, EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
     lbl_123:
+
+    # ================================================
+    # Pack 5: Buffs
+    # ================================================
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_BUFF, STR_EVT_BUFF_30_TITLE, true, BuffEventId.OATH):
+        goto lbl_124
+    buffEvent[BuffEventId.OATH] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(EVT_30_TARGET_DURATION, negToPos(EVT_30_DMG_TAKEN), EVT_30_SPEED_BOOST), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.OATH)
+    lbl_124:
     
     # ================================================
     # 减益事件 (Debuff Events)

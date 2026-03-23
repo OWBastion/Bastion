@@ -64,6 +64,8 @@ enum BuffEventId:
     TENACITY
     # legacy numeric id: 29
     MAGIC_MASTER
+    # legacy numeric id: 30
+    OATH
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

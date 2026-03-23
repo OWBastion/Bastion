@@ -367,7 +367,9 @@ rule "initialize event array":
         goto lbl_4
 
     # ================================================
-    # Pack 5: Reserved for 5.0 event development
+    # Pack 5: Buffs
     # ================================================
+    buffEvent[BuffEventId.OATH] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(EVT_30_TARGET_DURATION, negToPos(EVT_30_DMG_TAKEN), EVT_30_SPEED_BOOST), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.OATH)
 
     lbl_4:

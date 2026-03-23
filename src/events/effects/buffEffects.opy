@@ -41,3 +41,4 @@
 #!include "buff/draw_fire.opy"
 #!include "buff/tenacity.opy"
 #!include "buff/magic_master.opy"
+#!include "buff/oath.opy"
