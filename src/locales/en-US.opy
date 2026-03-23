@@ -89,7 +89,7 @@
 #!define STR_EVT_BUFF_14_TITLE "Will to Win"
 #!define STR_EVT_BUFF_14_DESC "Triggered below 30% HP: 5s damage immunity, cleanse debuffs, restore lost HP."
 #!define STR_EVT_BUFF_15_TITLE "Mission: Marathon"
-#!define STR_EVT_BUFF_15_DESC "Move continuously for 42.195s to permanently gain 5% speed."
+#!define STR_EVT_BUFF_15_DESC "Move continuously for 42s to permanently gain {1}% speed."
 #!define STR_EVT_BUFF_16_TITLE "Heartsteel Pro"
 #!define STR_EVT_BUFF_16_DESC "Gain max HP based on Heartsteel stacks (Stacks x 2)."
 #!define STR_EVT_BUFF_17_TITLE "Stat Check"

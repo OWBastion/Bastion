@@ -94,7 +94,7 @@
 #!define STR_EVT_BUFF_14_TITLE "胜利意志"
 #!define STR_EVT_BUFF_14_DESC "生命值低于{0}%触发\n获得{1}秒无敌并清除负面状态"
 #!define STR_EVT_BUFF_15_TITLE "任务：菲迪皮德斯之力"
-#!define STR_EVT_BUFF_15_DESC "持续移动{0}秒后永久获得{1}%移速加成"
+#!define STR_EVT_BUFF_15_DESC "持续移动42秒后永久获得{1}%移速加成"
 #!define STR_EVT_BUFF_16_TITLE "心之钢 Pro"
 #!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢\n基于层数临时提升最大生命值\n数值为心之钢层数×{1}"
 #!define STR_EVT_BUFF_17_TITLE "数值之力"
