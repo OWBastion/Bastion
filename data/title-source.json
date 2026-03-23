@@ -895,14 +895,14 @@
     {
       "name": "EruIluvatar",
       "titleKeys": [
+        "ALL_IN_ONE",
+        "SKY",
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL",
         "SPEEDRUN",
         "HARD_TO_KILL",
         "HACKING",
-        "UNLUCKY",
-        "ALL_IN_ONE",
-        "SKY"
+        "UNLUCKY"
       ]
     },
     {
@@ -1028,6 +1028,8 @@
     {
       "name": "嘤嘤嘤丶",
       "titleKeys": [
+        "ALL_IN_ONE",
+        "SKY",
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL",
         "HACKING",
@@ -1036,9 +1038,7 @@
         "LUCKY_STAR",
         "MANBA",
         "UNLUCKY",
-        "DODGE_ULTIMATE",
-        "ALL_IN_ONE",
-        "SKY"
+        "DODGE_ULTIMATE"
       ]
     },
     {
