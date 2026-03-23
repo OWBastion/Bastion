@@ -1023,27 +1023,9 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
       };
     }
 
-    const difficultyChoice = await askSingleChoice(rl, '自动补发难度挑战称号（回车默认：否）', ['否', '是'], {
-      allowEmpty: true,
-      defaultChoice: 1,
-      defaultLabel: '否',
-      ui
-    });
-    const masteryChoice = await askSingleChoice(
-      rl,
-      '地图精通模式（回车默认：check_only）',
-      ['off', 'check_only', 'grant'],
-      {
-        allowEmpty: true,
-        defaultChoice: 2,
-        defaultLabel: 'check_only',
-        ui
-      }
-    );
-
     const options = {
-      grantDifficultyFromMaps: difficultyChoice === 2,
-      autoMasteryMode: ['off', 'check_only', 'grant'][masteryChoice - 1]
+      grantDifficultyFromMaps: true,
+      autoMasteryMode: 'grant'
     };
 
     return buildInteractiveRequest({
