@@ -22,10 +22,18 @@ function buildFixture() {
     meta: { sourceLabel: 'x' },
     titles: [
       { key: 'PIONEER', label: '开拓者', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
-      { key: 'CHALLENGER_LEGEND', label: '难度挑战', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
+      {
+        key: 'CHALLENGER_LEGEND',
+        label: '难度挑战',
+        category: 'c',
+        condition: 'd',
+        availability: 'active',
+        displayExpr: '"a"',
+        colorExpr: 'vect(1, 2, 3)'
+      },
       { key: 'TRAVELER_HELL', label: '地狱行者', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
-      { key: 'ALL_IN_ONE', label: '全图征服', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
-      { key: 'SKY', label: '全图主宰', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
+      { key: 'ALL_IN_ONE', label: '全图征服', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'breathRed' },
+      { key: 'SKY', label: '全图主宰', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'breathPurple' },
       { key: 'MANBA', label: 'What can i say', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
       { key: 'UNLUCKY', label: '倒霉蛋', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
       { key: 'HACKING', label: '开了', category: 'c', condition: 'd', availability: 'active', displayExpr: '"a"', colorExpr: 'null' },
@@ -369,6 +377,53 @@ test('grantDifficultyFromMaps and autoMasteryMode grant behave as expected', () 
   assert.equal(summary.masteryCheck['老玩家'].allDominator, true);
 });
 
+test('reorders breath titles before non-animated titles for requested players only', () => {
+  const data = buildFixture();
+  data.players[0].titleKeys = ['MANBA', 'ALL_IN_ONE', 'HACKING', 'SKY', 'CHALLENGER_LEGEND'];
+  data.players[1].titleKeys = ['MANBA', 'ALL_IN_ONE', 'HACKING', 'SKY'];
+  data.mapTitles = data.mapTitles.map((mapItem) => ({
+    ...mapItem,
+    holders: {
+      ...mapItem.holders,
+      CONQUEROR: [...new Set([...mapItem.holders.CONQUEROR, '老玩家', '板鸭'])],
+      DOMINATOR: [...new Set([...mapItem.holders.DOMINATOR, '老玩家', '板鸭'])]
+    }
+  }));
+
+  const req = {
+    players: [{ name: '老玩家', generalTitles: [], mapDominators: [] }],
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'off'
+    }
+  };
+
+  const { sourceData } = applyGrantRequest(data, req);
+  const requested = sourceData.players.find((item) => item.name === '老玩家');
+  const notRequested = sourceData.players.find((item) => item.name === '板鸭');
+
+  assert.deepEqual(requested.titleKeys, ['ALL_IN_ONE', 'SKY', 'MANBA', 'HACKING', 'CHALLENGER_LEGEND']);
+  assert.deepEqual(notRequested.titleKeys, ['MANBA', 'ALL_IN_ONE', 'HACKING', 'SKY']);
+});
+
+test('exempt players keep original title order even when requested', () => {
+  const data = buildFixture();
+  data.players.push({ name: '他又', titleKeys: ['MANBA', 'ALL_IN_ONE', 'HACKING', 'SKY'] });
+
+  const req = {
+    players: [{ name: '他又', generalTitles: [], mapDominators: [] }],
+    options: {
+      grantDifficultyFromMaps: false,
+      autoMasteryMode: 'off'
+    }
+  };
+
+  const { sourceData } = applyGrantRequest(data, req);
+  const exempt = sourceData.players.find((item) => item.name === '他又');
+
+  assert.deepEqual(exempt.titleKeys, ['MANBA', 'ALL_IN_ONE', 'HACKING', 'SKY']);
+});
+
 test('full-scan mastery reconciliation removes stale ALL_IN_ONE and SKY globally', () => {
   const data = buildFixture();
   data.players.push({ name: '历史玩家', titleKeys: ['ALL_IN_ONE', 'SKY'] });
@@ -645,16 +700,16 @@ test('sync failure is surfaced after source write', async () => {
   assert.equal(saved.players.at(-1).name, '新玩家');
 });
 
-test('interactive enter-to-skip uses defaults for optional prompts', async () => {
+test('interactive enter-to-skip uses fixed options defaults', async () => {
   const sourceData = buildFixture();
-  const readline = createScriptedReadline(['1', '1', '', '1', '', '', '']);
+  const readline = createScriptedReadline(['1', '1', '', '1', '']);
   const output = { isTTY: false };
 
   const request = await collectInteractiveRequest(sourceData, { readline, output });
 
   assert.deepEqual(request.options, {
-    grantDifficultyFromMaps: false,
-    autoMasteryMode: 'check_only',
+    grantDifficultyFromMaps: true,
+    autoMasteryMode: 'grant',
     failOnMissingPlayer: false
   });
   assert.deepEqual(request.players, [
@@ -662,9 +717,9 @@ test('interactive enter-to-skip uses defaults for optional prompts', async () =>
   ]);
 });
 
-test('interactive flow can override defaults with explicit difficulty/mastery input', async () => {
+test('interactive map flow keeps pioneer choice while using fixed options', async () => {
   const sourceData = buildFixture();
-  const readline = createScriptedReadline(['2', '1', '1', '', '2', '2', '3']);
+  const readline = createScriptedReadline(['2', '1', '1', '', '2']);
   const output = { isTTY: false };
 
   const request = await collectInteractiveRequest(sourceData, { readline, output });

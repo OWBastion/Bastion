@@ -159,6 +159,28 @@ function ensureInArray(arr, value) {
   return false;
 }
 
+function reorderAnimatedTitlesFirst(titleKeys, animatedTitleKeySet) {
+  if (!Array.isArray(titleKeys) || titleKeys.length < 2 || animatedTitleKeySet.size === 0) {
+    return titleKeys;
+  }
+
+  const animated = [];
+  const nonAnimated = [];
+  for (const titleKey of titleKeys) {
+    if (animatedTitleKeySet.has(titleKey)) {
+      animated.push(titleKey);
+    } else {
+      nonAnimated.push(titleKey);
+    }
+  }
+
+  if (!animated.length || !nonAnimated.length) {
+    return titleKeys;
+  }
+
+  return [...animated, ...nonAnimated];
+}
+
 function assertGrantableGeneralTitle(titleKey, titleByKey) {
   const restrictedIndex = RESTRICTED_GENERAL_TITLE_INDEX_BY_KEY.get(titleKey);
   if (restrictedIndex === undefined) {
@@ -345,6 +367,11 @@ export function applyGrantRequest(sourceData, requestData) {
   const { players: requestPlayers, options } = parseRequest(requestData);
 
   const titleKeySet = new Set(sourceData.titles.map((item) => item.key));
+  const animatedTitleKeySet = new Set(
+    sourceData.titles
+      .filter((item) => String(item.colorExpr ?? '').trim().toLowerCase().startsWith('breath'))
+      .map((item) => item.key)
+  );
   const mapKeySet = new Set(sourceData.mapTitles.map((item) => item.mapKey));
   const titlesByLabel = new Map(sourceData.titles.map((item) => [item.label, item.key]));
   const titleByKey = new Map(sourceData.titles.map((item) => [item.key, item]));
@@ -546,6 +573,19 @@ export function applyGrantRequest(sourceData, requestData) {
         mapCount
       };
     }
+  }
+
+  for (const playerName of new Set(requestPlayers.map((item) => item.name))) {
+    if (MASTERY_PRUNE_EXEMPT_PLAYERS.has(playerName)) {
+      continue;
+    }
+
+    const playerRecord = playersByName.get(playerName)?.player;
+    if (!playerRecord || !Array.isArray(playerRecord.titleKeys) || playerRecord.titleKeys.length < 2) {
+      continue;
+    }
+
+    playerRecord.titleKeys = reorderAnimatedTitlesFirst(playerRecord.titleKeys, animatedTitleKeySet);
   }
 
   return { sourceData, summary };
