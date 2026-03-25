@@ -61,6 +61,7 @@ settings {
     },
     "workshop": {
         "自动重开时间间隔（小时）": SETTING_AUTOREBOOT_HOURS,
+        "皇家赛道经典版": false,
         "难度": [
             SETTING_DIFFICULTY_DEFAULT
         ]

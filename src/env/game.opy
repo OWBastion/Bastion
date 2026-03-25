@@ -36,6 +36,8 @@ rule "Initialize global variables":
 
     bastionBotSeconFire = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_BASTION_GRENADE, false, 3)
 
+    circuitRoyalClassic = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_CIRCUIT_ROYAL_CLASSIC, false, 6)
+
     turnSpeedMultiplier = 4 + difficulty if difficulty < 4 else 12 * 0.8
     maxDeath = 5 * difficulty
     savedIndex = []

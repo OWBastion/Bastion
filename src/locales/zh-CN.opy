@@ -28,6 +28,7 @@
 #!define STR_SETTING_DIFFICULTY "难度"
 #!define STR_SETTING_ULT_CHARGE "全英雄威能充能"
 #!define STR_SETTING_BASTION_GRENADE "AI 堡垒使用榴弹（忽略难度）"
+#!define STR_SETTING_CIRCUIT_ROYAL_CLASSIC "皇家赛道经典版"
 
 # 枚举选项 (数组格式)
 # 不定义整个数组，而是定义单个选项
@@ -317,6 +318,7 @@
 #!define STR_HUD_WELCOME_MULTI_HARD "欢迎来到三合一大地图！你需要挑战所有小地图并到达终点！当前难度无法跳过英雄，加油吧！"
 #!define STR_HUD_WELCOME_NORMAL "使用全部英雄通关，一旦你解锁了一个英雄就可以在后续的游戏中随时使用！当阵亡 {0} 次之后可跳过英雄"
 #!define STR_HUD_WELCOME_NORMAL_HARD "使用全部英雄通关！当前难度无法跳过英雄，加油吧！"
+#!define STR_HUD_MAP_CLASSIC_SUFFIX "{0}·经典版"
 #!define STR_HUD_FOOTER_INFO "500强交流群：445152554 | 加群给你喜欢的事件点赞 \n"
 #!define STR_HUD_EVENT_GLOBAL "全局事件：{0} {1}（{2}）"
 #!define STR_HUD_EVENT_DESC "{0} {1}"
@@ -413,6 +415,7 @@
 #!define STR_MENU_OPT_TITLE_NEXT "{0}    下一个称号    \n{1}"
 #!define STR_MENU_OPT_DIFF_INC "{0}    增加难度    \n{1}"
 #!define STR_MENU_OPT_DIFF_DEC "{0}    降低难度    \n{1}"
+#!define STR_MAP_CIRCUIT_ROYAL "皇家赛道"
 # {0}=Button, {1}=State, {2}=Next Line
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    第三人称视角    {1}\n{2}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    标记玩家    {1}\n{2}"

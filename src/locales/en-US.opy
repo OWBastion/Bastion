@@ -27,6 +27,7 @@
 #!define STR_SETTING_DIFFICULTY "Difficulty"
 #!define STR_SETTING_ULT_CHARGE "Global Ultimate Charge"
 #!define STR_SETTING_BASTION_GRENADE "AI Bastion Uses Grenade (Ignore Difficulty)"
+#!define STR_SETTING_CIRCUIT_ROYAL_CLASSIC "Circuit Royal Classic"
 
 # Enum Options
 #!define STR_OPT_TARGET_0 "Auto"
@@ -312,6 +313,7 @@
 #!define STR_HUD_WELCOME_MULTI_HARD "Welcome to the 3-in-1 Map! Hero skipping is disabled on this difficulty. Good luck!"
 #!define STR_HUD_WELCOME_NORMAL "Escape with all heroes! Unlocked heroes are saved for future runs. Skip heroes after {0} deaths."
 #!define STR_HUD_WELCOME_NORMAL_HARD "Escape with all heroes! Hero skipping is disabled. Good luck!"
+#!define STR_HUD_MAP_CLASSIC_SUFFIX "{0} Classic"
 #!define STR_HUD_FOOTER_INFO "{0}Code: SVMQK | Join Discord for updates & feedback \n"
 #!define STR_HUD_EVENT_GLOBAL "Global Event: {0} {1} ({2})"
 #!define STR_HUD_EVENT_DESC "{0} {1}"
@@ -380,6 +382,7 @@
 #!define STR_MSG_SKIP_AVAILABLE "Current Hero Skippable"
 #!define STR_MSG_HOLD_RELOAD_RESET "Hold Reload to Reset"
 #!define STR_MSG_RESETTING_PROGRESS "  Resetting Progress..."
+#!define STR_MAP_CIRCUIT_ROYAL "Circuit Royal"
 #!define STR_MSG_PLAYER_RESET_PROGRESS "  {0} reset their progress"
 
 # ------------------------------------------------
