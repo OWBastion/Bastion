@@ -117,7 +117,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "豆本豆豆奶", \
-        titles: [TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.NEVER_GIVE_UP, TITLE.SPEEDRUN, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.DODGE_ULTIMATE, TITLE.EGG_FIRST, TITLE.GOOD_LUCK, TITLE.UNLUCKY] \
+        titles: [TITLE.GOOD_LUCK, TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.NEVER_GIVE_UP, TITLE.SPEEDRUN, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.DODGE_ULTIMATE, TITLE.EGG_FIRST, TITLE.UNLUCKY] \
     }, \
     { \
         name: "神之岛風咲", \
@@ -301,8 +301,8 @@ enum MapTITLEKey:
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八十万萝莉总教头", "嘤嘤嘤丶", "锄禾日当午", "EruIluvatar", "八月八月八"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八十万萝莉总教头", "嘤嘤嘤丶", "锄禾日当午", "EruIluvatar", "八月八月八"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八十万萝莉总教头", "嘤嘤嘤丶", "锄禾日当午", "EruIluvatar", "八月八月八", "豆本豆豆奶"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八十万萝莉总教头", "嘤嘤嘤丶", "锄禾日当午", "EruIluvatar", "八月八月八", "豆本豆豆奶"], "-")\
 ]
 
 # 哈瓦那

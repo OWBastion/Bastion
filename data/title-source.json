@@ -707,6 +707,7 @@
     {
       "name": "豆本豆豆奶",
       "titleKeys": [
+        "GOOD_LUCK",
         "FLAWLESS",
         "CHALLENGER_LEGEND",
         "NEVER_GIVE_UP",
@@ -715,7 +716,6 @@
         "HARD_TO_KILL",
         "DODGE_ULTIMATE",
         "EGG_FIRST",
-        "GOOD_LUCK",
         "UNLUCKY"
       ]
     },
@@ -1223,7 +1223,8 @@
           "嘤嘤嘤丶",
           "锄禾日当午",
           "EruIluvatar",
-          "八月八月八"
+          "八月八月八",
+          "豆本豆豆奶"
         ],
         "DOMINATOR": [
           "吾携秋水揽星河",
@@ -1232,7 +1233,8 @@
           "嘤嘤嘤丶",
           "锄禾日当午",
           "EruIluvatar",
-          "八月八月八"
+          "八月八月八",
+          "豆本豆豆奶"
         ]
       }
     },
