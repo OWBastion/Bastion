@@ -16,7 +16,7 @@ def setPlayerEvent():
             eventPlayer.eventForceRoll = null
     else:
         eventPlayer.categoryRoll = random.randint(0, 100)
-    if eventPlayer.categoryRoll <= 45:
+    if eventPlayer.categoryRoll <= 42.5:
         eventPlayer.eventType = 0
         rejecSampling()
         eventPlayer.eventName = buffEvent[eventPlayer.eventId][0]
