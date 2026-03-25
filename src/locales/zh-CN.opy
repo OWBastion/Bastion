@@ -28,7 +28,7 @@
 #!define STR_SETTING_DIFFICULTY "难度"
 #!define STR_SETTING_ULT_CHARGE "全英雄威能充能"
 #!define STR_SETTING_BASTION_GRENADE "AI 堡垒使用榴弹（忽略难度）"
-#!define STR_SETTING_CIRCUIT_ROYAL_CLASSIC "皇家赛道经典版"
+#!define STR_SETTING_CLASSIC_MAP_VARIANT "经典版地图"
 
 # 枚举选项 (数组格式)
 # 不定义整个数组，而是定义单个选项
@@ -46,6 +46,9 @@
 # ... 以此类推
 
 #!define STR_ENUM_DIFFICULTY_OPTIONS ["简单", "一般", "困难", "专家", "传奇", "地狱：无法跳过英雄"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_0 "关闭"
+#!define STR_OPT_CLASSIC_MAP_VARIANT_1 "皇家赛道"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["关闭", "皇家赛道"]
 
 # ------------------------------------------------
 # 全局事件 (Global Events)

@@ -12,7 +12,7 @@ macro Player.unlockAchievement(titleId):
 def unlockAchievement():
     @Name "Subroutine: UnlockAchievement"
 
-    if eventPlayer.tempUnlockId == null or eventPlayer.tempUnlockId in eventPlayer.earnedAchievements:
+    if hashTag == false or eventPlayer.tempUnlockId == null or eventPlayer.tempUnlockId in eventPlayer.earnedAchievements:
         return
 
     eventPlayer.earnedAchievements.append(eventPlayer.tempUnlockId)

@@ -61,7 +61,9 @@ settings {
     },
     "workshop": {
         "自动重开时间间隔（小时）": SETTING_AUTOREBOOT_HOURS,
-        "皇家赛道经典版": false,
+        "经典版地图": [
+            CLASSIC_MAP_VARIANT_OFF
+        ],
         "难度": [
             SETTING_DIFFICULTY_DEFAULT
         ]

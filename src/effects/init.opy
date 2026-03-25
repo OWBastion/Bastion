@@ -5,7 +5,7 @@
 
 
 rule "initialize effects":
-    hashTag = true
+    hashTag = false if hashTag == false else true
     eventId = -1
     wait(random.uniform(1, 2))
     setDifficulty()
@@ -57,7 +57,7 @@ rule "initialize effects":
     
     # 成就挑战
     hudSubheader(
-    localPlayer if (len(localPlayer.earnedAchievements) > 0 and len(allTitle) > 43) else null,
+    localPlayer if (hashTag == true and len(localPlayer.earnedAchievements) > 0 and len(allTitle) > 43) else null,
         "\r\n{0}".format(
             "{0}{1}{2}".format(
                 # 第1行

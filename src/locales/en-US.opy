@@ -27,7 +27,7 @@
 #!define STR_SETTING_DIFFICULTY "Difficulty"
 #!define STR_SETTING_ULT_CHARGE "Global Ultimate Charge"
 #!define STR_SETTING_BASTION_GRENADE "AI Bastion Uses Grenade (Ignore Difficulty)"
-#!define STR_SETTING_CIRCUIT_ROYAL_CLASSIC "Circuit Royal Classic"
+#!define STR_SETTING_CLASSIC_MAP_VARIANT "Classic Map Variant"
 
 # Enum Options
 #!define STR_OPT_TARGET_0 "Auto"
@@ -41,6 +41,9 @@
 #!define STR_OPT_DIFF_4 "Legendary"
 #!define STR_OPT_DIFF_5 "Hell: No Hero Skips"
 #!define STR_ENUM_DIFFICULTY_OPTIONS ["Easy", "Normal", "Hard", "Expert", "Legendary", "Hell: No Hero Skips"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_0 "Off"
+#!define STR_OPT_CLASSIC_MAP_VARIANT_1 "Circuit Royal"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["Off", "Circuit Royal"]
 
 # ------------------------------------------------
 # Global Events

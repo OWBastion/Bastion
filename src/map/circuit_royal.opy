@@ -7,11 +7,12 @@ rule "map - 皇家赛道":
     @Condition __currentMap___ == Map.CIRCUIT_ROYAL
 
     __currentMapText___ = STR_MAP_CIRCUIT_ROYAL
-    if circuitRoyalClassic:
+    if classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL:
         __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(STR_MAP_CIRCUIT_ROYAL)
+        hashTag = false
 
     #Made by 他又 芋泥玛奇朵
-    if circuitRoyalClassic:
+    if classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL:
         bastionPosition = [
             vect(105.65, 15.95, 14.28),
             vect(56.16, 18.97, 21.78),

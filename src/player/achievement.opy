@@ -18,6 +18,7 @@ rule "Init Achievement Data":
 rule "[VishkarEvent]: Challenge 0 Track":
     @Event eachPlayer
     @Team 1
+    @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition dlcVishkarEvent == true
     @Condition eventPlayer.eventLucky >= 10
@@ -28,6 +29,7 @@ rule "[VishkarEvent]: Challenge 0 Track":
 rule "[VishkarEvent]: Challenge 1 Track":
     @Event eachPlayer
     @Team 1
+    @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition dlcVishkarEvent == true
     @Condition all([eventPlayer.eventCount[0] + eventPlayer.eventCount[1] >= 50
@@ -39,6 +41,7 @@ rule "[VishkarEvent]: Challenge 1 Track":
 rule "[VishkarEvent]: Challenge 2 Track":
     @Event eachPlayer
     @Team 1
+    @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition dlcVishkarEvent == true
     @Condition eventPlayer.eventLucky <= -10
@@ -50,6 +53,7 @@ rule "[VishkarEvent]: Challenge 2 Track":
 rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Event eachPlayer
     @Team 1
+    @Condition hashTag == true
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[4] >= 5000
@@ -60,6 +64,7 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
 rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
     @Event eachPlayer
     @Team 1
+    @Condition hashTag == true
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.heart_steel >= 400
