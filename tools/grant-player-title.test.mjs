@@ -13,6 +13,7 @@ import {
   grantPlayerTitle,
   parseCliArgs,
   parseNumberSelection,
+  parseTitleIndexSelection,
   resolvePlayerNameFromPlayerId,
   resolveTitleKeyFromLabel,
   validateCliArgs
@@ -132,6 +133,13 @@ test('parseNumberSelection parses single/multi and deduplicates', () => {
   assert.deepEqual(parseNumberSelection('1,2,2,3', { max: 3, multi: true }), [1, 2, 3]);
   assert.throws(() => parseNumberSelection('x', { max: 3 }), /无效编号/);
   assert.throws(() => parseNumberSelection('0', { max: 3 }), /不允许选择 0/);
+});
+
+test('parseTitleIndexSelection parses zero-based multi and deduplicates', () => {
+  assert.deepEqual(parseTitleIndexSelection('14,20,14', { maxIndex: 25 }), [14, 20]);
+  assert.deepEqual(parseTitleIndexSelection('', { maxIndex: 25, allowEmpty: true }), []);
+  assert.throws(() => parseTitleIndexSelection('x', { maxIndex: 25 }), /无效索引/);
+  assert.throws(() => parseTitleIndexSelection('26', { maxIndex: 25 }), /索引超出范围/);
 });
 
 test('buildInteractiveRequest supports player mode with option selections', () => {
@@ -742,6 +750,42 @@ test('interactive enter-to-skip uses fixed options defaults', async () => {
   });
   assert.deepEqual(request.players, [
     { name: '老玩家', generalTitles: [], mapDominators: ['DATA_ROUTE66'], mapPioneers: [] }
+  ]);
+});
+
+test('interactive player mode reads general titles by TITLE index (0-based)', async () => {
+  const sourceData = {
+    meta: { sourceLabel: 'x' },
+    titles: Array.from({ length: 21 }, (_, index) => ({
+      key: `TITLE_${index}`,
+      label: `称号${index}`,
+      category: 'c',
+      condition: 'd',
+      availability: 'active',
+      displayExpr: '"a"',
+      colorExpr: 'null'
+    })),
+    players: [{ name: '老玩家', titleKeys: [] }],
+    mapTitles: [
+      {
+        mapKey: 'DATA_ROUTE66',
+        mapLabel: '66号公路',
+        holders: { PIONEER: [], CONQUEROR: [], DOMINATOR: [] }
+      }
+    ]
+  };
+  sourceData.titles[14].key = 'DODGE_ULTIMATE';
+  sourceData.titles[14].label = '终极闪避';
+  sourceData.titles[20].key = 'DODGE_GOD';
+  sourceData.titles[20].label = '闪避の神';
+
+  const readline = createScriptedReadline(['1', '1', '14,20', '', '']);
+  const output = { isTTY: false };
+
+  const request = await collectInteractiveRequest(sourceData, { readline, output });
+
+  assert.deepEqual(request.players, [
+    { name: '老玩家', generalTitles: ['DODGE_ULTIMATE', 'DODGE_GOD'], mapDominators: [], mapPioneers: [] }
   ]);
 });
 

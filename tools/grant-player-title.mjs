@@ -231,6 +231,41 @@ export function parseNumberSelection(raw, { max, allowZero = false, allowEmpty =
   return selected;
 }
 
+export function parseTitleIndexSelection(raw, { maxIndex, allowEmpty = false } = {}) {
+  if (!Number.isInteger(maxIndex) || maxIndex < 0) {
+    throw new Error('Invalid title index max range');
+  }
+
+  const text = String(raw ?? '').trim();
+  if (text === '') {
+    if (allowEmpty) {
+      return [];
+    }
+    throw new Error('索引不能为空');
+  }
+
+  const tokens = text.split(',');
+  const selected = [];
+
+  for (const token of tokens) {
+    const value = token.trim();
+    if (!/^\d+$/.test(value)) {
+      throw new Error(`无效索引: ${token}`);
+    }
+
+    const index = Number(value);
+    if (index < 0 || index > maxIndex) {
+      throw new Error(`索引超出范围: ${index}`);
+    }
+
+    if (!selected.includes(index)) {
+      selected.push(index);
+    }
+  }
+
+  return selected;
+}
+
 function parseRequest(raw) {
   if (!raw || typeof raw !== 'object') {
     throw new Error('Input request must be a JSON object.');
@@ -853,6 +888,14 @@ function formatOptions(list, { includeZeroLabel, ui } = {}) {
   return lines.map((line) => ui.ansi.accent(line));
 }
 
+function formatTitleIndexOptions(titles, { ui } = {}) {
+  const lines = titles.map((title, index) => `  ${index}) ${title.label} (${title.key})`);
+  if (!ui) {
+    return lines;
+  }
+  return lines.map((line) => ui.ansi.accent(line));
+}
+
 function printOptions(list, { includeZeroLabel, ui } = {}) {
   const lines = formatOptions(list, { includeZeroLabel });
   for (const line of lines) {
@@ -991,6 +1034,47 @@ async function askMultiChoice(
   }
 }
 
+async function askTitleIndexChoice(rl, titles, { allowEmpty = false, ui } = {}) {
+  const prompt = '输入 TITLE 索引（0-based，多选逗号，回车跳过）';
+  const titleLines = formatTitleIndexOptions(titles, { ui });
+  let statusLines = [];
+
+  while (true) {
+    const renderer = ui?.renderer;
+    if (!renderer?.enabled) {
+      if (ui) {
+        ui.strong(prompt);
+        for (const line of titleLines) {
+          ui.info(line);
+        }
+        for (const line of statusLines) {
+          ui.info(line);
+        }
+      } else {
+        console.log(prompt);
+        for (const line of titleLines) {
+          console.log(line);
+        }
+        for (const line of statusLines) {
+          console.log(line);
+        }
+      }
+    } else {
+      renderer.render([ui.ansi.strong(prompt), ...titleLines, ...statusLines]);
+    }
+
+    const raw = await rl.question(`${ui?.ansi.strong(prompt) ?? prompt}: `);
+    try {
+      return parseTitleIndexSelection(raw, {
+        maxIndex: titles.length - 1,
+        allowEmpty
+      });
+    } catch (error) {
+      statusLines = [ui ? ui.ansi.error(`输入无效: ${error.message}`) : `输入无效: ${error.message}`];
+    }
+  }
+}
+
 async function askNewPlayerName(rl, ui) {
   let statusLines = [];
   while (true) {
@@ -1087,7 +1171,6 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
       ui
     });
 
-    const titleOptions = sourceData.titles.map((item) => item.label);
     const mapOptions = sourceData.mapTitles.map((item) => item.mapLabel);
     const playerNames = sourceData.players.map((item) => item.name);
 
@@ -1096,11 +1179,7 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
     if (mode === 1) {
       const selectedPlayer = await pickPlayersByMenu(rl, playerNames, { allowCreate: true, multi: false, ui });
 
-      const titlePicked = await askMultiChoice(rl, '选择通用称号（多选逗号，回车跳过）', titleOptions, {
-        allowZero: false,
-        allowEmpty: true,
-        ui
-      });
+      const titlePicked = await askTitleIndexChoice(rl, sourceData.titles, { allowEmpty: true, ui });
       const mapPicked = await askMultiChoice(rl, '选择地图主宰（多选逗号，回车跳过）', mapOptions, {
         allowZero: false,
         allowEmpty: true,
@@ -1115,7 +1194,7 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
       requestPayload = {
         targetType: 'player',
         playerName: selectedPlayer[0],
-        generalTitles: titlePicked.map((index) => sourceData.titles[index - 1].key),
+        generalTitles: titlePicked.map((index) => sourceData.titles[index].key),
         mapDominators: mapPicked.map((index) => sourceData.mapTitles[index - 1].mapKey),
         mapPioneers: mapPioneerPicked.map((index) => sourceData.mapTitles[index - 1].mapKey)
       };
