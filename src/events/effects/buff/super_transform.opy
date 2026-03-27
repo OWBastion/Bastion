@@ -25,7 +25,7 @@ rule "[VishkarEvent]: 超级变换形态 (触发)":
 
     eventPlayer.altFormTrigger = true
     eventPlayer.addHealthPool(Health.NORMAL, round(EVT_26_HP_FLAT + eventPlayer.getMaxHealth() * EVT_26_HP_MAXHP_FACTOR), false, false)
-    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_26_OVERHEALTH_DURATION, getLastCreatedHealthPool()]])
+    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_26_OVERHEALTH_DURATION, getLastCreatedHealthPool(), eventPlayer.eventId]])
     wait(EVT_26_TRIGGER_GCD)
 
 rule "[VishkarEvent]: 超级变换形态 (状态重置)":

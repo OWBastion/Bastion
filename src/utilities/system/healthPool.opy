@@ -15,12 +15,15 @@ rule "Logic: Health Pool Cleaner":
     @Event eachPlayer
     @Team 1
     @Condition len(eventPlayer.hp_data) > 0
-    
+
     eventPlayer.hp_data = [player for player in eventPlayer.hp_data if player != null]
     if len(eventPlayer.hp_data) > 1:
-        eventPlayer.hp_data = sorted(eventPlayer.hp_data, lambda i: i[0])
+        eventPlayer.hp_data = sorted(eventPlayer.hp_data, lambda i: -1 if len(i) > 2 and eventPlayer.eventId != i[2] else i[0])
     for I in range(HEALTH_POOL_CLEANUP_MAX_REMOVALS):
-        if len(eventPlayer.hp_data) == 0 or eventPlayer.hp_data[0][0] > getTotalTimeElapsed():
+        if len(eventPlayer.hp_data) == 0 or (
+            eventPlayer.hp_data[0][0] > getTotalTimeElapsed() and
+            (len(eventPlayer.hp_data[0]) <= 2 or eventPlayer.eventId == eventPlayer.hp_data[0][2])
+        ):
             goto lbl_cleanup_done
         removeHealthPool(eventPlayer.hp_data[0][1])
         del eventPlayer.hp_data[0]
@@ -30,7 +33,10 @@ rule "Logic: Health Pool Cleaner":
             (HEALTH_POOL_WAIT_MAX - HEALTH_POOL_WAIT_MIN)
         )
     lbl_cleanup_done:
-    eventPlayer.hp_data = [player for player in eventPlayer.hp_data if player[0] > getTotalTimeElapsed()]
+    eventPlayer.hp_data = [
+        player for player in eventPlayer.hp_data
+        if player[0] > getTotalTimeElapsed() and (len(player) <= 2 or eventPlayer.eventId == player[2])
+    ]
     wait(max(1, getServerLoad() / 100 * 0.032))
     if ruleCondition:
         loop()
