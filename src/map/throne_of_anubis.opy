@@ -12,7 +12,7 @@ rule "map - 阿努比斯王座":
     #距离阈值
     controlRespawnAxisThreshold = 30
     startForcingSpawn(Team.1, 1)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     controlRespawnPosition = vect(11.4, 9.25, 134.12)
     resetPosition = vect(6.28, 9.28, 130.05)
     thirdPersonPosition = vect(3.18, 9.28, 130.71)

@@ -13,7 +13,7 @@ rule "map - 漓江塔":
     #距离阈值
     controlRespawnAxisThreshold = 40
     startForcingSpawn(Team.1, 2)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     #夜市
     bastionPosition = vect(34.55, 33.85, -36.64)
     bastionPosition.append(vect(21.25, 10, -23.95))

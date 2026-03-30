@@ -13,12 +13,11 @@ def rejecSampling():
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false
     if eventPlayer.eventType == 0:
-        eventPlayer.eventTempId = [
-            id for id in buffEventId
-            if (buffEvent[id] != 0 and buffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
-        ]
+        eventPlayer.eventTempId = buffEventId.filter(lambda id:
+            buffEvent[id] != 0 and buffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+        )
         if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = [id for id in buffEventId if (buffEvent[id] != 0 and buffEvent[id].last() > 0)]
+            eventPlayer.eventTempId = buffEventId.filter(lambda id: buffEvent[id] != 0 and buffEvent[id].last() > 0)
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
                 wait(0.016)
@@ -32,12 +31,11 @@ def rejecSampling():
         if eventPlayer.eventIsSelected == false:
             eventPlayer.eventId = eventPlayer.eventCandidateId
     elif eventPlayer.eventType == 1:
-        eventPlayer.eventTempId = [
-            id for id in debuffEventId
-            if (debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (1 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
-        ]
+        eventPlayer.eventTempId = debuffEventId.filter(lambda id:
+            debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (1 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+        )
         if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = [id for id in debuffEventId if (debuffEvent[id] != 0 and debuffEvent[id].last() > 0)]
+            eventPlayer.eventTempId = debuffEventId.filter(lambda id: debuffEvent[id] != 0 and debuffEvent[id].last() > 0)
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
                 wait(0.016)
@@ -51,12 +49,11 @@ def rejecSampling():
         if eventPlayer.eventIsSelected == false:
             eventPlayer.eventId = eventPlayer.eventCandidateId
     else:
-        eventPlayer.eventTempId = [
-            id for id in mechEventId
-            if (mechEvent[id] != 0 and mechEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (2 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId))
-        ]
+        eventPlayer.eventTempId = mechEventId.filter(lambda id:
+            mechEvent[id] != 0 and mechEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (2 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+        )
         if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = [id for id in mechEventId if (mechEvent[id] != 0 and mechEvent[id].last() > 0)]
+            eventPlayer.eventTempId = mechEventId.filter(lambda id: mechEvent[id] != 0 and mechEvent[id].last() > 0)
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
                 wait(0.016)

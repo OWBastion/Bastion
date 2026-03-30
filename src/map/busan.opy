@@ -11,7 +11,7 @@ rule "map - 釜山":
     #距离阈值
     controlRespawnAxisThreshold = 40
     startForcingSpawn(Team.1, 2)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     #寺庙重生点
     controlRespawnPosition = vect(-426.04, 11.11, 165.81)
     #寺庙-城区 传送点

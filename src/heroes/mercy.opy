@@ -14,7 +14,9 @@ rule "when a mercy might rez, respawn time is increased":
     
     if dlcVishkarEvent and eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.HEART_OF_STEEL:
         return
-    if any([distance(eventPlayer.getPosition(), player.getPosition()) < 40 and player.isAlive() and player.getAbilityCooldown(Button.ABILITY_2) < 8 for player in getPlayersOnHero(Hero.MERCY, Team.1)]):
+    if getPlayersOnHero(Hero.MERCY, Team.1).any(lambda player:
+        distance(eventPlayer.getPosition(), player.getPosition()) < 40 and player.isAlive() and player.getAbilityCooldown(Button.ABILITY_2) < 8
+    ):
         bigMessage(eventPlayer, STR_MSG_MERCY_NEARBY)
         eventPlayer.disableRespawn()
         wait(4)

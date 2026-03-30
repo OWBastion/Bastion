@@ -7,7 +7,7 @@ rule "map - 伊利奥斯":
     @Condition __currentMap___ == Map.ILIOS
     
     startForcingSpawn(Team.1, 2)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     #made by 他又
     #深井
     if len(getPlayersInRadius(vect(-152.014, -1.104, -93.12), 30, Team.1)) != 0:

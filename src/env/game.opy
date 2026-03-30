@@ -108,10 +108,10 @@ rule "initialize hero list":
     #make default hero list, which includes all 36 heroes available in Season 2
     heroList = [Hero.SOMBRA, Hero.REAPER, Hero.MOIRA, Hero.KIRIKO, Hero.SIGMA, Hero.WUYANG, Hero.MIZUKI, Hero.EMRE, Hero.GENJI, Hero.ORISA, Hero.WINSTON, Hero.DVA, Hero.TRACER, Hero.WIDOWMAKER, Hero.DOMINA, Hero.SOJOURN, Hero.BAPTISTE, Hero.SYMMETRA, Hero.MEI, Hero.ECHO, Hero.BRIGITTE, Hero.SOLDIER, Hero.JUNO, Hero.WRECKING_BALL, Hero.CASSIDY, Hero.ZARYA, Hero.LUCIO, Hero.PHARAH, Hero.JETPACK_CAT, Hero.MERCY, Hero.REINHARDT, Hero.HANZO, Hero.DOOMFIST, Hero.ROADHOG, Hero.JUNKER_QUEEN, Hero.ASHE, Hero.TORBJORN, Hero.ANA, Hero.ZENYATTA, Hero.JUNKRAT, Hero.BASTION]
     #remove all heroes that are not for some reason in Overwatch's list of all the heroes (at the time of making this, Mei is an example because she was removed to be patched)
-    heroList.remove([player for player in heroList if not player in getAllHeroes()])
+    heroList.remove(heroList.filter(lambda player: not player in getAllHeroes()))
     #add any heroes that for some reason are on Overwatch's list but not the game's (eg if I don't update the mode after a hero release). they are added as the second hero in the list
-    if any([not i in heroList for i in getAllHeroes()]):
-        missingHeroes = [i for i in getAllHeroes() if not i in heroList]
+    if getAllHeroes().any(lambda i: not i in heroList):
+        missingHeroes = getAllHeroes().filter(lambda i: not i in heroList)
         for I in range(len(missingHeroes)):
             heroList = sorted(heroList.concat(missingHeroes[I]), lambda i, idx: idx if i != missingHeroes[I] else 0.5)
             wait()

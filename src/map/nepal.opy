@@ -10,7 +10,7 @@ rule "map - 尼泊尔":
     #距离阈值
     controlRespawnAxisThreshold = 30
     startForcingSpawn(Team.1, 1)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     controlRespawnPosition = vect(-161, -95.97, -84.17)
     #大学重生点
     controlRespawnPosition.append(vect(-39.04, 17.84, -99.75))

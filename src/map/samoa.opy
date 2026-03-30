@@ -11,7 +11,7 @@ rule "map - 萨摩亚":
     #距离阈值
     controlRespawnAxisThreshold = 40
     startForcingSpawn(Team.1, 2)
-    waitUntil(any([player.hasSpawned() for player in getPlayers(Team.1)]), 99999)
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     #海滩海滩重生点
     controlRespawnPosition = vect(-428, 10.5, -109)
     #海滩-城区 传送点

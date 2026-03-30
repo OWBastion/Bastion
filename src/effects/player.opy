@@ -32,10 +32,10 @@ rule "outline winners in green periodically":
 rule "outline winners for new players as soon as they join":
     @Event playerJoined
     @Team 1
-    @Condition any([player.isWinner for player in getPlayers(Team.1)]) == true
+    @Condition getPlayers(Team.1).any(lambda player: player.isWinner) == true
     
     wait(getAverageServerLoad() / 100)
-    [player for player in getPlayers(Team.1) if player.isWinner].startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
+    getPlayers(Team.1).filter(lambda player: player.isWinner).startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
 
 
 rule "stop outline for non-winners":
@@ -45,4 +45,3 @@ rule "stop outline for non-winners":
     
     wait(getAverageServerLoad() / 100)
     eventPlayer.stopForcingOutlineFor(getPlayers(Team.1))
-
