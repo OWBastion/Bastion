@@ -640,7 +640,7 @@
 #!define EVT_MECH_1_WIN_RATE 50
 
 # 单次赌注 (心之钢层数 / HP百分比)
-#!define EVT_MECH_1_STAKE 5
+#!define EVT_MECH_1_STAKE 8
 
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
