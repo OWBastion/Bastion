@@ -328,7 +328,7 @@
 
 # --- ID 28: 坚韧 ---
 # Duration（秒）
-#!define EVT_BUFF_28_DURATION 120
+#!define EVT_BUFF_28_DURATION 45
 # Weight（权重）
 #!define EVT_BUFF_28_WEIGHT 1.6
 #!define EVT_28_KNOCKBACK_RESISTANCE -60
