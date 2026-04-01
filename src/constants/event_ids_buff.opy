@@ -62,6 +62,8 @@ enum BuffEventId:
     DRAW_FIRE
     # legacy numeric id: 28
     TENACITY
+    # legacy numeric id: 29
+    MAGIC_MASTER
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

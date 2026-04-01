@@ -40,3 +40,4 @@
 #!include "buff/super_transform.opy"
 #!include "buff/draw_fire.opy"
 #!include "buff/tenacity.opy"
+#!include "buff/magic_master.opy"

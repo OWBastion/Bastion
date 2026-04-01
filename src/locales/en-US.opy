@@ -176,6 +176,8 @@
 #!define STR_EVT_BUFF_27_DESC "Gain {0} recoverable armor and {1}% damage reduction.\nBastions prioritize targeting you."
 #!define STR_EVT_BUFF_28_TITLE "Tenacity"
 #!define STR_EVT_BUFF_28_DESC "Gain {0}% knockback resistance.\nBelow {1}% HP, restore {3}% max HP over {2}s.\nBuilt-in {4}s cooldown."
+#!define STR_EVT_BUFF_29_TITLE "Magic Master"
+#!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
