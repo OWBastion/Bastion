@@ -253,7 +253,7 @@
 #!define EVT_21_GOAL_MAX_FACTOR 0.75
 
 # 完成奖励：永久减伤数值（与 mod_dmg_perma 的单位保持一致）
-#!define EVT_21_REWARD_DMG_PERMA 5
+#!define EVT_21_REWARD_DMG_PERMA -5
 
 # waitUntil 超时时间（秒）
 #!define EVT_21_WAITUNTIL_TIMEOUT 3

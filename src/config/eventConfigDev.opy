@@ -152,7 +152,7 @@ rule "initialize event array":
 
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_21_TITLE, true, BuffEventId.MARTYR_TRIAL):
         goto lbl_103
-    buffEvent[BuffEventId.MARTYR_TRIAL] = [STR_EVT_BUFF_21_TITLE, STR_EVT_BUFF_21_DESC.format(EVT_21_REWARD_DMG_PERMA), EVT_BUFF_21_DURATION, EVT_BUFF_21_WEIGHT]
+    buffEvent[BuffEventId.MARTYR_TRIAL] = [STR_EVT_BUFF_21_TITLE, STR_EVT_BUFF_21_DESC.format(negToPos(EVT_21_REWARD_DMG_PERMA)), EVT_BUFF_21_DURATION, EVT_BUFF_21_WEIGHT]
     buffEventId.append(BuffEventId.MARTYR_TRIAL)
     lbl_103:
 

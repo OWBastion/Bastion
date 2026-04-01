@@ -9,7 +9,7 @@ def updatePlayerStats():
     @Name "[VishkarEvent]: update Player Stats"
     
     eventPlayer.setMoveSpeed(100 + eventPlayer.mod_speed_perma + eventPlayer.mod_speed_event)
-    eventPlayer.setDamageReceived(100 + eventPlayer.mod_dmg_perma + eventPlayer.mod_dmg_taken)
+    eventPlayer.setDamageReceived(max(0.01, 100 + eventPlayer.mod_dmg_perma + eventPlayer.mod_dmg_taken))
     eventPlayer.setHealingDealt(100 + eventPlayer.mod_heal_event)
     eventPlayer.setHealingReceived(100 + eventPlayer.heal_recv)
     eventPlayer.setKnockbackReceived(100 + eventPlayer.knockback)

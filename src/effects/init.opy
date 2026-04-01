@@ -41,7 +41,7 @@ rule "initialize effects":
         STR_HUD_ATTR_PANEL.format(
             round(localPlayer.heart_steel),
             localPlayer.mod_speed_perma,
-            localPlayer.mod_dmg_perma,
+            negToPos(localPlayer.mod_dmg_perma),
             localPlayer.mod_heal_event
         ) if dlcVishkarEvent else "",
 
