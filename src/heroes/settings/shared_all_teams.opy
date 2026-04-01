@@ -57,7 +57,7 @@ macro HERO_SETTINGS_ALL_TEAMS_SHARED = {
         "ability2Cooldown%": 80
     },
     "emre": {
-         "damageReceived%": 95,
+         "damageReceived%": 98,
     },
     "juno": {
         "ability1Cooldown%": 67,
