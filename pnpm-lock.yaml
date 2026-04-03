@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       overpy:
-        specifier: ^9.5.1
-        version: 9.5.1
+        specifier: ^9.5.3
+        version: 9.5.3
       vue:
         specifier: ^3.5.31
         version: 3.5.31
@@ -299,8 +299,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  overpy@9.5.1:
-    resolution: {integrity: sha512-TmVCRIiWNSmI7R9XImoLkVfHmfzLKvrngPiXzYHdDpMVZtu0hOn2dIMSFxXpNtKOiPLI+v/jQcHksRSyLf+IFw==}
+  overpy@9.5.3:
+    resolution: {integrity: sha512-bPWEIHMGE0JkMTJKjH8eF3PMXdkiJ0bUezg/EgxuSWRpDDZ9HoZ3Avp+PfgX0AdZcj0LFxV3CI43sxNcZOHHbQ==}
     hasBin: true
 
   picocolors@1.1.1:
@@ -609,7 +609,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  overpy@9.5.1: {}
+  overpy@9.5.3: {}
 
   picocolors@1.1.1: {}
 
