@@ -245,7 +245,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "云雀", \
-        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HACKING, TITLE.LUCKY_STAR, TITLE.SPEEDRUN, TITLE.UNLUCKY, TITLE.MANBA] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HACKING, TITLE.LUCKY_STAR, TITLE.SPEEDRUN, TITLE.UNLUCKY, TITLE.MANBA, TITLE.FLAWLESS, TITLE.DODGE_ULTIMATE] \
     }, \
     { \
         name: "嘤嘤嘤丶", \
@@ -253,7 +253,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "八月八月八", \
-        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.MANBA, TITLE.UNLUCKY, TITLE.LUCKY_STAR, TITLE.SPEEDRUN, TITLE.DODGE_ULTIMATE] \
+        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.MANBA, TITLE.UNLUCKY, TITLE.LUCKY_STAR, TITLE.SPEEDRUN, TITLE.DODGE_ULTIMATE, TITLE.STEEL] \
     }, \
     { \
         name: "天树是只臭猫", \
@@ -269,7 +269,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "一杯美式", \
-        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.UNLUCKY, TITLE.MANBA, TITLE.LUCKY_STAR] \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -302,8 +302,8 @@ enum MapTITLEKey:
 # 艾兴瓦尔德
 #!define DATA_EICHENWALDE [ \
    playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "眼镜小宅", "初一吖", "锦木千束"], "-"), \
-   playerNameToIndexDelimited(["顾北酒笙", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "挽风", "看啊情", "眼镜小宅", "初一吖", "锦木千束", "她说话有股孩子气", "EruIluvatar", "雨鸢", "嘤嘤嘤丶", "八月八月八", "锄禾日当午"], "-"), \
-   playerNameToIndexDelimited(["顾北酒笙", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "锦木千束", "EruIluvatar", "雨鸢", "嘤嘤嘤丶", "八月八月八", "锄禾日当午"], "-")\
+   playerNameToIndexDelimited(["顾北酒笙", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "挽风", "看啊情", "眼镜小宅", "初一吖", "锦木千束", "她说话有股孩子气", "EruIluvatar", "雨鸢", "嘤嘤嘤丶", "八月八月八", "锄禾日当午", "云雀"], "-"), \
+   playerNameToIndexDelimited(["顾北酒笙", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "锦木千束", "EruIluvatar", "雨鸢", "嘤嘤嘤丶", "八月八月八", "锄禾日当午", "云雀"], "-")\
 ]
 
 # 直布罗陀
@@ -344,8 +344,8 @@ enum MapTITLEKey:
 # 国王大道
 #!define DATA_KINGS_ROW [ \
    [], \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "一痕沙", "天树是只臭猫", "嘤嘤嘤丶", "八月八月八", "好男人从不过夜", "一杯美式"], "-"), \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "天树是只臭猫", "嘤嘤嘤丶", "八月八月八", "好男人从不过夜", "一杯美式"], "-")\
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "一痕沙", "天树是只臭猫", "嘤嘤嘤丶", "八月八月八", "好男人从不过夜", "一杯美式", "金泰亨"], "-"), \
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "天树是只臭猫", "嘤嘤嘤丶", "八月八月八", "好男人从不过夜", "一杯美式", "金泰亨"], "-")\
 ]
 
 # 中城
@@ -358,8 +358,8 @@ enum MapTITLEKey:
 # 努巴尼
 #!define DATA_NUMBANI [ \
    [], \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "旅店老板", "板鸭", "八月八月八", "嘤嘤嘤丶", "八十万萝莉总教头"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "旅店老板", "板鸭", "八月八月八", "嘤嘤嘤丶", "八十万萝莉总教头"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "旅店老板", "板鸭", "八月八月八", "嘤嘤嘤丶", "八十万萝莉总教头", "云雀", "锄禾日当午"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "旅店老板", "板鸭", "八月八月八", "嘤嘤嘤丶", "八十万萝莉总教头", "云雀", "锄禾日当午"], "-")\
 ]
 
 # 帕拉伊苏
@@ -393,8 +393,8 @@ enum MapTITLEKey:
 # 香巴里寺院
 #!define DATA_SHAMBALI_MONASTERY [ \
    playerNameToIndexDelimited(["他又", "别感冒"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "嘤嘤嘤丶", "八月八月八"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "嘤嘤嘤丶", "八月八月八"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀"], "-")\
 ]
 
 # 阿努比斯神殿
@@ -414,8 +414,8 @@ enum MapTITLEKey:
 # 埃斯佩兰萨
 #!define DATA_ESPERANCA [ \
    playerNameToIndexDelimited(["WildRage", "尘风歌者", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "八月八月八", "嘤嘤嘤丶"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "八月八月八", "嘤嘤嘤丶"], "-")\
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "八月八月八", "嘤嘤嘤丶", "云雀"], "-"), \
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "八月八月八", "嘤嘤嘤丶", "云雀"], "-")\
 ]
 
 # 斗兽场
@@ -484,8 +484,8 @@ enum MapTITLEKey:
 # 绿洲城
 #!define DATA_OASIS [ \
    playerNameToIndexDelimited(["尘风歌者", "豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八"], "-")\
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀"], "-"), \
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀"], "-")\
 ]
 
 # 新渣客城
@@ -505,8 +505,8 @@ enum MapTITLEKey:
 # 阿努比斯王座
 #!define DATA_THRONE_OF_ANUBIS [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "初一吖", "Jargon"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "Jargon", "EruIluvatar", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "云雀"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "Jargon", "EruIluvatar", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "云雀"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "Jargon", "EruIluvatar", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "云雀", "好男人从不过夜"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "Jargon", "EruIluvatar", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "云雀", "好男人从不过夜"], "-")\
 ]
 
 # 花冈
