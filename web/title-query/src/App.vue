@@ -557,8 +557,10 @@ watch(
           <div v-else class="spotlight-body">
             <div class="player-heading">
               <div>
-                <p class="player-name">{{ showcasedPlayer.name }}</p>
-                <p class="player-meta">已获取 {{ groupedTitles.ownedCount }} / {{ visibleTitles.length }}</p>
+                <div class="player-name-row">
+                  <p class="player-name">{{ showcasedPlayer.name }}</p>
+                  <p class="player-meta">已获取 {{ groupedTitles.ownedCount }} / {{ visibleTitles.length }}</p>
+                </div>
               </div>
               <div class="player-badge">LOCKED IN</div>
             </div>

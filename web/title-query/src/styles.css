@@ -481,10 +481,17 @@ code {
   font-weight: 700;
 }
 
+.player-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.58rem;
+  flex-wrap: wrap;
+}
+
 .player-meta {
-  margin: 0.3rem 0 0;
+  margin: 0;
   color: var(--ow-text-soft);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
 }
 
 .player-badge {
@@ -1434,6 +1441,10 @@ code {
 
   .player-heading {
     flex-direction: column;
+  }
+
+  .player-name-row {
+    gap: 0.45rem;
   }
 }
 
