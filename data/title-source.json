@@ -141,7 +141,7 @@
     {
       "key": "LIGHT_PACK",
       "label": "轻装上阵",
-      "category": "待补充",
+      "category": "极限操作系列",
       "condition": "文档未提供该称号的公开挑战条件。",
       "availability": "active",
       "displayExpr": "\"轻装上阵\"",
@@ -168,7 +168,7 @@
     {
       "key": "PERSEVERANCE",
       "label": "坚韧不拔",
-      "category": "待补充",
+      "category": "极限操作系列",
       "condition": "文档未提供该称号的公开挑战条件。",
       "availability": "active",
       "displayExpr": "\"坚韧不拔\"",
@@ -195,9 +195,9 @@
     {
       "key": "ZENYATTA",
       "label": "智瞳开拓者",
-      "category": "待补充",
+      "category": "活动限定",
       "condition": "文档未提供该称号的公开挑战条件。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"智瞳开拓者\"",
       "colorExpr": "heroColor[12]"
     },
