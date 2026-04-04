@@ -797,7 +797,7 @@
 #!define EVT_MECH_12_WIN_CHANCE 33
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_12_REWARD_STACKS 20
+#!define EVT_MECH_12_REWARD_STACKS 32
 
 # 强制下次投掷/强制次数
 #!define EVT_MECH_12_FORCE_ROLL 50

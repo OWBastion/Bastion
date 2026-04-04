@@ -71,7 +71,7 @@
       "id": 3,
       "pack": 1,
       "nameZh": "肾上腺素",
-      "descZh": "获得{0}%伤害减免\\n并额外获得{1}%治疗增益",
+      "descZh": "获得{0}%伤害减免\\n获得{1}%治疗增益",
       "durationSec": 20,
       "weight": 1.4,
       "availability": "active"
