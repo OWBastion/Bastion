@@ -18,4 +18,5 @@ rule "[VishkarEvent]: 三位一体 (SSR)":
         loop()
     eventPlayer.mod_dmg_taken = 0
     eventPlayer.mod_speed_event = 0
+    eventPlayer.hudText = ""
     updatePlayerStats()
