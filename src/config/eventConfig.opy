@@ -306,8 +306,8 @@ rule "initialize event array":
     buffEvent[BuffEventId.DRAW_FIRE] = [STR_EVT_BUFF_27_TITLE, STR_EVT_BUFF_27_DESC.format(EVT_27_ARMOR_AMOUNT, negToPos(EVT_27_DMG_TAKEN)), EVT_BUFF_27_DURATION, EVT_BUFF_27_WEIGHT]
     buffEventId.append(BuffEventId.DRAW_FIRE)
 
-    buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
-    buffEventId.append(BuffEventId.MAGIC_MASTER)
+    buffEvent[BuffEventId.TENACITY] = [STR_EVT_BUFF_28_TITLE, STR_EVT_BUFF_28_DESC.format(negToPos(EVT_28_KNOCKBACK_RESISTANCE), percent(EVT_28_TRIGGER_HP_PERCENT), EVT_28_HEAL_DURATION, percent(EVT_28_HEAL_MAXHP_FACTOR), EVT_28_TRIGGER_COOLDOWN), EVT_BUFF_28_DURATION, EVT_BUFF_28_WEIGHT]
+    buffEventId.append(BuffEventId.TENACITY)
 
     # ================================================
     # Pack 4: Debuffs
@@ -359,6 +359,12 @@ rule "initialize event array":
     lbl_3:
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5, true, 1):
         goto lbl_4
+
+    # ================================================
+    # Pack 5: Buffs
+    # ================================================
+    buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
+    buffEventId.append(BuffEventId.MAGIC_MASTER)
 
     # ================================================
     # Pack 5: Debuffs

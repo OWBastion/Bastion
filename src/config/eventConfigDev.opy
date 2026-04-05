@@ -193,14 +193,13 @@ rule "initialize event array":
     lbl_108:
 
     lbl_109:
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_29_TITLE, true, BuffEventId.MAGIC_MASTER):
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_BUFF, STR_EVT_BUFF_29_TITLE, true, BuffEventId.MAGIC_MASTER):
         goto lbl_199
     buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
     lbl_199:
 
     lbl_33:
-
     # ================================================
     # 减益事件 (Debuff Events)
     # ================================================

@@ -247,6 +247,7 @@
 #!define STR_CAT_RANDOM_PACK_2_MECH "随机事件包 2：机制"
 #!define STR_CAT_RANDOM_PACK_3_MECH "随机事件包 3：机制"
 #!define STR_CAT_RANDOM_PACK_4_BUFF "随机事件包 4：增益"
+#!define STR_CAT_RANDOM_PACK_5_BUFF "随机事件包 5：增益"
 #!define STR_CAT_RANDOM_PACK_4_DEBUFF "随机事件包 4：减益"
 #!define STR_CAT_RANDOM_PACK_4_MECH "随机事件包 4：机制"
 #!define STR_CAT_RANDOM_PACK_5_DEBUFF "随机事件包 5：减益"
