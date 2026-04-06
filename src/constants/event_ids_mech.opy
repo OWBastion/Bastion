@@ -34,6 +34,8 @@ enum MechEventId:
     TRINITY_SSR
     # legacy numeric id: 15
     GAMBLER_DICE_MANIAC
+    # legacy numeric id: 16
+    GAMBLER_HEART_OF_STEEL
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

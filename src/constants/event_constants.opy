@@ -333,16 +333,6 @@
 #!define EVT_BUFF_29_WEIGHT 0.5
 #!define EVT_29_SPEED_BOOST 60
 
-# --- ID 30: 赌徒：心之钢 ---
-# Duration（秒）
-#!define EVT_BUFF_30_DURATION 15
-# Weight（权重）
-#!define EVT_BUFF_30_WEIGHT 0.4
-#!define EVT_30_HOLD_TIME 0.5
-#!define EVT_30_WIN_RATE 35
-#!define EVT_30_WIN_MULTIPLIER 2
-#!define EVT_30_LOSE_RATIO 0.5
-
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10
@@ -862,5 +852,13 @@
 #!define EVT_MECH_15_HEART_STEEL_DELTA_LOSS 10
 # 永久减伤/治疗增益变更值（%）
 #!define EVT_MECH_15_DMG_HEAL_DELTA 5
+
+# --- ID 16 (Mech/Special): 赌徒：心之钢 ---
+#!define EVT_MECH_16_DURATION 15
+#!define EVT_MECH_16_WEIGHT 0.4
+#!define EVT_MECH_16_HOLD_TIME 0.5
+#!define EVT_MECH_16_WIN_RATE 35
+#!define EVT_MECH_16_WIN_MULTIPLIER 2
+#!define EVT_MECH_16_LOSE_RATIO 0.5
 
 # -----------------------------------------------------------------------------

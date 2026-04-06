@@ -199,12 +199,8 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.MAGIC_MASTER)
     lbl_199:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_30_TITLE, true, BuffEventId.GAMBLER_HEART_OF_STEEL):
-        goto lbl_33
-    buffEvent[BuffEventId.GAMBLER_HEART_OF_STEEL] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_WIN_RATE, EVT_30_WIN_MULTIPLIER, 100 - EVT_30_WIN_RATE, percent(EVT_30_LOSE_RATIO)), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
-    buffEventId.append(BuffEventId.GAMBLER_HEART_OF_STEEL)
     lbl_33:
-    
+
     # ================================================
     # 减益事件 (Debuff Events)
     # ================================================
@@ -553,3 +549,9 @@ rule "initialize event array":
     mechEvent[MechEventId.GAMBLER_DICE_MANIAC] = [STR_EVT_MECH_15_TITLE, STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_MECH_15_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA), EVT_MECH_15_DURATION, EVT_MECH_15_WEIGHT]
     mechEventId.append(MechEventId.GAMBLER_DICE_MANIAC)
     lbl_123:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_MECH, STR_EVT_MECH_16_TITLE, true, MechEventId.GAMBLER_HEART_OF_STEEL):
+        goto lbl_124
+    mechEvent[MechEventId.GAMBLER_HEART_OF_STEEL] = [STR_EVT_MECH_16_TITLE, STR_EVT_MECH_16_DESC.format(Button.RELOAD, EVT_MECH_16_WIN_RATE, EVT_MECH_16_WIN_MULTIPLIER, 100 - EVT_MECH_16_WIN_RATE, percent(EVT_MECH_16_LOSE_RATIO)), EVT_MECH_16_DURATION, EVT_MECH_16_WEIGHT]
+    mechEventId.append(MechEventId.GAMBLER_HEART_OF_STEEL)
+    lbl_124:

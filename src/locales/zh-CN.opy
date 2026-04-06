@@ -182,8 +182,6 @@
 #!define STR_EVT_BUFF_27_DESC "获得{0}点可恢复护甲与{1}%伤害减免\n成为堡垒的优先攻击目标"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态\n并获得{0}%移速加成"
-#!define STR_EVT_BUFF_30_TITLE "赌徒：心之钢"
-#!define STR_EVT_BUFF_30_DESC "长按{0}触发结算\n{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
@@ -220,6 +218,8 @@
 #!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速\n每{2}秒获得1层心之钢"
 #!define STR_EVT_MECH_15_TITLE "赌徒：掷骰狂人"
 #!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗增益"
+#!define STR_EVT_MECH_16_TITLE "赌徒：心之钢"
+#!define STR_EVT_MECH_16_DESC "长按{0}触发结算\n{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数（向上取整）"
 
 
 # 设置菜单分类 (Pack)

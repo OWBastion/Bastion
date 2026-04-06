@@ -754,9 +754,9 @@
     },
     {
       "key": "GAMBLER_HEART_OF_STEEL",
-      "type": "buff",
-      "id": 29,
-      "pack": 4,
+      "type": "mech",
+      "id": 15,
+      "pack": 5,
       "nameZh": "赌徒：心之钢",
       "descZh": "长按{0}触发结算\n{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数（向上取整）",
       "durationSec": 15,

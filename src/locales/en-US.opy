@@ -176,8 +176,6 @@
 #!define STR_EVT_BUFF_27_DESC "Gain {0} recoverable armor and {1}% damage reduction.\nBastions prioritize targeting you."
 #!define STR_EVT_BUFF_29_TITLE "Magic Master"
 #!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes.\nGain {0}% bonus movement speed."
-#!define STR_EVT_BUFF_30_TITLE "Gambler: Heart of Steel"
-#!define STR_EVT_BUFF_30_DESC "Hold {0} to settle.\n{1}% chance to multiply Heartsteel stacks by {2}; {3}% chance to lose {4}% stacks (rounded up)."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
@@ -214,6 +212,8 @@
 #!define STR_EVT_MECH_14_DESC "100HP->4% DR, 1% DR->2.5% Speed, 100% Speed/s->1 Heartsteel."
 #!define STR_EVT_MECH_15_TITLE "Gambler: Dice Maniac"
 #!define STR_EVT_MECH_15_DESC "Lasts {0}s. Hold {1} for {2}s to roll.\n1: -{3} Heartsteel | 2: -{4}% Speed\n3: -{5}% DR & Healing | 4: +{4}% Speed\n5: +{3} Heartsteel | 6: +{5}% DR & Healing"
+#!define STR_EVT_MECH_16_TITLE "Gambler: Heart of Steel"
+#!define STR_EVT_MECH_16_DESC "Hold {0} to settle.\n{1}% chance to multiply Heartsteel stacks by {2}; {3}% chance to lose {4}% stacks (rounded up)."
 
 
 # Settings Categories
