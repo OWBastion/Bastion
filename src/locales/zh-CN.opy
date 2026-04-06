@@ -220,6 +220,8 @@
 #!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗增益"
 #!define STR_EVT_MECH_16_TITLE "赌徒：心之钢"
 #!define STR_EVT_MECH_16_DESC "长按{0}触发\n{1}%概率心之钢层数变为{2}倍\n{3}%概率失去{4}%层数"
+#!define STR_EVT_MECH_17_TITLE "赌徒：梭哈艺术 5.0"
+#!define STR_EVT_MECH_17_DESC "点击{0}下注，最多{1}次\n每次下注当前心之钢的{2}%（至少1层）\n结束后{3}%概率获得总下注×{4}，否则失去总下注"
 
 
 # 设置菜单分类 (Pack)

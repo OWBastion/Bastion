@@ -36,6 +36,8 @@ enum MechEventId:
     GAMBLER_DICE_MANIAC
     # legacy numeric id: 16
     GAMBLER_HEART_OF_STEEL
+    # legacy numeric id: 17
+    GAMBLER_ALL_IN_ART_5
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

@@ -861,4 +861,12 @@
 #!define EVT_MECH_16_WIN_MULTIPLIER 2
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
+# --- ID 17 (Mech/Special): 赌徒：梭哈艺术 5.0 ---
+#!define EVT_MECH_17_DURATION 15
+#!define EVT_MECH_17_WEIGHT 0.6
+#!define EVT_MECH_17_WIN_RATE 10
+#!define EVT_MECH_17_STAKE_RATIO 0.25
+#!define EVT_MECH_17_MAX_BETS 4
+#!define EVT_MECH_17_WIN_MULTIPLIER 3
+
 # -----------------------------------------------------------------------------
