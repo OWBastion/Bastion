@@ -472,11 +472,8 @@ rule "bastion A-36 Tactical Grenade hit player":
     
     if not attacker.hasNano:
         goto lbl_0
-    if eventId != 2:
-        eventPlayer.setStatusEffect(attacker, Status.BURNING, 3)
-    else:
-        eventPlayer.setStatusEffect(attacker, Status.FROZEN, 1.5)
-    eventPlayer.startDamageOverTime(attacker, 3, ceil(ceil(victim.getMaxHealth() * 0.25 / 3) / 4))
+    eventPlayer.setStatusEffect(attacker, Status.BURNING, 3)
+    eventPlayer.startDamageOverTime(attacker, 3, ceil(ceil(victim.getMaxHealth() * 0.5 / 3) / 4))
     lbl_0:
     wait()
 
