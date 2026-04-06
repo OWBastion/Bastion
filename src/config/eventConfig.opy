@@ -360,3 +360,18 @@ rule "initialize event array":
 
 
     lbl_3:
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5, true, 1):
+        goto lbl_4
+
+    # ================================================
+    # Pack 5: Mechanics
+    # ================================================
+    mechEvent[MechEventId.GAMBLER_DICE_MANIAC] = [
+        STR_EVT_MECH_15_TITLE,
+        STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_MECH_15_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA),
+        EVT_MECH_15_DURATION,
+        EVT_MECH_15_WEIGHT
+    ]
+    mechEventId.append(MechEventId.GAMBLER_DICE_MANIAC)
+
+    lbl_4:

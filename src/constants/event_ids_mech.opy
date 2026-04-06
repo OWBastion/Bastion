@@ -34,6 +34,8 @@ enum MechEventId:
     VALKYRIE_DESCENT
     # legacy numeric id: 14
     TRINITY_SSR
+    # legacy numeric id: 15
+    GAMBLER_DICE_MANIAC
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

@@ -220,6 +220,8 @@
 #!define STR_EVT_MECH_13_DESC "生命值提高{0}%，获得禁疗\n受到伤害获得大招充能\n大招持续期间最多回复{1}%生命值"
 #!define STR_EVT_MECH_14_TITLE "三位一体"
 #!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速\n每{2}秒获得1层心之钢"
+#!define STR_EVT_MECH_15_TITLE "赌徒：掷骰狂人"
+#!define STR_EVT_MECH_15_DESC "持续{0}秒，长按{1}{2}秒掷骰\n1: -{3}层心之钢 | 2: -{4}%移速\n3: -{5}%减伤和治疗增益 | 4: +{4}%移速\n5: +{3}层心之钢 | 6: +{5}%减伤和治疗增益"
 
 
 # 设置菜单分类 (Pack)
@@ -228,6 +230,7 @@
 #!define STR_CAT_RANDOM_PACK_2 "随机事件包 2"
 #!define STR_CAT_RANDOM_PACK_3 "随机事件包 3"
 #!define STR_CAT_RANDOM_PACK_4 "随机事件包 4"
+#!define STR_CAT_RANDOM_PACK_5 "随机事件包 5"
 #!define STR_CAT_RANDOM_PACK_1_BUFF "随机事件包 1：增益"
 #!define STR_CAT_RANDOM_PACK_2_BUFF "随机事件包 2：增益"
 #!define STR_CAT_RANDOM_PACK_3_BUFF "随机事件包 3：增益"
@@ -240,6 +243,7 @@
 #!define STR_CAT_RANDOM_PACK_4_BUFF "随机事件包 4：增益"
 #!define STR_CAT_RANDOM_PACK_4_DEBUFF "随机事件包 4：减益"
 #!define STR_CAT_RANDOM_PACK_4_MECH "随机事件包 4：机制"
+#!define STR_CAT_RANDOM_PACK_5_MECH "随机事件包 5：机制"
 #!define STR_CAT_BUFF "增益"
 #!define STR_CAT_DEBUFF "减益"
 #!define STR_CAT_MECH "机制"

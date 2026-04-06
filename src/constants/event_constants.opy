@@ -853,4 +853,20 @@
 # 循环间隔 (秒)
 #!define EVT_MECH_14_INTERVAL 1
 
+# --- ID 15 (Mech/Special): 赌徒：掷骰狂人 ---
+# Duration（秒）
+#!define EVT_MECH_15_DURATION 60
+# Weight（权重）
+#!define EVT_MECH_15_WEIGHT 0.5
+# 长按判定时长（秒）
+#!define EVT_MECH_15_HOLD_TIME 1
+# 单次结算后冷却间隔（秒）
+#!define EVT_MECH_15_ROLL_INTERVAL 1.5
+# 永久移速变更值（%）
+#!define EVT_MECH_15_SPEED_DELTA 4
+# 心之钢层数变更值
+#!define EVT_MECH_15_HEART_STEEL_DELTA 10
+# 永久减伤/治疗增益变更值（%）
+#!define EVT_MECH_15_DMG_HEAL_DELTA 5
+
 # -----------------------------------------------------------------------------

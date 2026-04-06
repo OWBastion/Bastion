@@ -178,3 +178,4 @@ playervar altFormTrigger 111
 playervar tempUnlockId
 playervar earnedAchievements
 playervar menuHeroIndex
+playervar mod_heal_perma

@@ -42,7 +42,7 @@ rule "initialize effects":
             round(localPlayer.heart_steel),
             localPlayer.mod_speed_perma,
             negToPos(localPlayer.mod_dmg_perma),
-            localPlayer.mod_heal_event
+            localPlayer.mod_heal_perma + localPlayer.mod_heal_event
         ) if dlcVishkarEvent else "",
 
         # 3. 总耗时 (仅在通关后显示)

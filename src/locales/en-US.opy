@@ -214,6 +214,8 @@
 #!define STR_EVT_MECH_13_DESC "Become BOSS: 500% HP.\nNo healing received. Heal via Ultimate."
 #!define STR_EVT_MECH_14_TITLE "Trinity"
 #!define STR_EVT_MECH_14_DESC "100HP->4% DR, 1% DR->2.5% Speed, 100% Speed/s->1 Heartsteel."
+#!define STR_EVT_MECH_15_TITLE "Gambler: Dice Maniac"
+#!define STR_EVT_MECH_15_DESC "Lasts {0}s. Hold {1} for {2}s to roll.\n1: -{3} Heartsteel | 2: -{4}% Speed\n3: -{5}% DR & Healing | 4: +{4}% Speed\n5: +{3} Heartsteel | 6: +{5}% DR & Healing"
 
 
 # Settings Categories
@@ -222,6 +224,7 @@
 #!define STR_CAT_RANDOM_PACK_2 "Random Events Pack 2"
 #!define STR_CAT_RANDOM_PACK_3 "Random Events Pack 3"
 #!define STR_CAT_RANDOM_PACK_4 "Random Events Pack 4"
+#!define STR_CAT_RANDOM_PACK_5 "Random Events Pack 5"
 #!define STR_CAT_RANDOM_PACK_1_BUFF "Random Pack 1: Buffs"
 #!define STR_CAT_RANDOM_PACK_2_BUFF "Random Pack 2: Buffs"
 #!define STR_CAT_RANDOM_PACK_3_BUFF "Random Pack 3: Buffs"
@@ -234,6 +237,7 @@
 #!define STR_CAT_RANDOM_PACK_4_BUFF "Random Pack 4: Buffs"
 #!define STR_CAT_RANDOM_PACK_4_DEBUFF "Random Pack 4: Debuffs"
 #!define STR_CAT_RANDOM_PACK_4_MECH "Random Pack 4: Mechanics"
+#!define STR_CAT_RANDOM_PACK_5_MECH "Random Pack 5: Mechanics"
 #!define STR_CAT_BUFF "Buff"
 #!define STR_CAT_DEBUFF "Debuff"
 #!define STR_CAT_MECH "Mechanic"
