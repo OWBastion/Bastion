@@ -341,20 +341,9 @@
       "availability": "active"
     },
     {
-      "key": "TENACITY",
-      "type": "buff",
-      "id": 28,
-      "pack": 4,
-      "nameZh": "坚韧",
-      "descZh": "获得{0}%击退抵抗\\n生命值低于{1}%时，回复至{3}%生命值\\n{4}秒冷却",
-      "durationSec": 45,
-      "weight": 1.6,
-      "availability": "retired"
-    },
-    {
       "key": "MAGIC_MASTER",
       "type": "buff",
-      "id": 29,
+      "id": 28,
       "pack": 4,
       "nameZh": "魔术大师",
       "descZh": "使用表情时进入隐身状态",

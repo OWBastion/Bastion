@@ -180,8 +180,6 @@
 #!define STR_EVT_BUFF_26_DESC "切换形态时获得{0}+{1}最大生命值的临时生命值"
 #!define STR_EVT_BUFF_27_TITLE "向我开炮"
 #!define STR_EVT_BUFF_27_DESC "获得{0}点可恢复护甲与{1}%伤害减免\n成为堡垒的优先攻击目标"
-#!define STR_EVT_BUFF_28_TITLE "坚韧"
-#!define STR_EVT_BUFF_28_DESC "获得{0}%击退抵抗\n生命值低于{1}%时，回复至{3}%生命值\n{4}秒冷却"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态"
 
