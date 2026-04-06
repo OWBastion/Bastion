@@ -25,5 +25,4 @@
 #!include "debuff/error_404.opy"
 #!include "debuff/chain_overload.opy"
 #!include "debuff/health_sync.opy"
-#!include "debuff/vampire.opy"
 #!include "debuff/moon_rocket.opy"

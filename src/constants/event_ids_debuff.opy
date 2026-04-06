@@ -43,8 +43,6 @@ enum DebuffEventId:
     # legacy numeric id: 18
     HEALTH_SYNC
     # legacy numeric id: 19
-    VAMPIRE
-    # legacy numeric id: 20
     MOON_ROCKET
     # sentinel only for integrity checks (do not register as an event)
     COUNT

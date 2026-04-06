@@ -573,23 +573,7 @@
 # Weight（权重）
 #!define EVT_DEBUFF_18_WEIGHT 0.7
 
-# --- ID 19 (Debuff): 吸血鬼 (按需吸血) ---
-# Duration（秒）
-#!define EVT_DEBUFF_19_DURATION 60
-# Weight（权重）
-#!define EVT_DEBUFF_19_WEIGHT 0.6
-#!define EVT_DEBUFF_19_RADIUS 45
-
-# 每个目标受到的伤害
-#!define EVT_DEBUFF_19_DAMAGE_PER_TARGET 25
-
-# 自身治疗量 = 目标数量 * HEAL_PER_TARGET
-#!define EVT_DEBUFF_19_HEAL_PER_TARGET 25
-
-# 循环间隔 (秒)
-#!define EVT_DEBUFF_19_INTERVAL 1
-
-# --- ID 20 (Debuff): 登月火箭 ---
+# --- ID 19 (Debuff): 登月火箭 ---
 # Duration（秒）
 #!define EVT_DEBUFF_20_DURATION 5
 # Weight（权重）
@@ -868,5 +852,13 @@
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
 #!define EVT_MECH_17_WIN_MULTIPLIER 3
+
+# --- ID 18 (Mech): 吸血鬼 ---
+#!define EVT_MECH_18_DURATION 45
+#!define EVT_MECH_18_WEIGHT 0.8
+#!define EVT_MECH_18_DRAIN_FLAT 25
+#!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.08
+#!define EVT_MECH_18_INTERVAL 1
+#!define EVT_MECH_18_KILL_HEAL_PERMA 5
 
 # -----------------------------------------------------------------------------

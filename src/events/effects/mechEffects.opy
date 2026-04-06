@@ -23,3 +23,4 @@
 #!include "mech/gambler_dice_maniac.opy"
 #!include "mech/gambler_heart_of_steel.opy"
 #!include "mech/gambler_all_in_art_5.opy"
+#!include "mech/vampire.opy"
