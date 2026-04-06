@@ -306,7 +306,7 @@ rule "initialize event array":
     buffEvent[BuffEventId.DRAW_FIRE] = [STR_EVT_BUFF_27_TITLE, STR_EVT_BUFF_27_DESC.format(EVT_27_ARMOR_AMOUNT, negToPos(EVT_27_DMG_TAKEN)), EVT_BUFF_27_DURATION, EVT_BUFF_27_WEIGHT]
     buffEventId.append(BuffEventId.DRAW_FIRE)
 
-    buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC, EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
+    buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
 
     # ================================================

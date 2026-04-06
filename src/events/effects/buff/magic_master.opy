@@ -6,8 +6,12 @@ rule "[VishkarEvent]: 魔术大师":
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MAGIC_MASTER]) == true
 
+    eventPlayer.mod_speed_event = EVT_29_SPEED_BOOST
+    updatePlayerStats()
     eventPlayer.targetSilence = eventPlayer.isCommunicatingEmote()
     wait(0.25)
     if ruleCondition:
         loop()
     eventPlayer.targetSilence = false
+    eventPlayer.mod_speed_event = 0
+    updatePlayerStats()

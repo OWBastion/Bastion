@@ -175,7 +175,7 @@
 #!define STR_EVT_BUFF_27_TITLE "Fire at Me"
 #!define STR_EVT_BUFF_27_DESC "Gain {0} recoverable armor and {1}% damage reduction.\nBastions prioritize targeting you."
 #!define STR_EVT_BUFF_29_TITLE "Magic Master"
-#!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes."
+#!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes.\nGain {0}% bonus movement speed."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

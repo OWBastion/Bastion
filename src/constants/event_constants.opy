@@ -331,6 +331,7 @@
 #!define EVT_BUFF_29_DURATION 45
 # Weight（权重）
 #!define EVT_BUFF_29_WEIGHT 0.5
+#!define EVT_29_SPEED_BOOST 60
 
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
