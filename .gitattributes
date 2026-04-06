@@ -1,0 +1,3 @@
+*.opy linguist-language=Python
+
+*.opy linguist-detectable=true
