@@ -4,10 +4,9 @@
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, any([eventPlayer.categoryRoll == null, eventPlayer.categoryRoll == 1700]), eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.altFormTrigger != true, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.altFormTrigger != true, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS]) == true
 
-    if eventPlayer.categoryRoll == null:
-        eventPlayer.categoryRoll = 1700
+    if eventPlayer.hudText == "":
         eventPlayer.eventMission = 0
         eventPlayer.eventMissionGoal = 0
         eventPlayer.altFormTrigger = false
@@ -26,9 +25,9 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration <= 0, eventPlayer.categoryRoll != 1701]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration <= 0]) == true
 
-    eventPlayer.categoryRoll = 1701
+    eventPlayer.eventType = null
     if eventPlayer.eventMission <= 0:
         smallMessage(eventPlayer, "  {0}  未下注，本局作废".format(iconString(Icon.DIAMOND)))
     elif random.randint(0, 99) < EVT_MECH_17_WIN_RATE:
