@@ -731,7 +731,7 @@
 # Duration（秒）
 #!define EVT_MECH_7_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_7_WEIGHT 1.2
+#!define EVT_MECH_7_WEIGHT 1.4
 #!define EVT_MECH_7_HEART_STEEL_COST 2
 #!define EVT_MECH_7_FORCE_ROLL 20
 
