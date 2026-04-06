@@ -689,7 +689,7 @@
     {
       "key": "CHEAT_SKIP_HERO",
       "type": "mech",
-      "id": 10,
+      "id": 9,
       "pack": 4,
       "nameZh": "作弊：跳过",
       "descZh": "长按{0}跳过当前英雄且不计入挑战进度",
@@ -700,7 +700,7 @@
     {
       "key": "NESTING_DOLL",
       "type": "mech",
-      "id": 11,
+      "id": 10,
       "pack": 4,
       "nameZh": "俄罗斯套娃",
       "descZh": "阵亡{0}秒后复活\\n每次复活变小{1}%并加速{2}%",
@@ -711,7 +711,7 @@
     {
       "key": "GAMBLER_LONG_INVESTMENT",
       "type": "mech",
-      "id": 12,
+      "id": 11,
       "pack": 4,
       "nameZh": "赌徒：长期投资",
       "descZh": "长按{0}锁定{1}个减益\\n{2}%概率获得{3}层心之钢",
@@ -722,7 +722,7 @@
     {
       "key": "VALKYRIE_DESCENT",
       "type": "mech",
-      "id": 13,
+      "id": 12,
       "pack": 4,
       "nameZh": "瓦尔基里降临",
       "descZh": "生命值提高{0}%，获得禁疗\\n受到伤害获得大招充能\\n大招持续期间最多回复{1}%生命值",
@@ -733,7 +733,7 @@
     {
       "key": "TRINITY_SSR",
       "type": "mech",
-      "id": 14,
+      "id": 13,
       "pack": 4,
       "nameZh": "三位一体",
       "descZh": "100HP→{0}%减伤，1%减伤→{1}%移速\\n每{2}秒获得1层心之钢",
@@ -744,7 +744,7 @@
     {
       "key": "GAMBLER_DICE_MANIAC",
       "type": "mech",
-      "id": 15,
+      "id": 14,
       "pack": 5,
       "nameZh": "赌徒：掷骰狂人",
       "descZh": "持续{0}秒，长按{1}{2}秒掷骰\\n1: -{3}层心之钢 | 2: -{4}%移速\\n3: -{5}%减伤和治疗增益 | 4: +{4}%移速\\n5: +{3}层心之钢 | 6: +{5}%减伤和治疗增益",
@@ -754,11 +754,11 @@
     },
     {
       "key": "GAMBLER_HEART_OF_STEEL",
-      "type": "mech",
-      "id": 16,
-      "pack": 5,
+      "type": "buff",
+      "id": 29,
+      "pack": 4,
       "nameZh": "赌徒：心之钢",
-      "descZh": "长按{0}触发结算\n{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数",
+      "descZh": "长按{0}触发结算\n{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数（向上取整）",
       "durationSec": 15,
       "weight": 0.4,
       "availability": "active"
