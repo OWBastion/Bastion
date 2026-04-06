@@ -45,16 +45,16 @@
 - 称号系统唯一真源（`titles` + `players/titleKeys` + `meta`）
 - 维护规则：`players` 顺序即索引语义，新增玩家仅追加，禁止重排
 
-### `tools/sync-title-data.mjs`
+### `tools/sync-title-data.ts`
 
 - 从真源生成 `title-cn.opy` 受管区块
 - 生成 web 查询页数据 `web/title-query/public/data/titles.json`
-- 提供一致性校验入口（配合 `pnpm run test:title-data-sync`）
+- 提供一致性校验入口（配合 `pnpm run tools -- test:title-data-sync`）
 
-### `tools/grant-player-title.mjs`
+### `tools/grant-player-title.ts`
 
-- 通过 `pnpm run grant:title` 写入 `data/title-source.json`
-- 非 `--dry-run` 且有实际变更时自动执行 `sync:title-data`
+- 通过 `pnpm run tools -- grant:title` 写入 `data/title-source.json`
+- 非 `--dry-run` 且有实际变更时自动执行 `pnpm run tools -- sync:title-data`
 - CLI 输出包含 auto-sync 结果，便于确认生成产物是否已刷新
 
 ### `title/title-cn.opy`
@@ -78,5 +78,5 @@
 
 1. 编辑 `data/title-source.json`（称号定义、玩家授予）。
 2. 如有地图奖励变更，更新 `data/title-source.json` 的 `mapTitles` 对应槽位。
-3. 若通过 `pnpm run grant:title` 发放称号，确认输出中的 auto-sync 已执行；若手动编辑真源，则执行 `pnpm run sync:title-data`。
-4. 执行 `pnpm run test:title-data-sync`。
+3. 若通过 `pnpm run tools -- grant:title` 发放称号，确认输出中的 auto-sync 已执行；若手动编辑真源，则执行 `pnpm run tools -- sync:title-data`。
+4. 执行 `pnpm run tools -- test:title-data-sync`。

@@ -9,18 +9,10 @@
     "build:dev": "overpy compile -i src/devMain.opy -o build/devMain.ow -l zh-CN",
     "build:main:en": "overpy compile -i src/main.opy -o build/en-US.ow -l en-US",
     "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
-    "sync:title-data": "node tools/sync-title-data.mjs",
-    "sync:event-data": "node tools/sync-event-data.mjs",
-    "event:finalize": "node tools/finalize-event-data.mjs",
-    "sync:query-data": "pnpm run sync:title-data && pnpm run sync:event-data",
-    "grant:title": "node tools/grant-player-title.mjs --interactive",
-    "dev:title-query": "pnpm run sync:query-data && vite --config web/title-query/vite.config.mjs",
-    "build:title-query": "pnpm run sync:query-data && vite build --config web/title-query/vite.config.mjs",
-    "bump:env-version": "node tools/bump-env-version.mjs",
-    "perf:scan": "node tools/perf-loop-scan.mjs",
-    "test:title-data-sync": "node --test tools/generate-title-query-data.test.mjs",
-    "test:event-data-sync": "node --test tools/sync-event-data.test.mjs",
-    "test:title-grant": "node --test tools/grant-player-title.test.mjs",
+    "tools": "tsx tools/cli.ts",
+    "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:event-data-sync && pnpm run tools -- test:title-grant",
+    "dev:title-query": "pnpm run tools -- sync:title-data && pnpm run tools -- sync:event-data && vite --config web/title-query/vite.config.ts",
+    "build:title-query": "pnpm run tools -- sync:title-data && pnpm run tools -- sync:event-data && vite build --config web/title-query/vite.config.ts",
     "build:release": "pnpm run build:main:en && pnpm run build:main:zh",
     "build": "pnpm run build:main && pnpm run build:dev"
   },
@@ -29,7 +21,11 @@
     "vue": "^3.5.31"
   },
   "devDependencies": {
+    "@types/node": "^24.9.1",
     "@vitejs/plugin-vue": "^6.0.5",
+    "commander": "^14.0.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
     "vite": "^8.0.3"
   }
 }

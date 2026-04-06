@@ -3,7 +3,7 @@ import path from 'node:path';
 import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { syncTitleData } from './sync-title-data.mjs';
+import { syncTitleData } from './sync-title-data.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1247,13 +1247,13 @@ if (invokedPath === __filename) {
 
       if (args.help) {
         console.log('Usage:');
-        console.log('  node tools/grant-player-title.mjs --input <request.json> [--dry-run]');
-        console.log('  node tools/grant-player-title.mjs --interactive [--dry-run]');
+        console.log('  pnpm run tools -- grant:title --input <request.json> [--dry-run]');
+        console.log('  pnpm run tools -- grant:title --interactive [--dry-run]');
         console.log(
-          '  node tools/grant-player-title.mjs --player-name <name> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--fail-on-missing-player] [--dry-run]'
+          '  pnpm run tools -- grant:title --player-name <name> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--fail-on-missing-player] [--dry-run]'
         );
         console.log(
-          '  node tools/grant-player-title.mjs --player-id <id> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--dry-run]'
+          '  pnpm run tools -- grant:title --player-id <id> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--dry-run]'
         );
         process.exit(0);
       }

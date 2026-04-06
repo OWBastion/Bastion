@@ -24,7 +24,7 @@ Read only the documents needed by task type:
 | --- | --- | --- |
 | Entry/include/order updates, `main/devMain` parity | `docs/agents/architecture-rules.md` | `docs/modules/01-entry-architecture.md` |
 | Build/CI/check commands and validation flow | `docs/agents/build-validation.md` | `.github/workflows/ci-build.yml`, `.github/workflows/release.yml`, `.github/workflows/pages-title-query.yml` |
-| Title source sync / title-query page updates | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.mjs`, `.github/workflows/pages-title-query.yml` |
+| Title source sync / title-query page updates | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.ts`, `.github/workflows/pages-title-query.yml` |
 | Performance tuning, loops, Ongoing rules | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/Loops.md` |
 | PR/commit hygiene and AI collaboration boundaries | `docs/agents/collaboration-commit.md` | this file (`AGENTS.md`) |
 | Doc sync and module documentation updates | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
@@ -55,18 +55,18 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - CI-parity install: `pnpm install --frozen-lockfile`
 - Core compile validation: `pnpm run build`
 - Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
-- Title data sync and validation: `pnpm run sync:title-data` then `pnpm run test:title-data-sync`
-- Title grant helper: `pnpm run grant:title` (auto-syncs title data after successful non-dry-run writes)
-- Title grant workflow test: `pnpm run test:title-grant`
+- Title data sync and validation: `pnpm run tools -- sync:title-data` then `pnpm run tools -- test:title-data-sync`
+- Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
+- Title grant workflow test: `pnpm run tools -- test:title-grant`
 - Title query local dev server (auto-sync + Vite): `pnpm run dev:title-query`
 - Title query page build: `pnpm run build:title-query`
 - Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`
-- Performance loop scan helper: `pnpm run perf:scan`
-- Performance loop strict gate (non-zero on high-risk findings): `pnpm run perf:scan --strict`
+- Performance loop scan helper: `pnpm run tools -- perf:scan`
+- Performance loop strict gate (non-zero on high-risk findings): `pnpm run tools -- perf:scan --strict`
 - Release artifact build (local parity): `pnpm run build:release`
 - Locale-specific release builds: `pnpm run build:main:en` and `pnpm run build:main:zh`
-- Manual env version bump (release helper): `pnpm run bump:env-version`
-- Release trigger: push to `main` (workflow auto-runs `pnpm run bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
+- Manual env version bump (release helper): `pnpm run tools -- bump:env-version`
+- Release trigger: push to `main` (workflow auto-runs `pnpm run tools -- bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
 - Release freshness guard: workflow skips stale runs when `github.sha` is not current `origin/main` head.
 - Release skip guard: include `[skip release]` in a `main` commit message to bypass release workflow.
 - TODO: Document one canonical local decompile verification command once standardized.

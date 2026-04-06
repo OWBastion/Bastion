@@ -87,7 +87,7 @@ jobs:
         run: |
           set -euo pipefail
           cmd=(
-            node tools/grant-player-title.mjs
+            pnpm run tools -- grant:title
             --player-id "${{ inputs.player_id }}"
             --general-title-label "${{ inputs.general_title_label }}"
           )

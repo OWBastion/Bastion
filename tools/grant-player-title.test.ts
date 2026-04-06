@@ -17,7 +17,7 @@ import {
   resolvePlayerNameFromPlayerId,
   resolveTitleKeyFromLabel,
   validateCliArgs
-} from './grant-player-title.mjs';
+} from './grant-player-title.ts';
 
 function buildFixture() {
   return {

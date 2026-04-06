@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 
-import { generateTitleQueryData, loadTitleSource, syncTitleData } from './sync-title-data.mjs';
+import { generateTitleQueryData, loadTitleSource, syncTitleData } from './sync-title-data.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

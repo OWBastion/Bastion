@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { generateTitleQueryData } from './sync-title-data.mjs';
+import { generateTitleQueryData } from './sync-title-data.ts';
 
 export { generateTitleQueryData };
 
