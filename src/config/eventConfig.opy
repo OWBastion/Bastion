@@ -308,6 +308,9 @@ rule "initialize event array":
 
     buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
+    
+    buffEvent[BuffEventId.GAMBLER_HEART_OF_STEEL] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_WIN_RATE, EVT_30_WIN_MULTIPLIER, 100 - EVT_30_WIN_RATE, percent(EVT_30_LOSE_RATIO)), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.GAMBLER_HEART_OF_STEEL)
 
     # ================================================
     # Pack 4: Debuffs

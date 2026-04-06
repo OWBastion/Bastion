@@ -62,6 +62,8 @@ enum BuffEventId:
     DRAW_FIRE
     # legacy numeric id: 29
     MAGIC_MASTER
+    # legacy numeric id: 30
+    GAMBLER_HEART_OF_STEEL
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

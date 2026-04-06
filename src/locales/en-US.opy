@@ -176,6 +176,8 @@
 #!define STR_EVT_BUFF_27_DESC "Gain {0} recoverable armor and {1}% damage reduction.\nBastions prioritize targeting you."
 #!define STR_EVT_BUFF_29_TITLE "Magic Master"
 #!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes.\nGain {0}% bonus movement speed."
+#!define STR_EVT_BUFF_30_TITLE "Gambler: Heart of Steel"
+#!define STR_EVT_BUFF_30_DESC "Hold {0} to settle.\n{1}% chance to multiply Heartsteel stacks by {2}; {3}% chance to lose {4}% stacks (rounded up)."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

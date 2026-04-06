@@ -194,9 +194,15 @@ rule "initialize event array":
 
     lbl_109:
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_29_TITLE, true, BuffEventId.MAGIC_MASTER):
-        goto lbl_33
+        goto lbl_199
     buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
+    lbl_199:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_30_TITLE, true, BuffEventId.GAMBLER_HEART_OF_STEEL):
+        goto lbl_33
+    buffEvent[BuffEventId.GAMBLER_HEART_OF_STEEL] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_WIN_RATE, EVT_30_WIN_MULTIPLIER, 100 - EVT_30_WIN_RATE, percent(EVT_30_LOSE_RATIO)), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.GAMBLER_HEART_OF_STEEL)
     lbl_33:
     
     # ================================================

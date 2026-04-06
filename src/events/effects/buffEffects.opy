@@ -40,3 +40,4 @@
 #!include "buff/super_transform.opy"
 #!include "buff/draw_fire.opy"
 #!include "buff/magic_master.opy"
+#!include "buff/gambler_heart_of_steel.opy"
