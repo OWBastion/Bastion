@@ -132,11 +132,7 @@ rule "initialize effects":
     # Random Events 4.0 HUD
     # --------------------------------------------------------------------------------------------------------------------------------
     if evalOnce(dlcVishkarEvent):
-        # 全局事件
-        hudSubheader(null if eventId == -1 else localPlayer, STR_HUD_EVENT_GLOBAL.format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if eventType == 1 else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1), eventName, STR_TIME_UNIT_SEC.format(ceil(eventDurationHud))), HudPosition.LEFT, 68, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-        hudSubheader(null if eventId == -1 else localPlayer, STR_HUD_EVENT_DESC.format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if eventType == 1 else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1), eventDesc), HudPosition.LEFT, 69, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-        
-        # 事件标题
+        # 事件版本子标题
         hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_V4, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
         
         # 个人事件详情 (改用 hudText)
