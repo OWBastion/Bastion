@@ -1,0 +1,5 @@
+version: 1
+interface:
+  display_name: Remove Workshop Event
+  short_description: Remove Buff/Debuff/Mech events with hard-delete workflow and validation gates.
+  default_prompt: Use $remove-workshop-event to hard-delete a target event across enum/constants/locales/config/effects/event-source, then run build/locale/sync/test validation commands.
