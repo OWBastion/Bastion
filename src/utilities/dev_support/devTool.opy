@@ -96,6 +96,7 @@ rule "menu mode settings display":
 
 rule "menu hero display (player/host)":
     @Event eachPlayer
+    @Condition eventPlayer.isWinner == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
 
     destroyHudText(eventPlayer.menuTextID[0])
@@ -128,6 +129,7 @@ rule "menu hero display (player/host)":
 
 rule "menu hero next":
     @Event eachPlayer
+    @Condition eventPlayer.isWinner == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
 
@@ -142,9 +144,10 @@ rule "menu hero next":
 
 rule "menu hero apply (spawn only)":
     @Event eachPlayer
+    @Condition eventPlayer.isWinner == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
-    @Condition eventPlayer.isInSpawnRoom() == true
+    @Condition (eventPlayer.isInSpawnRoom() and eventPlayer.isMoving() != true) == true
 
     eventPlayer.menuHeroIndex = eventPlayer.menuHeroIndex % (
         (
