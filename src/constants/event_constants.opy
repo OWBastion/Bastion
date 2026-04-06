@@ -858,7 +858,7 @@
 # 永久移速变更值（%）
 #!define EVT_MECH_15_SPEED_DELTA 4
 # 心之钢层数变更值
-#!define EVT_MECH_15_HEART_STEEL_DELTA 10
+#!define EVT_MECH_15_HEART_STEEL_DELTA 5
 # 永久减伤/治疗增益变更值（%）
 #!define EVT_MECH_15_DMG_HEAL_DELTA 5
 

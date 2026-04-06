@@ -9,33 +9,45 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     wait(EVT_MECH_15_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.categoryRoll = random.randint(1, 6)
     if eventPlayer.categoryRoll == 1:
-        eventPlayer.hudText = "掷骰结果：⚀ 1点"
-        eventPlayer.heart_steel -= EVT_MECH_15_HEART_STEEL_DELTA
+        eventPlayer.hudText = "掷骰结果：1点"
+        eventPlayer.heart_steel -= EVT_MECH_15_HEART_STEEL_DELTA * 2
         setPlayerHP()
-        smallMessage(eventPlayer, "  ⚀  1点：永久损失 {0} 层心之钢（{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_HEART_STEEL_DELTA * EVT_8_HP_PERCENT_PER_STACK))
+        smallMessage(eventPlayer, "  1点：永久损失 {0} 层心之钢（{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA *2, EVT_MECH_15_HEART_STEEL_DELTA * EVT_8_HP_PERCENT_PER_STACK * 2))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 2:
-        eventPlayer.hudText = "掷骰结果：⚁ 2点"
+        eventPlayer.hudText = "掷骰结果：2点"
         eventPlayer.mod_speed_perma -= EVT_MECH_15_SPEED_DELTA
-        smallMessage(eventPlayer, "  ⚁  2点：永久损失 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
+        smallMessage(eventPlayer, "  2点：永久损失 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 3:
-        eventPlayer.hudText = "掷骰结果：⚂ 3点"
+        eventPlayer.hudText = "掷骰结果：3点"
         eventPlayer.mod_dmg_perma += EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma -= EVT_MECH_15_DMG_HEAL_DELTA
-        smallMessage(eventPlayer, "  ⚂  3点：永久损失 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        smallMessage(eventPlayer, "  3点：永久损失 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 4:
-        eventPlayer.hudText = "掷骰结果：⚃ 4点"
+        eventPlayer.hudText = "掷骰结果：4点"
         eventPlayer.mod_speed_perma += EVT_MECH_15_SPEED_DELTA
-        smallMessage(eventPlayer, "  ⚃  4点：永久获得 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
+        smallMessage(eventPlayer, "  4点：永久获得 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 5:
-        eventPlayer.hudText = "掷骰结果：⚄ 5点"
+        eventPlayer.hudText = "掷骰结果：5点"
         eventPlayer.heart_steel += EVT_MECH_15_HEART_STEEL_DELTA
         setPlayerHP()
-        smallMessage(eventPlayer, "  ⚄  5点：永久获得 {0} 层心之钢（+{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_HEART_STEEL_DELTA * EVT_8_HP_PERCENT_PER_STACK))
+        smallMessage(eventPlayer, "  5点：永久获得 {0} 层心之钢（+{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_HEART_STEEL_DELTA * EVT_8_HP_PERCENT_PER_STACK))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     else:
-        eventPlayer.hudText = "掷骰结果：⚅ 6点"
+        eventPlayer.hudText = "掷骰结果：6点"
         eventPlayer.mod_dmg_perma -= EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma += EVT_MECH_15_DMG_HEAL_DELTA
-        smallMessage(eventPlayer, "  ⚅  6点：永久获得 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        smallMessage(eventPlayer, "  6点：永久获得 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
+        playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     updatePlayerStats()
     eventPlayer.categoryRoll = 0
     wait(EVT_MECH_15_ROLL_INTERVAL, Wait.ABORT_WHEN_FALSE)

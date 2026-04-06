@@ -219,7 +219,7 @@
 #!define STR_EVT_MECH_14_TITLE "三位一体"
 #!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速\n每{2}秒获得1层心之钢"
 #!define STR_EVT_MECH_15_TITLE "赌徒：掷骰狂人"
-#!define STR_EVT_MECH_15_DESC "持续{0}秒，长按{1}{2}秒掷骰\n1: -{3}层心之钢 | 2: -{4}%移速\n3: -{5}%减伤和治疗增益 | 4: +{4}%移速\n5: +{3}层心之钢 | 6: +{5}%减伤和治疗增益"
+#!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗增益"
 
 
 # 设置菜单分类 (Pack)
