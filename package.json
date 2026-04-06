@@ -11,6 +11,7 @@
     "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
     "sync:title-data": "node tools/sync-title-data.mjs",
     "sync:event-data": "node tools/sync-event-data.mjs",
+    "event:finalize": "node tools/finalize-event-data.mjs",
     "sync:query-data": "pnpm run sync:title-data && pnpm run sync:event-data",
     "grant:title": "node tools/grant-player-title.mjs --interactive",
     "dev:title-query": "pnpm run sync:query-data && vite --config web/title-query/vite.config.mjs",
