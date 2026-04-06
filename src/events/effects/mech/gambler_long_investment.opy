@@ -4,11 +4,11 @@
 rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_LONG_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_LONG_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
-    if random.randint(0, 99) < EVT_MECH_12_WIN_CHANCE:
-        eventPlayer.heart_steel += 20
+    if random.randint(0, 100) < EVT_MECH_12_WIN_CHANCE:
+        eventPlayer.heart_steel += EVT_MECH_12_REWARD_STACKS
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}% 最大生命值）".format(iconString(Icon.CLUB), EVT_MECH_12_REWARD_STACKS, EVT_MECH_12_REWARD_STACKS * EVT_8_HP_PERCENT_PER_STACK))
         setPlayerHP()
     else:
