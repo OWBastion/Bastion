@@ -214,6 +214,8 @@
 #!define STR_EVT_MECH_15_DESC "Lasts {0}s. Hold {1} for {2}s to roll.\n1: -{3} Heartsteel | 2: -{4}% Speed\n3: -{5}% DR & Healing | 4: +{4}% Speed\n5: +{3} Heartsteel | 6: +{5}% DR & Healing"
 #!define STR_EVT_MECH_16_TITLE "Gambler: Heart of Steel"
 #!define STR_EVT_MECH_16_DESC "Hold {0} to settle.\n{1}% chance to multiply Heartsteel stacks by {2}; {3}% chance to lose {4}% stacks (rounded up)."
+#!define STR_EVT_MECH_17_TITLE "Gambler: All-in Art 5.0"
+#!define STR_EVT_MECH_17_DESC "Press {0} to bet {1}% of current Heartsteel per click.\n{2}% chance to gain total bet x{3} at the end."
 
 
 # Settings Categories

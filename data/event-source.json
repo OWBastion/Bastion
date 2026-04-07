@@ -762,6 +762,17 @@
       "durationSec": 15,
       "weight": 0.4,
       "availability": "active"
+    },
+    {
+      "key": "GAMBLER_ALL_IN_ART_5",
+      "type": "mech",
+      "id": 16,
+      "pack": 5,
+      "nameZh": "赌徒：梭哈艺术 5.0",
+      "descZh": "按下{0}以{1}%心之钢层数下注\\n{2}%概率获得赌注×{3}层数",
+      "durationSec": 15,
+      "weight": 0.6,
+      "availability": "active"
     }
   ]
 }

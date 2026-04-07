@@ -33,6 +33,7 @@ def clearPlayerEvent():
     destroyEffect(eventPlayer.invincibleEffect)
     lbl_0:
     eventPlayer.eventMission = 0
+    eventPlayer.eventMissionGoal = 0
     eventPlayer.hudText = ""
     eventPlayer.target = null
     eventPlayer.possess = null
