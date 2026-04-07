@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.altFormTrigger != true, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormTrigger != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     if eventPlayer.hudText == "":
         eventPlayer.eventMission = 0
@@ -25,13 +25,13 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration <= 0]) == true
+    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5]) == true
 
-    eventPlayer.eventType = null
-    if eventPlayer.eventMission > 0 and random.randint(0, 99) < EVT_MECH_17_WIN_RATE:
+    waitUntil(eventPlayer.eventMissionGoal == EVT_MECH_17_MAX_BETS, eventPlayer.eventDuration)
+    if random.randint(0, 99) < EVT_MECH_17_WIN_RATE:
         eventPlayer.heart_steel += eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}%）".format(iconString(Icon.CLUB), eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER, eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER * EVT_8_HP_PERCENT_PER_STACK))
-    elif eventPlayer.eventMission > 0:
+    else:
         eventPlayer.heart_steel -= eventPlayer.eventMission
         smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.eventMission, eventPlayer.eventMission * EVT_8_HP_PERCENT_PER_STACK))
     wait()
@@ -39,5 +39,4 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
     wait()
     eventPlayer.eventMission = 0
     eventPlayer.eventMissionGoal = 0
-    eventPlayer.altFormTrigger = false
     eventPlayer.hudText = ""
