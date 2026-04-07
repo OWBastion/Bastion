@@ -381,7 +381,7 @@ rule "initialize event array":
 
     mechEvent[MechEventId.GAMBLER_ALL_IN_ART_5] = [
         STR_EVT_MECH_17_TITLE,
-        STR_EVT_MECH_17_DESC.format(Button.RELOAD, EVT_MECH_17_MAX_BETS, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER),
+        STR_EVT_MECH_17_DESC.format(Button.RELOAD, EVT_MECH_17_MAX_BETS, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE),
         EVT_MECH_17_DURATION,
         EVT_MECH_17_WEIGHT
     ]
