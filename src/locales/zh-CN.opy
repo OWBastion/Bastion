@@ -447,7 +447,7 @@
 #!define STR_MENU_OPT_NOCLIP "{0}    穿墙    {1}\n{2}"
 #!define STR_MENU_OPT_SELECT_INDEX "{0}    选择目标点索引    {1}\n{2}"
 #!define STR_MENU_OPT_TP_TO_INDEX "{0}    传送到目标点    \n{1}"
-#!define STR_MENU_OPT_HERO_PAGE_TITLE "英雄选择/切换（已通关）"
+#!define STR_MENU_OPT_HERO_PAGE_TITLE "英雄选择/切换"
 #!define STR_MENU_OPT_HERO_NEXT "{0}    选择英雄：{1}    \n{2}"
 #!define STR_MENU_OPT_HERO_PREV "{0}    上一个英雄：{1}    \n{2}"
 #!define STR_MENU_OPT_HERO_APPLY "{0}    应用切换（重生室）    \n{1}"
