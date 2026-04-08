@@ -126,23 +126,66 @@ jobs:
           git push origin "${tag}"
           echo "Created and pushed tag: ${tag}"
 
+      - name: Generate custom release notes
+        if: steps.freshness.outputs.should_run == 'true'
+        id: notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          current_tag="${{ steps.release_meta.outputs.tag }}"
+          previous_tag="$(git describe --tags --abbrev=0 "${current_tag}^" 2>/dev/null || true)"
+          if [[ -n "${previous_tag}" ]]; then
+            commit_range="${previous_tag}..${current_tag}"
+          else
+            commit_range="${current_tag}"
+          fi
+
+          notes_file="release-notes.md"
+          {
+            echo "Automated release build from \`main\`."
+            echo
+            echo "Included workshop artifacts:"
+            echo "- build/en-US.ow"
+            echo "- build/zh-CN.ow"
+            echo
+            echo "## What's Changed"
+
+            line_count=0
+            while IFS=$'\t' read -r short_sha subject author; do
+              if [[ -z "${short_sha}" ]]; then
+                continue
+              fi
+              if [[ "${subject}" =~ ^chore\(release\):\ bump\ .*\ \[skip\ release\]$ ]]; then
+                continue
+              fi
+              if [[ "${subject}" =~ ^(.*)\ \(\#([0-9]+)\)$ ]]; then
+                pr_title="${BASH_REMATCH[1]}"
+                pr_number="${BASH_REMATCH[2]}"
+                echo "- #${pr_number} ${pr_title} (@${author})"
+              else
+                echo "- ${short_sha} ${subject} (@${author})"
+              fi
+              line_count=$((line_count + 1))
+            done < <(git log --pretty=format:'%h%x09%s%x09%an' "${commit_range}")
+
+            if [[ "${line_count}" -eq 0 ]]; then
+              echo "- No user-facing changes in this release window."
+            fi
+          } > "${notes_file}"
+
+          echo "body_path=${notes_file}" >> "$GITHUB_OUTPUT"
+          echo "Generated ${notes_file} from range: ${commit_range}"
+
       - name: Publish GitHub Release with build artifacts
         if: steps.freshness.outputs.should_run == 'true'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.release_meta.outputs.tag }}
-          name: ${{ steps.release_meta.outputs.tag }}
-          generate_release_notes: true
-          body: |
-            Automated release build from `main`.
-
-            Included workshop artifacts:
-            - build/en-US.ow
-            - build/zh-CN.ow
-          overwrite_files: true
-          files: |
-            build/en-US.ow
-            build/zh-CN.ow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${{ steps.release_meta.outputs.tag }}"
+          notes_file="${{ steps.notes.outputs.body_path }}"
+          gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow
 
       - name: Release summary
         if: steps.freshness.outputs.should_run == 'true'
