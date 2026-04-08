@@ -144,10 +144,6 @@ jobs:
           {
             echo "Automated release build from \`main\`."
             echo
-            echo "Included workshop artifacts:"
-            echo "- build/en-US.ow"
-            echo "- build/zh-CN.ow"
-            echo
             echo "## What's Changed"
 
             line_count=0
