@@ -141,7 +141,7 @@ rule "initialize effects":
             "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == 1 else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
             STR_HUD_EVENT_DETAIL.format(
                 localPlayer.eventName, 
-                STR_TIME_UNIT_SEC.format(ceil(localPlayer.eventDurationHud)) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 
+                STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 
                 localPlayer.eventDesc
             ), 
             null, HudPosition.LEFT, 70, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
