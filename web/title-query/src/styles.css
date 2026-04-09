@@ -1189,12 +1189,43 @@ code {
 }
 
 .term-popover {
-  position: fixed;
   z-index: 20;
+  padding: 0.76rem;
+}
+
+.term-popover-desktop {
+  position: fixed;
   width: min(420px, calc(100vw - 1.5rem));
   max-height: min(76vh, 560px);
   overflow: auto;
-  padding: 0.76rem;
+}
+
+.term-popover-mobile {
+  position: fixed;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  width: auto;
+  height: auto;
+  max-height: calc(100dvh - 0.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  animation: term-sheet-in 180ms ease-out;
+}
+
+@keyframes term-sheet-in {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .term-popover-head {
@@ -1864,6 +1895,18 @@ code {
 
   .player-name-row {
     gap: 0.45rem;
+  }
+
+  .term-popover-mobile {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: calc(100dvh - 0.2rem);
+    padding: 0.82rem 0.82rem calc(0.82rem + env(safe-area-inset-bottom));
   }
 }
 
