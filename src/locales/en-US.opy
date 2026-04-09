@@ -361,7 +361,7 @@
 #!define STR_HUD_STATS_EVENT "Buff/Debuff/Total\r\n{0}/{1}/{2} "
 
 # Random Events 4.0 Title
-#!define STR_HUD_RANDOM_EVENTS_V4 "[Random Events 4.0]"
+#!define STR_HUD_RANDOM_EVENTS_VERSION "[Random Events 5.0]"
 
 # Event Detail Format
 # {0}=Name, {1}=Time, {2}=Desc

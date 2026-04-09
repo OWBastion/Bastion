@@ -366,7 +366,7 @@
 #!define STR_HUD_STATS_EVENT "增益/减益/总计\r\n{0}/{1}/{2} "
 
 # 随机事件 4.0 标题
-#!define STR_HUD_RANDOM_EVENTS_V4 "［随机事件 4.0］"
+#!define STR_HUD_RANDOM_EVENTS_VERSION "［随机事件 5.0］"
 
 # 事件详情格式 (HUD Text)
 # {0}=名称, {1}=时间, {2}=描述

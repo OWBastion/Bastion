@@ -133,7 +133,7 @@ rule "initialize effects":
     # --------------------------------------------------------------------------------------------------------------------------------
     if evalOnce(dlcVishkarEvent):
         # 事件版本子标题
-        hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_V4, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
+        hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_VERSION, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
         
         # 个人事件详情 (改用 hudText)
         hudText(
