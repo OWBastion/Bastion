@@ -61,6 +61,7 @@ const collapsedDefaultEventGroupKeys = ref(new Set());
 const completedMapsExpanded = ref(false);
 const activeTermKey = ref('');
 const popoverAnchorStyle = ref({ top: '0px', left: '0px' });
+const isMobileViewport = ref(false);
 
 function normalizeRoute(hashValue) {
   const raw = String(hashValue || '')
@@ -311,6 +312,7 @@ const filteredGlossaryTerms = computed(() => {
 });
 
 const activeTerm = computed(() => glossaryTerms.value.find((term) => term.key === activeTermKey.value) || null);
+const isMobilePopover = computed(() => isMobileViewport.value);
 
 function eventGroups(pack) {
   return ['buff', 'debuff', 'mech']
@@ -618,6 +620,13 @@ function closeTermPopover() {
   activeTermKey.value = '';
 }
 
+function updateViewportMode() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  isMobileViewport.value = window.innerWidth <= 640;
+}
+
 function updatePopoverAnchor(targetElement) {
   if (typeof window === 'undefined') {
     return;
@@ -648,7 +657,7 @@ function toggleTermPopover(termKey, targetElement = null) {
   }
 
   activeTermKey.value = termKey;
-  if (targetElement) {
+  if (!isMobilePopover.value && targetElement) {
     updatePopoverAnchor(targetElement);
   }
 }
@@ -738,8 +747,10 @@ async function loadData() {
 onMounted(() => {
   initTheme();
   setRouteFromHash();
+  updateViewportMode();
   if (typeof window !== 'undefined') {
     window.addEventListener('hashchange', setRouteFromHash);
+    window.addEventListener('resize', updateViewportMode);
     document.addEventListener('pointerdown', handleGlobalPointerDown);
     document.addEventListener('keydown', handleGlobalEscape);
   }
@@ -749,6 +760,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('hashchange', setRouteFromHash);
+    window.removeEventListener('resize', updateViewportMode);
     document.removeEventListener('pointerdown', handleGlobalPointerDown);
     document.removeEventListener('keydown', handleGlobalEscape);
   }
@@ -1248,12 +1260,12 @@ watch(
           <article class="glossary-card" v-for="term in filteredGlossaryTerms" :key="`glossary-${term.key}`">
             <header class="glossary-head">
               <div class="glossary-name-line">
-                <button type="button" class="term-trigger term-trigger-main" @click="openTermFromEvent($event, term.key)">
+                <button type="button" class="glossary-trigger glossary-trigger-main" @click="openTermFromEvent($event, term.key)">
                   {{ term.nameZh }}
                 </button>
                 <button
                   type="button"
-                  class="term-trigger term-trigger-alias"
+                  class="glossary-trigger glossary-trigger-alias"
                   v-for="alias in term.aliases || []"
                   :key="`inline-alias-${term.key}-${alias}`"
                   @click="openTermFromEvent($event, term.key)"
@@ -1265,7 +1277,6 @@ watch(
             </header>
             <p class="glossary-summary">{{ term.summary }}</p>
             <div class="glossary-related" v-if="term.relatedEvents?.length">
-              <span class="glossary-label">关联事件</span>
               <button
                 type="button"
                 class="event-related-link ow-button ow-button-secondary"
@@ -1284,7 +1295,8 @@ watch(
       <aside
         v-if="activeTerm"
         class="term-popover ow-card"
-        :style="popoverAnchorStyle"
+        :class="isMobilePopover ? 'term-popover-mobile' : 'term-popover-desktop'"
+        :style="isMobilePopover ? null : popoverAnchorStyle"
         role="dialog"
         :aria-label="`词条详情：${activeTerm.nameZh}`"
       >
