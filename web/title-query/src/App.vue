@@ -1298,7 +1298,9 @@ watch(
               </span>
             </div>
           </div>
-          <button type="button" class="term-popover-close ow-button ow-button-secondary term-trigger" @click="closeTermPopover">关闭</button>
+          <button type="button" class="term-popover-close" aria-label="关闭词条详情" @click="closeTermPopover">
+            ×
+          </button>
         </header>
         <p class="term-popover-summary">{{ activeTerm.summary }}</p>
         <p class="term-popover-definition">{{ activeTerm.definition }}</p>
