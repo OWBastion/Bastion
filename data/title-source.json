@@ -68,11 +68,11 @@
     },
     {
       "key": "BLACK_SHEEP",
-      "label": "害群之马",
+      "label": "骇人鲸",
       "category": "开发保留",
       "condition": "历史/内部称号，文档未提供公开挑战条件。",
       "availability": "active",
-      "displayExpr": "\"害群之马\"",
+      "displayExpr": "\"骇人鲸\"",
       "colorExpr": "null"
     },
     {
@@ -491,6 +491,42 @@
       "availability": "active",
       "displayExpr": "\"我不会放过你的酸不辣\"",
       "colorExpr": "heroColor[18]"
+    },
+    {
+      "key": "EVENT5_GAMBLE_SAINT",
+      "label": "赌圣",
+      "category": "活动限定",
+      "condition": "随机事件 5.0 扩展包中获取",
+      "availability": "active",
+      "displayExpr": "\"赌圣\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "EVENT5_BLACK_SHEEP",
+      "label": "害群之马",
+      "category": "赌徒系列",
+      "condition": "随机事件 5.0 扩展包中获取",
+      "availability": "active",
+      "displayExpr": "\"害群之马\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "EVENT5_I_WANT_TO_CHECK_CARDS",
+      "label": "我要验牌",
+      "category": "赌徒系列",
+      "condition": "随机事件 5.0 扩展包中获取",
+      "availability": "active",
+      "displayExpr": "\"我要验牌\"",
+      "colorExpr": "null"
+    },
+    {
+      "key": "EVENT5_CARDS_ARE_FINE",
+      "label": "牌没有问题",
+      "category": "赌徒系列",
+      "condition": "随机事件 5.0 扩展包中获取",
+      "availability": "active",
+      "displayExpr": "\"牌没有问题\"",
+      "colorExpr": "null"
     }
   ],
   "players": [
