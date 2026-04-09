@@ -2,6 +2,7 @@ import { Command } from 'commander';
 import { spawn } from 'node:child_process';
 import { syncTitleData } from './sync-title-data.ts';
 import { syncEventData } from './sync-event-data.ts';
+import { syncEffectGlossaryData } from './sync-effect-glossary.ts';
 
 function runNode(args: string[]) {
   return new Promise<void>((resolve, reject) => {
@@ -28,6 +29,11 @@ async function runSyncTitleData() {
 async function runSyncEventData() {
   const { webPayload } = await syncEventData();
   console.log(`Synced ${webPayload.meta.totalCount} events from data/event-source.json`);
+}
+
+async function runSyncEffectGlossaryData() {
+  const payload = await syncEffectGlossaryData();
+  console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
 async function runEventFinalize() {
@@ -71,6 +77,7 @@ program
 
 program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
 program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
+program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
 program.command('event:finalize').description('Sync event data then run event sync tests').action(wrapAction(runEventFinalize));
 program
   .command('grant:title [args...]')
@@ -89,6 +96,10 @@ program
   .command('test:event-data-sync')
   .description('Run event data sync tests')
   .action(wrapAction(() => runNodeTest('tools/sync-event-data.test.ts')));
+program
+  .command('test:effect-glossary-sync')
+  .description('Run effect glossary sync tests')
+  .action(wrapAction(() => runNodeTest('tools/sync-effect-glossary.test.ts')));
 program
   .command('test:title-grant')
   .description('Run title grant tests')

@@ -3,10 +3,11 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 const THEME_STORAGE_KEY = 'title-query-theme-mode';
 const ROUTE_FALLBACK = 'titles';
-const ROUTE_ORDER = ['titles', 'events'];
+const ROUTE_ORDER = ['titles', 'events', 'glossary'];
 const ROUTE_LABELS = {
   titles: '称号',
-  events: '事件'
+  events: '事件',
+  glossary: '词条'
 };
 const ROUTE_HEADINGS = {
   titles: {
@@ -16,6 +17,10 @@ const ROUTE_HEADINGS = {
   events: {
     title: '事件查询',
     copy: '按随机事件包查看 Buff / Debuff / Mech 清单与基础参数。'
+  },
+  glossary: {
+    title: '效果词条查询',
+    copy: '基于《躲避堡垒 3：效果词条定义》查看词条定义、规则与关联事件。'
   }
 };
 const TYPE_LABELS = {
@@ -36,6 +41,8 @@ const themeMode = ref('light');
 
 const playerQuery = ref('');
 const eventQuery = ref('');
+const glossaryQuery = ref('');
+const glossaryCategory = ref('全部');
 
 const players = ref([]);
 const titles = ref([]);
@@ -43,12 +50,17 @@ const mapTitles = ref([]);
 const titleMeta = ref(null);
 const eventPacks = ref([]);
 const eventMeta = ref(null);
+const glossaryMeta = ref(null);
+const glossaryTerms = ref([]);
+const eventTermsIndex = ref({});
 
 const expandedSeriesKeys = ref(new Set());
 const collapsedDefaultSeriesKeys = ref(new Set());
 const expandedEventGroupKeys = ref(new Set());
 const collapsedDefaultEventGroupKeys = ref(new Set());
 const completedMapsExpanded = ref(false);
+const activeTermKey = ref('');
+const popoverAnchorStyle = ref({ top: '0px', left: '0px' });
 
 function normalizeRoute(hashValue) {
   const raw = String(hashValue || '')
@@ -266,6 +278,40 @@ const filteredEventPacks = computed(() => {
     .filter((pack) => pack.events.length > 0);
 });
 
+const glossaryCategories = computed(() => {
+  const categories = new Set(glossaryTerms.value.map((term) => term.category));
+  return ['全部', ...[...categories].sort((left, right) => left.localeCompare(right, 'zh-Hans-CN'))];
+});
+
+const filteredGlossaryTerms = computed(() => {
+  const keyword = glossaryQuery.value.trim().toLocaleLowerCase();
+  const category = glossaryCategory.value;
+
+  return glossaryTerms.value
+    .filter((term) => {
+      if (category !== '全部' && term.category !== category) {
+        return false;
+      }
+
+      if (!keyword) {
+        return true;
+      }
+
+      const text = [term.nameZh, term.summary, term.definition, ...(term.aliases || [])]
+        .join('|')
+        .toLocaleLowerCase();
+      return text.includes(keyword);
+    })
+    .sort((left, right) => {
+      if ((right.relatedEvents?.length || 0) !== (left.relatedEvents?.length || 0)) {
+        return (right.relatedEvents?.length || 0) - (left.relatedEvents?.length || 0);
+      }
+      return left.nameZh.localeCompare(right.nameZh, 'zh-Hans-CN');
+    });
+});
+
+const activeTerm = computed(() => glossaryTerms.value.find((term) => term.key === activeTermKey.value) || null);
+
 function eventGroups(pack) {
   return ['buff', 'debuff', 'mech']
     .map((type) => ({
@@ -292,6 +338,125 @@ function normalizedDesc(value) {
     .replace(/\r?\n/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function isAsciiToken(value) {
+  return /^[A-Za-z0-9_ ]+$/.test(value);
+}
+
+function eventTermKeys(eventItem) {
+  return eventTermsIndex.value[eventItem.key] || [];
+}
+
+function termAliasesByEvent(eventItem) {
+  const termKeys = eventTermKeys(eventItem);
+  const aliases = [];
+  for (const termKey of termKeys) {
+    const term = glossaryTerms.value.find((item) => item.key === termKey);
+    if (!term) {
+      continue;
+    }
+
+    aliases.push({
+      termKey,
+      alias: term.nameZh,
+      isAscii: isAsciiToken(term.nameZh)
+    });
+
+    for (const alias of term.aliases || []) {
+      aliases.push({
+        termKey,
+        alias,
+        isAscii: isAsciiToken(alias)
+      });
+    }
+  }
+
+  const unique = new Map();
+  for (const item of aliases) {
+    const key = `${item.termKey}:${item.alias.toLocaleLowerCase()}`;
+    if (!unique.has(key)) {
+      unique.set(key, item);
+    }
+  }
+
+  return [...unique.values()].sort((left, right) => right.alias.length - left.alias.length);
+}
+
+function splitTextWithTerms(text, eventItem) {
+  const source = String(text || '');
+  if (!source) {
+    return [];
+  }
+
+  const aliases = termAliasesByEvent(eventItem);
+  if (!aliases.length) {
+    return [{ text: source, termKey: '' }];
+  }
+
+  const segments = [];
+  let cursor = 0;
+
+  while (cursor < source.length) {
+    let matched = null;
+
+    for (const aliasEntry of aliases) {
+      const alias = aliasEntry.alias;
+      if (!alias) {
+        continue;
+      }
+
+      const candidate = source.slice(cursor, cursor + alias.length);
+      let isMatch = false;
+
+      if (aliasEntry.isAscii) {
+        isMatch = candidate.toLocaleLowerCase() === alias.toLocaleLowerCase();
+      } else {
+        isMatch = candidate === alias;
+      }
+
+      if (!isMatch) {
+        continue;
+      }
+
+      if (aliasEntry.isAscii) {
+        const left = cursor === 0 ? '' : source[cursor - 1];
+        const right = cursor + alias.length >= source.length ? '' : source[cursor + alias.length];
+        if ((left && /[A-Za-z0-9_]/.test(left)) || (right && /[A-Za-z0-9_]/.test(right))) {
+          continue;
+        }
+      }
+
+      matched = aliasEntry;
+      break;
+    }
+
+    if (!matched) {
+      segments.push({ text: source[cursor], termKey: '' });
+      cursor += 1;
+      continue;
+    }
+
+    segments.push({ text: matched.alias, termKey: matched.termKey });
+    cursor += matched.alias.length;
+  }
+
+  const compactSegments = [];
+  for (const segment of segments) {
+    const previous = compactSegments[compactSegments.length - 1];
+    if (previous && previous.termKey === segment.termKey) {
+      previous.text += segment.text;
+    } else {
+      compactSegments.push({ ...segment });
+    }
+  }
+
+  return compactSegments;
+}
+
+function eventDescSegments(eventItem) {
+  const desc = normalizedDesc(eventItem.descZhCompiled || eventItem.descZh);
+  return splitTextWithTerms(desc, eventItem);
 }
 
 const sourceDisplay = computed(() => {
@@ -449,14 +614,90 @@ function toggleTheme() {
   applyTheme(themeMode.value === 'dark' ? 'light' : 'dark');
 }
 
+function closeTermPopover() {
+  activeTermKey.value = '';
+}
+
+function updatePopoverAnchor(targetElement) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const rect = targetElement.getBoundingClientRect();
+  const popoverWidth = 420;
+  const popoverHeight = 320;
+  const margin = 12;
+  const preferredLeft = rect.left + rect.width / 2 - popoverWidth / 2;
+  const preferredTop = rect.bottom + 10;
+  const left = Math.min(Math.max(margin, preferredLeft), window.innerWidth - popoverWidth - margin);
+  const top = Math.min(Math.max(margin, preferredTop), window.innerHeight - popoverHeight - margin);
+  popoverAnchorStyle.value = {
+    top: `${Math.round(top)}px`,
+    left: `${Math.round(left)}px`
+  };
+}
+
+function toggleTermPopover(termKey, targetElement = null) {
+  if (!termKey) {
+    return;
+  }
+
+  if (activeTermKey.value === termKey) {
+    closeTermPopover();
+    return;
+  }
+
+  activeTermKey.value = termKey;
+  if (targetElement) {
+    updatePopoverAnchor(targetElement);
+  }
+}
+
+function openTermFromEvent(event, termKey) {
+  const targetElement = event.currentTarget instanceof HTMLElement ? event.currentTarget : null;
+  toggleTermPopover(termKey, targetElement);
+}
+
+function goToEventWithTerm(relatedEvent, termKey = '') {
+  if (typeof window !== 'undefined') {
+    window.location.hash = '#/events';
+  }
+  currentRoute.value = 'events';
+
+  const nextQuery = termKey
+    ? glossaryTerms.value.find((term) => term.key === termKey)?.nameZh || relatedEvent.nameZh
+    : relatedEvent.nameZh;
+  eventQuery.value = nextQuery;
+}
+
+function handleGlobalPointerDown(event) {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) {
+    return;
+  }
+
+  if (target.closest('.term-popover') || target.closest('.term-trigger')) {
+    return;
+  }
+
+  closeTermPopover();
+}
+
+function handleGlobalEscape(event) {
+  if (event.key === 'Escape') {
+    closeTermPopover();
+  }
+}
+
 async function loadData() {
   loading.value = true;
   error.value = '';
 
   try {
-    const [titleResponse, eventResponse] = await Promise.all([
+    const [titleResponse, eventResponse, glossaryResponse] = await Promise.all([
       fetch('./data/titles.json', { cache: 'no-store' }),
-      fetch('./data/events.json', { cache: 'no-store' })
+      fetch('./data/events.json', { cache: 'no-store' }),
+      fetch('./data/glossary.json', { cache: 'no-store' })
     ]);
 
     if (!titleResponse.ok) {
@@ -467,7 +708,16 @@ async function loadData() {
       throw new Error(`事件数据请求失败（${eventResponse.status}）`);
     }
 
-    const [titlePayload, eventPayload] = await Promise.all([titleResponse.json(), eventResponse.json()]);
+    if (!glossaryResponse.ok) {
+      throw new Error(`词条数据请求失败（${glossaryResponse.status}）`);
+    }
+
+    const [titlePayload, eventPayload, glossaryPayload] = await Promise.all([
+      titleResponse.json(),
+      eventResponse.json(),
+      glossaryResponse.json()
+    ]);
+
     players.value = titlePayload.players ?? [];
     titles.value = titlePayload.titles ?? [];
     mapTitles.value = titlePayload.mapTitles ?? [];
@@ -475,6 +725,9 @@ async function loadData() {
 
     eventPacks.value = eventPayload.packs ?? [];
     eventMeta.value = eventPayload.meta ?? null;
+    glossaryTerms.value = glossaryPayload.terms ?? [];
+    glossaryMeta.value = glossaryPayload.meta ?? null;
+    eventTermsIndex.value = glossaryPayload.eventTermsIndex ?? {};
   } catch (loadError) {
     error.value = loadError instanceof Error ? loadError.message : '查询数据加载失败';
   } finally {
@@ -487,6 +740,8 @@ onMounted(() => {
   setRouteFromHash();
   if (typeof window !== 'undefined') {
     window.addEventListener('hashchange', setRouteFromHash);
+    document.addEventListener('pointerdown', handleGlobalPointerDown);
+    document.addEventListener('keydown', handleGlobalEscape);
   }
   loadData();
 });
@@ -494,6 +749,8 @@ onMounted(() => {
 onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('hashchange', setRouteFromHash);
+    document.removeEventListener('pointerdown', handleGlobalPointerDown);
+    document.removeEventListener('keydown', handleGlobalEscape);
   }
 });
 
@@ -503,6 +760,13 @@ watch(
     expandedSeriesKeys.value = new Set();
     collapsedDefaultSeriesKeys.value = new Set();
     completedMapsExpanded.value = false;
+  }
+);
+
+watch(
+  () => currentRoute.value,
+  () => {
+    closeTermPopover();
   }
 );
 </script>
@@ -561,7 +825,7 @@ watch(
           />
         </label>
 
-        <label class="search-panel" v-else>
+        <label class="search-panel" v-else-if="currentRoute === 'events'">
           <span>搜索事件</span>
           <input
             v-model="eventQuery"
@@ -571,6 +835,27 @@ watch(
             autocomplete="off"
           />
         </label>
+
+        <div class="search-panel search-panel-glossary" v-else>
+          <label>
+            <span>搜索词条</span>
+            <input
+              v-model="glossaryQuery"
+              name="glossary-search"
+              type="search"
+              placeholder="输入词条名或别名，例如 无敌 / 相移 / 减疗…"
+              autocomplete="off"
+            />
+          </label>
+          <label class="glossary-category-filter">
+            <span>词条分类</span>
+            <select v-model="glossaryCategory" name="glossary-category">
+              <option v-for="category in glossaryCategories" :key="`glossary-category-${category}`" :value="category">
+                {{ category }}
+              </option>
+            </select>
+          </label>
+        </div>
 
         <div class="search-candidates" v-if="currentRoute === 'titles' && hasPlayerQuery && !loading && !error && filteredPlayers.length">
           <button
@@ -909,7 +1194,33 @@ watch(
                       <article class="event-item" :class="eventTypeClass(eventItem.type)">
                         <p class="event-line">
                           <span class="event-name">{{ eventItem.nameZh }}</span>
-                          <span class="event-desc">{{ normalizedDesc(eventItem.descZhCompiled || eventItem.descZh) }}</span>
+                          <span class="event-desc">
+                            <template
+                              v-for="(segment, segmentIndex) in eventDescSegments(eventItem)"
+                              :key="`event-segment-${eventItem.key}-${segmentIndex}`"
+                            >
+                              <button
+                                v-if="segment.termKey"
+                                type="button"
+                                class="term-trigger"
+                                @click="openTermFromEvent($event, segment.termKey)"
+                              >
+                                {{ segment.text }}
+                              </button>
+                              <span v-else>{{ segment.text }}</span>
+                            </template>
+                          </span>
+                        </p>
+                        <p class="event-term-list" v-if="eventTermKeys(eventItem).length">
+                          <button
+                            type="button"
+                            class="term-trigger term-trigger-soft"
+                            v-for="termKey in eventTermKeys(eventItem)"
+                            :key="`event-term-${eventItem.key}-${termKey}`"
+                            @click="openTermFromEvent($event, termKey)"
+                          >
+                            {{ glossaryTerms.find((term) => term.key === termKey)?.nameZh || termKey }}
+                          </button>
                         </p>
                         <p class="event-tag-list">
                           <span class="event-tag event-tag-duration">{{ eventItem.durationSec }}秒</span>
@@ -925,10 +1236,98 @@ watch(
         </div>
       </section>
 
-      <footer class="page-footer" v-if="titleMeta || eventMeta">
+      <section class="catalog-panel card ow-card" v-if="currentRoute === 'glossary'">
+        <header class="card-header">
+          <p>效果词条</p>
+          <h2>定义 / 规则 / 关联事件</h2>
+        </header>
+        <div v-if="loading" class="state-block">正在加载词条数据…</div>
+        <div v-else-if="error" class="state-block state-error">{{ error }}</div>
+        <div v-else-if="!filteredGlossaryTerms.length" class="state-block">没有匹配词条，请调整关键字或分类。</div>
+        <div v-else class="glossary-grid">
+          <article class="glossary-card" v-for="term in filteredGlossaryTerms" :key="`glossary-${term.key}`">
+            <header class="glossary-head">
+              <p class="glossary-name">
+                <button type="button" class="term-trigger" @click="openTermFromEvent($event, term.key)">
+                  {{ term.nameZh }}
+                </button>
+              </p>
+              <span class="title-tag">{{ term.category }}</span>
+            </header>
+            <p class="glossary-summary">{{ term.summary }}</p>
+            <div class="glossary-aliases" v-if="term.aliases?.length">
+              <span class="glossary-label">别名</span>
+              <button
+                type="button"
+                class="term-trigger term-trigger-soft"
+                v-for="alias in term.aliases"
+                :key="`alias-${term.key}-${alias}`"
+                @click="openTermFromEvent($event, term.key)"
+              >
+                {{ alias }}
+              </button>
+            </div>
+            <div class="glossary-related" v-if="term.relatedEvents?.length">
+              <span class="glossary-label">关联事件</span>
+              <button
+                type="button"
+                class="event-related-link ow-button ow-button-secondary"
+                v-for="relatedEvent in term.relatedEvents"
+                :key="`related-${term.key}-${relatedEvent.key}`"
+                @click="goToEventWithTerm(relatedEvent, term.key)"
+              >
+                <span>{{ relatedEvent.nameZh }}</span>
+                <span>{{ relatedEvent.packLabelZh }}</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <aside
+        v-if="activeTerm"
+        class="term-popover ow-card"
+        :style="popoverAnchorStyle"
+        role="dialog"
+        :aria-label="`词条详情：${activeTerm.nameZh}`"
+      >
+        <header class="term-popover-head">
+          <div>
+            <h3>{{ activeTerm.nameZh }}</h3>
+            <p>{{ activeTerm.category }}</p>
+          </div>
+          <button type="button" class="term-popover-close ow-button ow-button-secondary term-trigger" @click="closeTermPopover">关闭</button>
+        </header>
+        <p class="term-popover-summary">{{ activeTerm.summary }}</p>
+        <p class="term-popover-definition">{{ activeTerm.definition }}</p>
+        <div class="term-popover-rules" v-if="activeTerm.rules?.length">
+          <p>规则</p>
+          <ul>
+            <li v-for="rule in activeTerm.rules" :key="`term-rule-${activeTerm.key}-${rule}`">{{ rule }}</li>
+          </ul>
+        </div>
+        <div class="term-popover-related" v-if="activeTerm.relatedEvents?.length">
+          <p>关联事件</p>
+          <div class="term-popover-related-list">
+            <button
+              type="button"
+              class="event-related-link ow-button ow-button-secondary"
+              v-for="relatedEvent in activeTerm.relatedEvents"
+              :key="`term-pop-related-${activeTerm.key}-${relatedEvent.key}`"
+              @click="goToEventWithTerm(relatedEvent, activeTerm.key)"
+            >
+              <span>{{ relatedEvent.nameZh }}</span>
+              <span>{{ relatedEvent.packLabelZh }}</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <footer class="page-footer" v-if="titleMeta || eventMeta || glossaryMeta">
         <span>称号源：{{ sourceDisplay }}</span>
         <span>事件源：{{ eventSourceDisplay }}</span>
-        <span>生成时间：{{ new Date((eventMeta?.generatedAt || titleMeta?.generatedAt) ?? Date.now()).toLocaleString('zh-CN') }}</span>
+        <span>词条源：{{ glossaryMeta?.sourceLabel || '效果词条' }}</span>
+        <span>生成时间：{{ new Date((glossaryMeta?.generatedAt || eventMeta?.generatedAt || titleMeta?.generatedAt) ?? Date.now()).toLocaleString('zh-CN') }}</span>
       </footer>
     </main>
   </div>

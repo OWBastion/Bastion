@@ -1,0 +1,253 @@
+{
+  "meta": {
+    "sourceLabel": "躲避堡垒 3：效果词条定义",
+    "sourceVersion": "v1",
+    "updatedAt": "2026-04-09"
+  },
+  "terms": [
+    {
+      "key": "PASSIVE_SELF_HEAL",
+      "nameZh": "脱战自动回复",
+      "aliases": ["脱战自动回复（被动）", "自我治疗"],
+      "category": "被动",
+      "summary": "连续 3 秒未再受伤后开始自动恢复生命值。",
+      "definition": "受到伤害会刷新计时；连续 3 秒未再受伤时开始自我治疗，每秒恢复 50 + 8% 最大生命值。死亡、满血或禁疗时不会触发。",
+      "rules": ["可与游戏本体的自我恢复被动叠加生效。"]
+    },
+    {
+      "key": "HEALING",
+      "nameZh": "治疗效果",
+      "aliases": ["治疗", "受到治疗", "生命恢复", "造成治疗"],
+      "category": "状态",
+      "summary": "所有受到或造成的治疗都属于治疗效果。",
+      "definition": "治疗效果包含治疗、受到治疗、生命恢复与造成治疗等增益。",
+      "rules": ["随机事件中的非唯一治疗效果可与英雄技能治疗叠加。"]
+    },
+    {
+      "key": "INVULNERABLE",
+      "nameZh": "无敌",
+      "aliases": ["伤害免疫", "免疫伤害", "无敌状态"],
+      "category": "增益效果/状态",
+      "summary": "使目标免疫所有伤害。",
+      "definition": "攻击仍可命中目标，但伤害会被抵消。进入无敌还能阻止击晕、击倒和睡眠的生效。",
+      "rules": ["无敌默认不会清除已存在的负面状态。", "多数带无敌的技能会同时附加净化效果。"]
+    },
+    {
+      "key": "PHASE_SHIFT",
+      "nameZh": "相移",
+      "aliases": ["消散", "相移状态"],
+      "category": "增益效果/状态",
+      "summary": "使英雄无法被命中并免疫大多数负面效果。",
+      "definition": "相移状态下英雄可穿透其他玩家，不会被敌方攻击命中，弹道类攻击会直接穿过身体。",
+      "rules": ["相移生效时通常会触发净化机制。"]
+    },
+    {
+      "key": "CLEANSE",
+      "nameZh": "净化",
+      "aliases": ["清除负面状态"],
+      "category": "增益效果/状态",
+      "summary": "移除可净化状态并赋予短暂保护。",
+      "definition": "净化会移除可净化的状态效果（随机事件附加效果除外），并让目标同时获得无敌与相移。",
+      "rules": ["击倒状态下净化无效。"]
+    },
+    {
+      "key": "DAMAGE_REDUCTION",
+      "nameZh": "伤害减免",
+      "aliases": ["减伤"],
+      "category": "增益效果/状态",
+      "summary": "降低受到的伤害。",
+      "definition": "伤害减免以百分比降低目标承受伤害。",
+      "rules": ["随机事件减伤可与英雄技能减伤叠加乘算。"]
+    },
+    {
+      "key": "MOVE_SPEED_BOOST",
+      "nameZh": "移动速度加成",
+      "aliases": ["移速加成", "移速增益", "移动速度提高"],
+      "category": "增益效果/状态",
+      "summary": "按基础移动速度的百分比提升水平移速。",
+      "definition": "移动速度加成以英雄基础移动速度为基准提升最终速度。",
+      "rules": ["随机事件移速加成无叠加上限，可与英雄技能加速乘算。"]
+    },
+    {
+      "key": "HEALING_BOOST",
+      "nameZh": "增疗",
+      "aliases": ["治疗增益", "受治疗增益"],
+      "category": "增益效果/状态",
+      "summary": "按百分比增加造成和受到的治疗。",
+      "definition": "增疗可同时作用于治疗输出与治疗接收。",
+      "rules": ["随机事件增疗可与英雄技能增疗叠加乘算。"]
+    },
+    {
+      "key": "KNOCKBACK_RESIST",
+      "nameZh": "击退抵抗",
+      "aliases": ["击退抗性"],
+      "category": "增益效果/状态",
+      "summary": "按百分比降低受到的击退效果。",
+      "definition": "击退抵抗会减少位移与冲击造成的推离距离。",
+      "rules": ["随机事件击退抵抗可与英雄技能击退抵抗叠加乘算。"]
+    },
+    {
+      "key": "STUN",
+      "nameZh": "击晕",
+      "aliases": ["眩晕"],
+      "category": "负面状态",
+      "summary": "完全阻止玩家控制英雄。",
+      "definition": "被击晕时无法移动、射击、瞄准或使用技能，并会打断多数前摇/引导技能。",
+      "rules": ["被打断技能通常进入完整冷却。"]
+    },
+    {
+      "key": "KNOCKDOWN",
+      "nameZh": "击倒",
+      "aliases": ["倒地"],
+      "category": "负面状态",
+      "summary": "效果类似击晕并附带倒地状态。",
+      "definition": "击倒与击晕效果相同，但目标会仰卧倒地并在结束前进入起身动画。",
+      "rules": []
+    },
+    {
+      "key": "SLEEP",
+      "nameZh": "麻醉",
+      "aliases": ["沉睡", "睡眠"],
+      "category": "负面状态",
+      "summary": "类似击倒，但受伤会提前苏醒。",
+      "definition": "目标在麻醉中受到伤害会立即开始苏醒动画。",
+      "rules": []
+    },
+    {
+      "key": "FREEZE",
+      "nameZh": "冰冻",
+      "aliases": [],
+      "category": "负面状态",
+      "summary": "类似击晕的独特控制状态。",
+      "definition": "冰冻效果与击晕一致，可通过使目标无敌的效果解除。",
+      "rules": []
+    },
+    {
+      "key": "KNOCKBACK",
+      "nameZh": "击退",
+      "aliases": [],
+      "category": "负面状态",
+      "summary": "对目标施加冲击并强制位移。",
+      "definition": "多种技能与爆炸性武器均可触发击退，近战也会造成轻微击退。",
+      "rules": []
+    },
+    {
+      "key": "SLOW",
+      "nameZh": "减速",
+      "aliases": [],
+      "category": "负面状态",
+      "summary": "降低目标移动速度。",
+      "definition": "敌方减速可相互叠加并与移速增益共存，自身速度惩罚不与其他减速叠加。",
+      "rules": ["部分位移技能不受减速影响。"]
+    },
+    {
+      "key": "VULNERABLE",
+      "nameZh": "易伤",
+      "aliases": ["受到的伤害", "伤害增幅"],
+      "category": "负面状态",
+      "summary": "提高目标承受伤害。",
+      "definition": "易伤期间目标会受到更多伤害。",
+      "rules": []
+    },
+    {
+      "key": "HEAL_REDUCTION",
+      "nameZh": "减疗",
+      "aliases": ["减少治疗", "降低治疗"],
+      "category": "负面状态",
+      "summary": "按百分比减少造成和受到的治疗。",
+      "definition": "减疗同时影响治疗输出和治疗接收。",
+      "rules": ["随机事件减疗可与英雄技能减疗叠加乘算。"]
+    },
+    {
+      "key": "HEAL_BLOCK",
+      "nameZh": "禁疗",
+      "aliases": [],
+      "category": "负面状态",
+      "summary": "无法受到任何治疗与生命恢复。",
+      "definition": "处于禁疗时所有治疗和生命恢复都失效。",
+      "rules": []
+    },
+    {
+      "key": "DOT",
+      "nameZh": "持续伤害",
+      "aliases": ["DoT", "Damage over time"],
+      "category": "负面状态",
+      "summary": "周期性造成伤害，不依赖后续交互。",
+      "definition": "持续伤害会在一段时间内自动结算，且不受目标位置影响。",
+      "rules": ["随机事件施加的持续伤害无法被相移、无敌、净化或治疗包解除。", "持续伤害来源攻击会无视护甲。"]
+    },
+    {
+      "key": "BURNING",
+      "nameZh": "燃烧",
+      "aliases": ["点燃"],
+      "category": "负面状态",
+      "summary": "附带持续伤害的负面状态。",
+      "definition": "燃烧会持续造成伤害，并遵循持续伤害的大部分结算规则。",
+      "rules": ["随机事件燃烧无法被相移、无敌、净化或治疗包解除。"]
+    },
+    {
+      "key": "PERMANENT_EFFECT",
+      "nameZh": "永久",
+      "aliases": ["永久效果"],
+      "category": "随机事件",
+      "summary": "事件提供的永久收益，不会随事件结束失效。",
+      "definition": "永久效果不会因事件结束或英雄切换而移除。",
+      "rules": []
+    },
+    {
+      "key": "TEMPORARY_EFFECT",
+      "nameZh": "临时",
+      "aliases": ["临时效果"],
+      "category": "随机事件",
+      "summary": "事件提供的短时效果，通常会失效。",
+      "definition": "临时效果一般会随事件结束、英雄切换或持续时间结束而消失。",
+      "rules": []
+    },
+    {
+      "key": "MAX_HEALTH",
+      "nameZh": "最大生命值",
+      "aliases": [],
+      "category": "随机事件",
+      "summary": "生命值条的上限总量。",
+      "definition": "当前生命值可因伤害减少并通过治疗恢复，但不会超过最大生命值上限。",
+      "rules": ["随机事件语境下指当前效果主体（事件玩家）的最大生命值。"]
+    },
+    {
+      "key": "HEART_OF_STEEL",
+      "nameZh": "心之钢",
+      "aliases": ["心之钢层数"],
+      "category": "随机事件",
+      "summary": "通过层数永久提升最大生命值百分比。",
+      "definition": "每层心之钢使最大生命值百分比提高 0.75%，最终收益与英雄基础生命值相关。",
+      "rules": ["不是按当前血量高低叠层。", "每层提供固定百分比提升。"]
+    },
+    {
+      "key": "HEALTH_LOSS",
+      "nameZh": "生命值损耗",
+      "aliases": [],
+      "category": "随机事件",
+      "summary": "一种可被减伤与护甲影响的伤害。",
+      "definition": "生命值损耗属于伤害效果，可被护甲、伤害减免等机制降低。",
+      "rules": []
+    },
+    {
+      "key": "POSSESSION",
+      "nameZh": "附身",
+      "aliases": [],
+      "category": "随机事件",
+      "summary": "传送并附着到友方单位的事件效果。",
+      "definition": "附身期间会跟随友方移动，不会被堡垒锁定，不受其他减益事件影响，并获得相移与无敌。",
+      "rules": ["可按下蹲解除附身。", "解除后有 2 秒冷却。"],
+      "manualRelatedEventKeys": ["SYMBIOSIS"]
+    },
+    {
+      "key": "EXECUTE",
+      "nameZh": "斩杀",
+      "aliases": [],
+      "category": "随机事件",
+      "summary": "无视增益效果直接击杀。",
+      "definition": "斩杀会绕过玩家当前增益，直接结算击杀。",
+      "rules": []
+    }
+  ]
+}
