@@ -1,5 +1,12 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import EventsPanel from './components/EventsPanel.vue';
+import GlossaryPanel from './components/GlossaryPanel.vue';
+import TermPopover from './components/TermPopover.vue';
+import TitlesPanel from './components/TitlesPanel.vue';
+import { useHashRoute } from './composables/useHashRoute';
+import { useTermPopover } from './composables/useTermPopover';
+import { useThemeMode } from './composables/useThemeMode';
 
 const THEME_STORAGE_KEY = 'title-query-theme-mode';
 const ROUTE_FALLBACK = 'titles';
@@ -34,10 +41,21 @@ const MAP_TITLE_LABELS = {
   DOMINATOR: '主宰'
 };
 
-const currentRoute = ref(ROUTE_FALLBACK);
+const { currentRoute, setRouteFromHash, routeHref, isRouteActive } = useHashRoute(ROUTE_ORDER, ROUTE_FALLBACK);
+const { themeMode, initTheme, toggleTheme } = useThemeMode(THEME_STORAGE_KEY);
+const {
+  activeTermKey,
+  popoverAnchorStyle,
+  isMobilePopover,
+  closeTermPopover,
+  updateViewportMode,
+  toggleTermPopover,
+  handleGlobalPointerDown,
+  handleGlobalEscape
+} = useTermPopover();
+
 const loading = ref(true);
 const error = ref('');
-const themeMode = ref('light');
 
 const playerQuery = ref('');
 const eventQuery = ref('');
@@ -59,30 +77,6 @@ const collapsedDefaultSeriesKeys = ref(new Set());
 const expandedEventGroupKeys = ref(new Set());
 const collapsedDefaultEventGroupKeys = ref(new Set());
 const completedMapsExpanded = ref(false);
-const activeTermKey = ref('');
-const popoverAnchorStyle = ref({ top: '0px', left: '0px' });
-const isMobileViewport = ref(false);
-
-function normalizeRoute(hashValue) {
-  const raw = String(hashValue || '')
-    .replace(/^#\/?/, '')
-    .split('?')[0]
-    .trim()
-    .toLowerCase();
-  return ROUTE_ORDER.includes(raw) ? raw : ROUTE_FALLBACK;
-}
-
-function setRouteFromHash() {
-  currentRoute.value = normalizeRoute(typeof window === 'undefined' ? '' : window.location.hash);
-}
-
-function routeHref(routeKey) {
-  return `#/${routeKey}`;
-}
-
-function isRouteActive(routeKey) {
-  return currentRoute.value === routeKey;
-}
 
 const activeRouteHeading = computed(() => ROUTE_HEADINGS[currentRoute.value] ?? ROUTE_HEADINGS[ROUTE_FALLBACK]);
 const hasPlayerQuery = computed(() => playerQuery.value.trim().length > 0);
@@ -312,7 +306,6 @@ const filteredGlossaryTerms = computed(() => {
 });
 
 const activeTerm = computed(() => glossaryTerms.value.find((term) => term.key === activeTermKey.value) || null);
-const isMobilePopover = computed(() => isMobileViewport.value);
 
 function eventGroups(pack) {
   return ['buff', 'debuff', 'mech']
@@ -578,124 +571,24 @@ function isRetiredTitle(title) {
   return /不再发放|历史称号/.test(conditionText);
 }
 
-function detectSystemTheme() {
-  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-    return 'light';
-  }
-
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+function toggleCompletedMaps() {
+  completedMapsExpanded.value = !completedMapsExpanded.value;
 }
 
-function applyTheme(nextMode, persist = true) {
-  const normalized = nextMode === 'dark' ? 'dark' : 'light';
-  themeMode.value = normalized;
-
-  if (typeof window !== 'undefined') {
-    document.documentElement.dataset.theme = normalized;
-    if (persist) {
-      window.localStorage.setItem(THEME_STORAGE_KEY, normalized);
-    }
-  }
-}
-
-function initTheme() {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    applyTheme(savedTheme, false);
-    return;
-  }
-
-  applyTheme(detectSystemTheme(), false);
-}
-
-function toggleTheme() {
-  applyTheme(themeMode.value === 'dark' ? 'light' : 'dark');
-}
-
-function closeTermPopover() {
-  activeTermKey.value = '';
-}
-
-function updateViewportMode() {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  isMobileViewport.value = window.innerWidth <= 640;
-}
-
-function updatePopoverAnchor(targetElement) {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  const rect = targetElement.getBoundingClientRect();
-  const popoverWidth = 420;
-  const popoverHeight = 320;
-  const margin = 12;
-  const preferredLeft = rect.left + rect.width / 2 - popoverWidth / 2;
-  const preferredTop = rect.bottom + 10;
-  const left = Math.min(Math.max(margin, preferredLeft), window.innerWidth - popoverWidth - margin);
-  const top = Math.min(Math.max(margin, preferredTop), window.innerHeight - popoverHeight - margin);
-  popoverAnchorStyle.value = {
-    top: `${Math.round(top)}px`,
-    left: `${Math.round(left)}px`
-  };
-}
-
-function toggleTermPopover(termKey, targetElement = null) {
-  if (!termKey) {
-    return;
-  }
-
-  if (activeTermKey.value === termKey) {
-    closeTermPopover();
-    return;
-  }
-
-  activeTermKey.value = termKey;
-  if (!isMobilePopover.value && targetElement) {
-    updatePopoverAnchor(targetElement);
-  }
-}
-
-function openTermFromEvent(event, termKey) {
-  const targetElement = event.currentTarget instanceof HTMLElement ? event.currentTarget : null;
+function openTerm(termKey, targetElement = null) {
   toggleTermPopover(termKey, targetElement);
 }
 
-function goToEventWithTerm(relatedEvent, termKey = '') {
+function goToEventWithQuery(queryText) {
   if (typeof window !== 'undefined') {
     window.location.hash = '#/events';
   }
   currentRoute.value = 'events';
-
-  const nextQuery = termKey
-    ? glossaryTerms.value.find((term) => term.key === termKey)?.nameZh || relatedEvent.nameZh
-    : relatedEvent.nameZh;
-  eventQuery.value = nextQuery;
+  eventQuery.value = String(queryText || '').trim();
 }
 
-function handleGlobalPointerDown(event) {
-  const target = event.target;
-  if (!(target instanceof HTMLElement)) {
-    return;
-  }
-
-  if (target.closest('.term-popover') || target.closest('.term-trigger')) {
-    return;
-  }
-
-  closeTermPopover();
-}
-
-function handleGlobalEscape(event) {
-  if (event.key === 'Escape') {
-    closeTermPopover();
-  }
+function resolveTermLabel(termKey) {
+  return glossaryTerms.value.find((term) => term.key === termKey)?.nameZh || termKey;
 }
 
 async function loadData() {
@@ -883,461 +776,58 @@ watch(
         </div>
       </section>
 
-      <section class="content-grid" v-if="currentRoute === 'titles'">
-        <article class="card ow-card spotlight-card">
-          <header class="card-header">
-            <p>查询结果</p>
-            <h2>玩家详情</h2>
-          </header>
+      <TitlesPanel
+        v-if="currentRoute === 'titles'"
+        :loading="loading"
+        :error="error"
+        :has-player-query="hasPlayerQuery"
+        :showcased-player="showcasedPlayer"
+        :grouped-titles="groupedTitles"
+        :visible-titles="visibleTitles"
+        :is-series-expanded="isSeriesExpanded"
+        :toggle-series="toggleSeries"
+        :get-series-body-id="getSeriesBodyId"
+        :is-retired-title="isRetiredTitle"
+        :map-summary="mapSummary"
+        :incomplete-map-titles="incompleteMapTitles"
+        :complete-map-titles="completeMapTitles"
+        :completed-maps-expanded="completedMapsExpanded"
+        :toggle-completed-maps="toggleCompletedMaps"
+      />
 
-          <div v-if="loading" class="state-block">正在加载称号数据…</div>
-          <div v-else-if="error" class="state-block state-error">{{ error }}</div>
-          <div v-else-if="!hasPlayerQuery" class="spotlight-body">
-            <div class="player-heading">
-              <div>
-                <p class="player-name">未选择玩家</p>
-                <p class="player-meta">请输入玩家昵称后查看个人称号与解锁条件</p>
-              </div>
-              <div class="player-badge">READY</div>
-            </div>
-          </div>
-          <div v-else-if="!showcasedPlayer" class="state-block">
-            没有找到匹配的玩家，试试缩短关键字或直接输入完整昵称。
-          </div>
-          <div v-else class="spotlight-body">
-            <div class="player-heading">
-              <div>
-                <div class="player-name-row">
-                  <p class="player-name">{{ showcasedPlayer.name }}</p>
-                  <p class="player-meta">已获取 {{ groupedTitles.ownedCount }} / {{ visibleTitles.length }}</p>
-                </div>
-              </div>
-              <div class="player-badge">LOCKED IN</div>
-            </div>
-          </div>
-        </article>
-      </section>
+      <EventsPanel
+        v-if="currentRoute === 'events'"
+        :loading="loading"
+        :error="error"
+        :filtered-event-packs="filteredEventPacks"
+        :event-groups="eventGroups"
+        :toggle-event-group="toggleEventGroup"
+        :is-event-group-expanded="isEventGroupExpanded"
+        :get-event-group-body-id="getEventGroupBodyId"
+        :event-type-class="eventTypeClass"
+        :event-desc-segments="eventDescSegments"
+        :event-term-keys="eventTermKeys"
+        :resolve-term-label="resolveTermLabel"
+        @open-term="openTerm"
+      />
 
-      <section class="catalog-panel card ow-card" v-if="currentRoute === 'titles' && hasPlayerQuery">
-        <header class="card-header">
-          <p>所有称号列表</p>
-          <h2>已获取 / 未获取</h2>
-        </header>
+      <GlossaryPanel
+        v-if="currentRoute === 'glossary'"
+        :loading="loading"
+        :error="error"
+        :filtered-glossary-terms="filteredGlossaryTerms"
+        @open-term="openTerm"
+        @jump-to-event="goToEventWithQuery"
+      />
 
-        <div v-if="loading" class="state-block">正在生成称号进度…</div>
-        <div v-else-if="error" class="state-block state-error">当前无法显示称号进度。</div>
-        <div v-else class="title-groups">
-          <article class="title-group title-group-owned">
-            <header class="title-group-head">
-              <h3>已获取</h3>
-              <span class="title-group-count">{{ groupedTitles.ownedCount }}</span>
-            </header>
-            <div class="series-list" v-if="groupedTitles.ownedSeries.length">
-              <article
-                class="series-card"
-                :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
-                v-for="(seriesGroup, ownedIndex) in groupedTitles.ownedSeries"
-                :key="`owned-series-${seriesGroup.series}`"
-              >
-                <header class="series-head">
-                  <p class="series-name">{{ seriesGroup.series }}</p>
-                  <span class="series-count">{{ seriesGroup.titles.length }}</span>
-                  <button
-                    type="button"
-                    class="series-toggle ow-button ow-button-aux"
-                    @click="toggleSeries('owned', ownedIndex, seriesGroup.series)"
-                    :aria-expanded="isSeriesExpanded('owned', ownedIndex, seriesGroup.series)"
-                    :aria-controls="getSeriesBodyId('owned', seriesGroup.series)"
-                  >
-                    <span>{{ isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? '收起' : '展开' }}</span>
-                    <span
-                      class="series-toggle-icon"
-                      :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : ''"
-                      aria-hidden="true"
-                    >
-                      ▾
-                    </span>
-                  </button>
-                </header>
-                <div
-                  class="series-body"
-                  :id="getSeriesBodyId('owned', seriesGroup.series)"
-                  :class="isSeriesExpanded('owned', ownedIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
-                  :aria-hidden="!isSeriesExpanded('owned', ownedIndex, seriesGroup.series)"
-                >
-                  <ul class="status-title-list series-title-list">
-                    <li v-for="title in seriesGroup.titles" :key="`owned-${title.id}`">
-                      <span class="title-chip title-chip-owned">
-                        <span class="title-head">
-                          <span class="title-label">{{ title.label }}</span>
-                          <span class="title-tag">{{ title.category }}</span>
-                          <span class="title-tag title-tag-challenge" v-for="tag in title.tags || []" :key="`owned-tag-${title.id}-${tag}`">
-                            {{ tag }}
-                          </span>
-                          <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
-                        </span>
-                        <span class="title-condition">{{ title.condition }}</span>
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </article>
-            </div>
-            <p v-else class="group-empty">当前玩家暂无已获取称号。</p>
-          </article>
-
-          <article class="title-group title-group-missing">
-            <header class="title-group-head">
-              <h3>未获取</h3>
-              <span class="title-group-count">{{ groupedTitles.missingCount }}</span>
-            </header>
-            <div class="series-list" v-if="groupedTitles.missingSeries.length">
-              <article
-                class="series-card"
-                :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
-                v-for="(seriesGroup, missingIndex) in groupedTitles.missingSeries"
-                :key="`missing-series-${seriesGroup.series}`"
-              >
-                <header class="series-head">
-                  <p class="series-name">{{ seriesGroup.series }}</p>
-                  <span class="series-count">{{ seriesGroup.titles.length }}</span>
-                  <button
-                    type="button"
-                    class="series-toggle ow-button ow-button-aux"
-                    @click="toggleSeries('missing', missingIndex, seriesGroup.series)"
-                    :aria-expanded="isSeriesExpanded('missing', missingIndex, seriesGroup.series)"
-                    :aria-controls="getSeriesBodyId('missing', seriesGroup.series)"
-                  >
-                    <span>{{ isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? '收起' : '展开' }}</span>
-                    <span
-                      class="series-toggle-icon"
-                      :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : ''"
-                      aria-hidden="true"
-                    >
-                      ▾
-                    </span>
-                  </button>
-                </header>
-                <div
-                  class="series-body"
-                  :id="getSeriesBodyId('missing', seriesGroup.series)"
-                  :class="isSeriesExpanded('missing', missingIndex, seriesGroup.series) ? 'is-expanded' : 'is-collapsed'"
-                  :aria-hidden="!isSeriesExpanded('missing', missingIndex, seriesGroup.series)"
-                >
-                  <ul class="status-title-list series-title-list">
-                    <li v-for="title in seriesGroup.titles" :key="`missing-${title.id}`">
-                      <span class="title-chip title-chip-missing">
-                        <span class="title-head">
-                          <span class="title-label">{{ title.label }}</span>
-                          <span class="title-tag">{{ title.category }}</span>
-                          <span class="title-tag title-tag-challenge" v-for="tag in title.tags || []" :key="`missing-tag-${title.id}-${tag}`">
-                            {{ tag }}
-                          </span>
-                          <span class="title-tag title-tag-retired" v-if="isRetiredTitle(title)">不再发放</span>
-                        </span>
-                        <span class="title-condition">{{ title.condition }}</span>
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              </article>
-            </div>
-            <p v-else class="group-empty">当前玩家已获取全部称号。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="catalog-panel card ow-card" v-if="currentRoute === 'titles' && hasPlayerQuery">
-        <header class="card-header">
-          <p>地图专属称号</p>
-          <h2>已获取 / 未获取</h2>
-        </header>
-
-        <div v-if="loading" class="state-block">正在获取地图称号进度…</div>
-        <div v-else-if="error" class="state-block state-error">当前无法显示地图称号进度。</div>
-        <div v-else-if="!showcasedPlayer" class="state-block">请选择玩家后查看地图专属称号。</div>
-        <div v-else class="map-section-stack">
-          <header class="map-summary">
-            <span class="map-summary-item map-summary-item-alert">未完成 {{ mapSummary.incompleteCount }}</span>
-            <span class="map-summary-item map-summary-item-complete">已完成 {{ mapSummary.completeCount }}</span>
-            <span class="map-summary-item">总计 {{ mapSummary.totalCount }}</span>
-            <span class="map-summary-item map-summary-item-complete">开拓者 {{ mapSummary.pioneerOwnedCount }}</span>
-            <span class="map-summary-item map-summary-item-pioneer">未开拓 {{ mapSummary.pioneerMissingCount }}</span>
-          </header>
-
-          <section class="map-block map-block-priority">
-            <header class="map-block-head">
-              <h3>未获得地图</h3>
-              <span class="map-block-count">{{ mapSummary.incompleteCount }}</span>
-            </header>
-            <p class="map-block-empty" v-if="!incompleteMapTitles.length">全部地图主进度已收集完成。</p>
-            <div v-else class="map-title-grid">
-              <article class="map-title-card map-title-card-priority" v-for="mapItem in incompleteMapTitles" :key="mapItem.mapKey">
-                <header class="map-title-head">
-                  <p class="map-title-name">{{ mapItem.mapLabel }}</p>
-                  <span class="map-title-progress">{{ mapItem.mainOwnedSlots }} / {{ mapItem.mainTotalSlots }}</span>
-                </header>
-                <section class="map-slot-group map-slot-group-main">
-                  <ul class="status-title-list">
-                    <li v-for="slot in mapItem.mainSlots" :key="`${mapItem.mapKey}-${slot.key}`">
-                      <span class="title-chip" :class="slot.owned ? 'title-chip-owned' : 'title-chip-missing'">
-                        <span class="title-head">
-                          <span class="title-label">{{ slot.label }}</span>
-                          <span class="title-tag" :class="slot.owned ? 'map-status-owned' : 'map-status-missing'">
-                            {{ slot.owned ? '已获得' : '未获得' }}
-                          </span>
-                        </span>
-                      </span>
-                    </li>
-                  </ul>
-                </section>
-                <section class="map-slot-group map-slot-group-pioneer">
-                  <p class="map-slot-group-title">开拓者</p>
-                  <span class="title-chip" :class="mapItem.pioneerSlot.owned ? 'title-chip-owned' : 'title-chip-missing'">
-                    <span class="title-head">
-                      <span class="title-label">{{ mapItem.pioneerSlot.label }}</span>
-                      <span class="title-tag" :class="mapItem.pioneerSlot.owned ? 'map-status-owned' : 'map-status-missing'">
-                        {{ mapItem.pioneerSlot.owned ? '已获得' : '未获得' }}
-                      </span>
-                    </span>
-                  </span>
-                </section>
-              </article>
-            </div>
-          </section>
-
-          <section class="map-block map-block-complete">
-            <header class="map-block-head">
-              <h3>已全收集地图</h3>
-              <span class="map-block-count">{{ mapSummary.completeCount }}</span>
-              <button
-                type="button"
-                class="series-toggle ow-button ow-button-aux"
-                @click="completedMapsExpanded = !completedMapsExpanded"
-                :aria-expanded="completedMapsExpanded"
-                aria-controls="complete-map-list"
-              >
-                <span>{{ completedMapsExpanded ? '收起' : '展开' }}</span>
-                <span class="series-toggle-icon" :class="completedMapsExpanded ? 'is-expanded' : ''" aria-hidden="true">▾</span>
-              </button>
-            </header>
-            <div class="complete-map-body" id="complete-map-list" :class="completedMapsExpanded ? 'is-expanded' : 'is-collapsed'" :aria-hidden="!completedMapsExpanded">
-              <div class="map-title-grid">
-                <article class="map-title-card map-title-card-complete" v-for="mapItem in completeMapTitles" :key="mapItem.mapKey">
-                  <header class="map-title-head">
-                    <p class="map-title-name">{{ mapItem.mapLabel }}</p>
-                    <span class="map-title-progress">{{ mapItem.mainOwnedSlots }} / {{ mapItem.mainTotalSlots }}</span>
-                  </header>
-                  <section class="map-slot-group map-slot-group-main">
-                    <ul class="status-title-list">
-                      <li v-for="slot in mapItem.mainSlots" :key="`${mapItem.mapKey}-${slot.key}`">
-                        <span class="title-chip" :class="slot.owned ? 'title-chip-owned' : 'title-chip-missing'">
-                          <span class="title-head">
-                            <span class="title-label">{{ slot.label }}</span>
-                            <span class="title-tag" :class="slot.owned ? 'map-status-owned' : 'map-status-missing'">
-                              {{ slot.owned ? '已获得' : '未获得' }}
-                            </span>
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </section>
-                  <section class="map-slot-group map-slot-group-pioneer">
-                    <p class="map-slot-group-title">开拓者</p>
-                    <span class="title-chip" :class="mapItem.pioneerSlot.owned ? 'title-chip-owned' : 'title-chip-missing'">
-                      <span class="title-head">
-                        <span class="title-label">{{ mapItem.pioneerSlot.label }}</span>
-                        <span class="title-tag" :class="mapItem.pioneerSlot.owned ? 'map-status-owned' : 'map-status-missing'">
-                          {{ mapItem.pioneerSlot.owned ? '已获得' : '未获得' }}
-                        </span>
-                      </span>
-                    </span>
-                  </section>
-                </article>
-              </div>
-            </div>
-          </section>
-        </div>
-      </section>
-
-      <section class="catalog-panel card ow-card" v-if="currentRoute === 'events'">
-        <header class="card-header">
-          <h2>随机事件</h2>
-        </header>
-        <div v-if="loading" class="state-block">正在加载事件数据…</div>
-        <div v-else-if="error" class="state-block state-error">{{ error }}</div>
-        <div v-else-if="!filteredEventPacks.length" class="state-block">没有匹配的事件，请调整关键字。</div>
-        <div v-else class="event-pack-list">
-          <article class="map-block" v-for="pack in filteredEventPacks" :key="`pack-${pack.id}`">
-            <header class="map-block-head">
-              <h3>{{ pack.labelZh }}</h3>
-              <span class="map-block-count">{{ pack.eventCount }}</span>
-            </header>
-            <div class="event-group-list">
-              <section class="event-group" v-for="(group, groupIndex) in eventGroups(pack)" :key="`group-${pack.id}-${group.type}`">
-                <header class="event-group-head">
-                  <p class="event-group-title">{{ group.label }}</p>
-                  <span class="series-count">{{ group.events.length }}</span>
-                  <button
-                    type="button"
-                    class="series-toggle ow-button ow-button-aux"
-                    @click="toggleEventGroup(pack.id, groupIndex, group.type)"
-                    :aria-expanded="isEventGroupExpanded(pack.id, groupIndex, group.type)"
-                    :aria-controls="getEventGroupBodyId(pack.id, group.type)"
-                  >
-                    <span>{{ isEventGroupExpanded(pack.id, groupIndex, group.type) ? '收起' : '展开' }}</span>
-                    <span
-                      class="series-toggle-icon"
-                      :class="isEventGroupExpanded(pack.id, groupIndex, group.type) ? 'is-expanded' : ''"
-                      aria-hidden="true"
-                    >
-                      ▾
-                    </span>
-                  </button>
-                </header>
-                <div
-                  class="event-group-body"
-                  :id="getEventGroupBodyId(pack.id, group.type)"
-                  :class="isEventGroupExpanded(pack.id, groupIndex, group.type) ? 'is-expanded' : 'is-collapsed'"
-                  :aria-hidden="!isEventGroupExpanded(pack.id, groupIndex, group.type)"
-                >
-                  <ul class="event-item-list">
-                    <li v-for="eventItem in group.events" :key="`event-${eventItem.type}-${eventItem.id}`">
-                      <article class="event-item" :class="eventTypeClass(eventItem.type)">
-                        <p class="event-line">
-                          <span class="event-name">{{ eventItem.nameZh }}</span>
-                          <span class="event-desc">
-                            <template
-                              v-for="(segment, segmentIndex) in eventDescSegments(eventItem)"
-                              :key="`event-segment-${eventItem.key}-${segmentIndex}`"
-                            >
-                              <button
-                                v-if="segment.termKey"
-                                type="button"
-                                class="term-trigger"
-                                @click="openTermFromEvent($event, segment.termKey)"
-                              >
-                                {{ segment.text }}
-                              </button>
-                              <span v-else>{{ segment.text }}</span>
-                            </template>
-                          </span>
-                        </p>
-                        <p class="event-term-list" v-if="eventTermKeys(eventItem).length">
-                          <button
-                            type="button"
-                            class="term-trigger term-trigger-soft"
-                            v-for="termKey in eventTermKeys(eventItem)"
-                            :key="`event-term-${eventItem.key}-${termKey}`"
-                            @click="openTermFromEvent($event, termKey)"
-                          >
-                            {{ glossaryTerms.find((term) => term.key === termKey)?.nameZh || termKey }}
-                          </button>
-                        </p>
-                        <p class="event-tag-list">
-                          <span class="event-tag event-tag-duration">{{ eventItem.durationSec }}秒</span>
-                          <span class="event-tag event-tag-weight">权重 {{ eventItem.weight }}</span>
-                        </p>
-                      </article>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="catalog-panel card ow-card" v-if="currentRoute === 'glossary'">
-        <header class="card-header">
-          <p>效果词条</p>
-          <h2>定义 / 规则 / 关联事件</h2>
-        </header>
-        <div v-if="loading" class="state-block">正在加载词条数据…</div>
-        <div v-else-if="error" class="state-block state-error">{{ error }}</div>
-        <div v-else-if="!filteredGlossaryTerms.length" class="state-block">没有匹配词条，请调整关键字或分类。</div>
-        <div v-else class="glossary-grid">
-          <article class="glossary-card" v-for="term in filteredGlossaryTerms" :key="`glossary-${term.key}`">
-            <header class="glossary-head">
-              <div class="glossary-name-line">
-                <button type="button" class="glossary-trigger glossary-trigger-main" @click="openTermFromEvent($event, term.key)">
-                  {{ term.nameZh }}
-                </button>
-                <button
-                  type="button"
-                  class="glossary-trigger glossary-trigger-alias"
-                  v-for="alias in term.aliases || []"
-                  :key="`inline-alias-${term.key}-${alias}`"
-                  @click="openTermFromEvent($event, term.key)"
-                >
-                  {{ alias }}
-                </button>
-              </div>
-              <span class="title-tag title-tag-category">{{ term.category }}</span>
-            </header>
-            <p class="glossary-summary">{{ term.summary }}</p>
-            <div class="glossary-related" v-if="term.relatedEvents?.length">
-              <button
-                type="button"
-                class="event-related-link ow-button ow-button-secondary"
-                v-for="relatedEvent in term.relatedEvents"
-                :key="`related-${term.key}-${relatedEvent.key}`"
-                @click="goToEventWithTerm(relatedEvent, term.key)"
-              >
-                <span>{{ relatedEvent.nameZh }}</span>
-                <span>{{ relatedEvent.packLabelZh }}</span>
-              </button>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <aside
+      <TermPopover
         v-if="activeTerm"
-        class="term-popover ow-card"
-        :class="isMobilePopover ? 'term-popover-mobile' : 'term-popover-desktop'"
-        :style="isMobilePopover ? null : popoverAnchorStyle"
-        role="dialog"
-        :aria-label="`词条详情：${activeTerm.nameZh}`"
-      >
-        <header class="term-popover-head">
-          <div>
-            <h3>{{ activeTerm.nameZh }}</h3>
-            <div class="term-popover-tags">
-              <span class="title-tag title-tag-category">{{ activeTerm.category }}</span>
-              <span class="title-tag title-tag-alias" v-for="alias in activeTerm.aliases || []" :key="`popover-alias-${activeTerm.key}-${alias}`">
-                {{ alias }}
-              </span>
-            </div>
-          </div>
-          <button type="button" class="term-popover-close" aria-label="关闭词条详情" @click="closeTermPopover">
-            ×
-          </button>
-        </header>
-        <p class="term-popover-summary">{{ activeTerm.summary }}</p>
-        <p class="term-popover-definition">{{ activeTerm.definition }}</p>
-        <div class="term-popover-rules" v-if="activeTerm.rules?.length">
-          <p>规则</p>
-          <ul>
-            <li v-for="rule in activeTerm.rules" :key="`term-rule-${activeTerm.key}-${rule}`">{{ rule }}</li>
-          </ul>
-        </div>
-        <div class="term-popover-related" v-if="activeTerm.relatedEvents?.length">
-          <p>关联事件</p>
-          <div class="term-popover-related-list">
-            <button
-              type="button"
-              class="event-related-link ow-button ow-button-secondary"
-              v-for="relatedEvent in activeTerm.relatedEvents"
-              :key="`term-pop-related-${activeTerm.key}-${relatedEvent.key}`"
-              @click="goToEventWithTerm(relatedEvent, activeTerm.key)"
-            >
-              <span>{{ relatedEvent.nameZh }}</span>
-              <span>{{ relatedEvent.packLabelZh }}</span>
-            </button>
-          </div>
-        </div>
-      </aside>
+        :active-term="activeTerm"
+        :is-mobile-popover="isMobilePopover"
+        :popover-anchor-style="popoverAnchorStyle"
+        @close="closeTermPopover"
+        @jump-to-event="goToEventWithQuery"
+      />
 
       <footer class="page-footer" v-if="titleMeta || eventMeta || glossaryMeta">
         <span>称号源：{{ sourceDisplay }}</span>
