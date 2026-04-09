@@ -855,10 +855,10 @@
 
 # --- ID 18 (Mech): 吸血鬼 ---
 #!define EVT_MECH_18_DURATION 45
-#!define EVT_MECH_18_WEIGHT 0.8
-#!define EVT_MECH_18_DRAIN_FLAT 25
-#!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.08
+#!define EVT_MECH_18_WEIGHT 0.5
+#!define EVT_MECH_18_DRAIN_FLAT 5
+#!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.01
 #!define EVT_MECH_18_INTERVAL 1
-#!define EVT_MECH_18_KILL_HEAL_PERMA 5
+#!define EVT_MECH_18_KILL_HEAL_PERMA 2.5
 
 # -----------------------------------------------------------------------------

@@ -56,7 +56,7 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Condition hashTag == true
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[4] >= 5000
+    @Condition eventPlayer.dlcTimeChallenge[4] >= 10000
     @Condition 41 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(41)
