@@ -352,6 +352,18 @@ code {
   color: var(--ow-text-soft);
 }
 
+.term-trigger-main {
+  border-color: rgba(241, 130, 69, 0.66);
+  background: rgba(240, 100, 20, 0.2);
+  color: #ffe5d2;
+}
+
+.term-trigger-alias {
+  border-color: rgba(88, 176, 245, 0.58);
+  background: rgba(7, 86, 140, 0.46);
+  color: #d9f2ff;
+}
+
 .search-candidates {
   display: flex;
   flex-wrap: wrap;
@@ -1098,8 +1110,11 @@ code {
   justify-content: space-between;
 }
 
-.glossary-name {
-  margin: 0;
+.glossary-name-line {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
 }
 
 .glossary-summary {
@@ -1171,6 +1186,24 @@ code {
   margin: 0.18rem 0 0;
   color: var(--ow-text-soft);
   font-size: 0.74rem;
+}
+
+.term-popover-tags {
+  margin-top: 0.3rem;
+  display: inline-flex;
+  gap: 0.28rem;
+  flex-wrap: wrap;
+}
+
+.title-tag-category {
+  border-color: rgba(176, 198, 229, 0.42);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.title-tag-alias {
+  border-color: rgba(88, 176, 245, 0.5);
+  background: rgba(7, 86, 140, 0.34);
+  color: #cbeaff;
 }
 
 .term-popover-close {
@@ -1656,6 +1689,19 @@ code {
 
 :root[data-theme='light'] .term-trigger {
   border-color: rgba(35, 129, 201, 0.42);
+  background: rgba(58, 144, 209, 0.14);
+  color: #1e5c89;
+}
+
+:root[data-theme='light'] .term-trigger-main {
+  border-color: rgba(214, 95, 31, 0.56);
+  background: rgba(240, 100, 20, 0.16);
+  color: #8a3e17;
+}
+
+:root[data-theme='light'] .term-trigger-alias,
+:root[data-theme='light'] .title-tag-alias {
+  border-color: rgba(35, 129, 201, 0.48);
   background: rgba(58, 144, 209, 0.14);
   color: #1e5c89;
 }

@@ -20,7 +20,7 @@ const ROUTE_HEADINGS = {
   },
   glossary: {
     title: '效果词条查询',
-    copy: '基于《躲避堡垒 3：效果词条定义》查看词条定义、规则与关联事件。'
+    copy: '《躲避堡垒 3》效果词条定义、规则与关联事件。'
   }
 };
 const TYPE_LABELS = {
@@ -1247,26 +1247,23 @@ watch(
         <div v-else class="glossary-grid">
           <article class="glossary-card" v-for="term in filteredGlossaryTerms" :key="`glossary-${term.key}`">
             <header class="glossary-head">
-              <p class="glossary-name">
-                <button type="button" class="term-trigger" @click="openTermFromEvent($event, term.key)">
+              <div class="glossary-name-line">
+                <button type="button" class="term-trigger term-trigger-main" @click="openTermFromEvent($event, term.key)">
                   {{ term.nameZh }}
                 </button>
-              </p>
-              <span class="title-tag">{{ term.category }}</span>
+                <button
+                  type="button"
+                  class="term-trigger term-trigger-alias"
+                  v-for="alias in term.aliases || []"
+                  :key="`inline-alias-${term.key}-${alias}`"
+                  @click="openTermFromEvent($event, term.key)"
+                >
+                  {{ alias }}
+                </button>
+              </div>
+              <span class="title-tag title-tag-category">{{ term.category }}</span>
             </header>
             <p class="glossary-summary">{{ term.summary }}</p>
-            <div class="glossary-aliases" v-if="term.aliases?.length">
-              <span class="glossary-label">别名</span>
-              <button
-                type="button"
-                class="term-trigger term-trigger-soft"
-                v-for="alias in term.aliases"
-                :key="`alias-${term.key}-${alias}`"
-                @click="openTermFromEvent($event, term.key)"
-              >
-                {{ alias }}
-              </button>
-            </div>
             <div class="glossary-related" v-if="term.relatedEvents?.length">
               <span class="glossary-label">关联事件</span>
               <button
@@ -1294,7 +1291,12 @@ watch(
         <header class="term-popover-head">
           <div>
             <h3>{{ activeTerm.nameZh }}</h3>
-            <p>{{ activeTerm.category }}</p>
+            <div class="term-popover-tags">
+              <span class="title-tag title-tag-category">{{ activeTerm.category }}</span>
+              <span class="title-tag title-tag-alias" v-for="alias in activeTerm.aliases || []" :key="`popover-alias-${activeTerm.key}-${alias}`">
+                {{ alias }}
+              </span>
+            </div>
           </div>
           <button type="button" class="term-popover-close ow-button ow-button-secondary term-trigger" @click="closeTermPopover">关闭</button>
         </header>
