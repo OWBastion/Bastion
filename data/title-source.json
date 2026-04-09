@@ -499,7 +499,7 @@
       "condition": "随机事件 5.0 扩展包中获取",
       "availability": "active",
       "displayExpr": "\"赌圣\"",
-      "colorExpr": "null"
+      "colorExpr": "heroColor[3]"
     },
     {
       "key": "EVENT5_BLACK_SHEEP",
@@ -508,7 +508,7 @@
       "condition": "随机事件 5.0 扩展包中获取",
       "availability": "active",
       "displayExpr": "\"害群之马\"",
-      "colorExpr": "null"
+      "colorExpr": "heroColor[3]"
     },
     {
       "key": "EVENT5_I_WANT_TO_CHECK_CARDS",
@@ -517,7 +517,7 @@
       "condition": "随机事件 5.0 扩展包中获取",
       "availability": "active",
       "displayExpr": "\"我要验牌\"",
-      "colorExpr": "null"
+      "colorExpr": "heroColor[3]"
     },
     {
       "key": "EVENT5_CARDS_ARE_FINE",
@@ -526,7 +526,7 @@
       "condition": "随机事件 5.0 扩展包中获取",
       "availability": "active",
       "displayExpr": "\"牌没有问题\"",
-      "colorExpr": "null"
+      "colorExpr": "heroColor[3]"
     }
   ],
   "players": [
@@ -581,7 +581,11 @@
         "RED_PACKET",
         "GOOD_LUCK",
         "LONE_WALKER",
-        "GREEN_MOUNTAIN"
+        "GREEN_MOUNTAIN",
+        "EVENT5_GAMBLE_SAINT",
+        "EVENT5_BLACK_SHEEP",
+        "EVENT5_I_WANT_TO_CHECK_CARDS",
+        "EVENT5_CARDS_ARE_FINE"
       ]
     },
     {
@@ -635,7 +639,11 @@
         "RED_PACKET",
         "GOOD_LUCK",
         "LONE_WALKER",
-        "GREEN_MOUNTAIN"
+        "GREEN_MOUNTAIN",
+        "EVENT5_GAMBLE_SAINT",
+        "EVENT5_BLACK_SHEEP",
+        "EVENT5_I_WANT_TO_CHECK_CARDS",
+        "EVENT5_CARDS_ARE_FINE"
       ]
     },
     {
