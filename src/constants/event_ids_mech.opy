@@ -38,6 +38,8 @@ enum MechEventId:
     GAMBLER_HEART_OF_STEEL
     # legacy numeric id: 17
     GAMBLER_ALL_IN_ART_5
+    # legacy numeric id: 18
+    VAMPIRE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

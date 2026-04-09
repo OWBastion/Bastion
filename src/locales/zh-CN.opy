@@ -194,8 +194,6 @@
 #!define STR_EVT_DEBUFF_17_DESC "使用技能会导致\n所有技能进入冷却"
 #!define STR_EVT_DEBUFF_18_TITLE "我和你"
 #!define STR_EVT_DEBUFF_18_DESC "生命值与最低血量的队友同步"
-#!define STR_EVT_DEBUFF_19_TITLE "吸血鬼"
-#!define STR_EVT_DEBUFF_19_DESC "吸取队友生命值来治疗自己"
 #!define STR_EVT_DEBUFF_20_TITLE "登月火箭"
 #!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n并在空中无法控制方向"
 
@@ -222,6 +220,8 @@
 #!define STR_EVT_MECH_16_DESC "长按{0}触发\n{1}%概率心之钢层数变为{2}倍\n{3}%概率失去{4}%层数"
 #!define STR_EVT_MECH_17_TITLE "赌徒：梭哈艺术"
 #!define STR_EVT_MECH_17_DESC "按下{0}以{1}%心之钢层数为赌注\n{2}%概率获得赌注×{3}层数"
+#!define STR_EVT_MECH_18_TITLE "吸血鬼"
+#!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗增益"
 
 
 # 设置菜单分类 (Pack)
