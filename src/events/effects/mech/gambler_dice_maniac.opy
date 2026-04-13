@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     elif eventPlayer.categoryRoll == 4:
         eventPlayer.mod_dmg_perma += EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma -= EVT_MECH_15_DMG_HEAL_DELTA
-        smallMessage(eventPlayer, "  3点：永久损失 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        smallMessage(eventPlayer, "  3点：永久损失 {0}% 伤害减免与治疗强度".format(EVT_MECH_15_DMG_HEAL_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 5:
@@ -39,7 +39,7 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     else:
         eventPlayer.mod_dmg_perma -= EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma += EVT_MECH_15_DMG_HEAL_DELTA
-        smallMessage(eventPlayer, "  6点：永久获得 {0}% 伤害减免与治疗增益".format(EVT_MECH_15_DMG_HEAL_DELTA))
+        smallMessage(eventPlayer, "  6点：永久获得 {0}% 伤害减免与治疗强度".format(EVT_MECH_15_DMG_HEAL_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     updatePlayerStats()

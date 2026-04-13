@@ -28,7 +28,7 @@ rule "[VishkarEvent]: 有我有你 (Initiator - Control Logic)":
         wait(2)
         return
 
-    # 目标变量 possessed 结构: [0:来源玩家, 1:治疗增益, 2:减伤, 3:移速, 4:血池ID(预留), 5:最大生命值]
+    # 目标变量 possessed 结构: [0:来源玩家, 1:治疗强度, 2:减伤, 3:移速, 4:血池ID(预留), 5:最大生命值]
     # 先写入除 ID 外的数据，ID 由目标生成后填入
     eventPlayer.possess[0].possessed[0] = eventPlayer
     eventPlayer.possess[0].possessed[1] = eventPlayer.mod_heal_event

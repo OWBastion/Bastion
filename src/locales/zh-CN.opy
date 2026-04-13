@@ -74,7 +74,7 @@
 #!define STR_EVT_BUFF_2_TITLE "钢铁防线"
 #!define STR_EVT_BUFF_2_DESC "获得{0}点临时护甲与{1}%伤害减免"
 #!define STR_EVT_BUFF_3_TITLE "肾上腺素"
-#!define STR_EVT_BUFF_3_DESC "获得{0}%伤害减免\n并额外获得{1}%治疗增益"
+#!define STR_EVT_BUFF_3_DESC "获得{0}%伤害减免\n与{1}%治疗强度"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
@@ -102,7 +102,7 @@
 #!define STR_EVT_BUFF_16_TITLE "心之钢 Pro"
 #!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢\n基于层数临时提升最大生命值\n数值为心之钢层数×{1}"
 #!define STR_EVT_BUFF_17_TITLE "数值之力"
-#!define STR_EVT_BUFF_17_DESC "获得 {0}% 治疗增益"
+#!define STR_EVT_BUFF_17_DESC "获得 {0}% 治疗强度"
 #!define STR_EVT_BUFF_18_TITLE "我按Q辣"
 #!define STR_EVT_BUFF_18_DESC "持续移动获得终极技能充能\n终极技能持续期间获得{0}%伤害减免"
 
@@ -215,13 +215,13 @@
 #!define STR_EVT_MECH_14_TITLE "三位一体"
 #!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速\n每{2}秒获得1层心之钢"
 #!define STR_EVT_MECH_15_TITLE "赌徒：掷骰狂人"
-#!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗增益"
+#!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗强度"
 #!define STR_EVT_MECH_16_TITLE "赌徒：心之钢"
 #!define STR_EVT_MECH_16_DESC "长按{0}触发\n{1}%概率心之钢层数变为{2}倍\n{3}%概率失去{4}%层数"
 #!define STR_EVT_MECH_17_TITLE "赌徒：梭哈艺术"
 #!define STR_EVT_MECH_17_DESC "按下{0}以{1}%心之钢层数为赌注\n{2}%概率获得赌注×{3}层数"
 #!define STR_EVT_MECH_18_TITLE "吸血鬼"
-#!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗增益"
+#!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
 
 
 # 设置菜单分类 (Pack)

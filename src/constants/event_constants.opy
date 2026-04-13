@@ -834,7 +834,7 @@
 # 心之钢层数变更值
 #!define EVT_MECH_15_HEART_STEEL_DELTA 5
 #!define EVT_MECH_15_HEART_STEEL_DELTA_LOSS 5
-# 永久减伤/治疗增益变更值（%）
+# 永久减伤/治疗强度变更值（%）
 #!define EVT_MECH_15_DMG_HEAL_DELTA 5
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
