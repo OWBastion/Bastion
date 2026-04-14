@@ -195,7 +195,7 @@
 #!define STR_EVT_DEBUFF_18_TITLE "我和你"
 #!define STR_EVT_DEBUFF_18_DESC "生命值与最低血量的队友同步"
 #!define STR_EVT_DEBUFF_20_TITLE "登月火箭"
-#!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n并在空中无法控制方向"
+#!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n在空中无法控制方向"
 
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
