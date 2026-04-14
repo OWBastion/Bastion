@@ -4,7 +4,7 @@
 #!optimizeStrict
 
 rule "map - 斗兽场":
-    @Condition (__currentMap___ == Map.COLOSSEO or __currentMap___ == 2147) == true
+    @Condition (getCurrentMap() == Map.COLOSSEO or __currentMap___ == 2147) == true
     
     #Made by 他又 芋泥玛奇朵
     bastionPosition = vect(60.94, 12.5, -13.78)
