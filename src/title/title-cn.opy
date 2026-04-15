@@ -550,6 +550,10 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼"], "-"), \
    playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼"], "-")\
 ]
+
+# 南极半岛
+#!define DATA_ANTARCTIC_PENINSULA []
+
 # END AUTO-GENERATED MAP_TITLE_DATA
 
 # ------------------------------
