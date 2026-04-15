@@ -124,6 +124,9 @@ macro HERO_SETTINGS_ALL_TEAMS_SHARED = {
     "reinhardt": {
         "ability1Cooldown%": 75
     },
+    "sierra": {
+        "ability1Cooldown%": 50
+    },
     "sigma": {
         "ability1Cooldown%": 75,
         "secondaryFireCooldown%": 50,
