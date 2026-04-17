@@ -198,6 +198,12 @@
 #!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n在空中无法控制方向"
 
 # ------------------------------------------------
+# 随机事件包 5：减益 (Debuff Events Pack 5)
+# ------------------------------------------------
+#!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
+#!define STR_EVT_DEBUFF_21_DESC "每{0}秒获得1层诅咒\n每层诅咒降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
+
+# ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
 #!define STR_EVT_MECH_7_TITLE "作弊：我要验牌"
@@ -234,14 +240,16 @@
 #!define STR_CAT_RANDOM_PACK_1_BUFF "随机事件包 1：增益"
 #!define STR_CAT_RANDOM_PACK_2_BUFF "随机事件包 2：增益"
 #!define STR_CAT_RANDOM_PACK_3_BUFF "随机事件包 3：增益"
+#!define STR_CAT_RANDOM_PACK_4_BUFF "随机事件包 4：增益"
+#!define STR_CAT_RANDOM_PACK_5_BUFF "随机事件包 5：增益"
 #!define STR_CAT_RANDOM_PACK_1_DEBUFF "随机事件包 1：减益"
 #!define STR_CAT_RANDOM_PACK_2_DEBUFF "随机事件包 2：减益"
 #!define STR_CAT_RANDOM_PACK_3_DEBUFF "随机事件包 3：减益"
+#!define STR_CAT_RANDOM_PACK_4_DEBUFF "随机事件包 4：减益"
+#!define STR_CAT_RANDOM_PACK_5_DEBUFF "随机事件包 5：减益"
 #!define STR_CAT_RANDOM_PACK_1_MECH "随机事件包 1：机制"
 #!define STR_CAT_RANDOM_PACK_2_MECH "随机事件包 2：机制"
 #!define STR_CAT_RANDOM_PACK_3_MECH "随机事件包 3：机制"
-#!define STR_CAT_RANDOM_PACK_4_BUFF "随机事件包 4：增益"
-#!define STR_CAT_RANDOM_PACK_4_DEBUFF "随机事件包 4：减益"
 #!define STR_CAT_RANDOM_PACK_4_MECH "随机事件包 4：机制"
 #!define STR_CAT_RANDOM_PACK_5_MECH "随机事件包 5：机制"
 #!define STR_CAT_BUFF "增益"
@@ -357,7 +365,7 @@
 #!define STR_HUD_STATS_EVENT "增益/减益/总计\r\n{0}/{1}/{2} "
 
 # 随机事件 4.0 标题
-#!define STR_HUD_RANDOM_EVENTS_V4 "［随机事件 4.0］"
+#!define STR_HUD_RANDOM_EVENTS_VERSION "［随机事件 5.0］"
 
 # 事件详情格式 (HUD Text)
 # {0}=名称, {1}=时间, {2}=描述

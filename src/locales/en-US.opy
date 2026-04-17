@@ -192,6 +192,12 @@
 #!define STR_EVT_DEBUFF_20_DESC "Randomly launches you skyward\nand scrambles your flight direction."
 
 # ------------------------------------------------
+# Random Pack 5: Debuffs
+# ------------------------------------------------
+#!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
+#!define STR_EVT_DEBUFF_21_DESC "Gain 1 curse every {0}s.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
+
+# ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------
 #!define STR_EVT_MECH_7_TITLE "Cheat: Check Cards"
@@ -228,14 +234,16 @@
 #!define STR_CAT_RANDOM_PACK_1_BUFF "Random Pack 1: Buffs"
 #!define STR_CAT_RANDOM_PACK_2_BUFF "Random Pack 2: Buffs"
 #!define STR_CAT_RANDOM_PACK_3_BUFF "Random Pack 3: Buffs"
+#!define STR_CAT_RANDOM_PACK_4_BUFF "Random Pack 4: Buffs"
+#!define STR_CAT_RANDOM_PACK_5_BUFF "Random Pack 5: Buffs"
 #!define STR_CAT_RANDOM_PACK_1_DEBUFF "Random Pack 1: Debuffs"
 #!define STR_CAT_RANDOM_PACK_2_DEBUFF "Random Pack 2: Debuffs"
 #!define STR_CAT_RANDOM_PACK_3_DEBUFF "Random Pack 3: Debuffs"
+#!define STR_CAT_RANDOM_PACK_4_DEBUFF "Random Pack 4: Debuffs"
+#!define STR_CAT_RANDOM_PACK_5_DEBUFF "Random Pack 5: Debuffs"
 #!define STR_CAT_RANDOM_PACK_1_MECH "Random Pack 1: Mechanics"
 #!define STR_CAT_RANDOM_PACK_2_MECH "Random Pack 2: Mechanics"
 #!define STR_CAT_RANDOM_PACK_3_MECH "Random Pack 3: Mechanics"
-#!define STR_CAT_RANDOM_PACK_4_BUFF "Random Pack 4: Buffs"
-#!define STR_CAT_RANDOM_PACK_4_DEBUFF "Random Pack 4: Debuffs"
 #!define STR_CAT_RANDOM_PACK_4_MECH "Random Pack 4: Mechanics"
 #!define STR_CAT_RANDOM_PACK_5_MECH "Random Pack 5: Mechanics"
 #!define STR_CAT_BUFF "Buff"
@@ -352,7 +360,7 @@
 #!define STR_HUD_STATS_EVENT "Buff/Debuff/Total\r\n{0}/{1}/{2} "
 
 # Random Events 4.0 Title
-#!define STR_HUD_RANDOM_EVENTS_V4 "[Random Events 4.0]"
+#!define STR_HUD_RANDOM_EVENTS_VERSION "[Random Events 5.0]"
 
 # Event Detail Format
 # {0}=Name, {1}=Time, {2}=Desc

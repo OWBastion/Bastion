@@ -44,6 +44,8 @@ enum DebuffEventId:
     HEALTH_SYNC
     # legacy numeric id: 19
     MOON_ROCKET
+    # legacy numeric id: 20
+    ADLERSBRUNN_WRAITH
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
