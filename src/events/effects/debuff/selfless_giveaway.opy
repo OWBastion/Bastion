@@ -22,5 +22,11 @@ rule "[VishkarEvent]: 舍己为人":
     @Team 1
     @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
     
-    setPlayerHP()
+    if all([eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true:
+        eventPlayer.temp = eventPlayer.getNormalizedHealth()
+        eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel * EVT_16_HP_MULTIPLIER)
+        wait(getAverageServerLoad() / 100 * 0.032)
+        eventPlayer.setHealth(eventPlayer.getMaxHealth() * eventPlayer.temp)
+    else:
+        setPlayerHP()
     eventPlayer.setPlayerHP = false
