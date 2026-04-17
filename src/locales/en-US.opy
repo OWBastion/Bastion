@@ -192,6 +192,12 @@
 #!define STR_EVT_DEBUFF_20_DESC "Randomly launches you skyward\nand scrambles your flight direction."
 
 # ------------------------------------------------
+# Random Pack 5: Debuffs
+# ------------------------------------------------
+#!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
+#!define STR_EVT_DEBUFF_21_DESC "Gain 1 curse every {0}s.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
+
+# ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------
 #!define STR_EVT_MECH_7_TITLE "Cheat: Check Cards"
@@ -237,6 +243,7 @@
 #!define STR_CAT_RANDOM_PACK_4_BUFF "Random Pack 4: Buffs"
 #!define STR_CAT_RANDOM_PACK_4_DEBUFF "Random Pack 4: Debuffs"
 #!define STR_CAT_RANDOM_PACK_4_MECH "Random Pack 4: Mechanics"
+#!define STR_CAT_RANDOM_PACK_5_DEBUFF "Random Pack 5: Debuffs"
 #!define STR_CAT_RANDOM_PACK_5_MECH "Random Pack 5: Mechanics"
 #!define STR_CAT_BUFF "Buff"
 #!define STR_CAT_DEBUFF "Debuff"

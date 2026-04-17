@@ -588,6 +588,17 @@
       "availability": "active"
     },
     {
+      "key": "ADLERSBRUNN_WRAITH",
+      "type": "debuff",
+      "id": 20,
+      "pack": 5,
+      "nameZh": "阿德勒斯布鲁恩的冤魂",
+      "descZh": "每10秒获得1层诅咒\\n每层诅咒降低10%治疗强度\\n长按装填消耗75%最大生命值移除1层\\n结束时永久失去剩余层数×10%治疗强度",
+      "durationSec": 60,
+      "weight": 1,
+      "availability": "active"
+    },
+    {
       "key": "EXTREME_CHALLENGE",
       "type": "mech",
       "id": 0,

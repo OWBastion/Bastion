@@ -361,6 +361,17 @@ rule "initialize event array":
         goto lbl_4
 
     # ================================================
+    # Pack 5: Debuffs
+    # ================================================
+    debuffEvent[DebuffEventId.ADLERSBRUNN_WRAITH] = [
+        STR_EVT_DEBUFF_21_TITLE,
+        STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_STACK_INTERVAL, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),
+        EVT_DEBUFF_21_DURATION,
+        EVT_DEBUFF_21_WEIGHT
+    ]
+    debuffEventId.append(DebuffEventId.ADLERSBRUNN_WRAITH)
+
+    # ================================================
     # Pack 5: Mechanics
     # ================================================
     mechEvent[MechEventId.GAMBLER_DICE_MANIAC] = [

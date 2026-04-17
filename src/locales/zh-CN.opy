@@ -198,6 +198,12 @@
 #!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n在空中无法控制方向"
 
 # ------------------------------------------------
+# 随机事件包 5：减益 (Debuff Events Pack 5)
+# ------------------------------------------------
+#!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
+#!define STR_EVT_DEBUFF_21_DESC "每{0}秒获得1层诅咒\n每层诅咒降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
+
+# ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
 #!define STR_EVT_MECH_7_TITLE "作弊：我要验牌"
@@ -243,6 +249,7 @@
 #!define STR_CAT_RANDOM_PACK_4_BUFF "随机事件包 4：增益"
 #!define STR_CAT_RANDOM_PACK_4_DEBUFF "随机事件包 4：减益"
 #!define STR_CAT_RANDOM_PACK_4_MECH "随机事件包 4：机制"
+#!define STR_CAT_RANDOM_PACK_5_DEBUFF "随机事件包 5：减益"
 #!define STR_CAT_RANDOM_PACK_5_MECH "随机事件包 5：机制"
 #!define STR_CAT_BUFF "增益"
 #!define STR_CAT_DEBUFF "减益"

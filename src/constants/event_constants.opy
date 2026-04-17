@@ -581,6 +581,16 @@
 #!define EVT_DEBUFF_20_GRAVITY 5
 #!define EVT_DEBUFF_20_UPWARD_IMPULSE 95
 
+# --- ID 20 (Debuff): 阿德勒斯布鲁恩的冤魂 ---
+# Duration（秒）
+#!define EVT_DEBUFF_21_DURATION 60
+# Weight（权重）
+#!define EVT_DEBUFF_21_WEIGHT 1
+#!define EVT_DEBUFF_21_STACK_INTERVAL 10
+#!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
+#!define EVT_DEBUFF_21_HP_COST_RATIO 0.75
+#!define EVT_DEBUFF_21_HOLD_TIME 0.5
+
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）

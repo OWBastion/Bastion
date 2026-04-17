@@ -26,3 +26,4 @@
 #!include "debuff/chain_overload.opy"
 #!include "debuff/health_sync.opy"
 #!include "debuff/moon_rocket.opy"
+#!include "debuff/adlersbrunn_wraith.opy"
