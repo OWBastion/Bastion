@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 多动症 (触发回血)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.HYPERACTIVE_HEAL, eventPlayer.phase_trigger == true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.HYPERACTIVE_HEAL, eventPlayer.phase_trigger == true]) == true
     
     if eventPlayer.getAbilityCooldown(Button.ABILITY_1) > EVT_22_CD_THRESHOLD:
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.getAbilityCooldown(Button.ABILITY_1) * 0.5)

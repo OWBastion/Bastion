@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 能量泄漏":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.ENERGY_LEAK]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.ENERGY_LEAK]) == true
     @Condition any([eventPlayer.isUsingAbility1(), eventPlayer.isUsingAbility2()]) == true
     
     eventPlayer.passiveRegenBlocked = true

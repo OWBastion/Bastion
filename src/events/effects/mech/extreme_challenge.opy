@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 极限挑战":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     
     waitUntil(eventPlayer.isAlive(), MAX_TIME)
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 极限挑战":
 rule "[VishkarEvent]: 极限挑战":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealth() * EVT_MECH_0_HP_PERCENT == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)

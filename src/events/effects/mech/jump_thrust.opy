@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 屁动力":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.JUMP_THRUST, eventPlayer.isHoldingButton(Button.JUMP)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.JUMP_THRUST, eventPlayer.isHoldingButton(Button.JUMP)]) == true
     
     if eventPlayer.mod_dmg_taken != 0:
         goto lb_1

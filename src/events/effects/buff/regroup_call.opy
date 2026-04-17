@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 向我靠拢":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.REGROUP_CALL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.REGROUP_CALL]) == true
     
     wait(EVT_13_CHECK_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventEffectPlayers = [player for player in getLivingPlayers(Team.1) if distance(eventPlayer, player) <= EVT_13_RADIUS and isInLoS(eventPlayer, player) == true and not player.hasStatus(Status.INVINCIBLE)]
@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 向我靠拢":
 rule "[VishkarEvent]: 向我靠拢":
     @Event eachPlayer
     @Team 1
-    @Condition (all([dlcVishkarEvent, eventPlayer.hasSpawned(), not eventPlayer.hasStatus(Status.INVINCIBLE), len(eventPlayer.invincible) >= 3])) == true
+    @Condition (all([eventPlayer.hasSpawned(), not eventPlayer.hasStatus(Status.INVINCIBLE), len(eventPlayer.invincible) >= 3])) == true
     
     eventPlayer.setStatusEffect(eventPlayer.invincible[1], Status.INVINCIBLE, eventPlayer.invincible[2])
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 刹车失灵":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     eventPlayer.startThrottleInDirection(Vector.FORWARD, 1, Relativity.TO_PLAYER, Throttle.REPLACE_EXISTING, ThrottleReeval.NONE)
     wait(eventPlayer.eventDuration)
@@ -14,7 +14,7 @@ rule "[VishkarEvent]: 刹车失灵":
 rule "[VishkarEvent]: 刹车失灵":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     while eventPlayer.mod_speed_event < EVT_MECH_4_MAX_SPEED:
         eventPlayer.mod_speed_event += 5

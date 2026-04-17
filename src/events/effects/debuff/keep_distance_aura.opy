@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
     
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_15_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     if len(eventPlayer.target) > 1:

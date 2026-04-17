@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 献祭":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SACRIFICE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SACRIFICE]) == true
     @Condition len([player for player in getLivingPlayers(Team.1) if player.isUsingAbility1() or player.isUsingAbility2()]) > 0
     
     eventPlayer.passiveRegenBlocked = true

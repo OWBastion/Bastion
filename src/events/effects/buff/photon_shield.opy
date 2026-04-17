@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 费斯卡光子护盾":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
     
     wait()
     getPlayers(Team.1).target = eventPlayer
@@ -16,7 +16,7 @@ rule "[VishkarEvent]: 费斯卡光子护盾":
 rule "[VishkarEvent]: 费斯卡光子护盾":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
     
     wait()
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.target.getMaxHealth() * EVT_12_SHIELD_PERCENT if eventPlayer.target.getMaxHealth() * EVT_12_SHIELD_PERCENT > EVT_12_MIN_SHIELD else EVT_12_MIN_SHIELD, true, false)

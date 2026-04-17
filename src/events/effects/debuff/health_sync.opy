@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 我和你 (生命同步)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.HEALTH_SYNC]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.HEALTH_SYNC]) == true
     @Condition len(getLivingPlayers(Team.1)) > 1
     @Condition eventPlayer.getHealth() != 0
     

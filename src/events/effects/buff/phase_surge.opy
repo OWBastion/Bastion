@@ -8,7 +8,7 @@ rule "[VishkarEvent]: 4.0":
 rule "[VishkarEvent]: 相位猛冲 (智能检测版)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHASE_SURGE, eventPlayer.phase_trigger == true, eventPlayer.mod_speed_event == 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHASE_SURGE, eventPlayer.phase_trigger == true, eventPlayer.mod_speed_event == 0]) == true
     
     createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()

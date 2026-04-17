@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 向我开炮":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DRAW_FIRE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DRAW_FIRE]) == true
 
     wait(0.032)
     if eventPlayer.healthId[1] == null:

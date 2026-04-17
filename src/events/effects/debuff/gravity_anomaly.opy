@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 重力异常":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRAVITY_ANOMALY]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRAVITY_ANOMALY]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.mod_speed_event = EVT_DEBUFF_0_SPEED

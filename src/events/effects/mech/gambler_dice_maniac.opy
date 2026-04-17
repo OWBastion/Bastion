@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 赌徒：掷骰狂人":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_DICE_MANIAC, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_DICE_MANIAC, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_MECH_15_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.categoryRoll = random.randint(1, 6)

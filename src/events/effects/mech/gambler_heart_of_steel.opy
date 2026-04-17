@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 赌徒：心之钢":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_HEART_OF_STEEL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_HEART_OF_STEEL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_MECH_16_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_16_WIN_RATE:

@@ -4,9 +4,7 @@
 rule "[VishkarEvent]: 超级变换形态 (触发)":
     @Event eachPlayer
     @Team 1
-    @Condition all([
-        dlcVishkarEvent,
-        eventPlayer.hasSpawned(),
+    @Condition all([eventPlayer.hasSpawned(),
         eventPlayer.eventType == 0,
         eventPlayer.eventId == BuffEventId.SUPER_TRANSFORM,
         eventPlayer.altFormTrigger != true,
@@ -31,6 +29,6 @@ rule "[VishkarEvent]: 超级变换形态 (触发)":
 rule "[VishkarEvent]: 超级变换形态 (状态重置)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SUPER_TRANSFORM, eventPlayer.altFormTrigger == true, not eventPlayer.isInAlternateForm()]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SUPER_TRANSFORM, eventPlayer.altFormTrigger == true, not eventPlayer.isInAlternateForm()]) == true
 
     eventPlayer.altFormTrigger = false

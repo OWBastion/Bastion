@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 鼓舞士气 ProMax - 触发器":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MORALE_BOOST_PROMAX]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MORALE_BOOST_PROMAX]) == true
     
     playEffect(getAllPlayers(), DynamicEffect.BRIGITTE_WHIP_SHOT_HEAL_AREA, Color.TEAM_1, eventPlayer, 200)
     getPlayersInRadius(eventPlayer, EVT_23_HEAL_RADIUS, Team.1, LosCheck.SURFACES).startHealingOverTime(eventPlayer, EVT_23_HOT_DURATION, EVT_23_HOT_FLAT + eventPlayer.getMaxHealth() * EVT_23_HOT_MAXHP_FACTOR)

@@ -3,7 +3,7 @@
 
 rule "[VishkarEvent]: 钢铁防线":
     @Event eachPlayer
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.IRON_BULWARK]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.IRON_BULWARK]) == true
     
     wait(0.032)
     if eventPlayer.healthId[1] == null:

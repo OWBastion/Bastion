@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 数值之力":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.STAT_POWER]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.STAT_POWER]) == true
     
     eventPlayer.mod_heal_event = EVT_17_HEAL_BOOST
     eventPlayer.heal_recv = EVT_17_HEAL_BOOST

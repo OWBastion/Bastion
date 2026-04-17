@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 舍己为人":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
     
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 舍己为人":
 rule "[VishkarEvent]: 舍己为人":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
     
     if all([eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()

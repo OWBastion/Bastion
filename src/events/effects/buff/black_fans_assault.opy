@@ -3,7 +3,7 @@
 
 rule "[VishkarEvent]: 黑粉来袭":
     @Event eachPlayer
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
    
     # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
     wait(getAverageServerLoad() / 100 * 0.032)

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 作弊：我要验牌 (触发)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.CHEAT_CARD_COUNTING, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.CHEAT_CARD_COUNTING, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.heart_steel -= EVT_MECH_7_HEART_STEEL_COST

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 保镖 (Bodyguard)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.BODYGUARD, eventPlayer.phase_trigger == true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.BODYGUARD, eventPlayer.phase_trigger == true]) == true
     
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_20_ALLY_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     eventPlayer.addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.getMaxHealth() * EVT_20_ARMOR_MAXHP_FACTOR), false, false)

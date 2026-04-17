@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 连锁过载 (扁平循环版)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.CHAIN_OVERLOAD]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.CHAIN_OVERLOAD]) == true
     
     # 语义重做：仅在技能键按下时触发一次联动冷却（上升沿语义），松开后才允许再次触发。
     if any([eventPlayer.isHoldingButton(Button.ABILITY_1), eventPlayer.isHoldingButton(Button.ABILITY_2), eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)]) == true:

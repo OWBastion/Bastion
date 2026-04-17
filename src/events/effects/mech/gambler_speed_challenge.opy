@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 赌徒：竞速挑战":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_SPEED_CHALLENGE, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_SPEED_CHALLENGE, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setHealth(eventPlayer.getMaxHealth() * EVT_MECH_6_HP_PENALTY)

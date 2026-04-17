@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 骨质疏松 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS, eventPlayer.eventEffect == null]) == true
 
     createEffect(getAllPlayers(), Effect.MEI_FROZEN, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 骨质疏松 Effect":
 rule "[VishkarEvent]: 骨质疏松":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS]) == true
     
     while eventPlayer.mod_speed_event != EVT_DEBUFF_6_MAX_SPEED_DEC:
         eventPlayer.mod_speed_event -= EVT_DEBUFF_6_SPEED_DEC_PER_SEC

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 任务：殉道者 (初始化)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
     
     eventPlayer.eventMissionGoal = max(
         EVT_21_GOAL_MIN,
@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
 rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
     @Event playerDied
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
     @Condition attacker.getTeam() == Team.2
     @Condition (not attacker in eventPlayer.eventMission) == true
     

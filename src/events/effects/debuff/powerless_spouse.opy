@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 无能的丈夫/妻子":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.POWERLESS_SPOUSE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.POWERLESS_SPOUSE]) == true
     @Condition getLivingPlayers(Team.1)[1] != null
     
     ([player for player in getLivingPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_11_RADIUS and eventPlayer != player]).setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, EVT_DEBUFF_11_KNOCKDOWN_DURATION)

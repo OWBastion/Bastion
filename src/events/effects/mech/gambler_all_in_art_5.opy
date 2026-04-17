@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormTrigger != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormTrigger != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     eventPlayer.altFormTrigger = true
     if eventPlayer.heart_steel <= 0:
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
 rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5]) == true
 
     # wait(eventDuration, Wait.IGNORE_CONDITION)
     waitUntil(false, eventPlayer.eventDuration - 1)

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 我按Q辣":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setUltCharge(eventPlayer.getUltCharge() + EVT_18_ULT_CHARGE_PER_SEC)
@@ -18,7 +18,7 @@ rule "[VishkarEvent]: 我按Q辣":
 rule "[VishkarEvent]: 我按Q辣":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.eventEffect == null]) == true
     
     createEffect(getAllPlayers() if eventPlayer.isUsingUltimate() else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -29,7 +29,7 @@ rule "[VishkarEvent]: 我按Q辣":
 rule "[VishkarEvent]: 我按Q辣":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isUsingUltimate()]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isUsingUltimate()]) == true
     
     resetPlayerCD()
     eventPlayer.mod_dmg_taken -= EVT_18_DMG_REDUCTION_DURING_ULT

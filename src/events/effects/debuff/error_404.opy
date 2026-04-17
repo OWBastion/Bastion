@@ -6,7 +6,7 @@ playervar event404DisabledSlot
 rule "[VishkarEvent]: 404 (随机禁用技能)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.ERROR_404]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.ERROR_404]) == true
     
     if eventPlayer.getHero() == Hero.LIFEWEAVER:
         eventPlayer.event404DisabledSlot = 3

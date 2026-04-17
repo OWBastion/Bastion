@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 重伤":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRIEVOUS_WOUNDS]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRIEVOUS_WOUNDS]) == true
     
     eventPlayer.mod_heal_event = EVT_DEBUFF_12_HEAL_DEALT_RED
     eventPlayer.heal_recv = EVT_DEBUFF_12_HEAL_RECV_RED

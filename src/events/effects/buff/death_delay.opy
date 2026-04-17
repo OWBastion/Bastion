@@ -4,14 +4,14 @@
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
 
 rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
     @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.getHealth() <= eventPlayer.getMaxHealth() * EVT_9_TRIGGER_HP_PERCENT, eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
 
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)

@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 狂欢盛宴":
     @Event playerDied
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.FEAST_FRENZY, attacker.getHero() == Hero.BASTION]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.FEAST_FRENZY, attacker.getHero() == Hero.BASTION]) == true
     
     bigMessage(getAllPlayers(), "盛宴！")
     smallMessage(getPlayers(Team.1), "  {0} {1} 阵亡触发了狂欢盛宴".format(iconString(Icon.WARNING), eventPlayer))

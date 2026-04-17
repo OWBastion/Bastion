@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: 有我有你 (Initiator - Control Logic)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SYMBIOSIS]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SYMBIOSIS]) == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     
     # Exception: this initiator/receiver pair is state-sync workflow, not cadence loop.

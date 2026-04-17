@@ -4,7 +4,7 @@
 rule "[VishkarEvent]: F5 (循环刷新)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.F5_REFRESH]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.F5_REFRESH]) == true
     
     resetPlayerCD()
     wait(EVT_24_REFRESH_INTERVAL, Wait.ABORT_WHEN_FALSE)
