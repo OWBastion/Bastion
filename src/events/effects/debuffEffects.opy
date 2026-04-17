@@ -27,3 +27,4 @@
 #!include "debuff/health_sync.opy"
 #!include "debuff/moon_rocket.opy"
 #!include "debuff/adlersbrunn_wraith.opy"
+#!include "debuff/wither.opy"

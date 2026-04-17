@@ -591,6 +591,16 @@
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.75
 #!define EVT_DEBUFF_21_HOLD_TIME 0.5
 
+# --- ID 21 (Debuff): 枯萎 ---
+# Duration（秒）
+#!define EVT_DEBUFF_22_DURATION 120
+# Weight（权重）
+#!define EVT_DEBUFF_22_WEIGHT 0.6
+#!define EVT_DEBUFF_22_STACK_CAP 6
+#!define EVT_DEBUFF_22_STACK_WINDOW 12
+#!define EVT_DEBUFF_22_SPEED_DELTA_PER_STACK -8
+#!define EVT_DEBUFF_22_DMG_TAKEN_PER_STACK 8
+
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）

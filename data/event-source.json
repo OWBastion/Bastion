@@ -599,6 +599,17 @@
       "availability": "active"
     },
     {
+      "key": "WITHER",
+      "type": "debuff",
+      "id": 21,
+      "pack": 5,
+      "nameZh": "枯萎",
+      "descZh": "受到治疗获得1层枯萎（上限6层）\\n每层-8%移动速度并使受到的伤害增加8%\\n首次受到治疗后12秒清空所有层数",
+      "durationSec": 120,
+      "weight": 0.6,
+      "availability": "active"
+    },
+    {
       "key": "EXTREME_CHALLENGE",
       "type": "mech",
       "id": 0,
