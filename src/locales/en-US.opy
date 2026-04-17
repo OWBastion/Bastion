@@ -245,7 +245,6 @@
 #!define STR_CAT_RANDOM_PACK_2_MECH "Random Pack 2: Mechanics"
 #!define STR_CAT_RANDOM_PACK_3_MECH "Random Pack 3: Mechanics"
 #!define STR_CAT_RANDOM_PACK_4_MECH "Random Pack 4: Mechanics"
-#!define STR_CAT_RANDOM_PACK_5_DEBUFF "Random Pack 5: Debuffs"
 #!define STR_CAT_RANDOM_PACK_5_MECH "Random Pack 5: Mechanics"
 #!define STR_CAT_BUFF "Buff"
 #!define STR_CAT_DEBUFF "Debuff"
