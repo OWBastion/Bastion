@@ -1142,7 +1142,8 @@
         "UNLUCKY",
         "V_50",
         "SPEEDRUN",
-        "MANBA"
+        "MANBA",
+        "FLAWLESS"
       ]
     },
     {
@@ -1180,6 +1181,22 @@
     {
       "name": "纸鸢",
       "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "墙上静止的钟",
+      "titleKeys": [
+        "SPEEDRUN",
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
+    },
+    {
+      "name": "我踏马真不会打啊",
+      "titleKeys": [
+        "SPEEDRUN",
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL"
       ]
@@ -2812,7 +2829,9 @@
           "八月八月八",
           "云雀",
           "锄禾日当午",
-          "好男人从不过夜"
+          "好男人从不过夜",
+          "墙上静止的钟",
+          "我踏马真不会打啊"
         ],
         "DOMINATOR": [
           "吾携秋水揽星河",
@@ -2828,7 +2847,9 @@
           "八月八月八",
           "云雀",
           "锄禾日当午",
-          "好男人从不过夜"
+          "好男人从不过夜",
+          "墙上静止的钟",
+          "我踏马真不会打啊"
         ]
       }
     },

@@ -265,7 +265,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "好男人从不过夜", \
-        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.V_50, TITLE.SPEEDRUN, TITLE.MANBA] \
+        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.V_50, TITLE.SPEEDRUN, TITLE.MANBA, TITLE.FLAWLESS] \
     }, \
     { \
         name: "金泰亨", \
@@ -282,6 +282,14 @@ enum MapTITLEKey:
     { \
         name: "纸鸢", \
         titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
+    }, \
+    { \
+        name: "墙上静止的钟", \
+        titles: [TITLE.SPEEDRUN, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
+    }, \
+    { \
+        name: "我踏马真不会打啊", \
+        titles: [TITLE.SPEEDRUN, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -295,6 +303,7 @@ enum MapTITLEKey:
 #!define TP_CONQUEROR [TITLE.CONQUEROR]
 #!define TP_9_10 [TITLE.CONQUEROR, TITLE.DOMINATOR]
 #!define TP_9_10_0 [TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.PIONEER]
+# 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
@@ -535,8 +544,8 @@ enum MapTITLEKey:
 # 苏拉瓦萨
 #!define DATA_SURAVASA [ \
    playerNameToIndexDelimited(["他又", "别感冒", "吾携秋水揽星河", "寒霜冰湮", "卖核弹的小女孩", "眼镜小宅", "雨鸢", "我想吃烤地瓜"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "雨鸢", "我想吃烤地瓜", "Augenstern", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀", "锄禾日当午", "好男人从不过夜"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "雨鸢", "我想吃烤地瓜", "Augenstern", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀", "锄禾日当午", "好男人从不过夜"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "雨鸢", "我想吃烤地瓜", "Augenstern", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀", "锄禾日当午", "好男人从不过夜", "墙上静止的钟", "我踏马真不会打啊"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "豆本豆豆奶", "卖核弹的小女孩", "眼镜小宅", "雨鸢", "我想吃烤地瓜", "Augenstern", "EruIluvatar", "嘤嘤嘤丶", "八月八月八", "云雀", "锄禾日当午", "好男人从不过夜", "墙上静止的钟", "我踏马真不会打啊"], "-")\
 ]
 
 # 阿育陀耶
