@@ -1239,83 +1239,83 @@ export async function collectInteractiveRequest(sourceData, io = { input, output
 
 const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
 
-if (invokedPath === __filename) {
-  Promise.resolve()
-    .then(async () => {
-      const args = parseCliArgs(process.argv.slice(2));
-      validateCliArgs(args);
+export async function main(argv = process.argv.slice(2)) {
+  const args = parseCliArgs(argv);
+  validateCliArgs(args);
 
-      if (args.help) {
-        console.log('Usage:');
-        console.log('  pnpm run tools -- grant:title --input <request.json> [--dry-run]');
-        console.log('  pnpm run tools -- grant:title --interactive [--dry-run]');
-        console.log(
-          '  pnpm run tools -- grant:title --player-name <name> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--fail-on-missing-player] [--dry-run]'
-        );
-        console.log(
-          '  pnpm run tools -- grant:title --player-id <id> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--dry-run]'
-        );
-        process.exit(0);
-      }
+  if (args.help) {
+    console.log('Usage:');
+    console.log('  pnpm run tools -- grant:title --input <request.json> [--dry-run]');
+    console.log('  pnpm run tools -- grant:title --interactive [--dry-run]');
+    console.log(
+      '  pnpm run tools -- grant:title --player-name <name> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--fail-on-missing-player] [--dry-run]'
+    );
+    console.log(
+      '  pnpm run tools -- grant:title --player-id <id> [--general-title <TITLE_KEY>] [--general-title-label <中文称号>] [--map-pioneer <MAP_KEY_OR_LABEL>] [--dry-run]'
+    );
+    return;
+  }
 
-      let requestData = null;
-      if (args.interactive) {
-        const sourceData = await loadTitleSource(SOURCE_FILE);
-        requestData = await collectInteractiveRequest(sourceData);
-        const ui = createUi(output);
+  let requestData = null;
+  if (args.interactive) {
+    const sourceData = await loadTitleSource(SOURCE_FILE);
+    requestData = await collectInteractiveRequest(sourceData);
+    const ui = createUi(output);
 
-        const preview = await grantPlayerTitle({
-          sourceFile: SOURCE_FILE,
-          requestData,
-          dryRun: true
-        });
-
-        ui.contrast('\n变更预览');
-        ui.strong(JSON.stringify(preview.preview, null, 2));
-
-        const rl = readline.createInterface({ input, output });
-        try {
-          const confirm = await rl.question(`${ui.ansi.strong('确认写入? [y/N]')}: `);
-          if (!parseYesNo(confirm, false)) {
-            ui.warning('已取消，不做写入。');
-            process.exit(0);
-          }
-          ui.success('确认写入，开始执行同步流程。');
-        } finally {
-          rl.close();
-        }
-      }
-
-      if (args.playerName || args.playerId !== undefined) {
-        const sourceData = await loadTitleSource(SOURCE_FILE);
-        const targetName = args.playerName ?? resolvePlayerNameFromPlayerId(sourceData, args.playerId);
-        const mappedFromLabels = args.generalTitleLabels.map((label) => resolveTitleKeyFromLabel(sourceData, label));
-        const mergedGeneralTitles = [...args.generalTitles, ...mappedFromLabels];
-
-        requestData = buildInteractiveRequest({
-          targetType: 'player',
-          playerName: targetName,
-          generalTitles: [...new Set(mergedGeneralTitles)],
-          mapPioneers: [...new Set(args.mapPioneers)],
-          mapDominators: [],
-          options: {
-            grantDifficultyFromMaps: false,
-            autoMasteryMode: 'off',
-            failOnMissingPlayer: args.failOnMissingPlayer
-          }
-        });
-      }
-
-      const result = await grantPlayerTitle({
-        inputFile: args.inputFile,
-        requestData,
-        dryRun: args.dryRun
-      });
-      console.log(JSON.stringify(result, null, 2));
-    })
-    .catch((error) => {
-      const ansi = createAnsi();
-      console.error(ansi.error(error.message));
-      process.exitCode = 1;
+    const preview = await grantPlayerTitle({
+      sourceFile: SOURCE_FILE,
+      requestData,
+      dryRun: true
     });
+
+    ui.contrast('\n变更预览');
+    ui.strong(JSON.stringify(preview.preview, null, 2));
+
+    const rl = readline.createInterface({ input, output });
+    try {
+      const confirm = await rl.question(`${ui.ansi.strong('确认写入? [y/N]')}: `);
+      if (!parseYesNo(confirm, false)) {
+        ui.warning('已取消，不做写入。');
+        return;
+      }
+      ui.success('确认写入，开始执行同步流程。');
+    } finally {
+      rl.close();
+    }
+  }
+
+  if (args.playerName || args.playerId !== undefined) {
+    const sourceData = await loadTitleSource(SOURCE_FILE);
+    const targetName = args.playerName ?? resolvePlayerNameFromPlayerId(sourceData, args.playerId);
+    const mappedFromLabels = args.generalTitleLabels.map((label) => resolveTitleKeyFromLabel(sourceData, label));
+    const mergedGeneralTitles = [...args.generalTitles, ...mappedFromLabels];
+
+    requestData = buildInteractiveRequest({
+      targetType: 'player',
+      playerName: targetName,
+      generalTitles: [...new Set(mergedGeneralTitles)],
+      mapPioneers: [...new Set(args.mapPioneers)],
+      mapDominators: [],
+      options: {
+        grantDifficultyFromMaps: false,
+        autoMasteryMode: 'off',
+        failOnMissingPlayer: args.failOnMissingPlayer
+      }
+    });
+  }
+
+  const result = await grantPlayerTitle({
+    inputFile: args.inputFile,
+    requestData,
+    dryRun: args.dryRun
+  });
+  console.log(JSON.stringify(result, null, 2));
+}
+
+if (invokedPath === __filename) {
+  main().catch((error) => {
+    const ansi = createAnsi();
+    console.error(ansi.error(error.message));
+    process.exitCode = 1;
+  });
 }

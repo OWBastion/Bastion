@@ -1,8 +1,5 @@
 import { Command } from 'commander';
 import { spawn } from 'node:child_process';
-import { syncTitleData } from './sync-title-data.ts';
-import { syncEventData } from './sync-event-data.ts';
-import { syncEffectGlossaryData } from './sync-effect-glossary.ts';
 
 function runNode(args: string[]) {
   return new Promise<void>((resolve, reject) => {
@@ -20,6 +17,7 @@ function runNode(args: string[]) {
 }
 
 async function runSyncTitleData() {
+  const { syncTitleData } = await import('./sync-title-data.ts');
   const { webPayload } = await syncTitleData();
   console.log(
     `Synced ${webPayload.meta.playerCount} players, ${webPayload.meta.titleCount} titles and ${webPayload.meta.mapTitleCount} map title sets from data/title-source.json`
@@ -27,25 +25,30 @@ async function runSyncTitleData() {
 }
 
 async function runSyncEventData() {
+  const { syncEventData } = await import('./sync-event-data.ts');
   const { webPayload } = await syncEventData();
   console.log(`Synced ${webPayload.meta.totalCount} events from data/event-source.json`);
 }
 
 async function runSyncEffectGlossaryData() {
+  const { syncEffectGlossaryData } = await import('./sync-effect-glossary.ts');
   const payload = await syncEffectGlossaryData();
   console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
 async function runEventFinalize() {
-  await runNode(['--import', 'tsx', 'tools/finalize-event-data.ts']);
+  const { finalizeEventData } = await import('./finalize-event-data.ts');
+  await finalizeEventData();
 }
 
 async function runGrantTitle(rawArgs: string[]) {
-  await runNode(['--import', 'tsx', 'tools/grant-player-title.ts', ...rawArgs]);
+  const { main } = await import('./grant-player-title.ts');
+  await main(rawArgs);
 }
 
 async function runPerfScan(rawArgs: string[]) {
-  await runNode(['--import', 'tsx', 'tools/perf-loop-scan.ts', ...rawArgs]);
+  const { main } = await import('./perf-loop-scan.ts');
+  await main(rawArgs);
 }
 
 async function runBumpEnvVersion() {

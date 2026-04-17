@@ -1,10 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 const DEFAULT_TARGETS = ['src'];
 const SOURCE_EXTENSIONS = new Set(['.opy']);
 const LOOP_WAIT_WINDOW = 10;
+const __filename = fileURLToPath(import.meta.url);
 
 function isFlag(value) {
   return value.startsWith('--');
@@ -263,8 +265,8 @@ function printSummary(totalFiles, findings, strict) {
   console.log(`- strict mode: ${strict ? 'on' : 'off'}`);
 }
 
-async function main() {
-  const { strict, targets } = parseArgs(process.argv.slice(2));
+export async function main(argv = process.argv.slice(2)) {
+  const { strict, targets } = parseArgs(argv);
   const files = [];
   const warnings = [];
 
@@ -299,7 +301,11 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
+
+if (invokedPath === __filename) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}
