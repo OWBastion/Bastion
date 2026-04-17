@@ -5,7 +5,7 @@
 #!define STR_MODE_CODE "代码【SVMQK】"
 
 # 描述文本 - 标题与状态
-#!define STR_DESC_EVENT_STATUS "随机事件 4.0 命运之环 已上线"
+#!define STR_DESC_EVENT_STATUS "随机事件 5.0 贪婪之徒 抢鲜体验中"
 #!define STR_DESC_GAMEPLAY_TAG "!!!使用全英雄逃出生天!!!"
 
 # 描述文本 - 元数据
