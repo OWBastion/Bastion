@@ -51,7 +51,8 @@ const TITLE_PLAYER_NAMES = [
   "銀狼",
   "纸鸢",
   "墙上静止的钟",
-  "我踏马真不会打啊"
+  "我踏马真不会打啊",
+  "Doretta"
 ];
 
 const titleIndexByName = Object.fromEntries(
