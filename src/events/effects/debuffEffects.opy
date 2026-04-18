@@ -22,7 +22,6 @@
 #!include "debuff/halved.opy"
 #!include "debuff/selfless_giveaway.opy"
 #!include "debuff/keep_distance_aura.opy"
-#!include "debuff/error_404.opy"
 #!include "debuff/chain_overload.opy"
 #!include "debuff/health_sync.opy"
 #!include "debuff/moon_rocket.opy"

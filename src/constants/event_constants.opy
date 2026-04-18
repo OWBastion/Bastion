@@ -260,26 +260,6 @@
 
 #!define MARTYR_GOAL_MAX max(EVT_21_GOAL_MIN, round(len(bastionPosition) * EVT_21_GOAL_MAX_FACTOR))
 
-# --- ID 22: 多动症 (触发回血) ---
-# Duration（秒）
-#!define EVT_BUFF_22_DURATION 90
-# Weight（权重）
-#!define EVT_BUFF_22_WEIGHT 0.7
-# 冷却缩减：仅当当前冷却 > threshold 才生效
-#!define EVT_22_CD_THRESHOLD 1
-#!define EVT_22_CD_FACTOR 0.5
-
-# 持续治疗 (HOT)
-#!define EVT_22_HOT_DURATION 2
-
-# HOT 每秒治疗量 = round(flat + MaxHP * factor) / divisor
-#!define EVT_22_HOT_FLAT 50
-#!define EVT_22_HOT_MAXHP_FACTOR 0.25
-#!define EVT_22_HOT_DIVISOR 1
-
-# 触发后等待 (秒)
-#!define EVT_22_POST_WAIT 2.5
-
 # --- ID 23: 鼓舞士气 ProMax ---
 # Duration（秒）
 #!define EVT_BUFF_23_DURATION 60
@@ -306,16 +286,6 @@
 #!define EVT_25_HOT_DURATION 2
 #!define EVT_25_HEAL_FLAT 50
 #!define EVT_25_HEAL_MAXHP_FACTOR 0.75
-
-# --- ID 26: 超级变换形态 ---
-# Duration（秒）
-#!define EVT_BUFF_26_DURATION 30
-# Weight（权重）
-#!define EVT_BUFF_26_WEIGHT 0
-#!define EVT_26_HP_FLAT 50
-#!define EVT_26_HP_MAXHP_FACTOR 0.1
-#!define EVT_26_OVERHEALTH_DURATION 5
-#!define EVT_26_TRIGGER_GCD 0.5
 
 # --- ID 27: 向我开炮 ---
 # Duration（秒）
@@ -554,12 +524,6 @@
 
 # 循环间隔 (秒)
 #!define EVT_DEBUFF_15_INTERVAL 1
-
-# --- ID 16 (Debuff): 404 ---
-# Duration（秒）
-#!define EVT_DEBUFF_16_DURATION 25
-# Weight（权重）
-#!define EVT_DEBUFF_16_WEIGHT 1.1
 
 # --- ID 17 (Debuff): 连锁过载 ---
 # Duration（秒）

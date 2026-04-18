@@ -156,12 +156,6 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.MARTYR_TRIAL)
     lbl_103:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_22_TITLE, true, BuffEventId.HYPERACTIVE_HEAL):
-        goto lbl_104
-    buffEvent[BuffEventId.HYPERACTIVE_HEAL] = [STR_EVT_BUFF_22_TITLE, STR_EVT_BUFF_22_DESC.format(EVT_22_HOT_FLAT, percent(EVT_22_HOT_MAXHP_FACTOR)), EVT_BUFF_22_DURATION, EVT_BUFF_22_WEIGHT]
-    buffEventId.append(BuffEventId.HYPERACTIVE_HEAL)
-    lbl_104:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_23_TITLE, true, BuffEventId.MORALE_BOOST_PROMAX):
         goto lbl_105
     buffEvent[BuffEventId.MORALE_BOOST_PROMAX] = [STR_EVT_BUFF_23_TITLE, STR_EVT_BUFF_23_DESC.format(EVT_23_HEAL_RADIUS, EVT_23_HOT_FLAT, percent(EVT_23_HOT_MAXHP_FACTOR)), EVT_BUFF_23_DURATION, EVT_BUFF_23_WEIGHT]
@@ -179,12 +173,6 @@ rule "initialize event array":
     buffEvent[BuffEventId.HEALING_TOWER_PROMAX] = [STR_EVT_BUFF_25_TITLE, STR_EVT_BUFF_25_DESC.format(EVT_25_HEAL_FLAT, percent(EVT_25_HEAL_MAXHP_FACTOR)), EVT_BUFF_25_DURATION, EVT_BUFF_25_WEIGHT]
     buffEventId.append(BuffEventId.HEALING_TOWER_PROMAX)
     lbl_107:
-
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_26_TITLE, true, BuffEventId.SUPER_TRANSFORM):
-        goto lbl_32
-    buffEvent[BuffEventId.SUPER_TRANSFORM] = [STR_EVT_BUFF_26_TITLE, STR_EVT_BUFF_26_DESC.format(EVT_26_HP_FLAT, percent(EVT_26_HP_MAXHP_FACTOR), EVT_26_OVERHEALTH_DURATION), EVT_BUFF_26_DURATION, EVT_BUFF_26_WEIGHT]
-    buffEventId.append(BuffEventId.SUPER_TRANSFORM)
-    lbl_32:
 
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_27_TITLE, true, BuffEventId.DRAW_FIRE):
         goto lbl_108
@@ -389,12 +377,6 @@ rule "initialize event array":
     debuffEvent[DebuffEventId.KEEP_DISTANCE_AURA] = [STR_EVT_DEBUFF_15_TITLE, STR_EVT_DEBUFF_15_DESC, EVT_DEBUFF_15_DURATION, EVT_DEBUFF_15_WEIGHT]
     debuffEventId.append(DebuffEventId.KEEP_DISTANCE_AURA)
     lbl_109:
-
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_DEBUFF, STR_EVT_DEBUFF_16_TITLE, true, DebuffEventId.ERROR_404):
-        goto lbl_110
-    debuffEvent[DebuffEventId.ERROR_404] = [STR_EVT_DEBUFF_16_TITLE, STR_EVT_DEBUFF_16_DESC, EVT_DEBUFF_16_DURATION, EVT_DEBUFF_16_WEIGHT]
-    debuffEventId.append(DebuffEventId.ERROR_404)
-    lbl_110:
 
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_DEBUFF, STR_EVT_DEBUFF_17_TITLE, true, DebuffEventId.CHAIN_OVERLOAD):
         goto lbl_111

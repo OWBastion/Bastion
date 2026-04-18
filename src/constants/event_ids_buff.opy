@@ -48,16 +48,12 @@ enum BuffEventId:
     BODYGUARD
     # legacy numeric id: 21
     MARTYR_TRIAL
-    # legacy numeric id: 22
-    HYPERACTIVE_HEAL
     # legacy numeric id: 23
     MORALE_BOOST_PROMAX
     # legacy numeric id: 24
     F5_REFRESH
     # legacy numeric id: 25
     HEALING_TOWER_PROMAX
-    # legacy numeric id: 26
-    SUPER_TRANSFORM
     # legacy numeric id: 27
     DRAW_FIRE
     # legacy numeric id: 29
