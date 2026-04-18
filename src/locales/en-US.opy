@@ -196,6 +196,8 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
 #!define STR_EVT_DEBUFF_21_DESC "Gain 1 curse every {0}s.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
+#!define STR_EVT_DEBUFF_22_TITLE "Wither"
+#!define STR_EVT_DEBUFF_22_DESC "Receiving healing grants 1 Wither stack (max {0}).\nEach stack reduces move speed by {1}% and increases damage taken by {2}%.\n{3}s after the first healing instance, all stacks are cleared."
 
 # ------------------------------------------------
 # Random Pack 4: Mechanics

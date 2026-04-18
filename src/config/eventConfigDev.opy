@@ -427,6 +427,17 @@ rule "initialize event array":
     ]
     debuffEventId.append(DebuffEventId.ADLERSBRUNN_WRAITH)
     lbl_127:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_DEBUFF, STR_EVT_DEBUFF_22_TITLE, true, DebuffEventId.WITHER):
+        goto lbl_128
+    debuffEvent[DebuffEventId.WITHER] = [
+        STR_EVT_DEBUFF_22_TITLE,
+        STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_STACK_CAP, negToPos(EVT_DEBUFF_22_SPEED_DELTA_PER_STACK), EVT_DEBUFF_22_DMG_TAKEN_PER_STACK, EVT_DEBUFF_22_STACK_WINDOW),
+        EVT_DEBUFF_22_DURATION,
+        EVT_DEBUFF_22_WEIGHT
+    ]
+    debuffEventId.append(DebuffEventId.WITHER)
+    lbl_128:
     
     # ================================================
     # 机制事件 (Mech Events)
