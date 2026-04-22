@@ -308,7 +308,7 @@
       "label": "天选之子",
       "category": "随机事件系列",
       "condition": "单局增益事件数量达到减益事件的 1.5 倍及以上。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"天选之子\"",
       "colorExpr": "heroColor[11]"
     },
@@ -357,7 +357,7 @@
       "label": "What can i say",
       "category": "随机事件系列",
       "condition": "连续 10 次抽到减益事件并通关。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"What can i say\"",
       "colorExpr": "heroColor[11]"
     },
@@ -423,7 +423,7 @@
       "label": "开了",
       "category": "随机事件系列",
       "condition": "地狱难度单局触发所有作弊事件并通关。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"开了\"",
       "colorExpr": "heroColor[20]"
     },
