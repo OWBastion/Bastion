@@ -22,6 +22,26 @@ rule "hashTag | Host Emre Ability1 Duration Verify":
     if hostPlayer != null and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1() == true:
         hashTag = false
 
+rule "hashTag | Event Weight Sum Verify":
+    @Event global
+    @Condition hashTag == true
+    @Condition vishkarEventActivated == true
+    @Condition hashTagWeightVerifyState[0] != true
+
+    waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 30)
+
+    hashTagWeightVerifyState[1] = 0
+    for I in range(len(buffEventId)):
+        hashTagWeightVerifyState[1] += buffEvent[buffEventId[I]][3]
+    for I in range(len(debuffEventId)):
+        hashTagWeightVerifyState[1] += debuffEvent[debuffEventId[I]][3]
+    for I in range(len(mechEventId)):
+        hashTagWeightVerifyState[1] += mechEvent[mechEventId[I]][3]
+
+    if round(hashTagWeightVerifyState[1] * 1000) != round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000):
+        hashTag = false
+    hashTagWeightVerifyState[0] = true
+
 rule "Hashtag":
     @Condition hashTag == true
     @Condition vishkarEventActivated == true

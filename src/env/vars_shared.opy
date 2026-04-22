@@ -79,6 +79,7 @@ globalvar classicMapVariant 108
 globalvar devEventCategory
 globalvar devEventIndex
 globalvar challengeTitleIds
+globalvar hashTagWeightVerifyState
 
 #Player variables
 

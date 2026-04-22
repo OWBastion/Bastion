@@ -739,6 +739,9 @@ function buildWebPayload(sourceData, sourceVersion, compilerInputs) {
 function renderEventManifest(sourceData, sourceVersion) {
   const events = sourceData.events;
   const activeEvents = events.filter((eventItem) => eventItem.availability === 'active');
+  const activeWeightSum = Number(
+    activeEvents.reduce((sum, eventItem) => sum + eventItem.weight, 0).toFixed(3)
+  );
   const totalByType = {
     buff: events.filter((eventItem) => eventItem.type === 'buff').length,
     debuff: events.filter((eventItem) => eventItem.type === 'debuff').length,
@@ -769,6 +772,7 @@ function renderEventManifest(sourceData, sourceVersion) {
     `#!define EVENT_MANIFEST_ACTIVE_BUFF_COUNT ${activeByType.buff}`,
     `#!define EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT ${activeByType.debuff}`,
     `#!define EVENT_MANIFEST_ACTIVE_MECH_COUNT ${activeByType.mech}`,
+    `#!define EVENT_MANIFEST_ACTIVE_WEIGHT_SUM ${activeWeightSum}`,
     '# END AUTO-GENERATED EVENT MANIFEST',
     ''
   ].join('\n');

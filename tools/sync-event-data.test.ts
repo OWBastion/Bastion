@@ -137,5 +137,14 @@ test('generates event web payload and manifest', async () => {
   const manifest = await fs.readFile(tmpManifest, 'utf8');
   assert.match(manifest, /EVENT_MANIFEST_TOTAL_BUFF_COUNT/);
   assert.match(manifest, /EVENT_MANIFEST_ACTIVE_MECH_COUNT/);
+  const activeWeightSumMatch = manifest.match(/EVENT_MANIFEST_ACTIVE_WEIGHT_SUM ([\d.]+)/);
+  assert.ok(activeWeightSumMatch);
+  const expectedActiveWeightSum = Number(
+    payload.events
+      .filter((eventItem) => eventItem.availability === 'active')
+      .reduce((sum, eventItem) => sum + eventItem.weight, 0)
+      .toFixed(3)
+  );
+  assert.equal(Number(activeWeightSumMatch[1]), expectedActiveWeightSum);
   assert.equal(syncResult.webPayload.meta.totalCount, payload.meta.totalCount);
 });

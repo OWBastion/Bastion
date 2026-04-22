@@ -22,6 +22,7 @@ rule "Initialize global variables":
     debugMode = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_DEBUG, true if DEBUG else false, 5)
 
     hashTag = false if evalOnce(debugMode) else true
+    hashTagWeightVerifyState = [false, 0]
     bastionBotTargetPrefer = createWorkshopSettingEnum(
         STR_SETTING_CAT_GAME, 
         STR_SETTING_BASTION_TARGET, 
