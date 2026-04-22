@@ -121,7 +121,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "豆本豆豆奶", \
-        titles: [TITLE.GOOD_LUCK, TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.NEVER_GIVE_UP, TITLE.SPEEDRUN, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.DODGE_ULTIMATE, TITLE.EGG_FIRST, TITLE.UNLUCKY] \
+        titles: [TITLE.GOOD_LUCK, TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.FLAWLESS, TITLE.CHALLENGER_LEGEND, TITLE.NEVER_GIVE_UP, TITLE.SPEEDRUN, TITLE.TRAVELER_HELL, TITLE.HARD_TO_KILL, TITLE.DODGE_ULTIMATE, TITLE.EGG_FIRST, TITLE.UNLUCKY, TITLE.MANBA] \
     }, \
     { \
         name: "神之岛風咲", \
@@ -464,8 +464,8 @@ enum MapTITLEKey:
 # 新皇后街
 #!define DATA_NEW_QUEEN_STREET [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "溪云初起日沉阁", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "Cold", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "嘤嘤嘤丶", "八十万萝莉总教头", "EruIluvatar", "锄禾日当午", "八月八月八", "云雀", "好男人从不过夜", "一杯美式", "金泰亨"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "Cold", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "嘤嘤嘤丶", "八十万萝莉总教头", "EruIluvatar", "锄禾日当午", "八月八月八", "云雀", "好男人从不过夜", "一杯美式", "金泰亨"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "Cold", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "嘤嘤嘤丶", "八十万萝莉总教头", "EruIluvatar", "锄禾日当午", "八月八月八", "云雀", "好男人从不过夜", "一杯美式", "金泰亨", "豆本豆豆奶"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "寒霜冰湮", "Cold", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "嘤嘤嘤丶", "八十万萝莉总教头", "EruIluvatar", "锄禾日当午", "八月八月八", "云雀", "好男人从不过夜", "一杯美式", "金泰亨", "豆本豆豆奶"], "-")\
 ]
 
 # 皇家赛道
@@ -562,8 +562,8 @@ enum MapTITLEKey:
 # 阿特利斯
 #!define DATA_AATLIS [ \
    playerNameToIndexDelimited(["他又", "别感冒", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼"], "-"), \
-   playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼"], "-")\
+   playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼", "豆本豆豆奶"], "-"), \
+   playerNameToIndexDelimited(["卖核弹的小女孩", "EruIluvatar", "吾携秋水揽星河", "初一吖", "雨鸢", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "云雀", "好男人从不过夜", "一杯美式", "板鸭", "銀狼", "豆本豆豆奶"], "-")\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
 
