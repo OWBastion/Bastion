@@ -20,6 +20,11 @@ const ALL_TITLE_BEGIN = '    # BEGIN AUTO-GENERATED ALL_TITLE';
 const ALL_TITLE_END = '    # END AUTO-GENERATED ALL_TITLE';
 const MAP_DATA_BEGIN = '# BEGIN AUTO-GENERATED MAP_TITLE_DATA';
 const MAP_DATA_END = '# END AUTO-GENERATED MAP_TITLE_DATA';
+const TITLE_AVAILABILITY = {
+  ACTIVE: 'active',
+  RETIRED: 'retired'
+};
+const ALLOWED_TITLE_AVAILABILITY = new Set(Object.values(TITLE_AVAILABILITY));
 
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -105,8 +110,8 @@ function validateSourceShape(sourceData) {
     ensureString(title.colorExpr, `titles[${index}].colorExpr is required.`);
     const tags = normalizeTitleTags(title.tags, index);
 
-    if (!['active', 'retired'].includes(title.availability)) {
-      throw new Error(`titles[${index}].availability must be "active" or "retired".`);
+    if (!ALLOWED_TITLE_AVAILABILITY.has(title.availability)) {
+      throw new Error(`titles[${index}].availability must be one of: ${Object.values(TITLE_AVAILABILITY).join(', ')}.`);
     }
 
     if (titleKeys.has(title.key)) {

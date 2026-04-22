@@ -104,6 +104,29 @@ test('validates duplicate player names', async () => {
   await assert.rejects(() => loadTitleSource(tmpFile), /Duplicate player name detected: u/);
 });
 
+test('validates title availability enum values', async () => {
+  const tmpFile = path.join(os.tmpdir(), `title-source-availability-${Date.now()}.json`);
+  const invalid = {
+    meta: { sourceLabel: 'x' },
+    titles: [
+      {
+        key: 'A',
+        label: 'A',
+        category: 'c',
+        condition: 'd',
+        availability: 'paused',
+        displayExpr: '"A"',
+        colorExpr: 'null'
+      }
+    ],
+    players: [{ name: 'u', titleKeys: ['A'] }],
+    mapTitles: []
+  };
+  await fs.writeFile(tmpFile, JSON.stringify(invalid), 'utf8');
+
+  await assert.rejects(() => loadTitleSource(tmpFile), /availability must be one of: active, retired/);
+});
+
 test('validates duplicate title keys inside a player', async () => {
   const tmpFile = path.join(os.tmpdir(), `title-source-player-title-dup-${Date.now()}.json`);
   const invalid = {

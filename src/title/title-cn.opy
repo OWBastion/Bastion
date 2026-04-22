@@ -316,11 +316,6 @@ enum MapTITLEKey:
 #!define TP_9_10 [TITLE.CONQUEROR, TITLE.DOMINATOR]
 #!define TP_9_10_0 [TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.PIONEER]
 # 地图数据块 (Data Blocks)
-# 地图数据块 (Data Blocks)
-# 地图数据块 (Data Blocks)
-# 地图数据块 (Data Blocks)
-# 地图数据块 (Data Blocks)
-# 地图数据块 (Data Blocks)
 # BEGIN AUTO-GENERATED MAP_TITLE_DATA
 # 暴雪世界
 #!define DATA_BLIZZARD_WORLD [ \

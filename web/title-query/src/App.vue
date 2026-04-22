@@ -40,6 +40,10 @@ const MAP_TITLE_LABELS = {
   CONQUEROR: '征服者',
   DOMINATOR: '主宰'
 };
+const TITLE_AVAILABILITY = {
+  ACTIVE: 'active',
+  RETIRED: 'retired'
+};
 
 const { currentRoute, setRouteFromHash, routeHref, isRouteActive } = useHashRoute(ROUTE_ORDER, ROUTE_FALLBACK);
 const { themeMode, initTheme, toggleTheme } = useThemeMode(THEME_STORAGE_KEY);
@@ -563,7 +567,7 @@ function toggleEventGroup(packId, index, groupType) {
 }
 
 function isRetiredTitle(title) {
-  if (title?.availability === 'retired') {
+  if (title?.availability === TITLE_AVAILABILITY.RETIRED) {
     return true;
   }
 
