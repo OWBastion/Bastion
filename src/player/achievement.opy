@@ -9,7 +9,6 @@ rule "Init Achievement Data":
     challengeTitleIds = [
         33,  # 幸运星 LUCKYSTAR 连续 10 次抽到增益事件
         36,  # 倒霉蛋 UNLUCKY 抽到的减益事件数量是增益事件的 1.5 倍及以上
-        37,  # What can i say 连续 10 次抽到减益事件
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
         42, # STEEL 钢门 心之钢层数达到 1200 层
     ]
@@ -37,18 +36,6 @@ rule "[VishkarEvent]: Challenge 1 Track":
     @Condition 36 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(36)
-
-rule "[VishkarEvent]: Challenge 2 Track":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag == true
-    @Condition len(challengeTitleIds) != 0
-    @Condition dlcVishkarEvent == true
-    @Condition eventPlayer.eventLucky <= -10
-    @Condition 37 not in eventPlayer.earnedAchievements
-    
-
-    eventPlayer.unlockAchievement(37)
 
 rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Event eachPlayer
