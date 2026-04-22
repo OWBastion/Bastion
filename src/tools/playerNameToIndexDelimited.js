@@ -52,7 +52,9 @@ const TITLE_PLAYER_NAMES = [
   "纸鸢",
   "墙上静止的钟",
   "我踏马真不会打啊",
-  "Doretta"
+  "Doretta",
+  "污污污快上车",
+  "小聋瞎"
 ];
 
 const titleIndexByName = Object.fromEntries(
