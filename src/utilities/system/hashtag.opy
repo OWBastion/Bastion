@@ -31,6 +31,7 @@ rule "hashTag | Event Weight Sum Verify":
     waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 30)
 
     hashTagWeightVerifyState[1] = 0
+    I = 0
     for I in range(len(buffEventId)):
         hashTagWeightVerifyState[1] += buffEvent[buffEventId[I]][3]
     for I in range(len(debuffEventId)):
