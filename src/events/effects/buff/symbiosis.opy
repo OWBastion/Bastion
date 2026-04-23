@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 有我有你 (Initiator - Control Logic)":
     # 1. 寻找目标 (排除自己、已获胜、已从属于他人、已被附身、正在反向锁定自己的玩家)
     wait(0.032, Wait.ABORT_WHEN_FALSE)
     # 这里把 possessed 视为数组判断，len(p.possessed) == 0 代表未被附身
-    eventPlayer.possess = sorted([player for player in getLivingPlayers(Team.1) if player != eventPlayer and player.isWinner != true and len(player.possessed) == 0 and distance(eventPlayer, player) < 40 and raycast(eventPlayer.getEyePosition(), player.getEyePosition(), getAllPlayers(), eventPlayer, true).getPlayerHit() == player and (player.possess == null or player.possess[0] != eventPlayer)], lambda i: distance(eventPlayer, i))
+    eventPlayer.possess = sorted([player for player in getLivingPlayers(Team.1) if player != eventPlayer and player.isWinner != true and len(player.possessed) == 0 and distance(eventPlayer, player) < 40 and isInLoS(eventPlayer, player) == player and (player.possess == null or player.possess[0] != eventPlayer)], lambda i: distance(eventPlayer, i))
     
     wait(0.032)
     smallMessage(eventPlayer, "  {0}".format("附近未找到可附身目标" if len(eventPlayer.possess) == 0 else "附身目标：{0}".format(eventPlayer.possess[0])))
@@ -153,7 +153,7 @@ rule "[VishkarEvent]: 有我有你 (Receiver - Stats Sync)":
     # 3. 等待附身结束 (监听数组是否被置空)
     # Exception: waitUntil is required to sync with initiator detach lifecycle.
     # 同时监控来源玩家状态，如果来源玩家中途退游戏，也需要自动清理
-    waitUntil(eventPlayer.possessed[0].eventDuration <= 2 or len(eventPlayer.possessed) == 0 or not entityExists(eventPlayer.possessed[0]), 9999)
+    waitUntil(eventPlayer.possessed[0].eventDuration <= 2 or len(eventPlayer.possessed) == 0 or not entityExists(eventPlayer.possessed[0]), eventPlayer.eventDuration)
     
     # 4. 移除属性 (减去快照数据)
     eventPlayer.mod_heal_event -= eventPlayer.possessed[1]
