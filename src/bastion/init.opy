@@ -484,7 +484,7 @@ rule "push players away from bastions":
     @Condition eventPlayer.debugInfo != true
     @Condition getPlayersInRadius(eventPlayer, 2, Team.2)[0] != false
     
-    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
 rule "bastion counts kills and marks himself after killing you":
