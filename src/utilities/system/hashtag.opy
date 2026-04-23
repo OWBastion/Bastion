@@ -27,6 +27,7 @@ rule "hashTag | Event Weight Sum Verify":
     @Condition hashTag == true
     @Condition vishkarEventActivated == true
     @Condition hashTagWeightVerifyState[0] != true
+    @Condition getTotalTimeElapsed() > 125
 
     waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 30)
 
@@ -42,6 +43,7 @@ rule "hashTag | Event Weight Sum Verify":
     if round(hashTagWeightVerifyState[1] * 1000) != round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000):
         hashTag = false
     hashTagWeightVerifyState[0] = true
+    logToInspector("[hashTag]: {0},{1}".format(round(hashTagWeightVerifyState[1] * 1000), round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000)))
 
 rule "Hashtag":
     @Condition hashTag == true
