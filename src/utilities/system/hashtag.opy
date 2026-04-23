@@ -29,7 +29,7 @@ rule "hashTag | Event Weight Sum Verify":
     @Condition hashTagWeightVerifyState[0] != true
     @Condition getTotalTimeElapsed() > 125
 
-    waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 30)
+    waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 125)
 
     hashTagWeightVerifyState[1] = 0
     I = 0
