@@ -5,11 +5,12 @@
 
 rule "hashTag | Host Title Whitelist Verify":
     @Event global
+    @Condition getTotalTimeElapsed() > 30
     @Condition hashTag == true
 
-    waitUntil(len(titlePlayer) > 0 and hostPlayer != null, 30)
+    waitUntil(len(titlePlayer) > 0 and hostPlayer != null, MAX_TIME)
 
-    if hostPlayer == null or "{0}".format(hostPlayer) not in titlePlayer:
+    if "{0}".format(hostPlayer) not in titlePlayer:
         hashTag = false
 
 rule "hashTag | Host Emre Ability1 Duration Verify":
