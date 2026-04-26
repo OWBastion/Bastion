@@ -21,7 +21,7 @@ const TITLE_ALIAS = {
 };
 const MASTERY_PRUNE_EXEMPT_PLAYERS = new Set(['他又', '别感冒']);
 
-const RESTRICTED_GENERAL_TITLE_KEYS = [
+export const RESTRICTED_GENERAL_TITLE_KEYS = [
   'PIONEER',
   'TEST_LONG',
   'NOT_MY_MAP',

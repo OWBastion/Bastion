@@ -3,49 +3,104 @@ name: Grant General Title
 on:
   workflow_dispatch:
     inputs:
-      player_id:
-        description: 'Player index id from data/title-source.json players[] (0-based)'
+      player_name:
+        description: 'Player name from data/title-source.json players[]'
         required: true
-        type: string
+        type: choice
+        options:
+          # BEGIN AUTO-GENERATED PLAYER OPTIONS
+          - '他又'
+          - '别感冒'
+          - '草艮'
+          - '烛台与南九'
+          - '顾北酒笙'
+          - 'WildRage'
+          - '尘风歌者'
+          - '吾携秋水揽星河'
+          - '寒霜冰湮'
+          - 'Cold'
+          - '豆本豆豆奶'
+          - '神之岛風咲'
+          - '溪云初起日沉阁'
+          - '卖核弹的小女孩'
+          - '挽风'
+          - '水濑祈'
+          - '别打老顾我啊'
+          - '看啊情'
+          - '眼镜小宅'
+          - '初一吖'
+          - '锦木千束'
+          - '她说话有股孩子气'
+          - '白银之鹰'
+          - '蝎子莱莱'
+          - '雨鸢'
+          - 'Jargon'
+          - '我心飞扬'
+          - '绿里奇迹'
+          - 'EruIluvatar'
+          - '糯米进脑子'
+          - '半夜汽笛'
+          - '雷个大憨憨'
+          - '一痕沙'
+          - 'Augenstern'
+          - '明月有时'
+          - '旅店老板'
+          - '谁能体谅我的雨天'
+          - '锄禾日当午'
+          - '板鸭'
+          - '八十万萝莉总教头'
+          - '岂不六哉'
+          - '我想吃烤地瓜'
+          - '云雀'
+          - '嘤嘤嘤丶'
+          - '八月八月八'
+          - '天树是只臭猫'
+          - '好男人从不过夜'
+          - '金泰亨'
+          - '一杯美式'
+          - '銀狼'
+          - '纸鸢'
+          - '墙上静止的钟'
+          - '我踏马真不会打啊'
+          - 'Doretta'
+          - '污污污快上车'
+          - '小聋瞎'
+          # END AUTO-GENERATED PLAYER OPTIONS
       general_title_label:
         description: 'General title label in Chinese (中文称号)'
         required: true
         type: choice
         options:
-          - 轻装上阵
-          - 完美无缺
-          - 永不言弃
-          - 坚韧不拔
-          - 速通传奇
-          - 闪避の神
-          - 智瞳开拓者
-          - 大难不死
-          - 胜天半子
-          - 堡垒の偶像
-          - 第一颗蛋
-          - 我还能吃
-          - 万象归一
-          - 守望旅行家
-          - 万域天穹
-          - 狂暴烈焰
-          - 万蛋丛中过
-          - 天选之子
-          - 幸运星
-          - 赌王
-          - 福星高照
-          - 倒霉蛋
-          - What can i say
-          - 我命由我
-          - 赌神
-          - 牢 大
-          - V我50
-          - 钢门
-          - 开了
-          - 红包收藏家
-          - 好运来
-          - 千里独行
-          - 踏遍青山
-          - 我不会放过你的酸不辣
+          # BEGIN AUTO-GENERATED GENERAL TITLE OPTIONS
+          - '终极闪避'
+          - '轻装上阵'
+          - '完美无缺'
+          - '坚韧不拔'
+          - '速通传奇'
+          - '胜天半子'
+          - '万象归一'
+          - '守望旅行家'
+          - '万域天穹'
+          - '狂暴烈焰'
+          - '万蛋丛中过'
+          - '幸运星'
+          - '赌王'
+          - '倒霉蛋'
+          - '我命由我'
+          - '赌神'
+          - '牢 大'
+          - 'V我50'
+          - '钢门'
+          - '红包收藏家'
+          - '好运来'
+          - '千里独行'
+          - '踏遍青山'
+          - '我不会放过你的酸不辣'
+          - '赌圣'
+          - '害群之马'
+          - '我要验牌'
+          - '牌没有问题'
+          # END AUTO-GENERATED GENERAL TITLE OPTIONS
       dry_run:
         description: 'Preview only (do not create PR)'
         required: false
@@ -88,7 +143,7 @@ jobs:
           set -euo pipefail
           cmd=(
             pnpm run tools -- grant:title
-            --player-id "${{ inputs.player_id }}"
+            --player-name "${{ inputs.player_name }}"
             --general-title-label "${{ inputs.general_title_label }}"
           )
 
@@ -121,14 +176,14 @@ jobs:
           base: main
           delete-branch: true
           commit-message: |
-            chore(title): grant ${{ inputs.general_title_label }} to player-id:${{ inputs.player_id }}
+            chore(title): grant ${{ inputs.general_title_label }} to player:${{ inputs.player_name }}
 
             source: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          title: "chore(title): grant ${{ inputs.general_title_label }} to player-id:${{ inputs.player_id }}"
+          title: "chore(title): grant ${{ inputs.general_title_label }} to player:${{ inputs.player_name }}"
           body: |
             Automated title grant request.
 
-            - Player id: `${{ inputs.player_id }}`
+            - Player name: `${{ inputs.player_name }}`
             - General title label: `${{ inputs.general_title_label }}`
             - Trigger: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 

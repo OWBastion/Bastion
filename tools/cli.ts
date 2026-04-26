@@ -36,6 +36,14 @@ async function runSyncEffectGlossaryData() {
   console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
+async function runSyncGrantGeneralTitleWorkflow() {
+  const { syncGrantGeneralTitleWorkflow } = await import('./sync-grant-general-title-workflow.ts');
+  const result = await syncGrantGeneralTitleWorkflow();
+  console.log(
+    `Synced grant-general-title workflow options: ${result.counts.players} players and ${result.counts.generalTitles} general titles`
+  );
+}
+
 async function runEventFinalize() {
   const { finalizeEventData } = await import('./finalize-event-data.ts');
   await finalizeEventData();
@@ -81,6 +89,10 @@ program
 program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
 program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
 program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
+program
+  .command('sync:grant-general-title-workflow')
+  .description('Sync grant-general-title workflow options from data/title-source.json')
+  .action(wrapAction(runSyncGrantGeneralTitleWorkflow));
 program.command('event:finalize').description('Sync event data then run event sync tests').action(wrapAction(runEventFinalize));
 program
   .command('grant:title [args...]')
@@ -107,6 +119,10 @@ program
   .command('test:title-grant')
   .description('Run title grant tests')
   .action(wrapAction(() => runNodeTest('tools/grant-player-title.test.ts')));
+program
+  .command('test:grant-general-title-workflow')
+  .description('Run grant-general-title workflow sync tests')
+  .action(wrapAction(() => runNodeTest('tools/sync-grant-general-title-workflow.test.ts')));
 
 const normalizedArgv =
   process.argv[2] === '--'

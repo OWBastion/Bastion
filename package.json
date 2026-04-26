@@ -10,7 +10,7 @@
     "build:main:en": "overpy compile -i src/main.opy -o build/en-US.ow -l en-US",
     "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
     "tools": "tsx tools/cli.ts",
-    "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:event-data-sync && pnpm run tools -- test:effect-glossary-sync && pnpm run tools -- test:title-grant",
+    "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:event-data-sync && pnpm run tools -- test:effect-glossary-sync && pnpm run tools -- test:title-grant && pnpm run tools -- test:grant-general-title-workflow",
     "dev:title-query": "pnpm run tools -- sync:title-data && pnpm run tools -- sync:event-data && pnpm run tools -- sync:effect-glossary && vite --config web/title-query/vite.config.ts",
     "build:title-query": "pnpm run tools -- sync:title-data && pnpm run tools -- sync:event-data && pnpm run tools -- sync:effect-glossary && vite build --config web/title-query/vite.config.ts",
     "build:release": "pnpm run build:main:en && pnpm run build:main:zh",
