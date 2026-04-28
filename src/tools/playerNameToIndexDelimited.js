@@ -54,7 +54,8 @@ const TITLE_PLAYER_NAMES = [
   "我踏马真不会打啊",
   "Doretta",
   "污污污快上车",
-  "小聋瞎"
+  "小聋瞎",
+  "勴丶"
 ];
 
 const titleIndexByName = Object.fromEntries(
