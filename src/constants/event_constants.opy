@@ -547,12 +547,13 @@
 
 # --- ID 20 (Debuff): 阿德勒斯布鲁恩的冤魂 ---
 # Duration（秒）
-#!define EVT_DEBUFF_21_DURATION 60
+#!define EVT_DEBUFF_21_DURATION 85
 # Weight（权重）
 #!define EVT_DEBUFF_21_WEIGHT 1
 #!define EVT_DEBUFF_21_STACK_INTERVAL 10
+#!define EVT_DEBUFF_21_TOTAL_STACK 7
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
-#!define EVT_DEBUFF_21_HP_COST_RATIO 0.75
+#!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
 #!define EVT_DEBUFF_21_HOLD_TIME 0.5
 
 # --- ID 21 (Debuff): 枯萎 ---
