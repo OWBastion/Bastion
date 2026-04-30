@@ -108,19 +108,11 @@
 #!define EVT_9_EFFECT Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED
 #!define EVT_9_SOUND Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND
 
-# --- ID 10: 有我有你 ---
-# Duration（秒）
-#!define EVT_BUFF_10_DURATION 120
-# Weight（权重）
-#!define EVT_BUFF_10_WEIGHT 1.2
-
 # --- ID 11: ↑↑↓↓←→←→BABA (魂斗罗/动态存档) ---
 # Duration（秒）
 #!define EVT_BUFF_11_DURATION 120
 # Weight（权重）
 #!define EVT_BUFF_11_WEIGHT 0.6
-# 存档更新频率 (秒)
-#!define EVT_11_CHECKPOINT_INTERVAL 5
 # 死亡后复活延迟
 #!define EVT_11_RESPAWN_DELAY 3
 #!define EVT_11_EFFECT_SAVE Effect.SPARKLES
@@ -183,11 +175,11 @@
 #!define EVT_BUFF_15_WEIGHT 0.8
 #!define EVT_15_DISTANCE_GOAL 42
 #!define EVT_15_DISTANCE_INC 0.5
-#!define EVT_15_REWARD_SPEED 7.5
+#!define EVT_15_REWARD_SPEED 6
 
 # --- ID 16: 心之钢 Pro ---
 # Duration（秒）
-#!define EVT_BUFF_16_DURATION 90
+#!define EVT_BUFF_16_DURATION 75
 # Weight（权重）
 #!define EVT_BUFF_16_WEIGHT 0.9
 #!define EVT_16_HP_GAIN_FLAT 16
@@ -286,15 +278,6 @@
 #!define EVT_25_HOT_DURATION 2
 #!define EVT_25_HEAL_FLAT 50
 #!define EVT_25_HEAL_MAXHP_FACTOR 0.75
-
-# --- ID 27: 向我开炮 ---
-# Duration（秒）
-#!define EVT_BUFF_27_DURATION 45
-# Weight（权重）
-#!define EVT_BUFF_27_WEIGHT 1.4
-#!define EVT_27_DMG_TAKEN -50
-#!define EVT_27_ARMOR_AMOUNT 350
-#!define EVT_27_TARGET_WEIGHT 999
 
 # --- ID 29: 魔术大师 ---
 # Duration（秒）
@@ -496,7 +479,7 @@
 # Duration（秒）
 #!define EVT_DEBUFF_14_DURATION 5
 # Weight（权重）
-#!define EVT_DEBUFF_14_WEIGHT 0.4
+#!define EVT_DEBUFF_14_WEIGHT 0.55
 # 触发事件所需的最低最大生命值 (避免脆皮触发后直接暴毙)
 #!define EVT_DEBUFF_14_MIN_MAX_HP 125
 
@@ -519,8 +502,8 @@
 
 # 易伤计算：vul = clamp( (START_DIST - dist) * FACTOR, 0, MAX )
 #!define EVT_DEBUFF_15_START_DIST 25
-#!define EVT_DEBUFF_15_FACTOR 2
-#!define EVT_DEBUFF_15_MAX 50
+#!define EVT_DEBUFF_15_FACTOR 3
+#!define EVT_DEBUFF_15_MAX 75
 
 # 循环间隔 (秒)
 #!define EVT_DEBUFF_15_INTERVAL 1
@@ -544,13 +527,13 @@
 #!define EVT_DEBUFF_20_WEIGHT 1.2
 #!define EVT_DEBUFF_20_GRAVITY 5
 #!define EVT_DEBUFF_20_UPWARD_IMPULSE 95
+#!define EVT_DEBUFF_20_LAUNCH_DELAY 0.32
 
 # --- ID 20 (Debuff): 阿德勒斯布鲁恩的冤魂 ---
 # Duration（秒）
 #!define EVT_DEBUFF_21_DURATION 85
 # Weight（权重）
 #!define EVT_DEBUFF_21_WEIGHT 1
-#!define EVT_DEBUFF_21_STACK_INTERVAL 10
 #!define EVT_DEBUFF_21_TOTAL_STACK 7
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
@@ -558,10 +541,10 @@
 
 # --- ID 21 (Debuff): 枯萎 ---
 # Duration（秒）
-#!define EVT_DEBUFF_22_DURATION 120
+#!define EVT_DEBUFF_22_DURATION 75
 # Weight（权重）
 #!define EVT_DEBUFF_22_WEIGHT 0.6
-#!define EVT_DEBUFF_22_STACK_CAP 6
+#!define EVT_DEBUFF_22_STACK_CAP 10
 #!define EVT_DEBUFF_22_STACK_WINDOW 12
 #!define EVT_DEBUFF_22_SPEED_DELTA_PER_STACK -8
 #!define EVT_DEBUFF_22_DMG_TAKEN_PER_STACK 8
@@ -577,7 +560,7 @@
 # Weight（权重）
 #!define EVT_MECH_0_WEIGHT 0.8
 # 锁定的生命值比例 (30%)
-#!define EVT_MECH_0_HP_PERCENT 0.2
+#!define EVT_MECH_0_HP_PERCENT 0.15
 
 # 获得的伤害减免 (%) -99% 几乎无敌
 #!define EVT_MECH_0_DMG_TAKEN -99
@@ -654,7 +637,7 @@
 # Weight（权重）
 #!define EVT_MECH_5_WEIGHT 1.0
 # 喷射造成的减伤 (%)
-#!define EVT_MECH_5_DMG_TAKEN -40
+#!define EVT_MECH_5_DMG_TAKEN -30
 
 # 喷射力度
 #!define EVT_MECH_5_IMPULSE 15
@@ -717,7 +700,7 @@
 # Duration（秒）
 #!define EVT_MECH_10_DURATION 30
 # Weight（权重）
-#!define EVT_MECH_10_WEIGHT 0.5
+#!define EVT_MECH_10_WEIGHT 0.6
 
 # --- ID 11 (Mech/Special): 俄罗斯套娃 (变小复活) ---
 # Duration（秒）
@@ -749,7 +732,7 @@
 #!define EVT_MECH_12_WIN_CHANCE 33
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_12_REWARD_STACKS 32
+#!define EVT_MECH_12_REWARD_STACKS 24
 
 # 强制下次投掷/强制次数
 #!define EVT_MECH_12_FORCE_ROLL 50
@@ -762,7 +745,7 @@
 # Duration（秒）
 #!define EVT_MECH_13_DURATION 120
 # Weight（权重）
-#!define EVT_MECH_13_WEIGHT 0.4
+#!define EVT_MECH_13_WEIGHT 0.37
 
 # 体型血量倍率（用于 sizeHealth）
 #!define EVT_MECH_13_SIZE_HEALTH 10
@@ -809,7 +792,7 @@
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.38
+#!define EVT_MECH_15_WEIGHT 0.32
 # 长按判定时长（秒）
 #!define EVT_MECH_15_HOLD_TIME 1
 # 单次结算后冷却间隔（秒）
@@ -824,7 +807,7 @@
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.4
+#!define EVT_MECH_16_WEIGHT 0.3
 #!define EVT_MECH_16_HOLD_TIME 0.5
 #!define EVT_MECH_16_WIN_RATE 35
 #!define EVT_MECH_16_WIN_MULTIPLIER 2
@@ -832,7 +815,7 @@
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 5.0 ---
 #!define EVT_MECH_17_DURATION 15
-#!define EVT_MECH_17_WEIGHT 0.6
+#!define EVT_MECH_17_WEIGHT 0.7
 #!define EVT_MECH_17_WIN_RATE 10
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4

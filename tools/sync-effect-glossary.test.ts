@@ -61,9 +61,4 @@ test('generates glossary payload with auto and manual relations', async () => {
   assert.ok(invulnerable);
   assert.ok(invulnerable.relatedEvents.some((eventItem) => eventItem.key === 'REGROUP_CALL'));
 
-  const possession = payload.terms.find((term) => term.key === 'POSSESSION');
-  assert.ok(possession);
-  assert.ok(possession.relatedEvents.some((eventItem) => eventItem.key === 'SYMBIOSIS'));
-
-  assert.ok(payload.eventTermsIndex.SYMBIOSIS.includes('POSSESSION'));
 });

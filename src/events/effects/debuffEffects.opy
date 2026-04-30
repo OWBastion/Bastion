@@ -18,7 +18,6 @@
 #!include "debuff/share_the_pain.opy"
 #!include "debuff/feast_frenzy.opy"
 #!include "debuff/powerless_spouse.opy"
-#!include "debuff/grievous_wounds.opy"
 #!include "debuff/halved.opy"
 #!include "debuff/selfless_giveaway.opy"
 #!include "debuff/keep_distance_aura.opy"

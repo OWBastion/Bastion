@@ -56,6 +56,9 @@ macro HERO_SETTINGS_ALL_TEAMS_SHARED = {
         "secondaryFireCooldown%": 80,
         "ability2Cooldown%": 80
     },
+    "domina": {
+        "damageReceived%": 95
+    },
     "emre": {
          "damageReceived%": 98,
     },

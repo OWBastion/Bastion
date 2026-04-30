@@ -28,8 +28,6 @@ enum DebuffEventId:
     FEAST_FRENZY
     # legacy numeric id: 11
     POWERLESS_SPOUSE
-    # legacy numeric id: 12
-    GRIEVOUS_WOUNDS
     # legacy numeric id: 13
     HALVED
     # legacy numeric id: 14

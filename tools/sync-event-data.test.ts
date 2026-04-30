@@ -123,9 +123,9 @@ test('generates event web payload and manifest', async () => {
   assert.equal(galeBlessing.descZhCompiled, '移动速度提高50%');
   assert.ok(!/\{\d+\}/.test(galeBlessing.descZhCompiled));
 
-  const symbiosis = payload.events.find((eventItem) => eventItem.key === 'SYMBIOSIS');
-  assert.ok(symbiosis);
-  assert.match(symbiosis.descZhCompiled, /互动键/);
+  const konamiCode = payload.events.find((eventItem) => eventItem.key === 'KONAMI_CODE');
+  assert.ok(konamiCode);
+  assert.equal(konamiCode.descZhCompiled, '阵亡后在阵亡地点复活');
 
   const syncResult = await syncEventData({
     sourceFile,

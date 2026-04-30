@@ -5,7 +5,7 @@
 #!define STR_MODE_CODE "代码【SVMQK】"
 
 # 描述文本 - 标题与状态
-#!define STR_DESC_EVENT_STATUS "随机事件 5.0 贪婪之徒 抢鲜体验中"
+#!define STR_DESC_EVENT_STATUS "随机事件 5.0 贪婪之徒 已上线"
 #!define STR_DESC_GAMEPLAY_TAG "!!!使用全英雄逃出生天!!!"
 
 # 描述文本 - 元数据
@@ -87,10 +87,8 @@
 #!define STR_EVT_BUFF_8_DESC "阵亡后获得{0}层\n每层永久提供{1}%最大生命值"
 #!define STR_EVT_BUFF_9_TITLE "死亡延迟"
 #!define STR_EVT_BUFF_9_DESC "受到致命伤害时\n该伤害将被延迟到事件结束后"
-#!define STR_EVT_BUFF_10_TITLE "有我有你"
-#!define STR_EVT_BUFF_10_DESC "长按{0}附身一名队友\n队友获得你100%最大生命值\n与所有加成效果"
 #!define STR_EVT_BUFF_11_TITLE "↑↑↓↓←→←→BABA"
-#!define STR_EVT_BUFF_11_DESC "阵亡后在{0}秒前的位置复活"
+#!define STR_EVT_BUFF_11_DESC "阵亡后在阵亡地点复活"
 #!define STR_EVT_BUFF_12_TITLE "费斯卡光子护盾"
 #!define STR_EVT_BUFF_12_DESC "所有人获得一个可恢复的护盾\n数值为你{0}%最大生命值\n护盾持续到你阵亡或事件结束"
 #!define STR_EVT_BUFF_13_TITLE "向我靠拢"
@@ -133,8 +131,6 @@
 #!define STR_EVT_DEBUFF_10_DESC "当你在盛宴期间内阵亡\n堡垒将进入{0}秒狂暴状态"
 #!define STR_EVT_DEBUFF_11_TITLE "无能的丈夫/妻子"
 #!define STR_EVT_DEBUFF_11_DESC "附近的友方将被击倒{0}秒"
-#!define STR_EVT_DEBUFF_12_TITLE "重伤"
-#!define STR_EVT_DEBUFF_12_DESC "造成治疗与受到的治疗降低{0}%"
 #!define STR_EVT_DEBUFF_13_TITLE "减半"
 #!define STR_EVT_DEBUFF_13_DESC "每{0}秒损失{1}%生命值\n当生命值低于{2}%时立即阵亡"
 #!define STR_EVT_DEBUFF_14_TITLE "舍己为人"
@@ -168,14 +164,10 @@
 #!define STR_EVT_BUFF_21_TITLE "任务：殉道者"
 # {0}=堡垒数量
 #!define STR_EVT_BUFF_21_DESC "被不同的堡垒击杀\n奖励：{0}% 永久伤害减免"
-#!define STR_EVT_BUFF_23_TITLE "鼓舞士气 ProMax"
-#!define STR_EVT_BUFF_23_DESC "每秒治疗{0}米内的友方{1}+{2}%最大生命值"
 #!define STR_EVT_BUFF_24_TITLE "F5"
 #!define STR_EVT_BUFF_24_DESC "每{0}秒重置所有技能冷却"
 #!define STR_EVT_BUFF_25_TITLE "治疗光塔 ProMax"
 #!define STR_EVT_BUFF_25_DESC "无视距离，每秒为全队提供{0}+{1}%最大生命值的治疗"
-#!define STR_EVT_BUFF_27_TITLE "向我开炮"
-#!define STR_EVT_BUFF_27_DESC "获得{0}点可恢复护甲与{1}%伤害减免\n成为堡垒的优先攻击目标"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态\n并获得{0}%移速加成"
 
@@ -195,7 +187,7 @@
 # 随机事件包 5：减益 (Debuff Events Pack 5)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
-#!define STR_EVT_DEBUFF_21_DESC "每{0}秒获得1层诅咒\n每层诅咒降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
+#!define STR_EVT_DEBUFF_21_DESC "获得{0}层诅咒\n每层降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
 #!define STR_EVT_DEBUFF_22_TITLE "枯萎"
 #!define STR_EVT_DEBUFF_22_DESC "受到治疗获得1层枯萎\n每层-{1}%移速并使受到伤害提高{2}%"
 

@@ -24,8 +24,6 @@ enum BuffEventId:
     HEART_OF_STEEL
     # legacy numeric id: 9
     DEATH_DELAY
-    # legacy numeric id: 10
-    SYMBIOSIS
     # legacy numeric id: 11
     KONAMI_CODE
     # legacy numeric id: 12
@@ -48,14 +46,10 @@ enum BuffEventId:
     BODYGUARD
     # legacy numeric id: 21
     MARTYR_TRIAL
-    # legacy numeric id: 23
-    MORALE_BOOST_PROMAX
     # legacy numeric id: 24
     F5_REFRESH
     # legacy numeric id: 25
     HEALING_TOWER_PROMAX
-    # legacy numeric id: 27
-    DRAW_FIRE
     # legacy numeric id: 29
     MAGIC_MASTER
     # sentinel only for integrity checks (do not register as an event)

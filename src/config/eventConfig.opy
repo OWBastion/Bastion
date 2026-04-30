@@ -139,10 +139,7 @@ rule "initialize event array":
     buffEvent[BuffEventId.DEATH_DELAY] = [STR_EVT_BUFF_9_TITLE, STR_EVT_BUFF_9_DESC, EVT_BUFF_9_DURATION, EVT_BUFF_9_WEIGHT]
     buffEventId.append(BuffEventId.DEATH_DELAY)
 
-    buffEvent[BuffEventId.SYMBIOSIS] = [STR_EVT_BUFF_10_TITLE, STR_EVT_BUFF_10_DESC.format(Button.INTERACT), EVT_BUFF_10_DURATION, EVT_BUFF_10_WEIGHT]
-    buffEventId.append(BuffEventId.SYMBIOSIS)
-
-    buffEvent[BuffEventId.KONAMI_CODE] = [STR_EVT_BUFF_11_TITLE, STR_EVT_BUFF_11_DESC.format(EVT_11_CHECKPOINT_INTERVAL), EVT_BUFF_11_DURATION, EVT_BUFF_11_WEIGHT]
+    buffEvent[BuffEventId.KONAMI_CODE] = [STR_EVT_BUFF_11_TITLE, STR_EVT_BUFF_11_DESC, EVT_BUFF_11_DURATION, EVT_BUFF_11_WEIGHT]
     buffEventId.append(BuffEventId.KONAMI_CODE)
 
     buffEvent[BuffEventId.PHOTON_SHIELD] = [STR_EVT_BUFF_12_TITLE, STR_EVT_BUFF_12_DESC.format(percent(EVT_12_SHIELD_PERCENT)), EVT_BUFF_12_DURATION, EVT_BUFF_12_WEIGHT]
@@ -214,14 +211,6 @@ rule "initialize event array":
     # Pack 3: Debuffs
     # ================================================
 
-    debuffEvent[DebuffEventId.GRIEVOUS_WOUNDS] = [
-        STR_EVT_DEBUFF_12_TITLE,
-        STR_EVT_DEBUFF_12_DESC.format(negToPos(EVT_DEBUFF_12_HEAL_DEALT_RED)),
-        EVT_DEBUFF_12_DURATION,
-        EVT_DEBUFF_12_WEIGHT
-    ]
-    debuffEventId.append(DebuffEventId.GRIEVOUS_WOUNDS)
-
     debuffEvent[DebuffEventId.HALVED] = [
         STR_EVT_DEBUFF_13_TITLE,
         STR_EVT_DEBUFF_13_DESC.format(EVT_DEBUFF_13_INTERVAL, percent(EVT_DEBUFF_13_DAMAGE_PERCENT), percent(EVT_DEBUFF_13_EXECUTE_THRESHOLD)),
@@ -288,17 +277,11 @@ rule "initialize event array":
     buffEvent[BuffEventId.MARTYR_TRIAL] = [STR_EVT_BUFF_21_TITLE, STR_EVT_BUFF_21_DESC.format(negToPos(EVT_21_REWARD_DMG_PERMA)), EVT_BUFF_21_DURATION, EVT_BUFF_21_WEIGHT]
     buffEventId.append(BuffEventId.MARTYR_TRIAL)
 
-    buffEvent[BuffEventId.MORALE_BOOST_PROMAX] = [STR_EVT_BUFF_23_TITLE, STR_EVT_BUFF_23_DESC.format(EVT_23_HEAL_RADIUS, EVT_23_HOT_FLAT, percent(EVT_23_HOT_MAXHP_FACTOR)), EVT_BUFF_23_DURATION, EVT_BUFF_23_WEIGHT]
-    buffEventId.append(BuffEventId.MORALE_BOOST_PROMAX)
-
     buffEvent[BuffEventId.F5_REFRESH] = [STR_EVT_BUFF_24_TITLE, STR_EVT_BUFF_24_DESC.format(EVT_24_REFRESH_INTERVAL), EVT_BUFF_24_DURATION, EVT_BUFF_24_WEIGHT]
     buffEventId.append(BuffEventId.F5_REFRESH)
 
     buffEvent[BuffEventId.HEALING_TOWER_PROMAX] = [STR_EVT_BUFF_25_TITLE, STR_EVT_BUFF_25_DESC.format(EVT_25_HEAL_FLAT, percent(EVT_25_HEAL_MAXHP_FACTOR)), EVT_BUFF_25_DURATION, EVT_BUFF_25_WEIGHT]
     buffEventId.append(BuffEventId.HEALING_TOWER_PROMAX)
-
-    buffEvent[BuffEventId.DRAW_FIRE] = [STR_EVT_BUFF_27_TITLE, STR_EVT_BUFF_27_DESC.format(EVT_27_ARMOR_AMOUNT, negToPos(EVT_27_DMG_TAKEN)), EVT_BUFF_27_DURATION, EVT_BUFF_27_WEIGHT]
-    buffEventId.append(BuffEventId.DRAW_FIRE)
 
     # ================================================
     # Pack 4: Debuffs
@@ -359,7 +342,7 @@ rule "initialize event array":
     # ================================================
     debuffEvent[DebuffEventId.ADLERSBRUNN_WRAITH] = [
         STR_EVT_DEBUFF_21_TITLE,
-        STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_STACK_INTERVAL, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),
+        STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),
         EVT_DEBUFF_21_DURATION,
         EVT_DEBUFF_21_WEIGHT
     ]

@@ -78,15 +78,9 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.DEATH_DELAY)
     lbl_10:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_10_TITLE, true, BuffEventId.SYMBIOSIS):
-        goto lbl_11
-    buffEvent[BuffEventId.SYMBIOSIS] = [STR_EVT_BUFF_10_TITLE, STR_EVT_BUFF_10_DESC.format(Button.INTERACT), EVT_BUFF_10_DURATION, EVT_BUFF_10_WEIGHT]
-    buffEventId.append(BuffEventId.SYMBIOSIS)
-    lbl_11:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_11_TITLE, true, BuffEventId.KONAMI_CODE):
         goto lbl_12
-    buffEvent[BuffEventId.KONAMI_CODE] = [STR_EVT_BUFF_11_TITLE, STR_EVT_BUFF_11_DESC.format(EVT_11_CHECKPOINT_INTERVAL), EVT_BUFF_11_DURATION, EVT_BUFF_11_WEIGHT]
+    buffEvent[BuffEventId.KONAMI_CODE] = [STR_EVT_BUFF_11_TITLE, STR_EVT_BUFF_11_DESC, EVT_BUFF_11_DURATION, EVT_BUFF_11_WEIGHT]
     buffEventId.append(BuffEventId.KONAMI_CODE)
     lbl_12:
 
@@ -156,12 +150,6 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.MARTYR_TRIAL)
     lbl_103:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_23_TITLE, true, BuffEventId.MORALE_BOOST_PROMAX):
-        goto lbl_105
-    buffEvent[BuffEventId.MORALE_BOOST_PROMAX] = [STR_EVT_BUFF_23_TITLE, STR_EVT_BUFF_23_DESC.format(EVT_23_HEAL_RADIUS, EVT_23_HOT_FLAT, percent(EVT_23_HOT_MAXHP_FACTOR)), EVT_BUFF_23_DURATION, EVT_BUFF_23_WEIGHT]
-    buffEventId.append(BuffEventId.MORALE_BOOST_PROMAX)
-    lbl_105:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_24_TITLE, true, BuffEventId.F5_REFRESH):
         goto lbl_106
     buffEvent[BuffEventId.F5_REFRESH] = [STR_EVT_BUFF_24_TITLE, STR_EVT_BUFF_24_DESC.format(EVT_24_REFRESH_INTERVAL), EVT_BUFF_24_DURATION, EVT_BUFF_24_WEIGHT]
@@ -173,12 +161,6 @@ rule "initialize event array":
     buffEvent[BuffEventId.HEALING_TOWER_PROMAX] = [STR_EVT_BUFF_25_TITLE, STR_EVT_BUFF_25_DESC.format(EVT_25_HEAL_FLAT, percent(EVT_25_HEAL_MAXHP_FACTOR)), EVT_BUFF_25_DURATION, EVT_BUFF_25_WEIGHT]
     buffEventId.append(BuffEventId.HEALING_TOWER_PROMAX)
     lbl_107:
-
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_4_BUFF, STR_EVT_BUFF_27_TITLE, true, BuffEventId.DRAW_FIRE):
-        goto lbl_108
-    buffEvent[BuffEventId.DRAW_FIRE] = [STR_EVT_BUFF_27_TITLE, STR_EVT_BUFF_27_DESC.format(EVT_27_ARMOR_AMOUNT, negToPos(EVT_27_DMG_TAKEN)), EVT_BUFF_27_DURATION, EVT_BUFF_27_WEIGHT]
-    buffEventId.append(BuffEventId.DRAW_FIRE)
-    lbl_108:
 
     lbl_109:
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_BUFF, STR_EVT_BUFF_29_TITLE, true, BuffEventId.MAGIC_MASTER):
@@ -336,17 +318,6 @@ rule "initialize event array":
     # ================================================
     # Pack 3: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_DEBUFF, STR_EVT_DEBUFF_12_TITLE, true, DebuffEventId.GRIEVOUS_WOUNDS):
-        goto lbl_46
-    debuffEvent[DebuffEventId.GRIEVOUS_WOUNDS] = [
-        STR_EVT_DEBUFF_12_TITLE,
-        STR_EVT_DEBUFF_12_DESC.format(negToPos(EVT_DEBUFF_12_HEAL_DEALT_RED)),
-        EVT_DEBUFF_12_DURATION,
-        EVT_DEBUFF_12_WEIGHT
-    ]
-    debuffEventId.append(DebuffEventId.GRIEVOUS_WOUNDS)
-    lbl_46:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_DEBUFF, STR_EVT_DEBUFF_13_TITLE, true, DebuffEventId.HALVED):
         goto lbl_47
     debuffEvent[DebuffEventId.HALVED] = [
@@ -403,7 +374,7 @@ rule "initialize event array":
         goto lbl_127
     debuffEvent[DebuffEventId.ADLERSBRUNN_WRAITH] = [
         STR_EVT_DEBUFF_21_TITLE,
-        STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_STACK_INTERVAL, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),
+        STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),
         EVT_DEBUFF_21_DURATION,
         EVT_DEBUFF_21_WEIGHT
     ]
