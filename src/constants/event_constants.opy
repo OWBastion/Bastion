@@ -829,4 +829,8 @@
 #!define EVT_MECH_18_INTERVAL 1
 #!define EVT_MECH_18_KILL_HEAL_PERMA 2.5
 
+#!define EVT_MECH_19_DURATION 15
+#!define EVT_MECH_19_WEIGHT 1.4
+#!define EVT_MECH_19_LUCK_SHIFT 2
+
 # -----------------------------------------------------------------------------

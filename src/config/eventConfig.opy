@@ -326,6 +326,9 @@ rule "initialize event array":
     mechEvent[MechEventId.VAMPIRE] = [STR_EVT_MECH_18_TITLE, STR_EVT_MECH_18_DESC.format(EVT_MECH_18_DRAIN_FLAT, percent(EVT_MECH_18_DRAIN_MAXHP_FACTOR), EVT_MECH_18_KILL_HEAL_PERMA), EVT_MECH_18_DURATION, EVT_MECH_18_WEIGHT]
     mechEventId.append(MechEventId.VAMPIRE)
 
+    mechEvent[MechEventId.THIEF] = [STR_EVT_MECH_19_TITLE, STR_EVT_MECH_19_DESC.format(Button.RELOAD, EVT_MECH_19_LUCK_SHIFT), EVT_MECH_19_DURATION, EVT_MECH_19_WEIGHT]
+    mechEventId.append(MechEventId.THIEF)
+
 
     lbl_3:
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5, true, 1):
