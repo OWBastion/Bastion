@@ -496,7 +496,11 @@
       "key": "EVENT5_GAMBLE_SAINT",
       "label": "赌圣",
       "category": "活动限定",
-      "condition": "随机事件 5.0 扩展包中获取",
+      "tags": [
+        "随机事件 5.0",
+        "限时挑战"
+      ],
+      "condition": "随机事件 5.0 限时挑战，触发并赢下所有「赌徒」系列事件。",
       "availability": "active",
       "displayExpr": "\"赌圣\"",
       "colorExpr": "heroColor[3]"
@@ -505,7 +509,11 @@
       "key": "EVENT5_BLACK_SHEEP",
       "label": "害群之马",
       "category": "赌徒系列",
-      "condition": "随机事件 5.0 扩展包中获取",
+      "tags": [
+        "随机事件 5.0",
+        "限时挑战"
+      ],
+      "condition": "在地狱难度中，使用“吸血鬼”击杀 12 名队友，并击杀一名处于“献祭”状态的队友。",
       "availability": "active",
       "displayExpr": "\"害群之马\"",
       "colorExpr": "heroColor[3]"
@@ -514,7 +522,11 @@
       "key": "EVENT5_I_WANT_TO_CHECK_CARDS",
       "label": "我要验牌",
       "category": "赌徒系列",
-      "condition": "随机事件 5.0 扩展包中获取",
+      "tags": [
+        "随机事件 5.0",
+        "限时挑战"
+      ],
+      "condition": "在地狱难度中，累计 8 次抽到并触发“作弊：我要验牌”。",
       "availability": "active",
       "displayExpr": "\"我要验牌\"",
       "colorExpr": "heroColor[3]"
@@ -523,7 +535,11 @@
       "key": "EVENT5_CARDS_ARE_FINE",
       "label": "牌没有问题",
       "category": "赌徒系列",
-      "condition": "随机事件 5.0 扩展包中获取",
+      "tags": [
+        "随机事件 5.0",
+        "限时挑战"
+      ],
+      "condition": "在地狱难度中，触发 5 次任意赌徒类事件，且全部获得正面结果（无永久损失发生）。",
       "availability": "active",
       "displayExpr": "\"牌没有问题\"",
       "colorExpr": "heroColor[3]"
