@@ -30,3 +30,6 @@ rule "[VishkarEvent]: 吸血鬼击杀增益":
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)
+    attacker.dlcTimeChallenge[16]++
+    if eventPlayer.eventType == 1 and eventPlayer.eventId == DebuffEventId.SACRIFICE:
+        attacker.dlcTimeChallenge[17]++

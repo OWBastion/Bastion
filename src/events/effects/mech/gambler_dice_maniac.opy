@@ -10,28 +10,45 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     eventPlayer.categoryRoll = random.randint(1, 6)
     if eventPlayer.categoryRoll == 1:
         eventPlayer.heart_steel -= EVT_MECH_15_HEART_STEEL_DELTA_LOSS
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[14]++
         setPlayerHP()
         smallMessage(eventPlayer, "  1点：永久损失 {0} 层心之钢（{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA_LOSS, EVT_MECH_15_HEART_STEEL_DELTA_LOSS * EVT_8_HP_PERCENT_PER_STACK))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 2:
         eventPlayer.mod_speed_perma -= EVT_MECH_15_SPEED_DELTA
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[14]++
         smallMessage(eventPlayer, "  2点：永久损失 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 3:
         eventPlayer.mod_speed_perma += EVT_MECH_15_SPEED_DELTA
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[10]++
+            eventPlayer.dlcTimeChallenge[13]++
         smallMessage(eventPlayer, "  4点：永久获得 {0}% 移速加成".format(EVT_MECH_15_SPEED_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 4:
         eventPlayer.mod_dmg_perma += EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma -= EVT_MECH_15_DMG_HEAL_DELTA
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[14]++
         smallMessage(eventPlayer, "  3点：永久损失 {0}% 伤害减免与治疗强度".format(EVT_MECH_15_DMG_HEAL_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.categoryRoll == 5:
         eventPlayer.heart_steel += EVT_MECH_15_HEART_STEEL_DELTA
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[10]++
+            eventPlayer.dlcTimeChallenge[13]++
         setPlayerHP()
         smallMessage(eventPlayer, "  5点：永久获得 {0} 层心之钢（+{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_HEART_STEEL_DELTA * EVT_8_HP_PERCENT_PER_STACK))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
@@ -39,6 +56,10 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     else:
         eventPlayer.mod_dmg_perma -= EVT_MECH_15_DMG_HEAL_DELTA
         eventPlayer.mod_heal_perma += EVT_MECH_15_DMG_HEAL_DELTA
+        if eventPlayer.dlcTimeChallenge[18] == 0:
+            eventPlayer.dlcTimeChallenge[18] = 1
+            eventPlayer.dlcTimeChallenge[10]++
+            eventPlayer.dlcTimeChallenge[13]++
         smallMessage(eventPlayer, "  6点：永久获得 {0}% 伤害减免与治疗强度".format(EVT_MECH_15_DMG_HEAL_DELTA))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)

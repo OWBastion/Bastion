@@ -28,9 +28,12 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
         goto lbl_1
     if random.randint(0, 99) < EVT_MECH_17_WIN_RATE:
         eventPlayer.heart_steel += eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER
+        eventPlayer.dlcTimeChallenge[12]++
+        eventPlayer.dlcTimeChallenge[13]++
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}%）".format(iconString(Icon.CLUB), eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER, eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER * EVT_8_HP_PERCENT_PER_STACK))
     else:
         eventPlayer.heart_steel -= eventPlayer.eventMission
+        eventPlayer.dlcTimeChallenge[14]++
         smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.eventMission, eventPlayer.eventMission * EVT_8_HP_PERCENT_PER_STACK))
     wait()
     setPlayerHP()
