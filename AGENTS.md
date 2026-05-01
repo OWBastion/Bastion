@@ -55,11 +55,15 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - CI-parity install: `pnpm install --frozen-lockfile`
 - Core compile validation: `pnpm run build`
 - Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
+- Aggregate tool test suite: `pnpm run tools:test`
 - Title data sync and validation: `pnpm run tools -- sync:title-data` then `pnpm run tools -- test:title-data-sync`
 - Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
 - Title grant workflow test: `pnpm run tools -- test:title-grant`
-- Title query local dev server (auto-sync + Vite): `pnpm run dev:title-query`
-- Title query page build: `pnpm run build:title-query`
+- Title grant workflow test: `pnpm run tools -- test:grant-general-title-workflow`
+- Title query local dev server (sync title/event/effect data + Vite): `pnpm run dev:title-query`
+- Title query page build (sync title/event/effect data + Vite): `pnpm run build:title-query`
+- Event data sync validation: `pnpm run tools -- test:event-data-sync`
+- Effect glossary sync validation: `pnpm run tools -- test:effect-glossary-sync`
 - Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`
 - Performance loop scan helper: `pnpm run tools -- perf:scan`
 - Performance loop strict gate (non-zero on high-risk findings): `pnpm run tools -- perf:scan --strict`
