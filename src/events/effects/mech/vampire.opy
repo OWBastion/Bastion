@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 吸血鬼":
         eventPlayer.eventMissionGoal = EVT_MECH_18_DRAIN_FLAT + eventPlayer.getMaxHealth() * EVT_MECH_18_DRAIN_MAXHP_FACTOR
         damage(eventPlayer.target, eventPlayer, eventPlayer.eventMissionGoal)
         heal(eventPlayer, eventPlayer, len(eventPlayer.target) * eventPlayer.eventMissionGoal)
-        eventPlayer.dlcTimeChallenge[4] += len(eventPlayer.target) * eventPlayer.eventMissionGoal
+        eventPlayer.dlcTimeChallenge[1] += len(eventPlayer.target) * eventPlayer.eventMissionGoal
         playEffect(getAllPlayers(), DynamicEffect.MOIRA_FADE_REAPPEAR, Color.RED, eventPlayer.target, 200)
     wait(EVT_MECH_18_INTERVAL)
     if ruleCondition:
@@ -30,6 +30,6 @@ rule "[VishkarEvent]: 吸血鬼击杀增益":
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)
-    attacker.dlcTimeChallenge[16]++
+    attacker.dlcTimeChallenge[13]++
     if eventPlayer.eventType == 1 and eventPlayer.eventId == DebuffEventId.SACRIFICE:
-        attacker.dlcTimeChallenge[17]++
+        attacker.dlcTimeChallenge[14]++

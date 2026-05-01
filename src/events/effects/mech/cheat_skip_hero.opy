@@ -21,7 +21,7 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
         eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
         if controlJumpPosition != null and controlJumpPosition[eventPlayer.controlJumpIndex] != null:
             eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
-    if eventPlayer.eventId not in  eventPlayer.dlcTimeChallenge[5] and 43 not in eventPlayer.earnedAchievements:
-        eventPlayer.dlcTimeChallenge[5].append(eventPlayer.eventId)
+    if eventPlayer.eventId not in  eventPlayer.dlcTimeChallenge[2] and 43 not in eventPlayer.earnedAchievements:
+        eventPlayer.dlcTimeChallenge[2].append(eventPlayer.eventId)
     eventPlayer.eventDuration = 0
     clearPlayerEvent()

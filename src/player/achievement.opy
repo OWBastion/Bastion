@@ -47,7 +47,7 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Condition hashTag == true
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[4] >= 10000
+    @Condition eventPlayer.dlcTimeChallenge[1] >= 10000
     @Condition 41 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(41)
@@ -70,13 +70,13 @@ rule "[VishkarEvent]: Challenge 49 Track (EVENT5_GAMBLE_SAINT)":
     @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
     @Condition all([
+        eventPlayer.dlcTimeChallenge[3] >= 1,
+        eventPlayer.dlcTimeChallenge[4] >= 1,
+        eventPlayer.dlcTimeChallenge[5] >= 1,
         eventPlayer.dlcTimeChallenge[6] >= 1,
         eventPlayer.dlcTimeChallenge[7] >= 1,
         eventPlayer.dlcTimeChallenge[8] >= 1,
-        eventPlayer.dlcTimeChallenge[9] >= 1,
-        eventPlayer.dlcTimeChallenge[10] >= 1,
-        eventPlayer.dlcTimeChallenge[11] >= 1,
-        eventPlayer.dlcTimeChallenge[12] >= 1
+        eventPlayer.dlcTimeChallenge[9] >= 1
     ])
     @Condition 49 not in eventPlayer.earnedAchievements
 
@@ -89,8 +89,8 @@ rule "[VishkarEvent]: Challenge 50 Track (EVENT5_BLACK_SHEEP)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[16] >= 12
-    @Condition eventPlayer.dlcTimeChallenge[17] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[13] >= 12
+    @Condition eventPlayer.dlcTimeChallenge[14] >= 1
     @Condition 50 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(50)
@@ -102,7 +102,7 @@ rule "[VishkarEvent]: Challenge 51 Track (EVENT5_I_WANT_TO_CHECK_CARDS)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[15] >= 8
+    @Condition eventPlayer.dlcTimeChallenge[12] >= 8
     @Condition 51 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(51)
@@ -114,8 +114,8 @@ rule "[VishkarEvent]: Challenge 52 Track (EVENT5_CARDS_ARE_FINE)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[13] >= 5
-    @Condition eventPlayer.dlcTimeChallenge[14] == 0
+    @Condition eventPlayer.dlcTimeChallenge[10] >= 5
+    @Condition eventPlayer.dlcTimeChallenge[11] == 0
     @Condition 52 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(52)
