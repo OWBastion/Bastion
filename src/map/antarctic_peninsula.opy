@@ -17,7 +17,7 @@ rule "map - 南极半岛":
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
 
     bastionPosition = [
-        vect(-98.119, 15.423, 46.112), vect(-103.198, 12.267, 17.698), vect(-94, 19.5, -28.74), vect(-63.558, 14.947, -46.977), vect(-85.854, 8.087, -0.132), 
+        vect(-98.119, 15.423, 46.112), vect(-103.198, 12.267, 17.698), vect(-94, 19.5, -28.74), vect(-68,16.41,-47.6), vect(-85.854, 8.087, -0.132), vect(-113.76,9.5,-23.19),
         vect(244.902, -1, -226.505), vect(236.299, -3.86, -255.149), vect(283.34, 28.04,-201.87), vect(318.253, -4.899, -211.882), vect(336.311, -6.618, -242.569), vect(283.936, -8.688, -253.317), 
         vect(358.414, 64.664, 155.328), vect(329.109, 48.084, 166.447), vect(269.63, 68.9, 209.25), vect(270.34, 42.58, 139.77), vect(214.64, 53.09, 189.61), vect(246.75, 55.6, 151.36)
     ]
@@ -25,7 +25,7 @@ rule "map - 南极半岛":
     if len(getPlayersInRadius(vect(-90.25, 9.25, 90.00), 30, Team.1)) != 0:
         controlRespawnPosition = vect(-90.25, 9.25, 90.00)
         controlRespawnPosition.append(vect(175.87,-9.5,-228))
-        bastionPosition = bastionPosition.slice(0, 11)
+        bastionPosition = bastionPosition.slice(0, 12)
         #冰下层-破冰船 传送点
         controlJumpPosition = vect(-79.07,12.7,-63.71)
         endPosition = vect(354.1,-9.50,-226.25)
@@ -36,7 +36,7 @@ rule "map - 南极半岛":
     elif len(getPlayersInRadius(vect(175.87,-9.5,-228), 30, Team.1)) != 0:
         controlRespawnPosition = vect(175.87,-9.5,-228)
         controlRespawnPosition.append(vect(371,46,176))
-        bastionPosition = bastionPosition.slice(5, 16)
+        bastionPosition = bastionPosition.slice(6, 17)
         #破冰船-研究中心  传送点
         controlJumpPosition = vect(354.1,-9.50,-226.25)
         endPosition = vect(209.17,51.5,161.47)
