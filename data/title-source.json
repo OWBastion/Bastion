@@ -963,6 +963,8 @@
     {
       "name": "EruIluvatar",
       "titleKeys": [
+        "ALL_IN_ONE",
+        "SKY",
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL",
         "SPEEDRUN",
@@ -1123,7 +1125,9 @@
         "STEEL",
         "V_50",
         "EVENT5_GAMBLE_SAINT",
-        "EVENT5_CARDS_ARE_FINE"
+        "EVENT5_CARDS_ARE_FINE",
+        "EVENT5_I_WANT_TO_CHECK_CARDS",
+        "EVENT5_BLACK_SHEEP"
       ]
     },
     {
@@ -1213,7 +1217,8 @@
         "SPEEDRUN",
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL",
-        "LUCKY_STAR"
+        "LUCKY_STAR",
+        "FLAWLESS"
       ]
     },
     {
@@ -2741,7 +2746,8 @@
           "云雀",
           "一杯美式",
           "污污污快上车",
-          "墙上静止的钟"
+          "墙上静止的钟",
+          "我踏马真不会打啊"
         ],
         "DOMINATOR": [
           "WildRage",
@@ -2763,7 +2769,8 @@
           "云雀",
           "一杯美式",
           "污污污快上车",
-          "墙上静止的钟"
+          "墙上静止的钟",
+          "我踏马真不会打啊"
         ]
       }
     },
@@ -3134,14 +3141,18 @@
           "八月八月八",
           "嘤嘤嘤丶",
           "锄禾日当午",
-          "卖核弹的小女孩"
+          "卖核弹的小女孩",
+          "EruIluvatar",
+          "墙上静止的钟"
         ],
         "DOMINATOR": [
           "吾携秋水揽星河",
           "八月八月八",
           "嘤嘤嘤丶",
           "锄禾日当午",
-          "卖核弹的小女孩"
+          "卖核弹的小女孩",
+          "EruIluvatar",
+          "墙上静止的钟"
         ]
       }
     }

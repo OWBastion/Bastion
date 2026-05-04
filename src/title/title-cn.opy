@@ -193,7 +193,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "EruIluvatar", \
-        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.HACKING, TITLE.UNLUCKY, TITLE.MANBA] \
+        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.HACKING, TITLE.UNLUCKY, TITLE.MANBA] \
     }, \
     { \
         name: "糯米进脑子", \
@@ -253,7 +253,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "嘤嘤嘤丶", \
-        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HACKING, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.LUCKY_STAR, TITLE.MANBA, TITLE.UNLUCKY, TITLE.DODGE_ULTIMATE, TITLE.STEEL, TITLE.V_50, TITLE.EVENT5_GAMBLE_SAINT, TITLE.EVENT5_CARDS_ARE_FINE] \
+        titles: [TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.HACKING, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.LUCKY_STAR, TITLE.MANBA, TITLE.UNLUCKY, TITLE.DODGE_ULTIMATE, TITLE.STEEL, TITLE.V_50, TITLE.EVENT5_GAMBLE_SAINT, TITLE.EVENT5_CARDS_ARE_FINE, TITLE.EVENT5_I_WANT_TO_CHECK_CARDS, TITLE.EVENT5_BLACK_SHEEP] \
     }, \
     { \
         name: "八月八月八", \
@@ -285,7 +285,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "墙上静止的钟", \
-        titles: [TITLE.SPEEDRUN, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.LUCKY_STAR] \
+        titles: [TITLE.SPEEDRUN, TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.LUCKY_STAR, TITLE.FLAWLESS] \
     }, \
     { \
         name: "我踏马真不会打啊", \
@@ -327,6 +327,7 @@ enum MapTITLEKey:
 #!define TP_CONQUEROR [TITLE.CONQUEROR]
 #!define TP_9_10 [TITLE.CONQUEROR, TITLE.DOMINATOR]
 #!define TP_9_10_0 [TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.PIONEER]
+# 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
 # BEGIN AUTO-GENERATED MAP_TITLE_DATA
@@ -529,8 +530,8 @@ enum MapTITLEKey:
 # 绿洲城
 #!define DATA_OASIS [ \
    playerNameToIndexDelimited(["尘风歌者", "豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀", "一杯美式", "污污污快上车", "墙上静止的钟"], "-"), \
-   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀", "一杯美式", "污污污快上车", "墙上静止的钟"], "-")\
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀", "一杯美式", "污污污快上车", "墙上静止的钟", "我踏马真不会打啊"], "-"), \
+   playerNameToIndexDelimited(["WildRage", "尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一吖", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "好男人从不过夜", "八月八月八", "云雀", "一杯美式", "污污污快上车", "墙上静止的钟", "我踏马真不会打啊"], "-")\
 ]
 
 # 新渣客城
@@ -585,8 +586,8 @@ enum MapTITLEKey:
 # 南极半岛
 #!define DATA_ANTARCTIC_PENINSULA [ \
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩", "EruIluvatar", "墙上静止的钟"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩", "EruIluvatar", "墙上静止的钟"], "-")\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
 
