@@ -12,24 +12,22 @@ rule "[VishkarEvent]: 赌徒：竞速挑战":
     if eventPlayer.categoryRoll <= EVT_MECH_6_PROB_WIN_NORMAL:
         eventPlayer.mod_speed_perma += EVT_MECH_6_VAL_NORMAL
         eventPlayer.dlcTimeChallenge[0]++
-        eventPlayer.dlcTimeChallenge[4]++
-        eventPlayer.dlcTimeChallenge[10]++
+        eventPlayer.dlcTimeChallenge[3]++
         smallMessage(eventPlayer, "  {0}  赢！永久获得 {1}% 移动速度加成".format(iconString(Icon.CLUB), EVT_MECH_6_VAL_NORMAL))
     elif eventPlayer.categoryRoll <= EVT_MECH_6_PROB_LOSE_NORMAL:
         eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_NORMAL
         eventPlayer.dlcTimeChallenge[0] = 0 if eventPlayer.dlcTimeChallenge[0] > 0 else eventPlayer.dlcTimeChallenge[0] - 1
-        eventPlayer.dlcTimeChallenge[11]++
+        eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_NORMAL))
     elif eventPlayer.categoryRoll <= EVT_MECH_6_PROB_WIN_RARE:
         eventPlayer.mod_speed_perma += EVT_MECH_6_VAL_RARE
         eventPlayer.dlcTimeChallenge[0]++
-        eventPlayer.dlcTimeChallenge[4]++
-        eventPlayer.dlcTimeChallenge[10]++
+        eventPlayer.dlcTimeChallenge[3]++
         smallMessage(eventPlayer, "  {0}  赢！永久获得 {1}% 移动速度加成".format(iconString(Icon.CLUB), EVT_MECH_6_VAL_RARE))
     else:
         eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_RARE
         eventPlayer.dlcTimeChallenge[0] = 0 if eventPlayer.dlcTimeChallenge[0] > 0 else eventPlayer.dlcTimeChallenge[0] - 1
-        eventPlayer.dlcTimeChallenge[11]++
+        eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_RARE))
     eventPlayer.categoryRoll = 0
     updatePlayerStats()

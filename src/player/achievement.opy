@@ -69,8 +69,8 @@ rule "[VishkarEvent]: Challenge 50 Track (EVENT5_BLACK_SHEEP)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[13] >= 12
-    @Condition eventPlayer.dlcTimeChallenge[14] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[6] >= 12
+    @Condition eventPlayer.dlcTimeChallenge[7] >= 1
     @Condition 50 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(50)
@@ -82,7 +82,7 @@ rule "[VishkarEvent]: Challenge 51 Track (EVENT5_I_WANT_TO_CHECK_CARDS)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[12] >= 8
+    @Condition eventPlayer.dlcTimeChallenge[5] >= 8
     @Condition 51 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(51)
@@ -94,8 +94,8 @@ rule "[VishkarEvent]: Challenge 52 Track (EVENT5_CARDS_ARE_FINE)":
     @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[10] >= 5
-    @Condition eventPlayer.dlcTimeChallenge[11] == 0
+    @Condition eventPlayer.dlcTimeChallenge[3] >= 5
+    @Condition eventPlayer.dlcTimeChallenge[4] == 0
     @Condition 52 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(52)
