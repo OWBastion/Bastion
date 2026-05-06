@@ -11,7 +11,6 @@ rule "Init Achievement Data":
         36,  # 倒霉蛋 UNLUCKY 抽到的减益事件数量是增益事件的 1.5 倍及以上
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
         42, # STEEL 钢门 心之钢层数达到 1200 层
-        49, # EVENT5_GAMBLE_SAINT 赌圣
         50, # EVENT5_BLACK_SHEEP 害群之马
         51, # EVENT5_I_WANT_TO_CHECK_CARDS 我要验牌
         52, # EVENT5_CARDS_ARE_FINE 牌没有问题
@@ -62,25 +61,6 @@ rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
     @Condition 42 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(42)
-
-rule "[VishkarEvent]: Challenge 49 Track (EVENT5_GAMBLE_SAINT)":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
-    @Condition len(challengeTitleIds) != 0
-    @Condition all([
-        eventPlayer.dlcTimeChallenge[3] >= 1,
-        eventPlayer.dlcTimeChallenge[4] >= 1,
-        eventPlayer.dlcTimeChallenge[5] >= 1,
-        eventPlayer.dlcTimeChallenge[6] >= 1,
-        eventPlayer.dlcTimeChallenge[7] >= 1,
-        eventPlayer.dlcTimeChallenge[8] >= 1,
-        eventPlayer.dlcTimeChallenge[9] >= 1
-    ])
-    @Condition 49 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(49)
 
 rule "[VishkarEvent]: Challenge 50 Track (EVENT5_BLACK_SHEEP)":
     @Event eachPlayer
