@@ -57,7 +57,8 @@ const TITLE_PLAYER_NAMES = [
   "小聋瞎",
   "勴丶",
   "老人小孩先吃盾",
-  "拔剑四顾心茫然"
+  "拔剑四顾心茫然",
+  "Fajacy"
 ];
 
 const titleIndexByName = Object.fromEntries(
