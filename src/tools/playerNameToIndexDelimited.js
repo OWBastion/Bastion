@@ -58,7 +58,10 @@ const TITLE_PLAYER_NAMES = [
   "勴丶",
   "老人小孩先吃盾",
   "拔剑四顾心茫然",
-  "Fajacy"
+  "Fajacy",
+  "艾伦耶格尔",
+  "听风与我叙你",
+  "闭上眼相拥"
 ];
 
 const titleIndexByName = Object.fromEntries(
