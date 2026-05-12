@@ -42,7 +42,6 @@ def setPlayerEvent():
         eventPlayer.eventDesc = mechEvent[eventPlayer.eventId][1]
         eventPlayer.eventDuration = mechEvent[eventPlayer.eventId][2]
         eventPlayer.eventCount[2]++
-    eventPlayer.categoryRoll = random.randint(0, 100)
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
