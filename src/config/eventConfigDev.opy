@@ -518,6 +518,12 @@ rule "initialize event array":
     mechEventId.append(MechEventId.VAMPIRE)
     lbl_126:
 
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_MECH, STR_EVT_MECH_19_TITLE, true, MechEventId.THIEF):
+        goto lbl_127
+    mechEvent[MechEventId.THIEF] = [STR_EVT_MECH_19_TITLE, STR_EVT_MECH_19_DESC.format(Button.RELOAD, EVT_MECH_19_LUCK_SHIFT), EVT_MECH_19_DURATION, EVT_MECH_19_WEIGHT]
+    mechEventId.append(MechEventId.THIEF)
+    lbl_127:
+
     # ================================================
     # Pack 5: Mechanics
     # ================================================

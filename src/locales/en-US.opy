@@ -210,6 +210,8 @@
 #!define STR_EVT_MECH_17_DESC "Tap {0} to bet, up to {1} times.\nEach bet is {2}% of current Heartsteel (min 1 stack).\nAt end: {3}% chance to gain total bet x{4}, otherwise lose total bet."
 #!define STR_EVT_MECH_18_TITLE "Vampire"
 #!define STR_EVT_MECH_18_DESC "Drain all allies for {0} + {1}% max HP per second.\nEach allied kill grants +{2}% permanent healing dealt."
+#!define STR_EVT_MECH_19_TITLE "Thief"
+#!define STR_EVT_MECH_19_DESC "Hold {0} to steal all teammates' luck.\nTheir next event has {1}% lower chance to be a Buff.\nYour next event has {1}% higher chance to be a Buff per stolen target."
 
 
 # Settings Categories

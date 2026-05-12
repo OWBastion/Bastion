@@ -216,6 +216,8 @@
 #!define STR_EVT_MECH_17_DESC "按下{0}以{1}%心之钢层数为赌注\n{2}%概率获得赌注×{3}层数"
 #!define STR_EVT_MECH_18_TITLE "吸血鬼"
 #!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
+#!define STR_EVT_MECH_19_TITLE "窃贼"
+#!define STR_EVT_MECH_19_DESC "长按{0}窃取所有队友的幸运值\n他们下个事件抽到增益概率降低{1}%\n你的下个事件抽到增益概率提高{1}% × 已窃取目标数量"
 
 
 # 设置菜单分类 (Pack)

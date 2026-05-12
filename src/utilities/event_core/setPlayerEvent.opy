@@ -9,14 +9,14 @@ def setPlayerEvent():
     @Name "[VishkarEvent]: set player event"
     
     if eventPlayer.eventForceRoll != null:
-        eventPlayer.categoryRoll = eventPlayer.eventForceRoll
+        eventPlayer.temp = eventPlayer.eventForceRoll
         if eventPlayer.eventForceCount > 0:
             eventPlayer.eventForceCount--
         else:
             eventPlayer.eventForceRoll = null
     else:
-        eventPlayer.categoryRoll = random.randint(0, 100)
-    if eventPlayer.categoryRoll <= 42.5:
+        eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.randint(0, 100)
+    if eventPlayer.temp <= 42.5:
         eventPlayer.eventType = 0
         rejecSampling()
         eventPlayer.eventName = buffEvent[eventPlayer.eventId][0]
@@ -27,7 +27,7 @@ def setPlayerEvent():
         eventPlayer.eventCount[0]++
         lbl_0:
         eventPlayer.eventLucky = eventPlayer.eventLucky + 1 if eventPlayer.eventLucky > 0 else 1
-    elif eventPlayer.categoryRoll <= 80:
+    elif eventPlayer.temp <= 80:
         eventPlayer.eventType = 1
         rejecSampling()
         eventPlayer.eventName = debuffEvent[eventPlayer.eventId][0]

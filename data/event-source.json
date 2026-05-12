@@ -722,6 +722,17 @@
       "durationSec": 45,
       "weight": 0.5,
       "availability": "active"
+    },
+    {
+      "key": "THIEF",
+      "type": "mech",
+      "id": 18,
+      "pack": 5,
+      "nameZh": "窃贼",
+      "descZh": "长按{0}窃取所有队友的幸运值\\n他们下个事件抽到增益概率降低{1}%\\n你的下个事件抽到增益概率提高{1}% × 已窃取目标数量",
+      "durationSec": 15,
+      "weight": 1.4,
+      "availability": "active"
     }
   ]
 }
