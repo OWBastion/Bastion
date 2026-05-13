@@ -413,7 +413,7 @@
       "key": "STEEL",
       "label": "钢门",
       "category": "随机事件系列",
-      "condition": "心之钢层数达到 1200 层并通关。",
+      "condition": "心之钢层数达到 800 层并通关。",
       "availability": "active",
       "displayExpr": "\"钢门\"",
       "colorExpr": "heroColor[11]"

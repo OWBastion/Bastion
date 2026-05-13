@@ -544,7 +544,7 @@
       "nameZh": "赌徒",
       "descZh": "长按{0}触发\\n{1}%概率永久损失/获得{2}层心之钢",
       "durationSec": 15,
-      "weight": 1.4,
+      "weight": 1.5,
       "availability": "active"
     },
     {

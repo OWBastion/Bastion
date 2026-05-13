@@ -524,7 +524,7 @@
 # Duration（秒）
 #!define EVT_DEBUFF_20_DURATION 5
 # Weight（权重）
-#!define EVT_DEBUFF_20_WEIGHT 1.2
+#!define EVT_DEBUFF_20_WEIGHT 1.25
 #!define EVT_DEBUFF_20_GRAVITY 5
 #!define EVT_DEBUFF_20_UPWARD_IMPULSE 95
 #!define EVT_DEBUFF_20_LAUNCH_DELAY 0.32
@@ -541,7 +541,7 @@
 
 # --- ID 21 (Debuff): 枯萎 ---
 # Duration（秒）
-#!define EVT_DEBUFF_22_DURATION 75
+#!define EVT_DEBUFF_22_DURATION 60
 # Weight（权重）
 #!define EVT_DEBUFF_22_WEIGHT 0.6
 #!define EVT_DEBUFF_22_STACK_CAP 10
@@ -576,7 +576,7 @@
 # Duration（秒）
 #!define EVT_MECH_1_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_1_WEIGHT 1.4
+#!define EVT_MECH_1_WEIGHT 1.5
 # 获胜概率 (%)
 #!define EVT_MECH_1_WIN_RATE 50
 
@@ -649,9 +649,9 @@
 # Duration（秒）
 #!define EVT_MECH_6_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_6_WEIGHT 0.8
-# 触发赌博的血量惩罚 (当前生命值变为 50% 最大生命值)
-#!define EVT_MECH_6_HP_PENALTY 0.5
+#!define EVT_MECH_6_WEIGHT 0.85
+# 触发赌博的心之钢惩罚
+#!define EVT_MECH_6_HP_PENALTY 8
 
 # 普通胜利概率阈值 (0-49) => 50%
 #!define EVT_MECH_6_PROB_WIN_NORMAL 49
@@ -681,7 +681,7 @@
 # Duration（秒）
 #!define EVT_MECH_8_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_8_WEIGHT 1.1
+#!define EVT_MECH_8_WEIGHT 1.2
 
 # 胜率阈值：random.randint(0,99) < 阈值 则胜
 #!define EVT_MECH_8_WIN_CHANCE 75
@@ -726,7 +726,7 @@
 # Duration（秒）
 #!define EVT_MECH_12_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_12_WEIGHT 0.4
+#!define EVT_MECH_12_WEIGHT 0.6
 
 # 胜率阈值：random.randint(0,99) < 阈值 则胜
 #!define EVT_MECH_12_WIN_CHANCE 33
@@ -792,7 +792,7 @@
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.32
+#!define EVT_MECH_15_WEIGHT 0.4
 # 长按判定时长（秒）
 #!define EVT_MECH_15_HOLD_TIME 1
 # 单次结算后冷却间隔（秒）
@@ -803,23 +803,23 @@
 #!define EVT_MECH_15_HEART_STEEL_DELTA 5
 #!define EVT_MECH_15_HEART_STEEL_DELTA_LOSS 5
 # 永久减伤/治疗强度变更值（%）
-#!define EVT_MECH_15_DMG_HEAL_DELTA 5
+#!define EVT_MECH_15_DMG_HEAL_DELTA 2
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.3
+#!define EVT_MECH_16_WEIGHT 0.5
 #!define EVT_MECH_16_HOLD_TIME 0.5
-#!define EVT_MECH_16_WIN_RATE 35
-#!define EVT_MECH_16_WIN_MULTIPLIER 2
+#!define EVT_MECH_16_WIN_RATE 40
+#!define EVT_MECH_16_WIN_MULTIPLIER 1.5
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 5.0 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.7
-#!define EVT_MECH_17_WIN_RATE 10
+#!define EVT_MECH_17_WIN_RATE 7
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
-#!define EVT_MECH_17_WIN_MULTIPLIER 3
+#!define EVT_MECH_17_WIN_MULTIPLIER 5
 
 # --- ID 18 (Mech): 吸血鬼 ---
 #!define EVT_MECH_18_DURATION 45
