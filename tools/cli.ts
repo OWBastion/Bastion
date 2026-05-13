@@ -44,6 +44,13 @@ async function runSyncGrantGeneralTitleWorkflow() {
   );
 }
 
+async function runSyncAll() {
+  await runSyncTitleData();
+  await runSyncEventData();
+  await runSyncEffectGlossaryData();
+  await runSyncGrantGeneralTitleWorkflow();
+}
+
 async function runEventFinalize() {
   const { finalizeEventData } = await import('./finalize-event-data.ts');
   await finalizeEventData();
@@ -86,12 +93,13 @@ program
   .description('Bastion toolchain unified CLI')
   .showHelpAfterError('(Use --help for usage)');
 
+program.command('sync').description('Sync all source data and workflow options').action(wrapAction(runSyncAll));
 program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
 program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
 program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
 program
   .command('sync:grant-general-title-workflow')
-  .description('Sync grant-general-title workflow options from data/title-source.json')
+  .description('Sync grant-general-title workflow options from data/title-source.json (legacy compat command)')
   .action(wrapAction(runSyncGrantGeneralTitleWorkflow));
 program.command('event:finalize').description('Sync event data then run event sync tests').action(wrapAction(runEventFinalize));
 program
