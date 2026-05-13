@@ -323,7 +323,7 @@
       "aliases": [],
       "category": "随机事件",
       "summary": "玩家抽取到事件的概率",
-      "definition": "",
+      "definition": "玩家抽取到事件的概率，范围为 0-100。",
       "rules": []
     },
     {
