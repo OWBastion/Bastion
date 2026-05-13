@@ -214,6 +214,68 @@ function parseEventConstantsRawMap(constantsText) {
   return constants;
 }
 
+function resolveEventConstants(constantsText) {
+  const rawConstants = parseEventConstantsRawMap(constantsText);
+  const resolvedConstants = new Map();
+  const resolving = new Set();
+
+  function resolveConstant(name) {
+    if (resolvedConstants.has(name)) {
+      return resolvedConstants.get(name);
+    }
+    const expr = rawConstants.get(name);
+    if (!expr) {
+      throw new Error(`Missing constant ${name} while parsing event weights.`);
+    }
+    if (resolving.has(name)) {
+      throw new Error(`Circular constant reference detected: ${name}`);
+    }
+
+    resolving.add(name);
+    const value = evaluateNumericExpression(expr, (identifier) => {
+      if (!identifier.startsWith('EVT_')) {
+        throw new Error(`Unsupported identifier ${identifier} in constant ${name}`);
+      }
+      return resolveConstant(identifier);
+    });
+    resolving.delete(name);
+    resolvedConstants.set(name, value);
+    return value;
+  }
+
+  return {
+    rawConstants,
+    resolveConstant
+  };
+}
+
+function parseWeightConstantByEventKey(configText) {
+  const weightsByTypeAndKey = {
+    buff: new Map(),
+    debuff: new Map(),
+    mech: new Map()
+  };
+  const assignmentRegex =
+    /(buffEvent|debuffEvent|mechEvent)\[\s*(BuffEventId|DebuffEventId|MechEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*\[([\s\S]*?)\]/g;
+
+  for (const match of configText.matchAll(assignmentRegex)) {
+    const containerName = match[1];
+    const eventKey = match[3];
+    const fields = splitTopLevelComma(match[4]);
+    if (fields.length < 4) {
+      continue;
+    }
+    const weightExpr = fields[3].trim();
+    if (!/^EVT_(BUFF|DEBUFF|MECH)_\d+_WEIGHT$/.test(weightExpr)) {
+      continue;
+    }
+    const type = containerName === 'buffEvent' ? 'buff' : containerName === 'debuffEvent' ? 'debuff' : 'mech';
+    weightsByTypeAndKey[type].set(eventKey, weightExpr);
+  }
+
+  return weightsByTypeAndKey;
+}
+
 function tokenizeMathExpression(expression) {
   const tokens = [];
   let index = 0;
@@ -677,6 +739,35 @@ function ensureSourceMatchesConfigRegistrations(sourceData, configRegistrations)
   }
 }
 
+function syncSourceWeightsFromConstants(sourceData, constantsText, weightConstantByTypeAndKey, configRegistrations) {
+  const { rawConstants, resolveConstant } = resolveEventConstants(constantsText);
+  const sourceByTypeAndKey = new Map(sourceData.events.map((eventItem) => [`${eventItem.type}:${eventItem.key}`, eventItem]));
+
+  for (const type of EVENT_TYPES) {
+    const registeredKeys = configRegistrations[type];
+    const weightMap = weightConstantByTypeAndKey[type];
+
+    for (const key of registeredKeys) {
+      const sourceEvent = sourceByTypeAndKey.get(`${type}:${key}`);
+      if (!sourceEvent) {
+        continue;
+      }
+      const weightConstantName = weightMap.get(key);
+      if (!weightConstantName) {
+        throw new Error(
+          `${type}: missing weight constant mapping in config for registered event ${key} (id=${sourceEvent.id}).`
+        );
+      }
+      if (!rawConstants.has(weightConstantName)) {
+        throw new Error(
+          `${type}: missing ${weightConstantName} for registered event ${key} (id=${sourceEvent.id}).`
+        );
+      }
+      sourceEvent.weight = resolveConstant(weightConstantName);
+    }
+  }
+}
+
 function buildWebPayload(sourceData, sourceVersion, compilerInputs) {
   const compileDescription = buildEventDescriptionCompiler(compilerInputs);
   const packById = new Map(sourceData.packs.map((pack) => [pack.id, pack]));
@@ -823,14 +914,16 @@ export async function syncEventData({
   eventIdFiles = EVENT_ID_FILES,
   dryRun = false
 } = {}) {
-  const [sourceData, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] = await Promise.all([
-    loadEventSource(sourceFile),
+  const [sourceText, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] = await Promise.all([
+    fs.readFile(sourceFile, 'utf8'),
     fs.readFile(envFile, 'utf8'),
     fs.readFile(eventConfigFile, 'utf8'),
     fs.readFile(eventConfigDevFile, 'utf8'),
     fs.readFile(eventConstantsFile, 'utf8'),
     ...EVENT_TYPES.map((type) => fs.readFile(eventIdFiles[type], 'utf8'))
   ]);
+  const sourceRawData = JSON.parse(sourceText);
+  const sourceData = validateEventSourceShape(sourceRawData);
 
   const sourceVersion = parseMainVersion(envSource);
   const enumKeysByType = {
@@ -847,6 +940,14 @@ export async function syncEventData({
     debuff: new Set([...configRegistrationsProd.debuff, ...configRegistrationsDev.debuff]),
     mech: new Set([...configRegistrationsProd.mech, ...configRegistrationsDev.mech])
   };
+  const weightConstantByTypeAndKeyProd = parseWeightConstantByEventKey(eventConfigSource);
+  const weightConstantByTypeAndKeyDev = parseWeightConstantByEventKey(eventConfigDevSource);
+  const weightConstantByTypeAndKey = {
+    buff: new Map([...weightConstantByTypeAndKeyDev.buff, ...weightConstantByTypeAndKeyProd.buff]),
+    debuff: new Map([...weightConstantByTypeAndKeyDev.debuff, ...weightConstantByTypeAndKeyProd.debuff]),
+    mech: new Map([...weightConstantByTypeAndKeyDev.mech, ...weightConstantByTypeAndKeyProd.mech])
+  };
+  syncSourceWeightsFromConstants(sourceData, eventConstantsSource, weightConstantByTypeAndKey, mergedRegistrations);
   ensureSourceMatchesConfigRegistrations(sourceData, mergedRegistrations);
 
   const webPayload = buildWebPayload(sourceData, sourceVersion, {
@@ -858,6 +959,16 @@ export async function syncEventData({
   const manifestText = renderEventManifest(sourceData, sourceVersion);
 
   if (!dryRun) {
+    const normalizedWeightByKey = new Map(sourceData.events.map((eventItem) => [eventItem.key, eventItem.weight]));
+    if (Array.isArray(sourceRawData.events)) {
+      sourceRawData.events = sourceRawData.events.map((eventItem) =>
+        normalizedWeightByKey.has(eventItem.key)
+          ? { ...eventItem, weight: normalizedWeightByKey.get(eventItem.key) }
+          : eventItem
+      );
+    }
+
+    await fs.writeFile(sourceFile, `${JSON.stringify(sourceRawData, null, 2)}\n`, 'utf8');
     await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
     await fs.writeFile(webOutputFile, webText, 'utf8');
     await fs.writeFile(manifestOutputFile, manifestText, 'utf8');

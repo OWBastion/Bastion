@@ -140,11 +140,76 @@ test('generates event web payload and manifest', async () => {
   const activeWeightSumMatch = manifest.match(/EVENT_MANIFEST_ACTIVE_WEIGHT_SUM ([\d.]+)/);
   assert.ok(activeWeightSumMatch);
   const expectedActiveWeightSum = Number(
-    payload.events
+    syncResult.webPayload.events
       .filter((eventItem) => eventItem.availability === 'active')
       .reduce((sum, eventItem) => sum + eventItem.weight, 0)
       .toFixed(3)
   );
   assert.equal(Number(activeWeightSumMatch[1]), expectedActiveWeightSum);
   assert.equal(syncResult.webPayload.meta.totalCount, payload.meta.totalCount);
+});
+
+test('syncs weights from event constants into source and manifest', async () => {
+  const stamp = Date.now();
+  const tmpSourceFile = path.join(os.tmpdir(), `event-source-weight-sync-${stamp}.json`);
+  const tmpConstantsFile = path.join(os.tmpdir(), `event-constants-weight-sync-${stamp}.opy`);
+  const tmpWebFile = path.join(os.tmpdir(), `events-weight-sync-${stamp}.json`);
+  const tmpManifestFile = path.join(os.tmpdir(), `event-manifest-weight-sync-${stamp}.opy`);
+
+  const source = JSON.parse(await fs.readFile(sourceFile, 'utf8'));
+  const constantsSource = await fs.readFile(path.resolve(__dirname, '../src/constants/event_constants.opy'), 'utf8');
+  const targetKey = 'MOON_ROCKET';
+  const sourceEventIndex = source.events.findIndex((eventItem) => eventItem.key === targetKey);
+  assert.ok(sourceEventIndex >= 0);
+  source.events[sourceEventIndex].weight = 9.99;
+  await fs.writeFile(tmpSourceFile, `${JSON.stringify(source, null, 2)}\n`, 'utf8');
+
+  const patchedConstants = constantsSource.replace(
+    /#!define EVT_DEBUFF_20_WEIGHT [0-9.]+/,
+    '#!define EVT_DEBUFF_20_WEIGHT 1.33'
+  );
+  await fs.writeFile(tmpConstantsFile, patchedConstants, 'utf8');
+
+  await syncEventData({
+    sourceFile: tmpSourceFile,
+    envFile,
+    eventConstantsFile: tmpConstantsFile,
+    webOutputFile: tmpWebFile,
+    manifestOutputFile: tmpManifestFile
+  });
+
+  const syncedSource = JSON.parse(await fs.readFile(tmpSourceFile, 'utf8'));
+  const syncedEvent = syncedSource.events.find((eventItem) => eventItem.key === targetKey);
+  assert.ok(syncedEvent);
+  assert.equal(syncedEvent.weight, 1.33);
+
+  const manifest = await fs.readFile(tmpManifestFile, 'utf8');
+  const activeWeightSumMatch = manifest.match(/EVENT_MANIFEST_ACTIVE_WEIGHT_SUM ([\d.]+)/);
+  assert.ok(activeWeightSumMatch);
+  const expectedActiveWeightSum = Number(
+    syncedSource.events
+      .filter((eventItem) => eventItem.availability === 'active')
+      .reduce((sum, eventItem) => sum + eventItem.weight, 0)
+      .toFixed(3)
+  );
+  assert.equal(Number(activeWeightSumMatch[1]), expectedActiveWeightSum);
+});
+
+test('fails when registered event is missing weight constant', async () => {
+  const stamp = Date.now();
+  const tmpConstantsFile = path.join(os.tmpdir(), `event-constants-missing-weight-${stamp}.opy`);
+  const constantsSource = await fs.readFile(path.resolve(__dirname, '../src/constants/event_constants.opy'), 'utf8');
+  const patchedConstants = constantsSource.replace(/^#!define EVT_DEBUFF_20_WEIGHT [0-9.]+\n/m, '');
+  await fs.writeFile(tmpConstantsFile, patchedConstants, 'utf8');
+
+  await assert.rejects(
+    () =>
+      syncEventData({
+        sourceFile,
+        envFile,
+        eventConstantsFile: tmpConstantsFile,
+        dryRun: true
+      }),
+    /missing EVT_DEBUFF_20_WEIGHT/
+  );
 });
