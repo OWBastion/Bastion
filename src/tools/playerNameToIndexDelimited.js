@@ -61,7 +61,9 @@ const TITLE_PLAYER_NAMES = [
   "Fajacy",
   "艾伦耶格尔",
   "听风与我叙你",
-  "闭上眼相拥"
+  "闭上眼相拥",
+  "Boo",
+  "训犬大师"
 ];
 
 const titleIndexByName = Object.fromEntries(
