@@ -66,6 +66,11 @@ async function runPerfScan(rawArgs: string[]) {
   await main(rawArgs);
 }
 
+async function runEvent(rawArgs: string[]) {
+  const { main } = await import('./event.ts');
+  await main(rawArgs);
+}
+
 async function runBumpEnvVersion() {
   await runNode(['--import', 'tsx', 'tools/bump-env-version.ts']);
 }
@@ -110,6 +115,14 @@ program
   .command('perf:scan [args...]')
   .description('Run performance loop scan with passthrough options/targets')
   .allowUnknownOption(true);
+program
+  .command('event:add [args...]')
+  .description('Add event scaffold via spec JSON (single implementation entry)')
+  .allowUnknownOption(true);
+program
+  .command('event:remove [args...]')
+  .description('Remove event scaffold via spec JSON (single implementation entry)')
+  .allowUnknownOption(true);
 program.command('bump:env-version').description('Bump env version in src/env/env.opy').action(wrapAction(runBumpEnvVersion));
 program
   .command('test:title-data-sync')
@@ -145,6 +158,10 @@ async function runPassthroughIfRequested(argv: string[]) {
   }
   if (commandName === 'perf:scan') {
     await runPerfScan(argv.slice(3));
+    return true;
+  }
+  if (commandName === 'event:add' || commandName === 'event:remove') {
+    await runEvent(argv.slice(3));
     return true;
   }
   return false;

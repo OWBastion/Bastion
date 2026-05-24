@@ -56,7 +56,12 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Core compile validation: `pnpm run build`
 - Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
 - Aggregate tool test suite: `pnpm run tools:test`
-- Shared title/event/effect data sync: `pnpm run tools -- sync`
+- Unified source data sync: `pnpm run tools -- sync`
+- Title data sync: `pnpm run tools -- sync:title-data`
+- Event data sync: `pnpm run tools -- sync:event-data`
+- Effect glossary sync: `pnpm run tools -- sync:effect-glossary`
+- Grant-general-title workflow sync: `pnpm run tools -- sync:grant-general-title-workflow` (legacy compat command)
+- Event finalize workflow: `pnpm run tools -- event:finalize`
 - Title data sync and validation: `pnpm run tools -- sync` then `pnpm run tools -- test:title-data-sync` (`sync:title-data` kept for compatibility)
 - Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
 - Title grant workflow test: `pnpm run tools -- test:title-grant`
