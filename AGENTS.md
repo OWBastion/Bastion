@@ -62,6 +62,8 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Effect glossary sync: `pnpm run tools -- sync:effect-glossary`
 - Grant-general-title workflow sync: `pnpm run tools -- sync:grant-general-title-workflow` (legacy compat command)
 - Event finalize workflow: `pnpm run tools -- event:finalize`
+- Event add workflow: `pnpm run tools -- event:add`
+- Event remove workflow: `pnpm run tools -- event:remove`
 - Title data sync and validation: `pnpm run tools -- sync` then `pnpm run tools -- test:title-data-sync` (`sync:title-data` kept for compatibility)
 - Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
 - Title grant workflow test: `pnpm run tools -- test:title-grant`
