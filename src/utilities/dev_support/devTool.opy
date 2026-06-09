@@ -84,7 +84,7 @@ rule "menu mode settings display":
     destroyHudText(eventPlayer.menuTextID[0])
     destroyHudText(eventPlayer.menuTextID[1])
     destroyHudText(eventPlayer.menuTextID[2])
-    hudHeader(eventPlayer, "{0}".format(STR_MENU_TITLE_INGAME), HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
+    hudHeader(eventPlayer, STR_MENU_TITLE_INGAME.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)), HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()
     if eventPlayer.isDev:
         hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_OPT_TITLE_PREV.format(inputBindingString(Button.ULTIMATE), STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
@@ -766,4 +766,3 @@ rule "[debug.opy]: player debug (Top Right)":
     hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前事件 = {0}/{1}".format(localPlayer.eventName, localPlayer.eventId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "最近事件Key(type*{0}+id) = {1}".format(EVT_DEDUP_TYPE_MULTIPLIER, localPlayer.eventLastId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室索引 = {0}".format(localPlayer.controlJumpIndex), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-

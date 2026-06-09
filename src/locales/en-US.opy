@@ -392,7 +392,7 @@
 # Menu Titles
 # ------------------------------------------------
 #!define STR_MENU_TITLE_DEV "Developer Mode"
-#!define STR_MENU_TITLE_INGAME "In-Game Panel"
+#!define STR_MENU_TITLE_INGAME "In-Game Panel ({0}+{1})"
 #!define STR_MENU_TITLE_DEV_PANEL "Developer Panel"
 #!define STR_MENU_TITLE_WEIGHT_MANAGE "Event Weight Manager"
 

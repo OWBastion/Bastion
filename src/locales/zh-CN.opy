@@ -400,7 +400,7 @@
 # 菜单标题
 # ------------------------------------------------
 #!define STR_MENU_TITLE_DEV "开发者模式"
-#!define STR_MENU_TITLE_INGAME "游戏内面板"
+#!define STR_MENU_TITLE_INGAME "游戏内面板（{0}+{1}）"
 #!define STR_MENU_TITLE_DEV_PANEL "开发者面板"
 #!define STR_MENU_TITLE_WEIGHT_MANAGE "事件权重管理"
 
