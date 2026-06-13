@@ -32,5 +32,6 @@ rule "[VishkarEvent]: 赌徒：竞速挑战":
             eventPlayer.dlcTimeChallenge[0] = 0 if eventPlayer.dlcTimeChallenge[0] > 0 else eventPlayer.dlcTimeChallenge[0] - 1
             eventPlayer.dlcTimeChallenge[4]++
             smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_RARE))
-        updatePlayerStats()
+    wait()
+    updatePlayerStats()
     eventPlayer.eventDuration = 0
