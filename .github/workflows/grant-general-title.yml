@@ -28,7 +28,7 @@ on:
           - '别打老顾我啊'
           - '看啊情'
           - '眼镜小宅'
-          - '初一吖'
+          - '初一'
           - '锦木千束'
           - '她说话有股孩子气'
           - '白银之鹰'
@@ -72,6 +72,8 @@ on:
           - '艾伦耶格尔'
           - '听风与我叙你'
           - '闭上眼相拥'
+          - 'Boo'
+          - '训犬大师'
           # END AUTO-GENERATED PLAYER OPTIONS
       general_title_label:
         description: 'General title label in Chinese (中文称号)'
