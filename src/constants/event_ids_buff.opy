@@ -52,6 +52,8 @@ enum BuffEventId:
     HEALING_TOWER_PROMAX
     # legacy numeric id: 29
     MAGIC_MASTER
+    # legacy numeric id: 30
+    DIVINE_REINFORCEMENT
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

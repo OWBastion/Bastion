@@ -42,6 +42,8 @@ enum MechEventId:
     VAMPIRE
     # legacy numeric id: 18
     THIEF
+    # legacy numeric id: 19
+    GAMBLER_HELPFUL_SOUL
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

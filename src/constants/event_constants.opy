@@ -286,6 +286,14 @@
 #!define EVT_BUFF_29_WEIGHT 0.5
 #!define EVT_29_SPEED_BOOST 60
 
+# --- ID 30: 天降神兵 ---
+#!define EVT_BUFF_30_DURATION 90
+#!define EVT_BUFF_30_WEIGHT 1.1
+#!define EVT_30_HOLD_TIME 0.5
+#!define EVT_30_COOLDOWN 5
+#!define EVT_30_HEAL_FLAT 50
+#!define EVT_30_HEAL_MAXHP_FACTOR 0.6
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10
@@ -832,5 +840,12 @@
 #!define EVT_MECH_19_DURATION 15
 #!define EVT_MECH_19_WEIGHT 1.4
 #!define EVT_MECH_19_LUCK_SHIFT 2
+
+# --- ID 20 (Mech/Special): 赌徒：乐于助人 ---
+#!define EVT_MECH_20_DURATION 15
+#!define EVT_MECH_20_WEIGHT 1.1
+#!define EVT_MECH_20_HOLD_TIME 0.5
+#!define EVT_MECH_20_WIN_RATE 75
+#!define EVT_MECH_20_HEAL_MAXHP_FACTOR 0.85
 
 # -----------------------------------------------------------------------------

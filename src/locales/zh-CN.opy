@@ -170,6 +170,8 @@
 #!define STR_EVT_BUFF_25_DESC "无视距离，每秒为全队提供{0}+{1}%最大生命值的治疗"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态\n并获得{0}%移速加成"
+#!define STR_EVT_BUFF_30_TITLE "天降神兵"
+#!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值，冷却{3}秒"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
@@ -218,6 +220,8 @@
 #!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
 #!define STR_EVT_MECH_19_TITLE "窃贼"
 #!define STR_EVT_MECH_19_DESC "长按{0}窃取所有队友的幸运值\n他们下个事件抽到增益概率降低{1}%\n你的下个事件抽到增益概率提高{1}% × 已窃取目标数量"
+#!define STR_EVT_MECH_20_TITLE "赌徒：乐于助人"
+#!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n{3}%概率使所有玩家生命值降至1"
 
 
 # 设置菜单分类 (Pack)

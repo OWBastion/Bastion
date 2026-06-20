@@ -35,3 +35,4 @@
 #!include "buff/f5_refresh.opy"
 #!include "buff/healing_tower_promax.opy"
 #!include "buff/magic_master.opy"
+#!include "buff/divine_reinforcement.opy"

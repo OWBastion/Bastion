@@ -25,3 +25,4 @@
 #!include "mech/gambler_all_in_art_5.opy"
 #!include "mech/vampire.opy"
 #!include "mech/thief.opy"
+#!include "mech/gambler_helpful_soul.opy"

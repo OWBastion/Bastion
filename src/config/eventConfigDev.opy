@@ -169,6 +169,12 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.MAGIC_MASTER)
     lbl_199:
 
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_BUFF, STR_EVT_BUFF_30_TITLE, true, BuffEventId.DIVINE_REINFORCEMENT):
+        goto lbl_200
+    buffEvent[BuffEventId.DIVINE_REINFORCEMENT] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_HEAL_FLAT, percent(EVT_30_HEAL_MAXHP_FACTOR), EVT_30_COOLDOWN), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
+    lbl_200:
+
     lbl_33:
     # ================================================
     # 减益事件 (Debuff Events)
@@ -523,6 +529,12 @@ rule "initialize event array":
     mechEvent[MechEventId.THIEF] = [STR_EVT_MECH_19_TITLE, STR_EVT_MECH_19_DESC.format(Button.RELOAD, EVT_MECH_19_LUCK_SHIFT), EVT_MECH_19_DURATION, EVT_MECH_19_WEIGHT]
     mechEventId.append(MechEventId.THIEF)
     lbl_127:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_MECH, STR_EVT_MECH_20_TITLE, true, MechEventId.GAMBLER_HELPFUL_SOUL):
+        goto lbl_201
+    mechEvent[MechEventId.GAMBLER_HELPFUL_SOUL] = [STR_EVT_MECH_20_TITLE, STR_EVT_MECH_20_DESC.format(Button.RELOAD, EVT_MECH_20_WIN_RATE, percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), 100 - EVT_MECH_20_WIN_RATE), EVT_MECH_20_DURATION, EVT_MECH_20_WEIGHT]
+    mechEventId.append(MechEventId.GAMBLER_HELPFUL_SOUL)
+    lbl_201:
 
     # ================================================
     # Pack 5: Mechanics

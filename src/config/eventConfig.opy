@@ -328,6 +328,8 @@ rule "initialize event array":
 
     mechEvent[MechEventId.THIEF] = [STR_EVT_MECH_19_TITLE, STR_EVT_MECH_19_DESC.format(Button.RELOAD, EVT_MECH_19_LUCK_SHIFT), EVT_MECH_19_DURATION, EVT_MECH_19_WEIGHT]
     mechEventId.append(MechEventId.THIEF)
+    mechEvent[MechEventId.GAMBLER_HELPFUL_SOUL] = [STR_EVT_MECH_20_TITLE, STR_EVT_MECH_20_DESC.format(Button.RELOAD, EVT_MECH_20_WIN_RATE, percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), 100 - EVT_MECH_20_WIN_RATE), EVT_MECH_20_DURATION, EVT_MECH_20_WEIGHT]
+    mechEventId.append(MechEventId.GAMBLER_HELPFUL_SOUL)
 
 
     lbl_3:
@@ -339,6 +341,8 @@ rule "initialize event array":
     # ================================================
     buffEvent[BuffEventId.MAGIC_MASTER] = [STR_EVT_BUFF_29_TITLE, STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST), EVT_BUFF_29_DURATION, EVT_BUFF_29_WEIGHT]
     buffEventId.append(BuffEventId.MAGIC_MASTER)
+    buffEvent[BuffEventId.DIVINE_REINFORCEMENT] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_HEAL_FLAT, percent(EVT_30_HEAL_MAXHP_FACTOR), EVT_30_COOLDOWN), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
+    buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
 
     # ================================================
     # Pack 5: Debuffs

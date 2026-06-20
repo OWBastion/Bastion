@@ -161,6 +161,8 @@
 #!define STR_EVT_BUFF_25_DESC "Ignore distance and heal the whole team for {0} + {1}% max HP per second."
 #!define STR_EVT_BUFF_29_TITLE "Magic Master"
 #!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes.\nGain {0}% bonus movement speed."
+#!define STR_EVT_BUFF_30_TITLE "Divine Reinforcement"
+#!define STR_EVT_BUFF_30_DESC "Hold {0} to teleport to the ally with the lowest HP ratio.\nRestore {1} + {2}% max HP to them. Cooldown: {3}s."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
@@ -208,6 +210,8 @@
 #!define STR_EVT_MECH_18_DESC "Drain all allies for {0} + {1}% max HP per second.\nEach allied kill grants +{2}% permanent healing dealt."
 #!define STR_EVT_MECH_19_TITLE "Thief"
 #!define STR_EVT_MECH_19_DESC "Hold {0} to steal all teammates' luck.\nTheir next event has {1}% lower chance to be a Buff.\nYour next event has {1}% higher chance to be a Buff per stolen target."
+#!define STR_EVT_MECH_20_TITLE "Gambler: Helpful Soul"
+#!define STR_EVT_MECH_20_DESC "Hold {0} to settle.\n{1}% chance to restore all allies for {2}% max HP.\n{3}% chance to set all players' HP to 1."
 
 
 # Settings Categories
