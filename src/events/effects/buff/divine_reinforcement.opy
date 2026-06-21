@@ -14,17 +14,15 @@ rule "[VishkarEvent]: 天降神兵":
     wait(EVT_30_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormTrigger = true
     eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
-    eventPlayer.temp = len(eventPlayer.target) > 0
-    if eventPlayer.temp:
+    if len(eventPlayer.target) > 0:
         eventPlayer.target = (sorted(eventPlayer.target, lambda i: i.getHealth() / i.getMaxHealth()))[0]
         eventPlayer.teleport(nearestWalkablePosition(eventPlayer.target.getPosition() - vect(0, 0, -1)))
         eventPlayer.target.setHealth(min(eventPlayer.target.getMaxHealth(), eventPlayer.target.getHealth() + EVT_30_HEAL_FLAT + eventPlayer.getMaxHealth() * EVT_30_HEAL_MAXHP_FACTOR))
         playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer.target, 100)
         eventPlayer.eventMissionGoal = getTotalTimeElapsed() + EVT_30_COOLDOWN
         wait(EVT_30_COOLDOWN)
-    eventPlayer.altFormTrigger = false
-    if eventPlayer.temp:
         smallMessage(eventPlayer, "  {0}  天降神兵已就绪".format(iconString(Icon.CLUB)))
+    eventPlayer.altFormTrigger = false
 
 rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Event eachPlayer
