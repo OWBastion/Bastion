@@ -616,8 +616,14 @@
 #!define EVT_MECH_3_DURATION 30
 # Weight（权重）
 #!define EVT_MECH_3_WEIGHT 1.3
-# 蹲下时的移速惩罚 (%)
-#!define EVT_MECH_3_SPEED_PENALTY 25
+# 蹲下移动时的移速加成 (%)
+#!define EVT_MECH_3_SPEED_BOOST 300
+
+# 蹲下移动时每秒损失的最大生命值比例
+#!define EVT_MECH_3_HP_COST_RATIO 0.1
+
+# 扣血间隔 (秒)
+#!define EVT_MECH_3_TICK_INTERVAL 1
 
 # --- ID 4 (Mech): 刹车失灵 ---
 # Duration（秒）

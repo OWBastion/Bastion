@@ -435,7 +435,7 @@ rule "initialize event array":
 
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_MECH, STR_EVT_MECH_3_TITLE, true, MechEventId.STEALTH_CROUCH):
         goto lbl_60
-    mechEvent[MechEventId.STEALTH_CROUCH] = [STR_EVT_MECH_3_TITLE, STR_EVT_MECH_3_DESC.format(EVT_MECH_3_SPEED_PENALTY), EVT_MECH_3_DURATION, EVT_MECH_3_WEIGHT]
+    mechEvent[MechEventId.STEALTH_CROUCH] = [STR_EVT_MECH_3_TITLE, STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST), EVT_MECH_3_DURATION, EVT_MECH_3_WEIGHT]
     mechEventId.append(MechEventId.STEALTH_CROUCH)
     lbl_60:
 

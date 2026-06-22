@@ -146,7 +146,7 @@
 #!define STR_EVT_MECH_2_TITLE "迷你形态"
 #!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
-#!define STR_EVT_MECH_3_DESC "下蹲隐身，移动速度降低{0}%"
+#!define STR_EVT_MECH_3_DESC "下蹲时进入隐身状态\n移动时每秒损失{0}%最大生命值\n获得{1}%移速加成"
 #!define STR_EVT_MECH_4_TITLE "刹车失灵"
 #!define STR_EVT_MECH_4_DESC "不受控的向前移动\n移动速度会逐渐提高至{0}%"
 #!define STR_EVT_MECH_5_TITLE "屁动力"

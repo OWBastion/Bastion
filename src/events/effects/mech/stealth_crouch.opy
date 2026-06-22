@@ -9,7 +9,12 @@
 rule "[VishkarEvent]: 悄悄地进村":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.STEALTH_CROUCH, eventPlayer.eventEffect == null]) == true
+    @Condition all([
+        eventPlayer.hasSpawned(),
+        eventPlayer.eventType == 2,
+        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.eventEffect == null
+    ]) == true
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -24,10 +29,29 @@ rule "[VishkarEvent]: 悄悄地进村":
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
     
     eventPlayer.targetSilence = true
-    eventPlayer.mod_speed_event -= EVT_MECH_3_SPEED_PENALTY
-    updatePlayerStats()
     waitUntil(eventPlayer.isHoldingButton(Button.CROUCH) == false, eventPlayer.eventDuration)
     eventPlayer.targetSilence = false
+    wait(0.25)
+
+
+rule "[VishkarEvent]: 悄悄地进村":
+    @Event eachPlayer
+    @Team 1
+    @Condition all([
+        eventPlayer.hasSpawned(),
+        eventPlayer.eventType == 2,
+        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.isHoldingButton(Button.CROUCH) == true,
+        eventPlayer.isMoving(),
+        eventPlayer.getSpeed() != 0
+    ]) == true
+    
+    eventPlayer.mod_speed_event += EVT_MECH_3_SPEED_BOOST
+    updatePlayerStats()
+    wait(EVT_MECH_3_TICK_INTERVAL, Wait.ABORT_WHEN_FALSE)
+    damage(eventPlayer, null, eventPlayer.getMaxHealth() * EVT_MECH_3_HP_COST_RATIO)
+    if ruleCondition:
+        loop()
+    wait(0.032)
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()
-    wait(0.25)

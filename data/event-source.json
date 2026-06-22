@@ -576,7 +576,7 @@
       "id": 3,
       "pack": 1,
       "nameZh": "悄悄滴进村",
-      "descZh": "下蹲隐身，移动速度降低{0}%",
+      "descZh": "下蹲时进入隐身状态\\n移动时每秒损失{0}%最大生命值\\n获得{1}%移速加成",
       "durationSec": 30,
       "weight": 1.3,
       "availability": "active"

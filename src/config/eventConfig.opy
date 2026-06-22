@@ -121,7 +121,7 @@ rule "initialize event array":
 
     mechEvent[MechEventId.STEALTH_CROUCH] = [
         STR_EVT_MECH_3_TITLE,
-        STR_EVT_MECH_3_DESC.format(EVT_MECH_3_SPEED_PENALTY),
+        STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST),
         EVT_MECH_3_DURATION,
         EVT_MECH_3_WEIGHT
     ]

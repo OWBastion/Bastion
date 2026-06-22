@@ -139,7 +139,7 @@
 #!define STR_EVT_MECH_2_TITLE "Mini Form"
 #!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"
-#!define STR_EVT_MECH_3_DESC "Crouch to become invisible. Movement speed reduced by {0}%."
+#!define STR_EVT_MECH_3_DESC "Become invisible while crouching. While moving, lose {0}% max health per second and gain {1}% movement speed."
 #!define STR_EVT_MECH_4_TITLE "Brake Failure"
 #!define STR_EVT_MECH_4_DESC "Move forward uncontrollably.\nMovement speed gradually increases to {0}%."
 #!define STR_EVT_MECH_5_TITLE "Fart Power"
