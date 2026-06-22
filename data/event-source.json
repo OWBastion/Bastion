@@ -521,7 +521,7 @@
       "nameZh": "阿德勒斯布鲁恩的冤魂",
       "descZh": "进入时立即获得7层诅咒\n每层诅咒降低10%治疗强度\n长按装填消耗99%最大生命值移除1层\n结束时永久失去剩余层数×10%治疗强度",
       "durationSec": 60,
-      "weight": 1,
+      "weight": 0.45,
       "availability": "active",
       "descEn": "Gain {0} curses immediately.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
     },
