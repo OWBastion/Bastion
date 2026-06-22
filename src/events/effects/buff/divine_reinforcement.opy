@@ -16,9 +16,10 @@ rule "[VishkarEvent]: 天降神兵":
     eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
     if len(eventPlayer.target) > 0:
         eventPlayer.target = (sorted(eventPlayer.target, lambda i: i.getHealth() / i.getMaxHealth()))[0]
+        playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_DISAPPEAR, Color.TEAM_1, eventPlayer, 200)
         eventPlayer.teleport(nearestWalkablePosition(eventPlayer.target.getPosition() - vect(0, 0, -1)))
+        playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_REAPPEAR, Color.TEAM_1, eventPlayer, 200)
         eventPlayer.target.setHealth(min(eventPlayer.target.getMaxHealth(), eventPlayer.target.getHealth() + EVT_30_HEAL_FLAT + eventPlayer.getMaxHealth() * EVT_30_HEAL_MAXHP_FACTOR))
-        playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer.target, 100)
         eventPlayer.eventMissionGoal = getTotalTimeElapsed() + EVT_30_COOLDOWN
         wait(EVT_30_COOLDOWN)
         smallMessage(eventPlayer, "  {0}  天降神兵已就绪".format(iconString(Icon.CLUB)))
