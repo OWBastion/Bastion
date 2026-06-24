@@ -92,9 +92,7 @@ on:
           - '万域天穹'
           - '狂暴烈焰'
           - '万蛋丛中过'
-          - '幸运星'
           - '赌王'
-          - '倒霉蛋'
           - '我命由我'
           - '赌神'
           - '牢 大'
@@ -109,6 +107,8 @@ on:
           - '害群之马'
           - '我要验牌'
           - '牌没有问题'
+          - '大舍天下'
+          - '冲出地表'
           # END AUTO-GENERATED GENERAL TITLE OPTIONS
       dry_run:
         description: 'Preview only (do not create PR)'

@@ -317,7 +317,7 @@
       "label": "幸运星",
       "category": "随机事件系列",
       "condition": "连续 10 次抽到增益事件并通关。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"幸运星\"",
       "colorExpr": "heroColor[3]"
     },
@@ -348,7 +348,7 @@
       "label": "倒霉蛋",
       "category": "随机事件系列",
       "condition": "单局减益事件数量达到增益事件的 1.5 倍及以上并通关。",
-      "availability": "active",
+      "availability": "retired",
       "displayExpr": "\"倒霉蛋\"",
       "colorExpr": "heroColor[22]"
     },
