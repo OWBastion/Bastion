@@ -543,6 +543,24 @@
       "availability": "active",
       "displayExpr": "\"牌没有问题\"",
       "colorExpr": "heroColor[3]"
+    },
+    {
+      "key": "GREAT_BENEFACTOR",
+      "label": "大舍天下",
+      "category": "随机事件系列",
+      "condition": "在地狱难度中触发 15 次舍己为人并通关。",
+      "availability": "active",
+      "displayExpr": "\"大舍天下\"",
+      "colorExpr": "vect(0, 200, 50)"
+    },
+    {
+      "key": "BREAK_ATMOSPHERE",
+      "label": "冲出地表",
+      "category": "随机事件系列",
+      "condition": "在地狱难度中触发 20 次登月火箭并通关。",
+      "availability": "active",
+      "displayExpr": "\"冲出地表\"",
+      "colorExpr": "vect(192, 192, 192)"
     }
   ],
   "players": [

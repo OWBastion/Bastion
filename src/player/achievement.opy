@@ -7,38 +7,39 @@
 rule "Init Achievement Data":
     waitUntil(len(allTitle) > 0, MAX_TIME)
     challengeTitleIds = [
-        33,  # 幸运星 LUCKYSTAR 连续 10 次抽到增益事件
-        36,  # 倒霉蛋 UNLUCKY 抽到的减益事件数量是增益事件的 1.5 倍及以上
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
         42, # STEEL 钢门 心之钢层数达到 1200 层
         50, # EVENT5_BLACK_SHEEP 害群之马
         51, # EVENT5_I_WANT_TO_CHECK_CARDS 我要验牌
         52, # EVENT5_CARDS_ARE_FINE 牌没有问题
+        53, # GREAT_BENEFACTOR 大舍天下 地狱难度中触发 15 次舍己为人并通关
+        54, # BREAK_ATMOSPHERE 冲出地表 地狱难度中触发 20 次登月火箭并通关
     ]
 
 
-rule "[VishkarEvent]: Challenge 0 Track":
+rule "[VishkarEvent]: Challenge 53 Track (GREAT_BENEFACTOR)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition dlcVishkarEvent == true
-    @Condition eventPlayer.eventLucky >= 10
-    @Condition 33 not in eventPlayer.earnedAchievements
+    @Condition difficulty == 5
+    @Condition eventPlayer.dlcTimeChallenge[9] >= 15
+    @Condition 53 not in eventPlayer.earnedAchievements
     
-    eventPlayer.unlockAchievement(33)
+    eventPlayer.unlockAchievement(53)
 
-rule "[VishkarEvent]: Challenge 1 Track":
+rule "[VishkarEvent]: Challenge 54 Track (BREAK_ATMOSPHERE)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition dlcVishkarEvent == true
-    @Condition all([eventPlayer.eventCount[0] + eventPlayer.eventCount[1] >= 50
-    , eventPlayer.eventCount[1] * 2 >= eventPlayer.eventCount[0] * 3])
-    @Condition 36 not in eventPlayer.earnedAchievements
+    @Condition difficulty == 5
+    @Condition eventPlayer.dlcTimeChallenge[10] >= 20
+    @Condition 54 not in eventPlayer.earnedAchievements
 
-    eventPlayer.unlockAchievement(36)
+    eventPlayer.unlockAchievement(54)
 
 rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Event eachPlayer

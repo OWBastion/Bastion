@@ -11,6 +11,7 @@ rule "[VishkarEvent]: 舍己为人":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
     
+    eventPlayer.dlcTimeChallenge[9]++
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
     else:
