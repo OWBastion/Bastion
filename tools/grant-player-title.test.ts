@@ -514,7 +514,6 @@ test('full-scan mastery reconciliation skips exempt players', () => {
   assert.equal(exemptB.titleKeys.includes('SKY'), true);
   assert.equal(summary.masteryTitleRemovals['他又'], undefined);
   assert.equal(summary.masteryTitleRemovals['别感冒'], undefined);
-  assert.deepEqual(summary.masteryPruneSkipped.sort(), ['他又', '别感冒'].sort());
 });
 
 test('autoMasteryMode=grant re-grants eligible mastery titles after reconciliation', () => {
@@ -634,7 +633,6 @@ test('dry-run preview includes masteryTitleRemovals for stale holders', async ()
   assert.equal(before, after);
   assert.deepEqual(result.preview.masteryTitleRemovals['历史玩家'], ['ALL_IN_ONE', 'SKY']);
   assert.equal(result.preview.masteryTitleRemovals['他又'], undefined);
-  assert.equal(result.preview.masteryPruneSkipped.includes('他又'), true);
 });
 
 test('non-dry-run with changes triggers title sync once', async () => {

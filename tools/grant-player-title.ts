@@ -683,8 +683,7 @@ export async function grantPlayerTitle({
       addedPlayers: summary.addedPlayers,
       generalTitleAdds: summary.generalTitleAdds,
       mapAdds: summary.mapAdds,
-      masteryTitleRemovals: summary.masteryTitleRemovals,
-      masteryPruneSkipped: summary.masteryPruneSkipped
+      masteryTitleRemovals: summary.masteryTitleRemovals
     }
   };
 }

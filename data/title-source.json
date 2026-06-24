@@ -619,7 +619,9 @@
         "EVENT5_GAMBLE_SAINT",
         "EVENT5_BLACK_SHEEP",
         "EVENT5_I_WANT_TO_CHECK_CARDS",
-        "EVENT5_CARDS_ARE_FINE"
+        "EVENT5_CARDS_ARE_FINE",
+        "GREAT_BENEFACTOR",
+        "BREAK_ATMOSPHERE"
       ]
     },
     {
@@ -677,7 +679,9 @@
         "EVENT5_GAMBLE_SAINT",
         "EVENT5_BLACK_SHEEP",
         "EVENT5_I_WANT_TO_CHECK_CARDS",
-        "EVENT5_CARDS_ARE_FINE"
+        "EVENT5_CARDS_ARE_FINE",
+        "GREAT_BENEFACTOR",
+        "BREAK_ATMOSPHERE"
       ]
     },
     {
