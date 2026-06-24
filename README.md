@@ -5,6 +5,8 @@
 
 English | [简体中文](README.zh-CN.md)
 
+This repository uses Apache-2.0 as its base license, with additional non-commercial restrictions. See [LICENSE](./LICENSE) and [NON_COMMERCIAL.md](./NON_COMMERCIAL.md).
+
 This is a continued development build based on [OW2 Bastion Escape](https://workshop.codes/QF8RN).
 
 It preserves the classic Bastion Escape gameplay and expands it for Overwatch 2.
@@ -119,4 +121,4 @@ OW2 Bastion Escape by BearWhoLived#1783
 
 # License
 
-[MIT License](./LICENSE)
+Licensed under [Apache License 2.0](./LICENSE), with additional non-commercial restrictions in [NON_COMMERCIAL.md](./NON_COMMERCIAL.md).

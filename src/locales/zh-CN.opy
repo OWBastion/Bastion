@@ -13,8 +13,8 @@
 #!define STR_DESC_CONTACT_INFO "企鹅聊天群：445152554"
 #!define STR_DESC_ORIGINAL_CREDIT "原作［OW2 PASTION ESCAPE］"
 
-#!define STR_LICENSE_TITLE "声明：本模式代码不得用于商业用途"
-#!define STR_LICENSE_PERMIT "在模式描述中保留原作者署名与原模式代码的前提下，你可基于本模式及其代码进行二次创作与发布"
+#!define STR_LICENSE_TITLE "声明：本模式代码基于 Apache-2.0 发布，并附加非商用限制"
+#!define STR_LICENSE_PERMIT "在保留原作者署名与原模式代码来源说明的前提下，你可基于本模式及其代码进行非商用二次创作与发布"
 
 # 设置分类
 #!define STR_SETTING_CAT_GAME "1. 游戏"

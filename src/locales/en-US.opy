@@ -12,8 +12,8 @@
 #!define STR_DESC_CONTACT_INFO "Discord: 445152554" 
 #!define STR_DESC_ORIGINAL_CREDIT "Based on [OW2 BASTION ESCAPE]"
 
-#!define STR_LICENSE_TITLE "Disclaimer: This code is for non-commercial use only"
-#!define STR_LICENSE_PERMIT "You may modify and republish this mode, provided you credit the original author and include the original mode code in the description."
+#!define STR_LICENSE_TITLE "Notice: This code is released under Apache-2.0 with additional non-commercial restrictions"
+#!define STR_LICENSE_PERMIT "You may modify and republish this mode for non-commercial use, provided you credit the original author and preserve the original mode code or source reference in the description."
 
 # Settings Categories
 #!define STR_SETTING_CAT_GAME "1. Game"

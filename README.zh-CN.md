@@ -5,6 +5,8 @@
 
 [English](README.md) | 简体中文
 
+本仓库以 Apache-2.0 作为基础许可，并附加非商用限制。详见 [LICENSE](./LICENSE) 与 [NON_COMMERCIAL.md](./NON_COMMERCIAL.md)。
+
 本项目是基于 [OW2 Bastion Escape](https://workshop.codes/QF8RN) 的后续开发版本。
 
 我们保留了经典的 躲避堡垒 玩法，并为 Overwatch 2 进行了重构与扩展。
@@ -116,4 +118,4 @@ OW2 Bastion Escape by BearWhoLived#1783
 
 # License
 
-[MIT License](./LICENSE)
+本项目采用 [Apache License 2.0](./LICENSE) 许可，并附加 [NON_COMMERCIAL.md](./NON_COMMERCIAL.md) 中的非商用限制。
