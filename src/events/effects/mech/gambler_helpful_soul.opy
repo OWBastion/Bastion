@@ -13,11 +13,14 @@ rule "[VishkarEvent]: 赌徒：乐于助人":
 
     wait(EVT_MECH_20_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(1, 100) <= EVT_MECH_20_WIN_RATE:
-        getLivingPlayers(Team.1).setHealth(max(getLivingPlayers(Team.1).getHealth(), getLivingPlayers(Team.1).getMaxHealth() * EVT_MECH_20_HEAL_MAXHP_FACTOR))
+        eventPlayer.target = getLivingPlayers(Team.1)
+        eventPlayer.temp = 0
+        for eventPlayer.temp in range(len(eventPlayer.target)):
+            heal(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].getMaxHealth() * EVT_MECH_20_HEAL_MAXHP_FACTOR)
         smallMessage(getLivingPlayers(Team.1), "  {0}  赌赢了！恢复{1}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR)))
     else:
         getLivingPlayers(Team.1).setHealth(1)
-        getLivingPlayers(Team.2).setHealth(1)
-        smallMessage(getAllPlayers(), "  {0}  赌输了！所有玩家生命值降至 1".format(iconString(Icon.DIAMOND)))
+        smallMessage(getLivingPlayers(Team.1), "  {0}  赌输了！所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
+    eventPlayer.target = null
     eventPlayer.eventDuration = 0
     clearPlayerEvent()
