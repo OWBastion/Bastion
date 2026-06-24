@@ -13,8 +13,8 @@ rule "[VishkarEvent]: 窃贼":
 
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = len(getPlayers(Team.1).exclude(eventPlayer))
-    eventPlayer.categoryRoll += EVT_MECH_19_LUCK_SHIFT * eventPlayer.temp
-    getPlayers(Team.1).exclude(eventPlayer).categoryRoll -= EVT_MECH_19_LUCK_SHIFT
+    eventPlayer.categoryRoll -= EVT_MECH_19_LUCK_SHIFT * eventPlayer.temp
+    getPlayers(Team.1).exclude(eventPlayer).categoryRoll += EVT_MECH_19_LUCK_SHIFT
     smallMessage(eventPlayer, "  {0}  偷走 {1} 名队友的幸运值".format(iconString(Icon.DIAMOND), eventPlayer.temp))
     smallMessage(getPlayers(Team.1).exclude(eventPlayer), "  {0}  你的幸运值被偷走了，抽到增益事件的概率降低{1}%".format(iconString(Icon.DIAMOND), EVT_MECH_19_LUCK_SHIFT))
     eventPlayer.eventDuration = 0
