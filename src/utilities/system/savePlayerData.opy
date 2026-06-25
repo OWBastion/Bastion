@@ -27,7 +27,6 @@ def savePlayerData():
         savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.winnerTime
         lbl_0:
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedA36TGrenadeAlive[eventPlayer.savedIndex(savedIndex)] = eventPlayer.A36TGrenadeAlive
         savedTemperHeartDrawn[eventPlayer.savedIndex(savedIndex)] = eventPlayer.temper_heart_drawn
         savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)

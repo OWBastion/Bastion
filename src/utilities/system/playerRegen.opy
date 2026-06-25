@@ -51,12 +51,3 @@ rule "Trigger: Normal Damage":
         eventPlayer.healID = 0
     wait(3, Wait.RESTART_WHEN_TRUE)
     eventPlayer.combatRegen = true
-
-rule "Trigger: Grenade Alive":
-    @Event playerTookDamage
-    @Team 1
-    @Condition eventPlayer.A36TGrenadeAlive != true
-    @Condition all([eventAbility == Button.SECONDARY_FIRE, attacker.getHero() == Hero.BASTION, attacker != eventPlayer, eventPlayer.getHealth() <= 5]) == true
-    
-    eventPlayer.A36TGrenadeAlive = true
-    return
