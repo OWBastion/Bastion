@@ -14,10 +14,10 @@ def rejecSampling():
     eventPlayer.eventIsSelected = false
     if eventPlayer.eventType == 0:
         eventPlayer.eventTempId = buffEventId.filter(lambda id:
-            buffEvent[id] != 0 and buffEvent[id].last() > 0 and (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+            buffEvent[id] != 0 and buffEvent[id].last() > 0 and id != (BuffEventId.TEMPER_HEART if eventPlayer.temper_heart_drawn else -1) and (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = buffEventId.filter(lambda id: buffEvent[id] != 0 and buffEvent[id].last() > 0)
+            eventPlayer.eventTempId = buffEventId.filter(lambda id: buffEvent[id] != 0 and buffEvent[id].last() > 0 and id != (BuffEventId.TEMPER_HEART if eventPlayer.temper_heart_drawn else -1))
         while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
             if eventPlayer.eventLoopCount > 0:
                 wait(0.016)

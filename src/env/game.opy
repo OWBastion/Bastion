@@ -11,6 +11,7 @@ globalvar savedSkipCount 21
 globalvar savedJoinTime 22
 globalvar savedWinnerTime 49
 globalvar savedA36TGrenadeAlive 54
+globalvar savedTemperHeartDrawn
 globalvar difficulty
 globalvar difficultyText
 
@@ -53,6 +54,7 @@ rule "Initialize global variables":
     savedIsWinner = []
     savedSkipCount = []
     savedJoinTime = []
+    savedTemperHeartDrawn = []
     devList = ["他又", "别感冒"]
     devPlayer = []
     obstrucVis = []
