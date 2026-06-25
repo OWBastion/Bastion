@@ -316,6 +316,18 @@
       "descEn": "Hold {0} to teleport to the ally with the lowest HP ratio.\nRestore {1} + {2}% max HP to them. Cooldown: {3}s."
     },
     {
+      "key": "TEMPER_HEART",
+      "type": "buff",
+      "id": 25,
+      "pack": 5,
+      "nameZh": "钢化你心",
+      "descZh": "持续时间内使用{0}个英雄通过终点\n心之钢层数×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%",
+      "durationSec": 180,
+      "weight": 0.3,
+      "availability": "active",
+      "descEn": "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
+    },
+    {
       "key": "GRAVITY_ANOMALY",
       "type": "debuff",
       "id": 0,

@@ -54,6 +54,8 @@ enum BuffEventId:
     MAGIC_MASTER
     # legacy numeric id: 30
     DIVINE_REINFORCEMENT
+    # legacy numeric id: 31
+    TEMPER_HEART
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

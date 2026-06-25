@@ -343,6 +343,8 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.MAGIC_MASTER)
     buffEvent[BuffEventId.DIVINE_REINFORCEMENT] = [STR_EVT_BUFF_30_TITLE, STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_HEAL_FLAT, percent(EVT_30_HEAL_MAXHP_FACTOR), EVT_30_COOLDOWN), EVT_BUFF_30_DURATION, EVT_BUFF_30_WEIGHT]
     buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
+    buffEvent[BuffEventId.TEMPER_HEART] = [STR_EVT_BUFF_31_TITLE, STR_EVT_BUFF_31_DESC.format(EVT_31_HERO_GOAL, EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS), EVT_BUFF_31_DURATION, EVT_BUFF_31_WEIGHT]
+    buffEventId.append(BuffEventId.TEMPER_HEART)
 
     # ================================================
     # Pack 5: Debuffs

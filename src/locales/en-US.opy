@@ -163,6 +163,8 @@
 #!define STR_EVT_BUFF_29_DESC "Become invisible while using emotes.\nGain {0}% bonus movement speed."
 #!define STR_EVT_BUFF_30_TITLE "Divine Reinforcement"
 #!define STR_EVT_BUFF_30_DESC "Hold {0} to teleport to the ally with the lowest HP ratio.\nRestore {1} + {2}% max HP to them. Cooldown: {3}s."
+#!define STR_EVT_BUFF_31_TITLE "Temper Heart"
+#!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

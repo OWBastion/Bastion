@@ -9,6 +9,6 @@ def setPlayerHP():
     @Name "[VishkarEvent]: set player HP"
 
     eventPlayer.temp = eventPlayer.getNormalizedHealth()
-    eventPlayer.setMaxHealth(100 * eventPlayer.sizeHealth + eventPlayer.heart_steel * EVT_8_HP_PERCENT_PER_STACK)
+    eventPlayer.setMaxHealth(100 * eventPlayer.sizeHealth + eventPlayer.heart_steel * (EVT_8_HP_PERCENT_PER_STACK + eventPlayer.heart_steel_percent_perma))
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.setHealth(eventPlayer.getMaxHealth() * eventPlayer.temp)

@@ -294,6 +294,18 @@
 #!define EVT_30_HEAL_FLAT 50
 #!define EVT_30_HEAL_MAXHP_FACTOR 0.6
 
+# --- ID 31: 钢化你心 ---
+# Duration（秒）
+#!define EVT_BUFF_31_DURATION 180
+# Weight（权重）
+#!define EVT_BUFF_31_WEIGHT 0.3
+# 需通过终点推进的英雄数目标
+#!define EVT_31_HERO_GOAL 3
+# 已有心之钢层数倍率
+#!define EVT_31_STACK_MULTIPLIER 1.5
+# 每层最大生命值百分比永久提升量（0.75% -> 1.125%，即 +0.375）
+#!define EVT_31_PERCENT_PER_STACK_BONUS 0.375
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10

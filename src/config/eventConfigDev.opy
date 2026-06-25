@@ -175,6 +175,12 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
     lbl_200:
 
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_BUFF, STR_EVT_BUFF_31_TITLE, true, BuffEventId.TEMPER_HEART):
+        goto lbl_201
+    buffEvent[BuffEventId.TEMPER_HEART] = [STR_EVT_BUFF_31_TITLE, STR_EVT_BUFF_31_DESC.format(EVT_31_HERO_GOAL, EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS), EVT_BUFF_31_DURATION, EVT_BUFF_31_WEIGHT]
+    buffEventId.append(BuffEventId.TEMPER_HEART)
+    lbl_201:
+
     lbl_33:
     # ================================================
     # 减益事件 (Debuff Events)
