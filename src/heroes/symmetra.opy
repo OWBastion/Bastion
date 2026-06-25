@@ -31,6 +31,7 @@ rule "symmetra ability 1 disabled":
     @Team 1
     @Condition eventPlayer.getHero() == Hero.SYMMETRA
     @Condition eventPlayer.isWinner != true
+    @Disabled
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(false)
