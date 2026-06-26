@@ -310,7 +310,7 @@
       "pack": 5,
       "nameZh": "天降神兵",
       "descZh": "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值，冷却{3}秒",
-      "durationSec": 90,
+      "durationSec": 60,
       "weight": 1.1,
       "availability": "active",
       "descEn": "Hold {0} to teleport to the ally with the lowest HP ratio.\nRestore {1} + {2}% max HP to them. Cooldown: {3}s."
