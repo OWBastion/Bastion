@@ -105,6 +105,8 @@ rule STR_LICENSE_PERMIT:
 
 #!include "./config/eventConfig.opy"
 
+#!include "events/allocation/buildCandidatePool.opy"
+
 #!include "events/allocation/rejectSampling.opy"
 
 ## Utilities: system

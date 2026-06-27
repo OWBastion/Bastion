@@ -22,5 +22,7 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
         smallMessage(eventPlayer, "  {0}  输！祝你好运".format(iconString(Icon.DIAMOND)))
     eventPlayer.eventForceRoll = EVT_MECH_12_FORCE_ROLL
     eventPlayer.eventForceCount = EVT_MECH_12_FORCE_COUNT
+    eventPlayer.eventFilterContractType = PLAYER_EVENT_FILTER_CONTRACT_NO_SELFLESS_GIVEAWAY
+    eventPlayer.eventFilterContractCount = EVT_MECH_12_CONTRACT_EVENTS
     smallMessage(eventPlayer, "  {0}  合约已生效：未来 5 个事件为 减益".format(iconString(Icon.DIAMOND)))
     clearPlayerEvent()

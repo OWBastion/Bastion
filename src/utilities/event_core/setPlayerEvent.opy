@@ -18,6 +18,7 @@ def setPlayerEvent():
         eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.randint(0, 100)
     if eventPlayer.temp <= 42.5:
         eventPlayer.eventType = 0
+        buildCandidatePool()
         rejecSampling()
         eventPlayer.eventName = buffEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = buffEvent[eventPlayer.eventId][1]
@@ -29,6 +30,7 @@ def setPlayerEvent():
         eventPlayer.eventLucky = eventPlayer.eventLucky + 1 if eventPlayer.eventLucky > 0 else 1
     elif eventPlayer.temp <= 80:
         eventPlayer.eventType = 1
+        buildCandidatePool()
         rejecSampling()
         eventPlayer.eventName = debuffEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = debuffEvent[eventPlayer.eventId][1]
@@ -37,6 +39,7 @@ def setPlayerEvent():
         eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
     else:
         eventPlayer.eventType = 2
+        buildCandidatePool()
         rejecSampling()
         eventPlayer.eventName = mechEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = mechEvent[eventPlayer.eventId][1]
@@ -47,6 +50,10 @@ def setPlayerEvent():
         eventPlayer.eventLastId = []
     if eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.TEMPER_HEART:
         eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
+    if eventPlayer.eventFilterContractCount > 0:
+        eventPlayer.eventFilterContractCount--
+        if eventPlayer.eventFilterContractCount <= 0:
+            eventPlayer.eventFilterContractType = PLAYER_EVENT_FILTER_CONTRACT_NONE
     eventPlayer.eventLastId.append(eventPlayer.eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventPlayer.eventId)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)

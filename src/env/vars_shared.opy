@@ -173,6 +173,8 @@ playervar eventForceRoll 102
 playervar eventForceCount 103
 playervar eventSize 104
 playervar eventTargetHP 105
+playervar eventFilterContractType 106
+playervar eventFilterContractCount 107
 playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
