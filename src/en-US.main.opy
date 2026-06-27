@@ -266,15 +266,15 @@ rule "when a player reaches the end, they move on to the next hero or win if the
         savePlayerData()
 
 
-rule "winners earn their ult once per minute":
+rule "winners passively earn ult over time":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isWinner != false
     @Condition eventPlayer.getUltCharge() < 100
     @Condition eventPlayer.isUsingUltimate() == false
     
-    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + 5)
-    wait(3)
+    wait(15, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.setUltCharge(min(100, eventPlayer.getUltCharge() + 25))
     if ruleCondition:
         loop()
 
