@@ -285,11 +285,6 @@ rule "winners passively earn ult over time":
 #!include "player/status.opy"
 #!include "player/init.opy"
 
-rule "auto reboot":
-    @Condition getTotalTimeElapsed() >= rebootTime - 60
-    
-    bigMessage(getAllPlayers(), STR_MSG_AUTO_RESTART_1MIN)
-    wait(60)
-    restartMatch()
+#!include "utilities/system/autoReboot.opy"
 
 #!include "utilities/dev_support/devTool.opy"
