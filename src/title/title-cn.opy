@@ -677,7 +677,7 @@ rule "initialize title array":
         # 22: HARD_TO_KILL
         ["大难不死", heroColor[45]],
         # 23: WIN_HEAVEN
-        ["胜天半子", breathOrange],
+        ["胜天半子", breathPalette.orange],
         # 24: IDOL
         ["堡垒の偶像", vect(200, 0, 19)],
         # 25: EGG_FIRST
@@ -685,11 +685,11 @@ rule "initialize title array":
         # 26: EAT_MORE
         ["我还能吃", vect(238, 75, 43)],
         # 27: ALL_IN_ONE
-        ["万象归一", breathRed],
+        ["万象归一", breathPalette.red],
         # 28: TRAVELER
         ["守望旅行家", heroColor[33]],
         # 29: SKY
-        ["万域天穹", breathPurple],
+        ["万域天穹", breathPalette.purple],
         # 30: FLAME
         ["狂暴烈焰", heroColor[28]],
         # 31: PASS_EGGS
@@ -699,7 +699,7 @@ rule "initialize title array":
         # 33: LUCKY_STAR
         ["幸运星", heroColor[3]],
         # 34: GAMBLE_KING
-        ["赌王", breathGold],
+        ["赌王", breathPalette.gold],
         # 35: LUCKY_SHINE
         ["福星高照", heroColor[32]],
         # 36: UNLUCKY
@@ -707,9 +707,9 @@ rule "initialize title array":
         # 37: MANBA
         ["What can i say", heroColor[11]],
         # 38: MY_FATE
-        ["我命由我", breathBlue],
+        ["我命由我", breathPalette.blue],
         # 39: GOD_GAMBLER
-        ["赌神", breathGold],
+        ["赌神", breathPalette.gold],
         # 40: LAO_DA
         [" 牢 大 ", null],
         # 41: V_50
@@ -721,7 +721,7 @@ rule "initialize title array":
         # 44: RED_PACKET
         ["红包收藏家", heroColor[43]],
         # 45: GOOD_LUCK
-        ["好运来", breathGold],
+        ["好运来", breathPalette.gold],
         # 46: LONE_WALKER
         ["千里独行", heroColor[33]],
         # 47: GREEN_MOUNTAIN
