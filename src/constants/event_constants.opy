@@ -300,7 +300,7 @@
 # Duration（秒）
 #!define EVT_BUFF_29_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_29_WEIGHT 0.5
+#!define EVT_BUFF_29_WEIGHT 0
 #!define EVT_29_SPEED_BOOST 60
 
 # --- ID 30: 天降神兵 ---
