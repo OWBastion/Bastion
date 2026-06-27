@@ -613,6 +613,13 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩", "EruIluvatar", "墙上静止的钟", "一杯美式", "Doretta"], "-"), \
    playerNameToIndexDelimited(["吾携秋水揽星河", "八月八月八", "嘤嘤嘤丶", "锄禾日当午", "卖核弹的小女孩", "EruIluvatar", "墙上静止的钟", "一杯美式", "Doretta"], "-")\
 ]
+
+# 霓虹枢纽
+#!define DATA_NEON_JUNCTION [\
+    playerNameToIndexDelimited(["他又", "别感冒"], "-"), \
+    [], \
+    [], \
+]
 # END AUTO-GENERATED MAP_TITLE_DATA
 
 # ------------------------------
