@@ -175,7 +175,7 @@ rule "players pick up speed while not targeted for 3 seconds":
     
     wait(3, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setMoveSpeed(160)
-    waitUntil(not eventPlayer.isMoving() or getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0], MAX_TIME)
+    waitUntil(not eventPlayer.isMoving() or getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0], Math.INFINITY)
     eventPlayer.setMoveSpeed(100)
 
 

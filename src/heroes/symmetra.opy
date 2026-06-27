@@ -35,6 +35,6 @@ rule "symmetra ability 1 disabled":
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.SYMMETRA, MAX_TIME)
+    waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.SYMMETRA, Math.INFINITY)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(true)

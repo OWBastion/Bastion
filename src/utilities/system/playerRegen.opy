@@ -26,7 +26,7 @@ rule "SYSTEM: Core Regen Logic (Signal Based)":
             abilityIconString(Hero.BAPTISTE, Button.ABILITY_1)
         )
     )
-    eventPlayer.startHealingOverTime(eventPlayer, MAX_TIME, 50 + eventPlayer.getMaxHealth() * 0.08)
+    eventPlayer.startHealingOverTime(eventPlayer, Math.INFINITY, 50 + eventPlayer.getMaxHealth() * 0.08)
     eventPlayer.healID = getLastHealingOverTimeId()
     waitUntil(any([
         eventPlayer.passiveRegenBlocked,
@@ -34,7 +34,7 @@ rule "SYSTEM: Core Regen Logic (Signal Based)":
         eventPlayer.getNormalizedHealth() == 1,
         eventPlayer.heal_recv <= -100,
         eventPlayer.healID == 0
-    ]), MAX_TIME)
+    ]), Math.INFINITY)
     if eventPlayer.healID != 0:
         stopHealingOverTime(eventPlayer.healID)
         eventPlayer.healID = 0

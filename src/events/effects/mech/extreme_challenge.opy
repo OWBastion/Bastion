@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 极限挑战":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     
-    waitUntil(eventPlayer.isAlive(), MAX_TIME)
+    waitUntil(eventPlayer.isAlive(), Math.INFINITY)
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
     eventPlayer.heal_recv = EVT_MECH_0_HEAL_BAN
     createEffect(getAllPlayers(), Effect.ANA_BIOTIC_GRENADE_NO_HEALING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)

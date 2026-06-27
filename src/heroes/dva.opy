@@ -41,7 +41,7 @@ rule "once baby d.va is far enough from where she lost mech, she can remech":
     @Condition eventPlayer.isInAlternateForm() == true
     @Condition eventPlayer.dvaStart != 0
     
-    waitUntil(distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart) >= 30 or eventPlayer.isDead(), MAX_TIME)
+    waitUntil(distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart) >= 30 or eventPlayer.isDead(), Math.INFINITY)
     eventPlayer.dvaStart = 0
     if eventPlayer.isDead():
         return
@@ -53,5 +53,5 @@ rule "create baby d.va goal header":
     wait(2, Wait.ABORT_WHEN_FALSE)
     hudHeader(localPlayer if localPlayer.getHero() == Hero.DVA and localPlayer.isInAlternateForm() and localPlayer.isAlive() and localPlayer.dvaStart != 0 else null, STR_DVA_DISTANCE_GOAL.format(max(0, 30 - distance(localPlayer.getPosition() * vect(1, 0, 1), localPlayer.dvaStart * vect(1, 0, 1)))), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     textIDs[1] = getLastCreatedText()
-    waitUntil(not isHeroBeingPlayed(Hero.DVA, Team.1), MAX_TIME)
+    waitUntil(not isHeroBeingPlayed(Hero.DVA, Team.1), Math.INFINITY)
     destroyHudText(textIDs[1])

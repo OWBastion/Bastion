@@ -81,5 +81,5 @@ rule "create zen instructions":
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ZENYATTA and localPlayer.isInSpawnRoom() else null, STR_ZEN_KICK_HINT.format(abilityIconString(Hero.ZENYATTA, Button.MELEE), iconString(Icon.ARROW_UP)), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)
     textIDs[2] = getLastCreatedText()
-    waitUntil(not isHeroBeingPlayed(Hero.ZENYATTA, Team.1), MAX_TIME)
+    waitUntil(not isHeroBeingPlayed(Hero.ZENYATTA, Team.1), Math.INFINITY)
     destroyHudText(textIDs[2])
