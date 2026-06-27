@@ -19,17 +19,17 @@ rule "when a player joins, load player data if they have it and initialize them"
     lbl_0:
     wait(getAverageServerLoad() / 200 * random.uniform(1, 3))
     if eventPlayer.inSaved(savedIndex):
-        eventPlayer.heroNumber = savedData.savedHero[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.heroNumber = savedHero[eventPlayer.savedIndex(savedIndex)]
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 3) * 0.05)
-        eventPlayer.runDeathCount = savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)]
-        eventPlayer.isWinner = savedData.savedWinner[eventPlayer.savedIndex(savedIndex)]
-        eventPlayer.skipCount = savedData.savedSkipCount[eventPlayer.savedIndex(savedIndex)]
-        eventPlayer.winnerTime = savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.runDeathCount = savedDeaths[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.isWinner = savedIsWinner[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.skipCount = savedSkipCount[eventPlayer.savedIndex(savedIndex)]
+        eventPlayer.winnerTime = savedWinnerTime[eventPlayer.savedIndex(savedIndex)]
         wait(eventPlayer.getSlot() * 0.032)
-        if savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
-            eventPlayer.playerOnceEventState = savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+        if savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
+            eventPlayer.playerOnceEventState = savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
-            eventPlayer.joinTime = savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)]
+            eventPlayer.joinTime = savedJoinTime[eventPlayer.savedIndex(savedIndex)]
     else:
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())

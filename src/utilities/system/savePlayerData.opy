@@ -14,21 +14,21 @@ def savePlayerData():
         if not eventPlayer.inSaved(savedIndex):
             savedIndex.append(eventPlayer.key)
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 2) * 0.5)
-        savedData.savedHero[eventPlayer.savedIndex(savedIndex)] = eventPlayer.heroNumber
+        savedHero[eventPlayer.savedIndex(savedIndex)] = eventPlayer.heroNumber
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
+        savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedData.savedWinner[eventPlayer.savedIndex(savedIndex)] = eventPlayer.isWinner
+        savedIsWinner[eventPlayer.savedIndex(savedIndex)] = eventPlayer.isWinner
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedData.savedSkipCount[eventPlayer.savedIndex(savedIndex)] = eventPlayer.skipCount
+        savedSkipCount[eventPlayer.savedIndex(savedIndex)] = eventPlayer.skipCount
         wait(getAverageServerLoad() / 100 * 0.5)
         if eventPlayer.winnerTime == null:
             goto lbl_0
-        savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.winnerTime
+        savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.winnerTime
         lbl_0:
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] = eventPlayer.playerOnceEventState.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT) if eventPlayer.playerOnceEventState != null else DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
-        savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
+        savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] = eventPlayer.playerOnceEventState.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT) if eventPlayer.playerOnceEventState != null else DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+        savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)
 
         wait(2)
@@ -52,5 +52,5 @@ rule "player deaths are counted manually rather than relying on in-game statisti
     eventPlayer.runDeathCount++
     if eventPlayer in savedIndex:
         wait(0.032)
-        savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
+        savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if controlRespawnPosition == null else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
