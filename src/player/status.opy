@@ -17,6 +17,7 @@ rule "display death progress as ult charge":
     @Team 1
     @Condition difficulty != 5
     @Condition all([dlcVishkarEvent, eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM]) == false
+    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT] == true)
     @Condition eventPlayer.progressionDeathCount < maxDeath
     @Condition eventPlayer.isWinner == false
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
@@ -33,6 +34,7 @@ rule "display message if hero available":
     @Team 1
     @Condition difficulty != 5
     @Condition all([dlcVishkarEvent, eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM]) != true
+    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT] == true)
     @Condition eventPlayer.progressionDeathCount == maxDeath
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
@@ -56,6 +58,7 @@ rule "players can use ultimate to progress to the next hero after dying a number
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
+    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_ULT] == true)
     @Condition eventPlayer.progressionDeathCount >= maxDeath
     @Condition (eventPlayer.isUsingUltimate() or eventPlayer.isDuplicatingAHero()) == true
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
@@ -104,4 +107,3 @@ rule "holding reload while in the reset ring resets your progress":
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     savePlayerData()
-

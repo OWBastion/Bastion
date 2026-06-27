@@ -9,6 +9,7 @@ rule "[VishkarEvent]: get player event":
     @Team 1
     @Condition getNumberOfPlayers(Team.2) == len(bastionPosition)
     @Condition all([vishkarEventActivated, eventPlayer.hasSpawned(), eventPlayer.eventId == -1]) == true
+    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] == PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_ACCEPTED)
     @Condition (any([eventPlayer.playerTitles[0][1] == vect(149, 239, 66) and eventPlayer.heroNumber >= 1, eventPlayer.heroNumber > 2])) == true
 
     if eventPlayer.hudTextId != null:
@@ -28,4 +29,3 @@ rule "[VishkarEvent]: get player event":
     wait(getAverageServerLoad() / 100 * 0.032)
     if ruleCondition:
         loop()
-

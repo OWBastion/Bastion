@@ -214,6 +214,8 @@
 #!define STR_EVT_MECH_19_DESC "Hold {0} to steal all teammates' luck.\nTheir next event has {1}% lower chance to be a Buff.\nYour next event has {1}% higher chance to be a Buff per stolen target."
 #!define STR_EVT_MECH_20_TITLE "Gambler: Helpful Soul"
 #!define STR_EVT_MECH_20_DESC "Hold {0} to settle.\n{1}% chance to restore all allies for {2}% max HP.\n{3}% chance to set all players' HP to 1."
+#!define STR_EVT_MECH_21_TITLE "Brave Act"
+#!define STR_EVT_MECH_21_DESC "Hold {0} to permanently gain one bonus:\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\nNo more random events afterward."
 
 
 # Settings Categories

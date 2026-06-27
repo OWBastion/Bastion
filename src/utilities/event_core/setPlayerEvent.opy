@@ -46,6 +46,8 @@ def setPlayerEvent():
         eventPlayer.eventLastId = []
     if eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.TEMPER_HEART:
         eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
+    if eventPlayer.eventType == 2 and eventPlayer.eventId == MechEventId.BRAVE_ACT:
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] = PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_DRAWN
     if eventPlayer.eventForceRoll != null:
         if eventPlayer.eventForceCount > 0:
             eventPlayer.eventForceCount--

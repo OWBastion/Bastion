@@ -562,3 +562,9 @@ rule "initialize event array":
     mechEvent[MechEventId.GAMBLER_ALL_IN_ART_5] = [STR_EVT_MECH_17_TITLE, STR_EVT_MECH_17_DESC.format(Button.RELOAD, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER), EVT_MECH_17_DURATION, EVT_MECH_17_WEIGHT]
     mechEventId.append(MechEventId.GAMBLER_ALL_IN_ART_5)
     lbl_125:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_MECH, STR_EVT_MECH_21_TITLE, true, MechEventId.BRAVE_ACT):
+        goto lbl_202
+    mechEvent[MechEventId.BRAVE_ACT] = [STR_EVT_MECH_21_TITLE, STR_EVT_MECH_21_DESC.format(Button.RELOAD, 1000, 65, 100, 750, EVT_MECH_21_REGEN_FLAT, 50, EVT_MECH_21_ULT_CHARGE_GAIN, EVT_MECH_21_ULT_CHARGE_INTERVAL), EVT_MECH_21_DURATION, EVT_MECH_21_WEIGHT]
+    mechEventId.append(MechEventId.BRAVE_ACT)
+    lbl_202:

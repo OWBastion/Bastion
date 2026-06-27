@@ -26,3 +26,4 @@
 #!include "mech/vampire.opy"
 #!include "mech/thief.opy"
 #!include "mech/gambler_helpful_soul.opy"
+#!include "mech/brave_act.opy"

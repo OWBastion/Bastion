@@ -37,9 +37,11 @@ def buildCandidatePool():
     else:
         eventPlayer.eventTempId = mechEventId.filter(lambda id:
             mechEvent[id] != 0 and mechEvent[id].last() > 0 and
+            id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_NEW) else -1) and
             (eventPlayer.eventLastId == null or (2 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = mechEventId.filter(lambda id:
-                mechEvent[id] != 0 and mechEvent[id].last() > 0
+                mechEvent[id] != 0 and mechEvent[id].last() > 0 and
+                id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_NEW) else -1)
             )

@@ -44,6 +44,8 @@ enum MechEventId:
     THIEF
     # legacy numeric id: 19
     GAMBLER_HELPFUL_SOUL
+    # legacy numeric id: 21
+    BRAVE_ACT
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
