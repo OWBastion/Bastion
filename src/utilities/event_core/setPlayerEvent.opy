@@ -46,7 +46,7 @@ def setPlayerEvent():
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
     if eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.TEMPER_HEART:
-        eventPlayer.temper_heart_drawn = true
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
     eventPlayer.eventLastId.append(eventPlayer.eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventPlayer.eventId)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)

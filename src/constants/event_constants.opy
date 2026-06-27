@@ -12,6 +12,13 @@
 # 最近事件去重窗口（排除最近 N 次抽到的事件）
 #!define EVT_RECENT_EVENT_DEDUP_COUNT 8
 
+# 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
+#!define PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART 0
+#!define PLAYER_ONCE_EVENT_SLOT_COUNT 1
+#!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
+#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [false]
+#!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
+
 # -----------------------------------------------------------------------------
 # BUFF 事件（按ID排序）
 # -----------------------------------------------------------------------------

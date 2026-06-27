@@ -10,7 +10,8 @@ globalvar savedIsWinner 20
 globalvar savedSkipCount 21
 globalvar savedJoinTime 22
 globalvar savedWinnerTime 49
-globalvar savedTemperHeartDrawn
+globalvar savedPlayerOnceEventState
+globalvar globalOnceEventState
 globalvar difficulty
 globalvar difficultyText
 
@@ -53,7 +54,8 @@ rule "Initialize global variables":
     savedIsWinner = []
     savedSkipCount = []
     savedJoinTime = []
-    savedTemperHeartDrawn = []
+    savedPlayerOnceEventState = []
+    globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     devList = ["他又", "别感冒"]
     devPlayer = []
     obstrucVis = []
