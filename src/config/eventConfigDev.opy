@@ -15,8 +15,11 @@ rule "initialize event array":
     buffEventId = []
     
     # Pack 0 - Special
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_0_TITLE, true, BuffEventId.OLIVIA_GIFT):
+        goto lbl_special_0
     buffEvent[BuffEventId.OLIVIA_GIFT] = [STR_EVT_BUFF_0_TITLE, STR_EVT_BUFF_0_DESC, EVT_BUFF_0_DURATION, EVT_BUFF_0_WEIGHT]
     buffEventId.append(BuffEventId.OLIVIA_GIFT)
+    lbl_special_0:
     
     # ================================================
     # Pack 1: Buffs
