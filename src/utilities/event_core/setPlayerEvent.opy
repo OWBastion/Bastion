@@ -15,6 +15,7 @@ def setPlayerEvent():
     if eventPlayer.temp <= 42.5:
         eventPlayer.eventType = 0
         buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
         eventPlayer.eventName = buffEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = buffEvent[eventPlayer.eventId][1]
@@ -27,6 +28,7 @@ def setPlayerEvent():
     elif eventPlayer.temp <= 80:
         eventPlayer.eventType = 1
         buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
         eventPlayer.eventName = debuffEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = debuffEvent[eventPlayer.eventId][1]
@@ -36,6 +38,7 @@ def setPlayerEvent():
     else:
         eventPlayer.eventType = 2
         buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
         eventPlayer.eventName = mechEvent[eventPlayer.eventId][0]
         eventPlayer.eventDesc = mechEvent[eventPlayer.eventId][1]
@@ -44,10 +47,6 @@ def setPlayerEvent():
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
-    if eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.TEMPER_HEART:
-        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
-    if eventPlayer.eventType == 2 and eventPlayer.eventId == MechEventId.BRAVE_ACT:
-        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] = PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_DRAWN
     if eventPlayer.eventForceRoll != null:
         if eventPlayer.eventForceCount > 0:
             eventPlayer.eventForceCount--

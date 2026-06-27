@@ -13,11 +13,17 @@ rule "[VishkarEvent]: 勇敢举动":
         eventPlayer.hasSpawned(),
         eventPlayer.eventType == 2,
         eventPlayer.eventId == MechEventId.BRAVE_ACT,
-        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] == PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_DRAWN,
-        eventPlayer.altFormTrigger != true,
-        eventPlayer.isHoldingButton(Button.RELOAD)
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_ACCEPTED
     ]) == true
 
+    if eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] == PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_NEW:
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] = PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_DRAWN
+    if any([
+        eventPlayer.altFormTrigger == true,
+        eventPlayer.isHoldingButton(Button.RELOAD) == false,
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_DRAWN
+    ]):
+        return
     wait(EVT_MECH_21_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormTrigger = true
     eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] = PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_ACCEPTED

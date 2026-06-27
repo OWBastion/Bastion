@@ -13,6 +13,8 @@ rule "[VishkarEvent]: 钢化你心 (记录基准)":
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
     # clearPlayerEvent() 会在事件结束后统一把 eventMission 清零，本规则不重复清理。
+    if eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] != true:
+        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
     eventPlayer.eventMission = eventPlayer.heroNumber
 
 rule "[VishkarEvent]: 钢化你心 (结束判定)":
