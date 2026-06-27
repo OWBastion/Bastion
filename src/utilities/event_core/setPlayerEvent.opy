@@ -10,10 +10,6 @@ def setPlayerEvent():
     
     if eventPlayer.eventForceRoll != null:
         eventPlayer.temp = eventPlayer.eventForceRoll
-        if eventPlayer.eventForceCount > 0:
-            eventPlayer.eventForceCount--
-        else:
-            eventPlayer.eventForceRoll = null
     else:
         eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.randint(0, 100)
     if eventPlayer.temp <= 42.5:
@@ -50,10 +46,11 @@ def setPlayerEvent():
         eventPlayer.eventLastId = []
     if eventPlayer.eventType == 0 and eventPlayer.eventId == BuffEventId.TEMPER_HEART:
         eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
-    if eventPlayer.eventFilterContractCount > 0:
-        eventPlayer.eventFilterContractCount--
-        if eventPlayer.eventFilterContractCount <= 0:
-            eventPlayer.eventFilterContractType = PLAYER_EVENT_FILTER_CONTRACT_NONE
+    if eventPlayer.eventForceRoll != null:
+        if eventPlayer.eventForceCount > 0:
+            eventPlayer.eventForceCount--
+        else:
+            eventPlayer.eventForceRoll = null
     eventPlayer.eventLastId.append(eventPlayer.eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventPlayer.eventId)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)

@@ -19,10 +19,6 @@
 #!define DEFAULT_PLAYER_ONCE_EVENT_STATE [false]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 
-# 玩家事件过滤合约类型
-#!define PLAYER_EVENT_FILTER_CONTRACT_NONE 0
-#!define PLAYER_EVENT_FILTER_CONTRACT_NO_SELFLESS_GIVEAWAY 1
-
 # -----------------------------------------------------------------------------
 # BUFF 事件（按ID排序）
 # -----------------------------------------------------------------------------

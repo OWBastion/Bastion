@@ -22,13 +22,13 @@ def buildCandidatePool():
     elif eventPlayer.eventType == 1:
         eventPlayer.eventTempId = debuffEventId.filter(lambda id:
             debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and
-            (eventPlayer.eventFilterContractType != PLAYER_EVENT_FILTER_CONTRACT_NO_SELFLESS_GIVEAWAY or eventPlayer.eventFilterContractCount <= 0 or id != DebuffEventId.SELFLESS_GIVEAWAY) and
+            (eventPlayer.eventForceRoll != EVT_MECH_8_FORCE_ROLL or id != DebuffEventId.SELFLESS_GIVEAWAY) and
             (eventPlayer.eventLastId == null or (1 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = debuffEventId.filter(lambda id:
                 debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and
-                (eventPlayer.eventFilterContractType != PLAYER_EVENT_FILTER_CONTRACT_NO_SELFLESS_GIVEAWAY or eventPlayer.eventFilterContractCount <= 0 or id != DebuffEventId.SELFLESS_GIVEAWAY)
+                (eventPlayer.eventForceRoll != EVT_MECH_8_FORCE_ROLL or id != DebuffEventId.SELFLESS_GIVEAWAY)
             )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = debuffEventId.filter(lambda id:
