@@ -221,7 +221,7 @@
       "condition": "达成指定组合条件。",
       "availability": "active",
       "displayExpr": "\"胜天半子\"",
-      "colorExpr": "breathOrange"
+      "colorExpr": "breathPalette.orange"
     },
     {
       "key": "IDOL",
@@ -257,7 +257,7 @@
       "condition": "获得所有地图“征服者”头衔。",
       "availability": "active",
       "displayExpr": "\"万象归一\"",
-      "colorExpr": "breathRed"
+      "colorExpr": "breathPalette.red"
     },
     {
       "key": "TRAVELER",
@@ -275,7 +275,7 @@
       "condition": "获得所有地图“主宰”头衔。",
       "availability": "active",
       "displayExpr": "\"万域天穹\"",
-      "colorExpr": "breathPurple"
+      "colorExpr": "breathPalette.purple"
     },
     {
       "key": "FLAME",
@@ -332,7 +332,7 @@
       "condition": "赌徒类事件连续 5 次增益。",
       "availability": "active",
       "displayExpr": "\"赌王\"",
-      "colorExpr": "breathGold"
+      "colorExpr": "breathPalette.gold"
     },
     {
       "key": "LUCKY_SHINE",
@@ -372,7 +372,7 @@
       "condition": "达成指定组合条件。",
       "availability": "active",
       "displayExpr": "\"我命由我\"",
-      "colorExpr": "breathBlue"
+      "colorExpr": "breathPalette.blue"
     },
     {
       "key": "GOD_GAMBLER",
@@ -385,7 +385,7 @@
       "condition": "达成幸运星+钢门并满足赌徒连胜条件。",
       "availability": "active",
       "displayExpr": "\"赌神\"",
-      "colorExpr": "breathGold"
+      "colorExpr": "breathPalette.gold"
     },
     {
       "key": "LAO_DA",
@@ -451,7 +451,7 @@
       "condition": "累计触发 50 次增益事件。",
       "availability": "active",
       "displayExpr": "\"好运来\"",
-      "colorExpr": "breathGold"
+      "colorExpr": "breathPalette.gold"
     },
     {
       "key": "LONE_WALKER",
@@ -3330,6 +3330,18 @@
           "一杯美式",
           "Doretta"
         ]
+      }
+    },
+    {
+      "mapKey": "DATA_NEON_JUNCTION",
+      "mapLabel": "霓虹枢纽",
+      "holders": {
+        "PIONEER": [
+          "他又",
+          "别感冒"
+        ],
+        "CONQUEROR": [],
+        "DOMINATOR": []
       }
     }
   ]

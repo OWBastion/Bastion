@@ -615,10 +615,10 @@ enum MapTITLEKey:
 ]
 
 # 霓虹枢纽
-#!define DATA_NEON_JUNCTION [\
-    playerNameToIndexDelimited(["他又", "别感冒"], "-"), \
-    [], \
-    [], \
+#!define DATA_NEON_JUNCTION [ \
+   playerNameToIndexDelimited(["他又", "别感冒"], "-"), \
+   [], \
+   []\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
 

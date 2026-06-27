@@ -403,7 +403,7 @@ export function applyGrantRequest(sourceData, requestData) {
   const titleKeySet = new Set(sourceData.titles.map((item) => item.key));
   const animatedTitleKeySet = new Set(
     sourceData.titles
-      .filter((item) => String(item.colorExpr ?? '').trim().toLowerCase().startsWith('breath'))
+      .filter((item) => String(item.colorExpr ?? '').trim().toLowerCase().startsWith('breathpalette.'))
       .map((item) => item.key)
   );
   const mapKeySet = new Set(sourceData.mapTitles.map((item) => item.mapKey));
