@@ -64,11 +64,7 @@ globalvar mechEvent 85
 globalvar mechEventId 86
 globalvar obstrucVis 89
 globalvar heroColor 90
-globalvar breathRed 91
-globalvar breathPurple 92
-globalvar breathBlue 93
-globalvar breathOrange 94
-globalvar breathGold 95
+globalvar breathPalette 91
 globalvar springBoardPosition 100
 globalvar portalPosition 101
 globalvar phaseHero 103
