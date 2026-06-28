@@ -28,6 +28,8 @@ rule "when a player joins, load player data if they have it and initialize them"
         wait(eventPlayer.getSlot() * 0.032)
         if savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
             eventPlayer.playerOnceEventState = savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+            while len(eventPlayer.playerOnceEventState) < PLAYER_ONCE_EVENT_SLOT_COUNT:
+                eventPlayer.playerOnceEventState.append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(eventPlayer.playerOnceEventState)])
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)]
     else:
