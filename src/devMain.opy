@@ -270,7 +270,8 @@ rule "when a player reaches the end, they move on to the next hero or win if the
             )
         )
         lbl_1:
-        smallMessage(eventPlayer, STR_MSG_WIN_HINT.format(iconString(Icon.CHECKMARK)))
+        if hashTag == true:
+            smallMessage(eventPlayer, STR_MSG_WIN_HINT.format(iconString(Icon.CHECKMARK)))
         savePlayerData()
 
 
