@@ -29,7 +29,7 @@ rule "[VishkarEvent]: 勇敢举动":
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.DRAWN
     ]):
         return
-    wait(EVT_MECH_21_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormTrigger = true
     eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] = PlayerOnceEventStateBraveAct.ACCEPTED
     eventPlayer.temp = random.randint(0, 5)

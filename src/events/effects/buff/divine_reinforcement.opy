@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 天降神兵":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT, eventPlayer.altFormTrigger != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
-    wait(EVT_30_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormTrigger = true
     eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
     if len(eventPlayer.target) > 0:

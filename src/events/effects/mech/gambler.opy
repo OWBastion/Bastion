@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 赌徒":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 100) <= EVT_MECH_1_WIN_RATE:
         eventPlayer.heart_steel -= EVT_MECH_1_STAKE
         eventPlayer.dlcTimeChallenge[0] = 0 if eventPlayer.dlcTimeChallenge[0] > 0 else eventPlayer.dlcTimeChallenge[0] - 1

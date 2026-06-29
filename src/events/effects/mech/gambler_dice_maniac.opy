@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_DICE_MANIAC, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
-    wait(EVT_MECH_15_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = random.randint(1, 6)
     if eventPlayer.temp == 1:
         eventPlayer.heart_steel -= EVT_MECH_15_HEART_STEEL_DELTA_LOSS

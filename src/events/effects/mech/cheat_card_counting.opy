@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 作弊：我要验牌 (触发)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.CHEAT_CARD_COUNTING, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.heart_steel -= EVT_MECH_7_HEART_STEEL_COST
     setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)

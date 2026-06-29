@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_LONG_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 100) < EVT_MECH_12_WIN_CHANCE:
         eventPlayer.heart_steel += EVT_MECH_12_REWARD_STACKS
         eventPlayer.dlcTimeChallenge[3]++

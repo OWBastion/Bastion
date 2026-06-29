@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 赌徒：乐于助人":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_HELPFUL_SOUL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
-    wait(EVT_MECH_20_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(1, 100) <= EVT_MECH_20_WIN_RATE:
         eventPlayer.target = getLivingPlayers(Team.1)
         eventPlayer.temp = 0

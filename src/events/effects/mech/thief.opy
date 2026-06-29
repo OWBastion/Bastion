@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 窃贼":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = len(getPlayers(Team.1).exclude(eventPlayer))
     eventPlayer.categoryRoll -= EVT_MECH_19_LUCK_SHIFT * eventPlayer.temp
     getPlayers(Team.1).exclude(eventPlayer).categoryRoll += EVT_MECH_19_LUCK_SHIFT

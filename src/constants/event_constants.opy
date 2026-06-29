@@ -11,6 +11,8 @@
 #!define EVT_DEDUP_TYPE_MULTIPLIER 1000
 # 最近事件去重窗口（排除最近 N 次抽到的事件）
 #!define EVT_RECENT_EVENT_DEDUP_COUNT 8
+# 事件交互长按判定时长（秒）
+#!define EVT_INTERACT_HOLD_TIME 1
 
 enum EventType:
     BUFF = 0
@@ -323,7 +325,6 @@ enum PlayerOnceEventStateBraveAct:
 # --- ID 30: 天降神兵 ---
 #!define EVT_BUFF_30_DURATION 60
 #!define EVT_BUFF_30_WEIGHT 1.1
-#!define EVT_30_HOLD_TIME 0.5
 #!define EVT_30_COOLDOWN 5
 #!define EVT_30_HEAL_FLAT 50
 #!define EVT_30_HEAL_MAXHP_FACTOR 0.6
@@ -591,7 +592,6 @@ enum PlayerOnceEventStateBraveAct:
 #!define EVT_DEBUFF_21_TOTAL_STACK 7
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
-#!define EVT_DEBUFF_21_HOLD_TIME 0.5
 
 # --- ID 21 (Debuff): 枯萎 ---
 # Duration（秒）
@@ -853,8 +853,6 @@ enum PlayerOnceEventStateBraveAct:
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
 #!define EVT_MECH_15_WEIGHT 0.4
-# 长按判定时长（秒）
-#!define EVT_MECH_15_HOLD_TIME 1
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 1.5
 # 永久移速变更值（%）
@@ -868,7 +866,6 @@ enum PlayerOnceEventStateBraveAct:
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
 #!define EVT_MECH_16_WEIGHT 0.5
-#!define EVT_MECH_16_HOLD_TIME 0.5
 #!define EVT_MECH_16_WIN_RATE 40
 #!define EVT_MECH_16_WIN_MULTIPLIER 1.5
 #!define EVT_MECH_16_LOSE_RATIO 0.5
@@ -896,14 +893,12 @@ enum PlayerOnceEventStateBraveAct:
 # --- ID 20 (Mech/Special): 赌徒：乐于助人 ---
 #!define EVT_MECH_20_DURATION 15
 #!define EVT_MECH_20_WEIGHT 1.1
-#!define EVT_MECH_20_HOLD_TIME 0.5
 #!define EVT_MECH_20_WIN_RATE 75
 #!define EVT_MECH_20_HEAL_MAXHP_FACTOR 0.85
 
 # --- ID 21 (Mech/Special): 勇敢举动 ---
 #!define EVT_MECH_21_DURATION 15
 #!define EVT_MECH_21_WEIGHT 0.3
-#!define EVT_MECH_21_HOLD_TIME 0.5
 #!define EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE 20
 #!define EVT_MECH_21_HP_BONUS_HEART_STEEL (1000 / EVT_8_HP_PERCENT_PER_STACK)
 #!define EVT_MECH_21_DMG_REDUCTION_PERMA -65

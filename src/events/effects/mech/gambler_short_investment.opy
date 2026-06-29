@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 赌徒：短期投资 (交易)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_SHORT_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_8_WIN_CHANCE:
         eventPlayer.heart_steel += EVT_MECH_8_REWARD_STACKS
         eventPlayer.dlcTimeChallenge[3]++
