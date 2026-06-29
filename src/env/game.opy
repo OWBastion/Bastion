@@ -98,10 +98,10 @@ rule "initialize phase hero arrays":
     @Condition vishkarEventActivated == true
     
     # 技能 1
-    phaseHero[0] = [Hero.DVA, Hero.REINHARDT, Hero.WINSTON, Hero.MAUGA, Hero.HAZARD, Hero.DOOMFIST, Hero.ASHE, Hero.PHARAH, Hero.ECHO, Hero.CASSIDY, Hero.SOLDIER, Hero.REAPER, Hero.SOJOURN, Hero.VENTURE, Hero.GENJI, Hero.TRACER, Hero.MOIRA, Hero.MERCY, Hero.KIRIKO, Hero.ILLARI, Hero.JUNO, Hero.WUYANG, Hero.FREJA, Hero.ANRAN, Hero.JETPACK_CAT, Hero.EMRE, Hero.MIZUKI, Hero.WIDOWMAKER, Hero.SIERRA]
+    phaseHero[0] = [Hero.DVA, Hero.REINHARDT, Hero.WINSTON, Hero.MAUGA, Hero.HAZARD, Hero.DOOMFIST, Hero.ASHE, Hero.PHARAH, Hero.ECHO, Hero.CASSIDY, Hero.SOLDIER, Hero.REAPER, Hero.SOJOURN, Hero.VENTURE, Hero.GENJI, Hero.TRACER, Hero.MOIRA, Hero.MERCY, Hero.KIRIKO, Hero.ILLARI, Hero.JUNO, Hero.WUYANG, Hero.FREJA, Hero.ANRAN, Hero.JETPACK_CAT, Hero.EMRE, Hero.MIZUKI, Hero.WIDOWMAKER, Hero.SIERRA, Hero.VENDETTA]
 
     # 技能 2
-    phaseHero[1] = [Hero.ORISA, Hero.SOMBRA, Hero.TRACER, Hero.FREJA, Hero.REAPER]
+    phaseHero[1] = [Hero.ORISA, Hero.SOMBRA, Hero.TRACER, Hero.FREJA, Hero.REAPER, Hero.VENDETTA]
 
     # 辅助攻击
     phaseHero[2] = [Hero.DOOMFIST, Hero.TRACER, Hero.JETPACK_CAT]
