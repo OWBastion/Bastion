@@ -100,6 +100,13 @@ rule "Reset progress":
     eventPlayer.winnerTime = 0
     eventPlayer.heroNumber = 0
     eventPlayer.skipCount = 0
+    while len(eventPlayer.playerOnceEventState) < PLAYER_ONCE_EVENT_SLOT_COUNT:
+        eventPlayer.playerOnceEventState.append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(eventPlayer.playerOnceEventState)])
+    eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = false
+    if eventPlayer.inSaved(savedIndex) and savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
+        while len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)]) < PLAYER_ONCE_EVENT_SLOT_COUNT:
+            savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)])])
+        savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)][PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = false
     smallMessage(getAllPlayers(), STR_MSG_PLAYER_RESET_PROGRESS.format(eventPlayer))
     wait()
     eventPlayer.startForcingHero(heroList[0])
