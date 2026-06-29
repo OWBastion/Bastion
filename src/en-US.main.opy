@@ -147,6 +147,8 @@ rule STR_LICENSE_PERMIT:
 
 #!include "utilities/event_core/startCombatRegen.opy"
 
+#!include "utilities/event_core/normalizePlayerOnceEventState.opy"
+
 #!include "events/allocation/assignPlayerEvent.opy"
 
 #!include "events/effects/buffEffects.opy"
