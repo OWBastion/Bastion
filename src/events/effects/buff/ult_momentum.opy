@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/我按Q辣"
 
 # Event: BuffEventId.ULT_MOMENTUM
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 我按Q辣":
+rule "Charge while moving":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
@@ -20,7 +21,7 @@ rule "[VishkarEvent]: 我按Q辣":
     eventPlayer.setUltCharge(0)
     lbl_0:
 
-rule "[VishkarEvent]: 我按Q辣":
+rule "Create effect":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.eventEffect == null]) == true
@@ -31,7 +32,7 @@ rule "[VishkarEvent]: 我按Q辣":
     clearEventEffect()
 
 
-rule "[VishkarEvent]: 我按Q辣":
+rule "Sustain ultimate":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM, eventPlayer.isUsingUltimate()]) == true

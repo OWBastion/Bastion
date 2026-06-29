@@ -3,6 +3,7 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "System"
 
 #!define HEALTH_POOL_CLEANUP_MAX_REMOVALS 6
 #!define HEALTH_POOL_WAIT_MIN 0.496
@@ -11,7 +12,7 @@
 #!define HEALTH_POOL_WAIT_LOAD_MAX 115
 
 
-rule "Logic: Health Pool Cleaner":
+rule "Clean expired health pools":
     @Event eachPlayer
     @Team 1
     @Condition len(eventPlayer.hp_data) > 0

@@ -2,9 +2,10 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "DevTool"
 
 
-rule "dev menu in game":
+rule "Toggle menu":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.MELEE) == true
@@ -40,7 +41,7 @@ rule "dev menu in game":
     eventPlayer.allowButton(Button.CROUCH)
 
 
-rule "dev menu disable":
+rule "Cleanup closed menu":
     @Event eachPlayer
     @Condition eventPlayer.menu == 0
     
@@ -58,7 +59,7 @@ rule "dev menu disable":
     eventPlayer.allowButton(Button.CROUCH)
 
 
-rule "page down in menu":
+rule "Advance page":
     @Event eachPlayer
     @Condition eventPlayer.menu != 0
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
@@ -77,7 +78,7 @@ rule "page down in menu":
     # 防止按住连跳（不新增变量）
     waitUntil(eventPlayer.isHoldingButton(Button.CROUCH) == false, 99999)
 
-rule "menu mode settings display":
+rule "Display mode page":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
     
@@ -94,7 +95,7 @@ rule "menu mode settings display":
         hudSubheader(eventPlayer, STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
-rule "menu hero display (player/host)":
+rule "Display hero page":
     @Event eachPlayer
     @Condition (controlRespawnPosition == null or eventPlayer.isWinner) == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
@@ -127,7 +128,7 @@ rule "menu hero display (player/host)":
     )
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
-rule "menu hero next":
+rule "Cycle hero selection":
     @Event eachPlayer
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
@@ -141,7 +142,7 @@ rule "menu hero next":
     )
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false, 99999)
 
-rule "menu hero apply (spawn only)":
+rule "Apply hero selection":
     @Event eachPlayer
     @Condition (controlRespawnPosition == null or eventPlayer.isWinner) == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
@@ -161,7 +162,7 @@ rule "menu hero apply (spawn only)":
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     waitUntil(eventPlayer.isHoldingButton(Button.RELOAD) == false, 99999)
 
-rule "menu dev control display":
+rule "Display admin page":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -175,7 +176,7 @@ rule "menu dev control display":
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
 
-rule "menu dev devlop display":
+rule "Display movement page":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 3
@@ -189,7 +190,7 @@ rule "menu dev devlop display":
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
 
-rule "3rd camera toggle":
+rule "Toggle third person":
     @Event eachPlayer
     #@Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
@@ -199,7 +200,7 @@ rule "3rd camera toggle":
     setThirdPerson()
 
 
-rule "dev debug mode toggle":
+rule "Toggle debug HUD":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
@@ -210,7 +211,7 @@ rule "dev debug mode toggle":
     devPlayer.debugInfo = debugInfo
 
 
-rule "dev set difficulty":
+rule "Increase difficulty":
     @Event eachPlayer
     @Team 1
     @Condition difficulty < 5
@@ -225,7 +226,7 @@ rule "dev set difficulty":
     smallMessage(devPlayer, "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
 
 
-rule "dev set difficulty":
+rule "Decrease difficulty":
     @Event eachPlayer
     @Condition difficulty > 0
     @Condition eventPlayer.menu == 1
@@ -239,7 +240,7 @@ rule "dev set difficulty":
     smallMessage(devPlayer, "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
 
 
-rule "dev add auto reboot time":
+rule "Extend reboot timer":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
     @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
@@ -256,7 +257,7 @@ rule "dev add auto reboot time":
         smallMessage(eventPlayer, "  {0}  已达到最大上限".format(iconString(Icon.WARNING)))
 
 
-rule "dev remove auto reboot time":
+rule "Reduce reboot timer":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
     @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
@@ -271,7 +272,7 @@ rule "dev remove auto reboot time":
             smallMessage(getAllPlayers(), "  {0}  模式调整： 房主已将自动重开时间缩短 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
 
             
-rule "player title menu - next":
+rule "Next title":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
@@ -308,7 +309,7 @@ rule "player title menu - next":
     wait(getAverageServerLoad() / 100 * 0.032)
 
 
-rule "player title menu - previous":
+rule "Previous title":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
@@ -358,7 +359,7 @@ rule "player title menu - previous":
     wait(getAverageServerLoad() / 100 * 0.032)
 
 
-rule "dev reboot":
+rule "Restart match":
     @Event eachPlayer
     @Condition eventPlayer.menu == 2
     @Condition eventPlayer.isDev == true
@@ -371,7 +372,7 @@ rule "dev reboot":
     restartMatch()
 
 
-rule "host set target player":
+rule "Select host target":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.menu == 1
@@ -387,7 +388,7 @@ rule "host set target player":
     smallMessage(devPlayer.concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if targetPlayer == null else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
-rule "host remove target player":
+rule "Kick host target":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.menu == 1
@@ -410,7 +411,7 @@ rule "host remove target player":
     targetPlayer = null
 
 
-rule "dev set target player":
+rule "Select dev target":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -426,7 +427,7 @@ rule "dev set target player":
     smallMessage(devPlayer, "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if targetPlayer == null else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
-rule "dev remove target player":
+rule "Kick dev target":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -448,7 +449,7 @@ rule "dev remove target player":
     targetPlayer = null
 
 
-rule "dev set dmg reduction":
+rule "Toggle damage reduction":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -467,7 +468,7 @@ rule "dev set dmg reduction":
         smallMessage(eventPlayer, "  {0}  开发者模式： 已取消伤害减免".format(iconString(Icon.BOLT)))
 
 
-rule "dev set invincible":
+rule "Toggle invincible":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -486,7 +487,7 @@ rule "dev set invincible":
         smallMessage(eventPlayer, "  {0}  开发者模式： 已取消无敌状态".format(iconString(Icon.BOLT)))
 
 
-rule "dev air walk toggle":
+rule "Toggle air walk":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
@@ -504,7 +505,7 @@ rule "dev air walk toggle":
     smallMessage(eventPlayer, "  {0}  开发者模式： 已关闭浮空".format(iconString(Icon.BOLT)))
 
 
-rule "dev air lock":
+rule "Hold air position":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isAirWalkEnabled == true
@@ -516,7 +517,7 @@ rule "dev air lock":
     eventPlayer.applyImpulse(negToPos(eventPlayer.getVelocity()), 0.001, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
 
-rule "dev portal toggle":
+rule "Toggle noclip":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 3
@@ -532,7 +533,7 @@ rule "dev portal toggle":
     smallMessage(eventPlayer, "  {0}  开发者模式： 已关闭穿墙".format(iconString(Icon.BOLT)))
 
 
-rule "dev R portal":
+rule "Step noclip":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 0
@@ -558,7 +559,7 @@ rule "dev R portal":
     eventPlayer.setGravity(abs(100))
 
 
-rule "dev pick control center Position":
+rule "Cycle control point":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 3
@@ -578,7 +579,7 @@ rule "dev pick control center Position":
         smallMessage(eventPlayer, "  {0}  开发者模式： 已选择目标点坐标：{1}".format(iconString(Icon.BOLT), controlCenterPosition[eventPlayer.controlCenterIndex]))
 
 
-rule "dev to control center Position":
+rule "Teleport to control point":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 3
@@ -588,7 +589,7 @@ rule "dev to control center Position":
     eventPlayer.teleport(nearestWalkablePosition(controlCenterPosition[eventPlayer.controlCenterIndex]))
 
 
-rule "dev to Target Player Position":
+rule "Teleport to target":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -599,7 +600,7 @@ rule "dev to Target Player Position":
     eventPlayer.setFacing(targetPlayer.getFacingDirection(), Relativity.TO_WORLD)
 
 
-rule "Dev to release heros":
+rule "Unlock all heroes":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 2
@@ -621,7 +622,7 @@ rule "Dev to release heros":
 #!define getCurrentEventArray() (buffEvent if devEventCategory == 0 else (debuffEvent if devEventCategory == 1 else mechEvent))
 #!define getCurrentEventIdArray() (buffEventId if devEventCategory == 0 else (debuffEventId if devEventCategory == 1 else mechEventId))
 
-rule "menu dev event weight display":
+rule "Display event weights":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 4
@@ -662,7 +663,7 @@ rule "menu dev event weight display":
     )
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
-rule "dev event category switch (Q)":
+rule "Cycle event category":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 4
@@ -672,7 +673,7 @@ rule "dev event category switch (Q)":
     devEventIndex = 0 # 切换分类重置索引
     wait(0.2)
 
-rule "dev event select next (E)":
+rule "Cycle event selection":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 4
@@ -683,7 +684,7 @@ rule "dev event select next (E)":
         devEventIndex = (devEventIndex + 1) % len(getCurrentEventArray())
     wait(0.1)
 
-rule "dev event weight increase (Shift)":
+rule "Increase event weight":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 4
@@ -712,7 +713,7 @@ rule "dev event weight increase (Shift)":
             
     wait(0.1)
 
-rule "dev event weight decrease (R)":
+rule "Decrease event weight":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.menu == 4
@@ -749,7 +750,7 @@ rule "dev event weight decrease (R)":
     wait(0.1)
 
 
-rule "[debug.opy]: player debug (Top Right)":
+rule "Display debug HUD":
     @Event eachPlayer
     @Condition evalOnce(eventPlayer.debugInfo) == true
     @Condition eventPlayer.isDev == true

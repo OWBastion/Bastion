@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/悄悄地进村"
 
 # Event: MechEventId.STEALTH_CROUCH
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 悄悄地进村":
+rule "Create effect":
     @Event eachPlayer
     @Team 1
     @Condition all([
@@ -22,7 +23,7 @@ rule "[VishkarEvent]: 悄悄地进村":
     clearEventEffect()
 
 
-rule "[VishkarEvent]: 悄悄地进村":
+rule "Apply stealth crouch":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.STEALTH_CROUCH]) == true
@@ -38,7 +39,7 @@ rule "[VishkarEvent]: 悄悄地进村":
     wait(0.25)
 
 
-rule "[VishkarEvent]: 悄悄地进村":
+rule "Drain health":
     @Event eachPlayer
     @Team 1
     @Condition all([

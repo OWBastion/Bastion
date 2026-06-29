@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/引力异常"
 
 # Event: DebuffEventId.GRAVITY_PULL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 引力异常":
+rule "Create effect":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL, eventPlayer.eventEffect == null]) == true
@@ -18,7 +19,7 @@ rule "[VishkarEvent]: 引力异常":
     waitUntil(eventPlayer.eventId != DebuffEventId.GRAVITY_PULL or eventPlayer.eventType != 1, eventPlayer.eventDuration)
 
 
-rule "[VishkarEvent]: 引力异常":
+rule "Pull toward bastion":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL]) == true

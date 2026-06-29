@@ -2,9 +2,10 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Hero/Symmetra"
 
 
-rule "symmetra auto-breaks tp after going through":
+rule "Break teleporter on interact":
     @Event eachPlayer
     @Team 1
     @Hero symmetra
@@ -16,7 +17,7 @@ rule "symmetra auto-breaks tp after going through":
         eventPlayer.forceButtonPress(Button.ABILITY_2)
 
 
-rule "symmetra auto-breaks tp after time limit":
+rule "Break teleporter timeout":
     @Event eachPlayer
     @Team 1
     @Hero symmetra
@@ -26,7 +27,7 @@ rule "symmetra auto-breaks tp after time limit":
     if eventPlayer.isUsingAbility2() and eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0:
         eventPlayer.forceButtonPress(Button.ABILITY_2)
 
-rule "symmetra ability 1 disabled":
+rule "Disable ability 1":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.SYMMETRA

@@ -2,8 +2,9 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Effects"
 
-rule "devs can toggle rainbow effect":
+rule "Toggle dev rainbow":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isDev == true
@@ -16,7 +17,7 @@ rule "devs can toggle rainbow effect":
     smallMessage(eventPlayer, "DEV 特效{0}".format("关闭" if eventPlayer.rainbowOff else "开启"))
 
 
-rule "outline winners in green periodically":
+rule "Refresh winner outlines":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isWinner != false
@@ -29,7 +30,7 @@ rule "outline winners in green periodically":
         loop()
 
 
-rule "outline winners for new players as soon as they join":
+rule "Outline winners for joiners":
     @Event playerJoined
     @Team 1
     @Condition getPlayers(Team.1).any(lambda player: player.isWinner) == true
@@ -38,7 +39,7 @@ rule "outline winners for new players as soon as they join":
     getPlayers(Team.1).filter(lambda player: player.isWinner).startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
 
 
-rule "stop outline for non-winners":
+rule "Clear non-winner outlines":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isWinner == false

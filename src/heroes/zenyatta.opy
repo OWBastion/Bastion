@@ -2,10 +2,11 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Hero/Zenyatta"
 
 playervar zenSnapKick
 
-rule "[Zenyatta] Snap Kick (Self Ground)  - created by 他又 from 77QS1":
+rule "Use snap kick from ground":
     @Event eachPlayer
     @Team 1
     @Hero zenyatta
@@ -19,7 +20,7 @@ rule "[Zenyatta] Snap Kick (Self Ground)  - created by 他又 from 77QS1":
         eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
 
-rule "[Zenyatta] Snap Kick (Self Wall)  - created by 他又 from 77QS1":
+rule "Use snap kick from wall":
     @Event eachPlayer
     @Hero zenyatta
     @Condition eventPlayer.isMeleeing() == Button.MELEE
@@ -33,7 +34,7 @@ rule "[Zenyatta] Snap Kick (Self Wall)  - created by 他又 from 77QS1":
             eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
 
-rule "zenyatta's melee knocks him back":
+rule "Use legacy snap kick":
     @Event eachPlayer
     @Team 1
     @Hero zenyatta
@@ -47,7 +48,7 @@ rule "zenyatta's melee knocks him back":
         eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
         eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
-rule "zenyatta's melee knocks him back":
+rule "Clear snap kick trigger":
     @Event eachPlayer
     @Team 1
     @Hero zenyatta
@@ -58,7 +59,7 @@ rule "zenyatta's melee knocks him back":
     eventPlayer.zenSnapKick = false
     eventPlayer.phase_trigger = false
 
-rule "zenyatta's jump can levitate if held":
+rule "Hold levitation":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.ZENYATTA
@@ -75,7 +76,7 @@ rule "zenyatta's jump can levitate if held":
     #ability is only available again once you touch the ground
     waitUntil(eventPlayer.isOnGround(), 10)
 
-rule "create zen instructions":
+rule "Display kick HUD":
     @Condition isHeroBeingPlayed(Hero.ZENYATTA, Team.1) == true
     @Disabled
     

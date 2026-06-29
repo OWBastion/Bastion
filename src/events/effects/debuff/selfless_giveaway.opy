@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/舍己为人"
 
 # Event: DebuffEventId.SELFLESS_GIVEAWAY
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 舍己为人":
+rule "Resolve giveaway":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
@@ -23,7 +24,7 @@ rule "[VishkarEvent]: 舍己为人":
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 100)
     wait(eventPlayer.eventDuration)
 
-rule "[VishkarEvent]: 舍己为人":
+rule "Rebuild max health":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true

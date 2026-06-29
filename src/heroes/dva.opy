@@ -2,9 +2,10 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Hero/D.Va"
 
 
-rule "when d.va demechs, set starting point (for goal) and enable remech":
+rule "Enable remech":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.DVA
@@ -19,7 +20,7 @@ rule "when d.va demechs, set starting point (for goal) and enable remech":
     eventPlayer.setUltEnabled(true)
 
 
-rule "while d.va is out of mech and alive, update ult charge to reflect goal distance":
+rule "Sync remech charge":
     @Event eachPlayer
     @Team 1
     @Hero dva
@@ -34,7 +35,7 @@ rule "while d.va is out of mech and alive, update ult charge to reflect goal dis
         loop()
 
 
-rule "once baby d.va is far enough from where she lost mech, she can remech":
+rule "Complete remech goal":
     @Event eachPlayer
     @Team 1
     @Hero dva
@@ -47,7 +48,7 @@ rule "once baby d.va is far enough from where she lost mech, she can remech":
         return
     eventPlayer.setUltCharge(100)
 
-rule "create baby d.va goal header":
+rule "Display goal HUD":
     @Condition isHeroBeingPlayed(Hero.DVA, Team.1) == true
     
     wait(2, Wait.ABORT_WHEN_FALSE)

@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/费斯卡光子护盾"
 
 # Event: BuffEventId.PHOTON_SHIELD
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 费斯卡光子护盾":
+rule "Bind shield source":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
@@ -18,7 +19,7 @@ rule "[VishkarEvent]: 费斯卡光子护盾":
     eventPlayer.eventDuration = 0
     getPlayers(Team.1).target = null
 
-rule "[VishkarEvent]: 费斯卡光子护盾":
+rule "Grant shields":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true

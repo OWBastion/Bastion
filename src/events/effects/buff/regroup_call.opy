@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/向我靠拢"
 
 # Event: BuffEventId.REGROUP_CALL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 向我靠拢":
+rule "Mark protected allies":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.REGROUP_CALL]) == true
@@ -19,7 +20,7 @@ rule "[VishkarEvent]: 向我靠拢":
     if ruleCondition:
         loop()
 
-rule "[VishkarEvent]: 向我靠拢":
+rule "Apply invincibility":
     @Event eachPlayer
     @Team 1
     @Condition (all([eventPlayer.hasSpawned(), not eventPlayer.hasStatus(Status.INVINCIBLE), len(eventPlayer.invincible) >= 3])) == true

@@ -2,8 +2,9 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Title"
 
-rule "initialize player title":
+rule "Create in-world title":
     @Event eachPlayer
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
@@ -28,7 +29,7 @@ rule "initialize player title":
     eventPlayer.titleTextID = getLastCreatedText()
 
 
-rule "update title color - dev rainbow":
+rule "Cycle dev rainbow":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.playerTitleAndColor != null
@@ -44,7 +45,7 @@ rule "update title color - dev rainbow":
     eventPlayer.info_pvar = 0
 
 
-rule "update title color":
+rule "Cycle palette":
     @Event eachPlayer
     @Condition eventPlayer.playerTitleAndColor != null
     @Condition allTitle[eventPlayer.playerTitleAndColor][1] != null
@@ -69,4 +70,3 @@ rule "update title color":
     stopChasingVariable(eventPlayer.rgb_vect)
     eventPlayer.info_pvar = 0
     eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1][0]
-

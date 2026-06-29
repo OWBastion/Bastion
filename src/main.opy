@@ -82,6 +82,7 @@ settings {
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefixTemplate f"[{$prefix}] {$rule}" if $prefix and $rule and not $isDelimiter else $rule
 
 rule STR_LICENSE_TITLE:
     @Disabled
@@ -166,7 +167,9 @@ rule STR_LICENSE_PERMIT:
 
 #!include "bastion/init.opy"
 
-rule "players pick up speed while not targeted for 3 seconds":
+#!rulePrefix "Core"
+
+rule "Grant stealth sprint":
     @Event eachPlayer
     @Team 1
     @Condition dlcVishkarEvent == false
@@ -179,7 +182,7 @@ rule "players pick up speed while not targeted for 3 seconds":
     eventPlayer.setMoveSpeed(100)
 
 
-rule "when players reaches the end and not respawn at first respawn point, they move to the first respawn point.":
+rule "Reset to control respawn":
     @Event eachPlayer
     @Team 1
     @Condition controlRespawnPosition != null
@@ -194,7 +197,7 @@ rule "when players reaches the end and not respawn at first respawn point, they 
     wait(0.032)
 
 
-rule "when a player reaches the control jump point, they move on to the next map":
+rule "Advance control jump":
     @Event eachPlayer
     @Team 1
     @Condition controlRespawnPosition != null
@@ -223,7 +226,7 @@ rule "when a player reaches the control jump point, they move on to the next map
     lbl_0:
     loop()
 
-rule "when a player reaches the end, they move on to the next hero or win if they're bastion":
+rule "Resolve finish":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.hasSpawned() == true
@@ -274,7 +277,7 @@ rule "when a player reaches the end, they move on to the next hero or win if the
         savePlayerData()
 
 
-rule "winners passively earn ult over time":
+rule "Charge winner ult":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isWinner != false
@@ -285,6 +288,8 @@ rule "winners passively earn ult over time":
     eventPlayer.setUltCharge(min(100, eventPlayer.getUltCharge() + 25))
     if ruleCondition:
         loop()
+
+#!rulePrefix ""
 
 #!include "effects/init.opy"
 #!include "effects/nano.opy"

@@ -2,9 +2,10 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Player"
 
 
-rule "increment death counter (progressionDeathCount) on death":
+rule "Track progression death":
     @Event playerDied
     @Team 1
     @Condition all([eventPlayer.getHero() == heroList[eventPlayer.heroNumber], eventPlayer.progressionDeathCount < maxDeath, eventPlayer.heroNumber + 1 < len(heroList), attacker != null, attacker != eventPlayer]) == true
@@ -12,7 +13,7 @@ rule "increment death counter (progressionDeathCount) on death":
     eventPlayer.progressionDeathCount++
 
 
-rule "display death progress as ult charge":
+rule "Sync ult progress":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
@@ -29,7 +30,7 @@ rule "display death progress as ult charge":
         loop()
 
 
-rule "display message if hero available":
+rule "Display skip ready":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
@@ -54,7 +55,7 @@ rule "display message if hero available":
             return
 
 
-rule "players can use ultimate to progress to the next hero after dying a number of times (maxDeath)":
+rule "Skip hero with ultimate":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
@@ -72,7 +73,7 @@ rule "players can use ultimate to progress to the next hero after dying a number
 
 
 
-rule "display instructions when a player enters the reset ring":
+rule "Display reset hint":
     @Event eachPlayer
     @Team 1
     @Condition (eventPlayer.heroNumber > 0 or eventPlayer.runDeathCount > 0) == true
@@ -82,7 +83,7 @@ rule "display instructions when a player enters the reset ring":
     bigMessage(eventPlayer, STR_MSG_HOLD_RELOAD_RESET)
 
 
-rule "holding reload while in the reset ring resets your progress":
+rule "Reset progress":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true

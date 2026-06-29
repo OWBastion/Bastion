@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/极限挑战"
 
 # Event: MechEventId.EXTREME_CHALLENGE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 极限挑战":
+rule "Apply challenge":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
@@ -29,7 +30,7 @@ rule "[VishkarEvent]: 极限挑战":
     updatePlayerStats()
     eventPlayer.eventDuration = 0
 
-rule "[VishkarEvent]: 极限挑战":
+rule "Clamp health":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true

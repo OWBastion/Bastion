@@ -2,8 +2,9 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Hero/Lifeweaver"
 
-rule "Lifeweaver disable Life Grip if no winners":
+rule "Disable Life Grip":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
@@ -16,7 +17,7 @@ rule "Lifeweaver disable Life Grip if no winners":
     eventPlayer.setAbility2Enabled(true)
 
 
-rule "Lifeweaver auto-breaks Petal Platform after time limit":
+rule "Break Petal Platform":
     @Event eachPlayer
     @Team 1
     @Hero lifeweaver

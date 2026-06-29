@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Event/任务：菲迪皮德斯之力"
 
 # Event: BuffEventId.PHEIDIPPIDES_TRIAL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 任务：菲迪皮德斯之力":
+rule "Track distance":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHEIDIPPIDES_TRIAL, eventPlayer.getSpeed() != 0, eventPlayer.eventMission <= EVT_15_DISTANCE_GOAL]) == true
@@ -17,7 +18,7 @@ rule "[VishkarEvent]: 任务：菲迪皮德斯之力":
     if ruleCondition:
         loop()
 
-rule "[VishkarEvent]: 任务：菲迪皮德斯之力":
+rule "Resolve mission":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHEIDIPPIDES_TRIAL]) == true

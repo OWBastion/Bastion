@@ -2,8 +2,9 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Hero/Ana"
 
-rule "ana can only sleep each bastion once per limited amount of time":
+rule "Track sleep lockout":
     @Event playerDealtDamage
     @Team 1
     @Hero ana
@@ -22,7 +23,7 @@ rule "ana can only sleep each bastion once per limited amount of time":
             wait(0.1)
 
 
-rule "ana's sleep limit refreshes when she spawns":
+rule "Reset sleep lockout":
     @Event eachPlayer
     @Team 1
     @Hero ana
@@ -31,7 +32,7 @@ rule "ana's sleep limit refreshes when she spawns":
     wait(getAverageServerLoad() / 100)
     eventPlayer.anaSleepLimit = [-30 for player in bastionPosition]
 
-rule "create ana sleep timer and instructions":
+rule "Display sleep HUD":
     @Condition isHeroBeingPlayed(Hero.ANA, Team.1) == true
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ANA and localPlayer.isInSpawnRoom() else null, STR_ANA_SLEEP_LIMIT_HINT.format(abilityIconString(Hero.ANA, Button.ABILITY_1), 30), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)

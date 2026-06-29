@@ -2,11 +2,12 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "System"
 
 playervar combatRegen 75
 playervar passiveRegenBlocked
 
-rule "SYSTEM: Core Regen Logic (Signal Based)":
+rule "Run passive regen":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.passiveRegenBlocked != true
@@ -40,7 +41,7 @@ rule "SYSTEM: Core Regen Logic (Signal Based)":
         eventPlayer.healID = 0
 
 
-rule "Trigger: Normal Damage":
+rule "Arm passive regen":
     @Event playerTookDamage
     @Team 1
     # @Condition attacker.getHero() == Hero.BASTION and attacker != eventPlayer

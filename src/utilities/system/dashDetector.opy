@@ -2,8 +2,9 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "System"
 
-rule "Phase: Dash Detector - 状态变更 (开启)":
+rule "Enable phase trigger":
     @Event eachPlayer
     @Team 1
     @Condition vishkarEventActivated == true
@@ -30,7 +31,7 @@ rule "Phase: Dash Detector - 状态变更 (开启)":
     wait(0.096)
 
 
-rule "Phase: Dash Detector - 状态变更 (关闭)":
+rule "Disable phase trigger":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.phase_trigger == true

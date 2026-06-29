@@ -3,9 +3,10 @@
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
+#!rulePrefix "Bastion"
 
 
-rule "bastion init position, unkillable status, and damage dealt scaling with difficulty setting":
+rule "Init spawn state":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -20,7 +21,7 @@ rule "bastion init position, unkillable status, and damage dealt scaling with di
         eventPlayer.setKnockbackReceived(1)
 
 
-rule "infinite match time":
+rule "Freeze match time":
     @Condition isInSetup() == false
     
     if not debugMode:
@@ -34,7 +35,7 @@ rule "infinite match time":
     setSlowMotion(90)
 
 
-rule "if someone starts the game mode, restart the match":
+rule "Restart active match":
     @Condition getCurrentGamemode() != Gamemode.SKIRMISH
     @Condition (isInSetup() or isAssemblingHeroes() or isGameInProgress()) == true
     
@@ -76,21 +77,21 @@ rule "if someone starts the game mode, restart the match":
     waitUntil(getTotalTimeElapsed() > 30, 30)
     restartMatch()
 
-rule "bastions are numbered and list their kills (by changing their names when they spawn)":
+rule "Label bot names":
     @Event playerJoined
     @Team 2
     
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
 
 
-rule "damage modifier: players can't hurt bastions":
+rule "Apply player damage reduction":
     @Condition difficulty != 5
     @Condition dmgReduction == false
     
     startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not "{0}".format(player) in devList], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
 
 
-rule "disable gamemode hud and player collision for all players":
+rule "Disable player HUD":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.hasSpawned() == true
@@ -116,7 +117,7 @@ rule "disable gamemode hud and player collision for all players":
 macro isThreat(target):
     (target != null) or (getTotalTimeElapsed() - eventPlayer.lastThreatTime <= THREAT_HOLD_SEC)
 
-rule "enemy bastions must stay in configuration: assault (AKA machine gun/sentry/alternate form)":
+rule "Maintain assault form":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -140,7 +141,7 @@ rule "enemy bastions must stay in configuration: assault (AKA machine gun/sentry
         loop()
 
 
-rule "bastions periodically refresh their configuration when there are enemies nearby but out of sight":
+rule "Refresh assault form":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -167,7 +168,7 @@ macro isBastionTargetEligible(target):
 macro hasBastionTargetLoS(target):
     isInLoS(eventPlayer.getEyePosition(), target.getEyePosition()) or isInLoS(eventPlayer.getEyePosition(), target.getPosition())
 
-rule "bastion constantly searches for targets in line of sight":
+rule "Acquire target":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -216,7 +217,7 @@ rule "bastion constantly searches for targets in line of sight":
     eventPlayer.target = null
 
 
-rule "bastion fires if he has a target":
+rule "Force primary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -232,7 +233,7 @@ rule "bastion fires if he has a target":
         loop()
 
 
-rule "bastion stops firing when there aren't targets":
+rule "Stop primary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -246,7 +247,7 @@ rule "bastion stops firing when there aren't targets":
         loop()
 
 
-rule "bastion secondary fires if he has a target":
+rule "Pulse secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -265,7 +266,7 @@ rule "bastion secondary fires if he has a target":
         loop()
 
 
-rule "bastion secondary fires if he has nano":
+rule "Sustain nano secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -286,7 +287,7 @@ rule "bastion secondary fires if he has nano":
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
 
 
-rule "bastion aims at whichever part of his target is most exposed":
+rule "Update aim point":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -306,7 +307,7 @@ rule "bastion aims at whichever part of his target is most exposed":
         loop()
 
 
-rule "bastion places his crosshair near the closest potential target if he doesn't currently have one":
+rule "Pre-aim nearest target":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -326,7 +327,7 @@ rule "bastion places his crosshair near the closest potential target if he doesn
         loop()
 
 
-rule "determine bastion's aim speed, to improve smooth tracking":
+rule "Update turn speed":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -341,7 +342,7 @@ rule "determine bastion's aim speed, to improve smooth tracking":
         loop()
 
 
-rule "increase bastion's aim speed to prep for flicking to a target entering range":
+rule "Boost turn speed":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -357,7 +358,7 @@ rule "increase bastion's aim speed to prep for flicking to a target entering ran
         loop()
 
 
-rule "start facing bastion bots":
+rule "Start facing aim point":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -369,7 +370,7 @@ rule "start facing bastion bots":
     eventPlayer.startFacing(directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition), 0 if eventPlayer.hasStatus(Status.ASLEEP) else eventPlayer.turnSpeed)
 
 
-rule "set bastion's target to null once he kills them":
+rule "Clear kill target":
     @Event playerDealtFinalBlow
     @Team 2
     
@@ -377,7 +378,7 @@ rule "set bastion's target to null once he kills them":
     eventPlayer.nearestTargetOutOfLoS = null
 
 
-rule "bastion punches the ground a few times at first to destroy railings":
+rule "Break early railings":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -390,7 +391,7 @@ rule "bastion punches the ground a few times at first to destroy railings":
         wait(1.2)
 
 
-rule "bastion fully heals periodically":
+rule "Regenerate health":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -403,7 +404,7 @@ rule "bastion fully heals periodically":
         loop()
 
 
-rule "bastion immediately respawns upon death":
+rule "Respawn instantly":
     @Event playerDied
     @Team 2
     @Hero bastion
@@ -412,7 +413,7 @@ rule "bastion immediately respawns upon death":
     eventPlayer.respawn()
 
 
-rule "teleport bastions back and reset velocity when they are displaced":
+rule "Reset displaced bot":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -432,7 +433,7 @@ rule "teleport bastions back and reset velocity when they are displaced":
         loop()
 
 
-rule "bastions stay where they initially land":
+rule "Lock landing position":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -448,7 +449,7 @@ rule "bastions stay where they initially land":
     eventPlayer.isInPosition = true
 
 
-rule "bastions whose position is far above the ground instead stay at that position":
+rule "Lock elevated position":
     @Event eachPlayer
     @Team 2
     @Hero bastion
@@ -462,7 +463,7 @@ rule "bastions whose position is far above the ground instead stay at that posit
     eventPlayer.startForcingPosition(bastionPosition[eventPlayer.getSlot()], false)
 
 
-rule "bastion A-36 Tactical Grenade hit player":
+rule "Handle grenade impact":
     @Event playerTookDamage
     @Team 1
     @Condition any([difficulty == 5, bastionBotSeconFire, dlcVishkarEvent]) == true
@@ -478,7 +479,7 @@ rule "bastion A-36 Tactical Grenade hit player":
     wait()
 
 
-rule "push players away from bastions":
+rule "Repel nearby players":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.debugInfo != true
@@ -487,7 +488,7 @@ rule "push players away from bastions":
     eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
-rule "bastion counts kills and marks himself after killing you":
+rule "Track kills and attacker":
     @Event playerDealtFinalBlow
     @Team 2
     
