@@ -10,7 +10,7 @@
 rule "Bind shield source":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
     
     wait()
     getPlayers(Team.1).target = eventPlayer

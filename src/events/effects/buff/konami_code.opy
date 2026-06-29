@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: ↑↑↓↓←→←→BABA":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.KONAMI_CODE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.KONAMI_CODE]) == true
     @Condition eventPlayer.isWinner != true
 
     eventPlayer.controlPlayerRespawnPosition = [eventPlayer.getPosition(), eventPlayer.getFacingDirection(), eventPlayer.getHero()]

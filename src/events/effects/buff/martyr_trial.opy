@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 任务：殉道者 (初始化)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
     
     eventPlayer.eventMissionGoal = max(
         EVT_21_GOAL_MIN,
@@ -32,7 +32,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
 rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL]) == true
     @Condition attacker.getTeam() == Team.2
     @Condition (not attacker in eventPlayer.eventMission) == true
     
@@ -52,7 +52,7 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
 rule "[VishkarEvent]: 任务：殉道者 (通关结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventDuration != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventDuration != 0]) == true
 
     bigMessage(eventPlayer, "任务：殉道者 完成！")
     smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))

@@ -9,18 +9,18 @@
 rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission == null]) == true
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
     # clearPlayerEvent() 会在事件结束后统一把 eventMission 清零，本规则不重复清理。
-    if eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] != true:
-        eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] = true
+    if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != true:
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = true
     eventPlayer.eventMission = eventPlayer.heroNumber
 
 rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission != null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission != null]) == true
 
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
     # eventMission 基准仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。

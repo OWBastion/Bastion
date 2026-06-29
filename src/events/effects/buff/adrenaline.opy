@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 肾上腺素":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.ADRENALINE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.ADRENALINE]) == true
     
     createEffect(getAllPlayers(), Effect.ANA_NANO_BOOSTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()

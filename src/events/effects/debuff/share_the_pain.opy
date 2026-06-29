@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 有难同当 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 有难同当 Effect":
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 1, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     @Condition attacker.getHero() == Hero.BASTION
     @Condition eventAbility != null
     

@@ -35,7 +35,7 @@ rule "initialize effects":
         # 1. 阵亡/跳过
         STR_HUD_STATS_DEATH_SKIP.format(localPlayer.runDeathCount, localPlayer.skipCount),
 
-        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[0], localPlayer.eventCount[1], localPlayer.eventCount[0] + localPlayer.eventCount[1] + localPlayer.eventCount[2]) if dlcVishkarEvent else "",
+        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]) if dlcVishkarEvent else "",
         
         # 2. 玩家属性
         STR_HUD_ATTR_PANEL.format(
@@ -138,7 +138,7 @@ rule "initialize effects":
         # 个人事件详情 (改用 hudText)
         hudText(
             null if localPlayer.eventId == -1 else localPlayer, 
-            "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == 1 else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
+            "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
             STR_HUD_EVENT_DETAIL.format(
                 localPlayer.eventName, 
                 STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 

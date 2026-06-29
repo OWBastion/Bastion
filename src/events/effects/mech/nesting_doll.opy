@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 俄罗斯套娃 (变小复活)":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.NESTING_DOLL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.NESTING_DOLL]) == true
     
     eventPlayer.disableRespawn()
     wait(EVT_MECH_11_RESURRECT_DELAY)

@@ -10,7 +10,7 @@
 rule "Force forward throttle":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     eventPlayer.startThrottleInDirection(Vector.FORWARD, 1, Relativity.TO_PLAYER, Throttle.REPLACE_EXISTING, ThrottleReeval.NONE)
     wait(eventPlayer.eventDuration)
@@ -20,7 +20,7 @@ rule "Force forward throttle":
 rule "Stack speed":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
     
     while eventPlayer.mod_speed_event < EVT_MECH_4_MAX_SPEED:
         eventPlayer.mod_speed_event += 5

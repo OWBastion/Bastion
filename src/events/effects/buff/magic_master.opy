@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 魔术大师":
     @Team 1
     @Condition all([
         eventPlayer.hasSpawned(),
-        eventPlayer.eventType == 0,
+        eventPlayer.eventType == EventType.BUFF,
         eventPlayer.eventId == BuffEventId.MAGIC_MASTER,
         eventPlayer.isCommunicatingEmote() == true
     ]) == true

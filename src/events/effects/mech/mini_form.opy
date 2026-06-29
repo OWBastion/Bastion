@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 迷你形态":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.MINI_FORM]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.MINI_FORM]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.sizeHealth = EVT_MECH_2_HP_SCALE

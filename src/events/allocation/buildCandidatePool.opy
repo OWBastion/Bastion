@@ -8,22 +8,22 @@ subroutine buildCandidatePool
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
-    if eventPlayer.eventType == 0:
+    if eventPlayer.eventType == EventType.BUFF:
         eventPlayer.eventTempId = buffEventId.filter(lambda id:
             buffEvent[id] != 0 and buffEvent[id].last() > 0 and
-            id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] == true else -1) and
-            (eventPlayer.eventLastId == null or (0 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+            id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == true else -1) and
+            (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = buffEventId.filter(lambda id:
                 buffEvent[id] != 0 and buffEvent[id].last() > 0 and
-                id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_TEMPER_HEART] == true else -1)
+                id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == true else -1)
             )
-    elif eventPlayer.eventType == 1:
+    elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventTempId = debuffEventId.filter(lambda id:
             debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and
             (eventPlayer.eventForceRoll != EVT_MECH_8_FORCE_ROLL or id != DebuffEventId.SELFLESS_GIVEAWAY) and
-            (eventPlayer.eventLastId == null or (1 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+            (eventPlayer.eventLastId == null or (EventType.DEBUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = debuffEventId.filter(lambda id:
@@ -37,11 +37,11 @@ def buildCandidatePool():
     else:
         eventPlayer.eventTempId = mechEventId.filter(lambda id:
             mechEvent[id] != 0 and mechEvent[id].last() > 0 and
-            id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_NEW) else -1) and
-            (eventPlayer.eventLastId == null or (2 * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+            id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.NEW) else -1) and
+            (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = mechEventId.filter(lambda id:
                 mechEvent[id] != 0 and mechEvent[id].last() > 0 and
-                id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PLAYER_ONCE_EVENT_SLOT_BRAVE_ACT_STATE] != PLAYER_ONCE_EVENT_STATE_BRAVE_ACT_NEW) else -1)
+                id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.NEW) else -1)
             )

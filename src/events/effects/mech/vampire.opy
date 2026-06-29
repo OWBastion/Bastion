@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 吸血鬼":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.VAMPIRE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VAMPIRE]) == true
     @Condition getLivingPlayers(Team.1)[1] != null
 
     eventPlayer.passiveRegenBlocked = true
@@ -31,10 +31,10 @@ rule "[VishkarEvent]: 吸血鬼":
 rule "[VishkarEvent]: 吸血鬼击杀增益":
     @Event playerDied
     @Team 1
-    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventType == 2, attacker.eventId == MechEventId.VAMPIRE]) == true
+    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventType == EventType.MECH, attacker.eventId == MechEventId.VAMPIRE]) == true
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)
     attacker.dlcTimeChallenge[13]++
-    if eventPlayer.eventType == 1 and eventPlayer.eventId == DebuffEventId.SACRIFICE:
+    if eventPlayer.eventType == EventType.DEBUFF and eventPlayer.eventId == DebuffEventId.SACRIFICE:
         attacker.dlcTimeChallenge[14]++

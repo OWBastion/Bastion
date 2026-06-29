@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 窃贼":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 2, eventPlayer.eventId == MechEventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = len(getPlayers(Team.1).exclude(eventPlayer))

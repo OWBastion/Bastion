@@ -9,17 +9,17 @@
 
 rule "Create effect":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.eventEffect == null]) == true
     
     createEffect(getAllPlayers() if (eventPlayer.isMoving() and eventPlayer.getSpeed() != 0) else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != BuffEventId.SPEED_STACK or eventPlayer.eventType != 0, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != BuffEventId.SPEED_STACK or eventPlayer.eventType != EventType.BUFF, eventPlayer.eventDuration)
     clearEventEffect()
 
 
 rule "Stack movement speed":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == 0, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.mod_speed_event += EVT_6_SPEED_INC_PER_SEC
