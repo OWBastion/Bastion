@@ -713,15 +713,15 @@ enum PlayerOnceEventStateBraveAct:
 # 触发赌博的心之钢惩罚
 #!define EVT_MECH_6_HP_PENALTY 8
 
-# 普通胜利概率阈值 (0-49) => 50%
+# 连续区间阈值：0 <= roll <= 49 => 49%
 #!define EVT_MECH_6_PROB_WIN_NORMAL 49
 
-# 普通失败概率阈值 (50-98) => 49%
+# 连续区间阈值：49 < roll <= 98 => 49%
 #!define EVT_MECH_6_PROB_LOSE_NORMAL 98
 
-# 稀有胜利概率阈值 (99) => 1%
+# 连续区间阈值：98 < roll <= 99 => 1%
 #!define EVT_MECH_6_PROB_WIN_RARE 99
-# (剩余 100 就是稀有失败)
+# (剩余 99 < roll <= 100 就是稀有失败，约 1%)
 
 # 普通奖励/惩罚数值 (移速 %)
 #!define EVT_MECH_6_VAL_NORMAL 5
@@ -788,7 +788,7 @@ enum PlayerOnceEventStateBraveAct:
 # Weight（权重）
 #!define EVT_MECH_12_WEIGHT 0.6
 
-# 胜率阈值：random.randint(0,99) < 阈值 则胜
+# 胜率阈值：random.randint(0, 99) < 阈值 则胜
 #!define EVT_MECH_12_WIN_CHANCE 33
 
 # 胜利奖励：心之钢层数

@@ -12,7 +12,7 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_LONG_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    if random.randint(0, 100) < EVT_MECH_12_WIN_CHANCE:
+    if random.randint(0, 99) < EVT_MECH_12_WIN_CHANCE:
         eventPlayer.heart_steel += EVT_MECH_12_REWARD_STACKS
         eventPlayer.dlcTimeChallenge[3]++
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}% 最大生命值）".format(iconString(Icon.CLUB), EVT_MECH_12_REWARD_STACKS, EVT_MECH_12_REWARD_STACKS * EVT_8_HP_PERCENT_PER_STACK))

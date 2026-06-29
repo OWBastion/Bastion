@@ -69,9 +69,9 @@
 
 在 `setPlayerEvent` 中：
 
-- `0~45`：Buff
-- `46~80`：Debuff
-- `81~100`：Mech
+- `0 <= roll < 42.5`：Buff
+- `42.5 <= roll < 80`：Debuff
+- `80 <= roll <= 100`：Mech
 
 `rejectSampling` 通过 `random.uniform(0, eventWeight) < 当前事件权重` 决策是否命中，高权重更易命中。
 

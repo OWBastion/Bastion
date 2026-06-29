@@ -11,8 +11,8 @@ def setPlayerEvent():
     if eventPlayer.eventForceRoll != null:
         eventPlayer.temp = eventPlayer.eventForceRoll
     else:
-        eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.randint(0, 100)
-    if eventPlayer.temp <= 42.5:
+        eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.uniform(0, 100)
+    if eventPlayer.temp < 42.5:
         eventPlayer.eventType = EventType.BUFF
         buildCandidatePool()
         wait(getAverageServerLoad() / 100 * 0.032)
@@ -25,7 +25,7 @@ def setPlayerEvent():
         eventPlayer.eventCount[EventType.BUFF]++
         lbl_0:
         eventPlayer.eventLucky = eventPlayer.eventLucky + 1 if eventPlayer.eventLucky > 0 else 1
-    elif eventPlayer.temp <= 80:
+    elif eventPlayer.temp < 80:
         eventPlayer.eventType = EventType.DEBUFF
         buildCandidatePool()
         wait(getAverageServerLoad() / 100 * 0.032)
