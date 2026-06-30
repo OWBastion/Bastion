@@ -74,6 +74,8 @@ on:
           - '闭上眼相拥'
           - 'Boo'
           - '训犬大师'
+          - 'Killy'
+          - '野良'
           # END AUTO-GENERATED PLAYER OPTIONS
       general_title_label:
         description: 'General title label in Chinese (中文称号)'
