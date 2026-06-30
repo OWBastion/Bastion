@@ -30,21 +30,15 @@ const EVENT_TYPE_LABELS = {
   mech: '机制'
 } as const;
 
-const FALLBACK_STAGE_LABELS = {
-  strict: '严格候选池',
-  'dedup-fallback': '去重回退',
-  'force-roll-fallback': '强制抽取回退'
-} as const;
-
 const REASON_LABELS: Record<string, string> = {
   'disabled-by-scenario': '场景手动禁用',
   'inactive-source': '事件源未启用',
   'nonpositive-weight': '权重非正值',
-  'temper-heart-used': 'TEMPER_HEART 已消费',
-  'brave-act-hero-gated': 'BRAVE_ACT 被英雄顺序限制',
-  'brave-act-once-state-gated': 'BRAVE_ACT 被一次性状态限制',
+  'temper-heart-used': '心之钢已在本局生效过',
+  'brave-act-hero-gated': '勇敢举动会被当前英雄顺序限制',
+  'brave-act-once-state-gated': '勇敢举动已被一次性状态限制',
   'recent-dedup': '命中最近事件去重窗口',
-  'force-roll-selfless-gated': 'SELFLESS_GIVEAWAY 被 force-roll 特判排除'
+  'force-roll-selfless-gated': '舍己为人在当前强制抽取条件下被排除'
 };
 
 const BRAVE_ACT_STATE = {
@@ -56,23 +50,23 @@ const BRAVE_ACT_STATE = {
 const SCENARIO_METADATA: Record<string, { id: string; label: string; description: string }> = {
   'prod-default.json': {
     id: 'prod-default',
-    label: '默认生产候选池',
-    description: '使用默认生产事件池和一个固定 Buff 类别 roll，观察基础分布与低权重 uplift。'
+    label: '默认生产分配',
+    description: '使用默认事件池，观察基础分布，以及哪些低权重事件会被额外抬高。'
   },
   'recent-dedup-window.json': {
     id: 'recent-dedup-window',
     label: '最近事件去重窗口',
-    description: '模拟最近 10 次 Buff 已填满的情况，确认 strict 候选池如何压缩。'
+    description: '模拟最近抽过的同类事件很多时，这一轮真正可抽到的范围会缩到什么程度。'
   },
   'temper-heart-used.json': {
     id: 'temper-heart-used',
-    label: 'Temper Heart 已消费',
-    description: '验证 once-state 会在候选池层直接排除 TEMPER_HEART。'
+    label: '心之钢已生效',
+    description: '验证一次性事件在本局已经触发后，会不会直接退出抽取范围。'
   },
   'brave-act-locked.json': {
     id: 'brave-act-locked',
-    label: 'Brave Act 锁定',
-    description: '验证 BRAVE_ACT 会因英雄顺序限制被过滤，并观察 categoryRoll 跨轮延续。'
+    label: '勇敢举动受限',
+    description: '验证英雄顺序限制如何排除特定机制事件，并观察类别倾向是否会延续到下一轮。'
   }
 };
 
@@ -97,6 +91,17 @@ type EventItem = {
   id: number;
   weight: number;
   availability: string;
+};
+
+type SourcePack = {
+  id: number;
+  key: string;
+  labelZh: string;
+};
+
+type SourceEvent = EventItem & {
+  pack: number;
+  nameZh: string;
 };
 
 type ScenarioInput = {
@@ -152,6 +157,19 @@ export type ProbabilityRow = {
   fallbackProbability: number;
 };
 
+export type EventAllocationDisplayRow = ProbabilityRow & {
+  eventNameZh: string;
+  eventTypeLabelZh: string;
+  packLabelZh: string;
+  currentChancePercent: string;
+  expectedChancePercent: string;
+  extraChancePercent: string;
+  safetyLiftPercent: string;
+  summaryText: string;
+  fallbackSummaryText: string;
+  nameWithKeyFallback: string;
+};
+
 type StaticTypeReport = {
   type: EventType;
   eventWeight: number;
@@ -203,7 +221,8 @@ export type EventAllocationAlert = {
   id: string;
   severity: 'info' | 'warn';
   title: string;
-  detail: string;
+  summary: string;
+  evidence: string;
 };
 
 export type EventAllocationScenarioView = {
@@ -214,22 +233,38 @@ export type EventAllocationScenarioView = {
   selectedType: EventType;
   selectedTypeLabel: string;
   iterations: number;
-  seed: number;
-  playerState: Required<NonNullable<ScenarioInput['playerState']>>;
+  selectedTypeSummary: string;
+  candidatePoolSummary: string;
+  transitionSummary: string;
+  filteredSummary: string;
   categoryTransitions: Array<CategoryTransition & { typeLabel: string; sourceLabel: string }>;
   candidatePool: {
     type: EventType;
     typeLabel: string;
-    fallbackStage: CandidatePoolResult['fallbackStage'];
-    fallbackStageLabel: string;
-    candidateKeys: string[];
-    filtered: Array<FilterReason & { reasonLabels: string[] }>;
+    eventNames: string[];
+    events: Array<{
+      key: string;
+      eventNameZh: string;
+      eventTypeLabelZh: string;
+      packLabelZh: string;
+      nameWithKeyFallback: string;
+    }>;
+    filtered: Array<
+      FilterReason & {
+        eventNameZh: string;
+        packLabelZh: string;
+        nameWithKeyFallback: string;
+        reasonLabels: string[];
+        reasonSummary: string;
+      }
+    >;
     filteredCount: number;
   };
   probabilities: {
-    topRows: ProbabilityRow[];
-    lowWeightRows: ProbabilityRow[];
+    topRows: EventAllocationDisplayRow[];
+    lowWeightRows: EventAllocationDisplayRow[];
   };
+  searchText: string;
 };
 
 export type EventAllocationStaticSummary = {
@@ -237,12 +272,12 @@ export type EventAllocationStaticSummary = {
   typeLabel: string;
   candidateCount: number;
   acceptanceAverage: number;
-  fallbackStage: CandidatePoolResult['fallbackStage'];
-  fallbackStageLabel: string;
-  topRows: ProbabilityRow[];
-  lowWeightRows: ProbabilityRow[];
-  strongestUpliftRow: ProbabilityRow | null;
-  strongestFallbackRow: ProbabilityRow | null;
+  acceptanceAveragePercent: string;
+  poolSummary: string;
+  topRows: EventAllocationDisplayRow[];
+  lowWeightRows: EventAllocationDisplayRow[];
+  strongestUpliftRow: EventAllocationDisplayRow | null;
+  strongestFallbackRow: EventAllocationDisplayRow | null;
 };
 
 export type EventAllocationHtmlData = {
@@ -718,7 +753,9 @@ async function loadSharedAnalysisInputs(options: { sourceFile?: string; constant
   return {
     sourceFile,
     constantsFile,
-    events: sourceData.events as EventItem[],
+    sourceData,
+    events: sourceData.events as SourceEvent[],
+    packs: sourceData.packs as SourcePack[],
     constants
   };
 }
@@ -809,22 +846,97 @@ function getTypeLabel(type: EventType) {
   return EVENT_TYPE_LABELS[type];
 }
 
-function getFallbackStageLabel(stage: CandidatePoolResult['fallbackStage']) {
-  return FALLBACK_STAGE_LABELS[stage];
-}
-
 function getTransitionSourceLabel(source: CategoryTransition['source']) {
   if (source === 'force-roll') {
     return '强制类别';
   }
   if (source === 'category-roll') {
-    return '沿用 categoryRoll';
+    return '沿用上一轮倾向';
   }
-  return 'clearPlayerEvent 重掷';
+  return '重新掷出';
 }
 
 function mapReasonLabels(reasons: string[]) {
   return reasons.map((reason) => REASON_LABELS[reason] || reason);
+}
+
+function getEventDisplayMeta(
+  eventKey: string,
+  type: EventType,
+  sourceEventsByKey: Map<string, SourceEvent>,
+  packLabelById: Map<number, string>
+) {
+  const sourceEvent = sourceEventsByKey.get(eventKey);
+  const eventNameZh = sourceEvent?.nameZh ?? eventKey;
+  const packLabelZh = sourceEvent ? packLabelById.get(sourceEvent.pack) ?? '未分组' : '未分组';
+  return {
+    eventNameZh,
+    eventTypeLabelZh: getTypeLabel(type),
+    packLabelZh,
+    nameWithKeyFallback: sourceEvent?.nameZh ? `${sourceEvent.nameZh}` : eventKey
+  };
+}
+
+function buildDisplayRow(
+  row: ProbabilityRow,
+  type: EventType,
+  sourceEventsByKey: Map<string, SourceEvent>,
+  packLabelById: Map<number, string>
+): EventAllocationDisplayRow {
+  const meta = getEventDisplayMeta(row.key, type, sourceEventsByKey, packLabelById);
+  return {
+    ...row,
+    ...meta,
+    currentChancePercent: formatPercent(row.currentProbability),
+    expectedChancePercent: formatPercent(row.referenceProbability),
+    extraChancePercent: formatPercent(row.deltaProbability),
+    safetyLiftPercent: formatPercent(row.fallbackProbability),
+    summaryText:
+      row.deltaProbability > 0 ? '比按权重更容易抽到' : row.deltaProbability < 0 ? '比按权重更难抽到' : '与按权重抽取接近',
+    fallbackSummaryText: row.fallbackProbability > 0 ? '主要来自保底抬升' : '几乎不依赖保底抬升'
+  };
+}
+
+function buildTransitionSummary(transitions: Array<CategoryTransition & { typeLabel: string; sourceLabel: string }>) {
+  const current = transitions[0];
+  const next = transitions[1];
+  if (!current || !next) {
+    return '当前场景没有足够的类别倾向数据。';
+  }
+  if (next.source === 'category-roll') {
+    return `这一轮先偏向${current.typeLabel}，下一轮仍会沿用这次的类别倾向。`;
+  }
+  return `这一轮先偏向${current.typeLabel}，清除事件后下一轮会重新决定类别。`;
+}
+
+function buildCandidatePoolSummary(typeLabel: string, candidateCount: number, fallbackStage: CandidatePoolResult['fallbackStage']) {
+  if (candidateCount === 0) {
+    return `这一轮原本会先抽${typeLabel}，但当前没有可进入抽取范围的事件。`;
+  }
+  if (fallbackStage === 'strict') {
+    return `这一轮会先抽${typeLabel}，当前有 ${candidateCount} 个事件真正进入抽取范围。`;
+  }
+  if (fallbackStage === 'dedup-fallback') {
+    return `这一轮会先抽${typeLabel}，但最近事件去重压缩了候选范围，最后保留 ${candidateCount} 个可抽事件。`;
+  }
+  return `这一轮会先抽${typeLabel}，普通范围已不够用，最后放宽限制保留 ${candidateCount} 个可抽事件。`;
+}
+
+function buildFilteredSummary(filteredCount: number, recentDedupCount: number) {
+  if (filteredCount === 0) {
+    return '这一轮没有事件被暂时排除。';
+  }
+  return `这一轮有 ${filteredCount} 个事件暂时没进入抽取范围，其中最近 ${recentDedupCount} 个刚抽过的事件会优先被避开。`;
+}
+
+function formatTransitionStage(stage: CategoryTransition['stage']) {
+  if (stage === 'current') {
+    return '当前这一轮';
+  }
+  if (stage === 'next') {
+    return '下一轮';
+  }
+  return '下下轮';
 }
 
 function getStrongestRow(rows: ProbabilityRow[], selector: (row: ProbabilityRow) => number) {
@@ -849,8 +961,9 @@ function buildAlerts(staticSummary: EventAllocationStaticSummary[], scenarios: E
     alerts.push({
       id: 'strongest-low-weight-uplift',
       severity: 'warn',
-      title: '低权重事件被兜底抬高',
-      detail: `${strongestUplift.typeLabel} ${strongestUplift.row.key} 的 delta 为 ${formatPercent(strongestUplift.row.deltaProbability)}。`
+      title: '低权重事件更容易被抬高',
+      summary: `${strongestUplift.typeLabel}里的低权重事件，在当前算法下会比按权重时更常出现。`,
+      evidence: `${strongestUplift.row.eventNameZh} 当前出现率 ${strongestUplift.row.currentChancePercent}，比按权重多出 ${strongestUplift.row.extraChancePercent}。`
     });
   }
 
@@ -865,22 +978,20 @@ function buildAlerts(staticSummary: EventAllocationStaticSummary[], scenarios: E
     alerts.push({
       id: 'strongest-fallback-mass',
       severity: 'info',
-      title: '拒绝采样兜底质量可见',
-      detail: `${strongestFallback.typeLabel} ${strongestFallback.row.key} 的 fallback 贡献为 ${formatPercent(strongestFallback.row.fallbackProbability)}。`
+      title: '保底抬升会明显影响少数事件',
+      summary: `${strongestFallback.typeLabel}里有些事件的出现率，主要是被保底机制托上去的。`,
+      evidence: `${strongestFallback.row.eventNameZh} 的保底抬升占到 ${strongestFallback.row.safetyLiftPercent}。`
     });
   }
 
-  const persistedScenario = scenarios.find(
-    (scenario) => scenario.categoryTransitions[1]?.source === 'category-roll' && scenario.categoryTransitions[0]?.roll !== scenario.categoryTransitions[1]?.roll
-  );
+  const persistedScenario = scenarios.find((scenario) => scenario.categoryTransitions[1]?.source === 'category-roll');
   if (persistedScenario) {
     alerts.push({
       id: 'category-roll-persists',
       severity: 'warn',
-      title: 'categoryRoll 会跨 1 轮延续',
-      detail: `${persistedScenario.label} 中当前 roll ${formatShortNumber(
-        persistedScenario.categoryTransitions[0].roll
-      )} 会在下一轮继续影响类别。`
+      title: '类别倾向会连续影响下一轮',
+      summary: '同一类事件的倾向，不一定只影响当前这一轮。',
+      evidence: persistedScenario.transitionSummary
     });
   }
 
@@ -889,8 +1000,9 @@ function buildAlerts(staticSummary: EventAllocationStaticSummary[], scenarios: E
     alerts.push({
       id: 'recent-dedup-compression',
       severity: 'info',
-      title: '去重窗口会显著压缩候选池',
-      detail: `${compressedScenario.label} 中共有 ${compressedScenario.candidatePool.filteredCount} 个事件被过滤，其中包含 recent dedup。`
+      title: '最近抽过的事件会先被排除',
+      summary: '去重窗口会明显缩小这一轮真正可抽到的范围。',
+      evidence: compressedScenario.filteredSummary
     });
   }
 
@@ -902,59 +1014,102 @@ export async function buildEventAllocationReportData(options: {
   constantsFile?: string;
   scenarioFiles?: string[];
 } = {}): Promise<EventAllocationHtmlData> {
-  const { sourceFile, constantsFile } = await loadSharedAnalysisInputs(options);
+  const { sourceFile, constantsFile, sourceData, packs } = await loadSharedAnalysisInputs(options);
   const staticReport = await analyzeStaticEventAllocation(options);
   const scenarioFiles = options.scenarioFiles ?? (await resolveScenarioFiles());
   const scenarioReports = await Promise.all(scenarioFiles.map((scenarioFile) => analyzeScenarioEventAllocation(scenarioFile, options)));
+  const sourceEventsByKey = new Map((sourceData.events as SourceEvent[]).map((eventItem) => [eventItem.key, eventItem]));
+  const packLabelById = new Map((packs as SourcePack[]).map((pack) => [pack.id, pack.labelZh]));
 
   const staticSummary: EventAllocationStaticSummary[] = staticReport.reports.map((report) => {
-    const strongestUpliftRow = getStrongestRow(report.lowWeightRows, (row) => row.deltaProbability);
-    const strongestFallbackRow = getStrongestRow(report.lowWeightRows, (row) => row.fallbackProbability);
+    const topRows = report.topRows.map((row) => buildDisplayRow(row, report.type, sourceEventsByKey, packLabelById));
+    const lowWeightRows = report.lowWeightRows.map((row) => buildDisplayRow(row, report.type, sourceEventsByKey, packLabelById));
+    const strongestUplift = getStrongestRow(report.lowWeightRows, (row) => row.deltaProbability);
+    const strongestFallback = getStrongestRow(report.lowWeightRows, (row) => row.fallbackProbability);
     return {
       type: report.type,
       typeLabel: getTypeLabel(report.type),
       candidateCount: report.candidateCount,
       acceptanceAverage: report.acceptanceAverage,
-      fallbackStage: report.fallbackStage,
-      fallbackStageLabel: getFallbackStageLabel(report.fallbackStage),
-      topRows: report.topRows,
-      lowWeightRows: report.lowWeightRows,
-      strongestUpliftRow,
-      strongestFallbackRow
+      acceptanceAveragePercent: formatPercent(report.acceptanceAverage),
+      poolSummary: buildCandidatePoolSummary(getTypeLabel(report.type), report.candidateCount, report.fallbackStage),
+      topRows,
+      lowWeightRows,
+      strongestUpliftRow: strongestUplift ? buildDisplayRow(strongestUplift, report.type, sourceEventsByKey, packLabelById) : null,
+      strongestFallbackRow: strongestFallback ? buildDisplayRow(strongestFallback, report.type, sourceEventsByKey, packLabelById) : null
     };
   });
 
   const scenarios: EventAllocationScenarioView[] = scenarioReports.map((scenarioReport, index) => {
     const scenarioPath = scenarioReport.scenarioPath ? path.resolve(REPO_ROOT, scenarioReport.scenarioPath) : scenarioFiles[index];
     const meta = prettifyScenarioInfo(scenarioPath);
+    const categoryTransitions = scenarioReport.categoryTransitions.map((transition) => ({
+      ...transition,
+      typeLabel: getTypeLabel(transition.type),
+      sourceLabel: getTransitionSourceLabel(transition.source)
+    }));
+    const candidateEvents = scenarioReport.candidatePool.candidateKeys.map((key) => ({
+      key,
+      ...getEventDisplayMeta(key, scenarioReport.candidatePool.type, sourceEventsByKey, packLabelById)
+    }));
+    const filtered = scenarioReport.candidatePool.filtered.map((item) => ({
+      ...item,
+      ...getEventDisplayMeta(item.key, scenarioReport.candidatePool.type, sourceEventsByKey, packLabelById),
+      reasonLabels: mapReasonLabels(item.reasons),
+      reasonSummary: mapReasonLabels(item.reasons).join('、')
+    }));
+    const topRows = scenarioReport.probabilities.topRows.map((row) =>
+      buildDisplayRow(row, scenarioReport.selectedType, sourceEventsByKey, packLabelById)
+    );
+    const lowWeightRows = scenarioReport.probabilities.lowWeightRows.map((row) =>
+      buildDisplayRow(row, scenarioReport.selectedType, sourceEventsByKey, packLabelById)
+    );
+    const selectedTypeLabel = getTypeLabel(scenarioReport.selectedType);
+    const selectedTypeSummary = `这个场景会先从${selectedTypeLabel}事件里抽取。`;
+    const candidatePoolSummary = buildCandidatePoolSummary(
+      selectedTypeLabel,
+      candidateEvents.length,
+      scenarioReport.candidatePool.fallbackStage
+    );
+    const transitionSummary = buildTransitionSummary(categoryTransitions);
+    const filteredSummary = buildFilteredSummary(filtered.length, staticReport.recentDedupCount);
     return {
       id: meta.id,
       label: meta.label,
       description: meta.description,
       scenarioPath: scenarioReport.scenarioPath,
       selectedType: scenarioReport.selectedType,
-      selectedTypeLabel: getTypeLabel(scenarioReport.selectedType),
+      selectedTypeLabel,
       iterations: scenarioReport.iterations,
-      seed: scenarioReport.seed,
-      playerState: scenarioReport.playerState,
-      categoryTransitions: scenarioReport.categoryTransitions.map((transition) => ({
-        ...transition,
-        typeLabel: getTypeLabel(transition.type),
-        sourceLabel: getTransitionSourceLabel(transition.source)
-      })),
+      selectedTypeSummary,
+      candidatePoolSummary,
+      transitionSummary,
+      filteredSummary,
+      categoryTransitions,
       candidatePool: {
         type: scenarioReport.candidatePool.type,
         typeLabel: getTypeLabel(scenarioReport.candidatePool.type),
-        fallbackStage: scenarioReport.candidatePool.fallbackStage,
-        fallbackStageLabel: getFallbackStageLabel(scenarioReport.candidatePool.fallbackStage),
-        candidateKeys: scenarioReport.candidatePool.candidateKeys,
-        filtered: scenarioReport.candidatePool.filtered.map((item) => ({
-          ...item,
-          reasonLabels: mapReasonLabels(item.reasons)
-        })),
-        filteredCount: scenarioReport.candidatePool.filtered.length
+        eventNames: candidateEvents.map((item) => item.eventNameZh),
+        events: candidateEvents,
+        filtered,
+        filteredCount: filtered.length
       },
-      probabilities: scenarioReport.probabilities
+      probabilities: {
+        topRows,
+        lowWeightRows
+      },
+      searchText: [
+        meta.label,
+        meta.description,
+        selectedTypeSummary,
+        candidatePoolSummary,
+        transitionSummary,
+        filteredSummary,
+        candidateEvents.map((item) => item.nameWithKeyFallback).join('|'),
+        filtered.map((item) => `${item.nameWithKeyFallback}|${item.reasonSummary}`).join('|')
+      ]
+        .join('|')
+        .toLocaleLowerCase()
     };
   });
 
@@ -979,18 +1134,15 @@ function formatPercent(value: number) {
   return `${(value * 100).toFixed(2)}%`;
 }
 
-function formatShortNumber(value: number) {
-  return Number(value.toFixed(3)).toString();
-}
-
 function colorize(enabled: boolean, color: string, text: string) {
   return enabled ? `${color}${text}${ANSI.reset}` : text;
 }
 
 function renderProbabilityRow(row: ProbabilityRow) {
-  return `${row.key.padEnd(24)} w=${row.weight.toFixed(2).padStart(4)} cur=${formatPercent(row.currentProbability).padStart(8)} ref=${formatPercent(
-    row.referenceProbability
-  ).padStart(8)} Δ=${formatPercent(row.deltaProbability).padStart(8)} fb=${formatPercent(row.fallbackProbability).padStart(8)}`;
+  const name = (row as EventAllocationDisplayRow).eventNameZh ?? row.key;
+  return `${name.padEnd(16)} 当前 ${formatPercent(row.currentProbability).padStart(8)} / 按权重 ${formatPercent(row.referenceProbability).padStart(
+    8
+  )} / 高出 ${formatPercent(row.deltaProbability).padStart(8)} / 保底抬升 ${formatPercent(row.fallbackProbability).padStart(8)}`;
 }
 
 function renderOverviewPage(report: EventAllocationHtmlData, useAnsi: boolean, filterText: string) {
@@ -998,13 +1150,13 @@ function renderOverviewPage(report: EventAllocationHtmlData, useAnsi: boolean, f
     if (!filterText) {
       return true;
     }
-    const haystack = `${alert.title}|${alert.detail}`.toLowerCase();
+    const haystack = `${alert.title}|${alert.summary}|${alert.evidence}`.toLowerCase();
     return haystack.includes(filterText.toLowerCase());
   });
 
   const lines = [
-    colorize(useAnsi, ANSI.bold, 'Overview'),
-    `eventWeight=${report.meta.eventWeight} recentDedup=${report.meta.recentDedupCount} scenarios=${report.meta.scenarioCount}`,
+    colorize(useAnsi, ANSI.bold, '总览'),
+    `当前共准备了 ${report.meta.scenarioCount} 个预置场景，最近会避开 ${report.meta.recentDedupCount} 个刚抽过的事件。`,
     ''
   ];
 
@@ -1014,17 +1166,14 @@ function renderOverviewPage(report: EventAllocationHtmlData, useAnsi: boolean, f
     filteredAlerts.forEach((alert, index) => {
       const prefix = alert.severity === 'warn' ? colorize(useAnsi, ANSI.yellow, 'WARN') : colorize(useAnsi, ANSI.blue, 'INFO');
       lines.push(`${String(index + 1).padStart(2)}. [${prefix}] ${alert.title}`);
-      lines.push(`    ${alert.detail}`);
+      lines.push(`    ${alert.summary}`);
+      lines.push(`    ${alert.evidence}`);
     });
   }
 
-  lines.push('', colorize(useAnsi, ANSI.bold, 'Static Summary'));
+  lines.push('', colorize(useAnsi, ANSI.bold, '三类事件概览'));
   report.staticSummary.forEach((summary) => {
-    lines.push(
-      `${summary.typeLabel.padEnd(4)} candidates=${String(summary.candidateCount).padStart(2)} accept=${formatPercent(
-        summary.acceptanceAverage
-      ).padStart(8)} fallback=${summary.fallbackStageLabel}`
-    );
+    lines.push(`${summary.typeLabel.padEnd(4)} ${summary.poolSummary}`);
   });
   return lines.join('\n');
 }
@@ -1032,13 +1181,13 @@ function renderOverviewPage(report: EventAllocationHtmlData, useAnsi: boolean, f
 function renderStaticPage(report: EventAllocationHtmlData, useAnsi: boolean, selectedIndex: number) {
   const summary = report.staticSummary[selectedIndex] ?? report.staticSummary[0];
   const lines = [
-    colorize(useAnsi, ANSI.bold, `Static Comparison · ${summary.typeLabel}`),
-    `candidates=${summary.candidateCount} accept=${formatPercent(summary.acceptanceAverage)} fallback=${summary.fallbackStageLabel}`,
+    colorize(useAnsi, ANSI.bold, `静态对比 · ${summary.typeLabel}`),
+    `${summary.poolSummary} 平均接受率 ${summary.acceptanceAveragePercent}。`,
     '',
-    colorize(useAnsi, ANSI.orange, 'Top Rows')
+    colorize(useAnsi, ANSI.orange, '最常出现的事件')
   ];
   summary.topRows.forEach((row) => lines.push(renderProbabilityRow(row)));
-  lines.push('', colorize(useAnsi, ANSI.blue, 'Low-weight Uplift Rows'));
+  lines.push('', colorize(useAnsi, ANSI.blue, '最容易被额外抬高的低权重事件'));
   summary.lowWeightRows.forEach((row) => lines.push(renderProbabilityRow(row)));
   return lines.join('\n');
 }
@@ -1048,60 +1197,51 @@ function renderScenarioPage(report: EventAllocationHtmlData, useAnsi: boolean, s
     if (!filterText) {
       return true;
     }
-    const haystack = [
-      scenario.label,
-      scenario.description,
-      scenario.selectedTypeLabel,
-      scenario.candidatePool.candidateKeys.join('|'),
-      scenario.candidatePool.filtered.map((item) => `${item.key}|${item.reasons.join('|')}`).join('|')
-    ]
-      .join('|')
-      .toLowerCase();
-    return haystack.includes(filterText.toLowerCase());
+    return scenario.searchText.includes(filterText.toLowerCase());
   });
   const active = filteredScenarios.find((scenario) => scenario.id === selectedScenarioId) ?? filteredScenarios[0] ?? null;
 
-  const lines = [colorize(useAnsi, ANSI.bold, 'Scenario Explorer')];
+  const lines = [colorize(useAnsi, ANSI.bold, '场景浏览')];
   if (!active) {
     lines.push('没有匹配当前过滤词的场景。');
     return lines.join('\n');
   }
 
   lines.push(`${active.label} · ${active.description}`);
-  lines.push(`selectedType=${active.selectedTypeLabel} fallback=${active.candidatePool.fallbackStageLabel}`);
+  lines.push(active.selectedTypeSummary);
   lines.push('');
-  lines.push(colorize(useAnsi, ANSI.orange, 'Category Transitions'));
+  lines.push(colorize(useAnsi, ANSI.orange, '类别倾向如何连续影响后续事件'));
+  lines.push(active.transitionSummary);
   active.categoryTransitions.forEach((transition) => {
-    lines.push(
-      `${transition.stage.padEnd(8)} ${transition.sourceLabel.padEnd(18)} roll=${formatShortNumber(transition.roll).padStart(8)} => ${transition.typeLabel}`
-    );
+    lines.push(`${formatTransitionStage(transition.stage).padEnd(8)} ${transition.sourceLabel.padEnd(12)} -> ${transition.typeLabel}`);
   });
   lines.push('');
-  lines.push(colorize(useAnsi, ANSI.blue, 'Candidate Pool'));
-  lines.push(`candidates=${active.candidatePool.candidateKeys.join(', ') || '(empty)'}`);
+  lines.push(colorize(useAnsi, ANSI.blue, '本轮可能抽到哪些事件'));
+  lines.push(active.candidatePoolSummary);
+  lines.push(`可抽事件：${active.candidatePool.events.map((item) => item.eventNameZh).join('、') || '暂无'}`);
   if (active.candidatePool.filtered.length) {
-    lines.push('filtered:');
+    lines.push('');
+    lines.push(colorize(useAnsi, ANSI.magenta, '本轮没进入抽取范围的事件'));
+    lines.push(active.filteredSummary);
     active.candidatePool.filtered.slice(0, 8).forEach((item) => {
-      lines.push(`- ${item.key}: ${item.reasonLabels.join(' / ')}`);
+      lines.push(`- ${item.eventNameZh}: ${item.reasonSummary}`);
     });
-  } else {
-    lines.push('filtered: none');
   }
-  lines.push('', colorize(useAnsi, ANSI.magenta, 'Top Rows'));
+  lines.push('', colorize(useAnsi, ANSI.magenta, '最常出现的事件'));
   active.probabilities.topRows.slice(0, 5).forEach((row) => lines.push(renderProbabilityRow(row)));
-  lines.push('', colorize(useAnsi, ANSI.green, 'Low-weight Rows'));
+  lines.push('', colorize(useAnsi, ANSI.green, '最容易被额外抬高的低权重事件'));
   active.probabilities.lowWeightRows.slice(0, 5).forEach((row) => lines.push(renderProbabilityRow(row)));
   return lines.join('\n');
 }
 
 export function renderTuiFrame(report: EventAllocationHtmlData, state: TuiState, useAnsi = false) {
-  const pageTitles = ['Overview', 'Static', 'Scenario'];
+  const pageTitles = ['总览', '静态对比', '场景浏览'];
   const header = [
-    colorize(useAnsi, ANSI.bold, 'Event Allocation Analyzer'),
+    colorize(useAnsi, ANSI.bold, '事件分配报告'),
     `${pageTitles
       .map((title, index) => (index === state.pageIndex ? colorize(useAnsi, ANSI.orange, `[${title}]`) : title))
       .join('  ')}`,
-    `filter=${state.filterText || '(none)'} ${state.filterMode ? '(input mode)' : ''}`,
+    `筛选：${state.filterText || '无'} ${state.filterMode ? '(输入中)' : ''}`,
     colorize(useAnsi, ANSI.dim, 'keys: h/l page  j/k move  [/ ] scenario  / filter  q quit'),
     ''
   ];

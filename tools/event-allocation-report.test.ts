@@ -26,6 +26,11 @@ test('builds shared html report data with alerts and preset scenarios', async ()
   assert.ok(report.scenarios.length >= 4);
   assert.ok(report.alerts.length > 0);
   assert.ok(report.scenarios.some((scenario) => scenario.id === 'brave-act-locked'));
+  assert.ok(report.staticSummary[0]?.topRows[0]?.eventNameZh);
+  assert.ok(report.scenarios[0]?.selectedTypeSummary);
+  assert.ok(report.scenarios[0]?.candidatePoolSummary);
+  assert.ok(report.scenarios[0]?.filteredSummary);
+  assert.ok(report.alerts.every((alert) => !/[Dd]elta|fallback|candidateKeys|selectedType/.test(`${alert.title}${alert.summary}${alert.evidence}`)));
 });
 
 test('renders non-tty summary and tui frame headings', async () => {
@@ -36,8 +41,10 @@ test('renders non-tty summary and tui frame headings', async () => {
   });
 
   const summary = renderNonTtySummary(report);
-  assert.match(summary, /Overview/);
-  assert.match(summary, /Scenario Explorer/);
+  assert.match(summary, /总览/);
+  assert.match(summary, /场景浏览/);
+  assert.doesNotMatch(summary, /Δ=|fb=|selectedType=|fallbackProbability|deltaProbability/);
+  assert.match(summary, /会比按权重时更常出现|保底机制托上去/);
 
   const frame = renderTuiFrame(
     report,
@@ -52,8 +59,8 @@ test('renders non-tty summary and tui frame headings', async () => {
     },
     false
   );
-  assert.match(frame, /Static Comparison/);
-  assert.match(frame, /Low-weight Uplift Rows/);
+  assert.match(frame, /静态对比/);
+  assert.match(frame, /最容易被额外抬高的低权重事件/);
 });
 
 test('syncs html-data report payload to disk', async () => {
