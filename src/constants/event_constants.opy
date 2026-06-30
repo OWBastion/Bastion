@@ -870,7 +870,7 @@ enum PlayerOnceEventStateBraveAct:
 #!define EVT_MECH_16_WIN_MULTIPLIER 1.5
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
-# --- ID 17 (Mech/Special): 赌徒：梭哈艺术 5.0 ---
+# --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.7
 #!define EVT_MECH_17_WIN_RATE 7

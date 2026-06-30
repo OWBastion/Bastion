@@ -6,7 +6,7 @@
 # Event: MechEventId.GAMBLER_ALL_IN_ART_5
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
-rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
+rule "[VishkarEvent]: 赌徒：梭哈艺术 (下注)":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormTrigger != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
@@ -22,7 +22,7 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (下注)":
     waitUntil(any([eventPlayer.isHoldingButton(Button.RELOAD) == false, eventPlayer.eventType != EventType.MECH, eventPlayer.eventId != MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration <= 0]), eventPlayer.eventDuration)
     eventPlayer.altFormTrigger = false
 
-rule "[VishkarEvent]: 赌徒：梭哈艺术 5.0 (结算)":
+rule "[VishkarEvent]: 赌徒：梭哈艺术 (结算)":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5]) == true
