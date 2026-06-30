@@ -1,0 +1,14 @@
+{
+  "enabledEventKeys": [
+    "BRAVE_ACT",
+    "GAMBLER",
+    "MINI_FORM"
+  ],
+  "playerState": {
+    "heroNumber": 19,
+    "categoryRoll": 90,
+    "categoryRollSnapshot": 10
+  },
+  "iterations": 200000,
+  "seed": 4
+}

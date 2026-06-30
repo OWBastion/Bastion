@@ -1,0 +1,15 @@
+{
+  "enabledEventKeys": [
+    "TEMPER_HEART",
+    "GALE_BLESSING",
+    "OLIVIA_GIFT"
+  ],
+  "playerState": {
+    "heroNumber": 0,
+    "categoryRoll": 20,
+    "categoryRollSnapshot": 20,
+    "temperHeartUsed": true
+  },
+  "iterations": 200000,
+  "seed": 3
+}

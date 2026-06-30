@@ -1,0 +1,21 @@
+{
+  "playerState": {
+    "heroNumber": 0,
+    "categoryRoll": 20,
+    "categoryRollSnapshot": 20,
+    "eventLastKeys": [
+      "buff:OLIVIA_GIFT",
+      "buff:GALE_BLESSING",
+      "buff:IRON_BULWARK",
+      "buff:ADRENALINE",
+      "buff:LIFE_SPRING",
+      "buff:BLACK_FANS_ASSAULT",
+      "buff:SPEED_STACK",
+      "buff:FLESH_REGEN",
+      "buff:HEART_OF_STEEL",
+      "buff:DEATH_DELAY"
+    ]
+  },
+  "iterations": 200000,
+  "seed": 2
+}

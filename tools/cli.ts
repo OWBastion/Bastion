@@ -66,6 +66,11 @@ async function runPerfScan(rawArgs: string[]) {
   await main(rawArgs);
 }
 
+async function runAnalyzeEventAllocation(rawArgs: string[]) {
+  const { main } = await import('./analyze-event-allocation.ts');
+  await main(rawArgs);
+}
+
 async function runEvent(rawArgs: string[]) {
   const { main } = await import('./event.ts');
   await main(rawArgs);
@@ -116,6 +121,10 @@ program
   .description('Run performance loop scan with passthrough options/targets')
   .allowUnknownOption(true);
 program
+  .command('analyze:event-allocation [args...]')
+  .description('Analyze current event allocation behavior against the allocator semantics')
+  .allowUnknownOption(true);
+program
   .command('event:add [args...]')
   .description('Add event scaffold via spec JSON (single implementation entry)')
   .allowUnknownOption(true);
@@ -144,6 +153,10 @@ program
   .command('test:grant-general-title-workflow')
   .description('Run grant-general-title workflow sync tests')
   .action(wrapAction(() => runNodeTest('tools/sync-grant-general-title-workflow.test.ts')));
+program
+  .command('test:event-allocation')
+  .description('Run event allocation analysis tests')
+  .action(wrapAction(() => runNodeTest('tools/analyze-event-allocation.test.ts')));
 
 const normalizedArgv =
   process.argv[2] === '--'
@@ -158,6 +171,10 @@ async function runPassthroughIfRequested(argv: string[]) {
   }
   if (commandName === 'perf:scan') {
     await runPerfScan(argv.slice(3));
+    return true;
+  }
+  if (commandName === 'analyze:event-allocation') {
+    await runAnalyzeEventAllocation(argv.slice(3));
     return true;
   }
   if (commandName === 'event:add' || commandName === 'event:remove') {
