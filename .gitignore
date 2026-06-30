@@ -31,3 +31,4 @@ web/title-query/dist/
 web/title-query/public/data/titles.json
 web/title-query/public/data/events.json
 web/title-query/public/data/glossary.json
+web/title-query/public/data/event-allocation-report.json

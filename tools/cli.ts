@@ -36,6 +36,14 @@ async function runSyncEffectGlossaryData() {
   console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
+async function runSyncEventAllocationReport() {
+  const { syncEventAllocationReport } = await import('./sync-event-allocation-report.ts');
+  const result = await syncEventAllocationReport();
+  console.log(
+    `Synced event allocation report with ${result.payload.scenarios.length} scenarios to ${result.outputFile}`
+  );
+}
+
 async function runSyncGrantGeneralTitleWorkflow() {
   const { syncGrantGeneralTitleWorkflow } = await import('./sync-grant-general-title-workflow.ts');
   const result = await syncGrantGeneralTitleWorkflow();
@@ -48,6 +56,7 @@ async function runSyncAll() {
   await runSyncTitleData();
   await runSyncEventData();
   await runSyncEffectGlossaryData();
+  await runSyncEventAllocationReport();
   await runSyncGrantGeneralTitleWorkflow();
 }
 
@@ -108,6 +117,10 @@ program.command('sync:title-data').description('Sync title source data').action(
 program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
 program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
 program
+  .command('sync:event-allocation-report')
+  .description('Sync event allocation analyzer report data for the query page')
+  .action(wrapAction(runSyncEventAllocationReport));
+program
   .command('sync:grant-general-title-workflow')
   .description('Sync grant-general-title workflow options from data/title-source.json (legacy compat command)')
   .action(wrapAction(runSyncGrantGeneralTitleWorkflow));
@@ -156,7 +169,11 @@ program
 program
   .command('test:event-allocation')
   .description('Run event allocation analysis tests')
-  .action(wrapAction(() => runNodeTest('tools/analyze-event-allocation.test.ts')));
+  .action(
+    wrapAction(() =>
+      runNode(['--import', 'tsx', '--test', 'tools/analyze-event-allocation.test.ts', 'tools/event-allocation-report.test.ts'])
+    )
+  );
 
 const normalizedArgv =
   process.argv[2] === '--'

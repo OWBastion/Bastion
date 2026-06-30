@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import AllocatorReportPanel from './components/AllocatorReportPanel.vue';
 import EventsPanel from './components/EventsPanel.vue';
 import GlossaryPanel from './components/GlossaryPanel.vue';
 import TermPopover from './components/TermPopover.vue';
@@ -10,10 +11,11 @@ import { useThemeMode } from './composables/useThemeMode';
 
 const THEME_STORAGE_KEY = 'title-query-theme-mode';
 const ROUTE_FALLBACK = 'titles';
-const ROUTE_ORDER = ['titles', 'events', 'glossary'];
+const ROUTE_ORDER = ['titles', 'events', 'allocator', 'glossary'];
 const ROUTE_LABELS = {
   titles: '称号',
   events: '事件',
+  allocator: '分配报告',
   glossary: '词条'
 };
 const ROUTE_HEADINGS = {
@@ -24,6 +26,10 @@ const ROUTE_HEADINGS = {
   events: {
     title: '事件查询',
     copy: '按随机事件包查看 Buff / Debuff / Mech 清单与基础参数。'
+  },
+  allocator: {
+    title: '事件分配报告',
+    copy: '查看候选池过滤、拒绝采样兜底质量，以及 category roll 持久化对单个玩家分布的影响。'
   },
   glossary: {
     title: '效果词条查询',
@@ -63,6 +69,7 @@ const error = ref('');
 
 const playerQuery = ref('');
 const eventQuery = ref('');
+const allocatorQuery = ref('');
 const glossaryQuery = ref('');
 const glossaryCategory = ref('全部');
 
@@ -72,6 +79,8 @@ const mapTitles = ref([]);
 const titleMeta = ref(null);
 const eventPacks = ref([]);
 const eventMeta = ref(null);
+const allocatorReport = ref(null);
+const allocatorError = ref('');
 const glossaryMeta = ref(null);
 const glossaryTerms = ref([]);
 const eventTermsIndex = ref({});
@@ -476,6 +485,14 @@ const eventSourceDisplay = computed(() => {
   return eventMeta.value.manifestVersion ? `${sourceLabel} ${eventMeta.value.manifestVersion}` : sourceLabel;
 });
 
+const allocatorSourceDisplay = computed(() => {
+  if (!allocatorReport.value?.meta) {
+    return '事件分配报告';
+  }
+
+  return `事件分配报告 ${allocatorReport.value.meta.reportVersion}`;
+});
+
 function getSeriesKey(groupType, seriesName) {
   return `${groupType}:${seriesName}`;
 }
@@ -598,12 +615,26 @@ function resolveTermLabel(termKey) {
 async function loadData() {
   loading.value = true;
   error.value = '';
+  allocatorError.value = '';
 
   try {
-    const [titleResponse, eventResponse, glossaryResponse] = await Promise.all([
+    const allocatorPromise = fetch('./data/event-allocation-report.json', { cache: 'no-store' })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`事件分配报告请求失败（${response.status}）`);
+        }
+        return response.json();
+      })
+      .catch((loadError) => {
+        allocatorError.value = loadError instanceof Error ? loadError.message : '事件分配报告加载失败';
+        return null;
+      });
+
+    const [titleResponse, eventResponse, glossaryResponse, allocatorPayload] = await Promise.all([
       fetch('./data/titles.json', { cache: 'no-store' }),
       fetch('./data/events.json', { cache: 'no-store' }),
-      fetch('./data/glossary.json', { cache: 'no-store' })
+      fetch('./data/glossary.json', { cache: 'no-store' }),
+      allocatorPromise
     ]);
 
     if (!titleResponse.ok) {
@@ -631,6 +662,7 @@ async function loadData() {
 
     eventPacks.value = eventPayload.packs ?? [];
     eventMeta.value = eventPayload.meta ?? null;
+    allocatorReport.value = allocatorPayload;
     glossaryTerms.value = glossaryPayload.terms ?? [];
     glossaryMeta.value = glossaryPayload.meta ?? null;
     eventTermsIndex.value = glossaryPayload.eventTermsIndex ?? {};
@@ -690,7 +722,7 @@ watch(
       <section class="hero-panel ow-card">
         <div class="hero-band">
           <p class="eyebrow">躲避堡垒 3</p>
-          <p class="hero-band-copy">TITLE / EVENT QUERY</p>
+          <p class="hero-band-copy">TITLE / EVENT / ALLOCATOR QUERY</p>
           <button
             type="button"
             class="theme-toggle ow-button ow-button-secondary"
@@ -741,6 +773,17 @@ watch(
             name="event-search"
             type="search"
             placeholder="输入事件名、包编号或类型，例如 随机事件包 4 / 赌徒 / Debuff…"
+            autocomplete="off"
+          />
+        </label>
+
+        <label class="search-panel" v-else-if="currentRoute === 'allocator'">
+          <span>过滤报告</span>
+          <input
+            v-model="allocatorQuery"
+            name="allocator-search"
+            type="search"
+            placeholder="输入场景名、事件 key 或过滤原因，例如 TEMPER_HEART / recent dedup / BRAVE_ACT…"
             autocomplete="off"
           />
         </label>
@@ -815,6 +858,14 @@ watch(
         @open-term="openTerm"
       />
 
+      <AllocatorReportPanel
+        v-if="currentRoute === 'allocator'"
+        :loading="loading"
+        :error="allocatorError"
+        :report="allocatorReport"
+        :filter-text="allocatorQuery"
+      />
+
       <GlossaryPanel
         v-if="currentRoute === 'glossary'"
         :loading="loading"
@@ -836,8 +887,9 @@ watch(
       <footer class="page-footer" v-if="titleMeta || eventMeta || glossaryMeta">
         <span>称号源：{{ sourceDisplay }}</span>
         <span>事件源：{{ eventSourceDisplay }}</span>
+        <span>分配报告：{{ allocatorSourceDisplay }}</span>
         <span>词条源：{{ glossaryMeta?.sourceLabel || '效果词条' }}</span>
-        <span>生成时间：{{ new Date((glossaryMeta?.generatedAt || eventMeta?.generatedAt || titleMeta?.generatedAt) ?? Date.now()).toLocaleString('zh-CN') }}</span>
+        <span>生成时间：{{ new Date((allocatorReport?.meta?.generatedAt || glossaryMeta?.generatedAt || eventMeta?.generatedAt || titleMeta?.generatedAt) ?? Date.now()).toLocaleString('zh-CN') }}</span>
       </footer>
     </main>
   </div>

@@ -94,7 +94,7 @@ pnpm run build:main
 pnpm run build:dev
 ```
 
-Title query page:
+Title / event / allocator query page:
 
 ```bash
 pnpm run sync:query-data
@@ -103,7 +103,7 @@ pnpm run test:event-data-sync
 pnpm run build:title-query
 ```
 
-`pnpm run grant:title` now updates `data/title-source.json` and automatically runs title-data sync when it makes changes. The static page and in-game title source blocks are generated from `data/title-source.json` via `tools/sync-title-data.mjs`, and the page is deployed by `.github/workflows/pages-title-query.yml`.
+`pnpm run grant:title` now updates `data/title-source.json` and automatically runs title-data sync when it makes changes. The static query page now includes titles, events, glossary terms, and the allocator report. Generated page data flows through the tool scripts into `web/title-query/public/data/*.json`, and the page is deployed by `.github/workflows/pages-title-query.yml`.
 
 Dual-language release build:
 
