@@ -9,6 +9,13 @@ function metricWidth(rows, field, value) {
   }
   return `${Math.max(10, Math.min(100, (Math.abs(Number(value || 0)) / max) * 100)).toFixed(2)}%`;
 }
+
+function tableNote(row, mode) {
+  if (mode === 'top') {
+    return Number(row.deltaProbability || 0) >= 0 ? '高于权重' : '低于权重';
+  }
+  return Number(row.fallbackProbability || 0) > 0 ? '保底主导' : '抬升有限';
+}
 </script>
 
 <template>
@@ -16,17 +23,27 @@ function metricWidth(rows, field, value) {
     <header class="allocator-section-head">
       <div>
         <p class="allocator-eyebrow">静态对比</p>
-        <h3>当前算法和按权重抽取的差别</h3>
+        <h3>静态分配对比</h3>
       </div>
     </header>
 
     <article v-for="summary in staticSummary" :key="summary.type" class="static-card">
       <header class="static-card-head">
-        <div>
-          <h4>{{ summary.typeLabel }}</h4>
-          <p>{{ summary.poolSummary }}</p>
-        </div>
-        <span class="static-pill">平均接受率 {{ summary.acceptanceAveragePercent }}</span>
+        <h4>{{ summary.typeLabel }}</h4>
+        <dl class="static-meta-grid">
+          <div>
+            <dt>有效候选</dt>
+            <dd>{{ summary.candidateCount }}</dd>
+          </div>
+          <div>
+            <dt>平均接受率</dt>
+            <dd>{{ summary.acceptanceAveragePercent }}</dd>
+          </div>
+          <div>
+            <dt>抬升峰值</dt>
+            <dd>{{ summary.strongestUpliftRow ? summary.strongestUpliftRow.extraChancePercent : '暂无' }}</dd>
+          </div>
+        </dl>
       </header>
 
       <div class="static-row-block">
@@ -42,7 +59,7 @@ function metricWidth(rows, field, value) {
           <div v-for="row in summary.topRows" :key="`${summary.type}-${row.key}-top`" class="probability-row">
             <div class="probability-name">
               <span class="probability-key">{{ row.eventNameZh }}</span>
-              <span class="probability-note">{{ row.summaryText }}</span>
+              <span class="probability-note">{{ tableNote(row, 'top') }}</span>
             </div>
             <span>{{ row.currentChancePercent }}</span>
             <span>{{ row.expectedChancePercent }}</span>
@@ -75,7 +92,7 @@ function metricWidth(rows, field, value) {
           <div v-for="row in summary.lowWeightRows" :key="`${summary.type}-${row.key}-low`" class="probability-row">
             <div class="probability-name">
               <span class="probability-key">{{ row.eventNameZh }}</span>
-              <span class="probability-note">{{ row.fallbackSummaryText }}</span>
+              <span class="probability-note">{{ tableNote(row, 'low') }}</span>
             </div>
             <span>{{ row.currentChancePercent }}</span>
             <span>{{ row.expectedChancePercent }}</span>
@@ -121,40 +138,53 @@ function metricWidth(rows, field, value) {
 }
 
 .static-card {
-  border: 1px solid var(--ow-line);
-  border-radius: var(--ow-radius-md);
-  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid var(--ow-line);
   padding: 0.95rem 1rem;
   display: grid;
   gap: 0.95rem;
 }
 
 .static-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  gap: 0.75rem;
 }
 
-.static-card-head p {
-  margin: 0.35rem 0 0;
-  color: var(--ow-text-soft);
-  line-height: 1.55;
+.static-meta-grid {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.static-pill {
-  border: 1px solid var(--ow-line);
-  border-radius: 999px;
-  padding: 0.28rem 0.6rem;
-  color: var(--ow-text-soft);
-  background: rgba(255, 255, 255, 0.04);
-  font-size: 0.78rem;
+.static-meta-grid div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.static-meta-grid dt {
+  color: var(--ow-text-muted);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.static-meta-grid dd {
+  margin: 0;
+  color: var(--ow-text);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .static-row-block,
 .probability-table {
   display: grid;
   gap: 0.55rem;
+}
+
+.static-row-block + .static-row-block {
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .probability-row {
@@ -169,6 +199,8 @@ function metricWidth(rows, field, value) {
 .probability-row-head {
   color: var(--ow-text-muted);
   font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .probability-name {
@@ -186,6 +218,8 @@ function metricWidth(rows, field, value) {
   color: var(--ow-text-muted);
   font-size: 0.75rem;
   line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .probability-bar-cell {
@@ -224,6 +258,10 @@ function metricWidth(rows, field, value) {
 }
 
 @media (max-width: 860px) {
+  .static-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
   .probability-row {
     grid-template-columns: 1fr;
     padding: 0.7rem 0;
@@ -232,10 +270,6 @@ function metricWidth(rows, field, value) {
 
   .probability-row-head {
     display: none;
-  }
-
-  .static-card-head {
-    grid-template-columns: 1fr;
   }
 }
 </style>

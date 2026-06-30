@@ -1,6 +1,36 @@
 <script setup>
 defineProps(['scenarios', 'activeScenario', 'selectedScenarioId']);
 defineEmits(['select']);
+
+function stageLabel(stage) {
+  if (stage === 'current') {
+    return '当前轮';
+  }
+  if (stage === 'next') {
+    return '下一轮';
+  }
+  return '下下轮';
+}
+
+function scenarioMetrics(scenario) {
+  if (!scenario) {
+    return [];
+  }
+  return [
+    {
+      label: '优先类别',
+      value: scenario.selectedTypeLabel
+    },
+    {
+      label: '有效候选',
+      value: `${scenario.candidatePool.events.length} 个`
+    },
+    {
+      label: '临时排除',
+      value: `${scenario.candidatePool.filteredCount} 个`
+    }
+  ];
+}
 </script>
 
 <template>
@@ -8,7 +38,7 @@ defineEmits(['select']);
     <header class="allocator-section-head allocator-section-head-scenario">
       <div>
         <p class="allocator-eyebrow">场景浏览</p>
-        <h3>把具体场景讲清楚</h3>
+        <h3>场景下钻</h3>
       </div>
       <div class="scenario-chip-list">
         <button
@@ -31,16 +61,22 @@ defineEmits(['select']);
           <h4>{{ activeScenario.label }}</h4>
           <p>{{ activeScenario.description }}</p>
         </div>
-        <span class="scenario-pill">{{ activeScenario.selectedTypeSummary }}</span>
       </header>
+
+      <div class="scenario-stat-strip">
+        <article v-for="item in scenarioMetrics(activeScenario)" :key="item.label" class="scenario-stat-card">
+          <p class="scenario-stat-label">{{ item.label }}</p>
+          <p class="scenario-stat-value">{{ item.value }}</p>
+        </article>
+      </div>
 
       <div class="scenario-grid">
         <section class="scenario-block">
-          <p class="static-row-title">这一轮会先抽哪一类事件</p>
+          <p class="static-row-title">类别倾向</p>
           <p class="scenario-copy">{{ activeScenario.transitionSummary }}</p>
           <div class="transition-list">
             <article v-for="transition in activeScenario.categoryTransitions" :key="`${activeScenario.id}-${transition.stage}`" class="transition-card">
-              <p class="transition-stage">{{ transition.stage === 'current' ? '当前这一轮' : transition.stage === 'next' ? '下一轮' : '下下轮' }}</p>
+              <p class="transition-stage">{{ stageLabel(transition.stage) }}</p>
               <p class="transition-type">{{ transition.typeLabel }}</p>
               <p class="transition-desc">{{ transition.sourceLabel }}</p>
             </article>
@@ -48,7 +84,7 @@ defineEmits(['select']);
         </section>
 
         <section class="scenario-block">
-          <p class="static-row-title">本轮可能抽到哪些事件</p>
+          <p class="static-row-title">候选事件</p>
           <p class="scenario-copy">{{ activeScenario.candidatePoolSummary }}</p>
           <div class="candidate-list">
             <article v-for="item in activeScenario.candidatePool.events.slice(0, 6)" :key="`${activeScenario.id}-${item.key}`" class="candidate-card">
@@ -61,7 +97,7 @@ defineEmits(['select']);
       </div>
 
       <section class="scenario-block">
-        <p class="static-row-title">哪些事件被暂时排除，以及为什么</p>
+        <p class="static-row-title">排除事件</p>
         <p class="scenario-copy">{{ activeScenario.filteredSummary }}</p>
         <div v-if="activeScenario.candidatePool.filtered.length" class="filtered-list">
           <article v-for="item in activeScenario.candidatePool.filtered.slice(0, 6)" :key="`${activeScenario.id}-${item.key}-filtered`" class="filtered-card">
@@ -80,13 +116,13 @@ defineEmits(['select']);
               <span>事件</span>
               <span>当前出现率</span>
               <span>按权重时应有出现率</span>
-              <span>一句话说明</span>
+              <span>状态</span>
             </div>
             <div v-for="row in activeScenario.probabilities.topRows.slice(0, 5)" :key="`${activeScenario.id}-${row.key}-top`" class="compact-row">
               <span class="compact-key">{{ row.eventNameZh }}</span>
               <span>{{ row.currentChancePercent }}</span>
               <span>{{ row.expectedChancePercent }}</span>
-              <span>{{ row.summaryText }}</span>
+              <span>{{ Number(row.deltaProbability || 0) >= 0 ? '高于权重' : '低于权重' }}</span>
             </div>
           </div>
         </section>
@@ -98,13 +134,13 @@ defineEmits(['select']);
               <span>事件</span>
               <span>高出多少</span>
               <span>保底抬升占比</span>
-              <span>一句话说明</span>
+              <span>状态</span>
             </div>
             <div v-for="row in activeScenario.probabilities.lowWeightRows.slice(0, 5)" :key="`${activeScenario.id}-${row.key}-low`" class="compact-row">
               <span class="compact-key">{{ row.eventNameZh }}</span>
               <span>{{ row.extraChancePercent }}</span>
               <span>{{ row.safetyLiftPercent }}</span>
-              <span>{{ row.fallbackSummaryText }}</span>
+              <span>{{ Number(row.fallbackProbability || 0) > 0 ? '保底主导' : '抬升有限' }}</span>
             </div>
           </div>
         </section>
@@ -173,16 +209,14 @@ defineEmits(['select']);
 }
 
 .scenario-card {
-  padding: 0.95rem 1rem;
+  padding: 1rem;
   display: grid;
   gap: 0.95rem;
 }
 
 .scenario-card-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  gap: 0.35rem;
 }
 
 .scenario-card-head p,
@@ -195,13 +229,33 @@ defineEmits(['select']);
   line-height: 1.55;
 }
 
-.scenario-pill {
+.scenario-stat-strip {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scenario-stat-card {
+  padding: 0.8rem 0.9rem;
   border: 1px solid var(--ow-line);
-  border-radius: 999px;
-  padding: 0.28rem 0.6rem;
-  color: var(--ow-text-soft);
+  border-radius: var(--ow-radius-md);
   background: rgba(255, 255, 255, 0.04);
-  font-size: 0.78rem;
+}
+
+.scenario-stat-label {
+  margin: 0;
+  color: var(--ow-text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scenario-stat-value {
+  margin: 0.28rem 0 0;
+  color: var(--ow-text);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1;
 }
 
 .scenario-grid {
@@ -225,6 +279,14 @@ defineEmits(['select']);
 
 .transition-list {
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+
+.candidate-list {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.filtered-list {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
 .transition-card,
@@ -252,6 +314,8 @@ defineEmits(['select']);
 .compact-row-head {
   color: var(--ow-text-muted);
   font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .compact-key {
@@ -265,6 +329,10 @@ defineEmits(['select']);
 }
 
 @media (max-width: 860px) {
+  .scenario-stat-strip {
+    grid-template-columns: 1fr;
+  }
+
   .compact-row {
     grid-template-columns: 1fr;
     padding: 0.7rem 0;

@@ -37,9 +37,26 @@ const metaPills = computed(() => {
     return [];
   }
   return [
-    `最近会避开 ${props.report.meta.recentDedupCount} 个刚抽过的事件`,
-    `当前采用 ${props.report.meta.eventWeight} 的抽取基准权重`,
-    `共准备了 ${props.report.meta.scenarioCount} 个预置场景`
+    {
+      label: '去重窗口',
+      value: `${props.report.meta.recentDedupCount} 个事件`,
+      note: '最近抽取优先避开'
+    },
+    {
+      label: '抽取基准',
+      value: String(props.report.meta.eventWeight),
+      note: '当前权重阈值'
+    },
+    {
+      label: '预置场景',
+      value: `${props.report.meta.scenarioCount} 个`,
+      note: '用于对比分配行为'
+    },
+    {
+      label: '延续风险',
+      value: props.report.alerts.some((alert) => alert.id === 'category-roll-persists') ? '存在' : '无',
+      note: '下一轮类别影响'
+    }
   ];
 });
 
@@ -62,7 +79,7 @@ watch(
   <section class="catalog-panel card ow-card allocator-panel">
     <header class="card-header">
       <h2>事件分配报告</h2>
-      <p class="allocator-subtitle">先看会发生什么，再看为什么会这样。这里展示的是给人看的分配解读，不是脚本调试输出。</p>
+      <p class="allocator-subtitle">用于观察候选范围收缩、低权重抬升与类别倾向延续。</p>
     </header>
 
     <div v-if="loading" class="state-block">正在生成事件分配报告…</div>
