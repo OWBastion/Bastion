@@ -778,7 +778,7 @@
       "nameZh": "勇敢举动",
       "descZh": "长按{0}永久获得一项强化：\\n{1}%最大生命值 / {2}%伤害减免 / {3}%移速加成 / {4}%治疗强度 / 每秒回复{5}+{6}%最大生命值 / 每{8}秒获得{7}%终极技能充能\\n此后不再触发随机事件",
       "durationSec": 15,
-      "weight": 0.3,
+      "weight": 0,
       "availability": "active",
       "descEn": "Hold {0} to permanently gain one bonus:\\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\\nNo more random events afterward."
     }

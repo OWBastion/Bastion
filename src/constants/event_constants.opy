@@ -898,7 +898,7 @@ enum PlayerOnceEventStateBraveAct:
 
 # --- ID 21 (Mech/Special): 勇敢举动 ---
 #!define EVT_MECH_21_DURATION 15
-#!define EVT_MECH_21_WEIGHT 0.3
+#!define EVT_MECH_21_WEIGHT 0
 #!define EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE 20
 #!define EVT_MECH_21_HP_BONUS_HEART_STEEL (1000 / EVT_8_HP_PERCENT_PER_STACK)
 #!define EVT_MECH_21_DMG_REDUCTION_PERMA -65
