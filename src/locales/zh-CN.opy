@@ -221,7 +221,7 @@
 #!define STR_EVT_MECH_18_TITLE "吸血鬼"
 #!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
 #!define STR_EVT_MECH_19_TITLE "窃贼"
-#!define STR_EVT_MECH_19_DESC "长按{0}窃取所有队友的幸运值\n他们下个事件抽到增益概率降低{1}%\n你的下个事件抽到增益概率提高{1}% × 已窃取目标数量"
+#!define STR_EVT_MECH_19_DESC "长按{0}随机窃取一名友方未来的增益事件\n你的下个事件必然是增益\n目标会失去未来一次增益事件"
 #!define STR_EVT_MECH_20_TITLE "赌徒：乐于助人"
 #!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n{3}%概率使所有玩家生命值降至1"
 #!define STR_EVT_MECH_21_TITLE "勇敢举动"

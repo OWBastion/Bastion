@@ -211,7 +211,7 @@
 #!define STR_EVT_MECH_18_TITLE "Vampire"
 #!define STR_EVT_MECH_18_DESC "Drain all allies for {0} + {1}% max HP per second.\nEach allied kill grants +{2}% permanent healing dealt."
 #!define STR_EVT_MECH_19_TITLE "Thief"
-#!define STR_EVT_MECH_19_DESC "Hold {0} to steal all teammates' luck.\nTheir next event has {1}% lower chance to be a Buff.\nYour next event has {1}% higher chance to be a Buff per stolen target."
+#!define STR_EVT_MECH_19_DESC "Hold {0} to randomly steal one ally's future Buff event.\nYour next event is guaranteed to be a Buff.\nThe target loses one future Buff event."
 #!define STR_EVT_MECH_20_TITLE "Gambler: Helpful Soul"
 #!define STR_EVT_MECH_20_DESC "Hold {0} to settle.\n{1}% chance to restore all allies for {2}% max HP.\n{3}% chance to set all players' HP to 1."
 #!define STR_EVT_MECH_21_TITLE "Brave Act"

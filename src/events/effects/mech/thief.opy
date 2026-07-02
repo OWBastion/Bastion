@@ -12,10 +12,17 @@ rule "[VishkarEvent]: 窃贼":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.temp = len(getPlayers(Team.1).exclude(eventPlayer))
-    eventPlayer.categoryRoll -= EVT_MECH_19_LUCK_SHIFT * eventPlayer.temp
-    getPlayers(Team.1).exclude(eventPlayer).categoryRoll += EVT_MECH_19_LUCK_SHIFT
-    smallMessage(eventPlayer, "  {0}  偷走 {1} 名队友的幸运值".format(iconString(Icon.DIAMOND), eventPlayer.temp))
-    smallMessage(getPlayers(Team.1).exclude(eventPlayer), "  {0}  你的幸运值被偷走了，抽到增益事件的概率降低{1}%".format(iconString(Icon.DIAMOND), EVT_MECH_19_LUCK_SHIFT))
-    eventPlayer.eventDuration = 0
-    clearPlayerEvent()
+    eventPlayer.target = getPlayers(Team.1).exclude(eventPlayer)
+    if len(eventPlayer.target) == 0:
+        smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
+        eventPlayer.eventDuration = 0
+        clearPlayerEvent()
+    else:
+        eventPlayer.target = random.choice(eventPlayer.target)
+        eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
+        eventPlayer.eventForceCount = 0
+        eventPlayer.target.thiefBuffStolen = true
+        smallMessage(eventPlayer, "  {0}  已窃取 {1} 未来一次增益事件".format(iconString(Icon.DIAMOND), eventPlayer.target))
+        smallMessage(eventPlayer.target, "  {0}  你未来一次增益事件已被 {1} 窃取".format(iconString(Icon.WARNING), eventPlayer))
+        eventPlayer.eventDuration = 0
+        clearPlayerEvent()
