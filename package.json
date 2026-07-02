@@ -34,7 +34,7 @@
     "build": "pnpm run build:main && pnpm run build:dev"
   },
   "dependencies": {
-    "overpy": "^9.7.4",
+    "overpy": "^9.7.9",
     "vue": "^3.5.38"
   },
   "devDependencies": {
