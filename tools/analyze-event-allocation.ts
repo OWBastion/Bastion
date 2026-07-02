@@ -16,7 +16,7 @@ export const DEFAULT_REPORT_OUTPUT_FILE = path.resolve(
   __dirname,
   '../web/title-query/public/data/event-allocation-report.json'
 );
-export const REPORT_VERSION = 'v2';
+export const REPORT_VERSION = 'v3';
 
 const EVENT_TYPE_INDEX = {
   buff: 0,
@@ -102,7 +102,15 @@ type SourcePack = {
 type SourceEvent = EventItem & {
   pack: number;
   nameZh: string;
+  durationSec: number;
 };
+
+const SESSION_SIMULATION_DURATION_HOURS = 4;
+const SESSION_SIMULATION_DURATION_SECONDS = SESSION_SIMULATION_DURATION_HOURS * 60 * 60;
+const SESSION_SIMULATION_RUNS = 1200;
+const SESSION_WAIT_MIN_SECONDS = 30;
+const SESSION_WAIT_MAX_SECONDS = 35;
+const SESSION_SIMULATION_SEED_OFFSET = 0x9e3779b9;
 
 type ScenarioInput = {
   enabledEventKeys?: string[];
@@ -184,6 +192,7 @@ type ScenarioReport = {
   scenarioPath: string | null;
   iterations: number;
   seed: number;
+  enabledEventKeys: string[] | null;
   playerState: Required<NonNullable<ScenarioInput['playerState']>>;
   categoryTransitions: CategoryTransition[];
   selectedType: EventType;
@@ -293,7 +302,48 @@ export type EventAllocationHtmlData = {
   };
   alerts: EventAllocationAlert[];
   staticSummary: EventAllocationStaticSummary[];
+  sessionSimulation: EventAllocationSessionSimulation;
   scenarios: EventAllocationScenarioView[];
+};
+
+export type EventAllocationSessionEventSummary = {
+  key: string;
+  eventNameZh: string;
+  eventTypeLabelZh: string;
+  packLabelZh: string;
+  atLeastOnceProbability: number;
+  atLeastOnceProbabilityPercent: string;
+  expectedCycleCount: number;
+  probabilityTierLabel: '极高' | '高' | '中' | '低';
+  sortValue: number;
+};
+
+export type EventAllocationSessionTypeSummary = {
+  type: EventType;
+  typeLabel: string;
+  averageAtLeastOnceProbability: number;
+  averageAtLeastOnceProbabilityPercent: string;
+  highestEvent: EventAllocationSessionEventSummary | null;
+  lowestEvent: EventAllocationSessionEventSummary | null;
+};
+
+export type EventAllocationSessionScenarioSummary = {
+  id: string;
+  label: string;
+  description: string;
+  estimatedCycleCount: number;
+  estimatedCycleCountLabel: string;
+  eventSummaries: EventAllocationSessionEventSummary[];
+  typeSummaries: EventAllocationSessionTypeSummary[];
+  assumptions: string[];
+  searchText: string;
+};
+
+export type EventAllocationSessionSimulation = {
+  durationHours: number;
+  durationLabel: string;
+  baselineScenarioId: string;
+  scenarios: EventAllocationSessionScenarioSummary[];
 };
 
 type TuiState = {
@@ -747,7 +797,11 @@ async function loadSharedAnalysisInputs(options: { sourceFile?: string; constant
     recentDedupCount: parseDefineNumber(constantsSource, 'EVT_RECENT_EVENT_DEDUP_COUNT'),
     braveActMaxHeroOrderExclusive: parseDefineNumber(constantsSource, 'EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE'),
     dedupMultiplier: parseDefineNumber(constantsSource, 'EVT_DEDUP_TYPE_MULTIPLIER'),
-    forceRollSelflessGiveaway: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_ROLL')
+    cheatCardCountingForceRoll: parseDefineNumber(constantsSource, 'EVT_MECH_7_FORCE_ROLL'),
+    forceRollSelflessGiveaway: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_ROLL'),
+    gamblerShortInvestmentForceCount: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_COUNT'),
+    gamblerLongInvestmentForceRoll: parseDefineNumber(constantsSource, 'EVT_MECH_12_FORCE_ROLL'),
+    gamblerLongInvestmentForceCount: parseDefineNumber(constantsSource, 'EVT_MECH_12_FORCE_COUNT')
   };
 
   return {
@@ -804,6 +858,7 @@ export async function analyzeScenarioEventAllocation(
     scenarioPath: path.relative(REPO_ROOT, absoluteScenarioFile),
     iterations,
     seed,
+    enabledEventKeys: enabledEventKeys ? Array.from(enabledEventKeys) : null,
     playerState,
     categoryTransitions: transitions,
     selectedType,
@@ -818,6 +873,100 @@ export async function analyzeScenarioEventAllocation(
       lowWeightRows: takeRows(probabilities, 8, 'low')
     }
   };
+}
+
+function chooseEventWithRejectSampling(candidates: EventItem[], eventWeight: number, rng: () => number) {
+  if (candidates.length === 0) {
+    throw new Error('Reject sampling requires a non-empty candidate pool.');
+  }
+
+  let loopCount = 0;
+  let chosen = candidates[0];
+  while (loopCount < 8) {
+    chosen = candidates[Math.floor(rng() * candidates.length)] ?? candidates[candidates.length - 1];
+    if (rng() * eventWeight < chosen.weight) {
+      return chosen;
+    }
+    loopCount += 1;
+  }
+  return chosen;
+}
+
+function getProbabilityTierLabel(probability: number): EventAllocationSessionEventSummary['probabilityTierLabel'] {
+  if (probability >= 0.95) {
+    return '极高';
+  }
+  if (probability >= 0.75) {
+    return '高';
+  }
+  if (probability >= 0.4) {
+    return '中';
+  }
+  return '低';
+}
+
+function applyLongSessionEventState(
+  eventKey: string,
+  playerState: Required<NonNullable<ScenarioInput['playerState']>>,
+  constants: {
+    forceRollSelflessGiveaway: number;
+    cheatCardCountingForceRoll: number;
+    gamblerShortInvestmentForceCount: number;
+    gamblerLongInvestmentForceRoll: number;
+    gamblerLongInvestmentForceCount: number;
+  }
+) {
+  if (eventKey === 'TEMPER_HEART') {
+    playerState.temperHeartUsed = true;
+  }
+  if (eventKey === 'BRAVE_ACT' && playerState.braveActState === BRAVE_ACT_STATE.NEW) {
+    playerState.braveActState = BRAVE_ACT_STATE.DRAWN;
+  }
+  if (eventKey === 'CHEAT_CARD_COUNTING') {
+    playerState.eventForceRoll = constants.cheatCardCountingForceRoll;
+    playerState.eventForceCount = null;
+  }
+  if (eventKey === 'GAMBLER_SHORT_INVESTMENT') {
+    playerState.eventForceRoll = constants.forceRollSelflessGiveaway;
+    playerState.eventForceCount = constants.gamblerShortInvestmentForceCount;
+  }
+  if (eventKey === 'GAMBLER_LONG_INVESTMENT') {
+    playerState.eventForceRoll = constants.gamblerLongInvestmentForceRoll;
+    playerState.eventForceCount = constants.gamblerLongInvestmentForceCount;
+  }
+}
+
+function advanceLongSessionPlayerState(
+  selectedEvent: SourceEvent,
+  playerState: Required<NonNullable<ScenarioInput['playerState']>>,
+  constants: {
+    recentDedupCount: number;
+    dedupMultiplier: number;
+    forceRollSelflessGiveaway: number;
+    cheatCardCountingForceRoll: number;
+    gamblerShortInvestmentForceCount: number;
+    gamblerLongInvestmentForceRoll: number;
+    gamblerLongInvestmentForceCount: number;
+  },
+  rng: () => number
+) {
+  applyLongSessionEventState(selectedEvent.key, playerState, constants);
+
+  if (playerState.eventForceRoll != null) {
+    if ((playerState.eventForceCount ?? -1) > 0) {
+      playerState.eventForceCount = (playerState.eventForceCount ?? 0) - 1;
+    } else {
+      playerState.eventForceRoll = null;
+    }
+  }
+
+  playerState.eventLastKeys = [...playerState.eventLastKeys, `${selectedEvent.type}:${selectedEvent.key}`].slice(
+    -constants.recentDedupCount
+  );
+
+  const nextCategory = applyClearPlayerEventCategoryUpdate(playerState.categoryRoll, playerState.categoryRollSnapshot, rng);
+  playerState.categoryRoll = nextCategory.categoryRoll;
+  playerState.categoryRollSnapshot = nextCategory.categoryRollSnapshot;
 }
 
 async function resolveScenarioFiles(selectedScenarioFile?: string) {
@@ -948,6 +1097,136 @@ function getStrongestRow(rows: ProbabilityRow[], selector: (row: ProbabilityRow)
   }, null);
 }
 
+function buildLongSessionSimulation(
+  scenarioReports: ScenarioReport[],
+  scenarioFiles: string[],
+  sourceEventsByKey: Map<string, SourceEvent>,
+  packLabelById: Map<number, string>,
+  constants: {
+    eventWeight: number;
+    recentDedupCount: number;
+    braveActMaxHeroOrderExclusive: number;
+    dedupMultiplier: number;
+    forceRollSelflessGiveaway: number;
+    cheatCardCountingForceRoll: number;
+    gamblerShortInvestmentForceCount: number;
+    gamblerLongInvestmentForceRoll: number;
+    gamblerLongInvestmentForceCount: number;
+  }
+): EventAllocationSessionSimulation {
+  const sourceEvents = Array.from(sourceEventsByKey.values());
+  const scenarios = scenarioReports.map((scenarioReport, index) => {
+    const scenarioPath = scenarioReport.scenarioPath ? path.resolve(REPO_ROOT, scenarioReport.scenarioPath) : scenarioFiles[index];
+    const meta = prettifyScenarioInfo(scenarioPath);
+    const enabledEventKeys = scenarioReport.enabledEventKeys ? new Set(scenarioReport.enabledEventKeys) : null;
+    const eventStats = new Map(sourceEvents.map((eventItem) => [eventItem.key, { seenCount: 0, cycleCount: 0 }]));
+    let totalCycles = 0;
+
+    for (let runIndex = 0; runIndex < SESSION_SIMULATION_RUNS; runIndex += 1) {
+      const rng = createRng(scenarioReport.seed + SESSION_SIMULATION_SEED_OFFSET + runIndex * 7919);
+      const playerState = {
+        ...scenarioReport.playerState,
+        eventLastKeys: [...scenarioReport.playerState.eventLastKeys]
+      };
+      const seenEvents = new Set<string>();
+      let elapsedSeconds = 0;
+
+      while (elapsedSeconds < SESSION_SIMULATION_DURATION_SECONDS) {
+        elapsedSeconds += SESSION_WAIT_MIN_SECONDS + Math.floor(rng() * (SESSION_WAIT_MAX_SECONDS - SESSION_WAIT_MIN_SECONDS + 1));
+        const outcome = resolveCategoryOutcome(playerState, rng);
+        const candidatePool = buildCandidatePool(sourceEvents, outcome.type, playerState, enabledEventKeys, constants);
+        if (candidatePool.candidates.length === 0) {
+          const nextCategory = applyClearPlayerEventCategoryUpdate(playerState.categoryRoll, playerState.categoryRollSnapshot, rng);
+          playerState.categoryRoll = nextCategory.categoryRoll;
+          playerState.categoryRollSnapshot = nextCategory.categoryRollSnapshot;
+          continue;
+        }
+        const selectedEvent = chooseEventWithRejectSampling(candidatePool.candidates, constants.eventWeight, rng) as SourceEvent;
+        const sourceEvent = sourceEventsByKey.get(selectedEvent.key);
+        if (!sourceEvent) {
+          throw new Error(`Missing source event for long session simulation: ${selectedEvent.key}`);
+        }
+
+        eventStats.get(sourceEvent.key)!.cycleCount += 1;
+        seenEvents.add(sourceEvent.key);
+        totalCycles += 1;
+        elapsedSeconds += sourceEvent.durationSec;
+        advanceLongSessionPlayerState(sourceEvent, playerState, constants, rng);
+      }
+
+      seenEvents.forEach((eventKey) => {
+        eventStats.get(eventKey)!.seenCount += 1;
+      });
+    }
+
+    const eventSummaries = sourceEvents
+      .map((eventItem) => {
+        const stats = eventStats.get(eventItem.key)!;
+        const atLeastOnceProbability = stats.seenCount / SESSION_SIMULATION_RUNS;
+        const metaRow = getEventDisplayMeta(eventItem.key, eventItem.type, sourceEventsByKey, packLabelById);
+        return {
+          key: eventItem.key,
+          eventNameZh: metaRow.eventNameZh,
+          eventTypeLabelZh: metaRow.eventTypeLabelZh,
+          packLabelZh: metaRow.packLabelZh,
+          atLeastOnceProbability,
+          atLeastOnceProbabilityPercent: formatPercent(atLeastOnceProbability),
+          expectedCycleCount: stats.cycleCount / SESSION_SIMULATION_RUNS,
+          probabilityTierLabel: getProbabilityTierLabel(atLeastOnceProbability),
+          sortValue: atLeastOnceProbability
+        } satisfies EventAllocationSessionEventSummary;
+      })
+      .sort((left, right) => right.sortValue - left.sortValue || left.eventNameZh.localeCompare(right.eventNameZh, 'zh-Hans-CN'));
+
+    const typeSummaries = (['buff', 'debuff', 'mech'] as EventType[]).map((type) => {
+      const rows = eventSummaries.filter((item) => sourceEventsByKey.get(item.key)?.type === type);
+      const averageAtLeastOnceProbability = rows.length
+        ? rows.reduce((sum, item) => sum + item.atLeastOnceProbability, 0) / rows.length
+        : 0;
+      return {
+        type,
+        typeLabel: getTypeLabel(type),
+        averageAtLeastOnceProbability,
+        averageAtLeastOnceProbabilityPercent: formatPercent(averageAtLeastOnceProbability),
+        highestEvent: rows[0] ?? null,
+        lowestEvent: rows[rows.length - 1] ?? null
+      } satisfies EventAllocationSessionTypeSummary;
+    });
+
+    const estimatedCycleCount = totalCycles / SESSION_SIMULATION_RUNS;
+    return {
+      id: meta.id,
+      label: meta.label,
+      description: meta.description,
+      estimatedCycleCount,
+      estimatedCycleCountLabel: `约 ${Math.round(estimatedCycleCount)} 轮`,
+      eventSummaries,
+      typeSummaries,
+      assumptions: [
+        '口径：4 小时单局',
+        '节奏：30~35 秒等待 + 当前事件持续时间',
+        '玩家：普通进行中状态'
+      ],
+      searchText: [
+        meta.id,
+        meta.label,
+        meta.description,
+        typeSummaries.map((item) => item.typeLabel).join('|'),
+        eventSummaries.map((item) => `${item.eventNameZh}|${item.eventTypeLabelZh}|${item.packLabelZh}|${item.probabilityTierLabel}`).join('|')
+      ]
+        .join('|')
+        .toLocaleLowerCase()
+    } satisfies EventAllocationSessionScenarioSummary;
+  });
+
+  return {
+    durationHours: SESSION_SIMULATION_DURATION_HOURS,
+    durationLabel: `${SESSION_SIMULATION_DURATION_HOURS} h`,
+    baselineScenarioId: scenarios.find((scenario) => scenario.id === 'prod-default')?.id ?? scenarios[0]?.id ?? 'prod-default',
+    scenarios
+  };
+}
+
 function buildAlerts(staticSummary: EventAllocationStaticSummary[], scenarios: EventAllocationScenarioView[]): EventAllocationAlert[] {
   const alerts: EventAllocationAlert[] = [];
   const strongestUplift = staticSummary
@@ -1014,7 +1293,7 @@ export async function buildEventAllocationReportData(options: {
   constantsFile?: string;
   scenarioFiles?: string[];
 } = {}): Promise<EventAllocationHtmlData> {
-  const { sourceFile, constantsFile, sourceData, packs } = await loadSharedAnalysisInputs(options);
+  const { sourceFile, constantsFile, sourceData, packs, constants } = await loadSharedAnalysisInputs(options);
   const staticReport = await analyzeStaticEventAllocation(options);
   const scenarioFiles = options.scenarioFiles ?? (await resolveScenarioFiles());
   const scenarioReports = await Promise.all(scenarioFiles.map((scenarioFile) => analyzeScenarioEventAllocation(scenarioFile, options)));
@@ -1112,6 +1391,18 @@ export async function buildEventAllocationReportData(options: {
         .toLocaleLowerCase()
     };
   });
+  const sessionSimulation = buildLongSessionSimulation(scenarioReports, scenarioFiles, sourceEventsByKey, packLabelById, constants);
+
+  const scenariosWithSessionSearch = scenarios.map((scenario) => {
+    const sessionScenario = sessionSimulation.scenarios.find((item) => item.id === scenario.id);
+    if (!sessionScenario) {
+      return scenario;
+    }
+    return {
+      ...scenario,
+      searchText: `${scenario.searchText}|${sessionScenario.searchText}`
+    };
+  });
 
   return {
     meta: {
@@ -1124,9 +1415,10 @@ export async function buildEventAllocationReportData(options: {
       braveActMaxHeroOrderExclusive: staticReport.braveActMaxHeroOrderExclusive,
       scenarioCount: scenarios.length
     },
-    alerts: buildAlerts(staticSummary, scenarios),
+    alerts: buildAlerts(staticSummary, scenariosWithSessionSearch),
     staticSummary,
-    scenarios
+    sessionSimulation,
+    scenarios: scenariosWithSessionSearch
   };
 }
 
@@ -1175,6 +1467,17 @@ function renderOverviewPage(report: EventAllocationHtmlData, useAnsi: boolean, f
   report.staticSummary.forEach((summary) => {
     lines.push(`${summary.typeLabel.padEnd(4)} ${summary.poolSummary}`);
   });
+  const baselineSession = report.sessionSimulation.scenarios.find((scenario) => scenario.id === report.sessionSimulation.baselineScenarioId);
+  if (baselineSession) {
+    lines.push('', colorize(useAnsi, ANSI.bold, '4 小时长局模拟'));
+    lines.push(`基线场景：${baselineSession.label} · ${baselineSession.estimatedCycleCountLabel}`);
+    lines.push(`最高事件：${baselineSession.eventSummaries[0]?.eventNameZh ?? '暂无'} ${baselineSession.eventSummaries[0]?.atLeastOnceProbabilityPercent ?? ''}`.trim());
+    lines.push(
+      `最低事件：${baselineSession.eventSummaries[baselineSession.eventSummaries.length - 1]?.eventNameZh ?? '暂无'} ${
+        baselineSession.eventSummaries[baselineSession.eventSummaries.length - 1]?.atLeastOnceProbabilityPercent ?? ''
+      }`.trim()
+    );
+  }
   return lines.join('\n');
 }
 

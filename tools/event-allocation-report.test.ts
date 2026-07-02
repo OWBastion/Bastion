@@ -21,16 +21,41 @@ const constantsFile = path.resolve(__dirname, '../src/constants/event_constants.
 test('builds shared html report data with alerts and preset scenarios', async () => {
   const report = await buildEventAllocationReportData({ sourceFile, constantsFile });
 
-  assert.equal(report.meta.reportVersion, 'v2');
+  assert.equal(report.meta.reportVersion, 'v3');
   assert.equal(report.staticSummary.length, 3);
   assert.ok(report.scenarios.length >= 4);
   assert.ok(report.alerts.length > 0);
   assert.ok(report.scenarios.some((scenario) => scenario.id === 'brave-act-locked'));
+  assert.equal(report.sessionSimulation.durationHours, 4);
+  assert.equal(report.sessionSimulation.baselineScenarioId, 'prod-default');
+  assert.ok(report.sessionSimulation.scenarios.length >= 4);
+  assert.ok(report.sessionSimulation.scenarios[0]?.eventSummaries[0]?.eventNameZh);
   assert.ok(report.staticSummary[0]?.topRows[0]?.eventNameZh);
   assert.ok(report.scenarios[0]?.selectedTypeSummary);
   assert.ok(report.scenarios[0]?.candidatePoolSummary);
   assert.ok(report.scenarios[0]?.filteredSummary);
+  const baselineScenario = report.sessionSimulation.scenarios.find((scenario) => scenario.id === 'prod-default');
+  assert.ok(baselineScenario);
+  assert.ok(baselineScenario!.estimatedCycleCount > 150);
+  assert.ok(baselineScenario!.estimatedCycleCount < 300);
+  assert.ok(
+    baselineScenario!.eventSummaries.every(
+      (item, index, rows) => index === 0 || rows[index - 1].atLeastOnceProbability >= item.atLeastOnceProbability
+    )
+  );
   assert.ok(report.alerts.every((alert) => !/[Dd]elta|fallback|candidateKeys|selectedType/.test(`${alert.title}${alert.summary}${alert.evidence}`)));
+});
+
+test('session simulation respects once-state and hero-gated scenario exclusions', async () => {
+  const report = await buildEventAllocationReportData({ sourceFile, constantsFile });
+
+  const temperHeartScenario = report.sessionSimulation.scenarios.find((scenario) => scenario.id === 'temper-heart-used');
+  const braveActScenario = report.sessionSimulation.scenarios.find((scenario) => scenario.id === 'brave-act-locked');
+
+  assert.ok(temperHeartScenario);
+  assert.ok(braveActScenario);
+  assert.equal(temperHeartScenario!.eventSummaries.find((item) => item.key === 'TEMPER_HEART')?.atLeastOnceProbability, 0);
+  assert.equal(braveActScenario!.eventSummaries.find((item) => item.key === 'BRAVE_ACT')?.atLeastOnceProbability, 0);
 });
 
 test('renders non-tty summary and tui frame headings', async () => {
@@ -43,6 +68,7 @@ test('renders non-tty summary and tui frame headings', async () => {
   const summary = renderNonTtySummary(report);
   assert.match(summary, /总览/);
   assert.match(summary, /场景浏览/);
+  assert.match(summary, /4 小时长局模拟/);
   assert.doesNotMatch(summary, /Δ=|fb=|selectedType=|fallbackProbability|deltaProbability/);
   assert.match(summary, /会比按权重时更常出现|保底机制托上去/);
 
@@ -73,9 +99,10 @@ test('syncs html-data report payload to disk', async () => {
 
   assert.ok(result.outputFile.endsWith('.json'));
   const written = JSON.parse(await fs.readFile(outputFile, 'utf8'));
-  assert.equal(written.meta.reportVersion, 'v2');
+  assert.equal(written.meta.reportVersion, 'v3');
   assert.ok(Array.isArray(written.staticSummary));
   assert.ok(Array.isArray(written.scenarios));
+  assert.ok(Array.isArray(written.sessionSimulation?.scenarios));
 });
 
 test('default report output stays under title-query public data', () => {

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 
 import AllocatorAlertsSection from './AllocatorAlertsSection.vue';
 import AllocatorScenarioSection from './AllocatorScenarioSection.vue';
+import AllocatorSessionSimulationSection from './AllocatorSessionSimulationSection.vue';
 import AllocatorStaticSummarySection from './AllocatorStaticSummarySection.vue';
 
 const props = defineProps(['loading', 'error', 'report', 'filterText']);
@@ -31,6 +32,17 @@ const filteredScenarios = computed(() => {
 const activeScenario = computed(
   () => filteredScenarios.value.find((scenario) => scenario.id === selectedScenarioId.value) || filteredScenarios.value[0] || null
 );
+
+const activeSessionSimulation = computed(() => {
+  const simulations = props.report?.sessionSimulation?.scenarios ?? [];
+  const baselineScenarioId = props.report?.sessionSimulation?.baselineScenarioId ?? '';
+  return (
+    simulations.find((scenario) => scenario.id === selectedScenarioId.value) ||
+    simulations.find((scenario) => scenario.id === baselineScenarioId) ||
+    simulations[0] ||
+    null
+  );
+});
 
 const metaPills = computed(() => {
   if (!props.report) {
@@ -68,7 +80,8 @@ watch(
       return;
     }
     if (!filteredScenarios.value.some((scenario) => scenario.id === selectedScenarioId.value)) {
-      selectedScenarioId.value = filteredScenarios.value[0].id;
+      selectedScenarioId.value =
+        filteredScenarios.value.find((scenario) => scenario.id === 'prod-default')?.id || filteredScenarios.value[0].id;
     }
   },
   { immediate: true }
@@ -93,6 +106,11 @@ watch(
       />
 
       <AllocatorStaticSummarySection :static-summary="report.staticSummary" />
+
+      <AllocatorSessionSimulationSection
+        :simulation="activeSessionSimulation"
+        :duration-label="report.sessionSimulation.durationLabel"
+      />
 
       <AllocatorScenarioSection
         :scenarios="filteredScenarios"
