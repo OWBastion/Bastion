@@ -11,22 +11,81 @@ const props = defineProps(['loading', 'error', 'report', 'filterText']);
 const selectedScenarioId = ref('');
 const scenarioFilter = computed(() => String(props.filterText || '').trim().toLocaleLowerCase());
 
+const SCENARIO_LABEL_MAP = {
+  'prod-default': '默认分配',
+  'recent-dedup-window': '最近事件去重',
+  'temper-heart-used': '心之钢已生效',
+  'brave-act-locked': '勇敢举动受限'
+};
+
+function sanitizeAllocatorText(value) {
+  return String(value || '')
+    .replaceAll('默认生产分配', '默认分配')
+    .replaceAll('基线场景', '当前场景')
+    .replaceAll('最近事件去重窗口', '最近事件去重')
+    .replaceAll('去重窗口', '最近避让')
+    .replaceAll('命中最近事件去重窗口', '命中最近避让')
+    .replaceAll('生产', '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+function getScenarioDisplayLabel(scenario) {
+  return SCENARIO_LABEL_MAP[scenario?.id] || sanitizeAllocatorText(scenario?.label);
+}
+
+function decorateScenario(scenario) {
+  if (!scenario) {
+    return null;
+  }
+  return {
+    ...scenario,
+    displayLabel: getScenarioDisplayLabel(scenario),
+    displayDescription: sanitizeAllocatorText(scenario.description),
+    selectedTypeSummary: sanitizeAllocatorText(scenario.selectedTypeSummary),
+    candidatePoolSummary: sanitizeAllocatorText(scenario.candidatePoolSummary),
+    transitionSummary: sanitizeAllocatorText(scenario.transitionSummary),
+    filteredSummary: sanitizeAllocatorText(scenario.filteredSummary),
+    categoryTransitions: scenario.categoryTransitions.map((transition) => ({
+      ...transition,
+      sourceLabel: sanitizeAllocatorText(transition.sourceLabel)
+    })),
+    candidatePool: {
+      ...scenario.candidatePool,
+      filtered: scenario.candidatePool.filtered.map((item) => ({
+        ...item,
+        reasonLabels: item.reasonLabels.map((label) => sanitizeAllocatorText(label)),
+        reasonSummary: sanitizeAllocatorText(item.reasonSummary)
+      }))
+    }
+  };
+}
+
 const filteredAlerts = computed(() => {
   const alerts = props.report?.alerts ?? [];
+  const decoratedAlerts = alerts.map((alert) => ({
+    ...alert,
+    title: sanitizeAllocatorText(alert.title),
+    summary: sanitizeAllocatorText(alert.summary),
+    evidence: sanitizeAllocatorText(alert.evidence)
+  }));
   if (!scenarioFilter.value) {
-    return alerts;
+    return decoratedAlerts;
   }
-  return alerts.filter((alert) =>
+  return decoratedAlerts.filter((alert) =>
     [alert.title, alert.summary, alert.evidence].join('|').toLocaleLowerCase().includes(scenarioFilter.value)
   );
 });
 
 const filteredScenarios = computed(() => {
   const scenarios = props.report?.scenarios ?? [];
+  const decoratedScenarios = scenarios.map((scenario) => decorateScenario(scenario));
   if (!scenarioFilter.value) {
-    return scenarios;
+    return decoratedScenarios;
   }
-  return scenarios.filter((scenario) => String(scenario.searchText || '').includes(scenarioFilter.value));
+  return decoratedScenarios.filter((scenario) =>
+    [scenario.searchText, scenario.displayLabel, scenario.displayDescription].join('|').toLocaleLowerCase().includes(scenarioFilter.value)
+  );
 });
 
 const activeScenario = computed(
@@ -36,12 +95,18 @@ const activeScenario = computed(
 const activeSessionSimulation = computed(() => {
   const simulations = props.report?.sessionSimulation?.scenarios ?? [];
   const baselineScenarioId = props.report?.sessionSimulation?.baselineScenarioId ?? '';
-  return (
+  const active =
     simulations.find((scenario) => scenario.id === selectedScenarioId.value) ||
     simulations.find((scenario) => scenario.id === baselineScenarioId) ||
     simulations[0] ||
-    null
-  );
+    null;
+  if (!active) {
+    return null;
+  }
+  return {
+    ...active,
+    displayLabel: getScenarioDisplayLabel(active)
+  };
 });
 
 const metaPills = computed(() => {
@@ -50,24 +115,24 @@ const metaPills = computed(() => {
   }
   return [
     {
-      label: '去重窗口',
+      label: '最近避让',
       value: `${props.report.meta.recentDedupCount} 个事件`,
-      note: '最近抽取优先避开'
+      note: '最近抽取不会重复'
     },
     {
-      label: '抽取基准',
+      label: '权重上限',
       value: String(props.report.meta.eventWeight),
-      note: '当前权重阈值'
+      note: '单轮接受上限'
     },
     {
       label: '预置场景',
       value: `${props.report.meta.scenarioCount} 个`,
-      note: '用于对比分配行为'
+      note: '用于对比差异'
     },
     {
       label: '延续风险',
       value: props.report.alerts.some((alert) => alert.id === 'category-roll-persists') ? '存在' : '无',
-      note: '下一轮类别影响'
+      note: '下一轮仍可能受影响'
     }
   ];
 });
@@ -92,7 +157,7 @@ watch(
   <section class="catalog-panel card ow-card allocator-panel">
     <header class="card-header">
       <h2>事件分配报告</h2>
-      <p class="allocator-subtitle">用于观察候选范围收缩、低权重抬升与类别倾向延续。</p>
+      <p class="allocator-subtitle">事件分布与候选概览。</p>
     </header>
 
     <div v-if="loading" class="state-block">正在生成事件分配报告…</div>

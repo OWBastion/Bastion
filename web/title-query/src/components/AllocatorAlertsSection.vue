@@ -41,7 +41,7 @@ function summaryMetrics(summary) {
 
     <div v-if="alerts.length" class="alert-grid">
       <article v-for="alert in alerts" :key="alert.id" class="alert-card" :class="alertClass(alert.severity)">
-        <p class="alert-kicker">{{ alert.severity === 'warn' ? '异常提示' : '补充指标' }}</p>
+        <p class="alert-kicker">{{ alert.severity === 'warn' ? '关注' : '提示' }}</p>
         <h4>{{ alert.title }}</h4>
         <p class="alert-summary">{{ alert.summary }}</p>
         <p class="alert-evidence">依据：{{ alert.evidence }}</p>
@@ -54,7 +54,7 @@ function summaryMetrics(summary) {
         <div class="summary-head">
           <div>
             <p class="summary-label">{{ summary.typeLabel }}</p>
-            <h4>当前有效候选 {{ summary.candidateCount }} 个</h4>
+            <h4>有效候选 {{ summary.candidateCount }}</h4>
           </div>
           <p class="summary-peak">{{ summary.acceptanceAveragePercent }}</p>
         </div>

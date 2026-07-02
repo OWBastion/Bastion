@@ -49,7 +49,7 @@ function scenarioMetrics(scenario) {
           :class="scenario.id === selectedScenarioId ? 'scenario-chip-active' : ''"
           @click="$emit('select', scenario.id)"
         >
-          {{ scenario.label }}
+          {{ scenario.displayLabel || scenario.label }}
         </button>
       </div>
     </header>
@@ -58,8 +58,8 @@ function scenarioMetrics(scenario) {
     <article v-else-if="activeScenario" class="scenario-card">
       <header class="scenario-card-head">
         <div>
-          <h4>{{ activeScenario.label }}</h4>
-          <p>{{ activeScenario.description }}</p>
+          <h4>{{ activeScenario.displayLabel || activeScenario.label }}</h4>
+          <p>{{ activeScenario.displayDescription || activeScenario.description }}</p>
         </div>
       </header>
 

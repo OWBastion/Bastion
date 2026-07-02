@@ -21,9 +21,8 @@ function probabilityWidth(value) {
     <header class="allocator-section-head">
       <div>
         <p class="allocator-eyebrow">4 小时长局模拟</p>
-        <h3>单局覆盖概率</h3>
+        <h3>事件覆盖率</h3>
       </div>
-      <p class="session-copy">口径：4 小时单局，统计事件至少出现一次的概率。</p>
     </header>
 
     <div v-if="!simulation" class="state-block">当前没有可显示的长局模拟结果。</div>
@@ -34,8 +33,8 @@ function probabilityWidth(value) {
           <p class="session-hero-value">{{ durationLabel }}</p>
         </article>
         <article class="session-hero-card">
-          <p class="session-hero-label">基线场景</p>
-          <p class="session-hero-value session-hero-value-text">{{ simulation.label }}</p>
+          <p class="session-hero-label">当前场景</p>
+          <p class="session-hero-value session-hero-value-text">{{ simulation.displayLabel || simulation.label }}</p>
         </article>
         <article class="session-hero-card">
           <p class="session-hero-label">单局预计轮数</p>
@@ -99,7 +98,7 @@ function probabilityWidth(value) {
 .allocator-section-head {
   display: flex;
   align-items: end;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
 }
 
@@ -115,13 +114,6 @@ function probabilityWidth(value) {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.session-copy {
-  margin: 0;
-  color: var(--ow-text-soft);
-  max-width: 22rem;
-  text-align: right;
 }
 
 .session-hero-strip,
@@ -275,11 +267,6 @@ function probabilityWidth(value) {
 
   .allocator-section-head {
     display: grid;
-  }
-
-  .session-copy {
-    text-align: left;
-    max-width: none;
   }
 
   .session-row {
