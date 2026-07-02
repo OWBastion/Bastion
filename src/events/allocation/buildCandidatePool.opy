@@ -37,11 +37,11 @@ def buildCandidatePool():
     else:
         eventPlayer.eventTempId = mechEventId.filter(lambda id:
             mechEvent[id] != 0 and mechEvent[id].last() > 0 and
-            id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.NEW) else -1) and
+            id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_SEEN and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] == true) else -1) and
             (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = mechEventId.filter(lambda id:
                 mechEvent[id] != 0 and mechEvent[id].last() > 0 and
-                id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.NEW) else -1)
+                id != (MechEventId.BRAVE_ACT if eventPlayer.heroNumber + 1 >= EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE or (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_SEEN and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] == true) else -1)
             )

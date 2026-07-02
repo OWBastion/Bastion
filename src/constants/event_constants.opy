@@ -22,30 +22,22 @@ enum EventType:
 # 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
 enum PlayerOnceEventSlot:
     TEMPER_HEART = 0
-    BRAVE_ACT_STATE_LEGACY
-    BRAVE_ACT_HP_LEGACY
-    BRAVE_ACT_DMG_REDUCTION_LEGACY
-    BRAVE_ACT_SPEED_LEGACY
-    BRAVE_ACT_HEALING_LEGACY
-    BRAVE_ACT_REGEN_LEGACY
-    BRAVE_ACT_ULT_LEGACY
-    BRAVE_ACT_STATE
-    BRAVE_ACT_HP
-    BRAVE_ACT_DMG_REDUCTION
-    BRAVE_ACT_SPEED
-    BRAVE_ACT_HEALING
-    BRAVE_ACT_REGEN
-    BRAVE_ACT_ULT
+    BRAVE_ACT_SEEN
+    BRAVE_ACT_REWARD
     COUNT
 
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
 #!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
-enum PlayerOnceEventStateBraveAct:
-    NEW = 0
-    DRAWN
-    ACCEPTED
+enum BraveActReward:
+    NONE = 0
+    HP
+    DMG_REDUCTION
+    SPEED
+    HEALING
+    REGEN
+    ULT
 
-#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [false, 0, false, false, false, false, false, false, 0, false, false, false, false, false, false]
+#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [false, false, 0]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 
 # -----------------------------------------------------------------------------

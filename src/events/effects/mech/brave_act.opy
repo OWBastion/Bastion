@@ -14,50 +14,44 @@ rule "[VishkarEvent]: 勇敢举动":
         eventPlayer.eventType == EventType.MECH,
         eventPlayer.eventId == MechEventId.BRAVE_ACT,
         (
-            len(eventPlayer.playerOnceEventState) <= PlayerOnceEventSlot.BRAVE_ACT_STATE
-            or eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.ACCEPTED
+            len(eventPlayer.playerOnceEventState) <= PlayerOnceEventSlot.BRAVE_ACT_REWARD
+            or eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.NONE
         )
     ]) == true
 
     while len(eventPlayer.playerOnceEventState) < PLAYER_ONCE_EVENT_SLOT_COUNT:
         eventPlayer.playerOnceEventState.append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(eventPlayer.playerOnceEventState)])
-    if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] == PlayerOnceEventStateBraveAct.NEW:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] = PlayerOnceEventStateBraveAct.DRAWN
+    if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] != true:
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] = true
     if any([
         eventPlayer.altFormTrigger == true,
         eventPlayer.isHoldingButton(Button.RELOAD) == false,
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] != PlayerOnceEventStateBraveAct.DRAWN
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] != BraveActReward.NONE
     ]):
         return
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormTrigger = true
-    eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] = PlayerOnceEventStateBraveAct.ACCEPTED
-    eventPlayer.temp = random.randint(0, 5)
-    if eventPlayer.temp == 0:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_HP] = true
+    eventPlayer.temp = random.randint(1, 6)
+    eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] = eventPlayer.temp
+    if eventPlayer.temp == BraveActReward.HP:
         eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL
         setPlayerHP()
         smallMessage(eventPlayer, "  获得 1000% 最大生命值，后续不再触发随机事件")
-    elif eventPlayer.temp == 1:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_DMG_REDUCTION] = true
+    elif eventPlayer.temp == BraveActReward.DMG_REDUCTION:
         eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA
         updatePlayerStats()
         smallMessage(eventPlayer, "  获得 65% 伤害减免，后续不再触发随机事件")
-    elif eventPlayer.temp == 2:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SPEED] = true
+    elif eventPlayer.temp == BraveActReward.SPEED:
         eventPlayer.mod_speed_perma += EVT_MECH_21_SPEED_PERMA
         updatePlayerStats()
         smallMessage(eventPlayer, "  获得 100% 移速加成，后续不再触发随机事件")
-    elif eventPlayer.temp == 3:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_HEALING] = true
+    elif eventPlayer.temp == BraveActReward.HEALING:
         eventPlayer.mod_heal_perma += EVT_MECH_21_HEALING_PERMA
         updatePlayerStats()
         smallMessage(eventPlayer, "  获得 750% 治疗强度，后续不再触发随机事件")
-    elif eventPlayer.temp == 4:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REGEN] = true
+    elif eventPlayer.temp == BraveActReward.REGEN:
         smallMessage(eventPlayer, "  获得每秒 150+50% 最大生命值回复，后续不再触发随机事件")
     else:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_ULT] = true
         smallMessage(eventPlayer, "  获得每5秒 5% 终极技能充能，且禁用跳过")
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Team.1, eventPlayer, 200)
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
@@ -71,8 +65,8 @@ rule "[VishkarEvent]: 勇敢举动 (生命恢复)":
         eventPlayer.hasSpawned(),
         eventPlayer.isAlive(),
         eventPlayer.playerOnceEventState != null,
-        len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REGEN,
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REGEN] == true
+        len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD,
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.REGEN
     ]) == true
 
     heal(eventPlayer, eventPlayer, EVT_MECH_21_REGEN_FLAT + eventPlayer.getMaxHealth() * EVT_MECH_21_REGEN_MAXHP_FACTOR)
@@ -86,8 +80,8 @@ rule "[VishkarEvent]: 勇敢举动 (终极技能充能)":
     @Condition all([
         eventPlayer.hasSpawned(),
         eventPlayer.playerOnceEventState != null,
-        len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_ULT,
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_ULT] == true,
+        len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD,
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT,
         (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
     ]) == true
 

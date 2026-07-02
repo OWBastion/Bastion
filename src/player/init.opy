@@ -28,7 +28,6 @@ rule "when a player joins, load player data if they have it and initialize them"
         wait(eventPlayer.getSlot() * 0.032)
         if savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
             eventPlayer.playerOnceEventState = savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
-            normalizePlayerOnceEventState()
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)]
     else:
@@ -39,17 +38,17 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
-    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_STATE and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_STATE] == PlayerOnceEventStateBraveAct.ACCEPTED:
-        if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_HP] == true:
+    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD:
+        if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HP:
             eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL
             setPlayerHP()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_DMG_REDUCTION] == true:
+        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.DMG_REDUCTION:
             eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA
             updatePlayerStats()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SPEED] == true:
+        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.SPEED:
             eventPlayer.mod_speed_perma += EVT_MECH_21_SPEED_PERMA
             updatePlayerStats()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_HEALING] == true:
+        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HEALING:
             eventPlayer.mod_heal_perma += EVT_MECH_21_HEALING_PERMA
             updatePlayerStats()
     wait(6)
