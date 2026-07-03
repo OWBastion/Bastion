@@ -577,3 +577,9 @@ rule "initialize event array":
     mechEvent[MechEventId.CHEAT_BACKROOM_DEAL] = [STR_EVT_MECH_22_TITLE, STR_EVT_MECH_22_DESC.format(Button.RELOAD, EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK), EVT_MECH_22_DURATION, EVT_MECH_22_WEIGHT]
     mechEventId.append(MechEventId.CHEAT_BACKROOM_DEAL)
     lbl_203:
+
+    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_5_MECH, STR_EVT_MECH_23_TITLE, true, MechEventId.MIRROR_INVERSION):
+        goto lbl_204
+    mechEvent[MechEventId.MIRROR_INVERSION] = [STR_EVT_MECH_23_TITLE, STR_EVT_MECH_23_DESC.format(Button.RELOAD), EVT_MECH_23_DURATION, EVT_MECH_23_WEIGHT]
+    mechEventId.append(MechEventId.MIRROR_INVERSION)
+    lbl_204:

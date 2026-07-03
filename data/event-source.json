@@ -793,6 +793,18 @@
       "weight": 0.8,
       "availability": "active",
       "descEn": "Hold {0} to permanently lose {1} Heartsteel stacks (about {2}% max HP).\\nYour next event is guaranteed to be a Mech."
+    },
+    {
+      "key": "MIRROR_INVERSION",
+      "type": "mech",
+      "id": 22,
+      "pack": 5,
+      "nameZh": "镜像反转",
+      "descZh": "长按{0}永久反转当前永久属性：减伤 / 移速 / 治疗增益 / 心之钢",
+      "durationSec": 15,
+      "weight": 0.8,
+      "availability": "active",
+      "descEn": "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
     }
   ]
 }

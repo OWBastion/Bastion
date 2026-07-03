@@ -228,6 +228,8 @@
 #!define STR_EVT_MECH_21_DESC "长按{0}永久获得一项强化：\n{1}%最大生命值 / {2}%伤害减免 / {3}%移速加成 / {4}%治疗强度 / 每秒回复{5}+{6}%最大生命值 / 每{8}秒获得{7}%终极技能充能\n此后不再触发随机事件"
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
 #!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
+#!define STR_EVT_MECH_23_TITLE "镜像反转"
+#!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前永久属性：减伤 / 移速 / 治疗增益 / 心之钢"
 
 
 # 设置菜单分类 (Pack)

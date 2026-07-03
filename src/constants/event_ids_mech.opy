@@ -48,6 +48,8 @@ enum MechEventId:
     BRAVE_ACT
     # legacy numeric id: 22
     CHEAT_BACKROOM_DEAL
+    # legacy numeric id: 23
+    MIRROR_INVERSION
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

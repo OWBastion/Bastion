@@ -28,3 +28,4 @@
 #!include "mech/gambler_helpful_soul.opy"
 #!include "mech/brave_act.opy"
 #!include "mech/cheat_backroom_deal.opy"
+#!include "mech/mirror_inversion.opy"

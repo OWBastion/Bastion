@@ -218,6 +218,8 @@
 #!define STR_EVT_MECH_21_DESC "Hold {0} to permanently gain one bonus:\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\nNo more random events afterward."
 #!define STR_EVT_MECH_22_TITLE "Cheat: Backroom Deal"
 #!define STR_EVT_MECH_22_DESC "Hold {0} to permanently lose {1} Heartsteel stacks (about {2}% max HP).\nYour next event is guaranteed to be a Mech."
+#!define STR_EVT_MECH_23_TITLE "Mirror Inversion"
+#!define STR_EVT_MECH_23_DESC "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
 
 
 # Settings Categories

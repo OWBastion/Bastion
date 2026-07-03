@@ -912,4 +912,8 @@ enum BraveActReward:
 #!define EVT_MECH_22_HEART_STEEL_COST 4
 #!define EVT_MECH_22_FORCE_ROLL 80
 
+# --- ID 23 (Mech/Special): 镜像反转 ---
+#!define EVT_MECH_23_DURATION 15
+#!define EVT_MECH_23_WEIGHT 0.8
+
 # -----------------------------------------------------------------------------
