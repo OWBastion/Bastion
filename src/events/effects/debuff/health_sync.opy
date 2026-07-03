@@ -15,11 +15,11 @@ rule "[VishkarEvent]: 我和你 (生命同步)":
     
     eventPlayer.passiveRegenBlocked = true
 
-    eventPlayer.target = (sorted(getLivingPlayers(Team.1).exclude(eventPlayer), lambda i: i.getHealth() / i.getMaxHealth()))[0]
+    eventPlayer.target = (sorted(getLivingPlayers(Team.1).exclude(eventPlayer), lambda i: ratioPercent(i.getHealth(), i.getMaxHealth()))).first()
 
     if eventPlayer.target != null:
-        if eventPlayer.getHealth() / eventPlayer.getMaxHealth() > eventPlayer.target.getHealth() / eventPlayer.target.getMaxHealth():
-        eventPlayer.setHealth(eventPlayer.getMaxHealth() * (eventPlayer.target.getHealth() / eventPlayer.target.getMaxHealth()))
+        if ratioPercent(eventPlayer.getHealth(), eventPlayer.getMaxHealth()) > ratioPercent(eventPlayer.target.getHealth(), eventPlayer.target.getMaxHealth()):
+        eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.target.getHealth() / eventPlayer.target.getMaxHealth()))
     wait(1)
     if ruleCondition:
         loop()

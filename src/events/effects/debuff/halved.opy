@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 减半":
     
     eventPlayer.passiveRegenBlocked = true
     
-    if eventPlayer.getHealth() <= eventPlayer.getMaxHealth() * EVT_DEBUFF_13_EXECUTE_THRESHOLD:
+    if eventPlayer.healthAtMostPercent(EVT_DEBUFF_13_EXECUTE_THRESHOLD * 100):
         kill(eventPlayer, eventPlayer)
         playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Color.TEAM_2, eventPlayer, 200)
     else:

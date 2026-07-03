@@ -18,7 +18,7 @@ rule "[VishkarEvent]: 限速40":
         goto lbl_0
     eventPlayer.setStatusEffect(null, Status.BURNING, EVT_DEBUFF_4_BURN_DURATION)
     lbl_0:
-    eventPlayer.startDamageOverTime(null, EVT_DEBUFF_4_CHECK_INTERVAL, EVT_DEBUFF_4_DMG_BASE + round(eventPlayer.getMaxHealth() * EVT_DEBUFF_4_DMG_PERCENT))
+    eventPlayer.startDamageOverTime(null, EVT_DEBUFF_4_CHECK_INTERVAL, EVT_DEBUFF_4_DMG_BASE + round(eventPlayer.maxHealthPercent(EVT_DEBUFF_4_DMG_PERCENT * 100)))
     wait(0.032)
     if ruleCondition:
         loop()

@@ -27,7 +27,7 @@ rule "Run passive regen":
             abilityIconString(Hero.BAPTISTE, Button.ABILITY_1)
         )
     )
-    eventPlayer.startHealingOverTime(eventPlayer, Math.INFINITY, 50 + eventPlayer.getMaxHealth() * 0.08)
+    eventPlayer.startHealingOverTime(eventPlayer, Math.INFINITY, 50 + eventPlayer.maxHealthPercent(8))
     eventPlayer.healID = getLastHealingOverTimeId()
     waitUntil(any([
         eventPlayer.passiveRegenBlocked,

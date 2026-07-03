@@ -8,7 +8,7 @@ macro heroID(h):
 
 # Check if player is playing hero
 macro isHero(player, hero):
-    (player.getCurrentHero() == hero)
+    (player.getHero() == hero)
 
 # Canonical player key/index access for save data.
 macro Player.key = "{0}".format(self)
@@ -44,9 +44,36 @@ macro roundedPercent(p):
 macro percentOf(p, n):
     (p)/100*(n)
 
+macro Number.percentOf(p):
+    self * (p) / 100
+
+macro Number.scaledBy(factor):
+    self * factor
+
+macro Number.isAtMostPercentOf(p, base):
+    self <= base.percentOf(p)
+
+macro Number.isAbovePercentOf(p, base):
+    self > base.percentOf(p)
+
+macro Player.maxHealthPercent(percent):
+    self.getMaxHealth().percentOf(percent)
+
+macro Player.healthAtMostPercent(percent):
+    self.getHealth().isAtMostPercentOf(percent, self.getMaxHealth())
+
+macro Player.healthAbovePercent(percent):
+    self.getHealth().isAbovePercentOf(percent, self.getMaxHealth())
+
+macro Player.untargetable():
+    self.hasStatus(Status.INVINCIBLE) or self.hasStatus(Status.UNKILLABLE) or self.hasStatus(Status.PHASED_OUT)
+
+macro ratioPercent(value, baseValue):
+    percent((value) / (baseValue))
+
 # Convert angle in degrees to radians
 macro toRadians(deg):
     (Math.PI/180)*deg
 
-macro Array.frist():
+macro Array.first():
     self[0]

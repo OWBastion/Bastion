@@ -18,7 +18,7 @@ rule "Apply challenge":
     createEffect(getAllPlayers(), Effect.ANA_BIOTIC_GRENADE_NO_HEALING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND, Color.WHITE, eventPlayer, 200)
-    eventPlayer.setHealth(eventPlayer.getMaxHealth() * EVT_MECH_0_HP_PERCENT)
+    eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_MECH_0_HP_PERCENT * 100))
     eventPlayer.mod_dmg_taken = EVT_MECH_0_DMG_TAKEN
     updatePlayerStats()
     waitUntil(eventPlayer.isDead(), eventPlayer.eventDuration)
@@ -34,10 +34,10 @@ rule "Clamp health":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
-    @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealth() * EVT_MECH_0_HP_PERCENT == true
+    @Condition eventPlayer.healthAbovePercent(EVT_MECH_0_HP_PERCENT * 100) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.setHealth(eventPlayer.getMaxHealth() * EVT_MECH_0_HP_PERCENT)
+    eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_MECH_0_HP_PERCENT * 100))
     wait(5)
     if ruleCondition:
         loop()

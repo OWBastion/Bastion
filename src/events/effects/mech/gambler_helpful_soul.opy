@@ -16,7 +16,7 @@ rule "[VishkarEvent]: 赌徒：乐于助人":
         eventPlayer.target = getLivingPlayers(Team.1)
         eventPlayer.temp = 0
         for eventPlayer.temp in range(len(eventPlayer.target)):
-            heal(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].getMaxHealth() * EVT_MECH_20_HEAL_MAXHP_FACTOR)
+            heal(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_20_HEAL_MAXHP_FACTOR * 100))
         smallMessage(getLivingPlayers(Team.1), "  {0}  赌赢了！恢复{1}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR)))
     else:
         getLivingPlayers(Team.1).setHealth(1)

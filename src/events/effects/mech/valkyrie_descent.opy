@@ -43,6 +43,6 @@ rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
         eventPlayer.eventTargetHP = eventPlayer.getMaxHealth()
     eventPlayer.eventTargetHP = eventPlayer.getHealth() + ((eventPlayer.eventTargetHP - eventPlayer.getHealth()) * EVT_MECH_13_HEAL_SMOOTHING)
     while all([eventPlayer.isUsingUltimate(), eventPlayer.getHealth() < eventPlayer.eventTargetHP]):
-        eventPlayer.setHealth(min(eventPlayer.eventTargetHP, eventPlayer.getHealth() + eventPlayer.getMaxHealth() * EVT_MECH_13_HEAL_TICK_PERCENT))
+        eventPlayer.setHealth(min(eventPlayer.eventTargetHP, eventPlayer.getHealth() + eventPlayer.maxHealthPercent(EVT_MECH_13_HEAL_TICK_PERCENT * 100)))
         playEffect(getAllPlayers(), DynamicEffect.HEAL_TARGET_ACTIVE, Color.YELLOW, eventPlayer, 60)
         wait(EVT_MECH_13_HEAL_TICK_INTERVAL)

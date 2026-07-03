@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 吸血鬼":
     eventPlayer.passiveRegenBlocked = true
     eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer]
     if len(eventPlayer.target) > 0:
-        eventPlayer.eventMissionGoal = EVT_MECH_18_DRAIN_FLAT + eventPlayer.getMaxHealth() * EVT_MECH_18_DRAIN_MAXHP_FACTOR
+        eventPlayer.eventMissionGoal = EVT_MECH_18_DRAIN_FLAT + eventPlayer.maxHealthPercent(EVT_MECH_18_DRAIN_MAXHP_FACTOR * 100)
         damage(eventPlayer.target, eventPlayer, eventPlayer.eventMissionGoal)
         heal(eventPlayer, eventPlayer, len(eventPlayer.target) * eventPlayer.eventMissionGoal)
         eventPlayer.dlcTimeChallenge[1] += len(eventPlayer.target) * eventPlayer.eventMissionGoal

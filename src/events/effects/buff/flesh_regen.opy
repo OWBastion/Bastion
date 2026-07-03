@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 血肉再生":
     
     wait(0.032)
     removeHealthPool(eventPlayer.healthId[0])
-    eventPlayer.addHealthPool(Health.NORMAL, round(EVT_7_BASE_HEALTH + eventPlayer.getMaxHealth() * EVT_7_HEALTH_PERCENT), false, false)
+    eventPlayer.addHealthPool(Health.NORMAL, round(EVT_7_BASE_HEALTH + eventPlayer.maxHealthPercent(EVT_7_HEALTH_PERCENT * 100)), false, false)
     eventPlayer.healthId[0] = getLastCreatedHealthPool()
     wait(EVT_7_REGEN_INTERVAL)
     if ruleCondition:

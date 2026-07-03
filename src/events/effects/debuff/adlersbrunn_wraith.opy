@@ -24,7 +24,7 @@ rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (抵消层数)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH,  eventPlayer.eventMission > 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    damage(eventPlayer, null, eventPlayer.getMaxHealth() * EVT_DEBUFF_21_HP_COST_RATIO)
+    damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_DEBUFF_21_HP_COST_RATIO * 100))
     eventPlayer.eventMission--
     eventPlayer.mod_heal_perma += negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK)
     eventPlayer.hudText = "诅咒：{0}层".format(eventPlayer.eventMission)

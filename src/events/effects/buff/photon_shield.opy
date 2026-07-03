@@ -25,7 +25,7 @@ rule "Grant shields":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
     
     wait()
-    eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.target.getMaxHealth() * EVT_12_SHIELD_PERCENT if eventPlayer.target.getMaxHealth() * EVT_12_SHIELD_PERCENT > EVT_12_MIN_SHIELD else EVT_12_MIN_SHIELD, true, false)
+    eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.target.maxHealthPercent(EVT_12_SHIELD_PERCENT * 100) if eventPlayer.target.maxHealthPercent(EVT_12_SHIELD_PERCENT * 100) > EVT_12_MIN_SHIELD else EVT_12_MIN_SHIELD, true, false)
     eventPlayer.healthId[2] = getLastCreatedHealthPool()
     # Exception: bonded target shield must track target lifecycle directly.
     waitUntil(not eventPlayer.target.isAlive() or eventPlayer.target == null, eventPlayer.target.eventDuration)

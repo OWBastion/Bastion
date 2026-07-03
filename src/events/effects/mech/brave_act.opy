@@ -69,7 +69,7 @@ rule "[VishkarEvent]: 勇敢举动 (生命恢复)":
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.REGEN
     ]) == true
 
-    heal(eventPlayer, eventPlayer, EVT_MECH_21_REGEN_FLAT + eventPlayer.getMaxHealth() * EVT_MECH_21_REGEN_MAXHP_FACTOR)
+    heal(eventPlayer, eventPlayer, EVT_MECH_21_REGEN_FLAT + eventPlayer.maxHealthPercent(EVT_MECH_21_REGEN_MAXHP_FACTOR * 100))
     wait(1, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
         loop()

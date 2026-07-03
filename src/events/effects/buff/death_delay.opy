@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
-    @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.getHealth() <= eventPlayer.getMaxHealth() * EVT_9_TRIGGER_HP_PERCENT, eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
+    @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_9_TRIGGER_HP_PERCENT * 100), eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
 
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect = getLastCreatedEntity()
@@ -32,7 +32,7 @@ rule "[VishkarEvent]: 死亡延迟":
     if eventPlayer.isDead():
         return
     wait()
-    if any([eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.hasStatus(Status.INVINCIBLE), eventPlayer.hasStatus(Status.UNKILLABLE), eventPlayer.hasSpawned() != true, eventPlayer.isAlive() != true]):
+    if any([eventPlayer.untargetable(), eventPlayer.hasSpawned() != true, eventPlayer.isAlive() != true]):
         goto lbl_0
     smallMessage(eventPlayer, "  {0} 死亡延迟：致命伤害已施加".format(
     iconString(Icon.SKULL)))

@@ -16,7 +16,7 @@ rule "[VishkarEvent]: 能量泄漏":
     
     wait()
     playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Color.TEAM_2, eventPlayer, 200)
-    damage(eventPlayer, null, eventPlayer.getMaxHealth() * EVT_DEBUFF_8_DMG_PERCENT)
+    damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_DEBUFF_8_DMG_PERCENT * 100))
     wait(EVT_DEBUFF_8_COOLDOWN)
     if ruleCondition:
         loop()

@@ -33,7 +33,7 @@ rule "Rebuild max health":
         eventPlayer.temp = eventPlayer.getNormalizedHealth()
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel * EVT_16_HP_MULTIPLIER)
         wait(getAverageServerLoad() / 100 * 0.032)
-        eventPlayer.setHealth(eventPlayer.getMaxHealth() * eventPlayer.temp)
+        eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.temp))
     else:
         setPlayerHP()
     eventPlayer.setPlayerHP = false

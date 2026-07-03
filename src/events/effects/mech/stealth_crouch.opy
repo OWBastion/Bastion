@@ -52,7 +52,7 @@ rule "Drain health":
     ]) == true
     
     wait(EVT_MECH_3_TICK_INTERVAL, Wait.ABORT_WHEN_FALSE)
-    damage(eventPlayer, null, eventPlayer.getMaxHealth() * EVT_MECH_3_HP_COST_RATIO)
+    damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_MECH_3_HP_COST_RATIO * 100))
     if ruleCondition:
         loop()
     wait(1)
