@@ -906,4 +906,10 @@ enum BraveActReward:
 #!define EVT_MECH_21_ULT_CHARGE_GAIN 5
 #!define EVT_MECH_21_ULT_CHARGE_INTERVAL 5
 
+# --- ID 22 (Mech/Special): 作弊：暗箱操作 ---
+#!define EVT_MECH_22_DURATION 15
+#!define EVT_MECH_22_WEIGHT 0.8
+#!define EVT_MECH_22_HEART_STEEL_COST 4
+#!define EVT_MECH_22_FORCE_ROLL 80
+
 # -----------------------------------------------------------------------------

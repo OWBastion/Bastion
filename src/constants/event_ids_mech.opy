@@ -46,6 +46,8 @@ enum MechEventId:
     GAMBLER_HELPFUL_SOUL
     # legacy numeric id: 21
     BRAVE_ACT
+    # legacy numeric id: 22
+    CHEAT_BACKROOM_DEAL
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

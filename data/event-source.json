@@ -781,6 +781,18 @@
       "weight": 0.3,
       "availability": "active",
       "descEn": "Hold {0} to permanently gain one bonus:\\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\\nNo more random events afterward."
+    },
+    {
+      "key": "CHEAT_BACKROOM_DEAL",
+      "type": "mech",
+      "id": 21,
+      "pack": 5,
+      "nameZh": "作弊：暗箱操作",
+      "descZh": "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\\n下个事件必为机制",
+      "durationSec": 15,
+      "weight": 0.8,
+      "availability": "active",
+      "descEn": "Hold {0} to permanently lose {1} Heartsteel stacks (about {2}% max HP).\\nYour next event is guaranteed to be a Mech."
     }
   ]
 }
