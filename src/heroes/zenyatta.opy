@@ -53,11 +53,11 @@ rule "Clear snap kick trigger":
     @Team 1
     @Hero zenyatta
     @Condition eventPlayer.zenSnapKick == true
-    @Condition eventPlayer.phase_trigger == true
+    @Condition eventPlayer.phaseState == true
 
     wait()
     eventPlayer.zenSnapKick = false
-    eventPlayer.phase_trigger = false
+    eventPlayer.phaseState = false
 
 rule "Hold levitation":
     @Event eachPlayer

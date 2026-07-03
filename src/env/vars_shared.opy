@@ -162,7 +162,7 @@ playervar setPlayerHP 96
 playervar dlcTimeChallenge 97
 playervar toggleSpectate 98
 playervar knockback 99
-playervar phase_trigger 100
+playervar phaseState 100
 playervar hp_data 101
 playervar eventForceRoll 102
 playervar eventForceCount 103
@@ -171,7 +171,7 @@ playervar eventTargetHP 105
 playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
-playervar altFormTrigger 111
+playervar altFormActive 111
 playervar playerOnceEventState
 playervar tempUnlockId
 playervar earnedAchievements

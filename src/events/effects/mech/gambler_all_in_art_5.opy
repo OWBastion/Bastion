@@ -9,9 +9,9 @@
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (下注)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormTrigger != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormActive != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
-    eventPlayer.altFormTrigger = true
+    eventPlayer.altFormActive = true
     if eventPlayer.heart_steel <= 0:
         smallMessage(eventPlayer, "  {0}  心之钢层数不足".format(iconString(Icon.DIAMOND)))
     else:
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 (下注)":
         eventPlayer.hudText = "已 下 注：{0}层（{1}%）".format(eventPlayer.eventMission, eventPlayer.eventMissionGoal * 25)
         smallMessage(eventPlayer, "  {0}  已 下 注 {1} 层".format(iconString(Icon.CLUB), max(1, floor(eventPlayer.heart_steel * EVT_MECH_17_STAKE_RATIO))))
     waitUntil(any([eventPlayer.isHoldingButton(Button.RELOAD) == false, eventPlayer.eventType != EventType.MECH, eventPlayer.eventId != MechEventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration <= 0]), eventPlayer.eventDuration)
-    eventPlayer.altFormTrigger = false
+    eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (结算)":
     @Event eachPlayer

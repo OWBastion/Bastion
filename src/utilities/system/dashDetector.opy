@@ -10,7 +10,7 @@ rule "Enable phase trigger":
     @Condition vishkarEventActivated == true
     @Condition eventPlayer.hasSpawned() == true
     # 只有当它是 False 时才触发，避免重复触发
-    @Condition eventPlayer.phase_trigger == false 
+    @Condition eventPlayer.phaseState == false 
     @Condition any([
         # Group 0: 技能 1
         (eventPlayer.getHero() in phaseHero[0] and eventPlayer.isUsingAbility1()),
@@ -26,7 +26,7 @@ rule "Enable phase trigger":
         (eventPlayer.getHero() in phaseHero[4] and eventPlayer.zenSnapKick)
     ]) == true
     
-    eventPlayer.phase_trigger = true
+    eventPlayer.phaseState = true
     # 强制维持至少 0.1 秒，确保事件规则能检测到
     wait(0.096)
 
@@ -34,7 +34,7 @@ rule "Enable phase trigger":
 rule "Disable phase trigger":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.phase_trigger == true
+    @Condition eventPlayer.phaseState == true
     # 当所有条件都不满足时
     @Condition any([
         (eventPlayer.getHero() in phaseHero[0] and eventPlayer.isUsingAbility1()),
@@ -46,4 +46,4 @@ rule "Disable phase trigger":
     ]) == false
     
     wait()
-    eventPlayer.phase_trigger = false
+    eventPlayer.phaseState = false

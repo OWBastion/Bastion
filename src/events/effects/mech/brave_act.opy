@@ -24,13 +24,13 @@ rule "[VishkarEvent]: 勇敢举动":
     if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] != true:
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_SEEN] = true
     if any([
-        eventPlayer.altFormTrigger == true,
+        eventPlayer.altFormActive == true,
         eventPlayer.isHoldingButton(Button.RELOAD) == false,
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] != BraveActReward.NONE
     ]):
         return
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.altFormTrigger = true
+    eventPlayer.altFormActive = true
     eventPlayer.temp = random.randint(1, 6)
     eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] = eventPlayer.temp
     if eventPlayer.temp == BraveActReward.HP:

@@ -9,10 +9,10 @@
 rule "[VishkarEvent]: 天降神兵":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT, eventPlayer.altFormTrigger != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT, eventPlayer.altFormActive != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.altFormTrigger = true
+    eventPlayer.altFormActive = true
     eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
     if len(eventPlayer.target) > 0:
         eventPlayer.target = (sorted(eventPlayer.target, lambda i: i.getHealth() / i.getMaxHealth()))[0]
@@ -23,7 +23,7 @@ rule "[VishkarEvent]: 天降神兵":
         eventPlayer.eventMissionGoal = getTotalTimeElapsed() + EVT_30_COOLDOWN
         wait(EVT_30_COOLDOWN)
         smallMessage(eventPlayer, "  {0}  天降神兵已就绪".format(iconString(Icon.CLUB)))
-    eventPlayer.altFormTrigger = false
+    eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Event eachPlayer
@@ -31,7 +31,7 @@ rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT]) == true
 
     wait(eventPlayer.eventDuration)
-    eventPlayer.altFormTrigger = false
+    eventPlayer.altFormActive = false
     eventPlayer.target = null
     eventPlayer.eventMissionGoal = 0
     clearEventEffect()
