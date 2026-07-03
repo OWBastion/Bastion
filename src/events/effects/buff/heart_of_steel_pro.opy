@@ -11,8 +11,8 @@ rule "[VishkarEvent]: 心之钢 Pro":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true
     
-    eventPlayer.heart_steel += EVT_16_HP_GAIN_FLAT
-    smallMessage(eventPlayer, "  {0}  已获得 {1} 层（{2}%）心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_16_HP_GAIN_FLAT, EVT_16_HP_GAIN_FLAT * EVT_8_HP_PERCENT_PER_STACK))
+    eventPlayer.heart_steel += EVT_16_HP_GAIN_FLAT * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
+    smallMessage(eventPlayer, "  {0}  已获得 {1} 层（{2}%）心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_16_HP_GAIN_FLAT * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1), EVT_16_HP_GAIN_FLAT * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1) * (EVT_8_HP_PERCENT_PER_STACK + (EVT_31_PERCENT_PER_STACK_BONUS if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 0))))
     if eventPlayer.heart_steel > 0:
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel * EVT_16_HP_MULTIPLIER)
         wait(eventPlayer.eventDuration)

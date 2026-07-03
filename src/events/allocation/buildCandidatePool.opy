@@ -11,13 +11,13 @@ def buildCandidatePool():
     if eventPlayer.eventType == EventType.BUFF:
         eventPlayer.eventTempId = buffEventId.filter(lambda id:
             buffEvent[id] != 0 and buffEvent[id].last() > 0 and
-            id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == true else -1) and
+            id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE else -1) and
             (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = buffEventId.filter(lambda id:
                 buffEvent[id] != 0 and buffEvent[id].last() > 0 and
-                id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == true else -1)
+                id != (BuffEventId.TEMPER_HEART if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE else -1)
             )
     elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventTempId = debuffEventId.filter(lambda id:

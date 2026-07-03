@@ -40,7 +40,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD:
         if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HP:
-            eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL
+            eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
             setPlayerHP()
         elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.DMG_REDUCTION:
             eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA

@@ -34,9 +34,9 @@ rule "[VishkarEvent]: 勇敢举动":
     eventPlayer.temp = random.randint(1, 6)
     eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] = eventPlayer.temp
     if eventPlayer.temp == BraveActReward.HP:
-        eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL
+        eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
         setPlayerHP()
-        smallMessage(eventPlayer, "  获得 1000% 最大生命值，后续不再触发随机事件")
+        smallMessage(eventPlayer, "  获得 {0} 层心之钢（{1}% 最大生命值），后续不再触发随机事件".format(EVT_MECH_21_HP_BONUS_HEART_STEEL * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1), EVT_MECH_21_HP_BONUS_HEART_STEEL * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1) * (EVT_8_HP_PERCENT_PER_STACK + (EVT_31_PERCENT_PER_STACK_BONUS if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 0))))
     elif eventPlayer.temp == BraveActReward.DMG_REDUCTION:
         eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA
         updatePlayerStats()

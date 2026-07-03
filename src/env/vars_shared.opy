@@ -153,7 +153,6 @@ playervar targetWeight 87
 playervar targetSilence 88
 playervar hudTextId 89
 playervar heart_steel 90
-playervar heart_steel_percent_perma
 playervar obstrucVis 91
 playervar sizeHealth 92
 playervar possess 93

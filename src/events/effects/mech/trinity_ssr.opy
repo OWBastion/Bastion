@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 三位一体 (SSR)":
         eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_14_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_14_DMG_REDUCE_DIVISOR))
         eventPlayer.mod_speed_event = eventPlayer.mod_dmg_taken * -EVT_MECH_14_SPEED_FACTOR
         updatePlayerStats()
-        eventPlayer.heart_steel += EVT_MECH_14_HEART_STEEL_PER_TICK
+        eventPlayer.heart_steel += EVT_MECH_14_HEART_STEEL_PER_TICK * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
         setPlayerHP()
         eventPlayer.hudText = "伤害减免：{0}% / 移速加成：{1}% / 心之钢：{2}层".format(negToPos(eventPlayer.mod_dmg_taken), eventPlayer.mod_speed_event, round(eventPlayer.heart_steel))
     wait(EVT_MECH_14_INTERVAL)

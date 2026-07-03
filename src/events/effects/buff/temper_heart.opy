@@ -13,8 +13,8 @@ rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
     # clearPlayerEvent() 会在事件结束后统一把 eventMission 清零，本规则不重复清理。
-    if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != true:
-        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = true
+    if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.COMPLETED:
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.DRAWN
     eventPlayer.eventMission = eventPlayer.heroNumber
 
 rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
@@ -30,7 +30,7 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
         bigMessage(eventPlayer, "钢化你心 成功！")
         smallMessage(eventPlayer, "  {0}  心之钢层数×{1}，每层生命值永久提升至 {2}%".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS))
         eventPlayer.heart_steel *= EVT_31_STACK_MULTIPLIER
-        eventPlayer.heart_steel_percent_perma += EVT_31_PERCENT_PER_STACK_BONUS
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.COMPLETED
         setPlayerHP()
         eventPlayer.eventDuration = 0
     else:

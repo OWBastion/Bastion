@@ -28,6 +28,11 @@ enum PlayerOnceEventSlot:
 
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
 #!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
+enum TemperHeartState:
+    NONE = 0
+    DRAWN
+    COMPLETED
+
 enum BraveActReward:
     NONE = 0
     HP
@@ -37,7 +42,7 @@ enum BraveActReward:
     REGEN
     ULT
 
-#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [false, false, 0]
+#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE, false, BraveActReward.NONE]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 
 # -----------------------------------------------------------------------------
