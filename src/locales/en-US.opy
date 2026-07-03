@@ -433,7 +433,6 @@
 # ------------------------------------------------
 # Menu Options (Page 2)
 # ------------------------------------------------
-#!define STR_MENU_OPT_DEBUG_INFO "{0}    Debug Info    {1}\n{2}"
 #!define STR_MENU_OPT_UNLOCK_ALL "{0}    Unlock All Heroes    {1}\n{2}"
 #!define STR_MENU_OPT_RESTART_NOW "{0}    Restart Immediately    \n{1}"
 #!define STR_MENU_OPT_UNMARK_PLAYER "{0}    Unmark Player    \n{1}"

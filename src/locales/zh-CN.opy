@@ -444,7 +444,6 @@
 # ------------------------------------------------
 # 菜单选项 (Page 2 - Dev Control)
 # ------------------------------------------------
-#!define STR_MENU_OPT_DEBUG_INFO "{0}    Debug 信息    {1}\n{2}"
 #!define STR_MENU_OPT_UNLOCK_ALL "{0}    解锁全英雄    {1}\n{2}"
 #!define STR_MENU_OPT_RESTART_NOW "{0}    立即重开    \n{1}"
 #!define STR_MENU_OPT_UNMARK_PLAYER "{0}    移除标记玩家    \n{1}"

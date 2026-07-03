@@ -172,7 +172,7 @@ rule "Display admin page":
     destroyHudText(eventPlayer.menuTextID[2])
     hudHeader(eventPlayer, STR_MENU_TITLE_DEV, HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()
-    hudSubheader(eventPlayer, STR_MENU_OPT_DEBUG_INFO.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_STATE_ON if debugInfo else STR_MENU_STATE_OFF, STR_MENU_OPT_UNLOCK_ALL.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_STATE_ON if eventPlayer.isWinner == true else STR_MENU_STATE_OFF, STR_MENU_OPT_RESTART_NOW.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.JUMP), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_PLAYER.format(inputBindingString(Button.ULTIMATE), STR_MENU_OPT_TP_TO_TARGET.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_DMG_REDUCE.format(inputBindingString(Button.MELEE), STR_MENU_STATE_ON if eventPlayer.dmgReduc == true else STR_MENU_STATE_OFF, STR_MENU_OPT_INVINCIBLE.format(inputBindingString(Button.ABILITY_1), STR_MENU_STATE_ON if eventPlayer.invincible == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader(eventPlayer, STR_MENU_OPT_UNLOCK_ALL.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_STATE_ON if eventPlayer.isWinner == true else STR_MENU_STATE_OFF, STR_MENU_OPT_RESTART_NOW.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.JUMP), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_PLAYER.format(inputBindingString(Button.ULTIMATE), STR_MENU_OPT_TP_TO_TARGET.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_DMG_REDUCE.format(inputBindingString(Button.MELEE), STR_MENU_STATE_ON if eventPlayer.dmgReduc == true else STR_MENU_STATE_OFF, STR_MENU_OPT_INVINCIBLE.format(inputBindingString(Button.ABILITY_1), STR_MENU_STATE_ON if eventPlayer.invincible == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
 
@@ -198,17 +198,6 @@ rule "Toggle third person":
     
     wait(getAverageServerLoad() / 100 * 0.032)
     setThirdPerson()
-
-
-rule "Toggle debug HUD":
-    @Event eachPlayer
-    @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
-    @Condition eventPlayer.menu == 2
-    
-    debugInfo = not debugInfo
-    wait(getAverageServerLoad() / 100 * 0.032)
-    devPlayer.debugInfo = debugInfo
 
 
 rule "Increase difficulty":
@@ -748,22 +737,3 @@ rule "Decrease event weight":
                 mechEvent[devEventIndex][3] = 0
                 
     wait(0.1)
-
-
-rule "Display debug HUD":
-    @Event eachPlayer
-    @Condition evalOnce(eventPlayer.debugInfo) == true
-    @Condition eventPlayer.isDev == true
-    
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "难度 = {0}".format(difficultyText[0]), HudPosition.RIGHT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前位置 = {0}".format(eventPlayer.getEyePosition()), HudPosition.RIGHT, 26, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前速度 = {0}".format(eventPlayer.getSpeed()), HudPosition.RIGHT, 27, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前速率 = {0}".format(eventPlayer.getVelocity()), HudPosition.RIGHT, 28, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前地图 = {0}/{1}".format(__currentMap___, getCurrentMap()), HudPosition.RIGHT, 29, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室位置 = {0}".format(getSpawnPoints(Team.1).getPosition()), HudPosition.RIGHT, 30, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    #hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室距离 X = {0}/{1}/{2}".format(eventPlayer.getPosition().x, controlRespawnPosition[0].x, distance(vect(eventPlayer.getPosition().x, 0, 0), vect(controlRespawnPosition[0].y, 0, 0))), HudPosition.RIGHT, 31, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    #hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室距离 Y = {0}/{1}/{2}".format(eventPlayer.getPosition().y, controlRespawnPosition[0].y, distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[0].y, 0))), HudPosition.RIGHT, 32, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    #hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室距离 Z = {0}/{1}/{2}".format(eventPlayer.getPosition().z, controlRespawnPosition[0].z, distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[0].z))), HudPosition.RIGHT, 33, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "当前事件 = {0}/{1}".format(localPlayer.eventName, localPlayer.eventId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "最近事件Key(type*{0}+id) = {1}".format(EVT_DEDUP_TYPE_MULTIPLIER, localPlayer.eventLastId), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    hudSubheader(eventPlayer if eventPlayer.debugInfo == true else null, "重生室索引 = {0}".format(localPlayer.controlJumpIndex), HudPosition.RIGHT, 34, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)

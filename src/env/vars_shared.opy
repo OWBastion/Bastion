@@ -25,7 +25,6 @@ globalvar targetPlayer 28
 globalvar targetPlayerIndex 29
 globalvar thirdPersonPosition 30
 globalvar debugMode 31
-globalvar debugInfo 32
 globalvar devPlayer 33
 globalvar bastionBotSeconFire 34
 
@@ -101,7 +100,6 @@ playervar joinTime 19
 playervar menu 20
 playervar menuTextID 21
 playervar isDev 22
-playervar debugInfo 23
 playervar third 24
 playervar hasNano 25
 playervar nanoEffect 26
