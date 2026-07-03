@@ -98,7 +98,7 @@
       "id": 5,
       "pack": 1,
       "nameZh": "黑粉来袭",
-      "descZh": "被堡垒锁定时\\n获得{0}+{1}%临时生命值\\n与{2}%移速加成",
+      "descZh": "被堡垒锁定时\\n获得{1}%临时生命值与{2}%移速加成",
       "durationSec": 45,
       "weight": 1.2,
       "availability": "active"
