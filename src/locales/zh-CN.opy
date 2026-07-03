@@ -78,7 +78,7 @@
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
-#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{1}%临时生命值与{2}%移速加成"
+#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{0}%临时生命值与{1}%移速加成"
 #!define STR_EVT_BUFF_6_TITLE "足力健"
 #!define STR_EVT_BUFF_6_DESC "持续移动获得{0}%可叠加的移动速度"
 #!define STR_EVT_BUFF_7_TITLE "血肉再生"
@@ -180,8 +180,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_15_TITLE "保持距离"
 #!define STR_EVT_DEBUFF_15_DESC "距离队友越近受到伤害越高"
-#!define STR_EVT_DEBUFF_17_TITLE "连锁过载"
-#!define STR_EVT_DEBUFF_17_DESC "使用技能会导致\n所有技能进入冷却"
 #!define STR_EVT_DEBUFF_18_TITLE "我和你"
 #!define STR_EVT_DEBUFF_18_DESC "生命值与最低血量的队友同步"
 #!define STR_EVT_DEBUFF_20_TITLE "登月火箭"

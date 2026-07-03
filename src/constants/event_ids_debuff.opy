@@ -34,8 +34,6 @@ enum DebuffEventId:
     SELFLESS_GIVEAWAY
     # legacy numeric id: 15
     KEEP_DISTANCE_AURA
-    # legacy numeric id: 17
-    CHAIN_OVERLOAD
     # legacy numeric id: 18
     HEALTH_SYNC
     # legacy numeric id: 19

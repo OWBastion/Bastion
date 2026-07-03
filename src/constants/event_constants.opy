@@ -97,8 +97,7 @@ enum BraveActReward:
 # Weight（权重）
 #!define EVT_BUFF_5_WEIGHT 1.2
 #!define EVT_5_HEALTH_TYPE Health.NORMAL
-#!define EVT_5_HEALTH_FLAT 25
-#!define EVT_5_HEALTH_MAXHP_PERCENT 0.04
+#!define EVT_5_HEALTH_MAXHP_PERCENT 0.05
 #!define EVT_5_SPEED_BOOST 50
 
 # --- ID 6: 足力健 ---
@@ -559,12 +558,6 @@ enum BraveActReward:
 
 # 循环间隔 (秒)
 #!define EVT_DEBUFF_15_INTERVAL 1
-
-# --- ID 17 (Debuff): 连锁过载 ---
-# Duration（秒）
-#!define EVT_DEBUFF_17_DURATION 25
-# Weight（权重）
-#!define EVT_DEBUFF_17_WEIGHT 0.85
 
 # --- ID 18 (Debuff): 我和你 ---
 # Duration（秒）

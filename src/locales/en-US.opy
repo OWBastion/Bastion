@@ -73,7 +73,7 @@
 #!define STR_EVT_BUFF_4_TITLE "Fountain of Life"
 #!define STR_EVT_BUFF_4_DESC "Recover {0}% max HP per second."
 #!define STR_EVT_BUFF_5_TITLE "Fan Attack"
-#!define STR_EVT_BUFF_5_DESC "While targeted by Bastions, gain {0} + {1}% max HP as overhealth and {2}% bonus movement speed."
+#!define STR_EVT_BUFF_5_DESC "While targeted by Bastions, gain {0}% max HP as overhealth and {1}% bonus movement speed."
 #!define STR_EVT_BUFF_6_TITLE "Power Walk"
 #!define STR_EVT_BUFF_6_DESC "Continuous movement grants {0}% stackable movement speed."
 #!define STR_EVT_BUFF_7_TITLE "Flesh Regeneration"
@@ -171,8 +171,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_15_TITLE "Social Distancing"
 #!define STR_EVT_DEBUFF_15_DESC "Taking damage increases when closer to allies."
-#!define STR_EVT_DEBUFF_17_TITLE "Chain Overload"
-#!define STR_EVT_DEBUFF_17_DESC "Using an ability puts ALL abilities on cooldown."
 #!define STR_EVT_DEBUFF_18_TITLE "You and Me"
 #!define STR_EVT_DEBUFF_18_DESC "HP synced with the lowest HP teammate."
 #!define STR_EVT_DEBUFF_20_TITLE "Moon Rocket"

@@ -98,7 +98,7 @@
       "id": 5,
       "pack": 1,
       "nameZh": "黑粉来袭",
-      "descZh": "被堡垒锁定时\\n获得{1}%临时生命值与{2}%移速加成",
+      "descZh": "被堡垒锁定时\\n获得{0}%临时生命值与{1}%移速加成",
       "durationSec": 45,
       "weight": 1.2,
       "availability": "active"
@@ -493,20 +493,9 @@
       "availability": "active"
     },
     {
-      "key": "CHAIN_OVERLOAD",
-      "type": "debuff",
-      "id": 15,
-      "pack": 4,
-      "nameZh": "连锁过载",
-      "descZh": "使用技能会导致\\n所有技能进入冷却",
-      "durationSec": 25,
-      "weight": 0.85,
-      "availability": "active"
-    },
-    {
       "key": "HEALTH_SYNC",
       "type": "debuff",
-      "id": 16,
+      "id": 15,
       "pack": 4,
       "nameZh": "我和你",
       "descZh": "生命值与最低血量的队友同步",
@@ -517,7 +506,7 @@
     {
       "key": "MOON_ROCKET",
       "type": "debuff",
-      "id": 17,
+      "id": 16,
       "pack": 4,
       "nameZh": "登月火箭",
       "descZh": "被随机射向天空\\n并在空中无法控制方向",
@@ -528,7 +517,7 @@
     {
       "key": "ADLERSBRUNN_WRAITH",
       "type": "debuff",
-      "id": 18,
+      "id": 17,
       "pack": 5,
       "nameZh": "阿德勒斯布鲁恩的冤魂",
       "descZh": "进入时立即获得7层诅咒\n每层诅咒降低10%治疗强度\n长按装填消耗99%最大生命值移除1层\n结束时永久失去剩余层数×10%治疗强度",
@@ -540,7 +529,7 @@
     {
       "key": "WITHER",
       "type": "debuff",
-      "id": 19,
+      "id": 18,
       "pack": 5,
       "nameZh": "枯萎",
       "descZh": "受到治疗获得1层枯萎（上限10层）\n每层-8%移动速度并使受到的伤害增加8%\n首次受到治疗后12秒清空所有层数",

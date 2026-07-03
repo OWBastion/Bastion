@@ -47,7 +47,7 @@ rule "initialize event array":
     buffEvent[BuffEventId.LIFE_SPRING] = [STR_EVT_BUFF_4_TITLE, STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEAL_PERCENT)), EVT_BUFF_4_DURATION, EVT_BUFF_4_WEIGHT]
     buffEventId.append(BuffEventId.LIFE_SPRING)
     
-    buffEvent[BuffEventId.BLACK_FANS_ASSAULT] = [STR_EVT_BUFF_5_TITLE, STR_EVT_BUFF_5_DESC.format(EVT_5_HEALTH_FLAT, percent(EVT_5_HEALTH_MAXHP_PERCENT), EVT_5_SPEED_BOOST), EVT_BUFF_5_DURATION, EVT_BUFF_5_WEIGHT]
+    buffEvent[BuffEventId.BLACK_FANS_ASSAULT] = [STR_EVT_BUFF_5_TITLE, STR_EVT_BUFF_5_DESC.format(percent(EVT_5_HEALTH_MAXHP_PERCENT), EVT_5_SPEED_BOOST), EVT_BUFF_5_DURATION, EVT_BUFF_5_WEIGHT]
     buffEventId.append(BuffEventId.BLACK_FANS_ASSAULT)
     
     buffEvent[BuffEventId.SPEED_STACK] = [STR_EVT_BUFF_6_TITLE, STR_EVT_BUFF_6_DESC.format(EVT_6_SPEED_INC_PER_SEC), EVT_BUFF_6_DURATION, EVT_BUFF_6_WEIGHT]
@@ -288,9 +288,6 @@ rule "initialize event array":
     # ================================================
     debuffEvent[DebuffEventId.KEEP_DISTANCE_AURA] = [STR_EVT_DEBUFF_15_TITLE, STR_EVT_DEBUFF_15_DESC, EVT_DEBUFF_15_DURATION, EVT_DEBUFF_15_WEIGHT]
     debuffEventId.append(DebuffEventId.KEEP_DISTANCE_AURA)
-
-    debuffEvent[DebuffEventId.CHAIN_OVERLOAD] = [STR_EVT_DEBUFF_17_TITLE, STR_EVT_DEBUFF_17_DESC, EVT_DEBUFF_17_DURATION, EVT_DEBUFF_17_WEIGHT]
-    debuffEventId.append(DebuffEventId.CHAIN_OVERLOAD)
 
     debuffEvent[DebuffEventId.HEALTH_SYNC] = [STR_EVT_DEBUFF_18_TITLE, STR_EVT_DEBUFF_18_DESC, EVT_DEBUFF_18_DURATION, EVT_DEBUFF_18_WEIGHT]
     debuffEventId.append(DebuffEventId.HEALTH_SYNC)
