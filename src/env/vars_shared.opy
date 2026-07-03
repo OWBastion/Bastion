@@ -1,7 +1,6 @@
 #Global variables
 
 globalvar bastionPosition 0
-globalvar heroRingPosition 1
 globalvar resetPosition 2
 globalvar creditsPosition 3
 globalvar endPosition 4
@@ -10,10 +9,6 @@ globalvar missingHeroes 6
 globalvar maxDeath 7
 globalvar kills 9
 globalvar bastionBotTargetPrefer 10
-globalvar scoreboardArray 12
-globalvar firstPlace 13
-globalvar secondPlace 14
-globalvar thirdPlace 15
 globalvar textIDs 16
 
 globalvar devList 23
@@ -45,16 +40,12 @@ globalvar eventDuration 58
 globalvar eventName 59
 globalvar eventDesc 60
 globalvar eventCount 61
-globalvar eventRoll 62
 globalvar eventType 63
 globalvar eventDurationHud 64
 globalvar eventWeight 65
 globalvar hashTag 69
-globalvar dlcBerserker 70
 globalvar dlcVishkarEvent 71
 globalvar vishkarEventActivated 72
-globalvar globalEvent 79
-globalvar globalEventId 80
 globalvar buffEvent 81
 globalvar buffEventId 82
 globalvar debuffEvent 83
@@ -119,7 +110,6 @@ playervar winnerTime 42
 playervar playerTitles 43
 playervar playerTitleIndex 44
 playervar playerTitleRelationIndex 45
-playervar ignoreObstrucVis 57
 playervar eventMission 58
 playervar eventEffectPlayers 59
 playervar eventId 60
@@ -142,7 +132,6 @@ playervar mod_speed_event 76
 playervar mod_speed_perma 77
 playervar mod_heal_event 78
 playervar heal_recv 79
-playervar healing_global 80
 playervar mod_dmg_taken 81
 playervar mod_dmg_perma 82
 playervar healthId 85
@@ -158,7 +147,6 @@ playervar possessed 94
 playervar empProMax 95
 playervar setPlayerHP 96
 playervar dlcTimeChallenge 97
-playervar toggleSpectate 98
 playervar knockback 99
 playervar phaseState 100
 playervar hp_data 101
