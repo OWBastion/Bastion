@@ -13,6 +13,7 @@ rule "[VishkarEvent]: 窃贼":
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.target = getPlayers(Team.1).exclude(eventPlayer)
+    wait(0.25)
     if len(eventPlayer.target) == 0:
         smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
         eventPlayer.eventDuration = 0
@@ -22,7 +23,7 @@ rule "[VishkarEvent]: 窃贼":
         eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true
-        smallMessage(eventPlayer, "  {0}  已窃取 {1} 未来一次增益事件".format(iconString(Icon.DIAMOND), eventPlayer.target))
-        smallMessage(eventPlayer.target, "  {0}  你未来一次增益事件已被 {1} 窃取".format(iconString(Icon.WARNING), eventPlayer))
+        smallMessage(eventPlayer, "  {0}  已窃取 {1} 的下一个增益事件".format(iconString(Icon.DIAMOND), eventPlayer.target))
+        smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
         eventPlayer.eventDuration = 0
         clearPlayerEvent()
