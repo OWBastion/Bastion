@@ -348,6 +348,10 @@ enum MapTITLEKey:
     { \
         name: "野良", \
         titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
+    }, \
+    { \
+        name: "自律达人游十三", \
+        titles: [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL] \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -361,6 +365,7 @@ enum MapTITLEKey:
 #!define TP_CONQUEROR [TITLE.CONQUEROR]
 #!define TP_9_10 [TITLE.CONQUEROR, TITLE.DOMINATOR]
 #!define TP_9_10_0 [TITLE.CONQUEROR, TITLE.DOMINATOR, TITLE.PIONEER]
+# 地图数据块 (Data Blocks)
 # 地图数据块 (Data Blocks)
 # BEGIN AUTO-GENERATED MAP_TITLE_DATA
 # 暴雪世界
@@ -534,8 +539,8 @@ enum MapTITLEKey:
 # 伊利奥斯
 #!define DATA_ILIOS [ \
    [], \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "别打老顾我啊", "眼镜小宅", "初一", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "好男人从不过夜", "云雀", "一杯美式", "金泰亨", "天树是只臭猫", "污污污快上车", "墙上静止的钟", "板鸭", "勴丶", "老人小孩先吃盾", "拔剑四顾心茫然", "Doretta", "Fajacy", "训犬大师"], "-"), \
-   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "好男人从不过夜", "云雀", "一杯美式", "金泰亨", "天树是只臭猫", "污污污快上车", "墙上静止的钟", "板鸭", "勴丶", "老人小孩先吃盾", "拔剑四顾心茫然", "Doretta", "Fajacy", "训犬大师"], "-")\
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "别打老顾我啊", "眼镜小宅", "初一", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "好男人从不过夜", "云雀", "一杯美式", "金泰亨", "天树是只臭猫", "污污污快上车", "墙上静止的钟", "板鸭", "勴丶", "老人小孩先吃盾", "拔剑四顾心茫然", "Doretta", "Fajacy", "训犬大师", "自律达人游十三"], "-"), \
+   playerNameToIndexDelimited(["尘风歌者", "吾携秋水揽星河", "寒霜冰湮", "Cold", "豆本豆豆奶", "溪云初起日沉阁", "卖核弹的小女孩", "眼镜小宅", "初一", "蝎子莱莱", "雨鸢", "EruIluvatar", "锄禾日当午", "嘤嘤嘤丶", "八十万萝莉总教头", "八月八月八", "好男人从不过夜", "云雀", "一杯美式", "金泰亨", "天树是只臭猫", "污污污快上车", "墙上静止的钟", "板鸭", "勴丶", "老人小孩先吃盾", "拔剑四顾心茫然", "Doretta", "Fajacy", "训犬大师", "自律达人游十三"], "-")\
 ]
 
 # 漓江塔

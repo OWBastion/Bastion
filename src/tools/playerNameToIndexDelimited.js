@@ -65,7 +65,8 @@ const TITLE_PLAYER_NAMES = [
   "Boo",
   "训犬大师",
   "Killy",
-  "野良"
+  "野良",
+  "自律达人游十三"
 ];
 
 const titleIndexByName = Object.fromEntries(

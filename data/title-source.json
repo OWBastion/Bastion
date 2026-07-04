@@ -1371,6 +1371,13 @@
         "CHALLENGER_LEGEND",
         "TRAVELER_HELL"
       ]
+    },
+    {
+      "name": "自律达人游十三",
+      "titleKeys": [
+        "CHALLENGER_LEGEND",
+        "TRAVELER_HELL"
+      ]
     }
   ],
   "mapTitles": [
@@ -2722,7 +2729,8 @@
           "拔剑四顾心茫然",
           "Doretta",
           "Fajacy",
-          "训犬大师"
+          "训犬大师",
+          "自律达人游十三"
         ],
         "DOMINATOR": [
           "尘风歌者",
@@ -2754,7 +2762,8 @@
           "拔剑四顾心茫然",
           "Doretta",
           "Fajacy",
-          "训犬大师"
+          "训犬大师",
+          "自律达人游十三"
         ]
       }
     },
