@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 镜像反转":
     eventPlayer.mod_dmg_perma *= -1
     eventPlayer.mod_speed_perma *= -1
     eventPlayer.mod_heal_perma *= -1
-    eventPlayer.heart_steel *= -1
+    eventPlayer.heart_steel[HeartSteelData.STACKS] *= -1
     eventPlayer.eventMission = 1
     updatePlayerStats()
     setPlayerHP()

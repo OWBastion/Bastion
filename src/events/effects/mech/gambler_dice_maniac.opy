@@ -14,12 +14,12 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = random.randint(1, 6)
     if eventPlayer.temp == 1:
-        eventPlayer.heart_steel -= EVT_MECH_15_HEART_STEEL_DELTA_LOSS
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_15_HEART_STEEL_DELTA_LOSS
         if eventPlayer.dlcTimeChallenge[8] == 0:
             eventPlayer.dlcTimeChallenge[8] = 1
             eventPlayer.dlcTimeChallenge[4]++
         setPlayerHP()
-        smallMessage(eventPlayer, "  1点：永久损失 {0} 层心之钢（{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA_LOSS, EVT_MECH_15_HEART_STEEL_DELTA_LOSS * EVT_8_HP_PERCENT_PER_STACK))
+        smallMessage(eventPlayer, "  1点：永久损失 {0} 层心之钢（{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA_LOSS, EVT_MECH_15_HEART_STEEL_DELTA_LOSS * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.temp == 2:
@@ -48,12 +48,12 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.2, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Team.2, eventPlayer, 200)
     elif eventPlayer.temp == 5:
-        eventPlayer.heart_steel += EVT_MECH_15_HEART_STEEL_DELTA * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
+        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_15_HEART_STEEL_DELTA * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
         if eventPlayer.dlcTimeChallenge[8] == 0:
             eventPlayer.dlcTimeChallenge[8] = 1
             eventPlayer.dlcTimeChallenge[3]++
         setPlayerHP()
-        smallMessage(eventPlayer, "  5点：永久获得 {0} 层心之钢（+{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1), EVT_MECH_15_HEART_STEEL_DELTA * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1) * (EVT_8_HP_PERCENT_PER_STACK + (EVT_31_PERCENT_PER_STACK_BONUS if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 0))))
+        smallMessage(eventPlayer, "  5点：永久获得 {0} 层心之钢（+{1}%）".format(EVT_MECH_15_HEART_STEEL_DELTA * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_MECH_15_HEART_STEEL_DELTA * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
         playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Team.1, eventPlayer, 200)
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     else:

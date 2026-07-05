@@ -16,9 +16,9 @@ rule "Resolve giveaway":
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
     else:
-        getPlayers(Team.1).exclude(eventPlayer).heart_steel += EVT_DEBUFF_14_STACKS_GIVE
+        getPlayers(Team.1).exclude(eventPlayer).heart_steel[HeartSteelData.STACKS] += EVT_DEBUFF_14_STACKS_GIVE
         getPlayers(Team.1).exclude(eventPlayer).setPlayerHP = true
-        eventPlayer.heart_steel -= EVT_DEBUFF_14_STACKS_TAKE * len(getPlayers(Team.1).exclude(eventPlayer))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_DEBUFF_14_STACKS_TAKE * len(getPlayers(Team.1).exclude(eventPlayer))
         setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_1, eventPlayer, 200)
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 100)
@@ -31,7 +31,7 @@ rule "Rebuild max health":
     
     if all([eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()
-        eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel * EVT_16_HP_MULTIPLIER)
+        eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_16_HP_MULTIPLIER)
         wait(getAverageServerLoad() / 100 * 0.032)
         eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.temp))
     else:

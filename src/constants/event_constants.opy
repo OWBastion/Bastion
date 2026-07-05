@@ -33,6 +33,12 @@ enum TemperHeartState:
     DRAWN
     COMPLETED
 
+enum HeartSteelData:
+    STACKS = 0
+    GAIN_MULTIPLIER
+    PERCENT_PER_STACK
+    COUNT
+
 enum BraveActReward:
     NONE = 0
     HP
@@ -44,6 +50,7 @@ enum BraveActReward:
 
 #!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE, false, BraveActReward.NONE]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
+#!define DEFAULT_HEART_STEEL_DATA [0, 1, EVT_8_HP_PERCENT_PER_STACK]
 
 # -----------------------------------------------------------------------------
 # BUFF 事件（按ID排序）

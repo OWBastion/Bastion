@@ -14,6 +14,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
     lbl_0:
@@ -35,12 +36,16 @@ rule "when a player joins, load player data if they have it and initialize them"
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())
     eventPlayer.dmgReduc = false
     eventPlayer.invincible = false
+    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
+        eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
+        eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER
+        eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD:
         if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HP:
-            eventPlayer.heart_steel += EVT_MECH_21_HP_BONUS_HEART_STEEL * (EVT_31_STACK_MULTIPLIER if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED else 1)
+            eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_21_HP_BONUS_HEART_STEEL * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
             setPlayerHP()
         elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.DMG_REDUCTION:
             eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA

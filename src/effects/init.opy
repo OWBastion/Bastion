@@ -39,7 +39,7 @@ rule "initialize effects":
         
         # 2. 玩家属性
         STR_HUD_ATTR_PANEL.format(
-            round(localPlayer.heart_steel),
+            round(localPlayer.heart_steel[HeartSteelData.STACKS]),
             localPlayer.mod_speed_perma,
             negToPos(localPlayer.mod_dmg_perma),
             localPlayer.mod_heal_perma + localPlayer.mod_heal_event

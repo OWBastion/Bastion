@@ -13,16 +13,16 @@ rule "[VishkarEvent]: 赌徒：心之钢":
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_16_WIN_RATE:
-        eventPlayer.heart_steel *= EVT_MECH_16_WIN_MULTIPLIER
+        eventPlayer.heart_steel[HeartSteelData.STACKS] *= EVT_MECH_16_WIN_MULTIPLIER
         eventPlayer.dlcTimeChallenge[3]++
         smallMessage(eventPlayer, "  {0}  赢！心之钢层数变为 {1} 倍".format(iconString(Icon.CLUB), EVT_MECH_16_WIN_MULTIPLIER))
-    elif eventPlayer.heart_steel > 0:
-        smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢层数（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.heart_steel, eventPlayer.heart_steel * EVT_8_HP_PERCENT_PER_STACK))
-        eventPlayer.heart_steel -= (eventPlayer.heart_steel + 1) / 2
+    elif eventPlayer.heart_steel[HeartSteelData.STACKS] > 0:
+        smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢层数（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.heart_steel[HeartSteelData.STACKS], eventPlayer.heart_steel[HeartSteelData.STACKS] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= (eventPlayer.heart_steel[HeartSteelData.STACKS] + 1) / 2
         eventPlayer.dlcTimeChallenge[4]++
     else:
-        smallMessage(eventPlayer, "  {0}  输！失去 25 层心之钢层数（{1}%）".format(iconString(Icon.DIAMOND), 25 * EVT_8_HP_PERCENT_PER_STACK))
-        eventPlayer.heart_steel -= 25
+        smallMessage(eventPlayer, "  {0}  输！失去 25 层心之钢层数（{1}%）".format(iconString(Icon.DIAMOND), 25 * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= 25
         eventPlayer.dlcTimeChallenge[4]++
     wait()
     setPlayerHP()
