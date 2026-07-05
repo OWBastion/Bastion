@@ -78,7 +78,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Release artifact build (local parity): `pnpm run build:release`
 - Locale-specific release builds: `pnpm run build:main:en` and `pnpm run build:main:zh`
 - Manual env version bump (release helper): `pnpm run tools -- bump:env-version`
-- Release trigger: push to `main` (workflow auto-runs `pnpm run tools -- bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
+- Release trigger: push to `main` with `src/**` changes, or manual `workflow_dispatch` (workflow auto-runs `pnpm run tools -- bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
 - Release freshness guard: workflow skips stale runs when `github.sha` is not current `origin/main` head.
 - Release skip guard: include `[skip release]` in a `main` commit message to bypass release workflow.
 - TODO: Document one canonical local decompile verification command once standardized.
