@@ -9,15 +9,12 @@ rule "when a player joins, load player data if they have it and initialize them"
     @Team 1
     
     eventPlayer.isDev = eventPlayer.key in devList
-    if not dlcVishkarEvent:
-        goto lbl_0
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
-    lbl_0:
     wait(getAverageServerLoad() / 200 * random.uniform(1, 3))
     if eventPlayer.inSaved(savedIndex):
         eventPlayer.heroNumber = savedData.savedHero[eventPlayer.savedIndex(savedIndex)]

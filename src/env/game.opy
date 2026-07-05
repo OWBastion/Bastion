@@ -24,8 +24,6 @@ macro breathPalette.orange = self[3]
 macro breathPalette.gold = self[4]
 
 rule "Initialize global variables":
-    dlcVishkarEvent = createWorkshopSettingBool(STR_SETTING_CAT_DLC, STR_SETTING_DLC_VISHKAR, true, 5)
-
     rebootTime = createWorkshopSettingFloat(STR_SETTING_CAT_GAME, STR_SETTING_REBOOT_TIME, 3.5, 1, 4) * 3600
 
     debugMode = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_DEBUG, true if DEBUG else false, 5)

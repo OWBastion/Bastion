@@ -8,7 +8,7 @@
 rule "[VishkarEvent]: 枯萎":
     @Event playerReceivedHealing
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WITHER, eventHealing > 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WITHER, eventHealing > 0]) == true
 
     if eventPlayer.eventMission < EVT_DEBUFF_22_STACK_CAP:
         eventPlayer.eventMission++
@@ -23,7 +23,7 @@ rule "[VishkarEvent]: 枯萎":
 rule "[VishkarEvent]: 枯萎 (12秒清零)":
     @Event eachPlayer
     @Team 1
-    @Condition all([dlcVishkarEvent, eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WITHER, eventPlayer.eventMission > 0, eventPlayer.eventMissionGoal == 1]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WITHER, eventPlayer.eventMission > 0, eventPlayer.eventMissionGoal == 1]) == true
 
     eventPlayer.eventMissionGoal = 2
     wait(EVT_DEBUFF_22_STACK_WINDOW, Wait.IGNORE_CONDITION)

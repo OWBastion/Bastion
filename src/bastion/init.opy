@@ -199,10 +199,7 @@ rule "Acquire target":
         goto lbl_1
 
     if len(eventPlayer.temp) > 1:
-        if not dlcVishkarEvent:
-            eventPlayer.temp = sorted(eventPlayer.temp, lambda player: player.getHealth() * distance(eventPlayer, player) if bastionBotTargetPrefer == 0 else distance(eventPlayer, player) if bastionBotTargetPrefer == 1 else player.getHealth())
-        else:
-            eventPlayer.temp = sorted(eventPlayer.temp, lambda player: player.targetWeight * -1)
+        eventPlayer.temp = sorted(eventPlayer.temp, lambda player: player.targetWeight * -1)
         eventPlayer.target = eventPlayer.temp[0]
         wait()
     elif eventPlayer.temp[0] != null:
@@ -466,7 +463,6 @@ rule "Lock elevated position":
 rule "Handle grenade impact":
     @Event playerTookDamage
     @Team 1
-    @Condition any([difficulty == 5, bastionBotSeconFire, dlcVishkarEvent]) == true
     @Condition attacker.getHero() == Hero.BASTION
     @Condition attacker != eventPlayer
     @Condition eventAbility == Button.SECONDARY_FIRE

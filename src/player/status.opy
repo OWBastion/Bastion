@@ -17,7 +17,7 @@ rule "Sync ult progress":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
-    @Condition all([dlcVishkarEvent, eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM]) == false
+    @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
     @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT)
     @Condition eventPlayer.progressionDeathCount < maxDeath
     @Condition eventPlayer.isWinner == false
@@ -34,7 +34,7 @@ rule "Display skip ready":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
-    @Condition all([dlcVishkarEvent, eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.ULT_MOMENTUM]) != true
+    @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
     @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT)
     @Condition eventPlayer.progressionDeathCount == maxDeath
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
@@ -103,16 +103,14 @@ rule "Reset progress":
     while len(eventPlayer.playerOnceEventState) < PLAYER_ONCE_EVENT_SLOT_COUNT:
         eventPlayer.playerOnceEventState.append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(eventPlayer.playerOnceEventState)])
     eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.NONE
-    if dlcVishkarEvent:
-        eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
-        eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.GAIN_MULTIPLIER]
-        eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.PERCENT_PER_STACK]
+    eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
+    eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.GAIN_MULTIPLIER]
+    eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.PERCENT_PER_STACK]
     if eventPlayer.inSaved(savedIndex) and savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
         while len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)]) < PLAYER_ONCE_EVENT_SLOT_COUNT:
             savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)])])
         savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)][PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.NONE
-    if dlcVishkarEvent:
-        setPlayerHP()
+    setPlayerHP()
     smallMessage(getAllPlayers(), STR_MSG_PLAYER_RESET_PROGRESS.format(eventPlayer))
     wait()
     eventPlayer.startForcingHero(heroList[0])

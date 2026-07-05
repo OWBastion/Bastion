@@ -17,10 +17,8 @@
 
 # Settings Categories
 #!define STR_SETTING_CAT_GAME "1. Game"
-#!define STR_SETTING_CAT_DLC "2. DLC Content"
 
 # Setting Names
-#!define STR_SETTING_DLC_VISHKAR "Random Events Expansion Pack"
 #!define STR_SETTING_REBOOT_TIME "Auto-Restart Interval (Hours)"
 #!define STR_SETTING_DEBUG "Debug Mode"
 #!define STR_SETTING_BASTION_TARGET "AI Bastion Targeting Rule"

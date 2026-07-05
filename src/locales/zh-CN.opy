@@ -18,10 +18,8 @@
 
 # 设置分类
 #!define STR_SETTING_CAT_GAME "1. 游戏"
-#!define STR_SETTING_CAT_DLC "2. DLC 扩展内容"
 
 # 设置项名称
-#!define STR_SETTING_DLC_VISHKAR "随机事件扩展包"
 #!define STR_SETTING_REBOOT_TIME "自动重开时间间隔（小时）"
 #!define STR_SETTING_DEBUG "Debug 模式"
 #!define STR_SETTING_BASTION_TARGET "AI 堡垒瞄准规则"

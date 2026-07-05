@@ -5,11 +5,9 @@
 
 
 rule "initialize event flag":
-    @Condition dlcVishkarEvent == true
     @Condition getTotalTimeElapsed() > (20 if evalOnce(debugMode) else 120)
-    @Condition vishkarEventActivated != dlcVishkarEvent
+    @Condition vishkarEventActivated != true
     
-    vishkarEventActivated = evalOnce(dlcVishkarEvent)
+    vishkarEventActivated = true
     #waitUntil(getTotalTimeElapsed() > rebootTime, 999999986991104)
     return
-

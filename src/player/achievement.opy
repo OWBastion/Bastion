@@ -22,7 +22,6 @@ rule "[VishkarEvent]: Challenge 53 Track (GREAT_BENEFACTOR)":
     @Team 1
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
-    @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition eventPlayer.dlcTimeChallenge[9] >= 15
     @Condition 53 not in eventPlayer.earnedAchievements
@@ -34,7 +33,6 @@ rule "[VishkarEvent]: Challenge 54 Track (BREAK_ATMOSPHERE)":
     @Team 1
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
-    @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition eventPlayer.dlcTimeChallenge[10] >= 20
     @Condition 54 not in eventPlayer.earnedAchievements
@@ -45,7 +43,6 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[1] >= 10000
     @Condition 41 not in eventPlayer.earnedAchievements
@@ -56,7 +53,6 @@ rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.heart_steel[HeartSteelData.STACKS] >= 800
     @Condition 42 not in eventPlayer.earnedAchievements
@@ -67,7 +63,6 @@ rule "[VishkarEvent]: Challenge 50 Track (EVENT5_BLACK_SHEEP)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[6] >= 12
@@ -80,7 +75,6 @@ rule "[VishkarEvent]: Challenge 51 Track (EVENT5_I_WANT_TO_CHECK_CARDS)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[5] >= 8
@@ -92,7 +86,6 @@ rule "[VishkarEvent]: Challenge 52 Track (EVENT5_CARDS_ARE_FINE)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition dlcVishkarEvent == true
     @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[3] >= 5

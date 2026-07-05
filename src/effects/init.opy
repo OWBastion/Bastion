@@ -35,7 +35,7 @@ rule "initialize effects":
         # 1. 阵亡/跳过
         STR_HUD_STATS_DEATH_SKIP.format(localPlayer.runDeathCount, localPlayer.skipCount),
 
-        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]) if dlcVishkarEvent else "",
+        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]),
         
         # 2. 玩家属性
         STR_HUD_ATTR_PANEL.format(
@@ -43,7 +43,7 @@ rule "initialize effects":
             localPlayer.mod_speed_perma,
             negToPos(localPlayer.mod_dmg_perma),
             localPlayer.mod_heal_perma + localPlayer.mod_heal_event
-        ) if dlcVishkarEvent else "",
+        ),
 
         # 3. 总耗时 (仅在通关后显示)
         STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(
@@ -131,21 +131,20 @@ rule "initialize effects":
     # --------------------------------------------------------------------------------------------------------------------------------
     # Random Events 4.0 HUD
     # --------------------------------------------------------------------------------------------------------------------------------
-    if evalOnce(dlcVishkarEvent):
-        # 事件版本子标题
-        hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_VERSION, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
-        
-        # 个人事件详情 (改用 hudText)
-        hudText(
-            null if localPlayer.eventId == -1 else localPlayer, 
-            "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
-            STR_HUD_EVENT_DETAIL.format(
-                localPlayer.eventName, 
-                STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 
-                localPlayer.eventDesc
-            ), 
-            null, HudPosition.LEFT, 70, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
-        )
+    # 事件版本子标题
+    hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_VERSION, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
+    
+    # 个人事件详情 (改用 hudText)
+    hudText(
+        null if localPlayer.eventId == -1 else localPlayer, 
+        "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
+        STR_HUD_EVENT_DETAIL.format(
+            localPlayer.eventName, 
+            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 
+            localPlayer.eventDesc
+        ), 
+        null, HudPosition.LEFT, 70, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+    )
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # Misc Info

@@ -169,19 +169,6 @@ rule STR_LICENSE_PERMIT:
 
 #!rulePrefix "Core"
 
-rule "Grant stealth sprint":
-    @Event eachPlayer
-    @Team 1
-    @Condition dlcVishkarEvent == false
-    @Condition eventPlayer.isMoving()
-    @Condition getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0] == false
-    
-    wait(3, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.setMoveSpeed(160)
-    waitUntil(not eventPlayer.isMoving() or getPlayersInRadius(eventPlayer, 60, Team.2, LosCheck.SURFACES)[0], Math.INFINITY)
-    eventPlayer.setMoveSpeed(100)
-
-
 rule "Reset to control respawn":
     @Event eachPlayer
     @Team 1
