@@ -4,6 +4,90 @@
 #!optimizeStrict
 #!rulePrefix "Player"
 
+subroutine resetPlayerEventState
+subroutine resetPlayerProgressState
+subroutine resetPlayerSavedState
+subroutine finishResetProgress
+
+def resetPlayerEventState():
+    @Name "[VishkarEvent]: reset player event state"
+
+    clearPlayerEvent()
+    destroyEffect(eventPlayer.invincibleEffect)
+    destroyEffect(eventPlayer.nanoEffect)
+    eventPlayer.invincibleEffect = null
+    eventPlayer.nanoEffect = null
+    eventPlayer.hasNano = false
+    eventPlayer.eventLastId = []
+    eventPlayer.eventCount = [0, 0, 0]
+    eventPlayer.eventLucky = 0
+    eventPlayer.eventDurationHud = 0
+    eventPlayer.eventLoopCount = 0
+    eventPlayer.eventIsSelected = false
+    eventPlayer.eventTempId = []
+    eventPlayer.eventTempWeight = 0
+    eventPlayer.categoryRoll = null
+    eventPlayer.categoryRollSnapshot = null
+    wait(getAverageServerLoad() / 100 * 0.032)
+
+def resetPlayerProgressState():
+    @Name "[VishkarEvent]: reset player progress state"
+
+    eventPlayer.heroNumber = 0
+    eventPlayer.progressionDeathCount = 0
+    eventPlayer.skipCount = 0
+    eventPlayer.runDeathCount = 0
+    eventPlayer.isWinner = false
+    eventPlayer.winnerTime = 0
+    eventPlayer.dmgReduc = false
+    eventPlayer.invincible = false
+    eventPlayer.isAirWalkEnabled = false
+    eventPlayer.isPortalEnabled = false
+    eventPlayer.controlJumpIndex = 0
+    eventPlayer.controlPlayerRespawnPosition = null
+    eventPlayer.mod_speed_perma = 0
+    eventPlayer.mod_dmg_perma = 0
+    eventPlayer.mod_heal_perma = 0
+    eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
+    eventPlayer.possess = null
+    eventPlayer.possessed = []
+    eventPlayer.dlcTimeChallenge = [0, 0, [], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    eventPlayer.eventForceRoll = null
+    eventPlayer.eventForceCount = 0
+    eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    eventPlayer.tempUnlockId = null
+    eventPlayer.earnedAchievements = []
+    eventPlayer.thiefBuffStolen = false
+    wait(getAverageServerLoad() / 100 * 0.032)
+    setPlayerHP()
+    updatePlayerStats()
+    wait(getAverageServerLoad() / 100 * 0.032)
+
+def resetPlayerSavedState():
+    @Name "[VishkarEvent]: reset player saved state"
+
+    if not eventPlayer.inSaved(savedIndex):
+        return
+
+    savedData.savedHero[eventPlayer.savedIndex(savedIndex)] = 0
+    savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = 0
+    savedData.savedWinner[eventPlayer.savedIndex(savedIndex)] = false
+    savedData.savedSkipCount[eventPlayer.savedIndex(savedIndex)] = 0
+    savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
+    savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = 0
+    savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    wait(getAverageServerLoad() / 100 * 0.032)
+
+def finishResetProgress():
+    @Name "[VishkarEvent]: finish reset progress"
+
+    wait(getAverageServerLoad() / 100 * 0.032)
+    eventPlayer.startForcingHero(heroList[0])
+    wait()
+    eventPlayer.stopForcingCurrentHero()
+    wait(getServerLoad() / 100 * 0.5)
+    eventPlayer.setAllowedHeroes(heroList.slice(0, 1))
+
 
 rule "Track progression death":
     @Event playerDied
@@ -94,28 +178,8 @@ rule "Reset progress":
     smallMessage(eventPlayer, STR_MSG_RESETTING_PROGRESS)
     wait(2, Wait.ABORT_WHEN_FALSE)
     playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, null, eventPlayer.getPosition(), 100)
-    eventPlayer.runDeathCount = 0
-    eventPlayer.progressionDeathCount = 0
-    eventPlayer.isWinner = false
-    eventPlayer.winnerTime = 0
-    eventPlayer.heroNumber = 0
-    eventPlayer.skipCount = 0
-    while len(eventPlayer.playerOnceEventState) < PLAYER_ONCE_EVENT_SLOT_COUNT:
-        eventPlayer.playerOnceEventState.append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(eventPlayer.playerOnceEventState)])
-    eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.NONE
-    eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
-    eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.GAIN_MULTIPLIER]
-    eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.PERCENT_PER_STACK]
-    if eventPlayer.inSaved(savedIndex) and savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
-        while len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)]) < PLAYER_ONCE_EVENT_SLOT_COUNT:
-            savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].append(DEFAULT_PLAYER_ONCE_EVENT_STATE[len(savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)])])
-        savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)][PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.NONE
-    setPlayerHP()
+    resetPlayerEventState()
+    resetPlayerProgressState()
+    resetPlayerSavedState()
     smallMessage(getAllPlayers(), STR_MSG_PLAYER_RESET_PROGRESS.format(eventPlayer))
-    wait()
-    eventPlayer.startForcingHero(heroList[0])
-    wait()
-    eventPlayer.stopForcingCurrentHero()
-    wait(getServerLoad() / 100 * 0.5)
-    eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
-    savePlayerData()
+    finishResetProgress()

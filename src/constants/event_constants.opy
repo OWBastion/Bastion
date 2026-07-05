@@ -341,8 +341,8 @@ enum BraveActReward:
 #!define EVT_31_HERO_GOAL 3
 # 已有心之钢层数倍率
 #!define EVT_31_STACK_MULTIPLIER 1.5
-# 每层最大生命值百分比永久提升量（0.75% -> 1.125%，即 +0.375）
-#!define EVT_31_PERCENT_PER_STACK_BONUS 0.375
+# 每层最大生命值百分比永久提升量（0.75% -> 1%，即 +0.25）
+#!define EVT_31_PERCENT_PER_STACK_BONUS 0.25
 
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
