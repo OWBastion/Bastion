@@ -16,11 +16,11 @@ rule "map - 南极半岛":
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
 
-    bastionPosition = [
+    bastionPosition = compressed([
         vect(-98.119, 15.423, 46.112), vect(-103.198, 12.267, 17.698), vect(-94, 19.5, -28.74), vect(-68,16.41,-47.6), vect(-85.854, 8.087, -0.132), vect(-113.76,9.5,-23.19),
         vect(244.902, -1, -226.505), vect(236.299, -3.86, -255.149), vect(283.34, 28.04,-201.87), vect(318.253, -4.899, -211.882), vect(336.311, -6.618, -242.569), vect(283.936, -8.688, -253.317), 
         vect(358.414, 64.664, 155.328), vect(329.109, 48.084, 166.447), vect(269.63, 68.9, 209.25), vect(270.34, 42.58, 139.77), vect(214.64, 53.09, 189.61), vect(246.75, 55.6, 151.36)
-    ]
+    ])
 
     if len(getPlayersInRadius(vect(-90.25, 9.25, 90.00), 30, Team.1)) != 0:
         controlRespawnPosition = vect(-90.25, 9.25, 90.00)
