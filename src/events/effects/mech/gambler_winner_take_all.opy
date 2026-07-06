@@ -11,21 +11,24 @@ rule "[VishkarEvent]: 赌徒：赢家通吃":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_WINNER_TAKE_ALL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
+    eventPlayer.hudText = "当前奖池：{0}层".format(round(gamblerHeartsteelJackpot))
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventMission = max(1, floor(eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_MECH_24_STAKE_RATIO))
     eventPlayer.heart_steel[HeartSteelData.STACKS] -= eventPlayer.eventMission
     gamblerHeartsteelJackpot += eventPlayer.eventMission
+    eventPlayer.hudText = "当前奖池：{0}层".format(round(gamblerHeartsteelJackpot))
     if random.randint(0, 99) < EVT_MECH_24_WIN_RATE:
         eventPlayer.temp = gamblerHeartsteelJackpot
         eventPlayer.heart_steel[HeartSteelData.STACKS] += eventPlayer.temp
         gamblerHeartsteelJackpot = 0
         eventPlayer.dlcTimeChallenge[3]++
-        smallMessage(eventPlayer, "  {0}  赢！清空奖池并获得 {1} 层心之钢".format(iconString(Icon.CLUB), eventPlayer.temp))
+        smallMessage(getAllPlayers(), "  {0}  {1} 清空奖池，获得 {2} 层心之钢".format(iconString(Icon.CLUB), eventPlayer, eventPlayer.temp))
     else:
         eventPlayer.dlcTimeChallenge[4]++
-        smallMessage(eventPlayer, "  {0}  输！奖池保留，你失去 {1} 层心之钢".format(iconString(Icon.DIAMOND), eventPlayer.eventMission))
+        smallMessage(eventPlayer, "  {0}  {1} 层心之钢已进入奖池".format(iconString(Icon.DIAMOND), eventPlayer.eventMission))
     wait()
     setPlayerHP()
     wait()
+    eventPlayer.hudText = ""
     eventPlayer.eventMission = 0
     eventPlayer.eventDuration = 0
