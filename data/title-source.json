@@ -828,6 +828,8 @@
       "name": "卖核弹的小女孩",
       "titleKeys": [
         "GOOD_LUCK",
+        "ALL_IN_ONE",
+        "SKY",
         "SPEEDRUN",
         "FLAWLESS",
         "CHALLENGER_LEGEND",
@@ -1146,7 +1148,8 @@
         "EVENT5_GAMBLE_SAINT",
         "EVENT5_CARDS_ARE_FINE",
         "EVENT5_I_WANT_TO_CHECK_CARDS",
-        "EVENT5_BLACK_SHEEP"
+        "EVENT5_BLACK_SHEEP",
+        "GREAT_BENEFACTOR"
       ]
     },
     {
@@ -3453,7 +3456,8 @@
           "吾携秋水揽星河",
           "锄禾日当午",
           "训犬大师",
-          "Killy"
+          "Killy",
+          "卖核弹的小女孩"
         ],
         "DOMINATOR": [
           "嘤嘤嘤丶",
@@ -3462,7 +3466,8 @@
           "吾携秋水揽星河",
           "锄禾日当午",
           "训犬大师",
-          "Killy"
+          "Killy",
+          "卖核弹的小女孩"
         ]
       }
     }
