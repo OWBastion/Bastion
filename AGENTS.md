@@ -68,6 +68,8 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
 - Title grant workflow test: `pnpm run tools -- test:title-grant`
 - Title grant workflow test: `pnpm run tools -- test:grant-general-title-workflow`
+- Event allocation sync report: `pnpm run tools -- sync:event-allocation-report`
+- Event allocation analysis test: `pnpm run tools -- test:event-allocation`
 - Title query local dev server (sync title/event/effect data + Vite): `pnpm run dev:title-query`
 - Title query page build (sync title/event/effect data + Vite): `pnpm run build:title-query`
 - Event data sync validation: `pnpm run tools -- test:event-data-sync`
