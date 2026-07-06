@@ -168,6 +168,8 @@
 #!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值，冷却{3}秒"
 #!define STR_EVT_BUFF_31_TITLE "钢化你心"
 #!define STR_EVT_BUFF_31_DESC "持续时间内使用{0}个英雄通过终点\n心之钢层数×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
+#!define STR_EVT_BUFF_32_TITLE "战地医生"
+#!define STR_EVT_BUFF_32_DESC "累计治疗 {0} 点生命值\n奖励：永久获得 {1}% 治疗强度"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)

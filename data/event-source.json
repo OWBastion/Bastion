@@ -306,6 +306,18 @@
       "descEn": "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
     },
     {
+      "key": "BATTLEFIELD_MEDIC",
+      "type": "buff",
+      "id": 24,
+      "pack": 5,
+      "nameZh": "战地医生",
+      "descZh": "累计治疗 {0} 点生命值\n奖励：永久获得 {1}% 治疗强度",
+      "durationSec": 120,
+      "weight": 1,
+      "availability": "active",
+      "descEn": "Heal {0} HP during the duration.\nReward: permanently gain {1}% healing power."
+    },
+    {
       "key": "GRAVITY_ANOMALY",
       "type": "debuff",
       "id": 0,

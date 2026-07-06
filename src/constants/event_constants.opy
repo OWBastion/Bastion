@@ -316,6 +316,13 @@ enum HeartSteelData:
 # 每层最大生命值百分比永久提升量（0.75% -> 1%，即 +0.25）
 #!define EVT_31_PERCENT_PER_STACK_BONUS 0.25
 
+# --- ID 32: 战地医生 ---
+#!define EVT_BUFF_32_DURATION 120
+#!define EVT_BUFF_32_WEIGHT 1.0
+#!define EVT_32_HEAL_GOAL 10000
+#!define EVT_32_REWARD_HEAL_PERMA 25
+#!define EVT_32_HUD_INTERVAL 0.25
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10

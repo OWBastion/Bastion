@@ -52,6 +52,8 @@ enum BuffEventId:
     DIVINE_REINFORCEMENT
     # legacy numeric id: 31
     TEMPER_HEART
+    # legacy numeric id: 32
+    BATTLEFIELD_MEDIC
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

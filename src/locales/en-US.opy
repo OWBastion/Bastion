@@ -159,6 +159,8 @@
 #!define STR_EVT_BUFF_30_DESC "Hold {0} to teleport to the ally with the lowest HP ratio.\nRestore {1} + {2}% max HP to them. Cooldown: {3}s."
 #!define STR_EVT_BUFF_31_TITLE "Temper Heart"
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
+#!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
+#!define STR_EVT_BUFF_32_DESC "Heal {0} HP during the duration.\nReward: permanently gain {1}% healing power."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
