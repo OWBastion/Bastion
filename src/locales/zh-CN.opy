@@ -220,8 +220,6 @@
 #!define STR_EVT_MECH_19_DESC "长按{0}：窃取一名友方的下一个增益"
 #!define STR_EVT_MECH_20_TITLE "赌徒：乐于助人"
 #!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n{3}%概率使所有玩家生命值降至1"
-#!define STR_EVT_MECH_21_TITLE "勇敢举动"
-#!define STR_EVT_MECH_21_DESC "长按{0}永久获得一项强化：\n{1}%最大生命值 / {2}%伤害减免 / {3}%移速加成 / {4}%治疗强度 / 每秒回复{5}+{6}%最大生命值 / 每{8}秒获得{7}%终极技能充能\n此后不再触发随机事件"
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
 #!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
 #!define STR_EVT_MECH_23_TITLE "镜像反转"

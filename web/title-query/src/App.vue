@@ -783,7 +783,7 @@ watch(
             v-model="allocatorQuery"
             name="allocator-search"
             type="search"
-            placeholder="输入场景名、事件 key 或过滤原因，例如 TEMPER_HEART / recent dedup / BRAVE_ACT…"
+            placeholder="输入场景名、事件 key 或过滤原因，例如 TEMPER_HEART / recent dedup / GAMBLER…"
             autocomplete="off"
           />
         </label>

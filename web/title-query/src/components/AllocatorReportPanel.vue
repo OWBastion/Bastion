@@ -14,8 +14,7 @@ const scenarioFilter = computed(() => String(props.filterText || '').trim().toLo
 const SCENARIO_LABEL_MAP = {
   'prod-default': '默认分配',
   'recent-dedup-window': '最近事件去重',
-  'temper-heart-used': '心之钢已生效',
-  'brave-act-locked': '勇敢举动受限'
+  'temper-heart-used': '心之钢已生效'
 };
 
 function sanitizeAllocatorText(value) {

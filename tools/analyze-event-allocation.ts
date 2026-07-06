@@ -35,17 +35,9 @@ const REASON_LABELS: Record<string, string> = {
   'inactive-source': '事件源未启用',
   'nonpositive-weight': '权重非正值',
   'temper-heart-used': '心之钢已在本局生效过',
-  'brave-act-hero-gated': '勇敢举动会被当前英雄顺序限制',
-  'brave-act-once-state-gated': '勇敢举动已被一次性状态限制',
   'recent-dedup': '命中最近事件去重窗口',
   'force-roll-selfless-gated': '舍己为人在当前强制抽取条件下被排除'
 };
-
-const BRAVE_ACT_STATE = {
-  NEW: 0,
-  DRAWN: 1,
-  ACCEPTED: 2
-} as const;
 
 const SCENARIO_METADATA: Record<string, { id: string; label: string; description: string }> = {
   'prod-default.json': {
@@ -62,11 +54,6 @@ const SCENARIO_METADATA: Record<string, { id: string; label: string; description
     id: 'temper-heart-used',
     label: '心之钢已生效',
     description: '验证一次性事件在本局已经触发后，会不会直接退出抽取范围。'
-  },
-  'brave-act-locked.json': {
-    id: 'brave-act-locked',
-    label: '勇敢举动受限',
-    description: '验证英雄顺序限制如何排除特定机制事件，并观察类别倾向是否会延续到下一轮。'
   }
 };
 
@@ -118,7 +105,6 @@ type ScenarioInput = {
     heroNumber?: number;
     eventLastKeys?: string[];
     temperHeartUsed?: boolean;
-    braveActState?: number;
     categoryRoll?: number | null;
     categoryRollSnapshot?: number | null;
     eventForceRoll?: number | null;
@@ -213,7 +199,6 @@ type StaticReport = {
   constantsFile: string;
   eventWeight: number;
   recentDedupCount: number;
-  braveActMaxHeroOrderExclusive: number;
   reports: StaticTypeReport[];
 };
 
@@ -297,7 +282,6 @@ export type EventAllocationHtmlData = {
     generatedAt: string;
     eventWeight: number;
     recentDedupCount: number;
-    braveActMaxHeroOrderExclusive: number;
     scenarioCount: number;
   };
   alerts: EventAllocationAlert[];
@@ -587,7 +571,6 @@ function buildCandidatePool(
   enabledEventKeys: Set<string> | null,
   config: {
     dedupMultiplier: number;
-    braveActMaxHeroOrderExclusive: number;
     forceRollSelflessGiveaway: number;
   }
 ): CandidatePoolResult {
@@ -626,17 +609,6 @@ function buildCandidatePool(
     }
     if (type === 'buff' && eventItem.key === 'TEMPER_HEART' && playerState.temperHeartUsed) {
       addReason(eventItem.key, 'temper-heart-used');
-      return false;
-    }
-    if (
-      type === 'mech' &&
-      eventItem.key === 'BRAVE_ACT' &&
-      (playerState.heroNumber + 1 >= config.braveActMaxHeroOrderExclusive || playerState.braveActState !== BRAVE_ACT_STATE.NEW)
-    ) {
-      addReason(
-        eventItem.key,
-        playerState.heroNumber + 1 >= config.braveActMaxHeroOrderExclusive ? 'brave-act-hero-gated' : 'brave-act-once-state-gated'
-      );
       return false;
     }
     return true;
@@ -754,7 +726,6 @@ function buildStaticTypeReport(
   constants: {
     eventWeight: number;
     recentDedupCount: number;
-    braveActMaxHeroOrderExclusive: number;
     dedupMultiplier: number;
     forceRollSelflessGiveaway: number;
   }
@@ -763,7 +734,6 @@ function buildStaticTypeReport(
     heroNumber: 0,
     eventLastKeys: [] as string[],
     temperHeartUsed: false,
-    braveActState: BRAVE_ACT_STATE.NEW,
     categoryRoll: null,
     categoryRollSnapshot: null,
     eventForceRoll: null,
@@ -795,7 +765,6 @@ async function loadSharedAnalysisInputs(options: { sourceFile?: string; constant
   const constants = {
     eventWeight: parseDefineNumber(constantsSource, 'EVT_INIT_EVENT_WEIGHT'),
     recentDedupCount: parseDefineNumber(constantsSource, 'EVT_RECENT_EVENT_DEDUP_COUNT'),
-    braveActMaxHeroOrderExclusive: parseDefineNumber(constantsSource, 'EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE'),
     dedupMultiplier: parseDefineNumber(constantsSource, 'EVT_DEDUP_TYPE_MULTIPLIER'),
     cheatCardCountingForceRoll: parseDefineNumber(constantsSource, 'EVT_MECH_7_FORCE_ROLL'),
     forceRollSelflessGiveaway: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_ROLL'),
@@ -822,7 +791,6 @@ export async function analyzeStaticEventAllocation(options: { sourceFile?: strin
     constantsFile: path.relative(REPO_ROOT, constantsFile),
     eventWeight: constants.eventWeight,
     recentDedupCount: constants.recentDedupCount,
-    braveActMaxHeroOrderExclusive: constants.braveActMaxHeroOrderExclusive,
     reports: ['buff', 'debuff', 'mech'].map((type) => buildStaticTypeReport(events, type, constants))
   };
 }
@@ -839,7 +807,6 @@ export async function analyzeScenarioEventAllocation(
     heroNumber: scenario.playerState?.heroNumber ?? 0,
     eventLastKeys: scenario.playerState?.eventLastKeys ?? [],
     temperHeartUsed: scenario.playerState?.temperHeartUsed ?? false,
-    braveActState: scenario.playerState?.braveActState ?? BRAVE_ACT_STATE.NEW,
     categoryRoll: scenario.playerState?.categoryRoll ?? null,
     categoryRollSnapshot: scenario.playerState?.categoryRollSnapshot ?? null,
     eventForceRoll: scenario.playerState?.eventForceRoll ?? null,
@@ -918,9 +885,6 @@ function applyLongSessionEventState(
 ) {
   if (eventKey === 'TEMPER_HEART') {
     playerState.temperHeartUsed = true;
-  }
-  if (eventKey === 'BRAVE_ACT' && playerState.braveActState === BRAVE_ACT_STATE.NEW) {
-    playerState.braveActState = BRAVE_ACT_STATE.DRAWN;
   }
   if (eventKey === 'CHEAT_CARD_COUNTING') {
     playerState.eventForceRoll = constants.cheatCardCountingForceRoll;
@@ -1105,7 +1069,6 @@ function buildLongSessionSimulation(
   constants: {
     eventWeight: number;
     recentDedupCount: number;
-    braveActMaxHeroOrderExclusive: number;
     dedupMultiplier: number;
     forceRollSelflessGiveaway: number;
     cheatCardCountingForceRoll: number;
@@ -1412,7 +1375,6 @@ export async function buildEventAllocationReportData(options: {
       generatedAt: new Date().toISOString(),
       eventWeight: staticReport.eventWeight,
       recentDedupCount: staticReport.recentDedupCount,
-      braveActMaxHeroOrderExclusive: staticReport.braveActMaxHeroOrderExclusive,
       scenarioCount: scenarios.length
     },
     alerts: buildAlerts(staticSummary, scenariosWithSessionSearch),

@@ -760,21 +760,9 @@
       "descEn": "Hold {0} to settle.\\n{1}% chance to restore all allies for {2}% max HP.\\n{3}% chance to set all players' HP to 1."
     },
     {
-      "key": "BRAVE_ACT",
-      "type": "mech",
-      "id": 20,
-      "pack": 5,
-      "nameZh": "勇敢举动",
-      "descZh": "长按{0}永久获得一项强化：\\n{1}%最大生命值 / {2}%伤害减免 / {3}%移速加成 / {4}%治疗强度 / 每秒回复{5}+{6}%最大生命值 / 每{8}秒获得{7}%终极技能充能\\n此后不再触发随机事件",
-      "durationSec": 15,
-      "weight": 0.3,
-      "availability": "active",
-      "descEn": "Hold {0} to permanently gain one bonus:\\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\\nNo more random events afterward."
-    },
-    {
       "key": "CHEAT_BACKROOM_DEAL",
       "type": "mech",
-      "id": 21,
+      "id": 20,
       "pack": 5,
       "nameZh": "作弊：暗箱操作",
       "descZh": "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\\n下个事件必为机制",
@@ -786,7 +774,7 @@
     {
       "key": "MIRROR_INVERSION",
       "type": "mech",
-      "id": 22,
+      "id": 21,
       "pack": 5,
       "nameZh": "镜像反转",
       "descZh": "长按{0}永久反转当前永久属性：减伤 / 移速 / 治疗增益 / 心之钢",

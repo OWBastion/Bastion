@@ -102,7 +102,6 @@ rule "Sync ult progress":
     @Team 1
     @Condition difficulty != 5
     @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
-    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT)
     @Condition eventPlayer.progressionDeathCount < maxDeath
     @Condition eventPlayer.isWinner == false
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
@@ -119,7 +118,6 @@ rule "Display skip ready":
     @Team 1
     @Condition difficulty != 5
     @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
-    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT)
     @Condition eventPlayer.progressionDeathCount == maxDeath
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
@@ -143,7 +141,6 @@ rule "Skip hero with ultimate":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
-    @Condition not (eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.ULT)
     @Condition eventPlayer.progressionDeathCount >= maxDeath
     @Condition (eventPlayer.isUsingUltimate() or eventPlayer.isDuplicatingAHero()) == true
     @Condition eventPlayer.heroNumber + 1 < len(heroList)

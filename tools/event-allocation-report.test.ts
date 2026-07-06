@@ -23,12 +23,11 @@ test('builds shared html report data with alerts and preset scenarios', async ()
 
   assert.equal(report.meta.reportVersion, 'v3');
   assert.equal(report.staticSummary.length, 3);
-  assert.ok(report.scenarios.length >= 4);
+  assert.ok(report.scenarios.length >= 3);
   assert.ok(report.alerts.length > 0);
-  assert.ok(report.scenarios.some((scenario) => scenario.id === 'brave-act-locked'));
   assert.equal(report.sessionSimulation.durationHours, 4);
   assert.equal(report.sessionSimulation.baselineScenarioId, 'prod-default');
-  assert.ok(report.sessionSimulation.scenarios.length >= 4);
+  assert.ok(report.sessionSimulation.scenarios.length >= 3);
   assert.ok(report.sessionSimulation.scenarios[0]?.eventSummaries[0]?.eventNameZh);
   assert.ok(report.staticSummary[0]?.topRows[0]?.eventNameZh);
   assert.ok(report.scenarios[0]?.selectedTypeSummary);
@@ -46,16 +45,13 @@ test('builds shared html report data with alerts and preset scenarios', async ()
   assert.ok(report.alerts.every((alert) => !/[Dd]elta|fallback|candidateKeys|selectedType/.test(`${alert.title}${alert.summary}${alert.evidence}`)));
 });
 
-test('session simulation respects once-state and hero-gated scenario exclusions', async () => {
+test('session simulation respects once-state scenario exclusions', async () => {
   const report = await buildEventAllocationReportData({ sourceFile, constantsFile });
 
   const temperHeartScenario = report.sessionSimulation.scenarios.find((scenario) => scenario.id === 'temper-heart-used');
-  const braveActScenario = report.sessionSimulation.scenarios.find((scenario) => scenario.id === 'brave-act-locked');
 
   assert.ok(temperHeartScenario);
-  assert.ok(braveActScenario);
   assert.equal(temperHeartScenario!.eventSummaries.find((item) => item.key === 'TEMPER_HEART')?.atLeastOnceProbability, 0);
-  assert.equal(braveActScenario!.eventSummaries.find((item) => item.key === 'BRAVE_ACT')?.atLeastOnceProbability, 0);
 });
 
 test('renders non-tty summary and tui frame headings', async () => {

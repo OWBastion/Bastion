@@ -40,19 +40,6 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
-    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.BRAVE_ACT_REWARD:
-        if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HP:
-            eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_21_HP_BONUS_HEART_STEEL * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
-            setPlayerHP()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.DMG_REDUCTION:
-            eventPlayer.mod_dmg_perma += EVT_MECH_21_DMG_REDUCTION_PERMA
-            updatePlayerStats()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.SPEED:
-            eventPlayer.mod_speed_perma += EVT_MECH_21_SPEED_PERMA
-            updatePlayerStats()
-        elif eventPlayer.playerOnceEventState[PlayerOnceEventSlot.BRAVE_ACT_REWARD] == BraveActReward.HEALING:
-            eventPlayer.mod_heal_perma += EVT_MECH_21_HEALING_PERMA
-            updatePlayerStats()
     wait(6)
     if eventPlayer.key in titlePlayer:
         eventPlayer.playerTitleRelationIndex = titlePlayer.index(eventPlayer.key)

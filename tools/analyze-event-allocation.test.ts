@@ -88,11 +88,10 @@ test('temper heart once-state removes it from buff candidates', async () => {
   assert.ok(report.candidatePool.filtered.some((item) => item.key === 'TEMPER_HEART' && item.reasons.includes('temper-heart-used')));
 });
 
-test('brave act is filtered by hero gate and category roll persistence lasts one round', async () => {
+test('mech category roll persistence lasts one round', async () => {
   const scenarioFile = await writeScenarioFile({
-    enabledEventKeys: ['BRAVE_ACT', 'GAMBLER'],
+    enabledEventKeys: ['GAMBLER', 'MINI_FORM'],
     playerState: {
-      heroNumber: 19,
       categoryRoll: 90,
       categoryRollSnapshot: 10
     },
@@ -101,8 +100,7 @@ test('brave act is filtered by hero gate and category roll persistence lasts one
 
   const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
 
-  assert.deepEqual(report.candidatePool.candidateKeys, ['GAMBLER']);
-  assert.ok(report.candidatePool.filtered.some((item) => item.key === 'BRAVE_ACT' && item.reasons.includes('brave-act-hero-gated')));
+  assert.deepEqual(report.candidatePool.candidateKeys, ['GAMBLER', 'MINI_FORM']);
   assert.equal(report.categoryTransitions[0].type, 'mech');
   assert.equal(report.categoryTransitions[1].type, 'mech');
   assert.equal(report.categoryTransitions[1].source, 'category-roll');
@@ -129,4 +127,3 @@ test('debuff force-roll fallback can restore selfless giveaway only after second
     )
   );
 });
-

@@ -22,8 +22,6 @@ enum EventType:
 # 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
 enum PlayerOnceEventSlot:
     TEMPER_HEART = 0
-    BRAVE_ACT_SEEN
-    BRAVE_ACT_REWARD
     COUNT
 
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
@@ -39,16 +37,7 @@ enum HeartSteelData:
     PERCENT_PER_STACK
     COUNT
 
-enum BraveActReward:
-    NONE = 0
-    HP
-    DMG_REDUCTION
-    SPEED
-    HEALING
-    REGEN
-    ULT
-
-#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE, false, BraveActReward.NONE]
+#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 #!define DEFAULT_HEART_STEEL_DATA [0, 1, EVT_8_HP_PERCENT_PER_STACK]
 
@@ -892,19 +881,6 @@ enum BraveActReward:
 #!define EVT_MECH_20_WEIGHT 1.1
 #!define EVT_MECH_20_WIN_RATE 75
 #!define EVT_MECH_20_HEAL_MAXHP_FACTOR 0.85
-
-# --- ID 21 (Mech/Special): 勇敢举动 ---
-#!define EVT_MECH_21_DURATION 15
-#!define EVT_MECH_21_WEIGHT 0.3
-#!define EVT_MECH_21_MAX_HERO_ORDER_EXCLUSIVE 20
-#!define EVT_MECH_21_HP_BONUS_HEART_STEEL (1000 / EVT_8_HP_PERCENT_PER_STACK)
-#!define EVT_MECH_21_DMG_REDUCTION_PERMA -65
-#!define EVT_MECH_21_SPEED_PERMA 100
-#!define EVT_MECH_21_HEALING_PERMA 750
-#!define EVT_MECH_21_REGEN_FLAT 150
-#!define EVT_MECH_21_REGEN_MAXHP_FACTOR 0.5
-#!define EVT_MECH_21_ULT_CHARGE_GAIN 5
-#!define EVT_MECH_21_ULT_CHARGE_INTERVAL 5
 
 # --- ID 22 (Mech/Special): 作弊：暗箱操作 ---
 #!define EVT_MECH_22_DURATION 15

@@ -393,12 +393,4 @@ rule "initialize event array":
     ]
     mechEventId.append(MechEventId.GAMBLER_ALL_IN_ART_5)
 
-    mechEvent[MechEventId.BRAVE_ACT] = [
-        STR_EVT_MECH_21_TITLE,
-        STR_EVT_MECH_21_DESC.format(Button.RELOAD, 1000, 65, 100, 750, EVT_MECH_21_REGEN_FLAT, 50, EVT_MECH_21_ULT_CHARGE_GAIN, EVT_MECH_21_ULT_CHARGE_INTERVAL),
-        EVT_MECH_21_DURATION,
-        EVT_MECH_21_WEIGHT
-    ]
-    mechEventId.append(MechEventId.BRAVE_ACT)
-
     lbl_4:

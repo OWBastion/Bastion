@@ -210,8 +210,6 @@
 #!define STR_EVT_MECH_19_DESC "Hold {0} to randomly steal one ally's future Buff event.\nYour next event is guaranteed to be a Buff.\nThe target loses one future Buff event."
 #!define STR_EVT_MECH_20_TITLE "Gambler: Helpful Soul"
 #!define STR_EVT_MECH_20_DESC "Hold {0} to settle.\n{1}% chance to restore all allies for {2}% max HP.\n{3}% chance to set all players' HP to 1."
-#!define STR_EVT_MECH_21_TITLE "Brave Act"
-#!define STR_EVT_MECH_21_DESC "Hold {0} to permanently gain one bonus:\n{1}% max HP / {2}% damage reduction / {3}% movement speed / {4}% healing power / restore {5} + {6}% max HP per second / gain {7}% Ultimate charge every {8}s.\nNo more random events afterward."
 #!define STR_EVT_MECH_22_TITLE "Cheat: Backroom Deal"
 #!define STR_EVT_MECH_22_DESC "Hold {0} to permanently lose {1} Heartsteel stacks (about {2}% max HP).\nYour next event is guaranteed to be a Mech."
 #!define STR_EVT_MECH_23_TITLE "Mirror Inversion"
