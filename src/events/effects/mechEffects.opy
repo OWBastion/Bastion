@@ -26,5 +26,6 @@
 #!include "mech/vampire.opy"
 #!include "mech/thief.opy"
 #!include "mech/gambler_helpful_soul.opy"
+#!include "mech/gambler_winner_take_all.opy"
 #!include "mech/cheat_backroom_deal.opy"
 #!include "mech/mirror_inversion.opy"

@@ -18,11 +18,14 @@ rule "[VishkarEvent]: 赌徒：心之钢":
         smallMessage(eventPlayer, "  {0}  赢！心之钢层数变为 {1} 倍".format(iconString(Icon.CLUB), EVT_MECH_16_WIN_MULTIPLIER))
     elif eventPlayer.heart_steel[HeartSteelData.STACKS] > 0:
         smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢层数（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.heart_steel[HeartSteelData.STACKS], eventPlayer.heart_steel[HeartSteelData.STACKS] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
-        eventPlayer.heart_steel[HeartSteelData.STACKS] -= (eventPlayer.heart_steel[HeartSteelData.STACKS] + 1) / 2
+        eventPlayer.temp = (eventPlayer.heart_steel[HeartSteelData.STACKS] + 1) / 2
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= eventPlayer.temp
+        gamblerHeartsteelJackpot += eventPlayer.temp
         eventPlayer.dlcTimeChallenge[4]++
     else:
         smallMessage(eventPlayer, "  {0}  输！失去 25 层心之钢层数（{1}%）".format(iconString(Icon.DIAMOND), 25 * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= 25
+        gamblerHeartsteelJackpot += 25
         eventPlayer.dlcTimeChallenge[4]++
     wait()
     setPlayerHP()

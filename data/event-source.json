@@ -749,6 +749,18 @@
       "weight": 0.8,
       "availability": "active",
       "descEn": "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
+    },
+    {
+      "key": "GAMBLER_WINNER_TAKE_ALL",
+      "type": "mech",
+      "id": 22,
+      "pack": 5,
+      "nameZh": "赌徒：赢家通吃",
+      "descZh": "长按{0}消耗{1}%心之钢层数\\n{2}%概率清空奖池并获得其中所有心之钢层数",
+      "durationSec": 15,
+      "weight": 0.7,
+      "availability": "active",
+      "descEn": "Hold {0} to spend {1}% of your Heartsteel stacks.\\n{2}% chance to empty the jackpot and claim all Heartsteel inside."
     }
   ]
 }

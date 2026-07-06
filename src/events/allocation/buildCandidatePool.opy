@@ -37,9 +37,11 @@ def buildCandidatePool():
     else:
         eventPlayer.eventTempId = mechEventId.filter(lambda id:
             mechEvent[id] != 0 and mechEvent[id].last() > 0 and
+            (id != MechEventId.GAMBLER_WINNER_TAKE_ALL or (gamblerHeartsteelJackpot >= EVT_MECH_24_POOL_MIN and eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_24_PLAYER_STACKS_MIN)) and
             (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = mechEventId.filter(lambda id:
-                mechEvent[id] != 0 and mechEvent[id].last() > 0
+                mechEvent[id] != 0 and mechEvent[id].last() > 0 and
+                (id != MechEventId.GAMBLER_WINNER_TAKE_ALL or (gamblerHeartsteelJackpot >= EVT_MECH_24_POOL_MIN and eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_24_PLAYER_STACKS_MIN))
             )

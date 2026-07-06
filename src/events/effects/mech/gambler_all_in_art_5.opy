@@ -37,6 +37,7 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 (结算)":
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}%）".format(iconString(Icon.CLUB), eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], eventPlayer.eventMission * EVT_MECH_17_WIN_MULTIPLIER * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     else:
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= eventPlayer.eventMission
+        gamblerHeartsteelJackpot += eventPlayer.eventMission
         eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢（{2}%）".format(iconString(Icon.DIAMOND), eventPlayer.eventMission, eventPlayer.eventMission * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     wait()

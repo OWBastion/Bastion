@@ -45,6 +45,7 @@ globalvar eventType 63
 globalvar eventDurationHud 64
 globalvar eventWeight 65
 globalvar hashTag 69
+globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
 globalvar buffEvent 81
 globalvar buffEventId 82

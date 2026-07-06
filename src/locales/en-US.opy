@@ -208,6 +208,8 @@
 #!define STR_EVT_MECH_22_DESC "Hold {0} to permanently lose {1} Heartsteel stacks (about {2}% max HP).\nYour next event is guaranteed to be a Mech."
 #!define STR_EVT_MECH_23_TITLE "Mirror Inversion"
 #!define STR_EVT_MECH_23_DESC "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
+#!define STR_EVT_MECH_24_TITLE "Gambler: Winner Takes All"
+#!define STR_EVT_MECH_24_DESC "Hold {0} to spend {1}% of your Heartsteel stacks.\n{2}% chance to empty the jackpot and claim all Heartsteel inside."
 
 
 # Settings Categories

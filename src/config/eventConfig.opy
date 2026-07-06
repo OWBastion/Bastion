@@ -322,6 +322,8 @@ rule "initialize event array":
     mechEventId.append(MechEventId.CHEAT_BACKROOM_DEAL)
     mechEvent[MechEventId.MIRROR_INVERSION] = [STR_EVT_MECH_23_TITLE, STR_EVT_MECH_23_DESC.format(Button.RELOAD), EVT_MECH_23_DURATION, EVT_MECH_23_WEIGHT]
     mechEventId.append(MechEventId.MIRROR_INVERSION)
+    mechEvent[MechEventId.GAMBLER_WINNER_TAKE_ALL] = [STR_EVT_MECH_24_TITLE, STR_EVT_MECH_24_DESC.format(Button.RELOAD, percent(EVT_MECH_24_STAKE_RATIO), EVT_MECH_24_WIN_RATE), EVT_MECH_24_DURATION, EVT_MECH_24_WEIGHT]
+    mechEventId.append(MechEventId.GAMBLER_WINNER_TAKE_ALL)
 
 
     lbl_3:

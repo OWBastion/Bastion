@@ -15,6 +15,7 @@ rule "[VishkarEvent]: 赌徒：掷骰狂人":
     eventPlayer.temp = random.randint(1, 6)
     if eventPlayer.temp == 1:
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_15_HEART_STEEL_DELTA_LOSS
+        gamblerHeartsteelJackpot += EVT_MECH_15_HEART_STEEL_DELTA_LOSS
         if eventPlayer.dlcTimeChallenge[8] == 0:
             eventPlayer.dlcTimeChallenge[8] = 1
             eventPlayer.dlcTimeChallenge[4]++

@@ -57,6 +57,7 @@ rule "Initialize global variables":
     savedIndex = []
     savedData = [[], [], [], [], [], [], []]
     globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
+    gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
     devPlayer = []
     obstrucVis = []

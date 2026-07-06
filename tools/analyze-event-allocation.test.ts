@@ -127,3 +127,61 @@ test('debuff force-roll fallback can restore selfless giveaway only after second
     )
   );
 });
+
+test('winner takes all stays out of the mech pool when jackpot is below threshold', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['GAMBLER_WINNER_TAKE_ALL', 'MINI_FORM'],
+    jackpotStacks: 7,
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      heartsteelStacks: 8
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM']);
+  assert.ok(
+    report.candidatePool.filtered.some(
+      (item) => item.key === 'GAMBLER_WINNER_TAKE_ALL' && item.reasons.includes('gambler-jackpot-too-small')
+    )
+  );
+});
+
+test('winner takes all stays out of the mech pool when player heartsteel is below threshold', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['GAMBLER_WINNER_TAKE_ALL', 'MINI_FORM'],
+    jackpotStacks: 8,
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      heartsteelStacks: 3
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM']);
+  assert.ok(
+    report.candidatePool.filtered.some(
+      (item) => item.key === 'GAMBLER_WINNER_TAKE_ALL' && item.reasons.includes('gambler-heartsteel-too-low')
+    )
+  );
+});
+
+test('winner takes all enters the mech pool once both thresholds are met', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['GAMBLER_WINNER_TAKE_ALL', 'MINI_FORM'],
+    jackpotStacks: 8,
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      heartsteelStacks: 4
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM', 'GAMBLER_WINNER_TAKE_ALL']);
+});

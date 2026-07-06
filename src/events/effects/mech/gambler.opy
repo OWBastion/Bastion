@@ -19,6 +19,7 @@ rule "[VishkarEvent]: 赌徒":
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢层数（{2}%）".format(iconString(Icon.CLUB), EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     else:
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_1_STAKE
+        gamblerHeartsteelJackpot += EVT_MECH_1_STAKE
         eventPlayer.dlcTimeChallenge[0] = 0 if eventPlayer.dlcTimeChallenge[0] > 0 else eventPlayer.dlcTimeChallenge[0] - 1
         eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  输！失去 {1} 层心之钢层数（{2}%）".format(iconString(Icon.DIAMOND), EVT_MECH_1_STAKE, EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))

@@ -36,7 +36,9 @@ const REASON_LABELS: Record<string, string> = {
   'nonpositive-weight': '权重非正值',
   'temper-heart-used': '心之钢已在本局生效过',
   'recent-dedup': '命中最近事件去重窗口',
-  'force-roll-selfless-gated': '舍己为人在当前强制抽取条件下被排除'
+  'force-roll-selfless-gated': '舍己为人在当前强制抽取条件下被排除',
+  'gambler-jackpot-too-small': '奖池未达 8 层',
+  'gambler-heartsteel-too-low': '玩家心之钢不足 4 层'
 };
 
 const SCENARIO_METADATA: Record<string, { id: string; label: string; description: string }> = {
@@ -103,6 +105,7 @@ type ScenarioInput = {
   enabledEventKeys?: string[];
   playerState?: {
     heroNumber?: number;
+    heartsteelStacks?: number;
     eventLastKeys?: string[];
     temperHeartUsed?: boolean;
     categoryRoll?: number | null;
@@ -110,6 +113,7 @@ type ScenarioInput = {
     eventForceRoll?: number | null;
     eventForceCount?: number | null;
   };
+  jackpotStacks?: number;
   iterations?: number;
   seed?: number;
 };
@@ -179,6 +183,7 @@ type ScenarioReport = {
   iterations: number;
   seed: number;
   enabledEventKeys: string[] | null;
+  jackpotStacks: number;
   playerState: Required<NonNullable<ScenarioInput['playerState']>>;
   categoryTransitions: CategoryTransition[];
   selectedType: EventType;
@@ -568,10 +573,13 @@ function buildCandidatePool(
   events: EventItem[],
   type: EventType,
   playerState: Required<NonNullable<ScenarioInput['playerState']>>,
+  jackpotStacks: number,
   enabledEventKeys: Set<string> | null,
   config: {
     dedupMultiplier: number;
     forceRollSelflessGiveaway: number;
+    gamblerWinnerTakeAllPoolMin: number;
+    gamblerWinnerTakeAllPlayerStacksMin: number;
   }
 ): CandidatePoolResult {
   const typedEvents = events.filter((eventItem) => eventItem.type === type).sort((left, right) => left.id - right.id);
@@ -610,6 +618,16 @@ function buildCandidatePool(
     if (type === 'buff' && eventItem.key === 'TEMPER_HEART' && playerState.temperHeartUsed) {
       addReason(eventItem.key, 'temper-heart-used');
       return false;
+    }
+    if (type === 'mech' && eventItem.key === 'GAMBLER_WINNER_TAKE_ALL') {
+      if (jackpotStacks < config.gamblerWinnerTakeAllPoolMin) {
+        addReason(eventItem.key, 'gambler-jackpot-too-small');
+        return false;
+      }
+      if (playerState.heartsteelStacks < config.gamblerWinnerTakeAllPlayerStacksMin) {
+        addReason(eventItem.key, 'gambler-heartsteel-too-low');
+        return false;
+      }
     }
     return true;
   }
@@ -732,6 +750,7 @@ function buildStaticTypeReport(
 ): StaticTypeReport {
   const playerState = {
     heroNumber: 0,
+    heartsteelStacks: 0,
     eventLastKeys: [] as string[],
     temperHeartUsed: false,
     categoryRoll: null,
@@ -739,7 +758,7 @@ function buildStaticTypeReport(
     eventForceRoll: null,
     eventForceCount: null
   };
-  const pool = buildCandidatePool(events, type, playerState, null, constants);
+  const pool = buildCandidatePool(events, type, playerState, 0, null, constants);
   const probabilities = computeProbabilityRows(pool.candidates, constants.eventWeight);
   const acceptanceAverage =
     pool.candidates.length === 0
@@ -770,7 +789,9 @@ async function loadSharedAnalysisInputs(options: { sourceFile?: string; constant
     forceRollSelflessGiveaway: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_ROLL'),
     gamblerShortInvestmentForceCount: parseDefineNumber(constantsSource, 'EVT_MECH_8_FORCE_COUNT'),
     gamblerLongInvestmentForceRoll: parseDefineNumber(constantsSource, 'EVT_MECH_12_FORCE_ROLL'),
-    gamblerLongInvestmentForceCount: parseDefineNumber(constantsSource, 'EVT_MECH_12_FORCE_COUNT')
+    gamblerLongInvestmentForceCount: parseDefineNumber(constantsSource, 'EVT_MECH_12_FORCE_COUNT'),
+    gamblerWinnerTakeAllPoolMin: parseDefineNumber(constantsSource, 'EVT_MECH_24_POOL_MIN'),
+    gamblerWinnerTakeAllPlayerStacksMin: parseDefineNumber(constantsSource, 'EVT_MECH_24_PLAYER_STACKS_MIN')
   };
 
   return {
@@ -805,6 +826,7 @@ export async function analyzeScenarioEventAllocation(
   const scenario = JSON.parse(scenarioSource) as ScenarioInput;
   const playerState = {
     heroNumber: scenario.playerState?.heroNumber ?? 0,
+    heartsteelStacks: scenario.playerState?.heartsteelStacks ?? 0,
     eventLastKeys: scenario.playerState?.eventLastKeys ?? [],
     temperHeartUsed: scenario.playerState?.temperHeartUsed ?? false,
     categoryRoll: scenario.playerState?.categoryRoll ?? null,
@@ -812,13 +834,14 @@ export async function analyzeScenarioEventAllocation(
     eventForceRoll: scenario.playerState?.eventForceRoll ?? null,
     eventForceCount: scenario.playerState?.eventForceCount ?? null
   };
+  const jackpotStacks = scenario.jackpotStacks ?? 0;
   const seed = scenario.seed ?? 1;
   const iterations = scenario.iterations ?? 200000;
 
   const enabledEventKeys = scenario.enabledEventKeys ? new Set(scenario.enabledEventKeys) : null;
   const transitions = buildTransitions(playerState, seed);
   const selectedType = transitions[0].type;
-  const candidatePool = buildCandidatePool(events, selectedType, playerState, enabledEventKeys, constants);
+  const candidatePool = buildCandidatePool(events, selectedType, playerState, jackpotStacks, enabledEventKeys, constants);
   const probabilities = computeProbabilityRows(candidatePool.candidates, constants.eventWeight);
 
   return {
@@ -826,6 +849,7 @@ export async function analyzeScenarioEventAllocation(
     iterations,
     seed,
     enabledEventKeys: enabledEventKeys ? Array.from(enabledEventKeys) : null,
+    jackpotStacks,
     playerState,
     categoryTransitions: transitions,
     selectedType,
@@ -1075,6 +1099,8 @@ function buildLongSessionSimulation(
     gamblerShortInvestmentForceCount: number;
     gamblerLongInvestmentForceRoll: number;
     gamblerLongInvestmentForceCount: number;
+    gamblerWinnerTakeAllPoolMin: number;
+    gamblerWinnerTakeAllPlayerStacksMin: number;
   }
 ): EventAllocationSessionSimulation {
   const sourceEvents = Array.from(sourceEventsByKey.values());
@@ -1091,13 +1117,14 @@ function buildLongSessionSimulation(
         ...scenarioReport.playerState,
         eventLastKeys: [...scenarioReport.playerState.eventLastKeys]
       };
+      let jackpotStacks = scenarioReport.jackpotStacks;
       const seenEvents = new Set<string>();
       let elapsedSeconds = 0;
 
       while (elapsedSeconds < SESSION_SIMULATION_DURATION_SECONDS) {
         elapsedSeconds += SESSION_WAIT_MIN_SECONDS + Math.floor(rng() * (SESSION_WAIT_MAX_SECONDS - SESSION_WAIT_MIN_SECONDS + 1));
         const outcome = resolveCategoryOutcome(playerState, rng);
-        const candidatePool = buildCandidatePool(sourceEvents, outcome.type, playerState, enabledEventKeys, constants);
+        const candidatePool = buildCandidatePool(sourceEvents, outcome.type, playerState, jackpotStacks, enabledEventKeys, constants);
         if (candidatePool.candidates.length === 0) {
           const nextCategory = applyClearPlayerEventCategoryUpdate(playerState.categoryRoll, playerState.categoryRollSnapshot, rng);
           playerState.categoryRoll = nextCategory.categoryRoll;
@@ -1115,6 +1142,16 @@ function buildLongSessionSimulation(
         totalCycles += 1;
         elapsedSeconds += sourceEvent.durationSec;
         advanceLongSessionPlayerState(sourceEvent, playerState, constants, rng);
+        if (sourceEvent.key === 'GAMBLER_WINNER_TAKE_ALL') {
+          jackpotStacks = 0;
+        } else if (
+          sourceEvent.key === 'GAMBLER' ||
+          sourceEvent.key === 'GAMBLER_HEART_OF_STEEL' ||
+          sourceEvent.key === 'GAMBLER_ALL_IN_ART_5' ||
+          sourceEvent.key === 'GAMBLER_DICE_MANIAC'
+        ) {
+          jackpotStacks = Math.max(jackpotStacks, constants.gamblerWinnerTakeAllPoolMin);
+        }
       }
 
       seenEvents.forEach((eventKey) => {

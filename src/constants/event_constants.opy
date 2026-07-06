@@ -850,4 +850,12 @@ enum HeartSteelData:
 #!define EVT_MECH_23_DURATION 15
 #!define EVT_MECH_23_WEIGHT 0.8
 
+# --- ID 24 (Mech/Special): 赌徒：赢家通吃 ---
+#!define EVT_MECH_24_DURATION 15
+#!define EVT_MECH_24_WEIGHT 0.7
+#!define EVT_MECH_24_STAKE_RATIO 0.25
+#!define EVT_MECH_24_WIN_RATE 10
+#!define EVT_MECH_24_POOL_MIN 8
+#!define EVT_MECH_24_PLAYER_STACKS_MIN 4
+
 # -----------------------------------------------------------------------------
