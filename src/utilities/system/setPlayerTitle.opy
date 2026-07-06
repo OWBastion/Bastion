@@ -9,7 +9,7 @@ def setPlayerTitle():
     @Name "set player title"
     
     # 1. 基础称号 (从通用数据库获取)
-    eventPlayer.playerTitles = playerTitleRelation[eventPlayer.playerTitleRelationIndex]
+    eventPlayer.playerTitles = playerTitleRelation[playerTitleSetIndex[eventPlayer.playerTitleRelationIndex]]
 
     eventPlayer.playerTitleRelationIndex = f"{eventPlayer.playerTitleRelationIndex}"
     

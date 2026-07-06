@@ -261,6 +261,8 @@ test('sync generates map DATA macros from mapTitles', async () => {
   const generatedPlayerNameToIndexDelimited = await fs.readFile(tmpPlayerNameToIndexDelimitedFile, 'utf8');
 
   assert.match(generatedTitle, /# BEGIN AUTO-GENERATED MAP_TITLE_DATA/);
+  assert.match(generatedTitle, /# BEGIN AUTO-GENERATED PLAYER_TITLE_SET_POOL/);
+  assert.match(generatedTitle, /titleSetIndex:/);
   assert.match(generatedTitle, /#!define DATA_BLIZZARD_WORLD/);
   assert.match(generatedTitle, /playerNameToIndexDelimited\(\["他又"/);
   assert.match(generatedPlayerNameToIndex, /"一杯美式"/);
@@ -323,4 +325,77 @@ test('sync keeps late-added map title holders in generated player index scripts'
 
   assert.match(generatedTitle, /playerNameToIndexDelimited\(\["玩家40"\], "-"\)/);
   assert.match(generatedPlayerNameToIndex, /"玩家40"/);
+});
+
+test('sync pools sorted player title sets transparently', async () => {
+  const fixture = {
+    meta: { sourceLabel: 'x' },
+    titles: [
+      {
+        key: 'A',
+        label: 'A',
+        category: 'c',
+        condition: 'd',
+        availability: 'active',
+        displayExpr: '"A"',
+        colorExpr: 'null'
+      },
+      {
+        key: 'B',
+        label: 'B',
+        category: 'c',
+        condition: 'd',
+        availability: 'active',
+        displayExpr: '"B"',
+        colorExpr: 'null'
+      },
+      {
+        key: 'C',
+        label: 'C',
+        category: 'c',
+        condition: 'd',
+        availability: 'active',
+        displayExpr: '"C"',
+        colorExpr: 'null'
+      }
+    ],
+    players: [
+      { name: 'p1', titleKeys: ['C', 'A'] },
+      { name: 'p2', titleKeys: ['A', 'C'] },
+      { name: 'p3', titleKeys: ['B'] }
+    ],
+    mapTitles: []
+  };
+  const tmpSourceFile = path.join(os.tmpdir(), `title-source-pool-${Date.now()}.json`);
+  const tmpTitleFile = path.join(os.tmpdir(), `title-sync-pool-${Date.now()}.opy`);
+  const tmpWebFile = path.join(os.tmpdir(), `title-sync-pool-${Date.now()}.json`);
+  const tmpPlayerNameToIndexFile = path.join(os.tmpdir(), `playerNameToIndex-pool-${Date.now()}.js`);
+  const tmpPlayerNameToIndexDelimitedFile = path.join(os.tmpdir(), `playerNameToIndexDelimited-pool-${Date.now()}.js`);
+  await fs.writeFile(tmpSourceFile, `${JSON.stringify(fixture, null, 2)}\n`, 'utf8');
+  await fs.copyFile(titleFile, tmpTitleFile);
+  await fs.copyFile(path.resolve(__dirname, '../src/tools/playerNameToIndex.js'), tmpPlayerNameToIndexFile);
+  await fs.copyFile(path.resolve(__dirname, '../src/tools/playerNameToIndexDelimited.js'), tmpPlayerNameToIndexDelimitedFile);
+
+  await syncTitleData({
+    sourceFile: tmpSourceFile,
+    titleFile: tmpTitleFile,
+    envFile,
+    webOutputFile: tmpWebFile,
+    playerNameToIndexFile: tmpPlayerNameToIndexFile,
+    playerNameToIndexDelimitedFile: tmpPlayerNameToIndexDelimitedFile
+  });
+
+  const generatedTitle = await fs.readFile(tmpTitleFile, 'utf8');
+  const generatedWeb = JSON.parse(await fs.readFile(tmpWebFile, 'utf8'));
+
+  assert.match(generatedTitle, /#!define player_title_set_pool \[/);
+  assert.match(generatedTitle, /\[TITLE\.A, TITLE\.C\]/);
+  assert.match(generatedTitle, /name: "p1", \\\n        titleSetIndex: 0/);
+  assert.match(generatedTitle, /name: "p2", \\\n        titleSetIndex: 0/);
+  assert.match(generatedTitle, /name: "p3", \\\n        titleSetIndex: 1/);
+
+  const player1 = generatedWeb.players.find((player) => player.name === 'p1');
+  const player2 = generatedWeb.players.find((player) => player.name === 'p2');
+  assert.deepEqual(player1.titleIds, [0, 2]);
+  assert.deepEqual(player2.titleIds, [0, 2]);
 });

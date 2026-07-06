@@ -20,6 +20,8 @@ const ALL_TITLE_BEGIN = '    # BEGIN AUTO-GENERATED ALL_TITLE';
 const ALL_TITLE_END = '    # END AUTO-GENERATED ALL_TITLE';
 const MAP_DATA_BEGIN = '# BEGIN AUTO-GENERATED MAP_TITLE_DATA';
 const MAP_DATA_END = '# END AUTO-GENERATED MAP_TITLE_DATA';
+const PLAYER_TITLE_SET_POOL_BEGIN = '# BEGIN AUTO-GENERATED PLAYER_TITLE_SET_POOL';
+const PLAYER_TITLE_SET_POOL_END = '# END AUTO-GENERATED PLAYER_TITLE_SET_POOL';
 const TITLE_AVAILABILITY = {
   ACTIVE: 'active',
   RETIRED: 'retired'
@@ -253,7 +255,55 @@ function renderTitleEnum(titles) {
   return lines.join('\n');
 }
 
-function renderPlayerDatabase(titles, players) {
+function buildPlayerTitleSets(titles, players) {
+  const titleIdByKey = new Map(titles.map((title) => [title.key, title.id]));
+  const titleKeyById = new Map(titles.map((title) => [title.id, title.key]));
+  const titleSetIndexByIds = new Map();
+  const titleSets = [];
+  const playersWithTitleSetIndex = players.map((player) => {
+    const sortedTitleIds = player.titleKeys
+      .map((key) => titleIdByKey.get(key))
+      .sort((left, right) => left - right);
+    const titleSetKey = sortedTitleIds.join(',');
+    let titleSetIndex = titleSetIndexByIds.get(titleSetKey);
+
+    if (titleSetIndex == null) {
+      titleSetIndex = titleSets.length;
+      titleSetIndexByIds.set(titleSetKey, titleSetIndex);
+      titleSets.push(sortedTitleIds.map((id) => titleKeyById.get(id)));
+    }
+
+    return {
+      ...player,
+      sortedTitleIds,
+      titleSetIndex
+    };
+  });
+
+  return {
+    titleSets,
+    playersWithTitleSetIndex
+  };
+}
+
+function renderPlayerTitleSetPool(titleSets) {
+  const lines = [];
+
+  lines.push(PLAYER_TITLE_SET_POOL_BEGIN);
+  lines.push('#!define player_title_set_pool [ \\');
+
+  titleSets.forEach((titleSet, index) => {
+    const isLast = index === titleSets.length - 1;
+    const titleExpr = titleSet.length ? `[${titleSet.map((key) => `TITLE.${key}`).join(', ')}]` : '[]';
+    lines.push(`    ${titleExpr}${isLast ? ' \\' : ', \\'} `);
+  });
+
+  lines.push(']');
+  lines.push(PLAYER_TITLE_SET_POOL_END);
+  return lines.join('\n');
+}
+
+function renderPlayerDatabase(titles, playersWithTitleSetIndex) {
   const allKeys = titles.map((title) => `TITLE.${title.key}`).join(', ');
   const lines = [];
 
@@ -261,13 +311,12 @@ function renderPlayerDatabase(titles, players) {
   lines.push(`#!define TP_ALL [${allKeys}]`);
   lines.push('#!define player_database [ \\');
 
-  players.forEach((player, index) => {
-    const isLast = index === players.length - 1;
-    const titleExpr = player.titleKeys.length ? `[${player.titleKeys.map((key) => `TITLE.${key}`).join(', ')}]` : '[]';
+  playersWithTitleSetIndex.forEach((player, index) => {
+    const isLast = index === playersWithTitleSetIndex.length - 1;
 
     lines.push('    { \\');
     lines.push(`        name: "${player.name}", \\`);
-    lines.push(`        titles: ${titleExpr} \\`);
+    lines.push(`        titleSetIndex: ${player.titleSetIndex} \\`);
     lines.push(isLast ? '    } \\' : '    }, \\');
   });
 
@@ -365,7 +414,9 @@ function replaceManagedBlock(source, beginMarker, endMarker, blockContent) {
 
 function applyManagedTitleFile(source, data) {
   const enumBlock = renderTitleEnum(data.titles);
-  const dbBlock = renderPlayerDatabase(data.titles, data.players);
+  const { titleSets, playersWithTitleSetIndex } = buildPlayerTitleSets(data.titles, data.players);
+  const titleSetPoolBlock = renderPlayerTitleSetPool(titleSets);
+  const dbBlock = renderPlayerDatabase(data.titles, playersWithTitleSetIndex);
   const allTitleBlock = renderAllTitleAssignment(data.titles);
   const mapDataBlock = renderMapTitleData(data.mapTitles);
 
@@ -382,10 +433,17 @@ function applyManagedTitleFile(source, data) {
   if (replacedDb === null) {
     next = next.replace(
       /#!define TP_ALL[\s\S]*?(?=\n\n# ------------------------------\n# 3\. 定义地图数据宏 \(Map Macros\))/,
-      `${dbBlock}\n\n`
+      `${titleSetPoolBlock}\n${dbBlock}\n\n`
     );
   } else {
     next = replacedDb;
+  }
+
+  const replacedPool = replaceManagedBlock(next, PLAYER_TITLE_SET_POOL_BEGIN, PLAYER_TITLE_SET_POOL_END, titleSetPoolBlock);
+  if (replacedPool === null) {
+    next = next.replace(dbBlock, `${titleSetPoolBlock}\n${dbBlock}`);
+  } else {
+    next = replacedPool;
   }
 
   const replacedMap = replaceManagedBlock(next, MAP_DATA_BEGIN, MAP_DATA_END, mapDataBlock);
@@ -425,10 +483,11 @@ function buildMapTitleStatus(mapTitles, playerName) {
 
 function buildWebPayload(data, sourceVersion) {
   const titleIdByKey = new Map(data.titles.map((title) => [title.key, title.id]));
-  const players = [...data.players]
+  const { playersWithTitleSetIndex } = buildPlayerTitleSets(data.titles, data.players);
+  const players = [...playersWithTitleSetIndex]
     .sort((left, right) => left.name.localeCompare(right.name, 'zh-Hans-CN'))
     .map((player) => {
-      const titleIds = player.titleKeys.map((key) => titleIdByKey.get(key));
+      const titleIds = [...player.sortedTitleIds];
       return {
         name: player.name,
         titleIds,

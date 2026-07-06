@@ -31,6 +31,7 @@ globalvar controlRespawnAxisThreshold 40
 globalvar mapTitlePlayersByKey 43
 globalvar allTitle 44
 globalvar titlePlayer 45
+globalvar playerTitleSetIndex 46
 globalvar playerTitleRelation 47
 globalvar rgbList 48
 globalvar turnSpeedMultiplier 55
