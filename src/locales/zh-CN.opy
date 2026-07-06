@@ -71,8 +71,6 @@
 #!define STR_EVT_BUFF_1_DESC "移动速度提高{0}%"
 #!define STR_EVT_BUFF_2_TITLE "钢铁防线"
 #!define STR_EVT_BUFF_2_DESC "获得{0}点临时护甲与{1}%伤害减免"
-#!define STR_EVT_BUFF_3_TITLE "肾上腺素"
-#!define STR_EVT_BUFF_3_DESC "获得{0}%伤害减免\n与{1}%治疗强度"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
@@ -97,8 +95,6 @@
 #!define STR_EVT_BUFF_15_DESC "持续移动{0}秒后永久获得{1}%移速加成"
 #!define STR_EVT_BUFF_16_TITLE "心之钢 Pro"
 #!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢\n基于层数临时提升最大生命值\n数值为心之钢层数×{1}"
-#!define STR_EVT_BUFF_17_TITLE "数值之力"
-#!define STR_EVT_BUFF_17_DESC "获得 {0}% 治疗强度"
 #!define STR_EVT_BUFF_18_TITLE "我按Q辣"
 #!define STR_EVT_BUFF_18_DESC "持续移动获得终极技能充能\n终极技能持续期间获得{0}%伤害减免"
 
@@ -178,8 +174,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_15_TITLE "保持距离"
 #!define STR_EVT_DEBUFF_15_DESC "距离队友越近受到伤害越高"
-#!define STR_EVT_DEBUFF_18_TITLE "我和你"
-#!define STR_EVT_DEBUFF_18_DESC "生命值与最低血量的队友同步"
 #!define STR_EVT_DEBUFF_20_TITLE "登月火箭"
 #!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n在空中无法控制方向"
 
@@ -188,9 +182,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
 #!define STR_EVT_DEBUFF_21_DESC "获得{0}层诅咒\n每层降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
-#!define STR_EVT_DEBUFF_22_TITLE "枯萎"
-#!define STR_EVT_DEBUFF_22_DESC "受到治疗获得1层枯萎\n每层-{1}%移速并使受到伤害提高{2}%"
-
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------

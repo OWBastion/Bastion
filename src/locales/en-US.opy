@@ -66,8 +66,6 @@
 #!define STR_EVT_BUFF_1_DESC "Movement speed increased by {0}%."
 #!define STR_EVT_BUFF_2_TITLE "Ironclad Defense"
 #!define STR_EVT_BUFF_2_DESC "Gain {0} temporary armor and {1}% damage reduction."
-#!define STR_EVT_BUFF_3_TITLE "Adrenaline"
-#!define STR_EVT_BUFF_3_DESC "Gain {0}% damage reduction\nand {1}% healing power."
 #!define STR_EVT_BUFF_4_TITLE "Fountain of Life"
 #!define STR_EVT_BUFF_4_DESC "Recover {0}% max HP per second."
 #!define STR_EVT_BUFF_5_TITLE "Fan Attack"
@@ -92,8 +90,6 @@
 #!define STR_EVT_BUFF_15_DESC "Move continuously for {0}s to permanently gain {1}% speed."
 #!define STR_EVT_BUFF_16_TITLE "Heartsteel Pro"
 #!define STR_EVT_BUFF_16_DESC "Gain {0} Heartsteel stacks.\nTemporarily increases max HP based on stacks.\nValue = Heartsteel stacks x {1}."
-#!define STR_EVT_BUFF_17_TITLE "Stat Check"
-#!define STR_EVT_BUFF_17_DESC "Gain {0}% healing power."
 #!define STR_EVT_BUFF_18_TITLE "Q to Win"
 #!define STR_EVT_BUFF_18_DESC "Continuous movement charges Ultimate.\nDuring Ultimate, gain {0}% damage reduction."
 # ------------------------------------------------
@@ -169,8 +165,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_15_TITLE "Social Distancing"
 #!define STR_EVT_DEBUFF_15_DESC "Taking damage increases when closer to allies."
-#!define STR_EVT_DEBUFF_18_TITLE "You and Me"
-#!define STR_EVT_DEBUFF_18_DESC "HP synced with the lowest HP teammate."
 #!define STR_EVT_DEBUFF_20_TITLE "Moon Rocket"
 #!define STR_EVT_DEBUFF_20_DESC "Randomly launches you skyward\nand scrambles your flight direction."
 
@@ -179,8 +173,6 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
 #!define STR_EVT_DEBUFF_21_DESC "Gain {0} curses immediately.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
-#!define STR_EVT_DEBUFF_22_TITLE "Wither"
-#!define STR_EVT_DEBUFF_22_DESC "Receiving healing grants 1 Wither stack.\nEach stack gives -{1}% movement speed and increases damage taken by {2}%."
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------

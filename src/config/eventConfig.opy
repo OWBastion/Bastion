@@ -41,9 +41,6 @@ rule "initialize event array":
     buffEvent[BuffEventId.IRON_BULWARK] = [STR_EVT_BUFF_2_TITLE, STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_AMOUNT, negToPos(EVT_2_DMG_TAKEN)), EVT_BUFF_2_DURATION, EVT_BUFF_2_WEIGHT]
     buffEventId.append(BuffEventId.IRON_BULWARK)
     
-    buffEvent[BuffEventId.ADRENALINE] = [STR_EVT_BUFF_3_TITLE, STR_EVT_BUFF_3_DESC.format(negToPos(EVT_3_DMG_TAKEN), EVT_3_HEAL_BOOST), EVT_BUFF_3_DURATION, EVT_BUFF_3_WEIGHT]
-    buffEventId.append(BuffEventId.ADRENALINE)
-    
     buffEvent[BuffEventId.LIFE_SPRING] = [STR_EVT_BUFF_4_TITLE, STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEAL_PERCENT)), EVT_BUFF_4_DURATION, EVT_BUFF_4_WEIGHT]
     buffEventId.append(BuffEventId.LIFE_SPRING)
     
@@ -201,9 +198,6 @@ rule "initialize event array":
     buffEvent[BuffEventId.HEART_OF_STEEL_PRO] = [STR_EVT_BUFF_16_TITLE, STR_EVT_BUFF_16_DESC.format(EVT_16_HP_GAIN_FLAT, EVT_16_HP_MULTIPLIER), EVT_BUFF_16_DURATION, EVT_BUFF_16_WEIGHT]
     buffEventId.append(BuffEventId.HEART_OF_STEEL_PRO)
     
-    buffEvent[BuffEventId.STAT_POWER] = [STR_EVT_BUFF_17_TITLE, STR_EVT_BUFF_17_DESC.format(EVT_17_HEAL_BOOST), EVT_BUFF_17_DURATION, EVT_BUFF_17_WEIGHT]
-    buffEventId.append(BuffEventId.STAT_POWER)
-    
     buffEvent[BuffEventId.ULT_MOMENTUM] = [STR_EVT_BUFF_18_TITLE, STR_EVT_BUFF_18_DESC.format(EVT_18_DMG_REDUCTION_DURING_ULT), EVT_BUFF_18_DURATION, EVT_BUFF_18_WEIGHT]
     buffEventId.append(BuffEventId.ULT_MOMENTUM)
  
@@ -289,9 +283,6 @@ rule "initialize event array":
     debuffEvent[DebuffEventId.KEEP_DISTANCE_AURA] = [STR_EVT_DEBUFF_15_TITLE, STR_EVT_DEBUFF_15_DESC, EVT_DEBUFF_15_DURATION, EVT_DEBUFF_15_WEIGHT]
     debuffEventId.append(DebuffEventId.KEEP_DISTANCE_AURA)
 
-    debuffEvent[DebuffEventId.HEALTH_SYNC] = [STR_EVT_DEBUFF_18_TITLE, STR_EVT_DEBUFF_18_DESC, EVT_DEBUFF_18_DURATION, EVT_DEBUFF_18_WEIGHT]
-    debuffEventId.append(DebuffEventId.HEALTH_SYNC)
-
     debuffEvent[DebuffEventId.MOON_ROCKET] = [STR_EVT_DEBUFF_20_TITLE, STR_EVT_DEBUFF_20_DESC, EVT_DEBUFF_20_DURATION, EVT_DEBUFF_20_WEIGHT]
     debuffEventId.append(DebuffEventId.MOON_ROCKET)
 
@@ -357,14 +348,6 @@ rule "initialize event array":
         EVT_DEBUFF_21_WEIGHT
     ]
     debuffEventId.append(DebuffEventId.ADLERSBRUNN_WRAITH)
-
-    debuffEvent[DebuffEventId.WITHER] = [
-        STR_EVT_DEBUFF_22_TITLE,
-        STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_STACK_CAP, negToPos(EVT_DEBUFF_22_SPEED_DELTA_PER_STACK), EVT_DEBUFF_22_DMG_TAKEN_PER_STACK, EVT_DEBUFF_22_STACK_WINDOW),
-        EVT_DEBUFF_22_DURATION,
-        EVT_DEBUFF_22_WEIGHT
-    ]
-    debuffEventId.append(DebuffEventId.WITHER)
 
     # ================================================
     # Pack 5: Mechanics

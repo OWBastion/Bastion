@@ -68,15 +68,6 @@ enum HeartSteelData:
 #!define EVT_2_DMG_TAKEN -25
 #!define EVT_2_EFFECT DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR
 
-# --- ID 3: 肾上腺素 ---
-# Duration（秒）
-#!define EVT_BUFF_3_DURATION 20
-# Weight（权重）
-#!define EVT_BUFF_3_WEIGHT 1.4
-#!define EVT_3_DMG_TAKEN -50
-#!define EVT_3_HEAL_BOOST 50
-#!define EVT_3_EFFECT Effect.ANA_NANO_BOOSTED
-
 # --- ID 4: 生命源泉 ---
 # Duration（秒）
 #!define EVT_BUFF_4_DURATION 30
@@ -212,14 +203,6 @@ enum HeartSteelData:
 #!define EVT_BUFF_16_WEIGHT 0.9
 #!define EVT_16_HP_GAIN_FLAT 16
 #!define EVT_16_HP_MULTIPLIER 2
-
-# --- ID 17: 数值之力 ---
-# Duration（秒）
-#!define EVT_BUFF_17_DURATION 90
-# Weight（权重）
-#!define EVT_BUFF_17_WEIGHT 0.5
-#!define EVT_17_HEAL_BOOST 500
-#!define EVT_17_RADIUS 200
 
 # --- ID 18: 我按Q辣 ---
 # Duration（秒）
@@ -487,21 +470,6 @@ enum HeartSteelData:
 # 击倒持续时间
 #!define EVT_DEBUFF_11_KNOCKDOWN_DURATION 2
 
-# --- ID 12 (Debuff): 重伤 ---
-# Duration（秒）
-#!define EVT_DEBUFF_12_DURATION 45
-# Weight（权重）
-#!define EVT_DEBUFF_12_WEIGHT 1.5
-# 治疗输出减少量 (%)
-#!define EVT_DEBUFF_12_HEAL_DEALT_RED -80
-
-# 治疗接收减少量 (%)
-#!define EVT_DEBUFF_12_HEAL_RECV_RED -80
-
-# 视觉特效
-#!define EVT_DEBUFF_12_EFFECT Effect.ANA_BIOTIC_GRENADE_NO_HEALING
-#!define EVT_DEBUFF_12_SOUND DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND
-
 # --- ID 13 (Debuff): 减半 ---
 # Duration（秒）
 #!define EVT_DEBUFF_13_DURATION 30
@@ -555,12 +523,6 @@ enum HeartSteelData:
 # 循环间隔 (秒)
 #!define EVT_DEBUFF_15_INTERVAL 1
 
-# --- ID 18 (Debuff): 我和你 ---
-# Duration（秒）
-#!define EVT_DEBUFF_18_DURATION 45
-# Weight（权重）
-#!define EVT_DEBUFF_18_WEIGHT 0.7
-
 # --- ID 19 (Debuff): 登月火箭 ---
 # Duration（秒）
 #!define EVT_DEBUFF_20_DURATION 5
@@ -578,17 +540,6 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_21_TOTAL_STACK 7
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
-
-# --- ID 21 (Debuff): 枯萎 ---
-# Duration（秒）
-#!define EVT_DEBUFF_22_DURATION 60
-# Weight（权重）
-#!define EVT_DEBUFF_22_WEIGHT 0.6
-#!define EVT_DEBUFF_22_STACK_CAP 10
-#!define EVT_DEBUFF_22_STACK_WINDOW 12
-#!define EVT_DEBUFF_22_SPEED_DELTA_PER_STACK -8
-#!define EVT_DEBUFF_22_DMG_TAKEN_PER_STACK 8
-
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）

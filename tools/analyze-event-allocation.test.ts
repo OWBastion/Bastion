@@ -54,7 +54,7 @@ test('recent dedup falls back only after strict pool is exhausted', async () => 
         'buff:OLIVIA_GIFT',
         'buff:GALE_BLESSING',
         'buff:IRON_BULWARK',
-        'buff:ADRENALINE',
+        'buff:KONAMI_CODE',
         'buff:LIFE_SPRING',
         'buff:BLACK_FANS_ASSAULT',
         'buff:SPEED_STACK',

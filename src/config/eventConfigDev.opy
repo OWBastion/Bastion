@@ -36,12 +36,6 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.IRON_BULWARK)
     lbl_1:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_3_TITLE, true, BuffEventId.ADRENALINE):
-        goto lbl_2
-    buffEvent[BuffEventId.ADRENALINE] = [STR_EVT_BUFF_3_TITLE, STR_EVT_BUFF_3_DESC.format(negToPos(EVT_3_DMG_TAKEN), EVT_3_HEAL_BOOST), EVT_BUFF_3_DURATION, EVT_BUFF_3_WEIGHT]
-    buffEventId.append(BuffEventId.ADRENALINE)
-    lbl_2:
-
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_4_TITLE, true, BuffEventId.LIFE_SPRING):
         goto lbl_3
     buffEvent[BuffEventId.LIFE_SPRING] = [STR_EVT_BUFF_4_TITLE, STR_EVT_BUFF_4_DESC.format(EVT_4_HEAL_PERCENT * 100), EVT_BUFF_4_DURATION, EVT_BUFF_4_WEIGHT]
@@ -119,12 +113,6 @@ rule "initialize event array":
     buffEvent[BuffEventId.HEART_OF_STEEL_PRO] = [STR_EVT_BUFF_16_TITLE, STR_EVT_BUFF_16_DESC.format(EVT_16_HP_GAIN_FLAT, EVT_16_HP_MULTIPLIER), EVT_BUFF_16_DURATION, EVT_BUFF_16_WEIGHT]
     buffEventId.append(BuffEventId.HEART_OF_STEEL_PRO)
     lbl_20:
-
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_17_TITLE, true, BuffEventId.STAT_POWER):
-        goto lbl_21
-    buffEvent[BuffEventId.STAT_POWER] = [STR_EVT_BUFF_17_TITLE, STR_EVT_BUFF_17_DESC.format(EVT_17_HEAL_BOOST), EVT_BUFF_17_DURATION, EVT_BUFF_17_WEIGHT]
-    buffEventId.append(BuffEventId.STAT_POWER)
-    lbl_21:
 
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_18_TITLE, true, BuffEventId.ULT_MOMENTUM):
         goto lbl_22
@@ -338,8 +326,6 @@ rule "initialize event array":
         goto lbl_109
     debuffEvent[DebuffEventId.KEEP_DISTANCE_AURA] = [STR_EVT_DEBUFF_15_TITLE, STR_EVT_DEBUFF_15_DESC, EVT_DEBUFF_15_DURATION, EVT_DEBUFF_15_WEIGHT]
     debuffEventId.append(DebuffEventId.KEEP_DISTANCE_AURA)
-    debuffEvent[DebuffEventId.HEALTH_SYNC] = [STR_EVT_DEBUFF_18_TITLE, STR_EVT_DEBUFF_18_DESC, EVT_DEBUFF_18_DURATION, EVT_DEBUFF_18_WEIGHT]
-    debuffEventId.append(DebuffEventId.HEALTH_SYNC)
     debuffEvent[DebuffEventId.MOON_ROCKET] = [STR_EVT_DEBUFF_20_TITLE, STR_EVT_DEBUFF_20_DESC, EVT_DEBUFF_20_DURATION, EVT_DEBUFF_20_WEIGHT]
     debuffEventId.append(DebuffEventId.MOON_ROCKET)
     lbl_109:
@@ -356,13 +342,6 @@ rule "initialize event array":
         EVT_DEBUFF_21_WEIGHT
     ]
     debuffEventId.append(DebuffEventId.ADLERSBRUNN_WRAITH)
-    debuffEvent[DebuffEventId.WITHER] = [
-        STR_EVT_DEBUFF_22_TITLE,
-        STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_STACK_CAP, negToPos(EVT_DEBUFF_22_SPEED_DELTA_PER_STACK), EVT_DEBUFF_22_DMG_TAKEN_PER_STACK, EVT_DEBUFF_22_STACK_WINDOW),
-        EVT_DEBUFF_22_DURATION,
-        EVT_DEBUFF_22_WEIGHT
-    ]
-    debuffEventId.append(DebuffEventId.WITHER)
     lbl_127:
     
     # ================================================

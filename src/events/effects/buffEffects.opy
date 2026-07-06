@@ -14,7 +14,6 @@
 
 #!include "buff/gale_blessing.opy"
 #!include "buff/iron_bulwark.opy"
-#!include "buff/adrenaline.opy"
 #!include "buff/life_spring.opy"
 #!include "buff/black_fans_assault.opy"
 #!include "buff/speed_stack.opy"
@@ -27,7 +26,6 @@
 #!include "buff/will_to_win.opy"
 #!include "buff/pheidippides_trial.opy"
 #!include "buff/heart_of_steel_pro.opy"
-#!include "buff/stat_power.opy"
 #!include "buff/ult_momentum.opy"
 #!include "buff/phase_surge.opy"
 #!include "buff/bodyguard.opy"

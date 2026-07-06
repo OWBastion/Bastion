@@ -10,8 +10,6 @@ enum BuffEventId:
     GALE_BLESSING
     # legacy numeric id: 2
     IRON_BULWARK
-    # legacy numeric id: 3
-    ADRENALINE
     # legacy numeric id: 4
     LIFE_SPRING
     # legacy numeric id: 5
@@ -36,8 +34,6 @@ enum BuffEventId:
     PHEIDIPPIDES_TRIAL
     # legacy numeric id: 16
     HEART_OF_STEEL_PRO
-    # legacy numeric id: 17
-    STAT_POWER
     # legacy numeric id: 18
     ULT_MOMENTUM
     # legacy numeric id: 19

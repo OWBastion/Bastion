@@ -34,14 +34,10 @@ enum DebuffEventId:
     SELFLESS_GIVEAWAY
     # legacy numeric id: 15
     KEEP_DISTANCE_AURA
-    # legacy numeric id: 18
-    HEALTH_SYNC
     # legacy numeric id: 19
     MOON_ROCKET
     # legacy numeric id: 20
     ADLERSBRUNN_WRAITH
-    # legacy numeric id: 21
-    WITHER
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
