@@ -76,6 +76,7 @@ on:
           - '训犬大师'
           - 'Killy'
           - '野良'
+          - '自律达人游十三'
           # END AUTO-GENERATED PLAYER OPTIONS
       general_title_label:
         description: 'General title label in Chinese (中文称号)'
