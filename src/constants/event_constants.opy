@@ -84,8 +84,9 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_BUFF_5_WEIGHT 1.2
 #!define EVT_5_HEALTH_TYPE Health.NORMAL
-#!define EVT_5_HEALTH_MAXHP_PERCENT 0.05
-#!define EVT_5_SPEED_BOOST 50
+#!define EVT_5_BASE_HEALTH 25
+#!define EVT_5_HEALTH_MAXHP_PERCENT 0.15
+#!define EVT_5_SPEED_BOOST 25
 
 # --- ID 6: 足力健 ---
 # Duration（秒）
