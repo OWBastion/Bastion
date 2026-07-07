@@ -796,7 +796,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.4
+#!define EVT_MECH_15_WEIGHT 0.5
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 1.5
 # 永久移速变更值（%）
