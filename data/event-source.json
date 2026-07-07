@@ -622,7 +622,7 @@
       "pack": 4,
       "nameZh": "俄罗斯套娃",
       "descZh": "阵亡{0}秒后复活\\n每次复活变小{1}%并加速{2}%",
-      "durationSec": 90,
+      "durationSec": 60,
       "weight": 0.6,
       "availability": "active"
     },

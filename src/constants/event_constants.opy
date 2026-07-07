@@ -708,7 +708,7 @@ enum HeartSteelData:
 
 # --- ID 11 (Mech/Special): 俄罗斯套娃 (变小复活) ---
 # Duration（秒）
-#!define EVT_MECH_11_DURATION 90
+#!define EVT_MECH_11_DURATION 60
 # Weight（权重）
 #!define EVT_MECH_11_WEIGHT 0.6
 
