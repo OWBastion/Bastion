@@ -2,4 +2,6 @@ packages:
   - '.'
 
 allowBuilds:
-  esbuild: false
+  esbuild: true
+
+verifyDepsBeforeRun: false
