@@ -54,6 +54,8 @@ enum BuffEventId:
     TEMPER_HEART
     # legacy numeric id: 32
     BATTLEFIELD_MEDIC
+    # legacy numeric id: 33
+    IM_DEVELOPING
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

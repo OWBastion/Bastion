@@ -12,6 +12,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    eventPlayer.developmentStackCount = 0
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
@@ -33,6 +34,8 @@ rule "when a player joins, load player data if they have it and initialize them"
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())
     eventPlayer.dmgReduc = false
     eventPlayer.invincible = false
+    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.IM_DEVELOPING:
+        eventPlayer.playerOnceEventState[PlayerOnceEventSlot.IM_DEVELOPING] = TemperHeartState.NONE
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
         eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
         eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER

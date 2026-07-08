@@ -55,6 +55,7 @@ def resetPlayerProgressState():
     eventPlayer.eventForceRoll = null
     eventPlayer.eventForceCount = 0
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    eventPlayer.developmentStackCount = 0
     eventPlayer.tempUnlockId = null
     eventPlayer.earnedAchievements = []
     eventPlayer.thiefBuffStolen = false

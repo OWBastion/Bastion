@@ -22,6 +22,7 @@ enum EventType:
 # 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
 enum PlayerOnceEventSlot:
     TEMPER_HEART = 0
+    IM_DEVELOPING
     COUNT
 
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
@@ -37,7 +38,7 @@ enum HeartSteelData:
     PERCENT_PER_STACK
     COUNT
 
-#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE]
+#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE, TemperHeartState.NONE]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 #!define DEFAULT_HEART_STEEL_DATA [0, 1, EVT_8_HP_PERCENT_PER_STACK]
 
@@ -323,6 +324,16 @@ enum HeartSteelData:
 #!define EVT_32_HEAL_GOAL 10000
 #!define EVT_32_REWARD_HEAL_PERMA 25
 #!define EVT_32_HUD_INTERVAL 0.25
+
+# --- ID 33: 任务：我在发育 ---
+#!define EVT_BUFF_33_DURATION 120
+#!define EVT_BUFF_33_WEIGHT 0.8
+#!define EVT_33_HERO_GOAL 2
+#!define EVT_33_GROWTH_INTERVAL 900
+#!define EVT_33_GROWTH_STACK_CAP 18
+#!define EVT_33_HEARTSTEEL_PER_STACK 5
+#!define EVT_33_SPEED_PER_STACK 2
+#!define EVT_33_HEAL_PER_STACK 2
 
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6

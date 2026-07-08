@@ -36,3 +36,4 @@
 #!include "buff/divine_reinforcement.opy"
 #!include "buff/temper_heart.opy"
 #!include "buff/battlefield_medic.opy"
+#!include "buff/im_developing.opy"
