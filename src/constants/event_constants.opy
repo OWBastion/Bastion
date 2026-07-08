@@ -212,7 +212,7 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_BUFF_18_WEIGHT 1.2
 #!define EVT_18_ULT_CHARGE_PER_SEC 10
-#!define EVT_18_DMG_REDUCTION_DURING_ULT 75
+#!define EVT_18_DMG_REDUCTION_DURING_ULT 50
 
 # --- ID 19: 相位猛冲 (智能检测版) ---
 # Duration（秒）
