@@ -518,10 +518,10 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_14_MIN_MAX_HP 125
 
 # 转移给每个队友的心之钢层数
-#!define EVT_DEBUFF_14_STACKS_GIVE 1
+#!define EVT_DEBUFF_14_STACKS_GIVE 2
 
 # 自身扣除的心之钢层数系数 (每有一个队友扣除多少层)
-#!define EVT_DEBUFF_14_STACKS_TAKE 1
+#!define EVT_DEBUFF_14_STACKS_TAKE 2
 
 # 视觉特效
 #!define EVT_DEBUFF_14_EFFECT_TAKE DynamicEffect.ORISA_HALT_IMPLOSION
