@@ -398,13 +398,13 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_DEBUFF_5_WEIGHT 1.2
 # 减速数值
-#!define EVT_DEBUFF_5_SPEED_REDUCTION 25
+#!define EVT_DEBUFF_5_SPEED_REDUCTION 50
 
 # 牵引力度 (空中)
-#!define EVT_DEBUFF_5_PULL_AIR 0.425
+#!define EVT_DEBUFF_5_PULL_AIR 0.6
 
 # 牵引力度 (地面)
-#!define EVT_DEBUFF_5_PULL_GROUND 0.825
+#!define EVT_DEBUFF_5_PULL_GROUND 0.85
 
 # 视觉特效
 #!define EVT_DEBUFF_5_EFFECT Effect.SIGMA_GRAVITIC_FLUX_TARGET
