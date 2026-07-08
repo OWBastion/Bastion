@@ -10,20 +10,22 @@ def buildCandidatePool():
 
     if eventPlayer.eventType == EventType.BUFF:
         eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-        if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
-            eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
-        if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.IM_DEVELOPING and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.IM_DEVELOPING] != TemperHeartState.NONE:
-            eventPlayer.eventTempId.remove(BuffEventId.IM_DEVELOPING)
+        if eventPlayer.playerOnceEventState != null:
+            if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
+                eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
+            if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.IM_DEVELOPING and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.IM_DEVELOPING] != TemperHeartState.NONE:
+                eventPlayer.eventTempId.remove(BuffEventId.IM_DEVELOPING)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
             buffEvent[id] != 0 and buffEvent[id].last() > 0 and
             (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-            if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
-                eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
-            if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.IM_DEVELOPING and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.IM_DEVELOPING] != TemperHeartState.NONE:
-                eventPlayer.eventTempId.remove(BuffEventId.IM_DEVELOPING)
+            if eventPlayer.playerOnceEventState != null:
+                if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
+                    eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
+                if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.IM_DEVELOPING and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.IM_DEVELOPING] != TemperHeartState.NONE:
+                    eventPlayer.eventTempId.remove(BuffEventId.IM_DEVELOPING)
             eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
                 buffEvent[id] != 0 and buffEvent[id].last() > 0
             )
