@@ -177,6 +177,8 @@
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
 #!define STR_EVT_DEBUFF_21_DESC "Gain {0} curses immediately.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
+#!define STR_EVT_DEBUFF_22_TITLE "Wayward Navigation"
+#!define STR_EVT_DEBUFF_22_DESC "Every {0}s, launch yourself at high speed in a random direction."
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------

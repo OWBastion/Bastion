@@ -38,6 +38,8 @@ enum DebuffEventId:
     MOON_ROCKET
     # legacy numeric id: 20
     ADLERSBRUNN_WRAITH
+    # legacy numeric id: 21
+    WAYWARD_NAVIGATION
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

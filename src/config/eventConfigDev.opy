@@ -339,6 +339,13 @@ rule "initialize event array":
     # ================================================
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5_DEBUFF, true, 1):
         goto lbl_127
+    debuffEvent[DebuffEventId.WAYWARD_NAVIGATION] = [
+        STR_EVT_DEBUFF_22_TITLE,
+        STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_INTERVAL),
+        EVT_DEBUFF_22_DURATION,
+        EVT_DEBUFF_22_WEIGHT
+    ]
+    debuffEventId.append(DebuffEventId.WAYWARD_NAVIGATION)
     debuffEvent[DebuffEventId.ADLERSBRUNN_WRAITH] = [
         STR_EVT_DEBUFF_21_TITLE,
         STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),

@@ -560,6 +560,14 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
 
+# --- ID 21 (Debuff): 缺德导航 ---
+# Duration（秒）
+#!define EVT_DEBUFF_22_DURATION 40
+# Weight（权重）
+#!define EVT_DEBUFF_22_WEIGHT 1.2
+#!define EVT_DEBUFF_22_INTERVAL 5
+#!define EVT_DEBUFF_22_IMPULSE 24
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------

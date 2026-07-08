@@ -518,6 +518,17 @@
       "descEn": "Gain {0} curses immediately.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
     },
     {
+      "key": "WAYWARD_NAVIGATION",
+      "type": "debuff",
+      "id": 17,
+      "pack": 5,
+      "nameZh": "缺德导航",
+      "descZh": "每{0}秒随机朝一个方向高速弹射",
+      "durationSec": 40,
+      "weight": 1.2,
+      "availability": "active"
+    },
+    {
       "key": "EXTREME_CHALLENGE",
       "type": "mech",
       "id": 0,
