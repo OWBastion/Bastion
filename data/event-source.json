@@ -529,6 +529,17 @@
       "availability": "active"
     },
     {
+      "key": "OVERWEIGHT_PACK",
+      "type": "debuff",
+      "id": 18,
+      "pack": 5,
+      "nameZh": "超重背包",
+      "descZh": "每有{0}点生命值，使受到的伤害提高{1}%",
+      "durationSec": 45,
+      "weight": 1.6,
+      "availability": "active"
+    },
+    {
       "key": "EXTREME_CHALLENGE",
       "type": "mech",
       "id": 0,

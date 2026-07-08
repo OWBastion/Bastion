@@ -346,6 +346,13 @@ rule "initialize event array":
         EVT_DEBUFF_22_WEIGHT
     ]
     debuffEventId.append(DebuffEventId.WAYWARD_NAVIGATION)
+    debuffEvent[DebuffEventId.OVERWEIGHT_PACK] = [
+        STR_EVT_DEBUFF_23_TITLE,
+        STR_EVT_DEBUFF_23_DESC.format(EVT_DEBUFF_23_HP_UNIT, EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT),
+        EVT_DEBUFF_23_DURATION,
+        EVT_DEBUFF_23_WEIGHT
+    ]
+    debuffEventId.append(DebuffEventId.OVERWEIGHT_PACK)
     debuffEvent[DebuffEventId.ADLERSBRUNN_WRAITH] = [
         STR_EVT_DEBUFF_21_TITLE,
         STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO)),

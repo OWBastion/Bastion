@@ -40,6 +40,8 @@ enum DebuffEventId:
     ADLERSBRUNN_WRAITH
     # legacy numeric id: 21
     WAYWARD_NAVIGATION
+    # legacy numeric id: 22
+    OVERWEIGHT_PACK
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
