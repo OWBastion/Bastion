@@ -1,6 +1,8 @@
 packages:
   - '.'
 
+pmOnFail: download
+
 allowBuilds:
   esbuild: true
 
