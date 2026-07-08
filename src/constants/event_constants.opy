@@ -653,7 +653,7 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_MECH_5_WEIGHT 1.0
 # 喷射造成的减伤 (%)
-#!define EVT_MECH_5_DMG_TAKEN -30
+#!define EVT_MECH_5_DMG_TAKEN -25
 
 # 喷射力度
 #!define EVT_MECH_5_IMPULSE 15
