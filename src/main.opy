@@ -20,7 +20,7 @@ settings {
         "team2Slots": LOBBY_TEAM2_SLOTS,
         "spectatorSlots": LOBBY_SPECTATOR_SLOTS_MAIN,
         "returnToLobby": "never",
-        "allowPlayersInQueue": true
+        "allowPlayersInQueue": false
     },
     "gamemodes": {
         "ctf": {
