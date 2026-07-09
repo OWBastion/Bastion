@@ -222,7 +222,7 @@
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
 #!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
 #!define STR_EVT_MECH_23_TITLE "镜像反转"
-#!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前永久属性：减伤 / 移速 / 治疗增益 / 心之钢"
+#!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：\n减伤/移速/治疗强度/心之钢"
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
 #!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数\n{2}%概率清空奖池并获得其中所有心之钢层数"
 

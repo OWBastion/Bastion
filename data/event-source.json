@@ -778,7 +778,7 @@
       "id": 21,
       "pack": 5,
       "nameZh": "镜像反转",
-      "descZh": "长按{0}永久反转当前永久属性：减伤 / 移速 / 治疗增益 / 心之钢",
+      "descZh": "长按{0}永久反转当前的属性：\\n减伤/移速/治疗强度/心之钢",
       "durationSec": 15,
       "weight": 0.8,
       "availability": "active",
