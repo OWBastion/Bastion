@@ -10,6 +10,7 @@ def buildCandidatePool():
 
     if eventPlayer.eventType == EventType.BUFF:
         eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
+        wait(getAverageServerLoad() / 100 * 0.032)
         if eventPlayer.playerOnceEventState != null:
             if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                 eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
@@ -31,6 +32,7 @@ def buildCandidatePool():
             )
     elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
+        wait(getAverageServerLoad() / 100 * 0.032)
         if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
             eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
@@ -50,6 +52,7 @@ def buildCandidatePool():
             )
     else:
         eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
+        wait(getAverageServerLoad() / 100 * 0.032)
         if gamblerHeartsteelJackpot < EVT_MECH_24_POOL_MIN or eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_24_PLAYER_STACKS_MIN:
             eventPlayer.eventTempId.remove(MechEventId.GAMBLER_WINNER_TAKE_ALL)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
