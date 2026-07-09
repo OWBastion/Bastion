@@ -38,7 +38,8 @@ const REASON_LABELS: Record<string, string> = {
   'recent-dedup': '命中最近事件去重窗口',
   'force-roll-selfless-gated': '舍己为人在当前强制抽取条件下被排除',
   'gambler-jackpot-too-small': '奖池未达 8 层',
-  'gambler-heartsteel-too-low': '玩家心之钢不足 4 层'
+  'gambler-heartsteel-too-low': '玩家心之钢不足 4 层',
+  'mirror-inversion-not-enough-negative-stats': '玩家当前永久负值属性不足 2 个'
 };
 
 const SCENARIO_METADATA: Record<string, { id: string; label: string; description: string }> = {
@@ -105,6 +106,9 @@ type ScenarioInput = {
   enabledEventKeys?: string[];
   playerState?: {
     heroNumber?: number;
+    modDmgPerma?: number;
+    modSpeedPerma?: number;
+    modHealPerma?: number;
     heartsteelStacks?: number;
     eventLastKeys?: string[];
     temperHeartUsed?: boolean;
@@ -569,6 +573,15 @@ function summarizeReasonMap(reasonMap: Map<string, Set<string>>): FilterReason[]
     .sort((left, right) => left.key.localeCompare(right.key));
 }
 
+function countMirrorInversionNegativeStats(playerState: Required<NonNullable<ScenarioInput['playerState']>>) {
+  return [
+    playerState.modDmgPerma,
+    playerState.modSpeedPerma,
+    playerState.modHealPerma,
+    playerState.heartsteelStacks
+  ].filter((value) => value < 0).length;
+}
+
 function buildCandidatePool(
   events: EventItem[],
   type: EventType,
@@ -628,6 +641,10 @@ function buildCandidatePool(
         addReason(eventItem.key, 'gambler-heartsteel-too-low');
         return false;
       }
+    }
+    if (type === 'mech' && eventItem.key === 'MIRROR_INVERSION' && countMirrorInversionNegativeStats(playerState) < 2) {
+      addReason(eventItem.key, 'mirror-inversion-not-enough-negative-stats');
+      return false;
     }
     return true;
   }
@@ -750,6 +767,9 @@ function buildStaticTypeReport(
 ): StaticTypeReport {
   const playerState = {
     heroNumber: 0,
+    modDmgPerma: 0,
+    modSpeedPerma: 0,
+    modHealPerma: 0,
     heartsteelStacks: 0,
     eventLastKeys: [] as string[],
     temperHeartUsed: false,
@@ -826,6 +846,9 @@ export async function analyzeScenarioEventAllocation(
   const scenario = JSON.parse(scenarioSource) as ScenarioInput;
   const playerState = {
     heroNumber: scenario.playerState?.heroNumber ?? 0,
+    modDmgPerma: scenario.playerState?.modDmgPerma ?? 0,
+    modSpeedPerma: scenario.playerState?.modSpeedPerma ?? 0,
+    modHealPerma: scenario.playerState?.modHealPerma ?? 0,
     heartsteelStacks: scenario.playerState?.heartsteelStacks ?? 0,
     eventLastKeys: scenario.playerState?.eventLastKeys ?? [],
     temperHeartUsed: scenario.playerState?.temperHeartUsed ?? false,

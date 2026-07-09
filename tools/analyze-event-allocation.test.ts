@@ -185,3 +185,62 @@ test('winner takes all enters the mech pool once both thresholds are met', async
 
   assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM', 'GAMBLER_WINNER_TAKE_ALL']);
 });
+
+test('mirror inversion stays out of the mech pool when fewer than two permanent stats are negative', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['MIRROR_INVERSION', 'MINI_FORM'],
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      modDmgPerma: -5,
+      modSpeedPerma: 0,
+      modHealPerma: 0,
+      heartsteelStacks: 0
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM']);
+  assert.ok(
+    report.candidatePool.filtered.some(
+      (item) => item.key === 'MIRROR_INVERSION' && item.reasons.includes('mirror-inversion-not-enough-negative-stats')
+    )
+  );
+});
+
+test('mirror inversion enters the mech pool once exactly two permanent stats are negative', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['MIRROR_INVERSION', 'MINI_FORM'],
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      modDmgPerma: -5,
+      modSpeedPerma: -10,
+      modHealPerma: 0,
+      heartsteelStacks: 0
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM', 'MIRROR_INVERSION']);
+});
+
+test('mirror inversion remains in the mech pool when three or more permanent stats are negative', async () => {
+  const scenarioFile = await writeScenarioFile({
+    enabledEventKeys: ['MIRROR_INVERSION', 'MINI_FORM'],
+    playerState: {
+      categoryRoll: 90,
+      categoryRollSnapshot: 90,
+      modDmgPerma: -5,
+      modSpeedPerma: -10,
+      modHealPerma: -15,
+      heartsteelStacks: -20
+    }
+  });
+
+  const report = await analyzeScenarioEventAllocation(scenarioFile, { sourceFile, constantsFile });
+
+  assert.deepEqual(report.candidatePool.candidateKeys, ['MINI_FORM', 'MIRROR_INVERSION']);
+});
