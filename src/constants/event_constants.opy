@@ -566,7 +566,7 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_DEBUFF_22_WEIGHT 1.2
 #!define EVT_DEBUFF_22_INTERVAL 5
-#!define EVT_DEBUFF_22_IMPULSE 24
+#!define EVT_DEBUFF_22_IMPULSE 180
 
 # --- ID 22 (Debuff): 超重背包 ---
 # Duration（秒）
