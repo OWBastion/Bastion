@@ -323,7 +323,7 @@ enum HeartSteelData:
 #!define EVT_BUFF_32_WEIGHT 1.0
 #!define EVT_32_HEAL_GOAL 10000
 #!define EVT_32_REWARD_HEAL_PERMA 25
-#!define EVT_32_HUD_INTERVAL 0.25
+#!define EVT_32_HUD_INTERVAL 5
 
 # --- ID 33: 任务：我在发育 ---
 #!define EVT_BUFF_33_DURATION 120
