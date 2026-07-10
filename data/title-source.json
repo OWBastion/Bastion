@@ -503,7 +503,7 @@
       "condition": "随机事件 5.0 限时挑战，触发并赢下所有「赌徒」系列事件。",
       "availability": "active",
       "displayExpr": "\"赌圣\"",
-      "colorExpr": "heroColor[3]"
+      "colorExpr": "breathPalette.gold"
     },
     {
       "key": "EVENT5_BLACK_SHEEP",

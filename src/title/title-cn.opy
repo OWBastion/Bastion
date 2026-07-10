@@ -793,7 +793,7 @@ rule "initialize title array":
         # 48: SUAN_BU_LA
         ["我不会放过你的酸不辣", heroColor[18]],
         # 49: EVENT5_GAMBLE_SAINT
-        ["赌圣", heroColor[3]],
+        ["赌圣", breathPalette.gold],
         # 50: EVENT5_BLACK_SHEEP
         ["害群之马", heroColor[3]],
         # 51: EVENT5_I_WANT_TO_CHECK_CARDS
