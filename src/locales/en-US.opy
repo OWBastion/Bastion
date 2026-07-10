@@ -96,7 +96,7 @@
 # Debuff Events
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_0_TITLE "Gravity Anomaly"
-#!define STR_EVT_DEBUFF_0_DESC "Movement speed reduced by {0}%.\nJump height reduced by {1}%."
+#!define STR_EVT_DEBUFF_0_DESC "Jump height reduced by {0}%."
 #!define STR_EVT_DEBUFF_1_TITLE "EMP"
 #!define STR_EVT_DEBUFF_1_DESC "Hacked. Abilities disabled."
 #!define STR_EVT_DEBUFF_2_TITLE "Sacrifice"
@@ -161,8 +161,6 @@
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
 #!define STR_EVT_BUFF_32_DESC "Heal {0} HP during the duration.\nReward: permanently gain {1}% healing power."
-#!define STR_EVT_BUFF_33_TITLE "Mission: I'm Scaling"
-#!define STR_EVT_BUFF_33_DESC "Pass the finish line with {0} heroes during the duration.\nReward: permanently gain 1 growth stack every {1} minutes afterward.\nEach stack grants {2} Heartsteel, {3}% movement speed, and healing power, up to {4} stacks."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

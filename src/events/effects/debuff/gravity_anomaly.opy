@@ -12,15 +12,11 @@ rule "[VishkarEvent]: 重力异常":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_ANOMALY]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)
-    eventPlayer.mod_speed_event = EVT_DEBUFF_0_SPEED
-    updatePlayerStats()
     eventPlayer.setGravity(100 + EVT_DEBUFF_0_GRAVITY)
     createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     wait(eventPlayer.eventDuration)
-    eventPlayer.mod_speed_event = 0
-    updatePlayerStats()
     clearEventEffect()
     eventPlayer.setGravity(100)

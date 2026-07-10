@@ -102,7 +102,7 @@
 # 减益事件 (Debuff Events)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_0_TITLE "重力异常"
-#!define STR_EVT_DEBUFF_0_DESC "移动速度降低{0}%\n跳跃高度降低{1}%"
+#!define STR_EVT_DEBUFF_0_DESC "跳跃高度降低{0}%"
 #!define STR_EVT_DEBUFF_1_TITLE "电磁脉冲"
 #!define STR_EVT_DEBUFF_1_DESC "被侵入，无法使用技能"
 #!define STR_EVT_DEBUFF_2_TITLE "献祭"
@@ -170,8 +170,6 @@
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：心之钢层数×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "战地医生"
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0} 点生命值\n奖励：永久获得 {1}% 治疗强度"
-#!define STR_EVT_BUFF_33_TITLE "任务：我在发育"
-#!define STR_EVT_BUFF_33_DESC "使用{0}个英雄通过终点\n奖励：此后每{1}分钟永久获得1层发育层数\n每层提供{2}层心之钢、{3}%移速加成与治疗增益，最多{4}层"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)

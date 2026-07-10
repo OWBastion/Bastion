@@ -148,8 +148,6 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.TEMPER_HEART)
     buffEvent[BuffEventId.BATTLEFIELD_MEDIC] = [STR_EVT_BUFF_32_TITLE, STR_EVT_BUFF_32_DESC.format(EVT_32_HEAL_GOAL, EVT_32_REWARD_HEAL_PERMA), EVT_BUFF_32_DURATION, EVT_BUFF_32_WEIGHT]
     buffEventId.append(BuffEventId.BATTLEFIELD_MEDIC)
-    buffEvent[BuffEventId.IM_DEVELOPING] = [STR_EVT_BUFF_33_TITLE, STR_EVT_BUFF_33_DESC.format(EVT_33_HERO_GOAL, EVT_33_GROWTH_INTERVAL / 60, EVT_33_HEARTSTEEL_PER_STACK, EVT_33_SPEED_PER_STACK, EVT_33_GROWTH_STACK_CAP), EVT_BUFF_33_DURATION, EVT_BUFF_33_WEIGHT]
-    buffEventId.append(BuffEventId.IM_DEVELOPING)
     lbl_199:
 
     lbl_33:
@@ -166,7 +164,7 @@ rule "initialize event array":
         goto lbl_33
     debuffEvent[DebuffEventId.GRAVITY_ANOMALY] = [
         STR_EVT_DEBUFF_0_TITLE,
-        STR_EVT_DEBUFF_0_DESC.format(negToPos(EVT_DEBUFF_0_SPEED), EVT_DEBUFF_0_GRAVITY),
+        STR_EVT_DEBUFF_0_DESC.format(EVT_DEBUFF_0_GRAVITY),
         EVT_DEBUFF_0_DURATION,
         EVT_DEBUFF_0_WEIGHT
     ]

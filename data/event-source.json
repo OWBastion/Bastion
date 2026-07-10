@@ -335,7 +335,7 @@
       "id": 0,
       "pack": 1,
       "nameZh": "重力异常",
-      "descZh": "移动速度降低{0}%\\n跳跃高度降低{1}%",
+      "descZh": "跳跃高度降低{0}%",
       "durationSec": 20,
       "weight": 1.4,
       "availability": "active"
