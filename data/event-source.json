@@ -318,18 +318,6 @@
       "descEn": "Heal {0} HP during the duration.\nReward: permanently gain {1}% healing power."
     },
     {
-      "key": "IM_DEVELOPING",
-      "type": "buff",
-      "id": 25,
-      "pack": 5,
-      "nameZh": "任务：我在发育",
-      "descZh": "使用{0}个英雄通过终点\n奖励：此后每{1}分钟永久获得1层发育层数\n每层提供{2}层心之钢、{3}%移速加成与治疗增益，最多{4}层",
-      "durationSec": 120,
-      "weight": 0.8,
-      "availability": "active",
-      "descEn": "Pass the finish line with {0} heroes during the duration.\nReward: permanently gain 1 growth stack every {1} minutes afterward.\nEach stack grants {2} Heartsteel, {3}% movement speed, and healing power, up to {4} stacks."
-    },
-    {
       "key": "GRAVITY_ANOMALY",
       "type": "debuff",
       "id": 0,
