@@ -193,7 +193,7 @@ rule "initialize effects":
     
     # 开发者面板 (Dev Player)
     hudSubheader(devPlayer, STR_HUD_SERVER_UPTIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(getTotalTimeElapsed() / 3600)) if getTotalTimeElapsed() >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(getTotalTimeElapsed() % 3600 / 60)) if getTotalTimeElapsed() >= 60 else "", STR_TIME_UNIT_SEC.format(floor(getTotalTimeElapsed() % 60)))), HudPosition.RIGHT, -4, Color.GRAY, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(devPlayer, STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader(getAllPlayers(), STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # 版本号
     hudSubheader(getAllPlayers(), f"{STR_HUD_VERSION} {VERSION}", HudPosition.RIGHT, -3, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
