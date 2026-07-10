@@ -15,10 +15,14 @@ rule "initialize effects":
     # --------------------------------------------------------------------------------------------------------------------------------
     
     # 阵亡 / 英雄 / 下一个英雄
-    hudText(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] else null, "{0}: {1}".format(STR_HUD_DEATHS, STR_HUD_DEATHS_VAL.format(localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞")), "", null, HudPosition.LEFT, 2, Color.WHITE, null, null, HudReeval.VISIBILITY_AND_STRING)
-    hudText(localPlayer, "{0}: {1}".format(STR_HUD_HEROES, STR_HUD_HEROES_VAL.format(heroList.index(localPlayer.getHero()) + 1, len(heroList))), "", null, HudPosition.LEFT, 3, Color.WHITE, null, null, HudReeval.VISIBILITY_AND_STRING)
-    hudText([] if localPlayer.isWinner or localPlayer.getHero() != heroList[localPlayer.heroNumber] else localPlayer, heroIcon(heroList[localPlayer.heroNumber + 1]) if localPlayer.heroNumber + 1 < len(heroList) else iconString(Icon.FLAG), STR_HUD_NEXT_HERO, heroList[localPlayer.heroNumber + 1] if localPlayer.heroNumber + 1 < len(heroList) else STR_HUD_ESCAPED, HudPosition.LEFT, 4, rgb(36, 205, 244), Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudText([] if localPlayer.isWinner or localPlayer.getHero() == heroList[localPlayer.heroNumber] else localPlayer, iconString(Icon.NO), STR_HUD_NEXT_HERO, STR_HUD_UNLOCKED.format(heroIcon(heroList[localPlayer.heroNumber])), HudPosition.LEFT, 4, rgb(235, 45, 79), rgb(235, 45, 79), rgb(235, 45, 79), HudReeval.VISIBILITY_AND_STRING)
+    hudText(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] else null, " ", "{0}  {1}\n{2}".format(STR_HUD_DEATHS, STR_HUD_DEATHS_VAL.format(localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞"), "{0}  {1}".format(STR_HUD_HEROES, STR_HUD_HEROES_VAL.format(heroList.index(localPlayer.getHero()) + 1, len(heroList)))), null, HudPosition.LEFT, 2, difficultyText[1], Color.WHITE, null, HudReeval.VISIBILITY_AND_STRING)
+
+    # hudText(localPlayer, "{0}: {1}".format(STR_HUD_HEROES, STR_HUD_HEROES_VAL.format(heroList.index(localPlayer.getHero()) + 1, len(heroList))), "", null, HudPosition.LEFT, 3, Color.WHITE, null, null, HudReeval.VISIBILITY_AND_STRING)
+
+    hudText(null if localPlayer.isWinner or localPlayer.getHero() != heroList[localPlayer.heroNumber] else localPlayer, " ", STR_HUD_NEXT_HERO, "{0} {1}".format(heroIcon(heroList[localPlayer.heroNumber + 1]) if localPlayer.heroNumber + 1 < len(heroList) else iconString(Icon.FLAG), heroList[localPlayer.heroNumber + 1] if localPlayer.heroNumber + 1 < len(heroList) else STR_HUD_ESCAPED), HudPosition.LEFT, 4, rgb(36, 205, 244), Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+
+    hudText(null if localPlayer.isWinner or localPlayer.getHero() == heroList[localPlayer.heroNumber] else localPlayer, iconString(Icon.NO), STR_HUD_NEXT_HERO, STR_HUD_UNLOCKED.format(heroIcon(heroList[localPlayer.heroNumber])), HudPosition.LEFT, 4, rgb(235, 45, 79), rgb(235, 45, 79), rgb(235, 45, 79), HudReeval.VISIBILITY_AND_STRING)
+
     hudText(localPlayer if localPlayer.isWinner else null, iconString(Icon.CHECKMARK), STR_HUD_NEXT_HERO, STR_HUD_CHALLENGE_COMPLETE, HudPosition.LEFT, 4, Color.GREEN, Color.GREEN, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
     
     # 成就禁用

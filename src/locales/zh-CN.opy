@@ -313,7 +313,7 @@
 # ------------------------------------------------
 #!define STR_HUD_DEATHS "阵亡"
 #!define STR_HUD_DEATHS_VAL "{0} / {1}"
-#!define STR_HUD_HEROES "英雄"
+#!define STR_HUD_HEROES "进度"
 #!define STR_HUD_HEROES_VAL "{0} / {1}"
 #!define STR_HUD_NEXT_HERO "下一个英雄"
 #!define STR_HUD_ESCAPED "逃脱成功"
