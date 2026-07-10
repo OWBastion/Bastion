@@ -178,21 +178,15 @@ function probabilityWidth(value) {
 }
 
 .type-accent-buff {
-  background:
-    linear-gradient(180deg, rgba(36, 173, 127, 0.08), rgba(255, 255, 255, 0.03)),
-    rgba(255, 255, 255, 0.03);
+  background: var(--ow-card);
 }
 
 .type-accent-debuff {
-  background:
-    linear-gradient(180deg, rgba(214, 120, 38, 0.08), rgba(255, 255, 255, 0.03)),
-    rgba(255, 255, 255, 0.03);
+  background: var(--ow-card);
 }
 
 .type-accent-mech {
-  background:
-    linear-gradient(180deg, rgba(54, 121, 212, 0.08), rgba(255, 255, 255, 0.03)),
-    rgba(255, 255, 255, 0.03);
+  background: var(--ow-card);
 }
 
 .session-table {

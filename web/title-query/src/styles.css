@@ -13,13 +13,8 @@
   --ow-text-soft: rgba(242, 245, 255, 0.76);
   --ow-text-muted: rgba(230, 238, 255, 0.6);
   --ow-glow: 0 14px 36px rgba(5, 9, 16, 0.48);
-  --ow-page-bg:
-    radial-gradient(circle at 82% -12%, rgba(0, 154, 243, 0.2) 0%, rgba(0, 154, 243, 0) 38%),
-    radial-gradient(circle at 8% 10%, rgba(240, 100, 20, 0.14) 0%, rgba(240, 100, 20, 0) 35%),
-    linear-gradient(180deg, #0e1625 0%, #0b121e 60%, #090f1a 100%);
+  --ow-page-bg: #0b121e;
   --ow-grid-color: rgba(154, 178, 219, 0.08);
-  --ow-ambient-left: rgba(240, 100, 20, 0.28);
-  --ow-ambient-right: rgba(0, 154, 243, 0.24);
   --ow-card-overlay: rgba(255, 255, 255, 0.07);
   --ow-radius-lg: 16px;
   --ow-radius-md: 12px;
@@ -43,13 +38,8 @@
   --ow-text-soft: rgba(30, 44, 69, 0.78);
   --ow-text-muted: rgba(30, 44, 69, 0.62);
   --ow-glow: 0 12px 26px rgba(15, 23, 38, 0.14);
-  --ow-page-bg:
-    radial-gradient(circle at 82% -12%, rgba(0, 154, 243, 0.2) 0%, rgba(0, 154, 243, 0) 38%),
-    radial-gradient(circle at 8% 10%, rgba(240, 100, 20, 0.15) 0%, rgba(240, 100, 20, 0) 35%),
-    linear-gradient(180deg, #f8faff 0%, #eaf1fb 55%, #dbe6f6 100%);
+  --ow-page-bg: #eaf1fb;
   --ow-grid-color: rgba(29, 42, 65, 0.11);
-  --ow-ambient-left: rgba(240, 100, 20, 0.25);
-  --ow-ambient-right: rgba(0, 154, 243, 0.24);
   --ow-card-overlay: rgba(255, 255, 255, 0.65);
 }
 
@@ -100,24 +90,8 @@ code {
 }
 
 .ambient {
-  position: absolute;
-  width: 28rem;
-  height: 28rem;
-  border-radius: 999px;
-  filter: blur(30px);
+  display: none;
   pointer-events: none;
-}
-
-.ambient-left {
-  top: -8rem;
-  left: -8rem;
-  background: radial-gradient(circle, var(--ow-ambient-left) 0%, transparent 70%);
-}
-
-.ambient-right {
-  top: 14%;
-  right: -10rem;
-  background: radial-gradient(circle, var(--ow-ambient-right) 0%, transparent 70%);
 }
 
 .page-frame {
@@ -132,10 +106,8 @@ code {
   position: relative;
   border: 1px solid var(--ow-line);
   border-radius: var(--ow-radius-lg);
-  background:
-    linear-gradient(180deg, var(--ow-card-2) 0%, var(--ow-card) 100%),
-    linear-gradient(135deg, var(--ow-card-overlay), rgba(255, 255, 255, 0));
-  box-shadow: var(--ow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: var(--ow-card);
+  box-shadow: 0 1px 2px rgba(5, 9, 16, 0.14), 0 4px 10px -6px rgba(5, 9, 16, 0.24);
 }
 
 .ow-card::before {
@@ -147,7 +119,7 @@ code {
   height: 3px;
   border-top-left-radius: var(--ow-radius-lg);
   border-top-right-radius: var(--ow-radius-lg);
-  background: linear-gradient(90deg, var(--ow-orange), #ff8b3f 42%, var(--ow-blue));
+  background: var(--ow-orange);
 }
 
 .hero-panel {
