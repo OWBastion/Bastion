@@ -20,6 +20,8 @@ test('loads unified title source shape', async () => {
   assert.ok(data.players.length > 0);
   assert.ok(data.mapTitles.length > 0);
   assert.equal(data.titles[0].key, 'PIONEER');
+  assert.equal(data.players.find((player) => player.name === '他又')?.allTitles, true);
+  assert.equal(data.players.find((player) => player.name === '别感冒')?.titleKeys.length, data.titles.length);
   assert.equal(data.players.find((player) => player.name === '草艮')?.titleKeys.length, 2);
 });
 
@@ -76,6 +78,29 @@ test('validates unknown player title keys', async () => {
   await fs.writeFile(tmpFile, JSON.stringify(invalid), 'utf8');
 
   await assert.rejects(() => loadTitleSource(tmpFile), /Unknown title key UNKNOWN in player u/);
+});
+
+test('rejects ambiguous all-title player records', async () => {
+  const tmpFile = path.join(os.tmpdir(), `title-source-all-titles-${Date.now()}.json`);
+  const invalid = {
+    meta: { sourceLabel: 'x' },
+    titles: [
+      {
+        key: 'A',
+        label: 'A',
+        category: 'c',
+        condition: 'd',
+        availability: 'active',
+        displayExpr: '"A"',
+        colorExpr: 'null'
+      }
+    ],
+    players: [{ name: 'u', allTitles: true, titleKeys: ['A'] }],
+    mapTitles: []
+  };
+  await fs.writeFile(tmpFile, JSON.stringify(invalid), 'utf8');
+
+  await assert.rejects(() => loadTitleSource(tmpFile), /cannot define both allTitles and titleKeys/);
 });
 
 test('validates duplicate player names', async () => {

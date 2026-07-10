@@ -148,13 +148,22 @@ function validateSourceShape(sourceData) {
     }
     playersByName.add(player.name);
 
-    if (!Array.isArray(player.titleKeys)) {
-      throw new Error(`players[${index}].titleKeys must be an array.`);
+    if (player.allTitles !== undefined && typeof player.allTitles !== 'boolean') {
+      throw new Error(`players[${index}].allTitles must be a boolean when provided.`);
     }
 
-    ensureNoDuplicate(player.titleKeys, `title key in player ${player.name}`);
+    const allTitles = player.allTitles === true;
+    if (!allTitles && !Array.isArray(player.titleKeys)) {
+      throw new Error(`players[${index}].titleKeys must be an array.`);
+    }
+    if (allTitles && player.titleKeys !== undefined) {
+      throw new Error(`players[${index}] cannot define both allTitles and titleKeys.`);
+    }
 
-    const titleKeysForPlayer = player.titleKeys.map((key, keyIndex) => {
+    const sourceTitleKeys = allTitles ? [...titleKeys] : player.titleKeys;
+    ensureNoDuplicate(sourceTitleKeys, `title key in player ${player.name}`);
+
+    const titleKeysForPlayer = sourceTitleKeys.map((key, keyIndex) => {
       ensureString(key, `players[${index}].titleKeys[${keyIndex}] must be a non-empty string.`);
 
       if (!titleKeys.has(key)) {
@@ -166,7 +175,8 @@ function validateSourceShape(sourceData) {
 
     return {
       name: player.name,
-      titleKeys: titleKeysForPlayer
+      titleKeys: titleKeysForPlayer,
+      allTitles
     };
   });
 
@@ -264,13 +274,16 @@ function buildPlayerTitleSets(titles, players) {
     const sortedTitleIds = player.titleKeys
       .map((key) => titleIdByKey.get(key))
       .sort((left, right) => left - right);
-    const titleSetKey = sortedTitleIds.join(',');
+    const titleSetKey = player.allTitles ? 'TP_ALL' : sortedTitleIds.join(',');
     let titleSetIndex = titleSetIndexByIds.get(titleSetKey);
 
     if (titleSetIndex == null) {
       titleSetIndex = titleSets.length;
       titleSetIndexByIds.set(titleSetKey, titleSetIndex);
-      titleSets.push(sortedTitleIds.map((id) => titleKeyById.get(id)));
+      titleSets.push({
+        allTitles: player.allTitles,
+        titleKeys: sortedTitleIds.map((id) => titleKeyById.get(id))
+      });
     }
 
     return {
@@ -286,15 +299,20 @@ function buildPlayerTitleSets(titles, players) {
   };
 }
 
-function renderPlayerTitleSetPool(titleSets) {
+function renderPlayerTitleSetPool(titles, titleSets) {
   const lines = [];
 
   lines.push(PLAYER_TITLE_SET_POOL_BEGIN);
+  lines.push(`#!define TP_ALL [${titles.map((title) => `TITLE.${title.key}`).join(', ')}]`);
   lines.push('#!define player_title_set_pool [ \\');
 
   titleSets.forEach((titleSet, index) => {
     const isLast = index === titleSets.length - 1;
-    const titleExpr = titleSet.length ? `[${titleSet.map((key) => `TITLE.${key}`).join(', ')}]` : '[]';
+    const titleExpr = titleSet.allTitles
+      ? 'TP_ALL'
+      : titleSet.titleKeys.length
+        ? `[${titleSet.titleKeys.map((key) => `TITLE.${key}`).join(', ')}]`
+        : '[]';
     lines.push(`    ${titleExpr}${isLast ? ' \\' : ', \\'} `);
   });
 
@@ -303,12 +321,10 @@ function renderPlayerTitleSetPool(titleSets) {
   return lines.join('\n');
 }
 
-function renderPlayerDatabase(titles, playersWithTitleSetIndex) {
-  const allKeys = titles.map((title) => `TITLE.${title.key}`).join(', ');
+function renderPlayerDatabase(playersWithTitleSetIndex) {
   const lines = [];
 
   lines.push(PLAYER_DB_BEGIN);
-  lines.push(`#!define TP_ALL [${allKeys}]`);
   lines.push('#!define player_database [ \\');
 
   playersWithTitleSetIndex.forEach((player, index) => {
@@ -415,8 +431,8 @@ function replaceManagedBlock(source, beginMarker, endMarker, blockContent) {
 function applyManagedTitleFile(source, data) {
   const enumBlock = renderTitleEnum(data.titles);
   const { titleSets, playersWithTitleSetIndex } = buildPlayerTitleSets(data.titles, data.players);
-  const titleSetPoolBlock = renderPlayerTitleSetPool(titleSets);
-  const dbBlock = renderPlayerDatabase(data.titles, playersWithTitleSetIndex);
+  const titleSetPoolBlock = renderPlayerTitleSetPool(data.titles, titleSets);
+  const dbBlock = renderPlayerDatabase(playersWithTitleSetIndex);
   const allTitleBlock = renderAllTitleAssignment(data.titles);
   const mapDataBlock = renderMapTitleData(data.mapTitles);
 

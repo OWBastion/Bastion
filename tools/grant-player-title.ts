@@ -180,6 +180,17 @@ function reorderAnimatedTitlesFirst(titleKeys, animatedTitleKeySet) {
   return [...animated, ...nonAnimated];
 }
 
+function serializeSourceData(sourceData) {
+  return {
+    ...sourceData,
+    players: sourceData.players.map((player) =>
+      player.allTitles
+        ? { name: player.name, allTitles: true }
+        : { name: player.name, titleKeys: player.titleKeys }
+    )
+  };
+}
+
 function assertGrantableGeneralTitle(titleKey, titleByKey) {
   const restrictedIndex = RESTRICTED_GENERAL_TITLE_INDEX_BY_KEY.get(titleKey);
   if (restrictedIndex === undefined) {
@@ -647,10 +658,10 @@ export async function grantPlayerTitle({
     parsedInput = JSON.parse(inputRaw);
   }
 
-  const beforeText = `${JSON.stringify(sourceData, null, 2)}\n`;
-  const workingCopy = JSON.parse(beforeText);
+  const beforeText = `${JSON.stringify(serializeSourceData(sourceData), null, 2)}\n`;
+  const workingCopy = JSON.parse(JSON.stringify(sourceData));
   const { sourceData: nextData, summary } = applyGrantRequest(workingCopy, parsedInput);
-  const afterText = `${JSON.stringify(nextData, null, 2)}\n`;
+  const afterText = `${JSON.stringify(serializeSourceData(nextData), null, 2)}\n`;
   const changed = beforeText !== afterText;
   let autoSync = {
     executed: false,

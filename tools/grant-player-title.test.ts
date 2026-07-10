@@ -682,6 +682,33 @@ test('non-dry-run with changes triggers title sync once', async () => {
   });
 });
 
+test('preserves all-title player markers while granting another player', async () => {
+  const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'grant-title-all-titles-'));
+  const sourceFile = path.join(tmpDir, 'title-source.json');
+  const source = buildFixture();
+  source.players.push({ name: '他又', allTitles: true });
+  await fs.writeFile(sourceFile, `${JSON.stringify(source, null, 2)}\n`, 'utf8');
+
+  await grantPlayerTitle({
+    sourceFile,
+    requestData: {
+      players: [{ name: '新玩家', generalTitles: ['HACKING'], mapDominators: [] }],
+      options: { grantDifficultyFromMaps: false, autoMasteryMode: 'off' }
+    },
+    syncFn: async () => ({
+      titleFileChanged: true,
+      sourceVersion: '1.2.3',
+      webPayload: { meta: { titleCount: 10, playerCount: 4, mapTitleCount: 3 } }
+    })
+  });
+
+  const saved = JSON.parse(await fs.readFile(sourceFile, 'utf8'));
+  assert.deepEqual(saved.players.find((player) => player.name === '他又'), {
+    name: '他又',
+    allTitles: true
+  });
+});
+
 test('non-dry-run without changes skips title sync', async () => {
   const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'grant-title-noop-'));
   const sourceFile = path.join(tmpDir, 'title-source.json');
