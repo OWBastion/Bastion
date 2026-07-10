@@ -561,6 +561,33 @@
       "availability": "active",
       "displayExpr": "\"冲出地表\"",
       "colorExpr": "vect(192, 192, 192)"
+    },
+    {
+      "key": "LIST_THEM",
+      "label": "把他们上市",
+      "category": "随机事件系列",
+      "condition": "赢下 3 次「赌徒：短期投资」与 1 次「赌徒：长期投资」，且心之钢层数达到 300 层。",
+      "availability": "active",
+      "displayExpr": "\"把他们上市\"",
+      "colorExpr": "breathPalette.gold"
+    },
+    {
+      "key": "LIFE_GUARDS_LIFE",
+      "label": "生命守护生命",
+      "category": "随机事件系列",
+      "condition": "各触发 2 次「有难同当」、「保持距离」与「电磁脉冲 ProMax」。",
+      "availability": "active",
+      "displayExpr": "\"生命守护生命\"",
+      "colorExpr": "heroColor[28]"
+    },
+    {
+      "key": "PHANTOM_THIEF",
+      "label": "怪盗",
+      "category": "随机事件系列",
+      "condition": "触发 10 次「窃贼」。",
+      "availability": "active",
+      "displayExpr": "\"怪盗\"",
+      "colorExpr": "heroColor[22]"
     }
   ],
   "players": [
