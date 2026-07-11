@@ -139,7 +139,7 @@
 #!define STR_EVT_MECH_5_TITLE "Fart Power"
 #!define STR_EVT_MECH_5_DESC "Hold {0} to fly forward.\nGain {1}% damage reduction while flying."
 #!define STR_EVT_MECH_6_TITLE "Gambler: Speedrun"
-#!define STR_EVT_MECH_6_DESC "Hold {0} to spend {1}% HP.\n{2}% chance to permanently gain/lose {3}% movement speed.\n{4}% chance to permanently gain/lose {5}% movement speed."
+#!define STR_EVT_MECH_6_DESC "Hold {0} to spend {1} Heartsteel stacks.\n{2}% chance to permanently gain/lose {3}% movement speed.\n{4}% chance to permanently gain/lose {5}% movement speed."
 # ------------------------------------------------
 # Random Pack 4: Buffs
 # ------------------------------------------------

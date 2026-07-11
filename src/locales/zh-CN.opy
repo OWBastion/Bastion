@@ -146,7 +146,7 @@
 #!define STR_EVT_MECH_5_TITLE "屁动力"
 #!define STR_EVT_MECH_5_DESC "长按{0}朝你的前方飞行\n飞行时获得{1}%伤害减免"
 #!define STR_EVT_MECH_6_TITLE "赌徒：竞速挑战"
-#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}%生命值\n{2}%概率永久获得/损失{3}%移速加成\n{4}%概率永久获得/损失{5}%移速加成"
+#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}层心之钢\n{2}%概率永久获得/损失{3}%移速加成\n{4}%概率永久获得/损失{5}%移速加成"
 
 # ------------------------------------------------
 # 随机事件包 4：增益 (Buff Events Pack 4)

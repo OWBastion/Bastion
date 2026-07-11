@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 赌徒：竞速挑战":
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
         smallMessage(eventPlayer, "  {0}  心之钢层数不足".format(iconString(Icon.DIAMOND)))
     else:
-        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_6_HP_PENALTY
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_6_HEARTSTEEL_COST
         eventPlayer.temp = random.uniform(0, 100)
         if eventPlayer.temp <= EVT_MECH_6_PROB_WIN_NORMAL:
             eventPlayer.mod_speed_perma += EVT_MECH_6_VAL_NORMAL
