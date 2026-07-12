@@ -5,8 +5,6 @@
 #!include "utilities/dev_support/macros.opy"
 #!include "heroes/settings/team_rules.opy"
 #!include "heroes/settings/all_teams.opy"
-#!include "heroes/settings/dev_overrides.opy"
-#!include "heroes/settings/dev_heroes_settings.opy"
 
 settings {
     "main": {

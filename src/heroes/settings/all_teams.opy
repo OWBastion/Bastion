@@ -163,3 +163,5 @@ macro HERO_SETTINGS_ALL_TEAMS_BASE = {
         "passiveUltGen%": 0
     }
 }
+
+macro HERO_SETTINGS_ALL_TEAMS = HERO_SETTINGS_ALL_TEAMS_BASE
