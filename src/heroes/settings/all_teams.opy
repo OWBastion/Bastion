@@ -1,4 +1,4 @@
-macro HERO_SETTINGS_ALL_TEAMS_BASE = {
+macro HERO_SETTINGS_ALL_TEAMS = {
     "dva": {
         "ability1Cooldown%": 125
     },
@@ -163,5 +163,3 @@ macro HERO_SETTINGS_ALL_TEAMS_BASE = {
         "passiveUltGen%": 0
     }
 }
-
-macro HERO_SETTINGS_ALL_TEAMS = HERO_SETTINGS_ALL_TEAMS_BASE
