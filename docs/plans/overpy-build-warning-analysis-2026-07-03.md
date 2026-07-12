@@ -177,8 +177,8 @@ If the intended behavior is "stay alive until Ana is no longer present," use `Ma
   - `The variable or subroutine name 'phase_trigger' will not be able to be pasted by English players, as it contains the word 'rigger'.`
   - `The variable or subroutine name 'altFormTrigger' will not be able to be pasted by English players, as it contains the word 'rigger'.`
 - Code locations:
-  - [src/env/vars_shared.opy](/Users/teakowa/Repos/teakowa/Bastion/src/env/vars_shared.opy:165)
-  - [src/env/vars_shared.opy](/Users/teakowa/Repos/teakowa/Bastion/src/env/vars_shared.opy:174)
+  - [src/env/vars.opy](/Users/teakowa/Repos/teakowa/Bastion/src/env/vars.opy:165)
+  - [src/env/vars.opy](/Users/teakowa/Repos/teakowa/Bastion/src/env/vars.opy:174)
 - Risk: medium-low. This is primarily a pasteability / user-facing naming restriction for English clients, not a logic bug.
 
 ### Options

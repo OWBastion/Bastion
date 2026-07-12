@@ -1,4 +1,4 @@
-macro HERO_SETTINGS_ALL_TEAMS_SHARED = {
+macro HERO_SETTINGS_ALL_TEAMS_BASE = {
     "dva": {
         "ability1Cooldown%": 125
     },

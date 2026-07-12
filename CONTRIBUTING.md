@@ -65,7 +65,7 @@ Find the owning module before editing:
 - `src/config/`: event config (weights, durations, toggles) / 事件配置（权重、时长、开关）
 - `src/map/`: map points and flow / 地图点位与流程
 - `src/heroes/`: hero abilities and restrictions / 英雄能力与限制
-- `src/utilities/`: shared utilities / 通用工具逻辑
+- `src/utilities/`: common utilities / 通用工具逻辑
 - `src/player/`: player state/init/achievements / 玩家状态、初始化、成就
 - `src/effects/`: gameplay and visual effects / 玩法与视觉效果
 - `src/env/`: env and version macros / 环境与版本宏
@@ -83,6 +83,8 @@ Find the owning module before editing:
    - `src/config/eventConfigDev.opy`
 4. Seasonal/special-event logic should live in dedicated branches, not in the mainline general logic.  
    季节/活动特化逻辑应放到专用分支，不直接进入主线通用逻辑。
+5. Do not use `shared` in project-owned names to describe common configuration or behavior. Use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.  
+   项目自产文件、目录、宏和标识符不得使用 `shared` 表示共用配置或行为；应使用职责名称，基础宏使用 `BASE`，入口差异使用 `MAIN` / `DEV`。
 
 ## 5. Performance Rules / 性能与稳定性硬规则
 

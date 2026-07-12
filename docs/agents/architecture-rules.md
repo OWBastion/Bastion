@@ -11,6 +11,7 @@ This document is the canonical rule source for entry architecture and structural
    - `src/config/eventConfigDev.opy`
 4. Seasonal/event-specific logic belongs to dedicated follow-up branches, not current mainline.
 5. Prefer minimal-scope changes in owning module before cross-directory edits.
+6. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
 
 ## Validation Expectations
 

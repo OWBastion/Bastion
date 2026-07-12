@@ -15,6 +15,7 @@ This file is the minimal entrypoint for AI agents. Detailed rules are canonical 
 2. Do not bypass commit hooks (`git commit --no-verify` is forbidden).
 3. Do not implement seasonal/event-specific content on current mainline.
 4. Do not preload all docs; read only routed files for the task.
+5. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
 
 ## Task-to-Doc Routing
 

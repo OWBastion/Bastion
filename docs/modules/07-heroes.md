@@ -4,7 +4,7 @@
 
 - 聚合：`all_hero.opy`
 - 子模块：`ana`, `dva`, `juno`, `lifeweaver`, `mercy`, `reinhardt`, `symmetra`, `zenyatta`
-- 英雄设置分层：`settings/shared_team_rules.opy`、`settings/shared_all_teams.opy`、`settings/main_overrides.opy`、`settings/dev_overrides.opy`
+- 英雄设置分层：`settings/team_rules.opy`、`settings/all_teams.opy`、`settings/main_overrides.opy`、`settings/dev_overrides.opy`
 - 入口组装：`settings/main_heroes_settings.opy`、`settings/dev_heroes_settings.opy`
 
 ## 设计思路
@@ -50,4 +50,4 @@
 
 - 新英雄规则优先单文件维护，再接入 `all_hero.opy`
 - 如涉及事件联动，尽量在事件层设置标记，在英雄层只做行为响应
-- 调整 Workshop 的英雄参数时，优先维护 `settings/shared_*`；只有主开发入口需要差异时，才写入对应 `*_overrides.opy`
+- 调整 Workshop 的英雄参数时，优先维护 `settings/team_rules.opy` 或 `settings/all_teams.opy`；只有主开发入口需要差异时，才写入对应 `*_overrides.opy`

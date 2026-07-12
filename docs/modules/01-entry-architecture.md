@@ -64,6 +64,6 @@
 ## 关键注意点
 
 - include 顺序敏感，不能随意重排。
-- `settings.heroes` 已从入口内联块拆分到 `heroes/settings/`，新增英雄设置优先改 shared 文件，入口差异通过 `main_overrides.opy` / `dev_overrides.opy` 处理。
+- `settings.heroes` 已从入口内联块拆分到 `heroes/settings/`，新增英雄设置优先改职责明确的基础配置文件，入口差异通过 `main_overrides.opy` / `dev_overrides.opy` 处理。
 - 新增全局变量时需谨慎维护索引稳定性，避免覆盖既有槽位。
 - 修改 utilities 时，优先改分组目录下真实文件，不要把业务逻辑写回旧路径 shim。
