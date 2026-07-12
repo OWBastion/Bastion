@@ -20,8 +20,7 @@ settings {
         "team2Slots": LOBBY_TEAM2_SLOTS,
         "spectatorSlots": LOBBY_SPECTATOR_SLOTS_MAIN,
         "returnToLobby": "never",
-        "allowPlayersInQueue": false,
-        "dataCenterPreference": "中国深圳"
+        "allowPlayersInQueue": false
     },
     "gamemodes": {
         "ctf": {
