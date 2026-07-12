@@ -196,7 +196,7 @@ rule "initialize effects":
     hudSubheader(getAllPlayers(), STR_HUD_AUTO_RESTART.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor((rebootTime - getTotalTimeElapsed()) / 3600)) if rebootTime - getTotalTimeElapsed() > 3599 else "", STR_TIME_UNIT_MIN.format(floor(((rebootTime - getTotalTimeElapsed()) % 3600) / 60)) if rebootTime - getTotalTimeElapsed() > 59 else "", STR_TIME_UNIT_SEC.format(floor((rebootTime - getTotalTimeElapsed()) % 60)))), HudPosition.RIGHT, -4, Color.YELLOW if rebootTime - getTotalTimeElapsed() <= 600 else Color.GRAY, HudReeval.VISIBILITY_STRING_AND_COLOR)
     
     # 开发者面板 (Dev Player)
-    hudSubheader(devPlayer, STR_HUD_SERVER_UPTIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(getTotalTimeElapsed() / 3600)) if getTotalTimeElapsed() >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(getTotalTimeElapsed() % 3600 / 60)) if getTotalTimeElapsed() >= 60 else "", STR_TIME_UNIT_SEC.format(floor(getTotalTimeElapsed() % 60)))), HudPosition.RIGHT, -4, Color.GRAY, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(getPlayers(Team.1).filter(lambda player: player.isDev), STR_HUD_SERVER_UPTIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(getTotalTimeElapsed() / 3600)) if getTotalTimeElapsed() >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(getTotalTimeElapsed() % 3600 / 60)) if getTotalTimeElapsed() >= 60 else "", STR_TIME_UNIT_SEC.format(floor(getTotalTimeElapsed() % 60)))), HudPosition.RIGHT, -4, Color.GRAY, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(getAllPlayers(), STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # 版本号

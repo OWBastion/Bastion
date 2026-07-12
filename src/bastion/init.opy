@@ -88,7 +88,7 @@ rule "Apply player damage reduction":
     @Condition difficulty != 5
     @Condition dmgReduction == false
     
-    startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not "{0}".format(player) in devList], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
+    startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not player.isDev], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
 
 
 rule "Disable player HUD":

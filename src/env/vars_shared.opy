@@ -20,7 +20,6 @@ globalvar targetPlayer 28
 globalvar targetPlayerIndex 29
 globalvar thirdPersonPosition 30
 globalvar debugMode 31
-globalvar devPlayer 33
 globalvar bastionBotSeconFire 34
 
 globalvar controlCenterPosition 36

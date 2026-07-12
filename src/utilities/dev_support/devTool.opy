@@ -212,7 +212,7 @@ rule "Increase difficulty":
     difficulty++
     setDifficulty()
     wait(getAverageServerLoad() / 100 * 0.032)
-    smallMessage(devPlayer, "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
 
 
 rule "Decrease difficulty":
@@ -226,7 +226,7 @@ rule "Decrease difficulty":
     difficulty--
     setDifficulty()
     wait(getAverageServerLoad() / 100 * 0.032)
-    smallMessage(devPlayer, "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
 
 
 rule "Extend reboot timer":
@@ -239,7 +239,7 @@ rule "Extend reboot timer":
     if rebootTime + 300 <= 15900 and __currentMap___ != Map.AYUTTHAYA:
         rebootTime += 300
         if eventPlayer.isDev:
-            smallMessage(devPlayer, "  {0}  开发者模式： 已将自动重开时间延长 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
+            smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将自动重开时间延长 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
         else:
             smallMessage(getAllPlayers(), "  {0}  模式调整： 房主已将自动重开时间延长 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
     else:
@@ -256,7 +256,7 @@ rule "Reduce reboot timer":
     if rebootTime - 300 >= 300 and __currentMap___ != Map.AYUTTHAYA:
         rebootTime -= 300
         if eventPlayer.isDev:
-            smallMessage(devPlayer, "  {0}  开发者模式： 已将自动重开时间缩短 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
+            smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将自动重开时间缩短 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
         else:
             smallMessage(getAllPlayers(), "  {0}  模式调整： 房主已将自动重开时间缩短 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
 
@@ -354,9 +354,9 @@ rule "Restart match":
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    smallMessage(devPlayer, "  {0}  开发者模式： 长按 {1} 进行重启".format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD)))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 长按 {1} 进行重启".format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD)))
     wait(2, Wait.ABORT_WHEN_FALSE)
-    smallMessage(devPlayer, "  {0}  开发者模式： 正在重启...".format(iconString(Icon.BOLT)))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 正在重启...".format(iconString(Icon.BOLT)))
     wait(2, Wait.ABORT_WHEN_FALSE)
     restartMatch()
 
@@ -374,7 +374,7 @@ rule "Select host target":
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
     wait(getAverageServerLoad() / 100 * 0.032)
-    smallMessage(devPlayer.concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if targetPlayer == null else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if targetPlayer == null else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
 rule "Kick host target":
@@ -383,13 +383,13 @@ rule "Kick host target":
     @Condition eventPlayer.menu == 1
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    if targetPlayer == null or targetPlayer in devPlayer:
+    if targetPlayer == null or targetPlayer.isDev:
         return
-    smallMessage(devPlayer.concat(hostPlayer), STR_MSG_ADMIN_HOLD_TO_KICK.format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_HOLD_TO_KICK.format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD), targetPlayer))
     wait(2, Wait.ABORT_WHEN_FALSE)
-    smallMessage(devPlayer.concat(hostPlayer), STR_MSG_ADMIN_KICK_WARNING.format(iconString(Icon.BOLT), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_KICK_WARNING.format(iconString(Icon.BOLT), targetPlayer))
     wait(1, Wait.ABORT_WHEN_FALSE)
-    smallMessage(devPlayer.concat(hostPlayer), STR_MSG_ADMIN_KICK_SUCCESS.format(iconString(Icon.BOLT), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_KICK_SUCCESS.format(iconString(Icon.BOLT), targetPlayer))
     if "{0}".format(targetPlayer) in blackList:
         goto lbl_0
     blackList.append("{0}".format(targetPlayer))
@@ -413,7 +413,7 @@ rule "Select dev target":
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
     wait(getAverageServerLoad() / 100 * 0.032)
-    smallMessage(devPlayer, "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if targetPlayer == null else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if targetPlayer == null else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
 rule "Kick dev target":
@@ -422,13 +422,13 @@ rule "Kick dev target":
     @Condition eventPlayer.menu == 2
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
     
-    if targetPlayer == null or targetPlayer in devPlayer:
+    if targetPlayer == null or targetPlayer.isDev:
         return
-    smallMessage(devPlayer, "  {0}  开发者模式： 长按 {1} 移除 {2}".format(iconString(Icon.BOLT), inputBindingString(Button.ULTIMATE), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 长按 {1} 移除 {2}".format(iconString(Icon.BOLT), inputBindingString(Button.ULTIMATE), targetPlayer))
     wait(2, Wait.ABORT_WHEN_FALSE)
-    smallMessage(devPlayer, "  {0}  开发者模式： 即将移除玩家 {1}".format(iconString(Icon.BOLT), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 即将移除玩家 {1}".format(iconString(Icon.BOLT), targetPlayer))
     wait(1, Wait.ABORT_WHEN_FALSE)
-    smallMessage(devPlayer, "  {0}  开发者模式： 已移除玩家 {1}".format(iconString(Icon.BOLT), targetPlayer))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已移除玩家 {1}".format(iconString(Icon.BOLT), targetPlayer))
     if "{0}".format(targetPlayer) in blackList:
         goto lbl_0
     blackList.append("{0}".format(targetPlayer))
