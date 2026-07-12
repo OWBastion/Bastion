@@ -7,12 +7,13 @@
 rule "Disable Life Grip":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
-    @Condition eventPlayer.isWinner != true
+    @Hero lifeweaver
+    #@Condition eventPlayer.getHero() == Hero.LIFEWEAVER
+    @Condition eventPlayer.isWinner == true
     
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.setAbility2Enabled(false)
-    waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.LIFEWEAVER, Math.INFINITY)
+    # eventPlayer.disallowButton(Button.ABILITY_2)
+    # eventPlayer.setAbility2Enabled(false)
+    # waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.LIFEWEAVER, Math.INFINITY)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setAbility2Enabled(true)
 
