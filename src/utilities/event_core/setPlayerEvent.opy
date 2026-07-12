@@ -20,9 +20,9 @@ def setPlayerEvent():
         buildCandidatePool()
         wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
-        eventPlayer.eventName = buffEvent[eventPlayer.eventId][0]
-        eventPlayer.eventDesc = buffEvent[eventPlayer.eventId][1]
-        eventPlayer.eventDuration = buffEvent[eventPlayer.eventId][2]
+        eventPlayer.eventName = buffEventName[eventPlayer.eventId]
+        eventPlayer.eventDesc = buffEventDesc[eventPlayer.eventId]
+        eventPlayer.eventDuration = buffEventDuration[eventPlayer.eventId]
         if eventPlayer.eventId == BuffEventId.OLIVIA_GIFT:
             goto lbl_0
         eventPlayer.eventCount[EventType.BUFF]++
@@ -33,9 +33,9 @@ def setPlayerEvent():
         buildCandidatePool()
         wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
-        eventPlayer.eventName = debuffEvent[eventPlayer.eventId][0]
-        eventPlayer.eventDesc = debuffEvent[eventPlayer.eventId][1]
-        eventPlayer.eventDuration = debuffEvent[eventPlayer.eventId][2]
+        eventPlayer.eventName = debuffEventName[eventPlayer.eventId]
+        eventPlayer.eventDesc = debuffEventDesc[eventPlayer.eventId]
+        eventPlayer.eventDuration = debuffEventDuration[eventPlayer.eventId]
         eventPlayer.eventCount[EventType.DEBUFF]++
         eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
     else:
@@ -43,9 +43,9 @@ def setPlayerEvent():
         buildCandidatePool()
         wait(getAverageServerLoad() / 100 * 0.032)
         rejecSampling()
-        eventPlayer.eventName = mechEvent[eventPlayer.eventId][0]
-        eventPlayer.eventDesc = mechEvent[eventPlayer.eventId][1]
-        eventPlayer.eventDuration = mechEvent[eventPlayer.eventId][2]
+        eventPlayer.eventName = mechEventName[eventPlayer.eventId]
+        eventPlayer.eventDesc = mechEventDesc[eventPlayer.eventId]
+        eventPlayer.eventDuration = mechEventDuration[eventPlayer.eventId]
         eventPlayer.eventCount[EventType.MECH]++
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:

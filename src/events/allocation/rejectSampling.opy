@@ -16,7 +16,7 @@ def rejecSampling():
         if eventPlayer.eventLoopCount > 0:
             wait(0.016)
         eventPlayer.eventCandidateId = random.choice(eventPlayer.eventTempId)
-        eventPlayer.eventTempWeight = (buffEvent[eventPlayer.eventCandidateId][3] if eventPlayer.eventType == EventType.BUFF else debuffEvent[eventPlayer.eventCandidateId][3] if eventPlayer.eventType == EventType.DEBUFF else mechEvent[eventPlayer.eventCandidateId][3])
+        eventPlayer.eventTempWeight = (buffEventWeight[eventPlayer.eventCandidateId] if eventPlayer.eventType == EventType.BUFF else debuffEventWeight[eventPlayer.eventCandidateId] if eventPlayer.eventType == EventType.DEBUFF else mechEventWeight[eventPlayer.eventCandidateId])
         if random.uniform(0, eventWeight) < eventPlayer.eventTempWeight:
             eventPlayer.eventId = eventPlayer.eventCandidateId
             eventPlayer.eventIsSelected = true

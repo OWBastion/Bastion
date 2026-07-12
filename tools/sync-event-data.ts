@@ -108,9 +108,9 @@ function parseConfigRegistrationKeys(configText) {
   };
 
   const patterns = [
-    { type: 'buff', regex: /buffEvent\[\s*BuffEventId\.([A-Z0-9_]+)\s*\]\s*=/g },
-    { type: 'debuff', regex: /debuffEvent\[\s*DebuffEventId\.([A-Z0-9_]+)\s*\]\s*=/g },
-    { type: 'mech', regex: /mechEvent\[\s*MechEventId\.([A-Z0-9_]+)\s*\]\s*=/g }
+    { type: 'buff', regex: /buffEventName\[\s*BuffEventId\.([A-Z0-9_]+)\s*\]\s*=/g },
+    { type: 'debuff', regex: /debuffEventName\[\s*DebuffEventId\.([A-Z0-9_]+)\s*\]\s*=/g },
+    { type: 'mech', regex: /mechEventName\[\s*MechEventId\.([A-Z0-9_]+)\s*\]\s*=/g }
   ];
 
   for (const { type, regex } of patterns) {
@@ -170,28 +170,34 @@ function splitTopLevelComma(text) {
 }
 
 function parseEventDescriptionFormatArgs(configText) {
-  const matchRegex = /(buffEvent|debuffEvent|mechEvent)\[\s*(BuffEventId|DebuffEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*\[([\s\S]*?)\]/g;
   const result = new Map();
 
-  for (const match of configText.matchAll(matchRegex)) {
-    const eventKey = match[3];
-    const fields = splitTopLevelComma(match[4]);
-    if (fields.length < 2) {
-      continue;
-    }
-
-    const descExpr = fields[1].replace(/\s+/g, ' ').trim();
+  const registerDescription = (eventKey, rawDescription) => {
+    const descExpr = rawDescription.replace(/\s+/g, ' ').trim();
     if (!descExpr.startsWith('STR_') || !descExpr.includes('_DESC')) {
-      continue;
+      return;
     }
 
     const formatMatch = descExpr.match(/^STR_[A-Z0-9_]+_DESC\.format\(([\s\S]*)\)$/);
     if (!formatMatch) {
       result.set(eventKey, []);
-      continue;
+      return;
     }
 
     result.set(eventKey, splitTopLevelComma(formatMatch[1]));
+  };
+
+  const legacyRegex = /(buffEvent|debuffEvent|mechEvent)\[\s*(BuffEventId|DebuffEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*\[([\s\S]*?)\]/g;
+  for (const match of configText.matchAll(legacyRegex)) {
+    const fields = splitTopLevelComma(match[4]);
+    if (fields.length >= 2) {
+      registerDescription(match[3], fields[1]);
+    }
+  }
+
+  const flatRegex = /(buff|debuff|mech)EventDesc\[\s*(BuffEventId|DebuffEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*([^\n]+)$/gm;
+  for (const match of configText.matchAll(flatRegex)) {
+    registerDescription(match[3], match[4]);
   }
 
   return result;
@@ -256,21 +262,10 @@ function parseWeightConstantByEventKey(configText) {
     mech: new Map()
   };
   const assignmentRegex =
-    /(buffEvent|debuffEvent|mechEvent)\[\s*(BuffEventId|DebuffEventId|MechEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*\[([\s\S]*?)\]/g;
+    /(buff|debuff|mech)EventWeight\[\s*(BuffEventId|DebuffEventId|MechEventId)\.([A-Z0-9_]+)\s*\]\s*=\s*(EVT_(?:BUFF|DEBUFF|MECH)_\d+_WEIGHT)\b/g;
 
   for (const match of configText.matchAll(assignmentRegex)) {
-    const containerName = match[1];
-    const eventKey = match[3];
-    const fields = splitTopLevelComma(match[4]);
-    if (fields.length < 4) {
-      continue;
-    }
-    const weightExpr = fields[3].trim();
-    if (!/^EVT_(BUFF|DEBUFF|MECH)_\d+_WEIGHT$/.test(weightExpr)) {
-      continue;
-    }
-    const type = containerName === 'buffEvent' ? 'buff' : containerName === 'debuffEvent' ? 'debuff' : 'mech';
-    weightsByTypeAndKey[type].set(eventKey, weightExpr);
+    weightsByTypeAndKey[match[1]].set(match[3], match[4]);
   }
 
   return weightsByTypeAndKey;

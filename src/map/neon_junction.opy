@@ -23,5 +23,5 @@ rule "map - 霓虹枢纽":
         DATA_NEON_JUNCTION[2].split("-")
     ]
 
-    waitUntil(len(allTitle) > TITLE.PIONEER, Math.INFINITY)
-    allTitle[TITLE.PIONEER][1] = vect(250, 120, 115)
+    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+    titleColor[TITLE.PIONEER] = vect(250, 120, 115)

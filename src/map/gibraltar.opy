@@ -34,8 +34,8 @@ rule "map - watchpoint gibraltar":
         DATA_WATCHPOINT_GIBRALTAR[2].split("-")
     ]
 
-    waitUntil(len(allTitle) > TITLE.PIONEER, Math.INFINITY)
+    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
     if __currentMapPioneerText___ == "守望先锋":
-        allTitle[TITLE.PIONEER][1] = vect(240, 101, 20)
+        titleColor[TITLE.PIONEER] = vect(240, 101, 20)
     else:
-        allTitle[TITLE.PIONEER][1] = vect(227, 3, 3)
+        titleColor[TITLE.PIONEER] = vect(227, 3, 3)

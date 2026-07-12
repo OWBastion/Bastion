@@ -693,123 +693,241 @@ rule "initialize title array":
     wait(getAverageServerLoad() / 100 * 0.5)
     waitUntil(__currentMap___ != null, Math.INFINITY)
     # BEGIN AUTO-GENERATED ALL_TITLE
-    allTitle = [
+    titleText = [
         # 0: PIONEER
-        ["{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者"), heroColor[12]],
+        "{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者"),
         # 1: TEST_LONG
-        ["这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡", null],
+        "这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡",
         # 2: NOT_MY_MAP
-        ["地图不是我做的", null],
+        "地图不是我做的",
         # 3: WILD_DEV
-        ["野生开发者", null],
+        "野生开发者",
         # 4: ARCHITECT
-        ["堡垒建筑师", null],
+        "堡垒建筑师",
         # 5: MAINTAINER
-        ["友善的地图维护者", null],
+        "友善的地图维护者",
         # 6: THREE_IN_ONE
-        ["三合一地图作者", null],
+        "三合一地图作者",
         # 7: BLACK_SHEEP
-        ["骇人鲸", null],
+        "骇人鲸",
         # 8: PURE_HARM
-        ["纯害战士", null],
+        "纯害战士",
         # 9: CONQUEROR
-        ["{0}征服者".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap()), heroColor[43]],
+        "{0}征服者".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap()),
         # 10: DOMINATOR
-        ["{0}主宰".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap()), heroColor[44]],
+        "{0}主宰".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap()),
         # 11: SURVIVOR_EXPERT
-        ["专家幸存者", vect(236, 153, 0)],
+        "专家幸存者",
         # 12: CHALLENGER_LEGEND
-        ["传奇挑战者", vect(200, 0, 19)],
+        "传奇挑战者",
         # 13: TRAVELER_HELL
-        ["地狱穿梭者", vect(161, 73, 197)],
+        "地狱穿梭者",
         # 14: DODGE_ULTIMATE
-        ["终极闪避", heroColor[1]],
+        "终极闪避",
         # 15: LIGHT_PACK
-        ["轻装上阵", heroColor[2]],
+        "轻装上阵",
         # 16: FLAWLESS
-        ["完美无缺", vect(0, 230, 151)],
+        "完美无缺",
         # 17: NEVER_GIVE_UP
-        ["永不言弃", vect(0, 230, 151)],
+        "永不言弃",
         # 18: PERSEVERANCE
-        ["坚韧不拔", vect(255, 255, 255)],
+        "坚韧不拔",
         # 19: SPEEDRUN
-        ["速通传奇", vect(0, 230, 151)],
+        "速通传奇",
         # 20: DODGE_GOD
-        ["闪避の神", heroColor[28]],
+        "闪避の神",
         # 21: ZENYATTA
-        ["智瞳开拓者", heroColor[12]],
+        "智瞳开拓者",
         # 22: HARD_TO_KILL
-        ["大难不死", heroColor[45]],
+        "大难不死",
         # 23: WIN_HEAVEN
-        ["胜天半子", breathPalette.orange],
+        "胜天半子",
         # 24: IDOL
-        ["堡垒の偶像", vect(200, 0, 19)],
+        "堡垒の偶像",
         # 25: EGG_FIRST
-        ["第一颗蛋", vect(200, 0, 19)],
+        "第一颗蛋",
         # 26: EAT_MORE
-        ["我还能吃", vect(238, 75, 43)],
+        "我还能吃",
         # 27: ALL_IN_ONE
-        ["万象归一", breathPalette.red],
+        "万象归一",
         # 28: TRAVELER
-        ["守望旅行家", heroColor[33]],
+        "守望旅行家",
         # 29: SKY
-        ["万域天穹", breathPalette.purple],
+        "万域天穹",
         # 30: FLAME
-        ["狂暴烈焰", heroColor[28]],
+        "狂暴烈焰",
         # 31: PASS_EGGS
-        ["万蛋丛中过", heroColor[28]],
+        "万蛋丛中过",
         # 32: CHOSEN
-        ["天选之子", heroColor[11]],
+        "天选之子",
         # 33: LUCKY_STAR
-        ["幸运星", heroColor[3]],
+        "幸运星",
         # 34: GAMBLE_KING
-        ["赌王", breathPalette.gold],
+        "赌王",
         # 35: LUCKY_SHINE
-        ["福星高照", heroColor[32]],
+        "福星高照",
         # 36: UNLUCKY
-        ["倒霉蛋", heroColor[22]],
+        "倒霉蛋",
         # 37: MANBA
-        ["What can i say", heroColor[11]],
+        "What can i say",
         # 38: MY_FATE
-        ["我命由我", breathPalette.blue],
+        "我命由我",
         # 39: GOD_GAMBLER
-        ["赌神", breathPalette.gold],
+        "赌神",
         # 40: LAO_DA
-        [" 牢 大 ", null],
+        " 牢 大 ",
         # 41: V_50
-        ["V我50", heroColor[37]],
+        "V我50",
         # 42: STEEL
-        ["钢门", heroColor[11]],
+        "钢门",
         # 43: HACKING
-        ["开了", heroColor[20]],
+        "开了",
         # 44: RED_PACKET
-        ["红包收藏家", heroColor[43]],
+        "红包收藏家",
         # 45: GOOD_LUCK
-        ["好运来", breathPalette.gold],
+        "好运来",
         # 46: LONE_WALKER
-        ["千里独行", heroColor[33]],
+        "千里独行",
         # 47: GREEN_MOUNTAIN
-        ["踏遍青山", vect(0, 200, 50)],
+        "踏遍青山",
         # 48: SUAN_BU_LA
-        ["我不会放过你的酸不辣", heroColor[18]],
+        "我不会放过你的酸不辣",
         # 49: EVENT5_GAMBLE_SAINT
-        ["赌圣", breathPalette.gold],
+        "赌圣",
         # 50: EVENT5_BLACK_SHEEP
-        ["害群之马", heroColor[3]],
+        "害群之马",
         # 51: EVENT5_I_WANT_TO_CHECK_CARDS
-        ["我要验牌", heroColor[3]],
+        "我要验牌",
         # 52: EVENT5_CARDS_ARE_FINE
-        ["牌没有问题", heroColor[3]],
+        "牌没有问题",
         # 53: GREAT_BENEFACTOR
-        ["大舍天下", vect(0, 200, 50)],
+        "大舍天下",
         # 54: BREAK_ATMOSPHERE
-        ["冲出地表", vect(192, 192, 192)],
+        "冲出地表",
         # 55: LIST_THEM
-        ["把他们上市", breathPalette.gold],
+        "把他们上市",
         # 56: LIFE_GUARDS_LIFE
-        ["生命守护生命", heroColor[28]],
+        "生命守护生命",
         # 57: PHANTOM_THIEF
-        ["怪盗", heroColor[22]]
+        "怪盗"
+    ]
+    titleColor = [
+        # 0: PIONEER
+        heroColor[12],
+        # 1: TEST_LONG
+        null,
+        # 2: NOT_MY_MAP
+        null,
+        # 3: WILD_DEV
+        null,
+        # 4: ARCHITECT
+        null,
+        # 5: MAINTAINER
+        null,
+        # 6: THREE_IN_ONE
+        null,
+        # 7: BLACK_SHEEP
+        null,
+        # 8: PURE_HARM
+        null,
+        # 9: CONQUEROR
+        heroColor[43],
+        # 10: DOMINATOR
+        heroColor[44],
+        # 11: SURVIVOR_EXPERT
+        vect(236, 153, 0),
+        # 12: CHALLENGER_LEGEND
+        vect(200, 0, 19),
+        # 13: TRAVELER_HELL
+        vect(161, 73, 197),
+        # 14: DODGE_ULTIMATE
+        heroColor[1],
+        # 15: LIGHT_PACK
+        heroColor[2],
+        # 16: FLAWLESS
+        vect(0, 230, 151),
+        # 17: NEVER_GIVE_UP
+        vect(0, 230, 151),
+        # 18: PERSEVERANCE
+        vect(255, 255, 255),
+        # 19: SPEEDRUN
+        vect(0, 230, 151),
+        # 20: DODGE_GOD
+        heroColor[28],
+        # 21: ZENYATTA
+        heroColor[12],
+        # 22: HARD_TO_KILL
+        heroColor[45],
+        # 23: WIN_HEAVEN
+        breathPalette.orange,
+        # 24: IDOL
+        vect(200, 0, 19),
+        # 25: EGG_FIRST
+        vect(200, 0, 19),
+        # 26: EAT_MORE
+        vect(238, 75, 43),
+        # 27: ALL_IN_ONE
+        breathPalette.red,
+        # 28: TRAVELER
+        heroColor[33],
+        # 29: SKY
+        breathPalette.purple,
+        # 30: FLAME
+        heroColor[28],
+        # 31: PASS_EGGS
+        heroColor[28],
+        # 32: CHOSEN
+        heroColor[11],
+        # 33: LUCKY_STAR
+        heroColor[3],
+        # 34: GAMBLE_KING
+        breathPalette.gold,
+        # 35: LUCKY_SHINE
+        heroColor[32],
+        # 36: UNLUCKY
+        heroColor[22],
+        # 37: MANBA
+        heroColor[11],
+        # 38: MY_FATE
+        breathPalette.blue,
+        # 39: GOD_GAMBLER
+        breathPalette.gold,
+        # 40: LAO_DA
+        null,
+        # 41: V_50
+        heroColor[37],
+        # 42: STEEL
+        heroColor[11],
+        # 43: HACKING
+        heroColor[20],
+        # 44: RED_PACKET
+        heroColor[43],
+        # 45: GOOD_LUCK
+        breathPalette.gold,
+        # 46: LONE_WALKER
+        heroColor[33],
+        # 47: GREEN_MOUNTAIN
+        vect(0, 200, 50),
+        # 48: SUAN_BU_LA
+        heroColor[18],
+        # 49: EVENT5_GAMBLE_SAINT
+        breathPalette.gold,
+        # 50: EVENT5_BLACK_SHEEP
+        heroColor[3],
+        # 51: EVENT5_I_WANT_TO_CHECK_CARDS
+        heroColor[3],
+        # 52: EVENT5_CARDS_ARE_FINE
+        heroColor[3],
+        # 53: GREAT_BENEFACTOR
+        vect(0, 200, 50),
+        # 54: BREAK_ATMOSPHERE
+        vect(192, 192, 192),
+        # 55: LIST_THEM
+        breathPalette.gold,
+        # 56: LIFE_GUARDS_LIFE
+        heroColor[28],
+        # 57: PHANTOM_THIEF
+        heroColor[22]
     ]
     # END AUTO-GENERATED ALL_TITLE
     playerTitleRelation = player_title_set_pool

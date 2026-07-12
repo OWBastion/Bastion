@@ -15,7 +15,7 @@ def buildCandidatePool():
             if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                 eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            buffEvent[id] != 0 and buffEvent[id].last() > 0 and
+            buffEventWeight[id] != 0 and buffEventWeight[id] > 0 and
             (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
@@ -24,7 +24,7 @@ def buildCandidatePool():
                 if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                     eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
             eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                buffEvent[id] != 0 and buffEvent[id].last() > 0
+                buffEventWeight[id] != 0 and buffEventWeight[id] > 0
             )
     elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
@@ -32,7 +32,7 @@ def buildCandidatePool():
         if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
             eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            debuffEvent[id] != 0 and debuffEvent[id].last() > 0 and
+            debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0 and
             (eventPlayer.eventLastId == null or (EventType.DEBUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
@@ -40,11 +40,11 @@ def buildCandidatePool():
             if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
                 eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
             eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                debuffEvent[id] != 0 and debuffEvent[id].last() > 0
+                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
             )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = debuffEventId.filter(lambda id:
-                debuffEvent[id] != 0 and debuffEvent[id].last() > 0
+                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
             )
     else:
         eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
@@ -59,7 +59,7 @@ def buildCandidatePool():
         ].filter(lambda value: value)) < 2:
             eventPlayer.eventTempId.remove(MechEventId.MIRROR_INVERSION)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            mechEvent[id] != 0 and mechEvent[id].last() > 0 and
+            mechEventWeight[id] != 0 and mechEventWeight[id] > 0 and
             (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
         )
         if len(eventPlayer.eventTempId) <= 0:
@@ -74,5 +74,5 @@ def buildCandidatePool():
             ].filter(lambda value: value)) < 2:
                 eventPlayer.eventTempId.remove(MechEventId.MIRROR_INVERSION)
             eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                mechEvent[id] != 0 and mechEvent[id].last() > 0
+                mechEventWeight[id] != 0 and mechEventWeight[id] > 0
             )

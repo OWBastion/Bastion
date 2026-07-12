@@ -21,13 +21,18 @@
 
 ## 事件数据结构
 
-事件条目统一形态：
+事件配置按事件 ID 对齐的字段数组存储：
 
-- `[title, desc, duration, weight]`
+- `*EventName`
+- `*EventDesc`
+- `*EventDuration`
+- `*EventWeight`
 
 全局池：
 
-- `buffEvent`, `debuffEvent`, `mechEvent`
+- `buffEventName`, `buffEventDesc`, `buffEventDuration`, `buffEventWeight`
+- `debuffEventName`, `debuffEventDesc`, `debuffEventDuration`, `debuffEventWeight`
+- `mechEventName`, `mechEventDesc`, `mechEventDuration`, `mechEventWeight`
 - `buffEventId`, `debuffEventId`, `mechEventId`
 
 玩家态：

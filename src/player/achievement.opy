@@ -5,7 +5,7 @@
 
 
 rule "Init Achievement Data":
-    waitUntil(len(allTitle) > 0, Math.INFINITY)
+    waitUntil(len(titleText) > 0, Math.INFINITY)
     challengeTitleIds = [
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
         42, # STEEL 钢门 心之钢层数达到 1200 层

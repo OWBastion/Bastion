@@ -24,4 +24,4 @@ def unlockAchievement():
     eventPlayer.playerTitles.append(eventPlayer.tempUnlockId)
 
     lb_1:
-    smallMessage(eventPlayer, "  {0}  已解锁成就：{1}".format(iconString(Icon.CHECKMARK), allTitle[eventPlayer.tempUnlockId]))
+    smallMessage(eventPlayer, "  {0}  已解锁成就：{1}".format(iconString(Icon.CHECKMARK), titleText[eventPlayer.tempUnlockId]))

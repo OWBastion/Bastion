@@ -35,11 +35,11 @@ rule "hashTag | Event Weight Sum Verify":
     hashTagWeightVerifyState[1] = 0
     I = 0
     for I in range(len(buffEventId)):
-        hashTagWeightVerifyState[1] += buffEvent[buffEventId[I]][3]
+        hashTagWeightVerifyState[1] += buffEventWeight[buffEventId[I]]
     for I in range(len(debuffEventId)):
-        hashTagWeightVerifyState[1] += debuffEvent[debuffEventId[I]][3]
+        hashTagWeightVerifyState[1] += debuffEventWeight[debuffEventId[I]]
     for I in range(len(mechEventId)):
-        hashTagWeightVerifyState[1] += mechEvent[mechEventId[I]][3]
+        hashTagWeightVerifyState[1] += mechEventWeight[mechEventId[I]]
 
     if round(hashTagWeightVerifyState[1] * 1000) != round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000):
         hashTag = false

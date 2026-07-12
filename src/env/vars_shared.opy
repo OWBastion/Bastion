@@ -29,7 +29,8 @@ globalvar controlRespawnPosition 38
 globalvar controlRespawnAxis 39
 globalvar controlRespawnAxisThreshold 40
 globalvar mapTitlePlayersByKey 43
-globalvar allTitle 44
+globalvar titleText 44
+globalvar titleColor
 globalvar titlePlayer 45
 globalvar playerTitleSetIndex 46
 globalvar playerTitleRelation 47
@@ -47,12 +48,21 @@ globalvar eventWeight 65
 globalvar hashTag 69
 globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
-globalvar buffEvent 81
 globalvar buffEventId 82
-globalvar debuffEvent 83
+globalvar buffEventName
+globalvar buffEventDesc
+globalvar buffEventDuration
+globalvar buffEventWeight
 globalvar debuffEventId 84
-globalvar mechEvent 85
+globalvar debuffEventName
+globalvar debuffEventDesc
+globalvar debuffEventDuration
+globalvar debuffEventWeight
 globalvar mechEventId 86
+globalvar mechEventName
+globalvar mechEventDesc
+globalvar mechEventDuration
+globalvar mechEventWeight
 globalvar obstrucVis 89
 globalvar heroColor 90
 globalvar breathPalette 91

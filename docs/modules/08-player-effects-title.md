@@ -60,7 +60,7 @@
 ### `title/title-cn.opy`
 
 - 运行时称号配置载体
-- 受管区块：`enum TITLE`、`player_database`、`allTitle`（由同步脚本生成）
+- 受管区块：`enum TITLE`、`player_database`、`titleText`、`titleColor`（由同步脚本生成）
 - 地图称号映射宏（PIONEER/CONQUEROR/DOMINATOR）
 
 ### `title/init.opy`

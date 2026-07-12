@@ -277,23 +277,23 @@ rule "Next title":
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     wait()
 
-     if allTitle[eventPlayer.playerTitleAndColor][1] == null:
+     if titleColor[eventPlayer.playerTitleAndColor] == null:
         stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.info_pvar = 0
         eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
         eventPlayer.rgb_activated = true
-    elif len(allTitle[eventPlayer.playerTitleAndColor][1]) >= 1:
+    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
         stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1][0]
+        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
         eventPlayer.rgb_activated = true
     else:
-        eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1]
+        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
         eventPlayer.rgb_activated = false
 
     smallMessage(
         eventPlayer,
-        "  {0}  已将称号更改为 {1}".format(iconString(Icon.BOLT), allTitle[eventPlayer.playerTitleAndColor][0])
+        "  {0}  已将称号更改为 {1}".format(iconString(Icon.BOLT), titleText[eventPlayer.playerTitleAndColor])
     )
     wait(getAverageServerLoad() / 100 * 0.032)
 
@@ -316,32 +316,32 @@ rule "Previous title":
     wait()
 
     # 取出全局表里该称号的颜色数据
-    # allTitle[eventPlayer.playerTitleAndColor][1] 可能是: null / [vect, vect, ...] / vect
-    if allTitle[eventPlayer.playerTitleAndColor][1] == null:
+    # titleColor[eventPlayer.playerTitleAndColor] 可能是: null / [vect, vect, ...] / vect
+    if titleColor[eventPlayer.playerTitleAndColor] == null:
         # 无自带颜色 → 用 rgbList 做彩虹
         stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.info_pvar = 0
         eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
         eventPlayer.rgb_activated = true
 
-    elif len(allTitle[eventPlayer.playerTitleAndColor][1]) >= 1:
+    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
         # 多段 RGB 数组
         stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1][0]
+        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
         eventPlayer.rgb_activated = true
 
     else:
         # 单色向量(或其它非数组形式)
-        eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1]
+        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
         eventPlayer.rgb_activated = false
 
-    # 提示文本: 从 allTitle 按ID取标题字符串
+    # 提示文本: 从 titleText 按ID取标题字符串
     smallMessage(
         eventPlayer,
         "  {0}  已将称号更改为 {1}".format(
             iconString(Icon.BOLT),
-            allTitle[eventPlayer.playerTitleAndColor][0]
+            titleText[eventPlayer.playerTitleAndColor]
         )
     )
 
@@ -608,7 +608,8 @@ rule "Unlock all heroes":
         wait(getAverageServerLoad() / 100 * 0.5)
         smallMessage(eventPlayer, "  {0} 开发者模式：已通关".format(iconString(Icon.BOLT)))
 
-#!define getCurrentEventArray() (buffEvent if devEventCategory == 0 else (debuffEvent if devEventCategory == 1 else mechEvent))
+#!define getCurrentEventArray() (buffEventName if devEventCategory == 0 else (debuffEventName if devEventCategory == 1 else mechEventName))
+#!define getCurrentEventWeightArray() (buffEventWeight if devEventCategory == 0 else (debuffEventWeight if devEventCategory == 1 else mechEventWeight))
 #!define getCurrentEventIdArray() (buffEventId if devEventCategory == 0 else (debuffEventId if devEventCategory == 1 else mechEventId))
 
 rule "Display event weights":
@@ -637,13 +638,13 @@ rule "Display event weights":
             
             inputBindingString(Button.ABILITY_2),
             "{0} (Idx: {1})".format(
-                getCurrentEventArray()[devEventIndex][0], 
+                getCurrentEventArray()[devEventIndex], 
                 devEventIndex
             ) if len(getCurrentEventArray()) > 0 else "无事件",
             
             "{0}/{1}".format(inputBindingString(Button.ABILITY_1), inputBindingString(Button.RELOAD)),
             # 获取权重：如果数组长度>=4则取第4个元素，否则默认为 1.0
-            (getCurrentEventArray()[devEventIndex][3] if len(getCurrentEventArray()[devEventIndex]) >= 4 else 1.0) 
+            getCurrentEventWeightArray()[devEventIndex] if getCurrentEventWeightArray()[devEventIndex] != null else 1.0 
             if len(getCurrentEventArray()) > 0 else "N/A",
             
             STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))
@@ -681,24 +682,24 @@ rule "Increase event weight":
     
     # 必须显式区分变量来修改
     if devEventCategory == 0:
-        if len(buffEvent) > 0:
+        if len(buffEventName) > 0:
             # 检查并初始化权重
-            if len(buffEvent[devEventIndex]) < 4:
-                buffEvent[devEventIndex][3] = 1.0
+            if buffEventWeight[devEventIndex] == null:
+                buffEventWeight[devEventIndex] = 1.0
             # 增加权重
-            buffEvent[devEventIndex][3] += 0.1
+            buffEventWeight[devEventIndex] += 0.1
             
     elif devEventCategory == 1:
-        if len(debuffEvent) > 0:
-            if len(debuffEvent[devEventIndex]) < 4:
-                debuffEvent[devEventIndex][3] = 1.0
-            debuffEvent[devEventIndex][3] += 0.1
+        if len(debuffEventName) > 0:
+            if debuffEventWeight[devEventIndex] == null:
+                debuffEventWeight[devEventIndex] = 1.0
+            debuffEventWeight[devEventIndex] += 0.1
             
     elif devEventCategory == 2:
-        if len(mechEvent) > 0:
-            if len(mechEvent[devEventIndex]) < 4:
-                mechEvent[devEventIndex][3] = 1.0
-            mechEvent[devEventIndex][3] += 0.1
+        if len(mechEventName) > 0:
+            if mechEventWeight[devEventIndex] == null:
+                mechEventWeight[devEventIndex] = 1.0
+            mechEventWeight[devEventIndex] += 0.1
             
     wait(0.1)
 
@@ -709,31 +710,31 @@ rule "Decrease event weight":
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
     if devEventCategory == 0:
-        if len(buffEvent) > 0:
-            if len(buffEvent[devEventIndex]) < 4:
-                buffEvent[devEventIndex][3] = 1.0
+        if len(buffEventName) > 0:
+            if buffEventWeight[devEventIndex] == null:
+                buffEventWeight[devEventIndex] = 1.0
             # 减少权重
-            if buffEvent[devEventIndex][3] >= 0.1:
-                buffEvent[devEventIndex][3] -= 0.1
+            if buffEventWeight[devEventIndex] >= 0.1:
+                buffEventWeight[devEventIndex] -= 0.1
             else:
-                buffEvent[devEventIndex][3] = 0
+                buffEventWeight[devEventIndex] = 0
                 
     elif devEventCategory == 1:
-        if len(debuffEvent) > 0:
-            if len(debuffEvent[devEventIndex]) < 4:
-                debuffEvent[devEventIndex][3] = 1.0
-            if debuffEvent[devEventIndex][3] >= 0.1:
-                debuffEvent[devEventIndex][3] -= 0.1
+        if len(debuffEventName) > 0:
+            if debuffEventWeight[devEventIndex] == null:
+                debuffEventWeight[devEventIndex] = 1.0
+            if debuffEventWeight[devEventIndex] >= 0.1:
+                debuffEventWeight[devEventIndex] -= 0.1
             else:
-                debuffEvent[devEventIndex][3] = 0
+                debuffEventWeight[devEventIndex] = 0
 
     elif devEventCategory == 2:
-        if len(mechEvent) > 0:
-            if len(mechEvent[devEventIndex]) < 4:
-                mechEvent[devEventIndex][3] = 1.0
-            if mechEvent[devEventIndex][3] >= 0.1:
-                mechEvent[devEventIndex][3] -= 0.1
+        if len(mechEventName) > 0:
+            if mechEventWeight[devEventIndex] == null:
+                mechEventWeight[devEventIndex] = 1.0
+            if mechEventWeight[devEventIndex] >= 0.1:
+                mechEventWeight[devEventIndex] -= 0.1
             else:
-                mechEvent[devEventIndex][3] = 0
+                mechEventWeight[devEventIndex] = 0
                 
     wait(0.1)

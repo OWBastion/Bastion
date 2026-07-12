@@ -63,5 +63,5 @@ rule "map - 南极半岛":
         DATA_ANTARCTIC_PENINSULA[2].split("-")
     ]
 
-    waitUntil(len(allTitle) > TITLE.PIONEER, Math.INFINITY)
-    allTitle[TITLE.PIONEER][1] = vect(109, 171, 235)
+    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+    titleColor[TITLE.PIONEER] = vect(109, 171, 235)

@@ -51,17 +51,17 @@ rule "when a player joins, load player data if they have it and initialize them"
 
         eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
 
-        if allTitle[eventPlayer.playerTitleAndColor][1] == null:
+        if titleColor[eventPlayer.playerTitleAndColor] == null:
             eventPlayer.info_pvar = 0
             eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
             eventPlayer.rgb_activated = true
-        elif len(allTitle[eventPlayer.playerTitleAndColor][1]) >= 1:
+        elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
             eventPlayer.info_pvar = 0
-            eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1][0]
+            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
             eventPlayer.rgb_activated = true
         else:
             # 单色向量（或你定义的其他形式）
-            eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1]
+            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
             eventPlayer.rgb_activated = false
 
     eventPlayer.obstrucVis = []

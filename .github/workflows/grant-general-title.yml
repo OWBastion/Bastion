@@ -112,6 +112,9 @@ on:
           - '牌没有问题'
           - '大舍天下'
           - '冲出地表'
+          - '把他们上市'
+          - '生命守护生命'
+          - '怪盗'
           # END AUTO-GENERATED GENERAL TITLE OPTIONS
       dry_run:
         description: 'Preview only (do not create PR)'

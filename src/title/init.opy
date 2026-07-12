@@ -18,7 +18,7 @@ rule "Create in-world title":
         [player for player in getAllPlayers() if isInLoS(eventPlayer, player)], 
         "{0} {1}".format(
                 abilityIconString(Hero.TORBJORN, Button.ABILITY_2) if eventPlayer.isDev else "", 
-                allTitle[eventPlayer.playerTitleAndColor][0]
+                titleText[eventPlayer.playerTitleAndColor]
             ), 
             eventPlayer, 
             1 if eventPlayer.isDev else 0.8, 
@@ -33,7 +33,7 @@ rule "Cycle dev rainbow":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.playerTitleAndColor != null
-    @Condition allTitle[eventPlayer.playerTitleAndColor][1] == null
+    @Condition titleColor[eventPlayer.playerTitleAndColor] == null
     
     wait(0.016, Wait.ABORT_WHEN_FALSE)
     eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(rgbList)
@@ -48,19 +48,19 @@ rule "Cycle dev rainbow":
 rule "Cycle palette":
     @Event eachPlayer
     @Condition eventPlayer.playerTitleAndColor != null
-    @Condition allTitle[eventPlayer.playerTitleAndColor][1] != null
-    @Condition len(allTitle[eventPlayer.playerTitleAndColor][1]) > 1
+    @Condition titleColor[eventPlayer.playerTitleAndColor] != null
+    @Condition len(titleColor[eventPlayer.playerTitleAndColor]) > 1
     
     wait(0.016, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(allTitle[eventPlayer.playerTitleAndColor][1])
+    eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(titleColor[eventPlayer.playerTitleAndColor])
     chaseOverTime(
         eventPlayer.rgb_vect,
-        allTitle[eventPlayer.playerTitleAndColor][1][eventPlayer.info_pvar],
+        titleColor[eventPlayer.playerTitleAndColor][eventPlayer.info_pvar],
         2.5,
         ChaseTimeReeval.NONE
     )
     waitUntil(
-        eventPlayer.rgb_vect == allTitle[eventPlayer.playerTitleAndColor][1][eventPlayer.info_pvar]
+        eventPlayer.rgb_vect == titleColor[eventPlayer.playerTitleAndColor][eventPlayer.info_pvar]
         or not eventPlayer.rgb_activated,
         Math.INFINITY
     )
@@ -69,4 +69,4 @@ rule "Cycle palette":
     wait()
     stopChasingVariable(eventPlayer.rgb_vect)
     eventPlayer.info_pvar = 0
-    eventPlayer.rgb_vect = allTitle[eventPlayer.playerTitleAndColor][1][0]
+    eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]

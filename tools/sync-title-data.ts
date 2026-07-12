@@ -345,11 +345,18 @@ function renderAllTitleAssignment(titles) {
   const lines = [];
 
   lines.push(ALL_TITLE_BEGIN);
-  lines.push('    allTitle = [');
+  lines.push('    titleText = [');
   titles.forEach((title, index) => {
     const suffix = index === titles.length - 1 ? '' : ',';
     lines.push(`        # ${index}: ${title.key}`);
-    lines.push(`        [${title.displayExpr}, ${title.colorExpr}]${suffix}`);
+    lines.push(`        ${title.displayExpr}${suffix}`);
+  });
+  lines.push('    ]');
+  lines.push('    titleColor = [');
+  titles.forEach((title, index) => {
+    const suffix = index === titles.length - 1 ? '' : ',';
+    lines.push(`        # ${index}: ${title.key}`);
+    lines.push(`        ${title.colorExpr}${suffix}`);
   });
   lines.push('    ]');
   lines.push(ALL_TITLE_END);
