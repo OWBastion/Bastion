@@ -797,10 +797,18 @@ function buildStaticTypeReport(
   };
 }
 
-async function loadSharedAnalysisInputs(options: { sourceFile?: string; constantsFile?: string } = {}) {
+export async function loadSharedAnalysisInputs(options: {
+  sourceFile?: string;
+  constantsFile?: string;
+  sourceData?: Awaited<ReturnType<typeof loadEventSource>>;
+  constantsSource?: string;
+} = {}) {
   const sourceFile = options.sourceFile ?? SOURCE_FILE;
   const constantsFile = options.constantsFile ?? CONSTANTS_FILE;
-  const [sourceData, constantsSource] = await Promise.all([loadEventSource(sourceFile), fs.readFile(constantsFile, 'utf8')]);
+  const [sourceData, constantsSource] = await Promise.all([
+    options.sourceData ?? loadEventSource(sourceFile),
+    options.constantsSource ?? fs.readFile(constantsFile, 'utf8')
+  ]);
   const constants = {
     eventWeight: parseDefineNumber(constantsSource, 'EVT_INIT_EVENT_WEIGHT'),
     recentDedupCount: parseDefineNumber(constantsSource, 'EVT_RECENT_EVENT_DEDUP_COUNT'),
@@ -824,8 +832,14 @@ async function loadSharedAnalysisInputs(options: { sourceFile?: string; constant
   };
 }
 
-export async function analyzeStaticEventAllocation(options: { sourceFile?: string; constantsFile?: string } = {}): Promise<StaticReport> {
-  const { sourceFile, constantsFile, events, constants } = await loadSharedAnalysisInputs(options);
+type SharedAnalysisInputs = Awaited<ReturnType<typeof loadSharedAnalysisInputs>>;
+
+export async function analyzeStaticEventAllocation(options: {
+  sourceFile?: string;
+  constantsFile?: string;
+  sharedInputs?: SharedAnalysisInputs;
+} = {}): Promise<StaticReport> {
+  const { sourceFile, constantsFile, events, constants } = options.sharedInputs ?? (await loadSharedAnalysisInputs(options));
 
   return {
     sourceFile: path.relative(REPO_ROOT, sourceFile),
@@ -838,9 +852,9 @@ export async function analyzeStaticEventAllocation(options: { sourceFile?: strin
 
 export async function analyzeScenarioEventAllocation(
   scenarioFile: string,
-  options: { sourceFile?: string; constantsFile?: string } = {}
+  options: { sourceFile?: string; constantsFile?: string; sharedInputs?: SharedAnalysisInputs } = {}
 ): Promise<ScenarioReport> {
-  const { sourceFile, events, constants } = await loadSharedAnalysisInputs(options);
+  const { sourceFile, events, constants } = options.sharedInputs ?? (await loadSharedAnalysisInputs(options));
   const absoluteScenarioFile = toAbsolute(sourceFile, scenarioFile, scenarioFile);
   const scenarioSource = await fs.readFile(absoluteScenarioFile, 'utf8');
   const scenario = JSON.parse(scenarioSource) as ScenarioInput;
@@ -1315,11 +1329,15 @@ export async function buildEventAllocationReportData(options: {
   sourceFile?: string;
   constantsFile?: string;
   scenarioFiles?: string[];
+  sharedInputs?: SharedAnalysisInputs;
 } = {}): Promise<EventAllocationHtmlData> {
-  const { sourceFile, constantsFile, sourceData, packs, constants } = await loadSharedAnalysisInputs(options);
-  const staticReport = await analyzeStaticEventAllocation(options);
+  const sharedInputs = options.sharedInputs ?? (await loadSharedAnalysisInputs(options));
+  const { sourceFile, constantsFile, sourceData, packs, constants } = sharedInputs;
+  const staticReport = await analyzeStaticEventAllocation({ ...options, sharedInputs });
   const scenarioFiles = options.scenarioFiles ?? (await resolveScenarioFiles());
-  const scenarioReports = await Promise.all(scenarioFiles.map((scenarioFile) => analyzeScenarioEventAllocation(scenarioFile, options)));
+  const scenarioReports = await Promise.all(
+    scenarioFiles.map((scenarioFile) => analyzeScenarioEventAllocation(scenarioFile, { ...options, sharedInputs }))
+  );
   const sourceEventsByKey = new Map((sourceData.events as SourceEvent[]).map((eventItem) => [eventItem.key, eventItem]));
   const packLabelById = new Map((packs as SourcePack[]).map((pack) => [pack.id, pack.labelZh]));
 

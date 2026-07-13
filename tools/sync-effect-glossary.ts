@@ -338,11 +338,12 @@ export async function generateEffectGlossaryData({
   eventConfigFile = EVENT_CONFIG_FILE,
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
+  eventsPayload: providedEventsPayload,
   outputFile = WEB_OUTPUT_FILE
 } = {}) {
   const [glossarySource, eventsPayload] = await Promise.all([
     loadEffectGlossarySource(sourceFile),
-    generateEventQueryData({
+    providedEventsPayload ?? generateEventQueryData({
       sourceFile: eventSourceFile,
       envFile,
       eventConfigFile,
@@ -364,12 +365,13 @@ export async function syncEffectGlossaryData({
   eventConfigFile = EVENT_CONFIG_FILE,
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
+  eventsPayload: providedEventsPayload,
   outputFile = WEB_OUTPUT_FILE,
   dryRun = false
 } = {}) {
   const [glossarySource, eventsPayload] = await Promise.all([
     loadEffectGlossarySource(sourceFile),
-    generateEventQueryData({
+    providedEventsPayload ?? generateEventQueryData({
       sourceFile: eventSourceFile,
       envFile,
       eventConfigFile,

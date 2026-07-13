@@ -909,15 +909,15 @@ export async function syncEventData({
   eventIdFiles = EVENT_ID_FILES,
   dryRun = false
 } = {}) {
-  const [sourceText, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] = await Promise.all([
-    fs.readFile(sourceFile, 'utf8'),
-    fs.readFile(envFile, 'utf8'),
-    fs.readFile(eventConfigFile, 'utf8'),
-    fs.readFile(eventConfigDevFile, 'utf8'),
-    fs.readFile(eventConstantsFile, 'utf8'),
-    ...EVENT_TYPES.map((type) => fs.readFile(eventIdFiles[type], 'utf8'))
-  ]);
-  const sourceRawData = JSON.parse(sourceText);
+  const [sourceRawData, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] =
+    await Promise.all([
+      fs.readFile(sourceFile, 'utf8').then(JSON.parse),
+      fs.readFile(envFile, 'utf8'),
+      fs.readFile(eventConfigFile, 'utf8'),
+      fs.readFile(eventConfigDevFile, 'utf8'),
+      fs.readFile(eventConstantsFile, 'utf8'),
+      ...EVENT_TYPES.map((type) => fs.readFile(eventIdFiles[type], 'utf8'))
+    ]);
   const sourceData = validateEventSourceShape(sourceRawData);
 
   const sourceVersion = parseMainVersion(envSource);
@@ -972,6 +972,7 @@ export async function syncEventData({
   return {
     sourceData,
     webPayload,
+    eventConstantsSource,
     manifestText,
     sourceVersion
   };

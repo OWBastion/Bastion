@@ -67,8 +67,8 @@ export function getGrantGeneralTitleWorkflowOptions(sourceData: Awaited<ReturnTy
   return { playerOptions, generalTitleOptions };
 }
 
-export async function syncGrantGeneralTitleWorkflow({ workflowFile = WORKFLOW_FILE } = {}) {
-  const sourceData = await loadTitleSource();
+export async function syncGrantGeneralTitleWorkflow({ workflowFile = WORKFLOW_FILE, sourceData: providedSourceData } = {}) {
+  const sourceData = providedSourceData ?? (await loadTitleSource());
   const { playerOptions, generalTitleOptions } = getGrantGeneralTitleWorkflowOptions(sourceData);
 
   const beforeText = await fs.readFile(workflowFile, 'utf8');

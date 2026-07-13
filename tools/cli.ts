@@ -16,48 +16,59 @@ function runNode(args: string[]) {
   });
 }
 
-async function runSyncTitleData() {
+async function runSyncTitleData(options = {}) {
   const { syncTitleData } = await import('./sync-title-data.ts');
-  const { webPayload } = await syncTitleData();
+  const result = await syncTitleData(options);
+  const { webPayload } = result;
   console.log(
     `Synced ${webPayload.meta.playerCount} players, ${webPayload.meta.titleCount} titles and ${webPayload.meta.mapTitleCount} map title sets from data/title-source.json`
   );
+  return result;
 }
 
-async function runSyncEventData() {
+async function runSyncEventData(options = {}) {
   const { syncEventData } = await import('./sync-event-data.ts');
-  const { webPayload } = await syncEventData();
+  const result = await syncEventData(options);
+  const { webPayload } = result;
   console.log(`Synced ${webPayload.meta.totalCount} events from data/event-source.json`);
+  return result;
 }
 
-async function runSyncEffectGlossaryData() {
+async function runSyncEffectGlossaryData(options = {}) {
   const { syncEffectGlossaryData } = await import('./sync-effect-glossary.ts');
-  const payload = await syncEffectGlossaryData();
+  const payload = await syncEffectGlossaryData(options);
   console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
-async function runSyncEventAllocationReport() {
+async function runSyncEventAllocationReport(options = {}) {
   const { syncEventAllocationReport } = await import('./sync-event-allocation-report.ts');
-  const result = await syncEventAllocationReport();
+  const result = await syncEventAllocationReport(options);
   console.log(
     `Synced event allocation report with ${result.payload.scenarios.length} scenarios to ${result.outputFile}`
   );
 }
 
-async function runSyncGrantGeneralTitleWorkflow() {
+async function runSyncGrantGeneralTitleWorkflow(options = {}) {
   const { syncGrantGeneralTitleWorkflow } = await import('./sync-grant-general-title-workflow.ts');
-  const result = await syncGrantGeneralTitleWorkflow();
+  const result = await syncGrantGeneralTitleWorkflow(options);
   console.log(
     `Synced grant-general-title workflow options: ${result.counts.players} players and ${result.counts.generalTitles} general titles`
   );
 }
 
 async function runSyncAll() {
-  await runSyncTitleData();
-  await runSyncEventData();
-  await runSyncEffectGlossaryData();
-  await runSyncEventAllocationReport();
-  await runSyncGrantGeneralTitleWorkflow();
+  const [titleResult, eventResult] = await Promise.all([runSyncTitleData(), runSyncEventData()]);
+  const { loadSharedAnalysisInputs } = await import('./analyze-event-allocation.ts');
+  const sharedInputs = await loadSharedAnalysisInputs({
+    sourceData: eventResult.sourceData,
+    constantsSource: eventResult.eventConstantsSource
+  });
+
+  await Promise.all([
+    runSyncEffectGlossaryData({ eventsPayload: eventResult.webPayload }),
+    runSyncEventAllocationReport({ sharedInputs }),
+    runSyncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData })
+  ]);
 }
 
 async function runEventFinalize() {

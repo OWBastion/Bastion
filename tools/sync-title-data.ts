@@ -555,6 +555,7 @@ export async function loadTitleSource(sourceFile = SOURCE_FILE) {
 
 export async function syncTitleData({
   sourceFile = SOURCE_FILE,
+  sourceData: providedSourceData,
   titleFile = TITLE_FILE,
   envFile = ENV_FILE,
   webOutputFile = WEB_OUTPUT_FILE,
@@ -563,7 +564,7 @@ export async function syncTitleData({
   dryRun = false
 } = {}) {
   const [sourceData, titleSource, envSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
-    loadTitleSource(sourceFile),
+    providedSourceData ?? loadTitleSource(sourceFile),
     fs.readFile(titleFile, 'utf8'),
     fs.readFile(envFile, 'utf8'),
     fs.readFile(playerNameToIndexFile, 'utf8'),
