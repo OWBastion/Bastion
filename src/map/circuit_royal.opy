@@ -7,9 +7,9 @@ rule "map - 皇家赛道":
     @Condition __currentMap___ == Map.CIRCUIT_ROYAL
 
     __currentMapText___ = STR_MAP_CIRCUIT_ROYAL
+    __currentMapClassicText___ = "賽檤の盡頭灬只剩莪"
     if classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL:
         __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(STR_MAP_CIRCUIT_ROYAL)
-        hashTag = false
 
     #Made by 他又 芋泥玛奇朵
     if classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL:
@@ -34,5 +34,6 @@ rule "map - 皇家赛道":
     mapTitlePlayersByKey = [
         DATA_CIRCUIT_ROYAL[0].split("-"),
         DATA_CIRCUIT_ROYAL[1].split("-"),
-        DATA_CIRCUIT_ROYAL[2].split("-")
+        DATA_CIRCUIT_ROYAL[2].split("-"),
+        DATA_CIRCUIT_ROYAL[3].split("-")
     ]

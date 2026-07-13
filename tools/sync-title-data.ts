@@ -253,15 +253,15 @@ function validateSourceShape(sourceData) {
       throw new Error(`mapTitles[${index}].holders must be an object.`);
     }
 
-    const slots = ['PIONEER', 'CONQUEROR', 'DOMINATOR'];
+    const slots = ['PIONEER', 'CONQUEROR', 'DOMINATOR', 'CLASSIC'];
     const normalizedHolders = {};
 
     for (const slot of slots) {
-      if (!Array.isArray(holders[slot])) {
+      if (holders[slot] != null && !Array.isArray(holders[slot])) {
         throw new Error(`mapTitles[${index}].holders.${slot} must be an array.`);
       }
 
-      const slotNames = holders[slot].map((name, slotIndex) => {
+      const slotNames = (holders[slot] ?? []).map((name, slotIndex) => {
         ensureString(name, `mapTitles[${index}].holders.${slot}[${slotIndex}] must be a non-empty string.`);
 
         if (!playerNameSet.has(name)) {
@@ -437,7 +437,8 @@ function renderMapTitleData(mapTitles) {
     lines.push(`#!define ${mapItem.mapKey} [ \\`);
     lines.push(`   ${renderDelimitedNames(mapItem.holders.PIONEER)}, \\`);
     lines.push(`   ${renderDelimitedNames(mapItem.holders.CONQUEROR)}, \\`);
-    lines.push(`   ${renderDelimitedNames(mapItem.holders.DOMINATOR)}\\`);
+    lines.push(`   ${renderDelimitedNames(mapItem.holders.DOMINATOR)}, \\`);
+    lines.push(`   ${renderDelimitedNames(mapItem.holders.CLASSIC)}\\`);
     lines.push(']');
   });
 
