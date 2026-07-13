@@ -30,7 +30,8 @@ rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT]) == true
     @Condition attacker != eventPlayer
-    
+    @Condition eventPlayer.getUltCharge() < 100
+
     eventPlayer.setUltCharge(eventPlayer.getUltCharge() + EVT_MECH_13_ULT_CHARGE_GAIN)
     wait(EVT_MECH_13_ULT_CHARGE_INTERVAL)
 
