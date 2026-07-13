@@ -10,7 +10,6 @@ rule "[VishkarEvent]: 吸血鬼":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VAMPIRE]) == true
-    @Condition getLivingPlayers(Team.1)[1] != null
 
     eventPlayer.passiveRegenBlocked = true
     eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer]
