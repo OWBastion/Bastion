@@ -52,7 +52,7 @@ rule "map - 伊利奥斯":
         creditsPosition = vect(321.8, -20, 46)
 
     mapTitlePlayersByKey = [
-        DATA_ILIOS[0],
+        DATA_ILIOS[0].split("-"),
         DATA_ILIOS[1].split("-"),
         DATA_ILIOS[2].split("-")
     ]

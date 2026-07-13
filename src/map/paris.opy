@@ -20,7 +20,7 @@ rule "map - paris":
     startForcingSpawn(Team.1, 1)
 
     mapTitlePlayersByKey = [
-        DATA_PARIS[0],
+        DATA_PARIS[0].split("-"),
         DATA_PARIS[1].split("-"),
         DATA_PARIS[2].split("-")
     ]

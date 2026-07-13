@@ -16,7 +16,7 @@ rule "map - hollywood":
     __currentMapPioneerText___ = __currentMapText___
 
     mapTitlePlayersByKey = [
-        DATA_HOLLYWOOD[0],
+        DATA_HOLLYWOOD[0].split("-"),
         DATA_HOLLYWOOD[1].split("-"),
         DATA_HOLLYWOOD[2].split("-")
     ]

@@ -22,7 +22,7 @@ rule "map - king's row":
     startForcingSpawn(Team.1, 1)
 
     mapTitlePlayersByKey = [
-        DATA_KINGS_ROW[0],
+        DATA_KINGS_ROW[0].split("-"),
         DATA_KINGS_ROW[1].split("-"),
         DATA_KINGS_ROW[2].split("-")
     ]

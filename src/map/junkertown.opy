@@ -20,7 +20,7 @@ rule "map - junkertown":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_JUNKERTOWN[0],
+        DATA_JUNKERTOWN[0].split("-"),
         DATA_JUNKERTOWN[1].split("-"),
         DATA_JUNKERTOWN[2].split("-")
     ]

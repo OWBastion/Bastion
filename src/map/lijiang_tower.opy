@@ -47,7 +47,7 @@ rule "map - 漓江塔":
     endPosition = vect(-44.02, 271.64, 349.77)
 
     mapTitlePlayersByKey = [
-        DATA_LIJIANG_TOWER[0],
+        DATA_LIJIANG_TOWER[0].split("-"),
         DATA_LIJIANG_TOWER[1].split("-"),
         DATA_LIJIANG_TOWER[2].split("-")
     ]

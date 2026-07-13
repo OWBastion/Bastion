@@ -15,7 +15,7 @@ rule "map - numbani":
     startForcingSpawn(Team.1, 1)
 
     mapTitlePlayersByKey = [
-        DATA_NUMBANI[0],
+        DATA_NUMBANI[0].split("-"),
         DATA_NUMBANI[1].split("-"),
         DATA_NUMBANI[2].split("-")
     ]

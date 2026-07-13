@@ -21,7 +21,7 @@ rule "map - 花冈":
      bastionPosition = [vect(-22.263, 46.024, -89.586), vect(-5.326, 42.977, -59.814), vect(6.729, 45.55, -48.776), vect(29.532, 44.5, 7.09), vect(-2.847, 42.51, 7.305), vect(-17.813, 45.889, 63.611), vect(-21.392, 45.952, 103.426), vect(14.139, 41.045, 99.842), vect(-12.338, 40.538, 39.81), vect(-17.161, 40.545, -19.673)]
 
      mapTitlePlayersByKey = [
-         DATA_HANAOKA[0],
+         DATA_HANAOKA[0].split("-"),
          DATA_HANAOKA[1].split("-"),
          DATA_HANAOKA[2].split("-")
      ]

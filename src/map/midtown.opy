@@ -16,7 +16,7 @@ rule "map - 中城":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_MIDTOWN[0],
+        DATA_MIDTOWN[0].split("-"),
         DATA_MIDTOWN[1].split("-"),
         DATA_MIDTOWN[2].split("-")
     ]

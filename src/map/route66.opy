@@ -20,7 +20,7 @@ rule "map - route 66":
     startForcingSpawn(Team.1, 1)
 
     mapTitlePlayersByKey = [
-        DATA_ROUTE66[0],
+        DATA_ROUTE66[0].split("-"),
         DATA_ROUTE66[1].split("-"),
         DATA_ROUTE66[2].split("-")
     ]

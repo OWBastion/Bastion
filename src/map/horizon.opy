@@ -22,7 +22,7 @@ rule "map - horizon lunar colony":
     __currentMapPioneerText___ = __currentMapText___
 
     mapTitlePlayersByKey = [
-        DATA_HORIZON_LUNAR_COLONY[0],
+        DATA_HORIZON_LUNAR_COLONY[0].split("-"),
         DATA_HORIZON_LUNAR_COLONY[1].split("-"),
         DATA_HORIZON_LUNAR_COLONY[2].split("-")
     ]

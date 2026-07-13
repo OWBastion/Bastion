@@ -45,7 +45,7 @@ rule "map - 萨摩亚":
     bastionPosition.append(vect(-4.4, 353.05, 407.42))
 
     mapTitlePlayersByKey = [
-        DATA_SAMOA[0],
+        DATA_SAMOA[0].split("-"),
         DATA_SAMOA[1].split("-"),
         DATA_SAMOA[2].split("-")
     ]

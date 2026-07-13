@@ -29,7 +29,7 @@ rule "map - watchpoint gibraltar":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_WATCHPOINT_GIBRALTAR[0],
+        DATA_WATCHPOINT_GIBRALTAR[0].split("-"),
         DATA_WATCHPOINT_GIBRALTAR[1].split("-"),
         DATA_WATCHPOINT_GIBRALTAR[2].split("-")
     ]

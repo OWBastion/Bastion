@@ -22,7 +22,7 @@ rule "map - 鲁纳塞彼":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_RUNASAPI[0],
+        DATA_RUNASAPI[0].split("-"),
         DATA_RUNASAPI[1].split("-"),
         DATA_RUNASAPI[2].split("-")
     ]

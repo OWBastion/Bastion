@@ -21,7 +21,7 @@ rule "map - havana":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_HAVANA[0],
+        DATA_HAVANA[0].split("-"),
         DATA_HAVANA[1].split("-"),
         DATA_HAVANA[2].split("-")
     ]

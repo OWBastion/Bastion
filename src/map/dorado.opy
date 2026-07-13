@@ -21,7 +21,7 @@ rule "map - dorado":
     startForcingSpawn(Team.1, 1)
 
     mapTitlePlayersByKey = [
-        DATA_DORADO[0],
+        DATA_DORADO[0].split("-"),
         DATA_DORADO[1].split("-"),
         DATA_DORADO[2].split("-")
     ]

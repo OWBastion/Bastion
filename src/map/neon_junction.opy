@@ -18,7 +18,7 @@ rule "map - 霓虹枢纽":
     startForcingSpawn(Team.1, 2)
 
     mapTitlePlayersByKey = [
-        DATA_NEON_JUNCTION[0],
+        DATA_NEON_JUNCTION[0].split("-"),
         DATA_NEON_JUNCTION[1].split("-"),
         DATA_NEON_JUNCTION[2].split("-")
     ]
