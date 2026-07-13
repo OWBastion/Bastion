@@ -47,7 +47,7 @@ jobs:
         if: steps.freshness.outputs.should_run == 'true'
         uses: pnpm/action-setup@v6
         with:
-          version: 11
+          version: 11.10.0
 
       - name: Setup Node.js
         if: steps.freshness.outputs.should_run == 'true'

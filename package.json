@@ -3,12 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Build tooling for OverPy workshop outputs",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": ">=11.0.0 <12.0.0"
-    }
-  },
+  "packageManager": "pnpm@11.10.0",
   "scripts": {
     "build:main": "overpy compile -i src/main.opy -o build/main.ow -l zh-CN",
     "build:dev": "overpy compile -i src/devMain.opy -o build/devMain.ow -l zh-CN",
