@@ -71,6 +71,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Title grant workflow test: `pnpm run tools -- test:grant-general-title-workflow`
 - Event allocation sync report: `pnpm run tools -- sync:event-allocation-report`
 - Event allocation analysis test: `pnpm run tools -- test:event-allocation`
+- Event allocation analysis CLI: `pnpm run tools -- analyze:event-allocation`
 - Title query local dev server (sync title/event/effect data + Vite): `pnpm run dev:title-query`
 - Title query page build (sync title/event/effect data + Vite): `pnpm run build:title-query`
 - Event data sync validation: `pnpm run tools -- test:event-data-sync`
