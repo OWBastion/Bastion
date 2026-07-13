@@ -27,6 +27,7 @@ Read only the documents needed by task type:
 | Build/CI/check commands and validation flow | `docs/agents/build-validation.md` | `.github/workflows/ci-build.yml`, `.github/workflows/release.yml`, `.github/workflows/pages-title-query.yml` |
 | Title source sync / title-query page updates | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.ts`, `.github/workflows/pages-title-query.yml` |
 | Performance tuning, loops, Ongoing rules | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/Loops.md` |
+| Cross-repository boundaries, platform change requests, snapshot contracts, and external automation safety | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/architecture-rules.md`, `docs/agents/build-validation.md`, `docs/agents/doc-sync.md` |
 | PR/commit hygiene and AI collaboration boundaries | `docs/agents/collaboration-commit.md` | this file (`AGENTS.md`) |
 | Doc sync and module documentation updates | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
 | Context loading strategy and scope declaration | `docs/agents/context-routing.md` | `docs/agents/README.md` |
