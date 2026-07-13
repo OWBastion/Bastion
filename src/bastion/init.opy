@@ -199,7 +199,7 @@ rule "Acquire target":
         goto lbl_1
 
     if len(eventPlayer.temp) > 1:
-        eventPlayer.temp = sorted(eventPlayer.temp, lambda player: player.targetWeight * -1)
+        eventPlayer.temp = sorted(eventPlayer.temp, lambda player: player.getHealth() * distance(eventPlayer, player) if bastionBotTargetPrefer == 0 else distance(eventPlayer, player) if bastionBotTargetPrefer == 1 else player.getHealth())
         eventPlayer.target = eventPlayer.temp[0]
         wait()
     elif eventPlayer.temp[0] != null:
