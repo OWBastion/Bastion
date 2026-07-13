@@ -12,15 +12,15 @@ rule "[VishkarEvent]: 赌徒：乐于助人":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_HELPFUL_SOUL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.target = getLivingPlayers(Team.1)
     if random.randint(1, 100) <= EVT_MECH_20_WIN_RATE:
-        eventPlayer.target = getLivingPlayers(Team.1)
         eventPlayer.temp = 0
         for eventPlayer.temp in range(len(eventPlayer.target)):
             heal(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_20_HEAL_MAXHP_FACTOR * 100))
-        smallMessage(getLivingPlayers(Team.1), "  {0}  赌赢了！恢复{1}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR)))
+        smallMessage(eventPlayer.target, "  {0}  赌赢了！恢复{1}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR)))
     else:
-        getLivingPlayers(Team.1).setHealth(1)
-        smallMessage(getLivingPlayers(Team.1), "  {0}  赌输了！所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
+        eventPlayer.target.setHealth(1)
+        smallMessage(eventPlayer.target, "  {0}  赌输了！所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
     eventPlayer.target = null
     eventPlayer.eventDuration = 0
     clearPlayerEvent()
