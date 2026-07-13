@@ -11,13 +11,19 @@ rule "initialize player nano effects":
     
     if eventPlayer.nanoEffect != null:
         goto lbl_0
-    createEffect(getAllPlayers(), Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if eventPlayer.hasNano else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.nanoEffect = getLastCreatedEntity()
     lbl_0:
     eventPlayer.setStatusEffect(null, Status.BURNING, 60)
     waitUntil(berserkerTime == 0 or not eventPlayer.hasNano, 60)
     eventPlayer.hasNano = false
     eventPlayer.clearStatusEffect(Status.BURNING)
+
+
+rule "clear nano effect when bastion leaves":
+    @Event playerLeft
+    @Team 2
+
     destroyEffect(eventPlayer.nanoEffect)
     eventPlayer.nanoEffect = null
-
+    eventPlayer.hasNano = false
