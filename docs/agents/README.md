@@ -20,6 +20,8 @@ Do not default-load all files under `docs/agents/`.
   - `build-validation.md`
 - Performance guardrails and loop safety:
   - `performance-loop-safety.md`
+- Ecosystem platform boundaries and cross-repository contracts:
+  - `ecosystem-platform-boundary.md`
 - Collaboration boundaries and commit hygiene:
   - `collaboration-commit.md`
 - Source-to-doc synchronization:
@@ -37,5 +39,6 @@ Each rule family has one canonical file:
 4. Collaboration and commit hygiene -> `collaboration-commit.md`
 5. Documentation synchronization -> `doc-sync.md`
 6. Context routing and conditional loading -> `context-routing.md`
+7. Ecosystem platform boundaries and cross-repository contracts -> `ecosystem-platform-boundary.md`
 
 If a document needs to mention a rule from another family, link to the canonical file instead of duplicating details.

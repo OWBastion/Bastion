@@ -49,6 +49,7 @@ Each rule family has exactly one canonical document:
 4. Collaboration and commit hygiene -> `docs/agents/collaboration-commit.md`
 5. Documentation synchronization -> `docs/agents/doc-sync.md`
 6. Context routing and conditional loading -> `docs/agents/context-routing.md`
+7. Ecosystem platform boundaries and cross-repository contracts -> `docs/agents/ecosystem-platform-boundary.md`
 
 If a rule is referenced elsewhere, keep only a short pointer and do not duplicate full rule text.
 
