@@ -100,6 +100,10 @@ async function runBumpEnvVersion() {
   await runNode(['--import', 'tsx', 'tools/bump-env-version.ts']);
 }
 
+async function runExportPlatformTitleCatalog(rawArgs: string[]) {
+  await runNode(['--import', 'tsx', 'tools/export-platform-title-catalog.ts', ...rawArgs]);
+}
+
 async function runNodeTest(testFile: string) {
   await runNode(['--import', 'tsx', '--test', testFile]);
 }
@@ -158,6 +162,10 @@ program
   .allowUnknownOption(true);
 program.command('bump:env-version').description('Bump env version in src/env/env.opy').action(wrapAction(runBumpEnvVersion));
 program
+  .command('export:platform-title-catalog [args...]')
+  .description('Export the Bastion title and map catalog for the platform')
+  .allowUnknownOption(true);
+program
   .command('test:title-data-sync')
   .description('Run title data sync tests')
   .action(wrapAction(() => runNodeTest('tools/generate-title-query-data.test.ts')));
@@ -207,6 +215,10 @@ async function runPassthroughIfRequested(argv: string[]) {
   }
   if (commandName === 'event:add' || commandName === 'event:remove') {
     await runEvent(argv.slice(3));
+    return true;
+  }
+  if (commandName === 'export:platform-title-catalog') {
+    await runExportPlatformTitleCatalog(argv.slice(3));
     return true;
   }
   return false;

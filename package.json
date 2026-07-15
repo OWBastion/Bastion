@@ -12,6 +12,7 @@
     "tools": "tsx tools/cli.ts",
     "sync": "pnpm run tools -- sync",
     "sync:title-data": "pnpm run tools -- sync:title-data",
+    "export:platform-title-catalog": "pnpm run tools -- export:platform-title-catalog",
     "sync:event-data": "pnpm run tools -- sync:event-data",
     "sync:effect-glossary": "pnpm run tools -- sync:effect-glossary",
     "sync:grant-general-title-workflow": "pnpm run tools -- sync:grant-general-title-workflow",
