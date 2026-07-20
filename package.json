@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "overpy": "^9.7.9",
-    "vue": "^3.5.39"
+    "vue": "^3.5.40"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",
