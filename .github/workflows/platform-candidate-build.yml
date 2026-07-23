@@ -1,0 +1,131 @@
+name: Platform Candidate Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      buildId:
+        description: Platform build task ID
+        required: true
+        type: string
+      candidateId:
+        description: Platform candidate ID
+        required: true
+        type: string
+      snapshotHash:
+        description: Immutable candidate snapshot hash
+        required: true
+        type: string
+      codeRef:
+        description: Bastion code ref selected by the platform
+        required: true
+        type: string
+      releaseId:
+        description: Platform pending release ID
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: platform-candidate-${{ inputs.candidateId }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PLATFORM_BASE_URL: ${{ vars.OWBASTION_PLATFORM_BASE_URL }}
+      BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
+      BUILD_ID: ${{ inputs.buildId }}
+      CANDIDATE_ID: ${{ inputs.candidateId }}
+      SNAPSHOT_HASH: ${{ inputs.snapshotHash }}
+      CODE_REF: ${{ inputs.codeRef }}
+      RELEASE_ID: ${{ inputs.releaseId }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.10.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch candidate
+        run: |
+          set -euo pipefail
+          test -n "$PLATFORM_BASE_URL"
+          test -n "$BASTION_BUILD_TOKEN"
+          curl --fail --silent --show-error \
+            -H "Authorization: Bearer ${BASTION_BUILD_TOKEN}" \
+            -H "Accept: application/json" \
+            "${PLATFORM_BASE_URL}/v1/internal/bastion/candidates/${CANDIDATE_ID}" \
+            > /tmp/platform-candidate.json
+          jq -e --arg candidate "$CANDIDATE_ID" --arg hash "$SNAPSHOT_HASH" '.candidateId == $candidate and .snapshotHash == $hash and (.snapshotHash | test("^[a-f0-9]{64}$"))' /tmp/platform-candidate.json
+
+      - name: Validate and build candidate
+        id: candidate_build
+        run: |
+          set +e
+          pnpm run build:platform-candidate -- \
+            --candidate /tmp/platform-candidate.json \
+            --output build/platform-candidate \
+            > /tmp/platform-build-output.txt 2>&1
+          status=$?
+          cat /tmp/platform-build-output.txt
+          echo "exit_code=${status}" >> "$GITHUB_OUTPUT"
+          if [[ "$status" -eq 0 ]]; then
+            echo "result=succeeded" >> "$GITHUB_OUTPUT"
+          else
+            echo "result=failed" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Report build result
+        if: always()
+        env:
+          RESULT: ${{ steps.candidate_build.outputs.result || 'failed' }}
+        run: |
+          set -euo pipefail
+          if [[ -f build/platform-candidate/manifest.json ]]; then
+            snapshot_hash="$(jq -r '.snapshotHash' build/platform-candidate/manifest.json)"
+          elif [[ -f /tmp/platform-candidate.json ]]; then
+            snapshot_hash="$(jq -r '.snapshotHash' /tmp/platform-candidate.json)"
+          else
+            snapshot_hash="$SNAPSHOT_HASH"
+          fi
+          if [[ "$RESULT" == "succeeded" ]]; then
+            artifact_refs='["build/main.ow","build/devMain.ow","build/en-US.ow","build/zh-CN.ow","build/platform-candidate/manifest.json"]'
+            errors='[]'
+          else
+            artifact_refs='[]'
+            errors='["Bastion candidate validation or compilation failed"]'
+          fi
+          jq -n \
+            --arg buildId "$BUILD_ID" \
+            --arg candidateId "$CANDIDATE_ID" \
+            --arg status "$RESULT" \
+            --arg commitSha "$GITHUB_SHA" \
+            --arg snapshotHash "$snapshot_hash" \
+            --argjson artifactRefs "$artifact_refs" \
+            --argjson errors "$errors" \
+            '{contractVersion:"1", buildId:$buildId, candidateId:$candidateId, status:$status, bastionCommitSha:$commitSha, snapshotHash:$snapshotHash, artifactRefs:$artifactRefs, warnings:[], errors:$errors}' \
+            > /tmp/platform-build-result.json
+          curl --fail --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer ${BASTION_BUILD_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @/tmp/platform-build-result.json \
+            "${PLATFORM_BASE_URL}/v1/internal/bastion/build-results"
+
+      - name: Fail workflow when candidate build failed
+        if: steps.candidate_build.outputs.result != 'succeeded'
+        run: exit 1
