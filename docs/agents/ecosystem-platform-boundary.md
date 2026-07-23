@@ -96,13 +96,6 @@ Every snapshot must include:
 - hashes for generated files;
 - compatibility notes when a schema changes.
 
-The repository now exposes `export:platform-snapshot` for the deterministic
-public release manifest and `build:platform-candidate` for platform-triggered
-validation. The latter accepts one immutable Candidate fixture or platform URL,
-checks stable IDs against the canonical Bastion sources, builds the normal
-Workshop entries, and writes a manifest containing the Candidate hash and code
-SHA. It does not edit source files or create pull requests.
-
 Snapshot generation must be reproducible from the repository commit. Generated files are outputs, not independent sources of truth.
 
 ## 6. External Change Requests

@@ -113,12 +113,6 @@ jobs:
         if: steps.freshness.outputs.should_run == 'true'
         run: pnpm run build:release
 
-      - name: Generate platform snapshot
-        if: steps.freshness.outputs.should_run == 'true'
-        env:
-          SOURCE_COMMIT_SHA: ${{ github.sha }}
-        run: pnpm run export:platform-snapshot -- build/platform-snapshot
-
       - name: Ensure git tag exists
         if: steps.freshness.outputs.should_run == 'true'
         shell: bash
@@ -188,7 +182,7 @@ jobs:
           set -euo pipefail
           tag="${{ steps.release_meta.outputs.tag }}"
           notes_file="${{ steps.notes.outputs.body_path }}"
-          gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow build/platform-snapshot/*
+          gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow
 
       - name: Release summary
         if: steps.freshness.outputs.should_run == 'true'
@@ -199,4 +193,3 @@ jobs:
           echo "Uploaded artifacts:"
           echo "- build/en-US.ow"
           echo "- build/zh-CN.ow"
-          echo "- build/platform-snapshot/manifest.json"
