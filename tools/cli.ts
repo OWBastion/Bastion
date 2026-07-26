@@ -40,6 +40,11 @@ async function runSyncEffectGlossaryData(options = {}) {
   console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
 }
 
+async function runSyncPlatformData(options = {}) {
+  const { syncPlatformData } = await import('./sync-platform-data.ts');
+  await syncPlatformData({ baseUrl: options.url });
+}
+
 async function runSyncEventAllocationReport(options = {}) {
   const { syncEventAllocationReport } = await import('./sync-event-allocation-report.ts');
   const result = await syncEventAllocationReport(options);
@@ -130,6 +135,11 @@ program
 program.command('sync').description('Sync all source data and workflow options').action(wrapAction(runSyncAll));
 program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
 program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
+program
+  .command('sync:platform-data')
+  .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
+  .option('--url <url>', 'Platform Agents API base URL')
+  .action(wrapAction(runSyncPlatformData));
 program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
 program
   .command('sync:event-allocation-report')
@@ -173,6 +183,13 @@ program
   .command('test:event-data-sync')
   .description('Run event data sync tests')
   .action(wrapAction(() => runNodeTest('tools/sync-event-data.test.ts')));
+program
+  .command('test:platform-data-sync')
+  .description('Run platform data sync and merge tests')
+  .action(wrapAction(async () => {
+    await runNodeTest('tools/platform-data-client.test.ts');
+    await runNodeTest('tools/sync-platform-data.test.ts');
+  }));
 program
   .command('test:effect-glossary-sync')
   .description('Run effect glossary sync tests')

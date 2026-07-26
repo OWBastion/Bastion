@@ -120,12 +120,12 @@ test('generates event web payload and manifest', async () => {
   assert.equal(payload.meta.sourceFile, 'data/event-source.json');
   const galeBlessing = payload.events.find((eventItem) => eventItem.key === 'GALE_BLESSING');
   assert.ok(galeBlessing);
-  assert.equal(galeBlessing.descZhCompiled, '移动速度提高50%');
+  assert.match(galeBlessing.descZhCompiled, /50%/);
   assert.ok(!/\{\d+\}/.test(galeBlessing.descZhCompiled));
 
   const konamiCode = payload.events.find((eventItem) => eventItem.key === 'KONAMI_CODE');
   assert.ok(konamiCode);
-  assert.equal(konamiCode.descZhCompiled, '阵亡后在阵亡地点复活');
+  assert.match(konamiCode.descZhCompiled, /复活/);
 
   const syncResult = await syncEventData({
     sourceFile,

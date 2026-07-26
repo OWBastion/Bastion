@@ -900,6 +900,8 @@ export async function generateEventQueryData({
 
 export async function syncEventData({
   sourceFile = SOURCE_FILE,
+  sourceData: providedSourceData,
+  syncWeightsFromConstants = true,
   envFile = ENV_FILE,
   webOutputFile = WEB_OUTPUT_FILE,
   manifestOutputFile = MANIFEST_OUTPUT_FILE,
@@ -911,7 +913,7 @@ export async function syncEventData({
 } = {}) {
   const [sourceRawData, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] =
     await Promise.all([
-      fs.readFile(sourceFile, 'utf8').then(JSON.parse),
+      providedSourceData ?? fs.readFile(sourceFile, 'utf8').then(JSON.parse),
       fs.readFile(envFile, 'utf8'),
       fs.readFile(eventConfigFile, 'utf8'),
       fs.readFile(eventConfigDevFile, 'utf8'),
@@ -942,7 +944,9 @@ export async function syncEventData({
     debuff: new Map([...weightConstantByTypeAndKeyDev.debuff, ...weightConstantByTypeAndKeyProd.debuff]),
     mech: new Map([...weightConstantByTypeAndKeyDev.mech, ...weightConstantByTypeAndKeyProd.mech])
   };
-  syncSourceWeightsFromConstants(sourceData, eventConstantsSource, weightConstantByTypeAndKey, mergedRegistrations);
+  if (syncWeightsFromConstants) {
+    syncSourceWeightsFromConstants(sourceData, eventConstantsSource, weightConstantByTypeAndKey, mergedRegistrations);
+  }
   ensureSourceMatchesConfigRegistrations(sourceData, mergedRegistrations);
 
   const webPayload = buildWebPayload(sourceData, sourceVersion, {
