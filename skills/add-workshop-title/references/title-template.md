@@ -48,7 +48,6 @@
 ```bash
 pnpm run sync:title-data
 pnpm run test:title-data-sync
-pnpm run build:title-query
 rg -n 'AUTO-GENERATED TITLE ENUM|AUTO-GENERATED TITLE PLAYER DATABASE|AUTO-GENERATED MAP_TITLE_DATA|AUTO-GENERATED ALL_TITLE|DATA_' src/title/title-cn.opy
 rg -n '"key":|"titleKeys":|"mapTitles":|"holders":' data/title-source.json
 ```

@@ -34,23 +34,9 @@ async function runSyncEventData(options = {}) {
   return result;
 }
 
-async function runSyncEffectGlossaryData(options = {}) {
-  const { syncEffectGlossaryData } = await import('./sync-effect-glossary.ts');
-  const payload = await syncEffectGlossaryData(options);
-  console.log(`Synced ${payload.meta.totalTermCount} glossary terms from data/effect-glossary-source.json`);
-}
-
 async function runSyncPlatformData(options = {}) {
   const { syncPlatformData } = await import('./sync-platform-data.ts');
   await syncPlatformData({ baseUrl: options.url });
-}
-
-async function runSyncEventAllocationReport(options = {}) {
-  const { syncEventAllocationReport } = await import('./sync-event-allocation-report.ts');
-  const result = await syncEventAllocationReport(options);
-  console.log(
-    `Synced event allocation report with ${result.payload.scenarios.length} scenarios to ${result.outputFile}`
-  );
 }
 
 async function runSyncGrantGeneralTitleWorkflow(options = {}) {
@@ -62,18 +48,8 @@ async function runSyncGrantGeneralTitleWorkflow(options = {}) {
 }
 
 async function runSyncAll() {
-  const [titleResult, eventResult] = await Promise.all([runSyncTitleData(), runSyncEventData()]);
-  const { loadSharedAnalysisInputs } = await import('./analyze-event-allocation.ts');
-  const sharedInputs = await loadSharedAnalysisInputs({
-    sourceData: eventResult.sourceData,
-    constantsSource: eventResult.eventConstantsSource
-  });
-
-  await Promise.all([
-    runSyncEffectGlossaryData({ eventsPayload: eventResult.webPayload }),
-    runSyncEventAllocationReport({ sharedInputs }),
-    runSyncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData })
-  ]);
+  const [titleResult] = await Promise.all([runSyncTitleData(), runSyncEventData()]);
+  await runSyncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
 }
 
 async function runEventFinalize() {
@@ -140,11 +116,6 @@ program
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
   .option('--url <url>', 'Platform Agents API base URL')
   .action(wrapAction(runSyncPlatformData));
-program.command('sync:effect-glossary').description('Sync effect glossary data').action(wrapAction(runSyncEffectGlossaryData));
-program
-  .command('sync:event-allocation-report')
-  .description('Sync event allocation analyzer report data for the query page')
-  .action(wrapAction(runSyncEventAllocationReport));
 program
   .command('sync:grant-general-title-workflow')
   .description('Sync grant-general-title workflow options from data/title-source.json (legacy compat command)')
@@ -178,7 +149,7 @@ program
 program
   .command('test:title-data-sync')
   .description('Run title data sync tests')
-  .action(wrapAction(() => runNodeTest('tools/generate-title-query-data.test.ts')));
+  .action(wrapAction(() => runNodeTest('tools/sync-title-data.test.ts')));
 program
   .command('test:event-data-sync')
   .description('Run event data sync tests')

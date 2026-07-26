@@ -47,7 +47,7 @@
 
 ```bash
 rg --files skills | rg 'SKILL.md|references|agents/openai.yaml'
-rg -n 'sync:title-data|test:title-data-sync|build:title-query|build:release' skills AGENTS.md package.json
+rg -n 'sync:title-data|test:title-data-sync|sync:platform-data|build:release' skills AGENTS.md package.json
 rg -n '禁止重排|DOMINATOR|COUNT 之前|生成产物|不可手改' skills/*/SKILL.md
 ```
 

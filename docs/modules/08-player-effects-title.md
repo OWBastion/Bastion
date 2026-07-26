@@ -48,7 +48,6 @@
 ### `tools/sync-title-data.ts`
 
 - 从真源生成 `title-cn.opy` 受管区块
-- 生成 web 查询页数据 `web/title-query/public/data/titles.json`
 - 提供一致性校验入口（配合 `pnpm run tools -- test:title-data-sync`）
 
 ### `tools/grant-player-title.ts`

@@ -8,7 +8,6 @@ const __dirname = path.dirname(__filename);
 const SOURCE_FILE = path.resolve(__dirname, '../data/title-source.json');
 const TITLE_FILE = path.resolve(__dirname, '../src/title/title-cn.opy');
 const ENV_FILE = path.resolve(__dirname, '../src/env/env.opy');
-const WEB_OUTPUT_FILE = path.resolve(__dirname, '../web/title-query/public/data/titles.json');
 const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndex.js');
 const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndexDelimited.js');
 
@@ -558,7 +557,7 @@ export async function syncTitleData({
   sourceData: providedSourceData,
   titleFile = TITLE_FILE,
   envFile = ENV_FILE,
-  webOutputFile = WEB_OUTPUT_FILE,
+  webOutputFile,
   playerNameToIndexFile = PLAYER_NAME_TO_INDEX_FILE,
   playerNameToIndexDelimitedFile = PLAYER_NAME_TO_INDEX_DELIMITED_FILE,
   dryRun = false
@@ -580,8 +579,10 @@ export async function syncTitleData({
 
   if (!dryRun) {
     await fs.writeFile(titleFile, nextTitleFile, 'utf8');
-    await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
-    await fs.writeFile(webOutputFile, webText, 'utf8');
+    if (webOutputFile) {
+      await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
+      await fs.writeFile(webOutputFile, webText, 'utf8');
+    }
     await fs.writeFile(playerNameToIndexFile, nextPlayerNameToIndexFile, 'utf8');
     await fs.writeFile(playerNameToIndexDelimitedFile, nextPlayerNameToIndexDelimitedFile, 'utf8');
   }
@@ -599,15 +600,17 @@ export async function syncTitleData({
 export async function generateTitleQueryData({
   sourceFile = SOURCE_FILE,
   envFile = ENV_FILE,
-  outputFile = WEB_OUTPUT_FILE
+  outputFile
 } = {}) {
   const data = await loadTitleSource(sourceFile);
   const envSource = await fs.readFile(envFile, 'utf8');
   const sourceVersion = parseMainVersion(envSource);
   const payload = buildWebPayload(data, sourceVersion);
 
-  await fs.mkdir(path.dirname(outputFile), { recursive: true });
-  await fs.writeFile(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  if (outputFile) {
+    await fs.mkdir(path.dirname(outputFile), { recursive: true });
+    await fs.writeFile(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  }
 
   return payload;
 }

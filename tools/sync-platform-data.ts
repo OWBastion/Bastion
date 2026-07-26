@@ -10,12 +10,9 @@ import {
   type PlatformData,
   type PlatformDataClientOptions
 } from './platform-data-client.ts';
-import { syncEffectGlossaryData } from './sync-effect-glossary.ts';
-import { syncEventAllocationReport } from './sync-event-allocation-report.ts';
 import { syncEventData } from './sync-event-data.ts';
 import { syncGrantGeneralTitleWorkflow } from './sync-grant-general-title-workflow.ts';
 import { loadTitleSource, syncTitleData } from './sync-title-data.ts';
-import { loadSharedAnalysisInputs } from './analyze-event-allocation.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -23,6 +20,10 @@ const TITLE_SOURCE_FILE = path.join(ROOT, 'data/title-source.json');
 const EVENT_SOURCE_FILE = path.join(ROOT, 'data/event-source.json');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
+const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
+const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
+const EVENT_CONFIG_FILE = path.join(ROOT, 'src/config/eventConfig.opy');
+const EVENT_CONFIG_DEV_FILE = path.join(ROOT, 'src/config/eventConfigDev.opy');
 const execFileAsync = promisify(execFile);
 
 const EVENT_CATEGORIES = new Map([
@@ -210,13 +211,87 @@ function validateAndMergeEvents(platformData: PlatformData, eventSource: EventSo
     if (!remote) throw new Error(`Bastion event ${key} is missing from platform event data: ${platformId}`);
     const expectedType = EVENT_CATEGORIES.get(remote.category);
     if (expectedType !== local.type) throw new Error(`Event ${key} category does not match Bastion type ${local.type}`);
-    local.nameZh = remote.name;
-    local.descZh = remote.description;
-    if (remote.durationSeconds !== null) local.durationSec = remote.durationSeconds;
-    if (remote.weight !== null) local.weight = remote.weight;
-    local.availability = remote.releaseStatus === 'implemented' ? 'active' : 'retired';
   }
   return events;
+}
+
+function replaceOverPyDefine(source: string, name: string, value: string | number): string {
+  const pattern = new RegExp(`^#!define\\s+${name.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\\s+.*$`, 'm');
+  if (!pattern.test(source)) throw new Error(`Unable to find OverPy define ${name}`);
+  return source.replace(pattern, `#!define ${name} ${typeof value === 'number' ? value : JSON.stringify(value)}`);
+}
+
+function resolveEventMacros(eventKey: string, eventType: string, configSources: string[]) {
+  const type = eventType.toUpperCase();
+  const enumType = type === 'BUFF' ? 'BuffEventId' : type === 'DEBUFF' ? 'DebuffEventId' : 'MechEventId';
+  const escapedKey = eventKey.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+  const titlePattern = new RegExp(
+    `(?:buff|debuff|mech)EventName\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
+  );
+  const durationPattern = new RegExp(
+    `(?:buff|debuff|mech)EventDuration\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+  );
+  const weightPattern = new RegExp(
+    `(?:buff|debuff|mech)EventWeight\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+  );
+  let id: string | undefined;
+  let duration: string | undefined;
+  let weight: string | undefined;
+  for (const source of configSources) {
+    id ??= source.match(titlePattern)?.[1];
+    duration ??= source.match(durationPattern)?.[1];
+    weight ??= source.match(weightPattern)?.[1];
+  }
+  if (!id || !duration || !weight) throw new Error(`Unable to resolve OverPy macros for ${eventType}:${eventKey}`);
+  return { id, duration, weight };
+}
+
+export function mergePlatformEventOverPyData({
+  platformData,
+  eventSource,
+  platformEventIds,
+  eventMacros,
+  constantsSource,
+  localeSource
+}: {
+  platformData: PlatformData;
+  eventSource: EventSource;
+  platformEventIds: Record<string, string>;
+  eventMacros: Record<string, { id: string | number; duration: string; weight: string }>;
+  constantsSource: string;
+  localeSource: string;
+}) {
+  const remoteById = new Map(platformData.events.map((item) => [requireString(item.eventId, 'eventId'), item]));
+  let nextConstantsSource = constantsSource;
+  let nextLocaleSource = localeSource;
+  const nextEventSource = {
+    ...eventSource,
+    events: eventSource.events.map((eventItem) => {
+      const platformId = platformEventIds[requireString(eventItem.key, 'event.key')];
+      if (!platformId) return { ...eventItem };
+      const remote = remoteById.get(platformId);
+      if (!remote) throw new Error(`Bastion event ${eventItem.key} is missing from platform event data: ${platformId}`);
+      const type = requireString(eventItem.type, 'event.type').toUpperCase();
+      const macros = eventMacros[eventItem.key];
+      if (!macros) throw new Error(`Unable to resolve OverPy macros for ${eventItem.type}:${eventItem.key}`);
+      const titleName = `STR_EVT_${type}_${macros.id}_TITLE`;
+      const descriptionName = `STR_EVT_${type}_${macros.id}_DESC`;
+      if (remote.durationSeconds !== null) {
+        nextConstantsSource = replaceOverPyDefine(nextConstantsSource, macros.duration, requireNumber(remote.durationSeconds, `${eventItem.key}.durationSeconds`));
+      }
+      if (remote.weight !== null) {
+        nextConstantsSource = replaceOverPyDefine(nextConstantsSource, macros.weight, requireNumber(remote.weight, `${eventItem.key}.weight`));
+      }
+      nextLocaleSource = replaceOverPyDefine(nextLocaleSource, titleName, requireString(remote.name, `${eventItem.key}.name`));
+      nextLocaleSource = replaceOverPyDefine(nextLocaleSource, descriptionName, requireString(remote.description, `${eventItem.key}.description`));
+      return {
+        ...eventItem,
+        ...(remote.durationSeconds !== null ? { durationSec: remote.durationSeconds } : {}),
+        ...(remote.weight !== null ? { weight: remote.weight } : {})
+      };
+    })
+  };
+  return { eventSource: nextEventSource, constantsSource: nextConstantsSource, localeSource: nextLocaleSource };
 }
 
 export function mergePlatformData({
@@ -263,12 +338,16 @@ async function runBuild() {
 
 export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
-  const [rawTitleSource, titleSource, eventSource, platformEventIds, mapSourceFiles] = await Promise.all([
+  const [rawTitleSource, titleSource, eventSource, platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource] = await Promise.all([
     fs.readFile(TITLE_SOURCE_FILE, 'utf8').then((text) => JSON.parse(text) as TitleSource),
     loadTitleSource(TITLE_SOURCE_FILE),
     fs.readFile(EVENT_SOURCE_FILE, 'utf8').then((text) => JSON.parse(text) as EventSource),
     fs.readFile(EVENT_PLATFORM_IDS_FILE, 'utf8').then((text) => JSON.parse(text) as Record<string, string>),
-    fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') }))))
+    fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') })))),
+    fs.readFile(EVENT_CONSTANTS_FILE, 'utf8'),
+    fs.readFile(ZH_LOCALE_FILE, 'utf8'),
+    fs.readFile(EVENT_CONFIG_FILE, 'utf8'),
+    fs.readFile(EVENT_CONFIG_DEV_FILE, 'utf8')
   ]);
 
   const client = new PlatformDataClient({ ...options, baseUrl });
@@ -308,17 +387,31 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
 
   const events = await client.fetchResource('events');
   const eventData = { ...emptyData(), events };
-  const mergedEventSource = {
+  const validatedEventSource = {
     ...eventSource,
     events: validateAndMergeEvents(eventData, eventSource, platformEventIds, challengeIds)
   };
-  const eventResult = await syncEventData({ sourceData: mergedEventSource, syncWeightsFromConstants: false });
-  const sharedInputs = await loadSharedAnalysisInputs({ sourceData: eventResult.sourceData, constantsSource: eventResult.eventConstantsSource });
-  await Promise.all([
-    syncEffectGlossaryData({ eventsPayload: eventResult.webPayload }),
-    syncEventAllocationReport({ sharedInputs }),
-    syncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData })
-  ]);
+  const platformEventData = mergePlatformEventOverPyData({
+    platformData: eventData,
+    eventSource: validatedEventSource,
+    platformEventIds,
+    eventMacros: Object.fromEntries(
+      validatedEventSource.events.map((eventItem) => [
+        eventItem.key,
+        resolveEventMacros(eventItem.key, eventItem.type, [eventConfigSource, eventConfigDevSource])
+      ])
+    ),
+    constantsSource,
+    localeSource
+  });
+  await fs.writeFile(EVENT_CONSTANTS_FILE, platformEventData.constantsSource, 'utf8');
+  await fs.writeFile(ZH_LOCALE_FILE, platformEventData.localeSource, 'utf8');
+  await syncEventData({
+    sourceData: platformEventData.eventSource,
+    syncWeightsFromConstants: false,
+    writeSourceFile: false
+  });
+  await syncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
   if (options.build !== false) await runBuild();
   const counts = {
     events: events.length,

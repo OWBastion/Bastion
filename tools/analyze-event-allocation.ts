@@ -12,10 +12,6 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const SOURCE_FILE = path.resolve(__dirname, '../data/event-source.json');
 const CONSTANTS_FILE = path.resolve(__dirname, '../src/constants/event_constants.opy');
 const SCENARIO_DIR = path.resolve(__dirname, './event-allocation-scenarios');
-export const DEFAULT_REPORT_OUTPUT_FILE = path.resolve(
-  __dirname,
-  '../web/title-query/public/data/event-allocation-report.json'
-);
 export const REPORT_VERSION = 'v3';
 
 const EVENT_TYPE_INDEX = {
@@ -437,9 +433,10 @@ function parseDefineNumber(source: string, name: string): number {
   return Number(match[1]);
 }
 
-function toAbsolute(basePath: string, candidatePath: string | undefined, fallback: string) {
+function toAbsolute(basePath: string, candidatePath: string | undefined, fallback?: string) {
   if (!candidatePath) {
-    return fallback;
+    if (fallback) return fallback;
+    throw new Error('A file path is required');
   }
   if (path.isAbsolute(candidatePath)) {
     return candidatePath;
@@ -1759,7 +1756,10 @@ export async function main(rawArgs: string[]) {
       sourceFile: options.sourceFile,
       constantsFile: options.constantsFile
     });
-    const outputFile = toAbsolute(path.join(REPO_ROOT, 'dummy'), options.outputFile, DEFAULT_REPORT_OUTPUT_FILE);
+    if (!options.outputFile) {
+      throw new Error('--output is required with --format html-data');
+    }
+    const outputFile = toAbsolute(path.join(REPO_ROOT, 'dummy'), options.outputFile);
     await writeHtmlData(outputFile, report);
     console.log(`Wrote event allocation report to ${path.relative(REPO_ROOT, outputFile)}`);
     return;

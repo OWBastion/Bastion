@@ -24,8 +24,8 @@ Read only the documents needed by task type:
 | Task type | Read first | Then read if needed |
 | --- | --- | --- |
 | Entry/include/order updates, `main/devMain` parity | `docs/agents/architecture-rules.md` | `docs/modules/01-entry-architecture.md` |
-| Build/CI/check commands and validation flow | `docs/agents/build-validation.md` | `.github/workflows/ci-build.yml`, `.github/workflows/release.yml`, `.github/workflows/pages-title-query.yml` |
-| Title source sync / title-query page updates | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.ts`, `.github/workflows/pages-title-query.yml` |
+| Build/CI/check commands and validation flow | `docs/agents/build-validation.md` | `.github/workflows/ci-build.yml`, `.github/workflows/release.yml` |
+| Title source sync | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.ts` |
 | Performance tuning, loops, Ongoing rules | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/Loops.md` |
 | Cross-repository boundaries, platform change requests, snapshot contracts, and external automation safety | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/architecture-rules.md`, `docs/agents/build-validation.md`, `docs/agents/doc-sync.md` |
 | PR/commit hygiene and AI collaboration boundaries | `docs/agents/collaboration-commit.md` | this file (`AGENTS.md`) |
@@ -62,7 +62,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Unified source data sync: `pnpm run tools -- sync`
 - Title data sync: `pnpm run tools -- sync:title-data`
 - Event data sync: `pnpm run tools -- sync:event-data`
-- Effect glossary sync: `pnpm run tools -- sync:effect-glossary`
+- Effect glossary validation: `pnpm run tools -- test:effect-glossary-sync`
 - Grant-general-title workflow sync: `pnpm run tools -- sync:grant-general-title-workflow` (legacy compat command)
 - Event finalize workflow: `pnpm run tools -- event:finalize`
 - Event add workflow: `pnpm run tools -- event:add`
@@ -71,11 +71,9 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
 - Title grant workflow test: `pnpm run tools -- test:title-grant`
 - Title grant workflow test: `pnpm run tools -- test:grant-general-title-workflow`
-- Event allocation sync report: `pnpm run tools -- sync:event-allocation-report`
 - Event allocation analysis test: `pnpm run tools -- test:event-allocation`
 - Event allocation analysis CLI: `pnpm run tools -- analyze:event-allocation`
-- Title query local dev server (sync title/event/effect data + Vite): `pnpm run dev:title-query`
-- Title query page build (sync title/event/effect data + Vite): `pnpm run build:title-query`
+- Platform metadata sync and OverPy build: `pnpm run sync:platform-data`
 - Event data sync validation: `pnpm run tools -- test:event-data-sync`
 - Effect glossary sync validation: `pnpm run tools -- test:effect-glossary-sync`
 - Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`

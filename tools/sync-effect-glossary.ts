@@ -13,7 +13,6 @@ const ENV_FILE = path.resolve(__dirname, '../src/env/env.opy');
 const EVENT_CONFIG_FILE = path.resolve(__dirname, '../src/config/eventConfig.opy');
 const EVENT_CONFIG_DEV_FILE = path.resolve(__dirname, '../src/config/eventConfigDev.opy');
 const EVENT_CONSTANTS_FILE = path.resolve(__dirname, '../src/constants/event_constants.opy');
-const WEB_OUTPUT_FILE = path.resolve(__dirname, '../web/title-query/public/data/glossary.json');
 
 function ensureString(value: unknown, message: string) {
   if (typeof value !== 'string' || value.trim() === '') {
@@ -339,7 +338,7 @@ export async function generateEffectGlossaryData({
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
   eventsPayload: providedEventsPayload,
-  outputFile = WEB_OUTPUT_FILE
+  outputFile
 } = {}) {
   const [glossarySource, eventsPayload] = await Promise.all([
     loadEffectGlossarySource(sourceFile),
@@ -353,8 +352,10 @@ export async function generateEffectGlossaryData({
   ]);
 
   const payload = buildRelatedPayload(glossarySource, eventsPayload);
-  await fs.mkdir(path.dirname(outputFile), { recursive: true });
-  await fs.writeFile(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  if (outputFile) {
+    await fs.mkdir(path.dirname(outputFile), { recursive: true });
+    await fs.writeFile(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  }
   return payload;
 }
 
@@ -366,7 +367,7 @@ export async function syncEffectGlossaryData({
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
   eventsPayload: providedEventsPayload,
-  outputFile = WEB_OUTPUT_FILE,
+  outputFile,
   dryRun = false
 } = {}) {
   const [glossarySource, eventsPayload] = await Promise.all([
@@ -383,8 +384,10 @@ export async function syncEffectGlossaryData({
   const outputText = `${JSON.stringify(payload, null, 2)}\n`;
 
   if (!dryRun) {
-    await fs.mkdir(path.dirname(outputFile), { recursive: true });
-    await fs.writeFile(outputFile, outputText, 'utf8');
+    if (outputFile) {
+      await fs.mkdir(path.dirname(outputFile), { recursive: true });
+      await fs.writeFile(outputFile, outputText, 'utf8');
+    }
   }
 
   return payload;

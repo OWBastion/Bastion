@@ -66,7 +66,6 @@
 - 同步脚本：`tools/sync-title-data.ts`
 - 生成目标：
   - `src/title/title-cn.opy` 的受管区块（`enum TITLE` / `player_database` / `allTitle`）
-  - `web/title-query/public/data/titles.json`
 
 `src/title/title-cn.opy` 中以下区块为自动生成，禁止手工直接维护：
 

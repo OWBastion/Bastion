@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { mergePlatformData } from './sync-platform-data.ts';
+import { mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
@@ -39,9 +39,10 @@ test('merges current platform fields by stable IDs and preserves Bastion fields'
   assert.equal(result.titleSource.titles[0].label, '新称号');
   assert.equal(result.titleSource.titles[0].displayExpr, '"旧称号"');
   assert.equal(result.titleSource.mapTitles[0].mapLabel, '新地图');
-  assert.equal(result.eventSource.events[0].nameZh, '新事件');
-  assert.equal(result.eventSource.events[0].durationSec, 20);
-  assert.equal(result.eventSource.events[0].weight, 2);
+  assert.equal(result.eventSource.events[0].nameZh, '旧事件');
+  assert.equal(result.eventSource.events[0].descZh, '旧描述');
+  assert.equal(result.eventSource.events[0].durationSec, 10);
+  assert.equal(result.eventSource.events[0].weight, 1);
   assert.deepEqual(result.counts, { events: 1, maps: 1, achievements: 1, titles: 1, ignoredEvents: 0 });
 });
 
@@ -76,5 +77,24 @@ test('ignores unmapped historical events while validating their platform categor
     ]
   });
   assert.equal(result.counts.ignoredEvents, 1);
-  assert.equal(result.eventSource.events[0].nameZh, '新事件');
+  assert.equal(result.eventSource.events[0].nameZh, '旧事件');
+});
+
+test('writes platform event values to OverPy constants and locale while preserving event-source templates', () => {
+  const result = mergePlatformEventOverPyData({
+    platformData,
+    eventSource,
+    platformEventIds: { EVENT_ONE: 'event.one' },
+    eventMacros: {
+      EVENT_ONE: { id: 0, duration: 'EVT_BUFF_0_DURATION', weight: 'EVT_BUFF_0_WEIGHT' }
+    },
+    constantsSource: '#!define EVT_BUFF_0_DURATION 10\n#!define EVT_BUFF_0_WEIGHT 1\n',
+    localeSource: '#!define STR_EVT_BUFF_0_TITLE "旧事件"\n#!define STR_EVT_BUFF_0_DESC "旧描述"\n'
+  });
+  assert.match(result.constantsSource, /EVT_BUFF_0_DURATION 20/);
+  assert.match(result.constantsSource, /EVT_BUFF_0_WEIGHT 2/);
+  assert.match(result.localeSource, /STR_EVT_BUFF_0_TITLE "新事件"/);
+  assert.match(result.localeSource, /STR_EVT_BUFF_0_DESC "新描述"/);
+  assert.equal(result.eventSource.events[0].descZh, '旧描述');
+  assert.equal(result.eventSource.events[0].durationSec, 20);
 });

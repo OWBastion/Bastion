@@ -7,7 +7,6 @@ const __dirname = path.dirname(__filename);
 
 const SOURCE_FILE = path.resolve(__dirname, '../data/event-source.json');
 const ENV_FILE = path.resolve(__dirname, '../src/env/env.opy');
-const WEB_OUTPUT_FILE = path.resolve(__dirname, '../web/title-query/public/data/events.json');
 const MANIFEST_OUTPUT_FILE = path.resolve(__dirname, '../src/constants/event_manifest.opy');
 const EVENT_CONFIG_FILE = path.resolve(__dirname, '../src/config/eventConfig.opy');
 const EVENT_CONFIG_DEV_FILE = path.resolve(__dirname, '../src/config/eventConfigDev.opy');
@@ -876,7 +875,7 @@ export async function generateEventQueryData({
   eventConfigFile = EVENT_CONFIG_FILE,
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
-  outputFile = WEB_OUTPUT_FILE
+  outputFile
 } = {}) {
   const [sourceData, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource] = await Promise.all([
     loadEventSource(sourceFile),
@@ -892,8 +891,10 @@ export async function generateEventQueryData({
     eventConstantsSource
   });
 
-  await fs.mkdir(path.dirname(outputFile), { recursive: true });
-  await fs.writeFile(outputFile, `${JSON.stringify(webPayload, null, 2)}\n`, 'utf8');
+  if (outputFile) {
+    await fs.mkdir(path.dirname(outputFile), { recursive: true });
+    await fs.writeFile(outputFile, `${JSON.stringify(webPayload, null, 2)}\n`, 'utf8');
+  }
 
   return webPayload;
 }
@@ -903,13 +904,14 @@ export async function syncEventData({
   sourceData: providedSourceData,
   syncWeightsFromConstants = true,
   envFile = ENV_FILE,
-  webOutputFile = WEB_OUTPUT_FILE,
+  webOutputFile,
   manifestOutputFile = MANIFEST_OUTPUT_FILE,
   eventConfigFile = EVENT_CONFIG_FILE,
   eventConfigDevFile = EVENT_CONFIG_DEV_FILE,
   eventConstantsFile = EVENT_CONSTANTS_FILE,
   eventIdFiles = EVENT_ID_FILES,
-  dryRun = false
+  dryRun = false,
+  writeSourceFile = true
 } = {}) {
   const [sourceRawData, envSource, eventConfigSource, eventConfigDevSource, eventConstantsSource, ...eventIdSources] =
     await Promise.all([
@@ -967,9 +969,13 @@ export async function syncEventData({
       );
     }
 
-    await fs.writeFile(sourceFile, `${JSON.stringify(sourceRawData, null, 2)}\n`, 'utf8');
-    await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
-    await fs.writeFile(webOutputFile, webText, 'utf8');
+    if (writeSourceFile) {
+      await fs.writeFile(sourceFile, `${JSON.stringify(sourceRawData, null, 2)}\n`, 'utf8');
+    }
+    if (webOutputFile) {
+      await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
+      await fs.writeFile(webOutputFile, webText, 'utf8');
+    }
     await fs.writeFile(manifestOutputFile, manifestText, 'utf8');
   }
 

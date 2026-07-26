@@ -174,13 +174,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- data/title-source.json src/title/title-cn.opy web/title-query/public/data/titles.json; then
+          if git diff --quiet -- data/title-source.json src/title/title-cn.opy; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No title-related file changes detected."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Title-related changes detected:"
-            git diff --name-only -- data/title-source.json src/title/title-cn.opy web/title-query/public/data/titles.json
+            git diff --name-only -- data/title-source.json src/title/title-cn.opy
           fi
 
       - name: Create pull request for title grant
@@ -207,7 +207,6 @@ jobs:
           add-paths: |
             data/title-source.json
             src/title/title-cn.opy
-            web/title-query/public/data/titles.json
 
       - name: Run summary
         shell: bash

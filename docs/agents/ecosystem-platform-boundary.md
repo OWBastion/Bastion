@@ -59,17 +59,9 @@ This repository is not authoritative for:
 
 ## 4. Transitional Web UI Rules
 
-`web/title-query` is a migration source for `OWBastion/owbastion.codes`.
-
-Until migration is complete:
-
-- bug fixes and compatibility changes are allowed;
-- data-generation scripts must remain deterministic;
-- public data output must remain backward compatible unless a versioned schema is introduced;
-- do not add major new product features to the legacy page;
-- new review, player account, submission, dashboard, or balance-management features belong in `owbastion.codes`.
-
-The legacy query page may continue to consume generated data, but it is not a platform build or release pipeline.
+The former `web/title-query` page has been removed. Its title, event, glossary, and
+allocator views are owned by `OWBastion/owbastion.codes`; Bastion does not generate
+or deploy a web page.
 
 ## 5. Agents Current Metadata Sync
 

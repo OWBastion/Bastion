@@ -15,7 +15,6 @@
     "export:platform-title-catalog": "pnpm run tools -- export:platform-title-catalog",
     "sync:event-data": "pnpm run tools -- sync:event-data",
     "sync:platform-data": "pnpm run tools -- sync:platform-data",
-    "sync:effect-glossary": "pnpm run tools -- sync:effect-glossary",
     "sync:grant-general-title-workflow": "pnpm run tools -- sync:grant-general-title-workflow",
     "event:finalize": "pnpm run tools -- event:finalize",
     "grant:title": "pnpm run tools -- grant:title",
@@ -31,21 +30,16 @@
     "test:grant-general-title-workflow": "pnpm run tools -- test:grant-general-title-workflow",
     "test:event-allocation": "pnpm run tools -- test:event-allocation",
     "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:event-data-sync && pnpm run tools -- test:platform-data-sync && pnpm run tools -- test:effect-glossary-sync && pnpm run tools -- test:title-grant && pnpm run tools -- test:grant-general-title-workflow && pnpm run tools -- test:event-allocation",
-    "dev:title-query": "pnpm run tools -- sync && vite --config web/title-query/vite.config.ts",
-    "build:title-query": "pnpm run tools -- sync && vite build --config web/title-query/vite.config.ts",
     "build:release": "pnpm run build:main:en && pnpm run build:main:zh",
     "build": "pnpm run build:main && pnpm run build:dev"
   },
   "dependencies": {
-    "overpy": "^9.7.9",
-    "vue": "^3.5.40"
+    "overpy": "^9.7.9"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
-    "@vitejs/plugin-vue": "^6.0.8",
     "commander": "^15.0.0",
     "tsx": "^4.23.1",
-    "typescript": "^7.0.2",
-    "vite": "^8.1.5"
+    "typescript": "^7.0.2"
   }
 }

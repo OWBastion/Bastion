@@ -73,7 +73,7 @@ pnpm run test:title-data-sync
 
 ```bash
 rg -n 'AUTO-GENERATED TITLE ENUM|AUTO-GENERATED TITLE PLAYER DATABASE|AUTO-GENERATED MAP_TITLE_DATA|AUTO-GENERATED ALL_TITLE' src/title/title-cn.opy
-rg -n '"players"|"titleKeys"|"mapTitles"|"holders"|"sourceFile"' data/title-source.json web/title-query/public/data/titles.json
+rg -n '"players"|"titleKeys"|"mapTitles"|"holders"|"sourceFile"' data/title-source.json
 ```
 
 ## 5) 失败排查

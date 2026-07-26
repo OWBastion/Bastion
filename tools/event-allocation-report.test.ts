@@ -7,7 +7,6 @@ import { fileURLToPath } from 'node:url';
 
 import {
   buildEventAllocationReportData,
-  DEFAULT_REPORT_OUTPUT_FILE,
   renderNonTtySummary,
   renderTuiFrame
 } from './analyze-event-allocation.ts';
@@ -99,8 +98,4 @@ test('syncs html-data report payload to disk', async () => {
   assert.ok(Array.isArray(written.staticSummary));
   assert.ok(Array.isArray(written.scenarios));
   assert.ok(Array.isArray(written.sessionSimulation?.scenarios));
-});
-
-test('default report output stays under title-query public data', () => {
-  assert.match(DEFAULT_REPORT_OUTPUT_FILE, /web\/title-query\/public\/data\/event-allocation-report\.json$/);
 });

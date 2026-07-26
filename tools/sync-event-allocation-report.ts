@@ -3,7 +3,6 @@ import path from 'node:path';
 
 import {
   buildEventAllocationReportData,
-  DEFAULT_REPORT_OUTPUT_FILE,
   loadSharedAnalysisInputs
 } from './analyze-event-allocation.ts';
 
@@ -15,7 +14,8 @@ type SyncEventAllocationReportOptions = {
 };
 
 export async function syncEventAllocationReport(options: SyncEventAllocationReportOptions = {}) {
-  const outputFile = options.outputFile ?? DEFAULT_REPORT_OUTPUT_FILE;
+  if (!options.outputFile) throw new Error('outputFile is required');
+  const outputFile = options.outputFile;
   const payload = await buildEventAllocationReportData({
     sourceFile: options.sourceFile,
     constantsFile: options.constantsFile,

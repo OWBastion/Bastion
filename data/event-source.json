@@ -54,7 +54,7 @@
       "id": 1,
       "pack": 1,
       "nameZh": "疾风祝福",
-      "descZh": "移动速度提高 50%",
+      "descZh": "移动速度提高{0}%",
       "durationSec": 25,
       "weight": 1.4,
       "availability": "active"
@@ -65,7 +65,7 @@
       "id": 2,
       "pack": 1,
       "nameZh": "钢铁防线",
-      "descZh": "获得800点临时护甲与25%伤害减免",
+      "descZh": "获得{0}点临时护甲与{1}%伤害减免",
       "durationSec": 25,
       "weight": 1.1,
       "availability": "active"
@@ -76,7 +76,7 @@
       "id": 3,
       "pack": 1,
       "nameZh": "生命源泉",
-      "descZh": "每秒恢复15%最大生命值",
+      "descZh": "每秒恢复{0}%最大生命值",
       "durationSec": 30,
       "weight": 1.1,
       "availability": "active"
@@ -87,8 +87,8 @@
       "id": 4,
       "pack": 1,
       "nameZh": "黑粉来袭",
-      "descZh": "在即将受到来自堡垒的伤害时，获得 25 + 5% 最大生命值 的临时生命值与 额外获得 50% 移动速度加成（持续 2 秒）",
-      "durationSec": 20,
+      "descZh": "被堡垒锁定时\\n获得{0}+{1}%临时生命值与{2}%移速加成",
+      "durationSec": 45,
       "weight": 1.2,
       "availability": "active"
     },
@@ -98,7 +98,7 @@
       "id": 5,
       "pack": 1,
       "nameZh": "足力健",
-      "descZh": "持续移动1秒获得3%可叠加的移动速度",
+      "descZh": "持续移动获得{0}%可叠加的移动速度",
       "durationSec": 45,
       "weight": 1.3,
       "availability": "active"
@@ -109,7 +109,7 @@
       "id": 6,
       "pack": 1,
       "nameZh": "血肉再生",
-      "descZh": "获得50+25%最大生命值的临时生命值，每5秒自动刷新",
+      "descZh": "获得{0}+{1}%最大生命值的临时生命值\\n每{2}秒自动刷新",
       "durationSec": 90,
       "weight": 1.3,
       "availability": "active"
@@ -120,7 +120,7 @@
       "id": 7,
       "pack": 1,
       "nameZh": "心之钢",
-      "descZh": "阵亡后获得1层，每层永久提供0.75%最大生命值加成",
+      "descZh": "阵亡后获得{0}层\\n每层永久提供{1}%最大生命值",
       "durationSec": 120,
       "weight": 1,
       "availability": "active"
@@ -131,7 +131,7 @@
       "id": 8,
       "pack": 2,
       "nameZh": "死亡延迟",
-      "descZh": "受到致命伤害时，阵亡将被延迟到事件结束后",
+      "descZh": "受到致命伤害时\\n该伤害将被延迟到事件结束后",
       "durationSec": 45,
       "weight": 0.7,
       "availability": "active"
@@ -142,7 +142,7 @@
       "id": 9,
       "pack": 2,
       "nameZh": "↑↑↓↓←→←→BABA",
-      "descZh": "阵亡后复活，获得2.5秒伤害免疫，事件立刻结束",
+      "descZh": "阵亡后在阵亡地点复活",
       "durationSec": 120,
       "weight": 0.6,
       "availability": "active",
@@ -154,7 +154,7 @@
       "id": 10,
       "pack": 2,
       "nameZh": "费斯卡光子护盾",
-      "descZh": "所有人获得一个可恢复的护盾，其数值为 75 或你最大生命值的 20%，护盾持续到你阵亡或事件结束",
+      "descZh": "所有人获得一个可恢复的护盾\\n数值为你{0}%最大生命值\\n护盾持续到你阵亡或事件结束",
       "durationSec": 120,
       "weight": 0.9,
       "availability": "active"
@@ -165,7 +165,7 @@
       "id": 11,
       "pack": 3,
       "nameZh": "向我靠拢",
-      "descZh": "每 5 秒，你与附近队友获得 2.5 秒伤害免疫",
+      "descZh": "你和你附近的队友每{0}秒获得{1}秒无敌",
       "durationSec": 30,
       "weight": 0.5,
       "availability": "active"
@@ -176,7 +176,7 @@
       "id": 12,
       "pack": 3,
       "nameZh": "胜利意志",
-      "descZh": "生命值低于30%触发：获得5秒伤害免疫，清除负面状态并回复已损失生命值",
+      "descZh": "生命值低于{0}%触发\\n获得{1}秒无敌并清除负面状态",
       "durationSec": 30,
       "weight": 1.2,
       "availability": "active"
@@ -187,7 +187,7 @@
       "id": 13,
       "pack": 3,
       "nameZh": "任务：菲迪皮德斯之力",
-      "descZh": "持续移动42.195秒后永久获得6%移速加成",
+      "descZh": "持续移动{0}秒后永久获得{1}%移速加成",
       "durationSec": 45,
       "weight": 0.8,
       "availability": "active"
@@ -198,8 +198,8 @@
       "id": 14,
       "pack": 3,
       "nameZh": "心之钢 Pro",
-      "descZh": "获得16层心之钢层数（12% = 0.75% × 16），基于心之钢层数提升最大生命值，数值为心之钢层数 × 2。",
-      "durationSec": 90,
+      "descZh": "获得{0}层心之钢\\n基于层数临时提升最大生命值\\n数值为心之钢层数×{1}",
+      "durationSec": 75,
       "weight": 0.9,
       "availability": "active"
     },
@@ -209,7 +209,7 @@
       "id": 15,
       "pack": 3,
       "nameZh": "我按Q辣",
-      "descZh": "可使用终极技能且不会跳过，每移动1秒获得10%终极技能充能；终极技能持续期间伤害减免75%，释放时立即重置所有技能冷却时间",
+      "descZh": "持续移动获得终极技能充能\\n终极技能持续期间获得{0}%伤害减免",
       "durationSec": 120,
       "weight": 1.2,
       "availability": "active"
@@ -220,7 +220,7 @@
       "id": 16,
       "pack": 4,
       "nameZh": "相位猛冲",
-      "descZh": "冲刺、跳跃、闪现与传送类技能获得 200% 移动速度加成",
+      "descZh": "位移技能获得{0}%移速加成",
       "durationSec": 45,
       "weight": 1.2,
       "availability": "active"
@@ -231,7 +231,7 @@
       "id": 17,
       "pack": 4,
       "nameZh": "保镖",
-      "descZh": "冲刺、跳跃、闪现与传送类技能为你和最近友方提供（25 + 20% 最大生命值）临时护甲，持续 4 秒",
+      "descZh": "位移技能为最近友方提供护甲",
       "durationSec": 75,
       "weight": 1,
       "availability": "active"
@@ -242,7 +242,7 @@
       "id": 18,
       "pack": 4,
       "nameZh": "任务：殉道者",
-      "descZh": "被不同堡垒击杀达到目标值\n目标值会随堡垒数量在 6 至 11 之间浮动\n奖励：5% 永久伤害减免",
+      "descZh": "被不同的堡垒击杀\\n奖励：{0}% 永久伤害减免",
       "durationSec": 120,
       "weight": 0.75,
       "availability": "active"
@@ -253,7 +253,7 @@
       "id": 19,
       "pack": 4,
       "nameZh": "F5",
-      "descZh": "每 5 秒重置所有技能冷却",
+      "descZh": "每{0}秒重置所有技能冷却",
       "durationSec": 60,
       "weight": 0.4,
       "availability": "active"
@@ -264,7 +264,7 @@
       "id": 20,
       "pack": 4,
       "nameZh": "治疗光塔 ProMax",
-      "descZh": "无视距离，每秒为所有友方治疗 25 + 25% 你的最大生命值",
+      "descZh": "无视距离，每秒为全队提供{0}+{1}%最大生命值的治疗",
       "durationSec": 90,
       "weight": 0.6,
       "availability": "active"
@@ -275,7 +275,7 @@
       "id": 21,
       "pack": 4,
       "nameZh": "魔术大师",
-      "descZh": "使用表情时获得隐身效果与60%移速加成",
+      "descZh": "使用表情时进入隐身状态\n并获得{0}%移速加成",
       "durationSec": 45,
       "weight": 1.5,
       "availability": "active",
@@ -287,7 +287,7 @@
       "id": 22,
       "pack": 5,
       "nameZh": "天降神兵",
-      "descZh": "长按装填(R)：传送至血量百分比最低的友方身边，为其治疗 50 + 60% 你的最大生命值",
+      "descZh": "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值，冷却{3}秒",
       "durationSec": 60,
       "weight": 1.1,
       "availability": "active",
@@ -299,7 +299,7 @@
       "id": 23,
       "pack": 5,
       "nameZh": "任务：钢化你心",
-      "descZh": "使用3个英雄通过终点\n\n奖励：心之钢已有层数×1.5，每层提供的最大生命值永久由 0.75% 提升至 1%",
+      "descZh": "使用{0}个英雄通过终点\n奖励：心之钢层数×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%",
       "durationSec": 180,
       "weight": 0.3,
       "availability": "active",
@@ -310,8 +310,8 @@
       "type": "buff",
       "id": 24,
       "pack": 5,
-      "nameZh": "任务：战地医生",
-      "descZh": "累计治疗 10000 点生命值\n\n奖励：永久获得 25% 治疗强度",
+      "nameZh": "战地医生",
+      "descZh": "累计治疗 {0} 点生命值\n奖励：永久获得 {1}% 治疗强度",
       "durationSec": 120,
       "weight": 1,
       "availability": "active",
@@ -323,7 +323,7 @@
       "id": 0,
       "pack": 1,
       "nameZh": "重力异常",
-      "descZh": "移动速度降低50%，跳跃高度降低70%",
+      "descZh": "跳跃高度降低{0}%",
       "durationSec": 20,
       "weight": 1.4,
       "availability": "active"
@@ -345,7 +345,7 @@
       "id": 2,
       "pack": 1,
       "nameZh": "献祭",
-      "descZh": "队友使用技能时会消耗你 10% 最大生命值",
+      "descZh": "队友使用技能时\\n消耗你 {0}% 最大生命值",
       "durationSec": 30,
       "weight": 0.8,
       "availability": "active"
@@ -356,7 +356,7 @@
       "id": 3,
       "pack": 1,
       "nameZh": "易损",
-      "descZh": "受到的所有伤害提高35%",
+      "descZh": "受到的所有伤害提高{0}%",
       "durationSec": 25,
       "weight": 1.2,
       "availability": "active"
@@ -367,7 +367,7 @@
       "id": 4,
       "pack": 1,
       "nameZh": "限速40",
-      "descZh": "移动时每秒损失25+7.5%最大生命值",
+      "descZh": "移动时每秒损失{0}+{1}%最大生命值",
       "durationSec": 25,
       "weight": 1.1,
       "availability": "active"
@@ -378,7 +378,7 @@
       "id": 5,
       "pack": 2,
       "nameZh": "引力异常",
-      "descZh": "被持续性拉向最近的堡垒，移动速度降低25%",
+      "descZh": "被持续性拉向最近的堡垒\\n移动速度降低{0}%",
       "durationSec": 20,
       "weight": 1.2,
       "availability": "active"
@@ -389,7 +389,7 @@
       "id": 6,
       "pack": 2,
       "nameZh": "骨质疏松",
-      "descZh": "移动速度随时间降低，最多50%",
+      "descZh": "移动速度随时间降低，最多{0}%",
       "durationSec": 30,
       "weight": 1.2,
       "availability": "active"
@@ -400,7 +400,7 @@
       "id": 7,
       "pack": 2,
       "nameZh": "电磁脉冲 ProMax",
-      "descZh": "被侵入，无法使用技能，以你为中心扩散至75米以内的队友",
+      "descZh": "被侵入\\n并扩散至{0}米以内的队友",
       "durationSec": 8,
       "weight": 1.3,
       "availability": "active"
@@ -411,7 +411,7 @@
       "id": 8,
       "pack": 2,
       "nameZh": "能量泄漏",
-      "descZh": "使用技能会消耗25%生命值",
+      "descZh": "使用技能会消耗{0}%生命值",
       "durationSec": 30,
       "weight": 1.1,
       "availability": "active"
@@ -422,7 +422,7 @@
       "id": 9,
       "pack": 2,
       "nameZh": "有难同当",
-      "descZh": "你受到伤害的75%会扩散给20米内所有队友",
+      "descZh": "受到的{0}%伤害扩散给{1}米内的友方",
       "durationSec": 30,
       "weight": 1.4,
       "availability": "active"
@@ -433,7 +433,7 @@
       "id": 10,
       "pack": 2,
       "nameZh": "狂欢盛宴",
-      "descZh": "当你在盛宴期间内阵亡，堡垒将进入10秒狂暴状态",
+      "descZh": "当你在盛宴期间内阵亡\\n堡垒将进入{0}秒狂暴状态",
       "durationSec": 45,
       "weight": 0.8,
       "availability": "active"
@@ -444,7 +444,7 @@
       "id": 11,
       "pack": 2,
       "nameZh": "无能的丈夫/妻子",
-      "descZh": "附近的友方将被击倒2秒",
+      "descZh": "附近的友方将被击倒{0}秒",
       "durationSec": 2,
       "weight": 1,
       "availability": "active"
@@ -455,7 +455,7 @@
       "id": 12,
       "pack": 3,
       "nameZh": "减半",
-      "descZh": "每3秒损失50%生命值，当生命值低于5%时将被斩杀",
+      "descZh": "每{0}秒损失{1}%生命值\\n当生命值低于{2}%时立即阵亡",
       "durationSec": 30,
       "weight": 1.2,
       "availability": "active"
@@ -466,7 +466,7 @@
       "id": 13,
       "pack": 3,
       "nameZh": "舍己为人",
-      "descZh": "基于玩家数量降低你的心之钢层数，每名玩家降低2层，由其他玩家均分",
+      "descZh": "基于玩家数量损失心之钢层数\\n每名玩家损失{0}层，由其他玩家均分",
       "durationSec": 5,
       "weight": 0.4,
       "availability": "active"
@@ -477,8 +477,8 @@
       "id": 14,
       "pack": 4,
       "nameZh": "保持距离",
-      "descZh": "距离友方越近，受到的伤害越高（每米增加 2% 伤害，最高 75%）",
-      "durationSec": 75,
+      "descZh": "距离队友越近受到伤害越高",
+      "durationSec": 45,
       "weight": 1.1,
       "availability": "active"
     },
@@ -488,7 +488,7 @@
       "id": 15,
       "pack": 4,
       "nameZh": "登月火箭",
-      "descZh": "被随机射向天空，无法控制方向",
+      "descZh": "被随机射向天空\\n并在空中无法控制方向",
       "durationSec": 5,
       "weight": 1.25,
       "availability": "active"
@@ -499,7 +499,7 @@
       "id": 16,
       "pack": 5,
       "nameZh": "阿德勒斯布鲁恩的冤魂",
-      "descZh": "获得7层诅咒，每层诅咒降低10%治疗强度，长按装填消耗99%最大生命值消除1层诅咒，\n事件结束后永久损失诅咒层数×10的治疗强度",
+      "descZh": "进入时立即获得7层诅咒\n每层诅咒降低10%治疗强度\n长按装填消耗99%最大生命值移除1层\n结束时永久失去剩余层数×10%治疗强度",
       "durationSec": 60,
       "weight": 0.5,
       "availability": "active",
@@ -511,7 +511,7 @@
       "id": 17,
       "pack": 5,
       "nameZh": "缺德导航",
-      "descZh": "每5秒随机朝一个方向弹射 12米",
+      "descZh": "每{0}秒随机朝一个方向高速弹射",
       "durationSec": 40,
       "weight": 1.2,
       "availability": "active"
@@ -522,7 +522,7 @@
       "id": 18,
       "pack": 5,
       "nameZh": "超重背包",
-      "descZh": "每100点生命值使受到的伤害提升10%",
+      "descZh": "每有{0}点生命值，使受到的伤害提高{1}%",
       "durationSec": 45,
       "weight": 1.6,
       "availability": "active"
@@ -533,7 +533,7 @@
       "id": 0,
       "pack": 3,
       "nameZh": "极限挑战",
-      "descZh": "获得99%伤害减免，生命值降低至15%，获得禁疗",
+      "descZh": "获得{0}%伤害减免\\n生命值被锁定在{1}%\\n获得禁疗",
       "durationSec": 60,
       "weight": 0.8,
       "availability": "active"
@@ -544,7 +544,7 @@
       "id": 1,
       "pack": 1,
       "nameZh": "赌徒",
-      "descZh": "长按装填(R)触发：50%概率永久获得/失去 8 层心之钢（6%=0.75×8）",
+      "descZh": "长按{0}触发\\n{1}%概率永久损失/获得{2}层心之钢",
       "durationSec": 15,
       "weight": 1.4,
       "availability": "active"
@@ -555,7 +555,7 @@
       "id": 2,
       "pack": 1,
       "nameZh": "迷你形态",
-      "descZh": "体积缩小60%，最大生命值降低50%，获得25%移速加成",
+      "descZh": "体积缩小{0}%，最大生命值降低{1}%\\n获得{2}%移速加成",
       "durationSec": 60,
       "weight": 1.2,
       "availability": "active"
@@ -566,7 +566,7 @@
       "id": 3,
       "pack": 1,
       "nameZh": "悄悄滴进村",
-      "descZh": "下蹲让堡垒无法检测到你，移动速度降低 25%",
+      "descZh": "下蹲时进入隐身状态\\n移动时每秒损失{0}%最大生命值\\n获得{1}%移速加成",
       "durationSec": 30,
       "weight": 1.3,
       "availability": "active"
@@ -577,7 +577,7 @@
       "id": 4,
       "pack": 2,
       "nameZh": "刹车失灵",
-      "descZh": "每秒获得 5% 可叠加的伤害减免（最多50%），不受控的向前移动，移动速度会逐渐提高至 175%",
+      "descZh": "不受控的向前移动\\n移动速度会逐渐提高至{0}%",
       "durationSec": 45,
       "weight": 0.9,
       "availability": "active"
@@ -588,7 +588,7 @@
       "id": 5,
       "pack": 3,
       "nameZh": "屁动力",
-      "descZh": "长按跳跃(空格)可以朝你的前方飞行，飞行时获得 25% 伤害减免",
+      "descZh": "长按{0}朝你的前方飞行\\n飞行时获得{1}%伤害减免",
       "durationSec": 30,
       "weight": 1,
       "availability": "active"
@@ -599,7 +599,7 @@
       "id": 6,
       "pack": 3,
       "nameZh": "赌徒：竞速挑战",
-      "descZh": "长按装填(R)消耗 8层心之钢，49% 概率永久获得/损失 5% 移动速度加成，2% 概率永久获得/损失 12% 移动速度加成",
+      "descZh": "长按{0}消耗{1}%生命值\\n{2}%概率永久获得/损失{3}%移速加成\\n{4}%概率永久获得/损失{5}%移速加成",
       "durationSec": 15,
       "weight": 0.85,
       "availability": "active"
@@ -610,7 +610,7 @@
       "id": 7,
       "pack": 4,
       "nameZh": "作弊：我要验牌",
-      "descZh": "长按装填(R)：消耗2层心之钢，使下一个事件必然是增益事件",
+      "descZh": "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\\n下个事件必为增益",
       "durationSec": 15,
       "weight": 1.2,
       "availability": "active"
@@ -621,7 +621,7 @@
       "id": 8,
       "pack": 4,
       "nameZh": "赌徒：短期投资",
-      "descZh": "长按装填(R)以接下来 3 个事件均为减益为代价，75% 的概率永久获得 4 层（3% = 0.75 × 4）心之钢层数",
+      "descZh": "长按{0}锁定{1}个减益\\n{2}%概率获得{3}层心之钢",
       "durationSec": 15,
       "weight": 1.1,
       "availability": "active"
@@ -632,7 +632,7 @@
       "id": 9,
       "pack": 4,
       "nameZh": "作弊：跳过",
-      "descZh": "长按装填(R)跳过当前英雄，该跳过不会被计入挑战进度",
+      "descZh": "长按{0}跳过当前英雄且不计入挑战进度",
       "durationSec": 30,
       "weight": 0.5,
       "availability": "active"
@@ -643,7 +643,7 @@
       "id": 10,
       "pack": 4,
       "nameZh": "俄罗斯套娃",
-      "descZh": "阵亡 2 秒后复活，每次复活都会使体型缩小 5% 并临时获得 5% 移动速度",
+      "descZh": "阵亡{0}秒后复活\\n每次复活变小{1}%并加速{2}%",
       "durationSec": 60,
       "weight": 0.6,
       "availability": "active"
@@ -654,7 +654,7 @@
       "id": 11,
       "pack": 4,
       "nameZh": "赌徒：长期投资",
-      "descZh": "长按装填(R)以接下来 5 个事件均为减益为代价，33% 的概率永久获得 24 层（18% = 0.75 × 24）心之钢层数",
+      "descZh": "长按{0}锁定{1}个减益\\n{2}%概率获得{3}层心之钢",
       "durationSec": 15,
       "weight": 0.4,
       "availability": "active"
@@ -665,7 +665,7 @@
       "id": 12,
       "pack": 4,
       "nameZh": "瓦尔基里降临",
-      "descZh": "获得1000% 额外生命值，不再能被友方治疗或触发被动生命回复，受到伤害时获得 10% 终极技能充能，终极技能持续期间最多回复 85% 已损失生命值",
+      "descZh": "生命值提高{0}%，获得禁疗\\n受到伤害获得大招充能\\n大招持续期间最多回复{1}%生命值",
       "durationSec": 120,
       "weight": 0.4,
       "availability": "active"
@@ -676,7 +676,7 @@
       "id": 13,
       "pack": 4,
       "nameZh": "三位一体",
-      "descZh": "每 100 点生命值提供 2.5% 伤害减免（上限 85%），每 1% 伤害减免提供 2% 移动速度加成，每4秒获得 1 层心之钢（0.75%）层数。",
+      "descZh": "100HP→{0}%减伤，1%减伤→{1}%移速\\n每{2}秒获得1层心之钢",
       "durationSec": 120,
       "weight": 0.38,
       "availability": "active"
@@ -687,7 +687,7 @@
       "id": 14,
       "pack": 5,
       "nameZh": "赌徒：掷骰狂人",
-      "descZh": "长按装填(R)掷出一颗永久改变属性的骰子：\n⚀ 1点：损失 5 层心之钢\n⚁ 2点：损失 2% 移速加成\n⚂ 3点：损失 2% 伤害减免与治疗增益\n⚃ 4点：获得 2% 移速加成\n⚄ 5点：获得 5 层心之钢（+3.75%）\n⚅ 6点：获得 2% 伤害减免与治疗增益",
+      "descZh": "持续{0}秒，长按{1}{2}秒掷骰\\n1: -{3}层心之钢 | 2: -{4}%移速\\n3: -{5}%减伤和治疗强度 | 4: +{4}%移速\\n5: +{3}层心之钢 | 6: +{5}%减伤和治疗强度",
       "durationSec": 60,
       "weight": 0.4,
       "availability": "active"
@@ -698,7 +698,7 @@
       "id": 15,
       "pack": 5,
       "nameZh": "赌徒：心之钢",
-      "descZh": "长按装填(R)：\n40% 概率使心之钢层数×1.5\n60% 概率失去 50% 层数",
+      "descZh": "长按{0}触发\n{1}%概率心之钢层数变为{2}倍\\n{3}%概率失去{4}%层数",
       "durationSec": 15,
       "weight": 0.3,
       "availability": "active"
@@ -709,7 +709,7 @@
       "id": 16,
       "pack": 5,
       "nameZh": "赌徒：梭哈艺术",
-      "descZh": "长按装填(R)以 25% 心之钢层数为赌注：\n8% 概率获得赌注等值×5的心之钢层数",
+      "descZh": "按下{0}以{1}%心之钢层数下注\\n{2}%概率获得赌注×{3}层数",
       "durationSec": 15,
       "weight": 0.6,
       "availability": "active"
@@ -720,7 +720,7 @@
       "id": 17,
       "pack": 4,
       "nameZh": "吸血鬼",
-      "descZh": "每秒吸取队友10+2%最大生命值\n每击杀一名队友，永久获得2.5%治疗增益",
+      "descZh": "每秒吸取所有队友{0}+{1}%最大生命值\\n每击杀一名队友永久获得{2}%治疗强度",
       "durationSec": 45,
       "weight": 0.5,
       "availability": "active"
@@ -731,7 +731,7 @@
       "id": 18,
       "pack": 5,
       "nameZh": "窃贼",
-      "descZh": "长按装填(R)：随机选取一名友方，窃取其下一个增益事件",
+      "descZh": "长按{0}随机窃取一名友方未来的增益事件\\n你的下个事件必然是增益\\n目标会失去未来一次增益事件",
       "durationSec": 15,
       "weight": 1.4,
       "availability": "active"
@@ -742,7 +742,7 @@
       "id": 19,
       "pack": 5,
       "nameZh": "赌徒：乐于助人",
-      "descZh": "长按装填(R)：\n75% 概率使所有友方恢复85%最大生命值；\n25% 概率使所有玩家生命值降低至 1",
+      "descZh": "长按{0}触发\\n{1}%概率使所有友方恢复{2}%最大生命值\\n{3}%概率使所有玩家生命值降至1",
       "durationSec": 15,
       "weight": 1.1,
       "availability": "active",
@@ -754,7 +754,7 @@
       "id": 20,
       "pack": 5,
       "nameZh": "作弊：暗箱操作",
-      "descZh": "长按装填(R)：消耗4层心之钢，使下一个事件必然是机制事件",
+      "descZh": "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\\n下个事件必为机制",
       "durationSec": 15,
       "weight": 0.8,
       "availability": "active",
@@ -766,7 +766,7 @@
       "id": 21,
       "pack": 5,
       "nameZh": "镜像反转",
-      "descZh": "长按装填(R)：永久反转当前的属性（减伤/移速/治疗增益/心之钢）",
+      "descZh": "长按{0}永久反转当前的属性：\\n减伤/移速/治疗强度/心之钢",
       "durationSec": 15,
       "weight": 0.8,
       "availability": "active",
@@ -778,7 +778,7 @@
       "id": 22,
       "pack": 5,
       "nameZh": "赌徒：赢家通吃",
-      "descZh": "长按装填(R)以 25% 心之钢层数为赌注：10%概率清空奖池拿走所有心之钢层数",
+      "descZh": "长按{0}消耗{1}%心之钢层数\\n{2}%概率清空奖池并获得其中所有心之钢层数",
       "durationSec": 15,
       "weight": 0.7,
       "availability": "active",

@@ -31,7 +31,7 @@ description: 为 Bastion Overwatch Workshop 项目发放玩家称号的专用流
 1. 玩家不存在时，只允许在 `players` 末尾追加。
 2. 通用称号写入 `players[*].titleKeys`（去重、默认不移除历史）。
 3. 地图称号写入 `mapTitles[*].holders` 对应槽位（去重）。
-4. 禁止手改生成产物：`src/title/title-cn.opy`、`web/title-query/public/data/titles.json`。
+4. 禁止手改生成产物：`src/title/title-cn.opy`。
 5. `DOMINATOR` 高于 `CONQUEROR`：加入 `DOMINATOR` 时，必须确保同图同玩家已在 `CONQUEROR`。
 
 ## 4) 中文别名映射（高频）

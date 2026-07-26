@@ -3,7 +3,7 @@
 ## Session 摘要
 
 ### 1) Title Source / Query 工作流
-- 建立并固定 `data/title-source.json` 为称号真源，`src/title/title-cn.opy` 与 `web/title-query/public/data/titles.json` 通过同步脚本生成，避免手改生成产物。
+- 建立并固定 `data/title-source.json` 为称号真源，`src/title/title-cn.opy` 通过同步脚本生成，避免手改生成产物。
 - 标题查询页改造集中在候选提示、分组展示、折叠区和主题持久化，流程强调“先同步数据，再改 UI”。
 - 关键防漂移动作：统一命令为 `pnpm run sync:title-data` 与 `pnpm run test:title-data-sync`，并在 skill 中显式声明玩家顺序语义与 map 奖励约束。
 
@@ -26,7 +26,7 @@
 
 ```bash
 rg --files skills | rg 'SKILL.md|references|agents/openai.yaml'
-rg -n 'sync:title-data|test:title-data-sync|build:title-query|build:release' skills AGENTS.md package.json
+rg -n 'sync:title-data|test:title-data-sync|sync:platform-data|build:release' skills AGENTS.md package.json
 rg -n '禁止重排|DOMINATOR|COUNT 之前|生成产物|不可手改' skills/*/SKILL.md
 ```
 

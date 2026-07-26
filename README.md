@@ -104,16 +104,7 @@ pnpm run build:main
 pnpm run build:dev
 ```
 
-Title / event / allocator query page:
-
-```bash
-pnpm run sync:query-data
-pnpm run test:title-data-sync
-pnpm run test:event-data-sync
-pnpm run build:title-query
-```
-
-`pnpm run grant:title` now updates `data/title-source.json` and automatically runs title-data sync when it makes changes. The static query page now includes titles, events, glossary terms, and the allocator report. Generated page data flows through the tool scripts into `web/title-query/public/data/*.json`, and the page is deployed by `.github/workflows/pages-title-query.yml`.
+The platform website now owns the title, event, glossary, and allocator views. Bastion keeps only the source data, OverPy generation, and build validation.
 
 Dual-language release build:
 

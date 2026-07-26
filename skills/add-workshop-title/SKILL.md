@@ -23,7 +23,7 @@ description: 为 Bastion Overwatch Workshop 项目新增或调整称号（TITLE 
 1. 新称号只允许追加到 `titles` 末尾。
 2. 玩家不存在时只允许追加到 `players` 末尾。
 3. 地图奖励只改对应 `mapTitles[*].holders`。
-4. 禁止手改生成产物：`src/title/title-cn.opy`、`web/title-query/public/data/titles.json`。
+4. 禁止手改生成产物：`src/title/title-cn.opy`。
 
 关键约束：
 
