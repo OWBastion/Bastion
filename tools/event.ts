@@ -349,7 +349,7 @@ export async function main(rawArgs: string[]) {
   for (const file of touched) {
     console.log(`- ${file}`);
   }
-  console.log('Next: pnpm run tools -- sync:event-data && pnpm run tools -- test:event-data-sync');
+  console.log('Next: pnpm run sync:platform-data && pnpm run build');
 }
 
 const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;

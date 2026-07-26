@@ -4,9 +4,9 @@
 #!optimizeStrict
 
 # BEGIN AUTO-GENERATED EVENT MANIFEST
-# Source: data/event-source.json
-#!define EVENT_MANIFEST_SOURCE_LABEL "随机事件数据"
-#!define EVENT_MANIFEST_SOURCE_VERSION "v1"
+# Source: OWBastion Agents API
+#!define EVENT_MANIFEST_SOURCE_LABEL "OWBastion Agents API"
+#!define EVENT_MANIFEST_SOURCE_VERSION "contract-1"
 #!define EVENT_MANIFEST_MAIN_VERSION "26.0714.1"
 #!define EVENT_MANIFEST_TOTAL_EVENTS 67
 #!define EVENT_MANIFEST_ACTIVE_EVENTS 67

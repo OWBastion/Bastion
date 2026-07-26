@@ -1,6 +1,6 @@
 ---
 name: remove-workshop-event
-description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下线（默认 hard-delete 物理删除）。Use when user asks to remove or retire a Buff/Debuff/Mech event, including triggers such as “移除事件”, “下线事件”, “删除 Buff/Debuff/Mech 事件”, or “retire event”. Covers enum/constants/locales/config/effects/event-source synchronization with strict validation gates.
+description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下线（默认 hard-delete 物理删除）。Use when user asks to remove or retire a Buff/Debuff/Mech event, including triggers such as “移除事件”, “下线事件”, “删除 Buff/Debuff/Mech 事件”, or “retire event”. Covers enum/constants/locales/config/effects/platform stable-ID mapping with strict validation gates.
 ---
 
 # Remove Workshop Event
@@ -25,7 +25,7 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 3. 本地化：从 `src/locales/zh-CN.opy` 与 `src/locales/en-US.opy` 删除目标 `STR_EVT_*` 键。
 4. 配置：从 `src/config/eventConfig.opy` 与 `src/config/eventConfigDev.opy` 删除目标事件注册、append、dev setting。
 5. 效果：从 `src/events/effects/*Effects.opy` 删除目标 include；默认删除对应 effect 文件（若用户明确要求保留文件，再改为清空并标注停用原因）。
-6. 数据：从 `data/event-source.json` 删除目标事件条目（不是改 `retired`）。
+6. 数据：从 `data/platform-event-ids.json` 删除目标事件的稳定 ID 映射。
 
 ## 3) 禁止项
 
@@ -36,7 +36,7 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 
 ## 4) 失败处理规则
 
-当 `pnpm run sync:event-data`、`pnpm run build:*` 或测试失败时：
+当 `pnpm run sync:platform-data`、`pnpm run build:*` 或测试失败时：
 
 1. 仅修复与本次目标事件删除直接相关的残留引用。
 2. 不引入范围外变更（例如 unrelated 事件重命名、批量格式化、结构重写）。
@@ -48,13 +48,13 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 1. `pnpm run build:main`
 2. `pnpm run build:dev`
 3. `./tools/check_locale_keys.sh`
-4. `pnpm run sync:event-data`
-5. `pnpm run test:event-data-sync`
+4. `pnpm run sync:platform-data -- --build=false`（需要平台 API 时）
+5. `pnpm run test:platform-data-sync`
 
 ## 6) 结果自检
 
 1. `rg` 检索目标 KEY/ID/STR/EVT/include/config append 残留为 0。
-2. `event-source.json` 不再包含目标事件条目。
-3. 生成产物（event manifest / query data）与源码一致。
+2. `data/platform-event-ids.json` 不再包含目标事件映射。
+3. 生成产物（event manifest）与源码一致。
 
 详细检查命令模板见 [references/remove-template.md](references/remove-template.md)。

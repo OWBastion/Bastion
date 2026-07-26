@@ -6,19 +6,20 @@ import { promisify } from 'node:util';
 
 import {
   DEFAULT_PLATFORM_DATA_BASE_URL,
+  PLATFORM_DATA_CONTRACT_VERSION,
   PlatformDataClient,
   type PlatformData,
   type PlatformDataClientOptions
 } from './platform-data-client.ts';
-import { syncEventData } from './sync-event-data.ts';
 import { syncGrantGeneralTitleWorkflow } from './sync-grant-general-title-workflow.ts';
 import { loadTitleSource, syncTitleData } from './sync-title-data.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const TITLE_SOURCE_FILE = path.join(ROOT, 'data/title-source.json');
-const EVENT_SOURCE_FILE = path.join(ROOT, 'data/event-source.json');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
+const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
+const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
 const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
@@ -45,10 +46,9 @@ type TitleSource = JsonObject & {
   players: JsonObject[];
   mapTitles: JsonObject[];
 };
-type EventSource = JsonObject & {
-  packs: JsonObject[];
-  events: JsonObject[];
-};
+type EventType = 'buff' | 'debuff' | 'mech';
+type EventMacros = { id: string | number; duration: string; weight: string };
+type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 
 export type PlatformSyncOptions = PlatformDataClientOptions & {
   build?: boolean;
@@ -62,6 +62,12 @@ function requireString(value: unknown, label: string): string {
 function requireNumber(value: unknown, label: string): number {
   if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`${label} must be a finite number`);
   return value;
+}
+
+function parseMainVersion(source: string): string {
+  const match = source.match(/^#!define\s+VERSION\s+"([^"]+)"/m);
+  if (!match) throw new Error('Unable to parse VERSION from src/env/env.opy');
+  return match[1];
 }
 
 function writeJson(file: string, value: unknown) {
@@ -175,9 +181,23 @@ function validateAndMergeMaps(platformData: PlatformData, titleSource: TitleSour
   }));
 }
 
-function validateAndMergeEvents(platformData: PlatformData, eventSource: EventSource, platformIds: Record<string, string>, challengeIds: Set<string>) {
-  const events = eventSource.events.map((item) => ({ ...item }));
-  const eventByKey = new Map(events.map((item) => [requireString(item.key, 'event.key'), item]));
+function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
+  const entries = new Map<string, { key: string; type: EventType }>();
+  for (const source of configSources) {
+    for (const [type, enumType] of [['buff', 'BuffEventId'], ['debuff', 'DebuffEventId'], ['mech', 'MechEventId']] as const) {
+      const pattern = new RegExp(`${type}EventName\\[\\s*${enumType}\\.([A-Z0-9_]+)\\s*\\]\\s*=`, 'g');
+      for (const match of source.matchAll(pattern)) entries.set(match[1], { key: match[1], type });
+    }
+  }
+  return [...entries.values()];
+}
+
+function validateAndMergeEvents(
+  platformData: PlatformData,
+  platformIds: Record<string, string>,
+  challengeIds: Set<string>,
+  eventEntries: Array<{ key: string; type: EventType }>
+) {
   const remoteById = new Map<string, JsonObject>();
   const mappedPlatformIds = new Set(Object.values(platformIds));
   for (const [index, item] of platformData.events.entries()) {
@@ -205,14 +225,21 @@ function validateAndMergeEvents(platformData: PlatformData, eventSource: EventSo
   const mappedIds = Object.entries(platformIds);
   assertUnique(mappedIds.map(([, id]) => requireString(id, 'platform event ID')), 'platform event ID mapping');
   for (const [key, platformId] of mappedIds) {
-    const local = eventByKey.get(key);
+    const local = eventEntries.find((item) => item.key === key);
     if (!local) throw new Error(`Platform event mapping references unknown Bastion event ${key}`);
     const remote = remoteById.get(platformId);
     if (!remote) throw new Error(`Bastion event ${key} is missing from platform event data: ${platformId}`);
     const expectedType = EVENT_CATEGORIES.get(remote.category);
     if (expectedType !== local.type) throw new Error(`Event ${key} category does not match Bastion type ${local.type}`);
   }
-  return events;
+  for (const entry of eventEntries) {
+    const platformId = platformIds[entry.key];
+    if (!platformId) throw new Error(`Bastion event ${entry.key} is missing a platform event mapping`);
+  }
+  return eventEntries.map((entry) => ({
+    ...entry,
+    platformId: platformIds[entry.key]
+  }));
 }
 
 function replaceOverPyDefine(source: string, name: string, value: string | number): string {
@@ -248,63 +275,84 @@ function resolveEventMacros(eventKey: string, eventType: string, configSources: 
 
 export function mergePlatformEventOverPyData({
   platformData,
-  eventSource,
-  platformEventIds,
-  eventMacros,
+  eventEntries,
   constantsSource,
   localeSource
 }: {
   platformData: PlatformData;
-  eventSource: EventSource;
-  platformEventIds: Record<string, string>;
-  eventMacros: Record<string, { id: string | number; duration: string; weight: string }>;
+  eventEntries: EventEntry[];
   constantsSource: string;
   localeSource: string;
 }) {
   const remoteById = new Map(platformData.events.map((item) => [requireString(item.eventId, 'eventId'), item]));
   let nextConstantsSource = constantsSource;
   let nextLocaleSource = localeSource;
-  const nextEventSource = {
-    ...eventSource,
-    events: eventSource.events.map((eventItem) => {
-      const platformId = platformEventIds[requireString(eventItem.key, 'event.key')];
-      if (!platformId) return { ...eventItem };
-      const remote = remoteById.get(platformId);
-      if (!remote) throw new Error(`Bastion event ${eventItem.key} is missing from platform event data: ${platformId}`);
-      const type = requireString(eventItem.type, 'event.type').toUpperCase();
-      const macros = eventMacros[eventItem.key];
-      if (!macros) throw new Error(`Unable to resolve OverPy macros for ${eventItem.type}:${eventItem.key}`);
-      const titleName = `STR_EVT_${type}_${macros.id}_TITLE`;
-      const descriptionName = `STR_EVT_${type}_${macros.id}_DESC`;
-      if (remote.durationSeconds !== null) {
-        nextConstantsSource = replaceOverPyDefine(nextConstantsSource, macros.duration, requireNumber(remote.durationSeconds, `${eventItem.key}.durationSeconds`));
-      }
-      if (remote.weight !== null) {
-        nextConstantsSource = replaceOverPyDefine(nextConstantsSource, macros.weight, requireNumber(remote.weight, `${eventItem.key}.weight`));
-      }
-      nextLocaleSource = replaceOverPyDefine(nextLocaleSource, titleName, requireString(remote.name, `${eventItem.key}.name`));
-      nextLocaleSource = replaceOverPyDefine(nextLocaleSource, descriptionName, requireString(remote.description, `${eventItem.key}.description`));
-      return {
-        ...eventItem,
-        ...(remote.durationSeconds !== null ? { durationSec: remote.durationSeconds } : {}),
-        ...(remote.weight !== null ? { weight: remote.weight } : {})
-      };
-    })
+  for (const eventItem of eventEntries) {
+    const remote = remoteById.get(eventItem.platformId);
+    if (!remote) throw new Error(`Bastion event ${eventItem.key} is missing from platform event data: ${eventItem.platformId}`);
+    const type = eventItem.type.toUpperCase();
+    const titleName = `STR_EVT_${type}_${eventItem.macros.id}_TITLE`;
+    if (remote.durationSeconds !== null) {
+      nextConstantsSource = replaceOverPyDefine(nextConstantsSource, eventItem.macros.duration, requireNumber(remote.durationSeconds, `${eventItem.key}.durationSeconds`));
+    }
+    if (remote.weight !== null) {
+      nextConstantsSource = replaceOverPyDefine(nextConstantsSource, eventItem.macros.weight, requireNumber(remote.weight, `${eventItem.key}.weight`));
+    }
+    nextLocaleSource = replaceOverPyDefine(nextLocaleSource, titleName, requireString(remote.name, `${eventItem.key}.name`));
+  }
+  return { constantsSource: nextConstantsSource, localeSource: nextLocaleSource };
+}
+
+function parseDefineNumber(source: string, name: string): number {
+  const match = source.match(new RegExp(`^#!define\\s+${name.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}\\s+(-?(?:\\d+\\.?\\d*|\\.\\d+))\\s*$`, 'm'));
+  if (!match) throw new Error(`Unable to find numeric OverPy define ${name}`);
+  return Number(match[1]);
+}
+
+function renderEventManifest(eventEntries: EventEntry[], constantsSource: string, mainVersion: string): string {
+  const counts = {
+    buff: eventEntries.filter((item) => item.type === 'buff').length,
+    debuff: eventEntries.filter((item) => item.type === 'debuff').length,
+    mech: eventEntries.filter((item) => item.type === 'mech').length
   };
-  return { eventSource: nextEventSource, constantsSource: nextConstantsSource, localeSource: nextLocaleSource };
+  const activeWeightSum = Number(
+    eventEntries.reduce((sum, item) => sum + parseDefineNumber(constantsSource, item.macros.weight), 0).toFixed(3)
+  );
+  return [
+    '#!mainFile "../main.opy"',
+    '',
+    '# Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.',
+    '#!optimizeStrict',
+    '',
+    '# BEGIN AUTO-GENERATED EVENT MANIFEST',
+    '# Source: OWBastion Agents API',
+    '#!define EVENT_MANIFEST_SOURCE_LABEL "OWBastion Agents API"',
+    `#!define EVENT_MANIFEST_SOURCE_VERSION "contract-${PLATFORM_DATA_CONTRACT_VERSION}"`,
+    `#!define EVENT_MANIFEST_MAIN_VERSION "${mainVersion}"`,
+    `#!define EVENT_MANIFEST_TOTAL_EVENTS ${eventEntries.length}`,
+    `#!define EVENT_MANIFEST_ACTIVE_EVENTS ${eventEntries.length}`,
+    `#!define EVENT_MANIFEST_TOTAL_BUFF_COUNT ${counts.buff}`,
+    `#!define EVENT_MANIFEST_TOTAL_DEBUFF_COUNT ${counts.debuff}`,
+    `#!define EVENT_MANIFEST_TOTAL_MECH_COUNT ${counts.mech}`,
+    `#!define EVENT_MANIFEST_ACTIVE_BUFF_COUNT ${counts.buff}`,
+    `#!define EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT ${counts.debuff}`,
+    `#!define EVENT_MANIFEST_ACTIVE_MECH_COUNT ${counts.mech}`,
+    `#!define EVENT_MANIFEST_ACTIVE_WEIGHT_SUM ${activeWeightSum}`,
+    '# END AUTO-GENERATED EVENT MANIFEST',
+    ''
+  ].join('\n');
 }
 
 export function mergePlatformData({
   platformData,
   titleSource,
-  eventSource,
+  eventEntries,
   platformEventIds,
   mapSourceFiles
 }: {
   platformData: PlatformData;
   titleSource: TitleSource;
-  eventSource: EventSource;
-  platformEventIds: Record<string, string>;
+  eventEntries: EventEntry[];
   mapSourceFiles: Array<{ file: string; content: string }>;
 }) {
   const sourceMapKeys = new Set(titleSource.mapTitles.map((item) => requireString(item.mapKey, 'mapKey')));
@@ -316,10 +364,10 @@ export function mergePlatformData({
   const challengeIds = validatePlatformAchievements(platformData, titleKeys, mapIds);
   const mergedTitles = validateAndMergeTitles(platformData, titleSource, mapIds);
   const mergedMapTitles = validateAndMergeMaps(platformData, titleSource);
-  const mergedEvents = validateAndMergeEvents(platformData, eventSource, platformEventIds, challengeIds);
+  const mergedEvents = validateAndMergeEvents(platformData, platformEventIds, challengeIds, eventEntries);
   return {
     titleSource: { ...titleSource, titles: mergedTitles, mapTitles: mergedMapTitles },
-    eventSource: { ...eventSource, events: mergedEvents },
+    eventEntries: mergedEvents,
     counts: {
       events: platformData.events.length,
       maps: platformData.maps.length,
@@ -338,17 +386,22 @@ async function runBuild() {
 
 export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
-  const [rawTitleSource, titleSource, eventSource, platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource] = await Promise.all([
+  const [rawTitleSource, titleSource, platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource, envSource] = await Promise.all([
     fs.readFile(TITLE_SOURCE_FILE, 'utf8').then((text) => JSON.parse(text) as TitleSource),
     loadTitleSource(TITLE_SOURCE_FILE),
-    fs.readFile(EVENT_SOURCE_FILE, 'utf8').then((text) => JSON.parse(text) as EventSource),
     fs.readFile(EVENT_PLATFORM_IDS_FILE, 'utf8').then((text) => JSON.parse(text) as Record<string, string>),
     fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') })))),
     fs.readFile(EVENT_CONSTANTS_FILE, 'utf8'),
     fs.readFile(ZH_LOCALE_FILE, 'utf8'),
     fs.readFile(EVENT_CONFIG_FILE, 'utf8'),
-    fs.readFile(EVENT_CONFIG_DEV_FILE, 'utf8')
+    fs.readFile(EVENT_CONFIG_DEV_FILE, 'utf8'),
+    fs.readFile(ENV_FILE, 'utf8')
   ]);
+  const eventEntries = collectEventEntries([eventConfigSource, eventConfigDevSource]).map((entry) => ({
+    ...entry,
+    platformId: platformEventIds[entry.key] ?? '',
+    macros: resolveEventMacros(entry.key, entry.type, [eventConfigSource, eventConfigDevSource])
+  }));
 
   const client = new PlatformDataClient({ ...options, baseUrl });
   const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [] });
@@ -387,30 +440,16 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
 
   const events = await client.fetchResource('events');
   const eventData = { ...emptyData(), events };
-  const validatedEventSource = {
-    ...eventSource,
-    events: validateAndMergeEvents(eventData, eventSource, platformEventIds, challengeIds)
-  };
+  const validatedEventEntries = validateAndMergeEvents(eventData, platformEventIds, challengeIds, eventEntries);
   const platformEventData = mergePlatformEventOverPyData({
     platformData: eventData,
-    eventSource: validatedEventSource,
-    platformEventIds,
-    eventMacros: Object.fromEntries(
-      validatedEventSource.events.map((eventItem) => [
-        eventItem.key,
-        resolveEventMacros(eventItem.key, eventItem.type, [eventConfigSource, eventConfigDevSource])
-      ])
-    ),
+    eventEntries: validatedEventEntries,
     constantsSource,
     localeSource
   });
   await fs.writeFile(EVENT_CONSTANTS_FILE, platformEventData.constantsSource, 'utf8');
   await fs.writeFile(ZH_LOCALE_FILE, platformEventData.localeSource, 'utf8');
-  await syncEventData({
-    sourceData: platformEventData.eventSource,
-    syncWeightsFromConstants: false,
-    writeSourceFile: false
-  });
+  await fs.writeFile(EVENT_MANIFEST_FILE, renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)), 'utf8');
   await syncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
   if (options.build !== false) await runBuild();
   const counts = {

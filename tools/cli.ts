@@ -26,14 +26,6 @@ async function runSyncTitleData(options = {}) {
   return result;
 }
 
-async function runSyncEventData(options = {}) {
-  const { syncEventData } = await import('./sync-event-data.ts');
-  const result = await syncEventData(options);
-  const { webPayload } = result;
-  console.log(`Synced ${webPayload.meta.totalCount} events from data/event-source.json`);
-  return result;
-}
-
 async function runSyncPlatformData(options = {}) {
   const { syncPlatformData } = await import('./sync-platform-data.ts');
   await syncPlatformData({ baseUrl: options.url });
@@ -48,13 +40,8 @@ async function runSyncGrantGeneralTitleWorkflow(options = {}) {
 }
 
 async function runSyncAll() {
-  const [titleResult] = await Promise.all([runSyncTitleData(), runSyncEventData()]);
+  const [titleResult] = await Promise.all([runSyncTitleData()]);
   await runSyncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
-}
-
-async function runEventFinalize() {
-  const { finalizeEventData } = await import('./finalize-event-data.ts');
-  await finalizeEventData();
 }
 
 async function runGrantTitle(rawArgs: string[]) {
@@ -64,11 +51,6 @@ async function runGrantTitle(rawArgs: string[]) {
 
 async function runPerfScan(rawArgs: string[]) {
   const { main } = await import('./perf-loop-scan.ts');
-  await main(rawArgs);
-}
-
-async function runAnalyzeEventAllocation(rawArgs: string[]) {
-  const { main } = await import('./analyze-event-allocation.ts');
   await main(rawArgs);
 }
 
@@ -110,7 +92,6 @@ program
 
 program.command('sync').description('Sync all source data and workflow options').action(wrapAction(runSyncAll));
 program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
-program.command('sync:event-data').description('Sync event source data').action(wrapAction(runSyncEventData));
 program
   .command('sync:platform-data')
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
@@ -120,7 +101,6 @@ program
   .command('sync:grant-general-title-workflow')
   .description('Sync grant-general-title workflow options from data/title-source.json (legacy compat command)')
   .action(wrapAction(runSyncGrantGeneralTitleWorkflow));
-program.command('event:finalize').description('Sync event data then run event sync tests').action(wrapAction(runEventFinalize));
 program
   .command('grant:title [args...]')
   .description('Grant title via existing grant-player-title CLI arguments')
@@ -128,10 +108,6 @@ program
 program
   .command('perf:scan [args...]')
   .description('Run performance loop scan with passthrough options/targets')
-  .allowUnknownOption(true);
-program
-  .command('analyze:event-allocation [args...]')
-  .description('Analyze current event allocation behavior against the allocator semantics')
   .allowUnknownOption(true);
 program
   .command('event:add [args...]')
@@ -151,20 +127,12 @@ program
   .description('Run title data sync tests')
   .action(wrapAction(() => runNodeTest('tools/sync-title-data.test.ts')));
 program
-  .command('test:event-data-sync')
-  .description('Run event data sync tests')
-  .action(wrapAction(() => runNodeTest('tools/sync-event-data.test.ts')));
-program
   .command('test:platform-data-sync')
   .description('Run platform data sync and merge tests')
   .action(wrapAction(async () => {
     await runNodeTest('tools/platform-data-client.test.ts');
     await runNodeTest('tools/sync-platform-data.test.ts');
   }));
-program
-  .command('test:effect-glossary-sync')
-  .description('Run effect glossary sync tests')
-  .action(wrapAction(() => runNodeTest('tools/sync-effect-glossary.test.ts')));
 program
   .command('test:title-grant')
   .description('Run title grant tests')
@@ -173,14 +141,6 @@ program
   .command('test:grant-general-title-workflow')
   .description('Run grant-general-title workflow sync tests')
   .action(wrapAction(() => runNodeTest('tools/sync-grant-general-title-workflow.test.ts')));
-program
-  .command('test:event-allocation')
-  .description('Run event allocation analysis tests')
-  .action(
-    wrapAction(() =>
-      runNode(['--import', 'tsx', '--test', 'tools/analyze-event-allocation.test.ts', 'tools/event-allocation-report.test.ts'])
-    )
-  );
 
 const normalizedArgv =
   process.argv[2] === '--'
@@ -195,10 +155,6 @@ async function runPassthroughIfRequested(argv: string[]) {
   }
   if (commandName === 'perf:scan') {
     await runPerfScan(argv.slice(3));
-    return true;
-  }
-  if (commandName === 'analyze:event-allocation') {
-    await runAnalyzeEventAllocation(argv.slice(3));
     return true;
   }
   if (commandName === 'event:add' || commandName === 'event:remove') {

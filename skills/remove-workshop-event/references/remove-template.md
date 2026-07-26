@@ -23,7 +23,7 @@
 - 默认删除 `src/events/effects/<type>/<EFFECT_FILE>` 文件本体。
 
 6. 数据
-- 从 `data/event-source.json` 删除 `"key": "<KEY>"` 对应条目。
+- 从 `data/platform-event-ids.json` 删除 `"<KEY>": "event.<stable-id>"` 对应映射。
 
 ## 2) 固定检索命令模板
 
@@ -39,6 +39,5 @@ rg -n 'enum BuffEventId|enum DebuffEventId|enum MechEventId|COUNT' src/constants
 2. `pnpm run build:main` 通过。
 3. `pnpm run build:dev` 通过。
 4. `./tools/check_locale_keys.sh` 通过。
-5. `pnpm run sync:event-data` 通过。
-6. `pnpm run test:event-data-sync` 通过。
-7. `data/event-source.json` 不再含目标事件。
+5. `pnpm run test:platform-data-sync` 通过。
+6. `data/platform-event-ids.json` 不再含目标事件映射。

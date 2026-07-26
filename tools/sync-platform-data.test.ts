@@ -11,11 +11,12 @@ const titleSource = {
   mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: [], CONQUEROR: [], DOMINATOR: [] } }]
 };
 
-const eventSource = {
-  meta: { sourceLabel: 'events', sourceVersion: 'v1' },
-  packs: [{ id: 0, key: 'pack0', labelZh: '事件' }],
-  events: [{ key: 'EVENT_ONE', type: 'buff', id: 0, pack: 0, nameZh: '旧事件', descZh: '旧描述', durationSec: 10, weight: 1, availability: 'active' }]
-};
+const eventEntries = [{
+  key: 'EVENT_ONE',
+  type: 'buff' as const,
+  platformId: 'event.one',
+  macros: { id: 0, duration: 'EVT_BUFF_0_DURATION', weight: 'EVT_BUFF_0_WEIGHT' }
+}];
 
 const platformData: PlatformData = {
   events: [{ eventId: 'event.one', name: '新事件', category: '增益', rarity: 'R', description: '新描述', durationSeconds: 20, weight: 2, archived: false, releaseStatus: 'implemented', challenges: [] }],
@@ -28,21 +29,18 @@ function merge(overrides: Partial<PlatformData> = {}) {
   return mergePlatformData({
     platformData: { ...platformData, ...overrides },
     titleSource,
-    eventSource,
+    eventEntries,
     platformEventIds: { EVENT_ONE: 'event.one' },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
 }
 
-test('merges current platform fields by stable IDs and preserves Bastion fields', () => {
+test('merges current platform fields by stable IDs and preserves OverPy event mapping', () => {
   const result = merge();
   assert.equal(result.titleSource.titles[0].label, '新称号');
   assert.equal(result.titleSource.titles[0].displayExpr, '"旧称号"');
   assert.equal(result.titleSource.mapTitles[0].mapLabel, '新地图');
-  assert.equal(result.eventSource.events[0].nameZh, '旧事件');
-  assert.equal(result.eventSource.events[0].descZh, '旧描述');
-  assert.equal(result.eventSource.events[0].durationSec, 10);
-  assert.equal(result.eventSource.events[0].weight, 1);
+  assert.deepEqual(result.eventEntries, eventEntries);
   assert.deepEqual(result.counts, { events: 1, maps: 1, achievements: 1, titles: 1, ignoredEvents: 0 });
 });
 
@@ -77,24 +75,17 @@ test('ignores unmapped historical events while validating their platform categor
     ]
   });
   assert.equal(result.counts.ignoredEvents, 1);
-  assert.equal(result.eventSource.events[0].nameZh, '旧事件');
 });
 
-test('writes platform event values to OverPy constants and locale while preserving event-source templates', () => {
+test('writes platform event values to OverPy constants and title locale while preserving description templates', () => {
   const result = mergePlatformEventOverPyData({
     platformData,
-    eventSource,
-    platformEventIds: { EVENT_ONE: 'event.one' },
-    eventMacros: {
-      EVENT_ONE: { id: 0, duration: 'EVT_BUFF_0_DURATION', weight: 'EVT_BUFF_0_WEIGHT' }
-    },
+    eventEntries,
     constantsSource: '#!define EVT_BUFF_0_DURATION 10\n#!define EVT_BUFF_0_WEIGHT 1\n',
-    localeSource: '#!define STR_EVT_BUFF_0_TITLE "旧事件"\n#!define STR_EVT_BUFF_0_DESC "旧描述"\n'
+    localeSource: '#!define STR_EVT_BUFF_0_TITLE "旧事件"\n#!define STR_EVT_BUFF_0_DESC "旧描述 {0}"\n'
   });
   assert.match(result.constantsSource, /EVT_BUFF_0_DURATION 20/);
   assert.match(result.constantsSource, /EVT_BUFF_0_WEIGHT 2/);
   assert.match(result.localeSource, /STR_EVT_BUFF_0_TITLE "新事件"/);
-  assert.match(result.localeSource, /STR_EVT_BUFF_0_DESC "新描述"/);
-  assert.equal(result.eventSource.events[0].descZh, '旧描述');
-  assert.equal(result.eventSource.events[0].durationSec, 20);
+  assert.match(result.localeSource, /STR_EVT_BUFF_0_DESC "旧描述 \{0\}"/);
 });
