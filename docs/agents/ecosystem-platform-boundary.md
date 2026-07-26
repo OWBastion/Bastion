@@ -2,7 +2,7 @@
 
 > Ecosystem contract version: `1.0`
 > Repository: `OWBastion/Bastion`
-> Role: authoritative game-content and release repository
+> Role: authoritative game-content and build repository
 
 ## 1. Mission
 
@@ -14,8 +14,8 @@ Agents working here protect the correctness, performance, buildability, and rele
 - random-event implementations and configuration;
 - title definitions and player-title source data;
 - map, difficulty, localization, and gameplay configuration;
-- generated game artifacts and release packages;
-- versioned public data snapshots exported for the wider Bastion ecosystem.
+- generated game artifacts and build packages;
+- current platform metadata consumed during a Bastion build.
 
 This repository is **not** the primary home for public web product development, screenshot review workflows, player identity, OCR orchestration, or administrator dashboards.
 
@@ -32,7 +32,7 @@ The target system contains four repositories:
 
 ### Hard boundary
 
-`Bastion` owns **published definitions**. `owbastion.codes` may prepare drafts and change requests, but must modify this repository only through reviewable Git branches and pull requests.
+`Bastion` owns the stable game definitions, OverPy implementations, generated data, and compilation. `owbastion.codes` owns the current platform metadata for events, maps, achievements, and titles. Bastion reads that metadata through the Agents APIs when it runs its sync tool; the platform does not mutate Bastion source files or run Bastion builds.
 
 No external service may silently mutate released game data or bypass repository CI.
 
@@ -53,7 +53,7 @@ This repository is not authoritative for:
 - screenshot submissions and OCR results;
 - review decisions and audit history;
 - player-facing submission status;
-- balance drafts that have not been merged;
+- balance proposals that have not been merged;
 - administrator sessions or permissions;
 - OCR training datasets and model binaries.
 
@@ -69,60 +69,52 @@ Until migration is complete:
 - do not add major new product features to the legacy page;
 - new review, player account, submission, dashboard, or balance-management features belong in `owbastion.codes`.
 
-After migration, this repository should retain only the exporters and contracts required to publish versioned game-data snapshots.
+The legacy query page may continue to consume generated data, but it is not a platform build or release pipeline.
 
-## 5. Published Snapshot Contract
+## 5. Agents Current Metadata Sync
 
-Bastion CI should produce a versioned, machine-readable snapshot for the platform. The target conceptual shape is:
+When preparing a Bastion build, the repository actively pulls the platform's current metadata from these read-only Agents APIs:
 
 ```text
-snapshots/<game-version>/
-  manifest.json
-  titles.json
-  players.json
-  events.json
-  maps.json
-  challenges.json
-  glossary.json
-  allocator.json
+GET /v1/agents/events
+GET /v1/agents/maps
+GET /v1/agents/achievements
+GET /v1/agents/titles
 ```
 
-Every snapshot must include:
+`sync:platform-data` must:
 
-- `schema_version`;
-- `game_version`;
-- source commit SHA;
-- generation timestamp;
-- hashes for generated files;
-- compatibility notes when a schema changes.
+- fetch all pages and validate the response contract;
+- preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
+- merge platform metadata by stable ID only, never by localized name;
+- retain Bastion-owned OverPy implementations and implementation-specific fields;
+- update the existing generated data;
+- compile the normal OverPy entries after the data sync succeeds.
 
-Snapshot generation must be reproducible from the repository commit. Generated files are outputs, not independent sources of truth.
+The platform supplies current metadata only. Administrators make the relevant
+data changes centrally when the version's content is determined, so this flow
+does not require a data lock, Draft, Candidate, `contentRevision`, or a
+build-consistency snapshot. It also does not add a Release API or a platform
+build task.
 
-## 6. External Change Requests
+Generated files remain deterministic outputs of the sync and build inputs, not
+an independent platform source of truth.
 
-The platform may request changes such as:
+## 6. Data and Build Flow
 
-- granting or revoking a title;
-- modifying structured event parameters;
-- enabling or disabling a challenge;
-- updating map metadata;
-- generating a balance proposal.
-
-Agents must enforce this flow:
+Agents must preserve this flow:
 
 ```text
-structured request
-→ schema validation
-→ deterministic source edit
+administrator determines current platform data
+→ Bastion sync:platform-data
+→ GET Agents current metadata
+→ stable ID, enum, and reference validation
 → generated-data synchronization
 → tests and OverPy compilation
-→ pull request with evidence
-→ human review
-→ merge
-→ release and snapshot publication
+→ normal Git review and release
 ```
 
-Never accept a platform request as proof that a change is safe. Repository validation remains mandatory.
+The platform response is not proof that a change is safe. Repository validation and the normal Git review remain mandatory.
 
 ## 7. Gameplay and Performance Invariants
 
@@ -142,25 +134,23 @@ For detailed rules, route to the existing canonical documents in `docs/agents/` 
 
 ## 8. Structured Content Editing
 
-When implementing platform-generated edits:
+When synchronizing platform metadata:
 
-- edit canonical source files, never only generated JSON;
-- use stable internal keys, not localized labels, as machine identifiers;
-- reject unknown event, map, title, or player keys;
-- preserve array ordering and index-sensitive title behavior;
-- make edits idempotent;
-- include a stable external request or submission ID in the PR description or commit metadata;
-- do not create duplicate grants when a request is retried;
-- produce a readable diff for human review.
+- use stable IDs, not localized labels, as machine identifiers;
+- reject unknown event, map, title, achievement, or challenge references;
+- validate platform enum values before updating generated data;
+- preserve Bastion-owned array ordering and index-sensitive title behavior;
+- keep the sync deterministic and repeatable;
+- produce a readable generated-data diff for human review.
 
-Arbitrary OverPy source editing from the web platform is out of scope unless an explicit, separately reviewed sandbox design is adopted.
+The platform must not edit OverPy source or generated files directly. Bastion remains responsible for mapping metadata to its local implementations.
 
 ## 9. Compatibility and Contract Changes
 
-Any change to exported JSON, title-grant input, event metadata, or build outputs must include:
+Any change to the Agents metadata contract, generated data, or build outputs must include:
 
 - producer and consumer impact analysis;
-- schema-version handling;
+- `contractVersion` handling;
 - migration or compatibility strategy;
 - tests for old and new consumers when a compatibility window exists;
 - documentation updates in this repository and the consuming repository.
@@ -170,20 +160,19 @@ Breaking changes must not be hidden inside routine content work.
 ## 10. Security and Release Safety
 
 - Do not commit credentials, tokens, private screenshots, QQ identifiers, or OCR artifacts.
-- Do not expose administrator-only data in public snapshots.
 - GitHub Actions must use least-privilege permissions.
-- External automation must open PRs rather than push directly to protected release branches.
 - A failed compile, sync test, schema check, or integrity check blocks release.
-- Rollback must be possible by reverting a repository change and rebuilding the corresponding snapshot.
+- Rollback must be possible by reverting a repository change and rebuilding the corresponding OverPy output.
 
 ## 11. Agent Workflow
 
-Before changing code:
+Before changing code or running a platform-data build:
 
 1. Classify the task: gameplay, title, event, data export, build, release, migration, or integration.
 2. Load only the relevant routed documents and touched dependencies.
 3. State the source of truth and external contract affected.
 4. Identify risks, rollback path, and generated files.
+5. Confirm that the Agents APIs are used only as the current metadata source.
 
 During implementation:
 
@@ -212,7 +201,7 @@ A change is complete only when applicable items are satisfied:
 - idempotency considered for external requests;
 - tests added or updated;
 - OverPy build succeeds;
-- snapshot/export contract remains valid;
+- Agents API and generated-data contracts remain valid;
 - documentation updated;
 - rollback is clear;
 - no public/private data boundary is violated.

@@ -67,6 +67,16 @@
 - 模块文档位于 `docs/modules/`，涉及源码改动时应尽量同步更新对应文档。
 - 以最小改动为原则，避免无关 include 顺序调整或大范围格式化。
 
+### 平台元数据同步
+
+准备 Bastion 构建时，从只读 Agents API 主动拉取平台当前元数据：
+
+```bash
+pnpm run sync:platform-data
+```
+
+同步工具会校验稳定 ID、支持的枚举值和跨资源引用，更新生成数据，然后编译 OverPy 入口。Bastion 继续负责稳定 ID、OverPy 实现和编译；该流程不使用 Release API、Candidate 或 Draft 生命周期、数据锁、一致性快照，也不创建平台构建任务。
+
 ### CI 自动发布（pnpm）
 
 项目已支持通过 GitHub Actions 在推送到 `main` 分支时自动编译并发布 Workshop 文件：
