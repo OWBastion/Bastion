@@ -1,5 +1,5 @@
 version: 1
 interface:
   display_name: Add Workshop Title
-  short_description: Add or adjust title entries through title-source truth with safe sync checks.
-  default_prompt: Use $add-workshop-title to update data/title-source.json for title additions or display changes, then sync generated title artifacts and verify map/player constraints.
+  short_description: Review platform title metadata and active grants with safe sync checks.
+  default_prompt: Use $add-workshop-title to review platform title definitions and active grants, then run sync:platform-data and verify generated title artifacts and map/player constraints.

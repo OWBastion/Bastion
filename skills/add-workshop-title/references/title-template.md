@@ -2,7 +2,7 @@
 
 ## 1) 新增称号（真源 JSON）
 
-仅在 `data/title-source.json -> titles` 末尾追加，保持既有顺序。
+在平台称号目录中维护 `sortOrder`，由 `sync:platform-data` 保持既有枚举顺序。
 
 ```json
 {
@@ -49,10 +49,10 @@
 pnpm run sync:title-data
 pnpm run test:title-data-sync
 rg -n 'AUTO-GENERATED TITLE ENUM|AUTO-GENERATED TITLE PLAYER DATABASE|AUTO-GENERATED MAP_TITLE_DATA|AUTO-GENERATED ALL_TITLE|DATA_' src/title/title-cn.opy
-rg -n '"key":|"titleKeys":|"mapTitles":|"holders":' data/title-source.json
+rg -n 'sortOrder|player-title-grants|map-title-holders|MAP_TITLE_DATA' tools src
 ```
 
 ## 5) 失败排查
 
-1. 生成产物差异：仅修 `data/title-source.json`，再同步。
+1. 生成产物差异：仅修平台数据，再运行 `sync:platform-data`。
 2. include 校验失败：只恢复缺失 include，不重排入口顺序。

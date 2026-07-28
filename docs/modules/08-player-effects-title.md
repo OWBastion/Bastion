@@ -40,21 +40,10 @@
 
 ## `title/`：称号系统
 
-### `data/title-source.json`
-
-- 称号系统唯一真源（`titles` + `players/titleKeys` + `meta`）
-- 维护规则：`players` 顺序即索引语义，新增玩家仅追加，禁止重排
-
 ### `tools/sync-title-data.ts`
 
-- 从真源生成 `title-cn.opy` 受管区块
-- 提供一致性校验入口（配合 `pnpm run tools -- test:title-data-sync`）
-
-### `tools/grant-player-title.ts`
-
-- 通过 `pnpm run tools -- grant:title` 写入 `data/title-source.json`
-- 非 `--dry-run` 且有实际变更时自动执行 `pnpm run tools -- sync:title-data`
-- CLI 输出包含 auto-sync 结果，便于确认生成产物是否已刷新
+- 接收平台 Agents API 规范化数据，生成 `title-cn.opy` 受管区块
+- 不再读取本地玩家、称号或地图持有者数据源
 
 ### `title/title-cn.opy`
 
@@ -75,7 +64,6 @@
 
 ## 维护流程（称号）
 
-1. 编辑 `data/title-source.json`（称号定义、玩家授予）。
-2. 如有地图奖励变更，更新 `data/title-source.json` 的 `mapTitles` 对应槽位。
-3. 若通过 `pnpm run tools -- grant:title` 发放称号，确认输出中的 auto-sync 已执行；若手动编辑真源，则执行 `pnpm run tools -- sync:title-data`。
-4. 执行 `pnpm run tools -- test:title-data-sync`。
+1. 在平台管理端维护称号定义和 active 授予关系。
+2. 执行 `pnpm run sync:platform-data`，从平台 API 拉取并生成 OverPy 数据。
+3. 执行 `pnpm run tools -- test:platform-data-sync`。

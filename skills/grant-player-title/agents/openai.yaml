@@ -1,5 +1,0 @@
-version: 1
-interface:
-  display_name: Grant Player Title
-  short_description: Grant global and map-specific titles through title-source truth safely.
-  default_prompt: Use $grant-player-title to grant titles by editing data/title-source.json, append missing players at the end when needed, sync generated artifacts, and verify map slot constraints.

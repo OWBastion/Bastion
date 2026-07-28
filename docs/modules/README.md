@@ -30,7 +30,7 @@
 - `map/`：地图点位与多图切换流程
 - `player/`：玩家初始化、进度、成就
 - `special/`：春节/活动分支（Lunar）
-- `title/`：称号系统（真源为 `data/title-source.json`，由脚本同步到运行文件）
+- `title/`：称号系统（真源为平台 Agents API，由脚本同步到运行文件）
 - `tools/`：构建期名称映射脚本
 - `utilities/`：复用子程序与系统工具规则
 

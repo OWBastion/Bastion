@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
+import { buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
@@ -23,6 +23,7 @@ const platformData: PlatformData = {
   maps: [{ mapId: 'map.test_map', mapName: '新地图', gameVersion: '2026.07.15', difficultyRating: 'T1', mechanics: [], coverUrl: null, backgroundUrl: null }],
   achievements: [{ challengeId: 'title.TITLE_ONE', family: 'achievement', type: 'title_achievement', kind: 'title_achievement', titleKey: 'TITLE_ONE', status: 'active', submissionMode: 'manual' }],
   titles: [{ titleKey: 'TITLE_ONE', label: '新称号', icon: 'trophy', category: '新分类', condition: '新条件', availability: 'active', scope: 'global', displayKind: 'fixed', gameVersion: '2026.07.15' }]
+  ,playerTitleGrants: [], mapTitleHolders: []
 };
 
 function merge(overrides: Partial<PlatformData> = {}) {
@@ -99,4 +100,34 @@ test('writes platform event values to OverPy constants and title locale while pr
   assert.match(result.constantsSource, /EVT_BUFF_0_WEIGHT 2/);
   assert.match(result.localeSource, /STR_EVT_BUFF_0_TITLE "新事件"/);
   assert.match(result.localeSource, /STR_EVT_BUFF_0_DESC "旧描述 \{0\}"/);
+});
+
+test('builds player and map title generation input from stable platform identities', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
+      titles: [{ ...platformData.titles[0], sortOrder: 0, color: { kind: 'heroColor', index: 12 }, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
+      playerTitleGrants: [{ playerId: '123', playerName: '玩家改名', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', playerId: '123', playerName: '玩家改名' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+  assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: [] }]);
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [] });
+  assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
+  assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
+});
+
+test('rejects map holders that reference an unknown stable player identity', () => {
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
+      titles: [{ ...platformData.titles[0], sortOrder: 0, color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
+      playerTitleGrants: [],
+      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', playerId: '123', playerName: '玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  }), /invalid map, slot or player reference/);
 });

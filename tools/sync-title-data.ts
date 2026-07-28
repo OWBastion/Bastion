@@ -5,9 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SOURCE_FILE = path.resolve(__dirname, '../data/title-source.json');
 const TITLE_FILE = path.resolve(__dirname, '../src/title/title-cn.opy');
-const ENV_FILE = path.resolve(__dirname, '../src/env/env.opy');
 const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndex.js');
 const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndexDelimited.js');
 
@@ -35,15 +33,6 @@ function ensureString(value, message) {
   if (typeof value !== 'string' || value.trim() === '') {
     throw new Error(message);
   }
-}
-
-function parseMainVersion(source) {
-  const match = source.match(/^#!define\s+VERSION\s+"([^"]+)"/m);
-  if (!match) {
-    throw new Error('Unable to parse VERSION from src/env/env.opy');
-  }
-
-  return match[1];
 }
 
 function ensureNoDuplicate(items, label) {
@@ -80,19 +69,19 @@ function validateSourceShape(sourceData) {
   }
 
   if (!Array.isArray(sourceData.titles) || sourceData.titles.length === 0) {
-    throw new Error('title-source.json must include a non-empty titles array.');
+    throw new Error('Platform title data must include a non-empty titles array.');
   }
 
   if (!Array.isArray(sourceData.players)) {
-    throw new Error('title-source.json must include a players array.');
+    throw new Error('Platform title data must include a players array.');
   }
 
   if (!Array.isArray(sourceData.mapTitles)) {
-    throw new Error('title-source.json must include a mapTitles array.');
+    throw new Error('Platform title data must include a mapTitles array.');
   }
 
   if (!sourceData.meta || typeof sourceData.meta !== 'object') {
-    throw new Error('title-source.json must include a meta object.');
+    throw new Error('Platform title data must include a meta object.');
   }
 
   ensureString(sourceData.meta.sourceLabel, 'meta.sourceLabel is required.');
@@ -489,143 +478,36 @@ function applyManagedTitleFile(source, data) {
   return next;
 }
 
-function buildMapTitleStatus(mapTitles, playerName) {
-  const status = {};
-
-  for (const mapItem of mapTitles) {
-    status[mapItem.mapKey] = {
-      PIONEER: mapItem.holders.PIONEER.includes(playerName),
-      CONQUEROR: mapItem.holders.CONQUEROR.includes(playerName),
-      DOMINATOR: mapItem.holders.DOMINATOR.includes(playerName)
-    };
-  }
-
-  return status;
-}
-
-function buildWebPayload(data, sourceVersion) {
-  const titleIdByKey = new Map(data.titles.map((title) => [title.key, title.id]));
-  const { playersWithTitleSetIndex } = buildPlayerTitleSets(data.titles, data.players);
-  const players = [...playersWithTitleSetIndex]
-    .sort((left, right) => left.name.localeCompare(right.name, 'zh-Hans-CN'))
-    .map((player) => {
-      const titleIds = [...player.sortedTitleIds];
-      return {
-        name: player.name,
-        titleIds,
-        titleCount: titleIds.length,
-        mapTitleStatus: buildMapTitleStatus(data.mapTitles, player.name)
-      };
-    });
-
-  return {
-    titles: data.titles.map((title) => ({
-      id: title.id,
-      key: title.key,
-      label: title.label,
-      category: title.category,
-      condition: title.condition,
-      ...(title.tags.length ? { tags: title.tags } : {}),
-      availability: title.availability
-    })),
-    players,
-    mapTitles: data.mapTitles.map((mapItem) => ({
-      mapKey: mapItem.mapKey,
-      mapLabel: mapItem.mapLabel,
-      holders: mapItem.holders
-    })),
-    meta: {
-      sourceFile: 'data/title-source.json',
-      generatedAt: new Date().toISOString(),
-      titleCount: data.titles.length,
-      playerCount: players.length,
-      mapTitleCount: data.mapTitles.length,
-      sourceLabel: data.meta.sourceLabel,
-      sourceVersion
-    }
-  };
-}
-
-export async function loadTitleSource(sourceFile = SOURCE_FILE) {
-  const sourceText = await fs.readFile(sourceFile, 'utf8');
-  const sourceData = JSON.parse(sourceText);
-  return validateSourceShape(sourceData);
-}
-
 export async function syncTitleData({
-  sourceFile = SOURCE_FILE,
   sourceData: providedSourceData,
   titleFile = TITLE_FILE,
-  envFile = ENV_FILE,
-  webOutputFile,
   playerNameToIndexFile = PLAYER_NAME_TO_INDEX_FILE,
   playerNameToIndexDelimitedFile = PLAYER_NAME_TO_INDEX_DELIMITED_FILE,
   dryRun = false
 } = {}) {
-  const [sourceData, titleSource, envSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
-    providedSourceData ?? loadTitleSource(sourceFile),
+  if (!providedSourceData) throw new Error('Platform title data is required; run sync:platform-data');
+  const [sourceData, titleSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
+    providedSourceData,
     fs.readFile(titleFile, 'utf8'),
-    fs.readFile(envFile, 'utf8'),
     fs.readFile(playerNameToIndexFile, 'utf8'),
     fs.readFile(playerNameToIndexDelimitedFile, 'utf8')
   ]);
 
-  const sourceVersion = parseMainVersion(envSource);
   const nextTitleFile = applyManagedTitleFile(titleSource, sourceData);
-  const webPayload = buildWebPayload(sourceData, sourceVersion);
-  const webText = `${JSON.stringify(webPayload, null, 2)}\n`;
   const nextPlayerNameToIndexFile = renderPlayerIndexScript(sourceData.players, { delimited: false });
   const nextPlayerNameToIndexDelimitedFile = renderPlayerIndexScript(sourceData.players, { delimited: true });
 
   if (!dryRun) {
     await fs.writeFile(titleFile, nextTitleFile, 'utf8');
-    if (webOutputFile) {
-      await fs.mkdir(path.dirname(webOutputFile), { recursive: true });
-      await fs.writeFile(webOutputFile, webText, 'utf8');
-    }
     await fs.writeFile(playerNameToIndexFile, nextPlayerNameToIndexFile, 'utf8');
     await fs.writeFile(playerNameToIndexDelimitedFile, nextPlayerNameToIndexDelimitedFile, 'utf8');
   }
 
   return {
     sourceData,
-    webPayload,
     titleFileChanged: nextTitleFile !== titleSource,
     playerNameToIndexFileChanged: nextPlayerNameToIndexFile !== playerNameToIndexSource,
     playerNameToIndexDelimitedFileChanged: nextPlayerNameToIndexDelimitedFile !== playerNameToIndexDelimitedSource,
-    sourceVersion
+    sourceData
   };
-}
-
-export async function generateTitleQueryData({
-  sourceFile = SOURCE_FILE,
-  envFile = ENV_FILE,
-  outputFile
-} = {}) {
-  const data = await loadTitleSource(sourceFile);
-  const envSource = await fs.readFile(envFile, 'utf8');
-  const sourceVersion = parseMainVersion(envSource);
-  const payload = buildWebPayload(data, sourceVersion);
-
-  if (outputFile) {
-    await fs.mkdir(path.dirname(outputFile), { recursive: true });
-    await fs.writeFile(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-  }
-
-  return payload;
-}
-
-const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
-
-if (invokedPath === __filename) {
-  syncTitleData()
-    .then(({ webPayload }) => {
-      console.log(
-        `Synced ${webPayload.meta.playerCount} players, ${webPayload.meta.titleCount} titles and ${webPayload.meta.mapTitleCount} map title sets from data/title-source.json`
-      );
-    })
-    .catch((error) => {
-      console.error(error.message);
-      process.exitCode = 1;
-    });
 }

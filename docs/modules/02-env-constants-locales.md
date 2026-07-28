@@ -60,10 +60,10 @@
 
 ## 称号数据源与生成链路
 
-称号系统现采用“单一真源 + 受管生成”模式：
+称号系统现采用“平台 API 单一真源 + 受管生成”模式：
 
-- 真源文件：`data/title-source.json`
-- 同步脚本：`tools/sync-title-data.ts`
+- 真源：平台称号定义、玩家 active 授予和地图持有者 Agents API
+- 同步脚本：`tools/sync-platform-data.ts`
 - 生成目标：
   - `src/title/title-cn.opy` 的受管区块（`enum TITLE` / `player_database` / `allTitle`）
 
@@ -73,7 +73,7 @@
 - `# BEGIN/END AUTO-GENERATED TITLE PLAYER DATABASE`
 - `# BEGIN/END AUTO-GENERATED ALL_TITLE`
 
-地图称号映射同样由 `data/title-source.json` 的 `mapTitles` 维护，并由同步脚本自动生成到 `title-cn.opy`。
+地图称号映射由平台地图称号持有者 API 返回，并由同步脚本自动生成到 `title-cn.opy`。
 
 ## 维护要点
 
@@ -84,5 +84,5 @@
 - 提交前运行 `tools/check_locale_keys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。
 - 发布前可执行 `pnpm run tools -- bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
-- 称号相关改动后运行 `pnpm run tools -- sync:title-data` 与 `pnpm run tools -- test:title-data-sync`。
-- `data/title-source.json` 中 `players` 顺序即索引语义；新增玩家只允许追加，禁止重排。
+- 称号相关改动后运行 `pnpm run sync:platform-data` 与 `pnpm run tools -- test:platform-data-sync`。
+- `TITLE` 顺序由平台 `sortOrder` 管理；玩家和地图引用按稳定 `playerId` 校验，OverPy 仍输出玩家显示名称。

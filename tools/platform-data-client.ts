@@ -20,6 +20,8 @@ export type PlatformData = {
   maps: PlatformDataItem[];
   achievements: PlatformDataItem[];
   titles: PlatformDataItem[];
+  playerTitleGrants: PlatformDataItem[];
+  mapTitleHolders: PlatformDataItem[];
 };
 
 export type PlatformDataClientOptions = {
@@ -129,6 +131,21 @@ function ensurePageResponse(
   return value as PlatformDataPage;
 }
 
+function ensureCustomPageResponse(value: unknown, resource: string, requestedPage: number, requestedPageSize: number): PlatformDataPage {
+  const details = { page: requestedPage };
+  if (!isRecord(value)) throw new PlatformDataClientError('Response must be a JSON object', details);
+  if (value.contractVersion !== PLATFORM_DATA_CONTRACT_VERSION) throw new PlatformDataClientError(`Unsupported contractVersion ${JSON.stringify(value.contractVersion)}; expected ${PLATFORM_DATA_CONTRACT_VERSION}`, details);
+  if (!Array.isArray(value.items)) throw new PlatformDataClientError(`Response items must be an array for ${resource}`, details);
+  ensurePositiveInteger(value.page, 'Response page', { resource: 'titles', page: requestedPage });
+  ensurePositiveInteger(value.pageSize, 'Response pageSize', { resource: 'titles', page: requestedPage });
+  ensureNonNegativeInteger(value.total, 'Response total', { resource: 'titles', page: requestedPage });
+  if (typeof value.hasMore !== 'boolean' || value.page !== requestedPage || value.pageSize !== requestedPageSize || value.items.length > value.pageSize || value.total < value.items.length || value.hasMore !== (value.page * value.pageSize < value.total)) {
+    throw new PlatformDataClientError(`Invalid pagination response for ${resource}`, details);
+  }
+  for (const item of value.items) if (!isRecord(item)) throw new PlatformDataClientError('Response items must contain objects', details);
+  return value as PlatformDataPage;
+}
+
 function normalizeBaseUrl(baseUrl: string): string {
   let parsed: URL;
   try {
@@ -170,7 +187,22 @@ export class PlatformDataClient {
       PLATFORM_DATA_RESOURCES.map((resource) => this.fetchResource(resource))
     );
 
-    return { events, maps, achievements, titles };
+    return { events, maps, achievements, titles, playerTitleGrants: [], mapTitleHolders: [] };
+  }
+
+  async fetchPlayerTitleGrants(): Promise<PlatformDataItem[]> {
+    return this.fetchCustomResource('player-title-grants', new URLSearchParams(), (item) => String(item.playerId));
+  }
+
+  async fetchTitles(mapId?: string): Promise<PlatformDataItem[]> {
+    const query = new URLSearchParams();
+    if (mapId) query.set('mapId', mapId);
+    return this.fetchCustomResource('titles', query, (item) => `${String(item.titleKey)}:${String(item.mapId ?? '')}`);
+  }
+
+  async fetchMapTitleHolders(mapId: string): Promise<PlatformDataItem[]> {
+    const query = new URLSearchParams({ mapId });
+    return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.slot)}:${String(item.playerId)}`);
   }
 
   async fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
@@ -212,6 +244,45 @@ export class PlatformDataClient {
 
       requestedPage += 1;
     }
+  }
+
+  private async fetchCustomResource(resource: string, query: URLSearchParams, identity: (item: PlatformDataItem) => string): Promise<PlatformDataItem[]> {
+    const items: PlatformDataItem[] = [];
+    const ids = new Set<string>();
+    let requestedPage = 1;
+    let expectedTotal: number | undefined;
+    while (true) {
+      const pageQuery = new URLSearchParams(query);
+      pageQuery.set('page', String(requestedPage));
+      pageQuery.set('pageSize', String(this.pageSize));
+      const response = await this.fetchCustomPage(resource, pageQuery, requestedPage);
+      if (expectedTotal === undefined) expectedTotal = response.total;
+      else if (response.total !== expectedTotal) throw new PlatformDataClientError(`Response total ${response.total} does not match earlier total ${expectedTotal}`, { page: requestedPage });
+      for (const item of response.items) {
+        const id = identity(item);
+        if (!id || id === 'undefined' || id === 'null') throw new PlatformDataClientError(`Invalid identity in ${resource}`, { page: requestedPage });
+        if (ids.has(id)) throw new PlatformDataClientError(`Duplicate identity in ${resource}: ${id}`, { page: requestedPage });
+        ids.add(id); items.push(item);
+      }
+      if (!response.hasMore) {
+        if (items.length !== response.total) throw new PlatformDataClientError(`Fetched ${items.length} items but response total is ${response.total}`, { page: requestedPage });
+        return items;
+      }
+      requestedPage += 1;
+    }
+  }
+
+  private async fetchCustomPage(resource: string, query: URLSearchParams, page: number): Promise<PlatformDataPage> {
+    const url = new URL(`${this.baseUrl}/v1/agents/${resource}`);
+    for (const [key, value] of query) url.searchParams.set(key, value);
+    let response: Response;
+    try { response = await this.fetchImpl(url); }
+    catch (error) { throw new PlatformDataClientError(`Request failed: ${error instanceof Error ? error.message : String(error)}`, { page }); }
+    if (!response.ok) throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText}`, { page, status: response.status });
+    let payload: unknown;
+    try { payload = await response.json(); }
+    catch (error) { throw new PlatformDataClientError(`Response is not valid JSON: ${error instanceof Error ? error.message : String(error)}`, { page }); }
+    return ensureCustomPageResponse(payload, resource, page, this.pageSize);
   }
 
   private async fetchPage(resource: PlatformDataResource, page: number): Promise<PlatformDataPage> {

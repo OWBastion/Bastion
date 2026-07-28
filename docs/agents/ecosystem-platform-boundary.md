@@ -12,7 +12,7 @@ Agents working here protect the correctness, performance, buildability, and rele
 
 - OverPy and Workshop source code;
 - random-event implementations and configuration;
-- title definitions and player-title source data;
+- released OverPy title structure and generated title data;
 - map, difficulty, localization, and gameplay configuration;
 - generated game artifacts and build packages;
 - current platform metadata consumed during a Bastion build.
@@ -25,7 +25,7 @@ The target system contains four repositories:
 
 | Repository | Ownership |
 | --- | --- |
-| `OWBastion/Bastion` | Game source, released content, title source, build and release |
+| `OWBastion/Bastion` | Game source, released content, generated title structure, build and release |
 | `OWBastion/owbastion.codes` | Public portal, review platform, admin/developer control plane, business data |
 | `OWBastion/qqbot` | QQ channel adapter and user notifications |
 | `OWBastion/ocrkit` | Stateless screenshot recognition and model lifecycle |
@@ -72,6 +72,8 @@ GET /v1/agents/events
 GET /v1/agents/maps
 GET /v1/agents/achievements
 GET /v1/agents/titles
+GET /v1/agents/player-title-grants
+GET /v1/agents/map-title-holders?mapId=...
 ```
 
 `sync:platform-data` must:
@@ -79,7 +81,8 @@ GET /v1/agents/titles
 - fetch all pages and validate the response contract;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
-- retain Bastion-owned OverPy implementations and implementation-specific fields;
+- merge player and map holders by stable `playerId`, never by display name;
+- retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
 - update the existing generated data;
 - compile the normal OverPy entries after the data sync succeeds.
 

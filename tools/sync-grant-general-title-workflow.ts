@@ -1,7 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadTitleSource, RESTRICTED_GENERAL_TITLE_KEYS } from './grant-player-title.ts';
+type TitleSource = { titles: Array<{ key: string; label: string; availability: string }>; players: Array<{ name: string }> };
+
+export const RESTRICTED_GENERAL_TITLE_KEYS = [
+  'PIONEER', 'TEST_LONG', 'NOT_MY_MAP', 'WILD_DEV', 'ARCHITECT', 'MAINTAINER', 'THREE_IN_ONE', 'BLACK_SHEEP', 'PURE_HARM',
+  'CONQUEROR', 'DOMINATOR', 'SURVIVOR_EXPERT', 'CHALLENGER_LEGEND', 'TRAVELER_HELL'
+];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,7 +61,7 @@ function extractManagedOptions(text: string, beginMarker: string, endMarker: str
     .map((line) => unquoteYaml(line.slice(2)));
 }
 
-export function getGrantGeneralTitleWorkflowOptions(sourceData: Awaited<ReturnType<typeof loadTitleSource>>) {
+export function getGrantGeneralTitleWorkflowOptions(sourceData: TitleSource) {
   const restrictedKeySet = new Set(RESTRICTED_GENERAL_TITLE_KEYS);
 
   const playerOptions = sourceData.players.map((player) => player.name);
@@ -68,7 +73,8 @@ export function getGrantGeneralTitleWorkflowOptions(sourceData: Awaited<ReturnTy
 }
 
 export async function syncGrantGeneralTitleWorkflow({ workflowFile = WORKFLOW_FILE, sourceData: providedSourceData } = {}) {
-  const sourceData = providedSourceData ?? (await loadTitleSource());
+  if (!providedSourceData) throw new Error('Platform title data is required; run sync:platform-data');
+  const sourceData = providedSourceData;
   const { playerOptions, generalTitleOptions } = getGrantGeneralTitleWorkflowOptions(sourceData);
 
   const beforeText = await fs.readFile(workflowFile, 'utf8');

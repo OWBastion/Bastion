@@ -94,7 +94,7 @@ test('fetches all Agents resources through paginated GET requests using a custom
 
   const result = await fetchPlatformData({ baseUrl, pageSize: 2 });
 
-  assert.deepEqual(result, datasets);
+  assert.deepEqual(result, { ...datasets, playerTitleGrants: [], mapTitleHolders: [] });
   assert.deepEqual(
     requests.map((request) => `${request.pathname}?${request.searchParams}`),
     [
@@ -106,6 +106,27 @@ test('fetches all Agents resources through paginated GET requests using a custom
       '/v1/agents/titles?page=2&pageSize=2'
     ]
   );
+});
+
+test('fetches player grants and map holders through their independent paginated entrances', async () => {
+  const requests: string[] = [];
+  const fetchImpl = async (input: URL | RequestInfo) => {
+    const url = new URL(String(input));
+    requests.push(`${url.pathname}?${url.searchParams}`);
+    const page = Number(url.searchParams.get('page'));
+    const pageSize = Number(url.searchParams.get('pageSize'));
+    const items = url.pathname.endsWith('player-title-grants')
+      ? [{ playerId: '1', playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]
+      : [{ mapId: 'map.test', slot: 'pioneer', playerId: '1', playerName: '玩家' }];
+    return new Response(JSON.stringify(pageResponse(items, page, pageSize, 1)), { status: 200, headers: { 'content-type': 'application/json' } });
+  };
+  const client = new PlatformDataClient({ baseUrl: 'https://example.test', pageSize: 10, fetch: fetchImpl });
+  assert.deepEqual(await client.fetchPlayerTitleGrants(), [{ playerId: '1', playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]);
+  assert.deepEqual(await client.fetchMapTitleHolders('map.test'), [{ mapId: 'map.test', slot: 'pioneer', playerId: '1', playerName: '玩家' }]);
+  assert.deepEqual(requests, [
+    '/v1/agents/player-title-grants?page=1&pageSize=10',
+    '/v1/agents/map-title-holders?mapId=map.test&page=1&pageSize=10'
+  ]);
 });
 
 test('rejects non-success HTTP responses with resource and status context', async () => {

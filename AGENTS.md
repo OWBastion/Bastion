@@ -60,14 +60,11 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
 - Aggregate tool test suite: `pnpm run tools:test`
 - Unified source data sync: `pnpm run tools -- sync`
-- Title data sync: `pnpm run tools -- sync:title-data`
-- Grant-general-title workflow sync: `pnpm run tools -- sync:grant-general-title-workflow` (legacy compat command)
+- Title data sync: `pnpm run sync:platform-data`
 - Event add workflow: `pnpm run tools -- event:add`
 - Event remove workflow: `pnpm run tools -- event:remove`
-- Title data sync and validation: `pnpm run tools -- sync` then `pnpm run tools -- test:title-data-sync` (`sync:title-data` kept for compatibility)
-- Title grant helper: `pnpm run tools -- grant:title` (auto-syncs title data after successful non-dry-run writes)
-- Title grant workflow test: `pnpm run tools -- test:title-grant`
-- Title grant workflow test: `pnpm run tools -- test:grant-general-title-workflow`
+- Title data sync and validation: `pnpm run sync:platform-data` then `pnpm run tools -- test:platform-data-sync`
+- Player title grants are managed by the platform; Bastion has no local grant helper.
 - Platform metadata sync and OverPy build: `pnpm run sync:platform-data`
 - Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`
 - Performance loop scan helper: `pnpm run tools -- perf:scan`
@@ -82,8 +79,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 
 ## Skills
 
-- `add-workshop-title`: title source truth updates via `data/title-source.json` with generated artifacts synced by script.
-- `grant-player-title`: player/global/map title grants with order/index safety and map-slot constraints.
+- `add-workshop-title`: platform title metadata and grant sync with generated artifact checks.
 - `add-workshop-event`: event enum/constants/i18n/config/effects workflow with `COUNT` and rule safety checks.
 - `session-skill-maintainer`: summarize recent sessions and orchestrate skill maintenance updates with verifiable checks.
 

@@ -12,11 +12,10 @@ import {
   type PlatformDataClientOptions
 } from './platform-data-client.ts';
 import { syncGrantGeneralTitleWorkflow } from './sync-grant-general-title-workflow.ts';
-import { loadTitleSource, syncTitleData } from './sync-title-data.ts';
+import { syncTitleData } from './sync-title-data.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const TITLE_SOURCE_FILE = path.join(ROOT, 'data/title-source.json');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
 const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
@@ -39,6 +38,7 @@ const TITLE_DISPLAY_KINDS = new Set(['fixed', 'map_pioneer', 'map_name_suffix'])
 const MAP_DIFFICULTIES = new Set(['T0', 'T1', 'T2', 'T3', 'T4', 'T5']);
 const CHALLENGE_STATUSES = new Set(['scheduled', 'active', 'sunsetting']);
 const SUBMISSION_MODES = new Set(['manual', 'automatic']);
+const TITLE_SLOTS = new Set(['pioneer', 'conqueror', 'dominator']);
 
 type JsonObject = Record<string, any>;
 type TitleSource = JsonObject & {
@@ -68,10 +68,6 @@ function parseMainVersion(source: string): string {
   const match = source.match(/^#!define\s+VERSION\s+"([^"]+)"/m);
   if (!match) throw new Error('Unable to parse VERSION from src/env/env.opy');
   return match[1];
-}
-
-function writeJson(file: string, value: unknown) {
-  return fs.writeFile(file, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }
 
 function platformMapId(mapKey: string): string {
@@ -184,6 +180,93 @@ function validateAndMergeMaps(platformData: PlatformData, titleSource: TitleSour
     ...item,
     mapLabel: mapLabels.get(platformMapId(requireString(item.mapKey, 'mapKey'))) ?? item.mapLabel
   }));
+}
+
+function titleColorExpr(value: unknown, prefix: string): string {
+  if (value === null) return 'null';
+  if (!value || typeof value !== 'object') throw new Error(`${prefix}.color must be an object or null`);
+  const color = value as Record<string, unknown>;
+  if (color.kind === 'heroColor') return `heroColor[${requireNumber(color.index, `${prefix}.color.index`)}]`;
+  if (color.kind === 'rgb') {
+    if (!Array.isArray(color.value) || color.value.length !== 3 || color.value.some((part) => !Number.isInteger(part) || Number(part) < 0 || Number(part) > 255)) throw new Error(`${prefix}.color.value must be an RGB tuple`);
+    return `vect(${color.value.join(', ')})`;
+  }
+  if (color.kind === 'palette' && ['orange', 'red', 'purple', 'gold', 'blue'].includes(String(color.name))) return `breathPalette.${color.name}`;
+  throw new Error(`${prefix}.color has an unsupported value`);
+}
+
+function titleDisplayExpr(item: JsonObject, prefix: string): string {
+  const label = requireString(item.label, `${prefix}.label`);
+  if (item.displayKind === 'fixed') return JSON.stringify(label);
+  if (item.displayKind === 'map_pioneer') return `"{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else ${JSON.stringify(label)})`;
+  if (item.displayKind === 'map_name_suffix') return `"{0}${label}".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())`;
+  throw new Error(`${prefix}.displayKind has an unsupported value`);
+}
+
+function mapKeyFromPlatformId(mapId: string): string {
+  if (!/^map\.[a-z0-9_]+$/.test(mapId)) throw new Error(`Invalid platform map ID: ${mapId}`);
+  return `DATA_${mapId.slice(4).toUpperCase()}`;
+}
+
+export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { platformData: PlatformData; mapSourceFiles: Array<{ file: string; content: string }> }): TitleSource {
+  const mapIds = new Set(platformData.maps.map((item) => requireString(item.mapId, 'mapId')));
+  const mapLabels = new Map(platformData.maps.map((item) => [requireString(item.mapId, 'mapId'), requireString(item.mapName, 'mapName')]));
+  for (const mapId of mapIds) {
+    const mapKey = mapKeyFromPlatformId(mapId);
+    if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
+  }
+
+  const titleRecords = new Map<string, JsonObject>();
+  const mapTitleDefinitions = new Set<string>();
+  const titleOrders = new Map<number, string>();
+  for (const [index, item] of platformData.titles.entries()) {
+    const prefix = `titles[${index}]`;
+    const key = requireString(item.titleKey, `${prefix}.titleKey`);
+    if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) throw new Error(`${prefix} has an unsupported scope or displayKind`);
+    const sortOrder = requireNumber(item.sortOrder, `${prefix}.sortOrder`);
+    if (!Number.isInteger(sortOrder) || sortOrder < 0) throw new Error(`${prefix}.sortOrder must be a non-negative integer`);
+    if (titleOrders.has(sortOrder) && titleOrders.get(sortOrder) !== key) throw new Error(`Duplicate title sortOrder: ${sortOrder}`);
+    titleOrders.set(sortOrder, key);
+    requireString(item.category, `${prefix}.category`); requireString(item.condition, `${prefix}.condition`);
+    if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
+    if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
+    if (item.scope === 'map') {
+      const mapId = requireString(item.mapId, `${prefix}.mapId`);
+      if (!mapIds.has(mapId) || !TITLE_SLOTS.has(item.slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
+      if (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === '')) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
+      mapTitleDefinitions.add(`${mapId}:${item.slot}`);
+    }
+    const previous = titleRecords.get(key);
+    if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
+    titleRecords.set(key, previous ?? item);
+  }
+
+  const players = new Map<string, JsonObject>();
+  for (const [index, item] of platformData.playerTitleGrants.entries()) {
+    const prefix = `playerTitleGrants[${index}]`;
+    const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    if (players.has(playerId)) throw new Error(`Duplicate playerId: ${playerId}`);
+    players.set(playerId, { playerId, name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
+  }
+  const playerNames = new Set<string>();
+  const normalizedPlayers = [...players.values()].sort((left, right) => String(left.playerId).localeCompare(String(right.playerId))).map((player, index) => {
+    if (playerNames.has(player.name)) throw new Error(`Duplicate player name detected: ${player.name}`);
+    playerNames.add(player.name);
+    if (!Array.isArray(player.titleKeys) || player.titleKeys.some((key: unknown) => typeof key !== 'string' || !titleRecords.has(key))) throw new Error(`Invalid titleKeys for player ${player.name}`);
+    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => (titleRecords.get(a)!.sortOrder as number) - (titleRecords.get(b)!.sortOrder as number)), allTitles: player.allTitles === true, playerId: player.playerId, index };
+  });
+  const playerById = new Map([...players.entries()].map(([id, player]) => [id, player.name as string]));
+  const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[] }>();
+  for (const [index, item] of platformData.mapTitleHolders.entries()) {
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const slot = requireString(item.slot, `${prefix}.slot`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !playerById.has(playerId) || playerById.get(playerId) !== playerName) throw new Error(`${prefix} has an invalid map, slot or player reference`);
+    const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [] };
+    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerId}`); target.push(playerName); holdersByMap.set(mapKey, holders);
+  }
+  const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [] } }));
+  for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
+  const titles = [...titleRecords.values()].sort((left, right) => Number(left.sortOrder) - Number(right.sortOrder)).map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }
 
 function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
@@ -391,9 +474,7 @@ async function runBuild() {
 
 export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
-  const [rawTitleSource, titleSource, platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource, envSource] = await Promise.all([
-    fs.readFile(TITLE_SOURCE_FILE, 'utf8').then((text) => JSON.parse(text) as TitleSource),
-    loadTitleSource(TITLE_SOURCE_FILE),
+  const [platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource, envSource] = await Promise.all([
     fs.readFile(EVENT_PLATFORM_IDS_FILE, 'utf8').then((text) => JSON.parse(text) as Record<string, string>),
     fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') })))),
     fs.readFile(EVENT_CONSTANTS_FILE, 'utf8'),
@@ -409,42 +490,30 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   }));
 
   const client = new PlatformDataClient({ ...options, baseUrl });
-  const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [] });
+  const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [], playerTitleGrants: [], mapTitleHolders: [] });
 
   const maps = await client.fetchResource('maps');
-  const mapData = { ...emptyData(), maps };
-  const mapIds = validatePlatformMaps(mapData, titleSource);
-  let mergedTitleSource = {
-    ...titleSource,
-    mapTitles: validateAndMergeMaps(mapData, titleSource)
-  };
-  let mergedRawTitleSource = {
-    ...rawTitleSource,
-    mapTitles: validateAndMergeMaps(mapData, rawTitleSource)
-  };
-  await writeJson(TITLE_SOURCE_FILE, mergedRawTitleSource);
-  let titleResult = await syncTitleData({ sourceData: mergedTitleSource });
-
-  const titles = await client.fetchResource('titles');
-  const titleData = { ...emptyData(), titles };
+  const mapIds = new Set(maps.map((item) => requireString(item.mapId, 'mapId')));
+  for (const mapId of mapIds) {
+    const mapKey = mapKeyFromPlatformId(mapId);
+    if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
+  }
+  const globalTitles = await client.fetchTitles();
+  const mapTitlePages = await Promise.all([...mapIds].map((mapId) => client.fetchTitles(mapId)));
+  const titles = [...globalTitles, ...mapTitlePages.flat().filter((item) => item.scope === 'map')];
+  const playerTitleGrants = await client.fetchPlayerTitleGrants();
+  const mapTitleHolders = (await Promise.all([...mapIds].map((mapId) => client.fetchMapTitleHolders(mapId)))).flat();
+  const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
+  const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
-  mergedTitleSource = {
-    ...mergedTitleSource,
-    titles: validateAndMergeTitles(titleData, mergedTitleSource, mapIds)
-  };
-  mergedRawTitleSource = {
-    ...mergedRawTitleSource,
-    titles: validateAndMergeTitles(titleData, mergedRawTitleSource, mapIds)
-  };
-  await writeJson(TITLE_SOURCE_FILE, mergedRawTitleSource);
-  titleResult = await syncTitleData({ sourceData: mergedTitleSource });
+  const titleResult = await syncTitleData({ sourceData: titleSource });
 
   const achievements = await client.fetchResource('achievements');
-  const achievementData = { ...emptyData(), achievements };
+  const achievementData = { ...emptyData(), achievements, titles };
   const challengeIds = validatePlatformAchievements(achievementData, titleKeys, mapIds);
 
   const events = await client.fetchResource('events');
-  const eventData = { ...emptyData(), events };
+  const eventData = { ...emptyData(), events, achievements };
   const validatedEventEntries = validateAndMergeEvents(eventData, platformEventIds, challengeIds, eventEntries);
   const platformEventData = mergePlatformEventOverPyData({
     platformData: eventData,

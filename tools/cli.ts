@@ -17,13 +17,7 @@ function runNode(args: string[]) {
 }
 
 async function runSyncTitleData(options = {}) {
-  const { syncTitleData } = await import('./sync-title-data.ts');
-  const result = await syncTitleData(options);
-  const { webPayload } = result;
-  console.log(
-    `Synced ${webPayload.meta.playerCount} players, ${webPayload.meta.titleCount} titles and ${webPayload.meta.mapTitleCount} map title sets from data/title-source.json`
-  );
-  return result;
+  return runSyncPlatformData(options);
 }
 
 async function runSyncPlatformData(options = {}) {
@@ -31,22 +25,8 @@ async function runSyncPlatformData(options = {}) {
   await syncPlatformData({ baseUrl: options.url });
 }
 
-async function runSyncGrantGeneralTitleWorkflow(options = {}) {
-  const { syncGrantGeneralTitleWorkflow } = await import('./sync-grant-general-title-workflow.ts');
-  const result = await syncGrantGeneralTitleWorkflow(options);
-  console.log(
-    `Synced grant-general-title workflow options: ${result.counts.players} players and ${result.counts.generalTitles} general titles`
-  );
-}
-
 async function runSyncAll() {
-  const [titleResult] = await Promise.all([runSyncTitleData()]);
-  await runSyncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
-}
-
-async function runGrantTitle(rawArgs: string[]) {
-  const { main } = await import('./grant-player-title.ts');
-  await main(rawArgs);
+  await runSyncPlatformData();
 }
 
 async function runPerfScan(rawArgs: string[]) {
@@ -61,10 +41,6 @@ async function runEvent(rawArgs: string[]) {
 
 async function runBumpEnvVersion() {
   await runNode(['--import', 'tsx', 'tools/bump-env-version.ts']);
-}
-
-async function runExportPlatformTitleCatalog(rawArgs: string[]) {
-  await runNode(['--import', 'tsx', 'tools/export-platform-title-catalog.ts', ...rawArgs]);
 }
 
 async function runNodeTest(testFile: string) {
@@ -91,20 +67,13 @@ program
   .showHelpAfterError('(Use --help for usage)');
 
 program.command('sync').description('Sync all source data and workflow options').action(wrapAction(runSyncAll));
-program.command('sync:title-data').description('Sync title source data').action(wrapAction(runSyncTitleData));
+program.command('sync:title-data').description('Sync platform title data and generate OverPy title artifacts').action(wrapAction(runSyncTitleData));
 program
   .command('sync:platform-data')
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
   .option('--url <url>', 'Platform Agents API base URL')
   .action(wrapAction(runSyncPlatformData));
-program
-  .command('sync:grant-general-title-workflow')
-  .description('Sync grant-general-title workflow options from data/title-source.json (legacy compat command)')
-  .action(wrapAction(runSyncGrantGeneralTitleWorkflow));
-program
-  .command('grant:title [args...]')
-  .description('Grant title via existing grant-player-title CLI arguments')
-  .allowUnknownOption(true);
+program.command('sync:grant-general-title-workflow').description('Removed: platform sync generates workflow options').action(wrapAction(() => runSyncPlatformData({ build: false })));
 program
   .command('perf:scan [args...]')
   .description('Run performance loop scan with passthrough options/targets')
@@ -118,14 +87,7 @@ program
   .description('Remove event scaffold via spec JSON (single implementation entry)')
   .allowUnknownOption(true);
 program.command('bump:env-version').description('Bump env version in src/env/env.opy').action(wrapAction(runBumpEnvVersion));
-program
-  .command('export:platform-title-catalog [args...]')
-  .description('Export the Bastion title and map catalog for the platform')
-  .allowUnknownOption(true);
-program
-  .command('test:title-data-sync')
-  .description('Run title data sync tests')
-  .action(wrapAction(() => runNodeTest('tools/sync-title-data.test.ts')));
+program.command('test:title-data-sync').description('Run platform title generation tests').action(wrapAction(() => runNodeTest('tools/sync-platform-data.test.ts')));
 program
   .command('test:platform-data-sync')
   .description('Run platform data sync and merge tests')
@@ -133,14 +95,6 @@ program
     await runNodeTest('tools/platform-data-client.test.ts');
     await runNodeTest('tools/sync-platform-data.test.ts');
   }));
-program
-  .command('test:title-grant')
-  .description('Run title grant tests')
-  .action(wrapAction(() => runNodeTest('tools/grant-player-title.test.ts')));
-program
-  .command('test:grant-general-title-workflow')
-  .description('Run grant-general-title workflow sync tests')
-  .action(wrapAction(() => runNodeTest('tools/sync-grant-general-title-workflow.test.ts')));
 
 const normalizedArgv =
   process.argv[2] === '--'
@@ -149,20 +103,12 @@ const normalizedArgv =
 
 async function runPassthroughIfRequested(argv: string[]) {
   const commandName = argv[2];
-  if (commandName === 'grant:title') {
-    await runGrantTitle(argv.slice(3));
-    return true;
-  }
   if (commandName === 'perf:scan') {
     await runPerfScan(argv.slice(3));
     return true;
   }
   if (commandName === 'event:add' || commandName === 'event:remove') {
     await runEvent(argv.slice(3));
-    return true;
-  }
-  if (commandName === 'export:platform-title-catalog') {
-    await runExportPlatformTitleCatalog(argv.slice(3));
     return true;
   }
   return false;
