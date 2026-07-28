@@ -1,5 +1,6 @@
 export const DEFAULT_PLATFORM_DATA_BASE_URL = 'https://api.owbastion.com';
 export const PLATFORM_DATA_CONTRACT_VERSION = '1' as const;
+export const PLATFORM_DATA_USER_AGENT = 'OWBastion-BastionSync/1.0';
 
 export const PLATFORM_DATA_RESOURCES = ['events', 'maps', 'achievements', 'titles'] as const;
 export type PlatformDataResource = (typeof PLATFORM_DATA_RESOURCES)[number];
@@ -176,7 +177,7 @@ export class PlatformDataClient {
     for (let attempt = 0; ; attempt += 1) {
       let response: Response;
       try {
-        response = await this.fetchImpl(url);
+        response = await this.fetchImpl(url, { headers: { 'user-agent': PLATFORM_DATA_USER_AGENT } });
       } catch (error) {
         throw new PlatformDataClientError(`Request failed: ${error instanceof Error ? error.message : String(error)}`, details);
       }

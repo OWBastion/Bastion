@@ -7,6 +7,7 @@ import {
   fetchPlatformData,
   PlatformDataClient,
   PlatformDataClientError,
+  PLATFORM_DATA_USER_AGENT,
   type PlatformDataResource
 } from './platform-data-client.ts';
 
@@ -106,6 +107,20 @@ test('fetches all Agents resources through paginated GET requests using a custom
       '/v1/agents/titles?page=2&pageSize=2'
     ]
   );
+});
+
+test('identifies Bastion in the Agents request User-Agent', async () => {
+  let userAgent: string | null = null;
+  const client = new PlatformDataClient({
+    baseUrl: 'https://platform.example',
+    fetch: async (_input, init) => {
+      userAgent = new Headers(init?.headers).get('user-agent');
+      return new Response(JSON.stringify(pageResponse([{ mapId: 'map-1' }], 1, 100)), { status: 200 });
+    }
+  });
+
+  await client.fetchResource('maps');
+  assert.equal(userAgent, PLATFORM_DATA_USER_AGENT);
 });
 
 test('fetches player grants and map holders through their independent paginated entrances', async () => {
