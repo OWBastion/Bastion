@@ -21,10 +21,8 @@ rule "[VishkarEvent]: 赌徒：赢家通吃":
         eventPlayer.temp = gamblerHeartsteelJackpot
         eventPlayer.heart_steel[HeartSteelData.STACKS] += eventPlayer.temp
         gamblerHeartsteelJackpot = 0
-        eventPlayer.dlcTimeChallenge[3]++
         smallMessage(getAllPlayers(), "  {0}  {1} 清空奖池，获得 {2} 层心之钢".format(iconString(Icon.CLUB), eventPlayer, eventPlayer.temp))
     else:
-        eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  {1} 层心之钢已进入奖池".format(iconString(Icon.DIAMOND), eventPlayer.eventMission))
     wait()
     setPlayerHP()

@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 保持距离 Track":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
 
-    eventPlayer.dlcTimeChallenge[11]++
+    eventPlayer.dlcTimeChallenge[6]++
 
 rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Event eachPlayer

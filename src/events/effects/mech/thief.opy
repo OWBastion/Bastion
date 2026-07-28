@@ -22,7 +22,7 @@ rule "[VishkarEvent]: 窃贼":
         eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true
-        eventPlayer.dlcTimeChallenge[14]++
+        eventPlayer.dlcTimeChallenge[8]++
         smallMessage(eventPlayer, "  {0}  已窃取一名友方的下一个增益事件".format(iconString(Icon.DIAMOND)))
         smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
         eventPlayer.eventDuration = 0

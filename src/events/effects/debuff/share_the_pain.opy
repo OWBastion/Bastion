@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 有难同当 Effect":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     
-    eventPlayer.dlcTimeChallenge[7]++
+    eventPlayer.dlcTimeChallenge[5]++
     wait(getAverageServerLoad() / 100 * 0.032)
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()

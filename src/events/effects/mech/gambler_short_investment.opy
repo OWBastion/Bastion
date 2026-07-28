@@ -17,11 +17,9 @@ rule "[VishkarEvent]: 赌徒：短期投资 (交易)":
     if random.randint(0, 99) < EVT_MECH_8_WIN_CHANCE:
         eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_8_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
         eventPlayer.dlcTimeChallenge[3]++
-        eventPlayer.dlcTimeChallenge[5]++
         smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢（{2}% 最大生命值）".format(iconString(Icon.CLUB), EVT_MECH_8_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_MECH_8_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
         setPlayerHP()
     else:
-        eventPlayer.dlcTimeChallenge[4]++
         smallMessage(eventPlayer, "  {0}  输！祝你好运".format(iconString(Icon.DIAMOND)))
     eventPlayer.eventForceRoll = EVT_MECH_8_FORCE_ROLL
     eventPlayer.eventForceCount = EVT_MECH_8_FORCE_COUNT

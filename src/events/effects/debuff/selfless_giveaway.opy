@@ -12,7 +12,7 @@ rule "Resolve giveaway":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
     
-    eventPlayer.dlcTimeChallenge[9]++
+    eventPlayer.dlcTimeChallenge[1]++
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
     else:
