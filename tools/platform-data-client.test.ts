@@ -7,6 +7,7 @@ import {
   fetchPlatformData,
   PlatformDataClient,
   PlatformDataClientError,
+  PLATFORM_DATA_TOKEN_ENV,
   PLATFORM_DATA_USER_AGENT,
   type PlatformDataResource
 } from './platform-data-client.ts';
@@ -121,6 +122,25 @@ test('identifies Bastion in the Agents request User-Agent', async () => {
 
   await client.fetchResource('maps');
   assert.equal(userAgent, PLATFORM_DATA_USER_AGENT);
+});
+
+test('sends the configured Bastion access token without exposing it in the URL', async () => {
+  let authorization: string | null = null;
+  let requestedUrl = '';
+  const client = new PlatformDataClient({
+    baseUrl: 'https://platform.example',
+    accessToken: ' bastion-token ',
+    fetch: async (input, init) => {
+      requestedUrl = String(input);
+      authorization = new Headers(init?.headers).get('authorization');
+      return new Response(JSON.stringify(pageResponse([{ mapId: 'map-1' }], 1, 100)), { status: 200 });
+    }
+  });
+
+  await client.fetchResource('maps');
+  assert.equal(authorization, 'Bearer bastion-token');
+  assert.equal(requestedUrl, 'https://platform.example/v1/agents/maps?page=1&pageSize=100');
+  assert.equal(PLATFORM_DATA_TOKEN_ENV, 'BASTION_BUILD_TOKEN');
 });
 
 test('fetches player grants and map holders through their independent paginated entrances', async () => {

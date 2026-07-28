@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 import {
   DEFAULT_PLATFORM_DATA_BASE_URL,
   PLATFORM_DATA_CONTRACT_VERSION,
+  PLATFORM_DATA_TOKEN_ENV,
   PlatformDataClient,
   type PlatformData,
   type PlatformDataClientOptions
@@ -484,7 +485,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     macros: resolveEventMacros(entry.key, entry.type, [eventConfigSource, eventConfigDevSource])
   }));
 
-  const client = new PlatformDataClient({ ...options, baseUrl });
+  const client = new PlatformDataClient({ ...options, baseUrl, accessToken: options.accessToken ?? process.env[PLATFORM_DATA_TOKEN_ENV] });
   const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [], playerTitleGrants: [], mapTitleHolders: [] });
 
   const maps = await client.fetchResource('maps');

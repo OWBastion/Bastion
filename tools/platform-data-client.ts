@@ -1,6 +1,7 @@
 export const DEFAULT_PLATFORM_DATA_BASE_URL = 'https://api.owbastion.com';
 export const PLATFORM_DATA_CONTRACT_VERSION = '1' as const;
 export const PLATFORM_DATA_USER_AGENT = 'OWBastion-BastionSync/1.0';
+export const PLATFORM_DATA_TOKEN_ENV = 'BASTION_BUILD_TOKEN';
 
 export const PLATFORM_DATA_RESOURCES = ['events', 'maps', 'achievements', 'titles'] as const;
 export type PlatformDataResource = (typeof PLATFORM_DATA_RESOURCES)[number];
@@ -28,6 +29,7 @@ export type PlatformData = {
 export type PlatformDataClientOptions = {
   baseUrl?: string;
   pageSize?: number;
+  accessToken?: string;
   fetch?: typeof globalThis.fetch;
 };
 
@@ -171,13 +173,16 @@ function validatePageSize(pageSize: number): void {
 export class PlatformDataClient {
   private readonly baseUrl: string;
   private readonly pageSize: number;
+  private readonly accessToken?: string;
   private readonly fetchImpl: typeof globalThis.fetch;
 
   private async request(url: URL, details: { resource?: PlatformDataResource; page: number }): Promise<Response> {
     for (let attempt = 0; ; attempt += 1) {
       let response: Response;
       try {
-        response = await this.fetchImpl(url, { headers: { 'user-agent': PLATFORM_DATA_USER_AGENT } });
+        const headers: Record<string, string> = { 'user-agent': PLATFORM_DATA_USER_AGENT };
+        if (this.accessToken) headers.authorization = `Bearer ${this.accessToken}`;
+        response = await this.fetchImpl(url, { headers });
       } catch (error) {
         throw new PlatformDataClientError(`Request failed: ${error instanceof Error ? error.message : String(error)}`, details);
       }
@@ -194,6 +199,7 @@ export class PlatformDataClient {
   constructor(options: PlatformDataClientOptions = {}) {
     this.baseUrl = normalizeBaseUrl(options.baseUrl ?? DEFAULT_PLATFORM_DATA_BASE_URL);
     this.pageSize = options.pageSize ?? 100;
+    this.accessToken = options.accessToken?.trim() || undefined;
     validatePageSize(this.pageSize);
     this.fetchImpl = options.fetch ?? globalThis.fetch;
     if (typeof this.fetchImpl !== 'function') {

@@ -76,6 +76,8 @@ When preparing a Bastion build, sync the platform's current metadata from the re
 pnpm run sync:platform-data
 ```
 
+The public Agents response omits numeric player IDs. Configure the repository or local build environment with the `BASTION_BUILD_TOKEN` secret when title grants or map title holders are part of the sync; the sync client sends it only as a Bearer token.
+
 The sync validates stable IDs, supported enums, and cross-resource references, updates generated data, and then compiles the OverPy entries. Bastion retains responsibility for stable IDs, OverPy implementations, and compilation. This flow does not use a Release API, Candidate or Draft lifecycle, data locks, consistency snapshots, or platform build tasks.
 
 ### CI Auto Release (pnpm)
