@@ -169,7 +169,7 @@
 #!define STR_EVT_BUFF_31_TITLE "任务：钢化你心"
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：心之钢层数×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
-#!define STR_EVT_BUFF_32_DESC "累计治疗 {0} 点生命值\n奖励：永久获得 {1}% 治疗强度"
+#!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)

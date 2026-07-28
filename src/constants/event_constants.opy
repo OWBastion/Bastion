@@ -328,8 +328,9 @@ enum HeartSteelData:
 # --- ID 32: 战地医生 ---
 #!define EVT_BUFF_32_DURATION 120
 #!define EVT_BUFF_32_WEIGHT 0.8
-#!define EVT_32_HEAL_GOAL 10000
-#!define EVT_32_REWARD_HEAL_PERMA 25
+#!define EVT_32_HEAL_BASE 2500
+#!define EVT_32_HEAL_PER_PLAYER 500
+#!define EVT_32_REWARD_HEAL_PERMA 100
 #!define EVT_32_HUD_INTERVAL 5
 
 #!define EVT_BUFF_35_DURATION 5

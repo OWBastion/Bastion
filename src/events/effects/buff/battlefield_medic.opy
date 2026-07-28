@@ -12,10 +12,10 @@ rule "[VishkarEvent]: 战地医生 (记录基准)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal == 0]) == true
 
     eventPlayer.eventMission = eventPlayer.getStatistic(Stat.HEALING_DEALT)
-    eventPlayer.eventMissionGoal = eventPlayer.eventMission + EVT_32_HEAL_GOAL
+    eventPlayer.eventMissionGoal = eventPlayer.eventMission + (EVT_32_HEAL_BASE + EVT_32_HEAL_PER_PLAYER * len(getAllPlayers()))
     eventPlayer.hudText = "{0}/{1}".format(
         max(0, eventPlayer.getStatistic(Stat.HEALING_DEALT) - eventPlayer.eventMission),
-        EVT_32_HEAL_GOAL
+        eventPlayer.eventMissionGoal - eventPlayer.eventMission
     )
 
 rule "[VishkarEvent]: 战地医生 (更新 HUD)":
@@ -26,7 +26,7 @@ rule "[VishkarEvent]: 战地医生 (更新 HUD)":
     wait(EVT_32_HUD_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.hudText = "{0}/{1}".format(
         max(0, eventPlayer.getStatistic(Stat.HEALING_DEALT) - eventPlayer.eventMission),
-        EVT_32_HEAL_GOAL
+        eventPlayer.eventMissionGoal - eventPlayer.eventMission
     )
     if ruleCondition:
         loop()

@@ -160,7 +160,7 @@
 #!define STR_EVT_BUFF_31_TITLE "Temper Heart"
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nHeartsteel stacks x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
-#!define STR_EVT_BUFF_32_DESC "Heal {0} HP during the duration.\nReward: permanently gain {1}% healing power."
+#!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs

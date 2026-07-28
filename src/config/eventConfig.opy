@@ -468,7 +468,7 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.TEMPER_HEART)
 
     buffEventName[BuffEventId.BATTLEFIELD_MEDIC] = STR_EVT_BUFF_32_TITLE
-    buffEventDesc[BuffEventId.BATTLEFIELD_MEDIC] = STR_EVT_BUFF_32_DESC.format(EVT_32_HEAL_GOAL, EVT_32_REWARD_HEAL_PERMA)
+    buffEventDesc[BuffEventId.BATTLEFIELD_MEDIC] = STR_EVT_BUFF_32_DESC.format(EVT_32_HEAL_BASE, EVT_32_HEAL_PER_PLAYER, EVT_32_REWARD_HEAL_PERMA)
     buffEventDuration[BuffEventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_DURATION
     buffEventWeight[BuffEventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_WEIGHT
     buffEventId.append(BuffEventId.BATTLEFIELD_MEDIC)
