@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
+import { syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
@@ -117,6 +118,20 @@ test('builds player and map title generation input from stable platform identiti
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
+});
+
+test('generates the all-titles player entry without title keys', async () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      titles: [{ ...platformData.titles[0], color: null }],
+      playerTitleGrants: [{ playerId: '123', playerName: '全称号玩家', titleKeys: [], allTitles: true }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+
+  const result = await syncTitleData({ sourceData: source, dryRun: true });
+  assert.equal(result.sourceData.players[0].allTitles, true);
 });
 
 test('rejects map holders that reference an unknown stable player identity', () => {

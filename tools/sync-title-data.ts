@@ -259,7 +259,7 @@ function buildPlayerTitleSets(titles, players) {
   const titleSetIndexByIds = new Map();
   const titleSets = [];
   const playersWithTitleSetIndex = players.map((player) => {
-    const sortedTitleIds = player.titleKeys
+    const sortedTitleIds = player.allTitles ? [] : player.titleKeys
       .map((key) => titleIdByKey.get(key))
       .sort((left, right) => left - right);
     const titleSetKey = player.allTitles ? 'TP_ALL' : sortedTitleIds.join(',');
