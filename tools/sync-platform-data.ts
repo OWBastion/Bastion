@@ -11,7 +11,6 @@ import {
   type PlatformData,
   type PlatformDataClientOptions
 } from './platform-data-client.ts';
-import { syncGrantGeneralTitleWorkflow } from './sync-grant-general-title-workflow.ts';
 import { syncTitleData } from './sync-title-data.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -505,7 +504,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
-  const titleResult = await syncTitleData({ sourceData: titleSource });
+  await syncTitleData({ sourceData: titleSource });
 
   const achievements = await client.fetchResource('achievements');
   const achievementData = { ...emptyData(), achievements, titles };
@@ -523,7 +522,6 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   await fs.writeFile(EVENT_CONSTANTS_FILE, platformEventData.constantsSource, 'utf8');
   await fs.writeFile(ZH_LOCALE_FILE, platformEventData.localeSource, 'utf8');
   await fs.writeFile(EVENT_MANIFEST_FILE, renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)), 'utf8');
-  await syncGrantGeneralTitleWorkflow({ sourceData: titleResult.sourceData });
   if (options.build !== false) await runBuild();
   const counts = {
     events: events.length,

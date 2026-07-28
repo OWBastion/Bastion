@@ -73,7 +73,6 @@ program
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
   .option('--url <url>', 'Platform Agents API base URL')
   .action(wrapAction(runSyncPlatformData));
-program.command('sync:grant-general-title-workflow').description('Removed: platform sync generates workflow options').action(wrapAction(() => runSyncPlatformData({ build: false })));
 program
   .command('perf:scan [args...]')
   .description('Run performance loop scan with passthrough options/targets')
