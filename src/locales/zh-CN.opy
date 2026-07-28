@@ -72,7 +72,7 @@
 #!define STR_EVT_BUFF_2_TITLE "钢铁防线"
 #!define STR_EVT_BUFF_2_DESC "获得{0}+{1}%最大生命值的临时护甲与{2}%伤害减免"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
-#!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
+#!define STR_EVT_BUFF_4_DESC "获得{0}%最大生命值的临时生命值\n每秒恢复{1}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
 #!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{0}+{1}%临时生命值与{2}%移速加成"
 #!define STR_EVT_BUFF_6_TITLE "足力健"

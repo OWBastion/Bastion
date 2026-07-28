@@ -51,7 +51,7 @@ rule "initialize event array":
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_4_TITLE, true, BuffEventId.LIFE_SPRING):
         goto lbl_3
     buffEventName[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_TITLE
-    buffEventDesc[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_DESC.format(EVT_4_HEAL_PERCENT * 100)
+    buffEventDesc[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEALTH_MAXHP_FACTOR), percent(EVT_4_HEAL_PERCENT))
     buffEventDuration[BuffEventId.LIFE_SPRING] = EVT_BUFF_4_DURATION
     buffEventWeight[BuffEventId.LIFE_SPRING] = EVT_BUFF_4_WEIGHT
     buffEventId.append(BuffEventId.LIFE_SPRING)

@@ -77,6 +77,7 @@ enum HeartSteelData:
 #!define EVT_4_HEAL_INTERVAL 20
 # 15% Max HP
 #!define EVT_4_HEAL_PERCENT 0.15
+#!define EVT_4_HEALTH_MAXHP_FACTOR 0.5
 #!define EVT_4_EFFECT Effect.HEAL_TARGET_ACTIVE
 
 # --- ID 5 ---

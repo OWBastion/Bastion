@@ -60,7 +60,7 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.IRON_BULWARK)
 
     buffEventName[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_TITLE
-    buffEventDesc[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEAL_PERCENT))
+    buffEventDesc[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEALTH_MAXHP_FACTOR), percent(EVT_4_HEAL_PERCENT))
     buffEventDuration[BuffEventId.LIFE_SPRING] = EVT_BUFF_4_DURATION
     buffEventWeight[BuffEventId.LIFE_SPRING] = EVT_BUFF_4_WEIGHT
     buffEventId.append(BuffEventId.LIFE_SPRING)
