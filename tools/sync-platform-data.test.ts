@@ -107,7 +107,7 @@ test('builds player and map title generation input from stable platform identiti
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
-      titles: [{ ...platformData.titles[0], sortOrder: 0, color: { kind: 'heroColor', index: 12 }, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
+      titles: [{ ...platformData.titles[0], color: { kind: 'heroColor', index: 12 }, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
       playerTitleGrants: [{ playerId: '123', playerName: '玩家改名', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', playerId: '123', playerName: '玩家改名' }]
     },
@@ -124,7 +124,7 @@ test('rejects map holders that reference an unknown stable player identity', () 
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
-      titles: [{ ...platformData.titles[0], sortOrder: 0, color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
+      titles: [{ ...platformData.titles[0], color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
       playerTitleGrants: [],
       mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', playerId: '123', playerName: '玩家' }]
     },

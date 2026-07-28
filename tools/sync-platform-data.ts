@@ -218,15 +218,10 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
 
   const titleRecords = new Map<string, JsonObject>();
   const mapTitleDefinitions = new Set<string>();
-  const titleOrders = new Map<number, string>();
   for (const [index, item] of platformData.titles.entries()) {
     const prefix = `titles[${index}]`;
     const key = requireString(item.titleKey, `${prefix}.titleKey`);
     if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) throw new Error(`${prefix} has an unsupported scope or displayKind`);
-    const sortOrder = requireNumber(item.sortOrder, `${prefix}.sortOrder`);
-    if (!Number.isInteger(sortOrder) || sortOrder < 0) throw new Error(`${prefix}.sortOrder must be a non-negative integer`);
-    if (titleOrders.has(sortOrder) && titleOrders.get(sortOrder) !== key) throw new Error(`Duplicate title sortOrder: ${sortOrder}`);
-    titleOrders.set(sortOrder, key);
     requireString(item.category, `${prefix}.category`); requireString(item.condition, `${prefix}.condition`);
     if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
@@ -248,12 +243,13 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (players.has(playerId)) throw new Error(`Duplicate playerId: ${playerId}`);
     players.set(playerId, { playerId, name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
   }
+  const titleIds = new Map([...titleRecords.keys()].map((key, index) => [key, index]));
   const playerNames = new Set<string>();
   const normalizedPlayers = [...players.values()].sort((left, right) => String(left.playerId).localeCompare(String(right.playerId))).map((player, index) => {
     if (playerNames.has(player.name)) throw new Error(`Duplicate player name detected: ${player.name}`);
     playerNames.add(player.name);
     if (!Array.isArray(player.titleKeys) || player.titleKeys.some((key: unknown) => typeof key !== 'string' || !titleRecords.has(key))) throw new Error(`Invalid titleKeys for player ${player.name}`);
-    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => (titleRecords.get(a)!.sortOrder as number) - (titleRecords.get(b)!.sortOrder as number)), allTitles: player.allTitles === true, playerId: player.playerId, index };
+    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true, playerId: player.playerId, index };
   });
   const playerById = new Map([...players.entries()].map(([id, player]) => [id, player.name as string]));
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[] }>();
@@ -265,7 +261,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   }
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [] } }));
   for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
-  const titles = [...titleRecords.values()].sort((left, right) => Number(left.sortOrder) - Number(right.sortOrder)).map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }
 
@@ -494,15 +490,16 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
 
   const maps = await client.fetchResource('maps');
   const mapIds = new Set(maps.map((item) => requireString(item.mapId, 'mapId')));
+  const orderedMapIds = [...mapIds].sort();
   for (const mapId of mapIds) {
     const mapKey = mapKeyFromPlatformId(mapId);
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
   const globalTitles = await client.fetchTitles();
-  const mapTitlePages = await Promise.all([...mapIds].map((mapId) => client.fetchTitles(mapId)));
+  const mapTitlePages = await Promise.all(orderedMapIds.map((mapId) => client.fetchTitles(mapId)));
   const titles = [...globalTitles, ...mapTitlePages.flat().filter((item) => item.scope === 'map')];
   const playerTitleGrants = await client.fetchPlayerTitleGrants();
-  const mapTitleHolders = (await Promise.all([...mapIds].map((mapId) => client.fetchMapTitleHolders(mapId)))).flat();
+  const mapTitleHolders = (await Promise.all(orderedMapIds.map((mapId) => client.fetchMapTitleHolders(mapId)))).flat();
   const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));

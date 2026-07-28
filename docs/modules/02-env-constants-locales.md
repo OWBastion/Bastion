@@ -85,4 +85,4 @@
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。
 - 发布前可执行 `pnpm run tools -- bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
 - 称号相关改动后运行 `pnpm run sync:platform-data` 与 `pnpm run tools -- test:platform-data-sync`。
-- `TITLE` 顺序由平台 `sortOrder` 管理；玩家和地图引用按稳定 `playerId` 校验，OverPy 仍输出玩家显示名称。
+- `TITLE` 数字 ID 按平台返回的稳定定义顺序生成；玩家和地图引用按稳定 `playerId` 校验，OverPy 仍输出玩家显示名称。
