@@ -20,8 +20,8 @@
     "test:title-data-sync": "pnpm run tools -- test:title-data-sync",
     "test:platform-data-sync": "pnpm run tools -- test:platform-data-sync",
     "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:platform-data-sync",
-    "build:release": "pnpm run build:main:en && pnpm run build:main:zh",
-    "build": "pnpm run build:main && pnpm run build:dev"
+    "build:release": "pnpm run sync:platform-data --no-build && pnpm run build:main:en && pnpm run build:main:zh",
+    "build": "pnpm run sync:platform-data"
   },
   "dependencies": {
     "overpy": "^9.7.9"

@@ -95,6 +95,8 @@ pnpm install
 pnpm run build
 ```
 
+`pnpm run build` first synchronizes current platform metadata through the Agents API, then compiles both OverPy entries. The release build follows the same rule for the dual-language outputs.
+
 Build scripts use the `overpy` CLI (`overpy compile ...`) from the npm package.
 
 Build each entry independently:

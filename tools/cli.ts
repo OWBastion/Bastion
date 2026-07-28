@@ -22,7 +22,7 @@ async function runSyncTitleData(options = {}) {
 
 async function runSyncPlatformData(options = {}) {
   const { syncPlatformData } = await import('./sync-platform-data.ts');
-  await syncPlatformData({ baseUrl: options.url });
+  await syncPlatformData({ baseUrl: options.url, build: options.build });
 }
 
 async function runSyncAll() {
@@ -72,6 +72,7 @@ program
   .command('sync:platform-data')
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
   .option('--url <url>', 'Platform Agents API base URL')
+  .option('--no-build', 'Skip OverPy compilation after synchronization')
   .action(wrapAction(runSyncPlatformData));
 program
   .command('perf:scan [args...]')
