@@ -80,7 +80,7 @@ enum HeartSteelData:
 
 # --- ID 5 ---
 # Duration（秒）
-#!define EVT_BUFF_5_DURATION 20
+#!define EVT_BUFF_5_DURATION 45
 # Weight（权重）
 #!define EVT_BUFF_5_WEIGHT 1.2
 #!define EVT_5_HEALTH_TYPE Health.NORMAL
@@ -109,7 +109,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_8_DURATION 120
 # Weight（权重）
-#!define EVT_BUFF_8_WEIGHT 1
+#!define EVT_BUFF_8_WEIGHT 1.2
 #!define EVT_8_HP_PERCENT_PER_STACK 0.75
 #!define EVT_8_HP_LAYER_PER_DEATH 1
 #!define EVT_8_VISUAL_EFFECT Effect.WINSTON_PRIMAL_RAGE
@@ -199,7 +199,7 @@ enum HeartSteelData:
 
 # --- ID 16: 心之钢 Pro ---
 # Duration（秒）
-#!define EVT_BUFF_16_DURATION 90
+#!define EVT_BUFF_16_DURATION 75
 # Weight（权重）
 #!define EVT_BUFF_16_WEIGHT 0.9
 #!define EVT_16_HP_GAIN_FLAT 16
@@ -249,7 +249,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_21_DURATION 120
 # Weight（权重）
-#!define EVT_BUFF_21_WEIGHT 0.75
+#!define EVT_BUFF_21_WEIGHT 0.8
 # 任务目标最小值
 #!define EVT_21_GOAL_MIN 6
 
@@ -279,14 +279,14 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_24_DURATION 60
 # Weight（权重）
-#!define EVT_BUFF_24_WEIGHT 0.4
+#!define EVT_BUFF_24_WEIGHT 0.25
 #!define EVT_24_REFRESH_INTERVAL 5
 
 # --- ID 25: 治疗光塔 ProMax (全图奶) ---
 # Duration（秒）
 #!define EVT_BUFF_25_DURATION 90
 # Weight（权重）
-#!define EVT_BUFF_25_WEIGHT 0.6
+#!define EVT_BUFF_25_WEIGHT 0.1
 #!define EVT_25_HOT_DURATION 2
 #!define EVT_25_HEAL_FLAT 50
 #!define EVT_25_HEAL_MAXHP_FACTOR 0.75
@@ -295,7 +295,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_29_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_29_WEIGHT 1.5
+#!define EVT_BUFF_29_WEIGHT 0
 #!define EVT_29_SPEED_BOOST 60
 
 # --- ID 30: 天降神兵 ---
@@ -319,7 +319,7 @@ enum HeartSteelData:
 
 # --- ID 32: 战地医生 ---
 #!define EVT_BUFF_32_DURATION 120
-#!define EVT_BUFF_32_WEIGHT 1
+#!define EVT_BUFF_32_WEIGHT 0.8
 #!define EVT_32_HEAL_GOAL 10000
 #!define EVT_32_REWARD_HEAL_PERMA 25
 #!define EVT_32_HUD_INTERVAL 5
@@ -445,7 +445,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_9_DURATION 30
 # Weight（权重）
-#!define EVT_DEBUFF_9_WEIGHT 1.4
+#!define EVT_DEBUFF_9_WEIGHT 1.3
 # 伤害扩散半径 (米)
 #!define EVT_DEBUFF_9_RADIUS 20
 
@@ -501,7 +501,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_14_DURATION 5
 # Weight（权重）
-#!define EVT_DEBUFF_14_WEIGHT 0.4
+#!define EVT_DEBUFF_14_WEIGHT 0.55
 # 触发事件所需的最低最大生命值 (避免脆皮触发后直接暴毙)
 #!define EVT_DEBUFF_14_MIN_MAX_HP 125
 
@@ -517,7 +517,7 @@ enum HeartSteelData:
 
 # --- ID 15 (Debuff): 保持距离 (易伤光环) ---
 # Duration（秒）
-#!define EVT_DEBUFF_15_DURATION 75
+#!define EVT_DEBUFF_15_DURATION 45
 # Weight（权重）
 #!define EVT_DEBUFF_15_WEIGHT 1.1
 #!define EVT_DEBUFF_15_RADIUS 25
@@ -541,9 +541,9 @@ enum HeartSteelData:
 
 # --- ID 20 (Debuff): 阿德勒斯布鲁恩的冤魂 ---
 # Duration（秒）
-#!define EVT_DEBUFF_21_DURATION 60
+#!define EVT_DEBUFF_21_DURATION 85
 # Weight（权重）
-#!define EVT_DEBUFF_21_WEIGHT 0.5
+#!define EVT_DEBUFF_21_WEIGHT 0.45
 #!define EVT_DEBUFF_21_TOTAL_STACK 7
 #!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
 #!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
@@ -591,7 +591,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_1_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_1_WEIGHT 1.4
+#!define EVT_MECH_1_WEIGHT 1.5
 # 获胜概率 (%)
 #!define EVT_MECH_1_WIN_RATE 50
 
@@ -694,7 +694,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_7_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_7_WEIGHT 1.2
+#!define EVT_MECH_7_WEIGHT 1.4
 #!define EVT_MECH_7_HEART_STEEL_COST 2
 #!define EVT_MECH_7_FORCE_ROLL 20
 
@@ -702,7 +702,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_8_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_8_WEIGHT 1.1
+#!define EVT_MECH_8_WEIGHT 1.2
 
 # 胜率阈值：random.randint(0,99) < 阈值 则胜
 #!define EVT_MECH_8_WIN_CHANCE 75
@@ -721,7 +721,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_10_DURATION 30
 # Weight（权重）
-#!define EVT_MECH_10_WEIGHT 0.5
+#!define EVT_MECH_10_WEIGHT 0.6
 
 # --- ID 11 (Mech/Special): 俄罗斯套娃 (变小复活) ---
 # Duration（秒）
@@ -747,7 +747,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_12_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_12_WEIGHT 0.4
+#!define EVT_MECH_12_WEIGHT 0.6
 
 # 胜率阈值：random.randint(0, 99) < 阈值 则胜
 #!define EVT_MECH_12_WIN_CHANCE 33
@@ -766,7 +766,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_13_DURATION 120
 # Weight（权重）
-#!define EVT_MECH_13_WEIGHT 0.4
+#!define EVT_MECH_13_WEIGHT 0.37
 
 # 体型血量倍率（用于 sizeHealth）
 #!define EVT_MECH_13_SIZE_HEALTH 10
@@ -792,7 +792,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_14_DURATION 120
 # Weight（权重）
-#!define EVT_MECH_14_WEIGHT 0.38
+#!define EVT_MECH_14_WEIGHT 0.4
 
 # 减伤上限 (%)
 #!define EVT_MECH_14_DMG_REDUCE_CAP 85
@@ -813,7 +813,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.4
+#!define EVT_MECH_15_WEIGHT 0.5
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 1.5
 # 永久移速变更值（%）
@@ -833,7 +833,7 @@ enum HeartSteelData:
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
-#!define EVT_MECH_17_WEIGHT 0.6
+#!define EVT_MECH_17_WEIGHT 0.7
 #!define EVT_MECH_17_WIN_RATE 8
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4

@@ -7,7 +7,8 @@ const TITLE_PLAYER_NAMES = [
   "銀狼",
   "训犬大师",
   "自律达人游十三",
-  "FAJACY"
+  "FAJACY",
+  "嘤嘤嘤丶"
 ];
 
 const titleIndexByName = Object.fromEntries(
