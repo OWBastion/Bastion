@@ -676,7 +676,7 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_MECH_6_WEIGHT 0.85
 # 触发赌博消耗的心之钢层数
-#!define EVT_MECH_6_HEARTSTEEL_COST 8
+#!define EVT_MECH_6_HEARTSTEEL_COST 4
 
 # 连续区间阈值：0 <= roll <= 49 => 49%
 #!define EVT_MECH_6_PROB_WIN_NORMAL 49
