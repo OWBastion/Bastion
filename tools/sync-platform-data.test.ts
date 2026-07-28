@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
-import { syncTitleData } from './sync-title-data.ts';
+import { preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
@@ -132,6 +132,22 @@ test('generates the all-titles player entry without title keys', async () => {
 
   const result = await syncTitleData({ sourceData: source, dryRun: true });
   assert.equal(result.sourceData.players[0].allTitles, true);
+});
+
+test('preserves existing title and player IDs while appending new entries', () => {
+  const ordered = preservePlatformTitleOrder(
+    {
+      meta: { sourceLabel: 'titles' },
+      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }],
+      players: [{ name: '新玩家' }, { name: '他又' }],
+      mapTitles: []
+    },
+    `# BEGIN AUTO-GENERATED TITLE ENUM\nenum TITLE:\n    PIONEER, # 0\n    REMOVED, # 1\n# END AUTO-GENERATED TITLE ENUM`,
+    `const TITLE_PLAYER_NAMES = [\n  "他又",\n  "已移除玩家"\n];`
+  );
+
+  assert.deepEqual(ordered.titles.map((title) => title.key), ['PIONEER', 'NEW_TITLE']);
+  assert.deepEqual(ordered.players.map((player) => player.name), ['他又', '新玩家']);
 });
 
 test('rejects map holders that reference an unknown stable player identity', () => {

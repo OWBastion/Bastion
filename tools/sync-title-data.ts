@@ -45,6 +45,41 @@ function ensureNoDuplicate(items, label) {
   }
 }
 
+export function readGeneratedTitleOrder(source) {
+  const match = source.match(new RegExp(`${escapeRegex(ENUM_BEGIN)}[\\s\\S]*?enum TITLE:\\n([\\s\\S]*?)${escapeRegex(ENUM_END)}`));
+  if (!match) return [];
+  return [...match[1].matchAll(/^\s+([A-Z0-9_]+),?\s*#/gm)].map((item) => item[1]);
+}
+
+export function readGeneratedPlayerOrder(source) {
+  const match = source.match(/const TITLE_PLAYER_NAMES = \[([\s\S]*?)\];/);
+  if (!match) return [];
+  try {
+    return JSON.parse(`[${match[1]}]`);
+  } catch {
+    throw new Error('Unable to parse TITLE_PLAYER_NAMES from generated player index');
+  }
+}
+
+function preserveGeneratedOrder(items, historicalKeys, keyOf) {
+  const byKey = new Map(items.map((item) => [keyOf(item), item]));
+  const historicalKeySet = new Set(historicalKeys);
+  const preserved = historicalKeys.flatMap((key) => {
+    const item = byKey.get(key);
+    return item ? [item] : [];
+  });
+  const appended = items.filter((item) => !historicalKeySet.has(keyOf(item)));
+  return [...preserved, ...appended];
+}
+
+export function preservePlatformTitleOrder(sourceData, titleFileSource, playerIndexSource) {
+  return {
+    ...sourceData,
+    titles: preserveGeneratedOrder(sourceData.titles, readGeneratedTitleOrder(titleFileSource), (title) => title.key),
+    players: preserveGeneratedOrder(sourceData.players, readGeneratedPlayerOrder(playerIndexSource), (player) => player.name)
+  };
+}
+
 function normalizeTitleTags(tags, index) {
   if (tags == null) {
     return [];
@@ -254,8 +289,8 @@ function renderTitleEnum(titles) {
 }
 
 function buildPlayerTitleSets(titles, players) {
-  const titleIdByKey = new Map(titles.map((title) => [title.key, title.id]));
-  const titleKeyById = new Map(titles.map((title) => [title.id, title.key]));
+  const titleIdByKey = new Map(titles.map((title, index) => [title.key, index]));
+  const titleKeyById = new Map(titles.map((title, index) => [index, title.key]));
   const titleSetIndexByIds = new Map();
   const titleSets = [];
   const playersWithTitleSetIndex = players.map((player) => {
@@ -301,7 +336,8 @@ function renderPlayerTitleSetPool(titles, titleSets) {
       : titleSet.titleKeys.length
         ? `[${titleSet.titleKeys.map((key) => `TITLE.${key}`).join(', ')}]`
         : '[]';
-    lines.push(`    ${titleExpr}${isLast ? ' \\' : ', \\'} `);
+    const suffix = isLast ? ' \\' : ', \\';
+    lines.push(`    ${titleExpr}${suffix}`);
   });
 
   lines.push(']');
@@ -486,12 +522,14 @@ export async function syncTitleData({
   dryRun = false
 } = {}) {
   if (!providedSourceData) throw new Error('Platform title data is required; run sync:platform-data');
-  const [sourceData, titleSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
+  const [rawSourceData, titleSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
     providedSourceData,
     fs.readFile(titleFile, 'utf8'),
     fs.readFile(playerNameToIndexFile, 'utf8'),
     fs.readFile(playerNameToIndexDelimitedFile, 'utf8')
   ]);
+
+  const sourceData = preservePlatformTitleOrder(rawSourceData, titleSource, playerNameToIndexSource);
 
   const nextTitleFile = applyManagedTitleFile(titleSource, sourceData);
   const nextPlayerNameToIndexFile = renderPlayerIndexScript(sourceData.players, { delimited: false });
