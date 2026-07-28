@@ -458,7 +458,7 @@ enum HeartSteelData:
 
 # --- ID 10 (Debuff): 狂欢盛宴 (阵亡惩罚) ---
 # Duration（秒）
-#!define EVT_DEBUFF_10_DURATION 45
+#!define EVT_DEBUFF_10_DURATION 30
 # Weight（权重）
 #!define EVT_DEBUFF_10_WEIGHT 0.8
 # 增加的狂暴时间 (秒)
