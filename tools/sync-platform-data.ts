@@ -470,6 +470,8 @@ async function runBuild() {
 
 export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
+  const accessToken = options.accessToken ?? process.env[PLATFORM_DATA_TOKEN_ENV];
+  console.log(`Platform sync: endpoint=${baseUrl}, build token=${accessToken ? 'configured' : 'missing'}`);
   const [platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource, envSource] = await Promise.all([
     fs.readFile(EVENT_PLATFORM_IDS_FILE, 'utf8').then((text) => JSON.parse(text) as Record<string, string>),
     fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') })))),
@@ -485,33 +487,46 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     macros: resolveEventMacros(entry.key, entry.type, [eventConfigSource, eventConfigDevSource])
   }));
 
-  const client = new PlatformDataClient({ ...options, baseUrl, accessToken: options.accessToken ?? process.env[PLATFORM_DATA_TOKEN_ENV] });
+  const client = new PlatformDataClient({ ...options, baseUrl, accessToken });
   const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [], playerTitleGrants: [], mapTitleHolders: [] });
 
+  console.log('Platform sync: fetching maps');
   const maps = await client.fetchResource('maps');
+  console.log(`Platform sync: fetched ${maps.length} maps`);
   const mapIds = new Set(maps.map((item) => requireString(item.mapId, 'mapId')));
   const orderedMapIds = [...mapIds].sort();
   for (const mapId of mapIds) {
     const mapKey = mapKeyFromPlatformId(mapId);
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
+  console.log('Platform sync: fetching global and map titles');
   const globalTitles = await client.fetchTitles();
   const mapTitlePages: PlatformData['titles'][] = [];
-  for (const mapId of orderedMapIds) mapTitlePages.push(await client.fetchTitles(mapId));
+  for (const [index, mapId] of orderedMapIds.entries()) {
+    mapTitlePages.push(await client.fetchTitles(mapId));
+    if ((index + 1) % 10 === 0 || index + 1 === orderedMapIds.length) console.log(`Platform sync: fetched map titles ${index + 1}/${orderedMapIds.length}`);
+  }
   const titles = [...globalTitles, ...mapTitlePages.flat().filter((item) => item.scope === 'map')];
+  console.log(`Platform sync: fetched ${titles.length} titles`);
+  console.log('Platform sync: fetching title grants and map holders');
   const playerTitleGrants = await client.fetchPlayerTitleGrants();
   const mapTitleHolders: PlatformData['mapTitleHolders'] = [];
-  for (const mapId of orderedMapIds) mapTitleHolders.push(...await client.fetchMapTitleHolders(mapId));
+  for (const [index, mapId] of orderedMapIds.entries()) {
+    mapTitleHolders.push(...await client.fetchMapTitleHolders(mapId));
+    if ((index + 1) % 10 === 0 || index + 1 === orderedMapIds.length) console.log(`Platform sync: fetched map title holders ${index + 1}/${orderedMapIds.length}`);
+  }
   const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
   await syncTitleData({ sourceData: titleSource });
 
+  console.log('Platform sync: fetching achievements and events');
   const achievements = await client.fetchResource('achievements');
   const achievementData = { ...emptyData(), achievements, titles };
   const challengeIds = validatePlatformAchievements(achievementData, titleKeys, mapIds);
 
   const events = await client.fetchResource('events');
+  console.log(`Platform sync: fetched ${achievements.length} achievements and ${events.length} events`);
   const eventData = { ...emptyData(), events, achievements };
   const validatedEventEntries = validateAndMergeEvents(eventData, platformEventIds, challengeIds, eventEntries);
   const platformEventData = mergePlatformEventOverPyData({

@@ -99,6 +99,17 @@ jobs:
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "Release tag: ${tag}"
 
+      - name: Verify platform sync credentials
+        if: steps.freshness.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${BASTION_BUILD_TOKEN:-}" ]]; then
+            echo "::error::BASTION_BUILD_TOKEN repository secret is missing; platform sync cannot run from GitHub Actions."
+            exit 1
+          fi
+          echo "Platform sync credential: configured"
+
       - name: Build workshop outputs
         if: steps.freshness.outputs.should_run == 'true'
         run: pnpm run build:release
