@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData } from './sync-platform-data.ts';
-import { preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
+import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
@@ -132,6 +132,23 @@ test('generates the all-titles player entry without title keys', async () => {
 
   const result = await syncTitleData({ sourceData: source, dryRun: true });
   assert.equal(result.sourceData.players[0].allTitles, true);
+});
+
+test('falls back to the existing generated title color when the platform omits it', () => {
+  const source = {
+    ...titleSource,
+    titles: [{ ...titleSource.titles[0], colorExpr: null }]
+  };
+  const result = applyTitleColorFallback(source, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
+  assert.equal(result.titles[0].colorExpr, 'heroColor[12]');
+});
+
+test('uses the platform title color when it is present', () => {
+  const result = applyTitleColorFallback({
+    ...titleSource,
+    titles: [{ ...titleSource.titles[0], colorExpr: 'vect(1, 2, 3)' }]
+  }, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
+  assert.equal(result.titles[0].colorExpr, 'vect(1, 2, 3)');
 });
 
 test('preserves existing title and player IDs while appending new entries', () => {

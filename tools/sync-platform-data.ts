@@ -182,8 +182,8 @@ function validateAndMergeMaps(platformData: PlatformData, titleSource: TitleSour
   }));
 }
 
-function titleColorExpr(value: unknown, prefix: string): string {
-  if (value === null) return 'null';
+function titleColorExpr(value: unknown, prefix: string): string | null {
+  if (value == null) return null;
   if (!value || typeof value !== 'object') throw new Error(`${prefix}.color must be an object or null`);
   const color = value as Record<string, unknown>;
   if (color.kind === 'heroColor') return `heroColor[${requireNumber(color.index, `${prefix}.color.index`)}]`;

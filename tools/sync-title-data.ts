@@ -61,6 +61,32 @@ export function readGeneratedPlayerOrder(source) {
   }
 }
 
+export function readGeneratedTitleColors(source) {
+  const match = source.match(new RegExp(`${escapeRegex(ALL_TITLE_BEGIN)}[\\s\\S]*?    titleColor = \\[([\\s\\S]*?)    \\]`));
+  if (!match) return new Map();
+
+  const colors = new Map();
+  const lines = match[1].split('\n');
+  for (let index = 0; index < lines.length; index += 1) {
+    const keyMatch = lines[index].match(/^\s*# \d+: ([A-Z0-9_]+)\s*$/);
+    if (!keyMatch) continue;
+    const expression = lines[index + 1]?.trim().replace(/,$/, '');
+    if (expression) colors.set(keyMatch[1], expression);
+  }
+  return colors;
+}
+
+export function applyTitleColorFallback(sourceData, titleFileSource) {
+  const fallbackColors = readGeneratedTitleColors(titleFileSource);
+  return {
+    ...sourceData,
+    titles: sourceData.titles.map((title) => ({
+      ...title,
+      colorExpr: title.colorExpr ?? fallbackColors.get(title.key) ?? null
+    }))
+  };
+}
+
 function preserveGeneratedOrder(items, historicalKeys, keyOf) {
   const byKey = new Map(items.map((item) => [keyOf(item), item]));
   const historicalKeySet = new Set(historicalKeys);
@@ -529,7 +555,10 @@ export async function syncTitleData({
     fs.readFile(playerNameToIndexDelimitedFile, 'utf8')
   ]);
 
-  const sourceData = preservePlatformTitleOrder(rawSourceData, titleSource, playerNameToIndexSource);
+  const sourceData = applyTitleColorFallback(
+    preservePlatformTitleOrder(rawSourceData, titleSource, playerNameToIndexSource),
+    titleSource
+  );
 
   const nextTitleFile = applyManagedTitleFile(titleSource, sourceData);
   const nextPlayerNameToIndexFile = renderPlayerIndexScript(sourceData.players, { delimited: false });

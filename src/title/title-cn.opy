@@ -541,7 +541,7 @@ rule "initialize title array":
     ]
     titleColor = [
         # 0: PIONEER
-        null,
+        heroColor[12],
         # 1: TEST_LONG
         null,
         # 2: NOT_MY_MAP
@@ -559,103 +559,103 @@ rule "initialize title array":
         # 8: PURE_HARM
         null,
         # 9: CONQUEROR
-        null,
+        heroColor[43],
         # 10: DOMINATOR
-        null,
+        heroColor[44],
         # 11: SURVIVOR_EXPERT
-        null,
+        vect(236, 153, 0),
         # 12: CHALLENGER_LEGEND
-        null,
+        vect(200, 0, 19),
         # 13: TRAVELER_HELL
-        null,
+        vect(161, 73, 197),
         # 14: DODGE_ULTIMATE
-        null,
+        heroColor[1],
         # 15: LIGHT_PACK
-        null,
+        heroColor[2],
         # 16: FLAWLESS
-        null,
+        vect(0, 230, 151),
         # 17: NEVER_GIVE_UP
-        null,
+        vect(0, 230, 151),
         # 18: PERSEVERANCE
-        null,
+        vect(255, 255, 255),
         # 19: SPEEDRUN
-        null,
+        vect(0, 230, 151),
         # 20: DODGE_GOD
-        null,
+        heroColor[28],
         # 21: ZENYATTA
-        null,
+        heroColor[12],
         # 22: HARD_TO_KILL
-        null,
+        heroColor[45],
         # 23: WIN_HEAVEN
-        null,
+        breathPalette.orange,
         # 24: IDOL
-        null,
+        vect(200, 0, 19),
         # 25: EGG_FIRST
-        null,
+        vect(200, 0, 19),
         # 26: EAT_MORE
-        null,
+        vect(238, 75, 43),
         # 27: ALL_IN_ONE
-        null,
+        breathPalette.red,
         # 28: TRAVELER
-        null,
+        heroColor[33],
         # 29: SKY
-        null,
+        breathPalette.purple,
         # 30: FLAME
-        null,
+        heroColor[28],
         # 31: PASS_EGGS
-        null,
+        heroColor[28],
         # 32: CHOSEN
-        null,
+        heroColor[11],
         # 33: LUCKY_STAR
-        null,
+        heroColor[3],
         # 34: GAMBLE_KING
-        null,
+        breathPalette.gold,
         # 35: LUCKY_SHINE
-        null,
+        heroColor[32],
         # 36: UNLUCKY
-        null,
+        heroColor[22],
         # 37: MANBA
-        null,
+        heroColor[11],
         # 38: MY_FATE
-        null,
+        breathPalette.blue,
         # 39: GOD_GAMBLER
-        null,
+        breathPalette.gold,
         # 40: LAO_DA
         null,
         # 41: V_50
-        null,
+        heroColor[37],
         # 42: STEEL
-        null,
+        heroColor[11],
         # 43: HACKING
-        null,
+        heroColor[20],
         # 44: RED_PACKET
-        null,
+        heroColor[43],
         # 45: GOOD_LUCK
-        null,
+        breathPalette.gold,
         # 46: LONE_WALKER
-        null,
+        heroColor[33],
         # 47: GREEN_MOUNTAIN
-        null,
+        vect(0, 200, 50),
         # 48: SUAN_BU_LA
-        null,
+        heroColor[18],
         # 49: EVENT5_GAMBLE_SAINT
-        null,
+        breathPalette.gold,
         # 50: EVENT5_BLACK_SHEEP
-        null,
+        heroColor[3],
         # 51: EVENT5_I_WANT_TO_CHECK_CARDS
-        null,
+        heroColor[3],
         # 52: EVENT5_CARDS_ARE_FINE
-        null,
+        heroColor[3],
         # 53: GREAT_BENEFACTOR
-        null,
+        vect(0, 200, 50),
         # 54: BREAK_ATMOSPHERE
-        null,
+        vect(192, 192, 192),
         # 55: LIST_THEM
-        null,
+        breathPalette.gold,
         # 56: LIFE_GUARDS_LIFE
-        null,
+        heroColor[28],
         # 57: PHANTOM_THIEF
-        null
+        heroColor[22]
     ]
     # END AUTO-GENERATED ALL_TITLE
     playerTitleRelation = player_title_set_pool
