@@ -211,7 +211,7 @@ rule "initialize event array":
     debuffEventId.append(DebuffEventId.FEAST_FRENZY)
 
     debuffEventName[DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_TITLE
-    debuffEventDesc[DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_DESC.format(EVT_DEBUFF_11_KNOCKDOWN_DURATION)
+    debuffEventDesc[DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_DESC.format(EVT_DEBUFF_11_DELAY, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
     debuffEventDuration[DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_DURATION
     debuffEventWeight[DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_WEIGHT
     debuffEventId.append(DebuffEventId.POWERLESS_SPOUSE)

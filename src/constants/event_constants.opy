@@ -467,16 +467,18 @@ enum HeartSteelData:
 # 冷却时间/触发间隔 (秒)
 #!define EVT_DEBUFF_10_COOLDOWN 5
 
-# --- ID 11 (Debuff): 无能的丈夫/妻子 ---
+# --- ID 11 (Debuff): 归于大地 ---
 # Duration（秒）
-#!define EVT_DEBUFF_11_DURATION 2
+#!define EVT_DEBUFF_11_DURATION 4
 # Weight（权重）
 #!define EVT_DEBUFF_11_WEIGHT 1
+# 延迟时间 (秒)
+#!define EVT_DEBUFF_11_DELAY 1.5
 # 影响半径
 #!define EVT_DEBUFF_11_RADIUS 45
 
 # 击倒持续时间
-#!define EVT_DEBUFF_11_KNOCKDOWN_DURATION 2
+#!define EVT_DEBUFF_11_KNOCKDOWN_DURATION 2.5
 
 # --- ID 13 (Debuff): 减半 ---
 # Duration（秒）
