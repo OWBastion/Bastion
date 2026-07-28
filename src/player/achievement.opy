@@ -8,12 +8,11 @@ rule "Init Achievement Data":
     waitUntil(len(titleText) > 0, Math.INFINITY)
     challengeTitleIds = [
         41, # V_50 V 我 50 使用"吸血鬼 ProMax"从队友身上吸取 5000+ 生命值
-        42, # STEEL 钢门 心之钢层数达到 1200 层
-        50, # EVENT5_BLACK_SHEEP 害群之马
-        51, # EVENT5_I_WANT_TO_CHECK_CARDS 我要验牌
-        52, # EVENT5_CARDS_ARE_FINE 牌没有问题
         53, # GREAT_BENEFACTOR 大舍天下 地狱难度中触发 15 次舍己为人并通关
         54, # BREAK_ATMOSPHERE 冲出地表 地狱难度中触发 20 次登月火箭并通关
+        55, # LIST_THEM 把他们上市 触发并赢下 3 次「赌徒：短期投资」与 1 次「赌徒：长期投资」，心之钢层数 ≥ 300
+        56, # LIFE_GUARDS_LIFE 生命守护生命 触发 2 次「有难同当」、「保持距离」与「电磁脉冲 ProMax」
+        57, # PHANTOM_THIEF 怪盗 触发 10 次「窃贼」
     ]
 
 
@@ -49,47 +48,36 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
 
     eventPlayer.unlockAchievement(41)
 
-rule "[VishkarEvent]: Challenge 42 Track (STEEL)":
+rule "[VishkarEvent]: Challenge 55 Track (LIST_THEM)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.heart_steel[HeartSteelData.STACKS] >= 800
-    @Condition 42 not in eventPlayer.earnedAchievements
+    @Condition eventPlayer.dlcTimeChallenge[5] >= 3
+    @Condition eventPlayer.dlcTimeChallenge[6] >= 1
+    @Condition eventPlayer.heart_steel[HeartSteelData.STACKS] >= 300
+    @Condition 55 not in eventPlayer.earnedAchievements
 
-    eventPlayer.unlockAchievement(42)
+    eventPlayer.unlockAchievement(55)
 
-rule "[VishkarEvent]: Challenge 50 Track (EVENT5_BLACK_SHEEP)":
+rule "[VishkarEvent]: Challenge 56 Track (LIFE_GUARDS_LIFE)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[6] >= 12
-    @Condition eventPlayer.dlcTimeChallenge[7] >= 1
-    @Condition 50 not in eventPlayer.earnedAchievements
+    @Condition eventPlayer.dlcTimeChallenge[7] >= 2
+    @Condition eventPlayer.dlcTimeChallenge[11] >= 2
+    @Condition eventPlayer.dlcTimeChallenge[12] >= 2
+    @Condition 56 not in eventPlayer.earnedAchievements
 
-    eventPlayer.unlockAchievement(50)
+    eventPlayer.unlockAchievement(56)
 
-rule "[VishkarEvent]: Challenge 51 Track (EVENT5_I_WANT_TO_CHECK_CARDS)":
+rule "[VishkarEvent]: Challenge 57 Track (PHANTOM_THIEF)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag == true
-    @Condition difficulty == 5
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[5] >= 8
-    @Condition 51 not in eventPlayer.earnedAchievements
+    @Condition eventPlayer.dlcTimeChallenge[14] >= 10
+    @Condition 57 not in eventPlayer.earnedAchievements
 
-    eventPlayer.unlockAchievement(51)
-
-rule "[VishkarEvent]: Challenge 52 Track (EVENT5_CARDS_ARE_FINE)":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag == true
-    @Condition difficulty == 5
-    @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[3] >= 5
-    @Condition eventPlayer.dlcTimeChallenge[4] == 0
-    @Condition 52 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(52)
+    eventPlayer.unlockAchievement(57)
