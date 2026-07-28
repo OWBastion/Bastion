@@ -147,6 +147,18 @@ test('rejects non-success HTTP responses with resource and status context', asyn
   );
 });
 
+test('retries rate-limited responses and honors Retry-After', async () => {
+  let attempts = 0;
+  const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
+    attempts += 1;
+    if (attempts === 1) return new Response('', { status: 429, headers: { 'retry-after': '0' } });
+    return validPage(resource, page, pageSize);
+  });
+
+  await new PlatformDataClient({ baseUrl }).fetchResource('maps');
+  assert.equal(attempts, 2);
+});
+
 test('rejects an unsupported contract version', async () => {
   const { baseUrl } = await startFakeServer((resource, page, pageSize) => ({
     ...validPage(resource, page, pageSize),

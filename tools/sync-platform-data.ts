@@ -496,10 +496,12 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
   const globalTitles = await client.fetchTitles();
-  const mapTitlePages = await Promise.all(orderedMapIds.map((mapId) => client.fetchTitles(mapId)));
+  const mapTitlePages: PlatformData['titles'][] = [];
+  for (const mapId of orderedMapIds) mapTitlePages.push(await client.fetchTitles(mapId));
   const titles = [...globalTitles, ...mapTitlePages.flat().filter((item) => item.scope === 'map')];
   const playerTitleGrants = await client.fetchPlayerTitleGrants();
-  const mapTitleHolders = (await Promise.all(orderedMapIds.map((mapId) => client.fetchMapTitleHolders(mapId)))).flat();
+  const mapTitleHolders: PlatformData['mapTitleHolders'] = [];
+  for (const mapId of orderedMapIds) mapTitleHolders.push(...await client.fetchMapTitleHolders(mapId));
   const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));

@@ -172,6 +172,24 @@ export class PlatformDataClient {
   private readonly pageSize: number;
   private readonly fetchImpl: typeof globalThis.fetch;
 
+  private async request(url: URL, details: { resource?: PlatformDataResource; page: number }): Promise<Response> {
+    for (let attempt = 0; ; attempt += 1) {
+      let response: Response;
+      try {
+        response = await this.fetchImpl(url);
+      } catch (error) {
+        throw new PlatformDataClientError(`Request failed: ${error instanceof Error ? error.message : String(error)}`, details);
+      }
+      if (response.status !== 429 || attempt >= 3) return response;
+      const retryAfter = response.headers.get('retry-after');
+      const retryAfterSeconds = retryAfter ? Number(retryAfter) : NaN;
+      const delayMs = Number.isFinite(retryAfterSeconds) && retryAfterSeconds >= 0
+        ? Math.min(retryAfterSeconds * 1000, 30_000)
+        : Math.min(250 * (2 ** attempt), 4_000);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+
   constructor(options: PlatformDataClientOptions = {}) {
     this.baseUrl = normalizeBaseUrl(options.baseUrl ?? DEFAULT_PLATFORM_DATA_BASE_URL);
     this.pageSize = options.pageSize ?? 100;
@@ -275,10 +293,8 @@ export class PlatformDataClient {
   private async fetchCustomPage(resource: string, query: URLSearchParams, page: number): Promise<PlatformDataPage> {
     const url = new URL(`${this.baseUrl}/v1/agents/${resource}`);
     for (const [key, value] of query) url.searchParams.set(key, value);
-    let response: Response;
-    try { response = await this.fetchImpl(url); }
-    catch (error) { throw new PlatformDataClientError(`Request failed: ${error instanceof Error ? error.message : String(error)}`, { page }); }
-    if (!response.ok) throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText}`, { page, status: response.status });
+    const response = await this.request(url, { page });
+    if (!response.ok) throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText} from ${url.pathname}`, { page, status: response.status });
     let payload: unknown;
     try { payload = await response.json(); }
     catch (error) { throw new PlatformDataClientError(`Response is not valid JSON: ${error instanceof Error ? error.message : String(error)}`, { page }); }
@@ -290,13 +306,7 @@ export class PlatformDataClient {
     url.searchParams.set('page', String(page));
     url.searchParams.set('pageSize', String(this.pageSize));
 
-    let response: Response;
-    try {
-      response = await this.fetchImpl(url);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      throw new PlatformDataClientError(`Request failed: ${message}`, { resource, page });
-    }
+    const response = await this.request(url, { resource, page });
 
     if (!response.ok) {
       let body = '';
@@ -306,7 +316,7 @@ export class PlatformDataClient {
         // Preserve the HTTP status when the response body cannot be read.
       }
       const suffix = body ? `: ${body}` : '';
-      throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText}${suffix}`, {
+      throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText}${suffix} from ${url.pathname}`, {
         resource,
         page,
         status: response.status
