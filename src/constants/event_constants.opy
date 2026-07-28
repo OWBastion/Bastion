@@ -19,6 +19,11 @@ enum EventType:
     DEBUFF
     MECH
 
+# 局内事件计数槽位（按内部顺序存储，不存入 savedData）
+enum EventMatchCounterSlot:
+    PHASE_SURGE = 0
+    COUNT
+
 # 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
 enum PlayerOnceEventSlot:
     TEMPER_HEART = 0
@@ -221,6 +226,7 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_BUFF_19_WEIGHT 1.2
 #!define EVT_19_SPEED_BOOST 200
+#!define EVT_19_SPEED_BONUS_PER_TRIGGER 5
 #!define EVT_19_DURATION 2
 #!define EVT_19_EFFECT_RADIUS 200
 #!define EVT_19_EFFECT Effect.SOLDIER_SPRINTING

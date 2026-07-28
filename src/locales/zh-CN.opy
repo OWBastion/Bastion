@@ -152,7 +152,7 @@
 # 随机事件包 4：增益 (Buff Events Pack 4)
 # ------------------------------------------------
 #!define STR_EVT_BUFF_19_TITLE "相位猛冲"
-#!define STR_EVT_BUFF_19_DESC "位移技能获得{0}%移速加成"
+#!define STR_EVT_BUFF_19_DESC "位移技能获得{0}%+{1}%×本局触发次数的移速加成"
 #!define STR_EVT_BUFF_20_TITLE "保镖"
 #!define STR_EVT_BUFF_20_DESC "位移技能为最近友方提供护甲"
 #!define STR_EVT_BUFF_21_TITLE "任务：殉道者"

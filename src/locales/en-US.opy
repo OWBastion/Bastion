@@ -144,7 +144,7 @@
 # Random Pack 4: Buffs
 # ------------------------------------------------
 #!define STR_EVT_BUFF_19_TITLE "Phase Rush"
-#!define STR_EVT_BUFF_19_DESC "Movement abilities gain {0}% movement speed."
+#!define STR_EVT_BUFF_19_DESC "Movement abilities gain {0}% + {1}% per trigger this match movement speed."
 #!define STR_EVT_BUFF_20_TITLE "Bodyguard"
 #!define STR_EVT_BUFF_20_DESC "Movement abilities grant temp armor to nearby allies."
 #!define STR_EVT_BUFF_21_TITLE "Mission: Martyr"

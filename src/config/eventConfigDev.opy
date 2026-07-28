@@ -177,7 +177,7 @@ rule "initialize event array":
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_4_BUFF, true, 1):
         goto lbl_101
     buffEventName[BuffEventId.PHASE_SURGE] = STR_EVT_BUFF_19_TITLE
-    buffEventDesc[BuffEventId.PHASE_SURGE] = STR_EVT_BUFF_19_DESC.format(EVT_19_SPEED_BOOST)
+    buffEventDesc[BuffEventId.PHASE_SURGE] = STR_EVT_BUFF_19_DESC.format(EVT_19_SPEED_BOOST, EVT_19_SPEED_BONUS_PER_TRIGGER)
     buffEventDuration[BuffEventId.PHASE_SURGE] = EVT_BUFF_19_DURATION
     buffEventWeight[BuffEventId.PHASE_SURGE] = EVT_BUFF_19_WEIGHT
     buffEventId.append(BuffEventId.PHASE_SURGE)

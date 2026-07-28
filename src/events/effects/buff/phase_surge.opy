@@ -15,9 +15,10 @@ rule "[VishkarEvent]: 相位猛冲 (智能检测版)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHASE_SURGE, eventPlayer.phaseState == true, eventPlayer.mod_speed_event == 0]) == true
     
+    eventPlayer.eventMatchCounters[EventMatchCounterSlot.PHASE_SURGE]++
     createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    eventPlayer.mod_speed_event += EVT_19_SPEED_BOOST
+    eventPlayer.mod_speed_event += EVT_19_SPEED_BOOST + EVT_19_SPEED_BONUS_PER_TRIGGER * eventPlayer.eventMatchCounters[EventMatchCounterSlot.PHASE_SURGE]
     updatePlayerStats()
     wait(EVT_19_DURATION)
     eventPlayer.mod_speed_event = 0
