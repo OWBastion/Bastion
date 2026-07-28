@@ -7,8 +7,8 @@ import type { PlatformData } from './platform-data-client.ts';
 const titleSource = {
   meta: { sourceLabel: 'titles' },
   titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', availability: 'active', displayExpr: '"旧称号"', colorExpr: 'null' }],
-  players: [],
-  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: [], CONQUEROR: [], DOMINATOR: [] } }]
+  players: [{ name: '玩家', titleKeys: ['TITLE_ONE'] }],
+  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [] } }]
 };
 
 const eventEntries = [{
@@ -35,13 +35,24 @@ function merge(overrides: Partial<PlatformData> = {}) {
   });
 }
 
-test('merges current platform fields by stable IDs and preserves OverPy event mapping', () => {
+test('merges current platform fields by stable IDs and preserves OverPy structure', () => {
   const result = merge();
   assert.equal(result.titleSource.titles[0].label, '新称号');
-  assert.equal(result.titleSource.titles[0].displayExpr, '"旧称号"');
+  assert.equal(result.titleSource.titles[0].displayExpr, '"新称号"');
+  assert.equal(result.titleSource.titles[0].colorExpr, 'null');
+  assert.deepEqual(result.titleSource.players, titleSource.players);
   assert.equal(result.titleSource.mapTitles[0].mapLabel, '新地图');
+  assert.deepEqual(result.titleSource.mapTitles[0].holders, titleSource.mapTitles[0].holders);
   assert.deepEqual(result.eventEntries, eventEntries);
   assert.deepEqual(result.counts, { events: 1, maps: 1, achievements: 1, titles: 1, ignoredEvents: 0 });
+});
+
+test('preserves dynamic map title expressions when platform label changes', () => {
+  const result = merge({
+    titles: [{ ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', label: '新地图开拓者' }]
+  });
+  assert.equal(result.titleSource.titles[0].label, '新地图开拓者');
+  assert.equal(result.titleSource.titles[0].displayExpr, '"旧称号"');
 });
 
 test('rejects an event mapping that is missing from the platform', () => {

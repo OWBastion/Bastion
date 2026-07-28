@@ -163,7 +163,12 @@ function validateAndMergeTitles(platformData: PlatformData, titleSource: TitleSo
       throw new Error(`${prefix} references unknown map ${String(item.mapId)}`);
     }
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
-    local.label = requireString(item.label, `${prefix}.label`);
+    const previousLabel = requireString(local.label, `${key}.label`);
+    const label = requireString(item.label, `${prefix}.label`);
+    local.label = label;
+    if (item.displayKind === 'fixed' && local.displayExpr === JSON.stringify(previousLabel)) {
+      local.displayExpr = JSON.stringify(label);
+    }
     local.category = requireString(item.category, `${prefix}.category`);
     local.condition = requireString(item.condition, `${prefix}.condition`);
     local.availability = item.availability;
