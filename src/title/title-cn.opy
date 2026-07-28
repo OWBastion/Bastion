@@ -164,7 +164,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["卖核弹的小女孩", "他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 南极半岛
@@ -172,7 +172,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 阿育陀耶
@@ -180,7 +180,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 暴雪世界
@@ -188,7 +188,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 釜山
@@ -196,7 +196,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 皇家赛道
@@ -204,7 +204,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 斗兽场
@@ -212,7 +212,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 多拉多
@@ -220,7 +220,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 艾兴瓦尔德
@@ -228,7 +228,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 埃斯佩兰萨
@@ -236,7 +236,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 花村
@@ -244,7 +244,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 花冈
@@ -252,7 +252,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 哈瓦那
@@ -260,7 +260,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 好莱坞
@@ -268,7 +268,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 月球基地
@@ -276,7 +276,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 伊利奥斯
@@ -284,7 +284,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 渣客镇
@@ -292,7 +292,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 国王大道
@@ -300,7 +300,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 漓江塔
@@ -308,7 +308,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 中城
@@ -316,7 +316,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 霓虹枢纽
@@ -324,7 +324,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师"], "-"), \
-   []
+   []\
 ]
 
 # 尼泊尔
@@ -332,7 +332,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 新渣客城
@@ -340,7 +340,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 新皇后街
@@ -348,7 +348,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 努巴尼
@@ -356,7 +356,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 绿洲城
@@ -364,7 +364,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 帕拉伊苏
@@ -372,7 +372,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 巴黎
@@ -380,7 +380,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 里阿尔托
@@ -388,7 +388,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 66号公路
@@ -396,7 +396,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 鲁纳塞彼
@@ -404,7 +404,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 萨摩亚
@@ -412,7 +412,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "FAJACY", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 香巴里寺院
@@ -420,7 +420,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 苏拉瓦萨
@@ -428,7 +428,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 阿努比斯神殿
@@ -436,7 +436,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 阿努比斯王座
@@ -444,7 +444,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 沃斯卡娅工业区
@@ -452,7 +452,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 
 # 直布罗陀
@@ -460,7 +460,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   []
+   []\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
 

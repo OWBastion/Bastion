@@ -196,6 +196,7 @@ function titleColorExpr(value: unknown, prefix: string): string | null {
 }
 
 function titleDisplayExpr(item: JsonObject, prefix: string): string {
+  if (item.displayExpr) return item.displayExpr;
   const label = requireString(item.label, `${prefix}.label`);
   if (item.displayKind === 'fixed') return JSON.stringify(label);
   if (item.displayKind === 'map_pioneer') return `"{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else ${JSON.stringify(label)})`;
@@ -234,6 +235,19 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const previous = titleRecords.get(key);
     if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
     titleRecords.set(key, previous ?? item);
+  }
+  if (!titleRecords.has("CLASSIC")) {
+    titleRecords.set("CLASSIC", {
+      titleKey: "CLASSIC",
+      label: "賽檤の盡頭灬只剩莪",
+      category: "经典版地图系列",
+      condition: "通关对应地图经典版。",
+      availability: "active",
+      scope: "map",
+      displayKind: "fixed",
+      displayExpr: "__currentMapClassicText___",
+      color: { kind: "heroColor", index: 43 }
+    });
   }
 
   const players = new Map<string, JsonObject>();

@@ -9,7 +9,7 @@ const titleSource = {
   meta: { sourceLabel: 'titles' },
   titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', availability: 'active', displayExpr: '"旧称号"', colorExpr: 'null' }],
   players: [{ name: '玩家', titleKeys: ['TITLE_ONE'] }],
-  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [] } }]
+  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }]
 };
 
 const eventEntries = [{
@@ -115,7 +115,7 @@ test('builds player and map title generation input from stable platform identiti
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
   assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: [] }]);
-  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [] });
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
 });
