@@ -65,7 +65,7 @@
 #!define STR_EVT_BUFF_1_TITLE "Wind Blessing"
 #!define STR_EVT_BUFF_1_DESC "Movement speed increased by {0}%."
 #!define STR_EVT_BUFF_2_TITLE "Ironclad Defense"
-#!define STR_EVT_BUFF_2_DESC "Gain {0} temporary armor and {1}% damage reduction."
+#!define STR_EVT_BUFF_2_DESC "Gain {0} + {1}% max HP as temporary armor and {2}% damage reduction."
 #!define STR_EVT_BUFF_4_TITLE "Fountain of Life"
 #!define STR_EVT_BUFF_4_DESC "Recover {0}% max HP per second."
 #!define STR_EVT_BUFF_5_TITLE "Fan Attack"

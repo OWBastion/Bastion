@@ -70,7 +70,7 @@
 #!define STR_EVT_BUFF_1_TITLE "疾风祝福"
 #!define STR_EVT_BUFF_1_DESC "移动速度提高{0}%"
 #!define STR_EVT_BUFF_2_TITLE "钢铁防线"
-#!define STR_EVT_BUFF_2_DESC "获得{0}点临时护甲与{1}%伤害减免"
+#!define STR_EVT_BUFF_2_DESC "获得{0}+{1}%最大生命值的临时护甲与{2}%伤害减免"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "每秒恢复{0}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"

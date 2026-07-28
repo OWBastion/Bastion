@@ -42,7 +42,7 @@ rule "initialize event array":
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_2_TITLE, true, BuffEventId.IRON_BULWARK):
         goto lbl_1
     buffEventName[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_TITLE
-    buffEventDesc[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_AMOUNT, negToPos(EVT_2_DMG_TAKEN))
+    buffEventDesc[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_FLAT, percent(EVT_2_ARMOR_MAXHP_FACTOR), negToPos(EVT_2_DMG_TAKEN))
     buffEventDuration[BuffEventId.IRON_BULWARK] = EVT_BUFF_2_DURATION
     buffEventWeight[BuffEventId.IRON_BULWARK] = EVT_BUFF_2_WEIGHT
     buffEventId.append(BuffEventId.IRON_BULWARK)

@@ -54,7 +54,7 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.GALE_BLESSING)
 
     buffEventName[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_TITLE
-    buffEventDesc[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_AMOUNT, negToPos(EVT_2_DMG_TAKEN))
+    buffEventDesc[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_FLAT, percent(EVT_2_ARMOR_MAXHP_FACTOR), negToPos(EVT_2_DMG_TAKEN))
     buffEventDuration[BuffEventId.IRON_BULWARK] = EVT_BUFF_2_DURATION
     buffEventWeight[BuffEventId.IRON_BULWARK] = EVT_BUFF_2_WEIGHT
     buffEventId.append(BuffEventId.IRON_BULWARK)

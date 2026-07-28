@@ -64,7 +64,8 @@ enum HeartSteelData:
 #!define EVT_BUFF_2_DURATION 25
 # Weight（权重）
 #!define EVT_BUFF_2_WEIGHT 1.1
-#!define EVT_2_ARMOR_AMOUNT 800
+#!define EVT_2_ARMOR_FLAT 500
+#!define EVT_2_ARMOR_MAXHP_FACTOR 1
 #!define EVT_2_DMG_TAKEN -25
 #!define EVT_2_EFFECT DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR
 
