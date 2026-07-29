@@ -42,7 +42,8 @@
 #!define STR_OPT_CLASSIC_MAP_VARIANT_0 "Off"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_1 "Circuit Royal"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_2 "Paris"
-#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["Off", "Circuit Royal", "Paris"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_3 "Hanamura"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["Off", "Circuit Royal", "Paris", "Hanamura"]
 
 # ------------------------------------------------
 # Global Events

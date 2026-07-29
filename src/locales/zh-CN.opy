@@ -47,7 +47,8 @@
 #!define STR_OPT_CLASSIC_MAP_VARIANT_0 "关闭"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_1 "皇家赛道"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_2 "巴黎"
-#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["关闭", "皇家赛道", "巴黎"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_3 "花村"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["关闭", "皇家赛道", "巴黎", "花村"]
 
 # ------------------------------------------------
 # 全局事件 (Global Events)
