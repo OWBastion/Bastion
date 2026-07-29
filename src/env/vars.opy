@@ -72,6 +72,7 @@ globalvar __currentMapText___ 105
 globalvar __currentPioneerText___ 106
 globalvar __currentMapPioneerText___ 107
 globalvar classicMapVariant 108
+globalvar __currentMapClassicText___
 globalvar devEventCategory
 globalvar devEventIndex
 globalvar challengeTitleIds

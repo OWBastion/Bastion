@@ -9,7 +9,7 @@ const titleSource = {
   meta: { sourceLabel: 'titles' },
   titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', availability: 'active', displayExpr: '"旧称号"', colorExpr: 'null' }],
   players: [{ name: '玩家', titleKeys: ['TITLE_ONE'] }],
-  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [] } }]
+  mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }]
 };
 
 const eventEntries = [{
@@ -115,9 +115,25 @@ test('builds player and map title generation input from stable platform identiti
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
   assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: [] }]);
-  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [] });
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
+});
+
+test('maps the platform scoped CLASSIC title to the internal classic slot', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
+      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map', slot: null }],
+      playerTitleGrants: [{ playerId: '123', playerName: '经典玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CLASSIC', slot: null, playerId: '123', playerName: '经典玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: ['经典玩家'] });
+  assert.equal(source.titles[0].displayExpr, '__currentMapClassicText___');
 });
 
 test('generates the all-titles player entry without title keys', async () => {

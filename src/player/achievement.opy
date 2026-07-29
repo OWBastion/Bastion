@@ -15,6 +15,9 @@ rule "Init Achievement Data":
         57, # PHANTOM_THIEF 怪盗 触发 10 次「窃贼」
     ]
 
+    if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
+        challengeTitleIds = []
+
 
 rule "[VishkarEvent]: Challenge 53 Track (GREAT_BENEFACTOR)":
     @Event eachPlayer
