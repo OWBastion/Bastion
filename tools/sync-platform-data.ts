@@ -228,9 +228,10 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
-      if (!mapIds.has(mapId) || !TITLE_SLOTS.has(item.slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
-      if (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === '')) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
-      mapTitleDefinitions.add(`${mapId}:${item.slot}`);
+      const slot = item.slot == null && key === 'CLASSIC' ? 'classic' : item.slot;
+      if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
+      if (slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
+      mapTitleDefinitions.add(`${mapId}:${slot}`);
     }
     const previous = titleRecords.get(key);
     if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
@@ -268,14 +269,14 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   const playerById = new Map([...players.entries()].map(([id, player]) => [id, player.name as string]));
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
-    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const slot = requireString(item.slot, `${prefix}.slot`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const slot = item.slot == null && item.titleKey === 'CLASSIC' ? 'classic' : requireString(item.slot, `${prefix}.slot`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
     if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !playerById.has(playerId) || playerById.get(playerId) !== playerName) throw new Error(`${prefix} has an invalid map, slot or player reference`);
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
     const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerId}`); target.push(playerName); holdersByMap.set(mapKey, holders);
   }
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
   for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
-  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }
 

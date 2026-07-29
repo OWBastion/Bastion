@@ -120,6 +120,22 @@ test('builds player and map title generation input from stable platform identiti
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
 });
 
+test('maps the platform scoped CLASSIC title to the internal classic slot', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
+      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map', slot: null }],
+      playerTitleGrants: [{ playerId: '123', playerName: '经典玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CLASSIC', slot: null, playerId: '123', playerName: '经典玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: ['经典玩家'] });
+  assert.equal(source.titles[0].displayExpr, '__currentMapClassicText___');
+});
+
 test('generates the all-titles player entry without title keys', async () => {
   const source = buildPlatformTitleSource({
     platformData: {
