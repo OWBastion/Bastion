@@ -41,7 +41,8 @@
 #!define STR_ENUM_DIFFICULTY_OPTIONS ["Easy", "Normal", "Hard", "Expert", "Legendary", "Hell: No Hero Skips"]
 #!define STR_OPT_CLASSIC_MAP_VARIANT_0 "Off"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_1 "Circuit Royal"
-#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["Off", "Circuit Royal"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_2 "Paris"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["Off", "Circuit Royal", "Paris"]
 
 # ------------------------------------------------
 # Global Events
@@ -392,6 +393,7 @@
 #!define STR_MSG_HOLD_RELOAD_RESET "Hold Reload to Reset"
 #!define STR_MSG_RESETTING_PROGRESS "  Resetting Progress..."
 #!define STR_MAP_CIRCUIT_ROYAL "Circuit Royal"
+#!define STR_MAP_PARIS "Paris"
 #!define STR_MSG_PLAYER_RESET_PROGRESS "  {0} reset their progress"
 
 # ------------------------------------------------

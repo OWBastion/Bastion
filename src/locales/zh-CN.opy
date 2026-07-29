@@ -46,7 +46,8 @@
 #!define STR_ENUM_DIFFICULTY_OPTIONS ["简单", "一般", "困难", "专家", "传奇", "地狱：无法跳过英雄"]
 #!define STR_OPT_CLASSIC_MAP_VARIANT_0 "关闭"
 #!define STR_OPT_CLASSIC_MAP_VARIANT_1 "皇家赛道"
-#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["关闭", "皇家赛道"]
+#!define STR_OPT_CLASSIC_MAP_VARIANT_2 "巴黎"
+#!define STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS ["关闭", "皇家赛道", "巴黎"]
 
 # ------------------------------------------------
 # 全局事件 (Global Events)
@@ -428,6 +429,7 @@
 #!define STR_MENU_OPT_DIFF_INC "{0}    增加难度    \n{1}"
 #!define STR_MENU_OPT_DIFF_DEC "{0}    降低难度    \n{1}"
 #!define STR_MAP_CIRCUIT_ROYAL "皇家赛道"
+#!define STR_MAP_PARIS "巴黎"
 # {0}=Button, {1}=State, {2}=Next Line
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    第三人称视角    {1}\n{2}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    标记玩家    {1}\n{2}"
