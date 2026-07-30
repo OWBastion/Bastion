@@ -26,5 +26,4 @@ rule "[VishkarEvent]: 魔术大师":
     eventPlayer.targetSilence = false
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()
-    clearEventEffect()
     wait(0.25)
