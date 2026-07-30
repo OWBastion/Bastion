@@ -53,10 +53,12 @@
 ## 关键实现模式
 
 - Canonical 规则来源：`docs/agents/performance-loop-safety.md`（此处仅保留路由指针，不复制规则正文）。
-- 通过 `wait(getAverageServerLoad()/...)` 做负载自适应节流
+- 高频玩家与事件循环使用按行为域命名的固定节拍；服务器负载读数不参与这些循环的等待计算
 - 长循环均包含 wait，避免无等待循环
 - 高复用动作封装为 subroutine，规则中只做触发与组合
 - `playerRegen.opy` 采用“受伤信号 + `waitUntil`”驱动 HOT 生命周期：受伤即停疗，满 3 秒未再受伤后才重新允许触发
+- `clearEventEffect()` 同步销毁当前事件的单一或双 Effect 句柄；最终调用由 `clearPlayerEvent()` 统一负责
+- `healthPool.opy` 每轮最多显式销毁 6 个到期生命池，未处理记录保留到后续轮次，只有执行 `removeHealthPool()` 后才从队列删除
 
 ## 易错点
 
