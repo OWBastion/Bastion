@@ -23,7 +23,6 @@ rule "[VishkarEvent]: 瓦尔基里降临":
     eventPlayer.heal_recv = 0
     eventPlayer.mod_heal_event = 0
     updatePlayerStats()
-    clearEventEffect()
 
 rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Event playerTookDamage
