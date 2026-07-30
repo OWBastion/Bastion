@@ -18,5 +18,4 @@ rule "[VishkarEvent]: 重力异常":
     createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     wait(eventPlayer.eventDuration)
-    clearEventEffect()
     eventPlayer.setGravity(100)
