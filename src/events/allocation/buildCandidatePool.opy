@@ -5,12 +5,37 @@
 
 subroutine buildCandidatePool
 
+# Whether this hero has any supported input that can activate a phase trigger.
+macro Player.supportsPhaseTrigger():
+    any([
+        self.getHero() in phaseHero[0],
+        self.getHero() in phaseHero[1],
+        self.getHero() in phaseHero[2],
+        self.getHero() in phaseHero[3],
+        isHero(self, Hero.BRIGITTE),
+        self.getHero() in phaseHero[4]
+    ])
+
+# Whether this hero is currently using its supported phase-trigger input.
+macro Player.usesPhaseTrigger():
+    any([
+        (self.getHero() in phaseHero[0] and self.isUsingAbility1()),
+        (self.getHero() in phaseHero[1] and self.isUsingAbility2()),
+        (self.getHero() in phaseHero[2] and self.isFiringSecondaryFire()),
+        (self.getHero() in phaseHero[3] and self.isHoldingButton(Button.JUMP)),
+        (isHero(self, Hero.BRIGITTE) and self.isFiringSecondaryFire() and self.isHoldingButton(Button.PRIMARY_FIRE)),
+        (self.getHero() in phaseHero[4] and self.zenSnapKick)
+    ])
+
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
     if eventPlayer.eventType == EventType.BUFF:
         eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
         wait(getAverageServerLoad() / 100 * 0.032)
+        if not eventPlayer.supportsPhaseTrigger():
+            eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
+            eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
         if eventPlayer.playerOnceEventState != null:
             if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                 eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
@@ -20,6 +45,9 @@ def buildCandidatePool():
         )
         if len(eventPlayer.eventTempId) <= 0:
             eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
+            if not eventPlayer.supportsPhaseTrigger():
+                eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
+                eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
             if eventPlayer.playerOnceEventState != null:
                 if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                     eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
