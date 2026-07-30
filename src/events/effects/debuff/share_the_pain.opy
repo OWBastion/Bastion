@@ -16,7 +16,6 @@ rule "[VishkarEvent]: 有难同当 Effect":
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     wait(eventPlayer.eventDuration)
-    clearEventEffect()
 
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
@@ -25,6 +24,5 @@ rule "[VishkarEvent]: 有难同当":
     @Condition attacker.getHero() == Hero.BASTION
     @Condition eventAbility != null
     
-    wait()
     damage([player for player in getLivingPlayers(Team.1) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and distance(eventPlayer, player) <= EVT_DEBUFF_9_RADIUS and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
     wait()
