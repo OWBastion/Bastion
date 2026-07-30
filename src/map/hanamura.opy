@@ -33,6 +33,8 @@ rule "map - 花村":
     resetPosition = vect(-46.98, 1, -101.54)
     creditsPosition = vect(-48.1, 2.5, -116.08)
     __currentMapText___ = "花村"
+    if classicMapVariant == CLASSIC_MAP_VARIANT_HANAMURA:
+        __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapPioneerText___ = __currentMapText___
 
     mapTitlePlayersByKey = [
