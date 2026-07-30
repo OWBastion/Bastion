@@ -187,6 +187,11 @@ rule "Acquire target":
     if isBastionTargetEligible(eventPlayer.target) and hasBastionTargetLoS(eventPlayer.target):
         goto lbl_1
 
+    if getPlayersInRadius(eventPlayer.getEyePosition(), 105, Team.1, LosCheck.SURFACES)[0] == false:
+        eventPlayer.target = null
+        wait(random.uniform(SCAN_DT_NO_TARGET_MIN, SCAN_DT_NO_TARGET_MAX), Wait.ABORT_WHEN_FALSE)
+        loop()
+
     eventPlayer.temp = [player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not player.isWinner and not player.hasStatus(Status.PHASED_OUT) and not player.targetSilence and distance(eventPlayer, player) < 100]
     wait()
     eventPlayer.temp = [player for player in eventPlayer.temp if hasBastionTargetLoS(player)]
