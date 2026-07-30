@@ -6,6 +6,8 @@
 # Event: DebuffEventId.SACRIFICE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
+#!define SACRIFICE_SCAN_DT 0.5
+
 rule "[VishkarEvent]: 献祭":
     @Event eachPlayer
     @Team 1
@@ -23,7 +25,7 @@ rule "[VishkarEvent]: 献祭":
             eventPlayer.target = null
         if eventPlayer.target != null:
             damage(eventPlayer, eventPlayer.target, eventPlayer.maxHealthPercent(EVT_DEBUFF_2_DMG_PERCENT * 100))
-    wait(0.5)
+    wait(SACRIFICE_SCAN_DT)
     if ruleCondition:
         loop()
     eventPlayer.target = null
