@@ -22,6 +22,5 @@ rule "[VishkarEvent]: 生命源泉":
     eventPlayer.startHealingOverTime(eventPlayer, 20, eventPlayer.maxHealthPercent(EVT_4_HEAL_PERCENT * 100))
     waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
     removeHealthPool(eventPlayer.healthId[3])
-    clearEventEffect()
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.healthId[3] = null
