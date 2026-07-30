@@ -22,4 +22,3 @@ rule "[VishkarEvent]: 疾风祝福":
     wait(eventPlayer.eventDuration)
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()
-    clearEventEffect()
