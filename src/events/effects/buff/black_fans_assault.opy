@@ -11,20 +11,18 @@ rule "[VishkarEvent]: 黑粉来袭":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
    
     # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
-    wait(getAverageServerLoad() / 100 * 0.032)
+    wait(0.032)
+    if eventPlayer.eventEffect == null:
+        createEffect(getAllPlayers() if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) > 0 else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.eventEffect = getLastCreatedEntity()
     if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) == 0:
         if eventPlayer.mod_speed_event != 0:
             eventPlayer.mod_speed_event = 0
             updatePlayerStats()
-        if eventPlayer.eventEffect != null:
-            clearEventEffect()
         wait(0.25)
         if ruleCondition:
             loop()
         goto lbl_2
-    if eventPlayer.eventEffect == null:
-        createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-        eventPlayer.eventEffect = getLastCreatedEntity()
     if eventPlayer.mod_speed_event == EVT_5_SPEED_BOOST:
         goto lbl_0
     eventPlayer.mod_speed_event = EVT_5_SPEED_BOOST
@@ -37,7 +35,6 @@ rule "[VishkarEvent]: 黑粉来袭":
         loop()
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()
-    clearEventEffect()
     wait(0.25)
     if ruleCondition:
         loop()
