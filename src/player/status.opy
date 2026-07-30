@@ -108,7 +108,7 @@ rule "Sync ult progress":
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
     @Condition round(eventPlayer.getUltCharge() / (100 / maxDeath)) != eventPlayer.progressionDeathCount
     
-    wait(random.uniform(0.1, 0.5) * getAverageServerLoad() / 100, Wait.ABORT_WHEN_FALSE)
+    wait(random.uniform(0.1, 0.5), Wait.ABORT_WHEN_FALSE)
     eventPlayer.setUltCharge(100 * eventPlayer.progressionDeathCount / maxDeath)
     if ruleCondition:
         loop()
