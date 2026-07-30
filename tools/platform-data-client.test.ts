@@ -143,7 +143,7 @@ test('sends the configured Bastion access token without exposing it in the URL',
   assert.equal(PLATFORM_DATA_TOKEN_ENV, 'BASTION_BUILD_TOKEN');
 });
 
-test('fetches player grants and map holders through their independent paginated entrances', async () => {
+test('fetches public player grants and map holders through their independent paginated entrances', async () => {
   const requests: string[] = [];
   const fetchImpl = async (input: URL | RequestInfo) => {
     const url = new URL(String(input));
@@ -151,13 +151,13 @@ test('fetches player grants and map holders through their independent paginated 
     const page = Number(url.searchParams.get('page'));
     const pageSize = Number(url.searchParams.get('pageSize'));
     const items = url.pathname.endsWith('player-title-grants')
-      ? [{ playerId: '1', playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]
-      : [{ mapId: 'map.test', slot: 'pioneer', playerId: '1', playerName: '玩家' }];
+      ? [{ playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]
+      : [{ mapId: 'map.test', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }];
     return new Response(JSON.stringify(pageResponse(items, page, pageSize, 1)), { status: 200, headers: { 'content-type': 'application/json' } });
   };
   const client = new PlatformDataClient({ baseUrl: 'https://example.test', pageSize: 10, fetch: fetchImpl });
-  assert.deepEqual(await client.fetchPlayerTitleGrants(), [{ playerId: '1', playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]);
-  assert.deepEqual(await client.fetchMapTitleHolders('map.test'), [{ mapId: 'map.test', slot: 'pioneer', playerId: '1', playerName: '玩家' }]);
+  assert.deepEqual(await client.fetchPlayerTitleGrants(), [{ playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]);
+  assert.deepEqual(await client.fetchMapTitleHolders('map.test'), [{ mapId: 'map.test', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]);
   assert.deepEqual(requests, [
     '/v1/agents/player-title-grants?page=1&pageSize=10',
     '/v1/agents/map-title-holders?mapId=map.test&page=1&pageSize=10'

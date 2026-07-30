@@ -81,7 +81,7 @@ GET /v1/agents/map-title-holders?mapId=...
 - fetch all pages and validate the response contract;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
-- merge player and map holders by stable `playerId`, never by display name;
+- generate player and map holder data from public player names; reject duplicate names or holders that do not have a corresponding active grant;
 - retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
 - treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only;
 - require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;

@@ -103,14 +103,14 @@ test('writes platform event values to OverPy constants and title locale while pr
   assert.match(result.localeSource, /STR_EVT_BUFF_0_DESC "旧描述 \{0\}"/);
 });
 
-test('builds player and map title generation input from stable platform identities', () => {
+test('builds player and map title generation input from public player names', () => {
   const source = buildPlatformTitleSource({
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
       titles: [{ ...platformData.titles[0], color: { kind: 'heroColor', index: 12 }, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
-      playerTitleGrants: [{ playerId: '123', playerName: '玩家改名', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', slotSemantics: 'named', playerId: '123', playerName: '玩家改名' }]
+      playerTitleGrants: [{ playerName: '玩家改名', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家改名' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
@@ -125,9 +125,9 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
-      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map', slot: null }],
-      playerTitleGrants: [{ playerId: '123', playerName: '经典玩家', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: '123', playerName: '经典玩家' }]
+      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }],
+      playerTitleGrants: [{ playerName: '经典玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerName: '经典玩家' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
@@ -143,8 +143,8 @@ test('uses dynamic map-title achievements as the authoritative slot projection',
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
       achievements: [{ challengeId: 'map.test_map.conqueror', family: 'map', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CONQUEROR', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', mapTitleRule: { ruleId: 'rule.conqueror', kind: 'conqueror', displayKind: 'map_name_suffix', slot: 'conqueror', dynamic: true } }],
       titles: [{ ...platformData.titles[0], titleKey: 'CONQUEROR', scope: 'map', displayKind: 'map_name_suffix', mapId: 'map.test_map', slot: 'conqueror', pioneerPrefixes: ['新地图'] }],
-      playerTitleGrants: [{ playerId: '123', playerName: '征服者', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CONQUEROR', slot: 'conqueror', slotSemantics: 'named', playerId: '123', playerName: '征服者' }]
+      playerTitleGrants: [{ playerName: '征服者', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CONQUEROR', slot: 'conqueror', slotSemantics: 'named', playerName: '征服者' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   });
@@ -158,8 +158,8 @@ test('rejects map holders that omit the explicit slot semantics', () => {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
       titles: [{ ...platformData.titles[0], color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
-      playerTitleGrants: [{ playerId: '123', playerName: '玩家', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'PIONEER', slot: 'pioneer', playerId: '123', playerName: '玩家' }]
+      playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'PIONEER', slot: 'pioneer', playerName: '玩家' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   }), /invalid slot semantics/);
@@ -212,14 +212,14 @@ test('preserves existing title and player IDs while appending new entries', () =
   assert.deepEqual(ordered.players.map((player) => player.name), ['他又', '新玩家']);
 });
 
-test('rejects map holders that reference an unknown stable player identity', () => {
+test('rejects map holders that reference a player without an active grant', () => {
   assert.throws(() => buildPlatformTitleSource({
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
       titles: [{ ...platformData.titles[0], color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
       playerTitleGrants: [],
-      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', slotSemantics: 'named', playerId: '123', playerName: '玩家' }]
+      mapTitleHolders: [{ mapId: 'map.test_map', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
   }), /invalid map, slot or player reference/);

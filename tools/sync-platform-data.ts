@@ -254,7 +254,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
       const dynamicSlot = dynamicMapTitleDefinitions.get(`${mapId}:${key}`);
-      const slot = dynamicSlot ?? (key === 'CLASSIC' && item.slot === null ? 'classic' : item.slot);
+      const slot = dynamicSlot ?? (key === 'CLASSIC' && item.slot == null ? 'classic' : item.slot);
       if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
       if (dynamicSlot && item.slot !== undefined && item.slot !== dynamicSlot) throw new Error(`${prefix}.slot disagrees with the dynamic map title rule`);
       if (slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
@@ -285,30 +285,26 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   const players = new Map<string, JsonObject>();
   for (const [index, item] of platformData.playerTitleGrants.entries()) {
     const prefix = `playerTitleGrants[${index}]`;
-    const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
-    if (players.has(playerId)) throw new Error(`Duplicate playerId: ${playerId}`);
-    players.set(playerId, { playerId, name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
+    const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    if (players.has(playerName)) throw new Error(`Duplicate player name: ${playerName}`);
+    players.set(playerName, { name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
   }
   const titleIds = new Map([...titleRecords.keys()].map((key, index) => [key, index]));
-  const playerNames = new Set<string>();
-  const normalizedPlayers = [...players.values()].sort((left, right) => String(left.playerId).localeCompare(String(right.playerId))).map((player, index) => {
-    if (playerNames.has(player.name)) throw new Error(`Duplicate player name detected: ${player.name}`);
-    playerNames.add(player.name);
+  const normalizedPlayers = [...players.values()].sort((left, right) => String(left.name).localeCompare(String(right.name))).map((player) => {
     if (!Array.isArray(player.titleKeys) || player.titleKeys.some((key: unknown) => typeof key !== 'string' || !titleRecords.has(key))) throw new Error(`Invalid titleKeys for player ${player.name}`);
-    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true, playerId: player.playerId, index };
+    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
   });
-  const playerById = new Map([...players.entries()].map(([id, player]) => [id, player.name as string]));
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
-    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
     const slot = item.slotSemantics === 'named'
       ? requireString(item.slot, `${prefix}.slot`)
       : item.slotSemantics === 'none' && item.slot === null && item.titleKey === 'CLASSIC'
         ? 'classic'
         : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
-    if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !playerById.has(playerId) || playerById.get(playerId) !== playerName) throw new Error(`${prefix} has an invalid map, slot or player reference`);
+    if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !players.has(playerName)) throw new Error(`${prefix} has an invalid map, slot or player reference`);
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
-    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerId}`); target.push(playerName); holdersByMap.set(mapKey, holders);
+    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
   }
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
   for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }

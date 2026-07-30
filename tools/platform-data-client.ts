@@ -216,7 +216,7 @@ export class PlatformDataClient {
   }
 
   async fetchPlayerTitleGrants(): Promise<PlatformDataItem[]> {
-    return this.fetchCustomResource('player-title-grants', new URLSearchParams(), (item) => String(item.playerId));
+    return this.fetchCustomResource('player-title-grants', new URLSearchParams(), (item) => String(item.playerName));
   }
 
   async fetchTitles(mapId?: string): Promise<PlatformDataItem[]> {
@@ -227,7 +227,7 @@ export class PlatformDataClient {
 
   async fetchMapTitleHolders(mapId: string): Promise<PlatformDataItem[]> {
     const query = new URLSearchParams({ mapId });
-    return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.slot)}:${String(item.playerId)}`);
+    return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.slot)}:${String(item.playerName)}`);
   }
 
   async fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
