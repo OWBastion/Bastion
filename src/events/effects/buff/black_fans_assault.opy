@@ -6,14 +6,16 @@
 # Event: BuffEventId.BLACK_FANS_ASSAULT
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
+#!define BLACK_FANS_SCAN_DT 0.032
+
 rule "[VishkarEvent]: 黑粉来袭":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
    
     # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
-    wait(0.032)
+    wait(BLACK_FANS_SCAN_DT)
     if eventPlayer.eventEffect == null:
-        createEffect(getAllPlayers() if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) > 0 else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        createEffect(getAllPlayers() if eventPlayer.mod_speed_event == EVT_5_SPEED_BOOST else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.eventEffect = getLastCreatedEntity()
     if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) == 0:
         if eventPlayer.mod_speed_event != 0:
