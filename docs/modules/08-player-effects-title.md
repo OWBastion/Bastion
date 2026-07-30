@@ -40,9 +40,11 @@
 
 ## `title/`：称号系统
 
-### `tools/sync-title-data.ts`
+### `tools/sync-platform-data.ts`
 
 - 接收平台 Agents API 规范化数据，生成 `title-cn.opy` 受管区块
+- 地图称号的地图/槽位关系以成就投影中的 `mapTitleRule` 为准；称号目录只提供展示元数据
+- 地图持有者必须携带显式 `slotSemantics`，不通过空 slot 推断语义
 - 不再读取本地玩家、称号或地图持有者数据源
 
 ### `title/title-cn.opy`

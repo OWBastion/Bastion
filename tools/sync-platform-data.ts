@@ -88,17 +88,22 @@ function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set
     const prefix = `achievements[${index}]`;
     const challengeId = requireString(item.challengeId, `${prefix}.challengeId`);
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
-    if (item.family !== 'achievement' || item.type !== 'title_achievement' || item.kind !== 'title_achievement') {
-      throw new Error(`${prefix} has an unsupported challenge enum`);
-    }
-    if (!challengeId.startsWith('title.') || challengeId !== `title.${titleKey}`) {
-      throw new Error(`${prefix}.challengeId must reference title.${titleKey}`);
-    }
     if (!titleKeys.has(titleKey)) throw new Error(`${prefix} references unknown title ${titleKey}`);
     if (!CHALLENGE_STATUSES.has(item.status)) throw new Error(`${prefix}.status has an unsupported value`);
     if (!SUBMISSION_MODES.has(item.submissionMode)) throw new Error(`${prefix}.submissionMode has an unsupported value`);
-    if (item.mapId !== undefined && (!requireString(item.mapId, `${prefix}.mapId`) || !mapIds.has(item.mapId))) {
-      throw new Error(`${prefix} references unknown map ${String(item.mapId)}`);
+    if (item.family === 'achievement' && item.type === 'title_achievement' && item.kind === 'title_achievement') {
+      if (!challengeId.startsWith('title.') || challengeId !== `title.${titleKey}`) {
+        throw new Error(`${prefix}.challengeId must reference title.${titleKey}`);
+      }
+    } else if (item.family === 'map' && item.type === 'map_completion' && item.kind === 'map_title_achievement') {
+      const mapId = requireString(item.mapId, `${prefix}.mapId`);
+      if (!mapIds.has(mapId)) throw new Error(`${prefix} references unknown map ${mapId}`);
+      const rule = item.mapTitleRule;
+      if (!rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+        throw new Error(`${prefix} has an invalid dynamic map title rule`);
+      }
+    } else {
+      throw new Error(`${prefix} has an unsupported challenge enum`);
     }
     if (challengeIds.has(challengeId)) throw new Error(`Duplicate challengeId: ${challengeId}`);
     challengeIds.add(challengeId);
@@ -209,6 +214,24 @@ function mapKeyFromPlatformId(mapId: string): string {
   return `DATA_${mapId.slice(4).toUpperCase()}`;
 }
 
+function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
+  const definitions = new Map<string, string>();
+  for (const [index, item] of platformData.achievements.entries()) {
+    if (item.family !== 'map' || item.type !== 'map_completion' || item.kind !== 'map_title_achievement') continue;
+    const prefix = `achievements[${index}]`;
+    const mapId = requireString(item.mapId, `${prefix}.mapId`);
+    const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const rule = item.mapTitleRule;
+    if (!mapIds.has(mapId) || !rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+      throw new Error(`${prefix} has an invalid dynamic map title rule`);
+    }
+    const key = `${mapId}:${titleKey}`;
+    if (definitions.has(key)) throw new Error(`Duplicate dynamic map title definition: ${key}`);
+    definitions.set(key, rule.slot);
+  }
+  return definitions;
+}
+
 export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { platformData: PlatformData; mapSourceFiles: Array<{ file: string; content: string }> }): TitleSource {
   const mapIds = new Set(platformData.maps.map((item) => requireString(item.mapId, 'mapId')));
   const mapLabels = new Map(platformData.maps.map((item) => [requireString(item.mapId, 'mapId'), requireString(item.mapName, 'mapName')]));
@@ -217,8 +240,10 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
 
+  const dynamicMapTitleDefinitions = collectDynamicMapTitleDefinitions(platformData, mapIds);
   const titleRecords = new Map<string, JsonObject>();
   const mapTitleDefinitions = new Set<string>();
+  const mapTitleMetadata = new Set<string>();
   for (const [index, item] of platformData.titles.entries()) {
     const prefix = `titles[${index}]`;
     const key = requireString(item.titleKey, `${prefix}.titleKey`);
@@ -228,10 +253,13 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
-      const slot = item.slot == null && key === 'CLASSIC' ? 'classic' : item.slot;
+      const dynamicSlot = dynamicMapTitleDefinitions.get(`${mapId}:${key}`);
+      const slot = dynamicSlot ?? (key === 'CLASSIC' && item.slot === null ? 'classic' : item.slot);
       if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
+      if (dynamicSlot && item.slot !== undefined && item.slot !== dynamicSlot) throw new Error(`${prefix}.slot disagrees with the dynamic map title rule`);
       if (slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
       mapTitleDefinitions.add(`${mapId}:${slot}`);
+      mapTitleMetadata.add(`${mapId}:${key}`);
     }
     const previous = titleRecords.get(key);
     if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
@@ -249,6 +277,9 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       displayExpr: "__currentMapClassicText___",
       color: { kind: "heroColor", index: 43 }
     });
+  }
+  for (const key of dynamicMapTitleDefinitions.keys()) {
+    if (!mapTitleMetadata.has(key)) throw new Error(`Missing title metadata for dynamic map title definition: ${key}`);
   }
 
   const players = new Map<string, JsonObject>();
@@ -269,7 +300,12 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   const playerById = new Map([...players.entries()].map(([id, player]) => [id, player.name as string]));
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
-    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const slot = item.slot == null && item.titleKey === 'CLASSIC' ? 'classic' : requireString(item.slot, `${prefix}.slot`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const playerId = requireString(item.playerId, `${prefix}.playerId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    const slot = item.slotSemantics === 'named'
+      ? requireString(item.slot, `${prefix}.slot`)
+      : item.slotSemantics === 'none' && item.slot === null && item.titleKey === 'CLASSIC'
+        ? 'classic'
+        : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
     if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !playerById.has(playerId) || playerById.get(playerId) !== playerName) throw new Error(`${prefix} has an invalid map, slot or player reference`);
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
     const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerId}`); target.push(playerName); holdersByMap.set(mapKey, holders);
@@ -514,6 +550,8 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     const mapKey = mapKeyFromPlatformId(mapId);
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
+  console.log('Platform sync: fetching achievements');
+  const achievements = await client.fetchResource('achievements');
   console.log('Platform sync: fetching global and map titles');
   const globalTitles = await client.fetchTitles();
   const mapTitlePages: PlatformData['titles'][] = [];
@@ -530,13 +568,12 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     mapTitleHolders.push(...await client.fetchMapTitleHolders(mapId));
     if ((index + 1) % 10 === 0 || index + 1 === orderedMapIds.length) console.log(`Platform sync: fetched map title holders ${index + 1}/${orderedMapIds.length}`);
   }
-  const titleData = { ...emptyData(), maps, titles, playerTitleGrants, mapTitleHolders };
+  const titleData = { ...emptyData(), maps, achievements, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
   await syncTitleData({ sourceData: titleSource });
 
-  console.log('Platform sync: fetching achievements and events');
-  const achievements = await client.fetchResource('achievements');
+  console.log('Platform sync: fetching events');
   const achievementData = { ...emptyData(), achievements, titles };
   const challengeIds = validatePlatformAchievements(achievementData, titleKeys, mapIds);
 

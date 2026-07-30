@@ -83,6 +83,8 @@ GET /v1/agents/map-title-holders?mapId=...
 - merge platform metadata by stable ID only, never by localized name;
 - merge player and map holders by stable `playerId`, never by display name;
 - retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
+- treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only;
+- require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
 - update the existing generated data;
 - compile the normal OverPy entries after the data sync succeeds.
 
