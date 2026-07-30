@@ -161,6 +161,9 @@ rule "Refresh assault form":
 #!define SCAN_DT_NO_TARGET_MAX 0.12
 #!define SCAN_DT_HAS_TARGET_MIN 0.20
 #!define SCAN_DT_HAS_TARGET_MAX 0.35
+#!define NANO_SECONDARY_FIRE_DT 0.032
+#!define PRE_AIM_SCAN_DT 1
+#!define TURN_REFRESH_DT 0.1
 
 macro isBastionTargetEligible(target):
     target != null and target.hasSpawned() and not target.isWinner and not target.hasStatus(Status.PHASED_OUT) and not target.targetSilence and distance(eventPlayer, target) < 100
@@ -184,11 +187,6 @@ rule "Acquire target":
     if isBastionTargetEligible(eventPlayer.target) and hasBastionTargetLoS(eventPlayer.target):
         goto lbl_1
 
-    if getPlayersInRadius(eventPlayer.getEyePosition(), 105, Team.1, LosCheck.SURFACES)[0] == false:
-        eventPlayer.target = null
-        wait(random.uniform(SCAN_DT_NO_TARGET_MIN, SCAN_DT_NO_TARGET_MAX), Wait.ABORT_WHEN_FALSE)
-        loop()
-    
     eventPlayer.temp = [player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not player.isWinner and not player.hasStatus(Status.PHASED_OUT) and not player.targetSilence and distance(eventPlayer, player) < 100]
     wait()
     eventPlayer.temp = [player for player in eventPlayer.temp if hasBastionTargetLoS(player)]
@@ -269,16 +267,16 @@ rule "Sustain nano secondary fire":
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.hasNano == true
-    @Condition getPlayersInRadius(eventPlayer.getEyePosition(), 150, Team.1)[0] != false
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
+    @Condition getPlayersInRadius(eventPlayer.getEyePosition(), 150, Team.1)[0] != false
     
     wait(random.uniform(0.016, 0.032), Wait.ABORT_WHEN_FALSE)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     if eventPlayer.target == null:
         goto lbl_0
     lbl_0:
-    wait(getAverageServerLoad() / 100 * 0.032)
+    wait(NANO_SECONDARY_FIRE_DT)
     if ruleCondition:
         loop()
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
@@ -312,7 +310,7 @@ rule "Pre-aim nearest target":
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target == false
     
-    wait(getAverageServerLoad() / 100, Wait.ABORT_WHEN_FALSE)
+    wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
     #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
     eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
     if eventPlayer.nearestTargetOutOfLoS == null:
@@ -334,7 +332,7 @@ rule "Update turn speed":
     
     eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition())) * turnSpeedMultiplier
     eventPlayer.turnSpeed += eventPlayer.target.getSpeed() * turnSpeedMultiplier
-    wait(max(0.016, getAverageServerLoad() / 1000))
+    wait(TURN_REFRESH_DT)
     if ruleCondition:
         loop()
 
@@ -350,7 +348,7 @@ rule "Boost turn speed":
     @Condition angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition)) >= 1
     
     eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition) * turnSpeedMultiplier)
-    wait(getPeakServerLoad() / 1000)
+    wait(TURN_REFRESH_DT)
     if ruleCondition:
         loop()
 
