@@ -4,6 +4,9 @@
 #!optimizeStrict
 #!rulePrefix "Hero/D.Va"
 
+#!define DVA_REMECH_STAGGER_DT 0.016
+#!define DVA_REMECH_SYNC_DT 0.5
+
 
 rule "Enable remech":
     @Event eachPlayer
@@ -29,10 +32,10 @@ rule "Sync remech charge":
     @Condition eventPlayer.dvaStart != 0
     @Condition eventPlayer.getUltCharge() != 100
     
-    wait(eventPlayer.getSlot() * 0.016, Wait.ABORT_WHEN_FALSE)
+    wait((eventPlayer.getSlot() + 1) * DVA_REMECH_STAGGER_DT, Wait.ABORT_WHEN_FALSE)
     while ruleCondition:
         eventPlayer.setUltCharge(3.333 * (distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart)))
-        wait(0.5)
+        wait(DVA_REMECH_SYNC_DT)
 
 
 rule "Complete remech goal":
