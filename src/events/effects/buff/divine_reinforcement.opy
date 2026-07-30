@@ -34,4 +34,3 @@ rule "[VishkarEvent]: 天降神兵 (收尾)":
     eventPlayer.altFormActive = false
     eventPlayer.target = null
     eventPlayer.eventMissionGoal = 0
-    clearEventEffect()
