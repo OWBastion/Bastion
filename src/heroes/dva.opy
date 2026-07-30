@@ -29,10 +29,10 @@ rule "Sync remech charge":
     @Condition eventPlayer.dvaStart != 0
     @Condition eventPlayer.getUltCharge() != 100
     
-    eventPlayer.setUltCharge(3.333 * (distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart)))
-    wait(0.5 * getAverageServerLoad() / 100)
-    if ruleCondition:
-        loop()
+    wait(eventPlayer.getSlot() * 0.016, Wait.ABORT_WHEN_FALSE)
+    while ruleCondition:
+        eventPlayer.setUltCharge(3.333 * (distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart)))
+        wait(0.5)
 
 
 rule "Complete remech goal":
