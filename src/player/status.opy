@@ -4,6 +4,9 @@
 #!optimizeStrict
 #!rulePrefix "Player"
 
+#!define ULT_SYNC_DT_MIN 0.1
+#!define ULT_SYNC_DT_MAX 0.5
+
 subroutine resetPlayerEventState
 subroutine resetPlayerProgressState
 subroutine resetPlayerSavedState
@@ -108,7 +111,7 @@ rule "Sync ult progress":
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
     @Condition round(eventPlayer.getUltCharge() / (100 / maxDeath)) != eventPlayer.progressionDeathCount
     
-    wait(random.uniform(0.1, 0.5), Wait.ABORT_WHEN_FALSE)
+    wait(random.uniform(ULT_SYNC_DT_MIN, ULT_SYNC_DT_MAX), Wait.ABORT_WHEN_FALSE)
     eventPlayer.setUltCharge(100 * eventPlayer.progressionDeathCount / maxDeath)
     if ruleCondition:
         loop()
