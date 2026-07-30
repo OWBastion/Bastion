@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 保镖 (Bodyguard)":
     
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_20_ALLY_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     eventPlayer.addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.maxHealthPercent(EVT_20_ARMOR_MAXHP_FACTOR * 100)), false, false)
-    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool()]])
+    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool(), eventPlayer.eventId]])
     playEffect(getAllPlayers(), DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR, Color.WHITE, eventPlayer, EVT_20_VFX_RADIUS)
     wait()
     if len(eventPlayer.target) > 0:
