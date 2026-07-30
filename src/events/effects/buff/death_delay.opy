@@ -28,7 +28,6 @@ rule "[VishkarEvent]: 死亡延迟":
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     destroyEffect(eventPlayer.invincibleEffect)
     eventPlayer.invincibleEffect = null
-    clearEventEffect()
     if eventPlayer.isDead():
         return
     wait()
