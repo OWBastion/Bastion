@@ -29,7 +29,7 @@ rule "[VishkarEvent]: 黑粉来袭":
     updatePlayerStats()
     lbl_0:
     eventPlayer.addHealthPool(EVT_5_HEALTH_TYPE, EVT_5_BASE_HEALTH + round(eventPlayer.maxHealthPercent(EVT_5_HEALTH_MAXHP_PERCENT * 100)), false, false)
-    eventPlayer.hp_data.append([[getTotalTimeElapsed() + 2, getLastCreatedHealthPool()]])
+    eventPlayer.hp_data.append([[getTotalTimeElapsed() + 2, getLastCreatedHealthPool(), eventPlayer.eventId]])
     waitUntil(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) == 0, 1.96)
     if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) > 0 and ruleCondition:
         loop()
