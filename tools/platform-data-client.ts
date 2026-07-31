@@ -42,6 +42,14 @@ const RESOURCE_ID_FIELDS: Record<PlatformDataResource, ResourceIdField> = {
   titles: 'titleKey'
 };
 
+function itemIdentity(resource: PlatformDataResource, item: PlatformDataItem): string {
+  const id = String(item[RESOURCE_ID_FIELDS[resource]]);
+  if (resource === 'achievements' && item.family === 'map' && typeof item.mapId === 'string' && item.mapId.trim() !== '') {
+    return `${id}:${item.mapId}`;
+  }
+  return id;
+}
+
 export class PlatformDataClientError extends Error {
   readonly resource?: PlatformDataResource;
   readonly page?: number;
@@ -250,10 +258,11 @@ export class PlatformDataClient {
       const idField = RESOURCE_ID_FIELDS[resource];
       for (const item of response.items) {
         const id = item[idField] as string;
-        if (ids.has(id)) {
+        const identity = itemIdentity(resource, item);
+        if (ids.has(identity)) {
           throw new PlatformDataClientError(`Duplicate ${idField}: ${id}`, { resource, page: requestedPage });
         }
-        ids.add(id);
+        ids.add(identity);
         items.push(item);
       }
 

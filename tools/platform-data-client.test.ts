@@ -110,6 +110,18 @@ test('fetches all Agents resources through paginated GET requests using a custom
   );
 });
 
+test('distinguishes map achievements with a reused challenge ID by map ID', async () => {
+  const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
+    if (resource !== 'achievements') return validPage(resource, page, pageSize);
+    return pageResponse([
+      { challengeId: 'title.CLASSIC', family: 'map', mapId: `map-${page}` }
+    ], page, pageSize, 2);
+  });
+
+  const result = await new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('achievements');
+  assert.deepEqual(result.map((item) => item.mapId), ['map-1', 'map-2']);
+});
+
 test('identifies Bastion in the Agents request User-Agent', async () => {
   let userAgent: string | null = null;
   const client = new PlatformDataClient({

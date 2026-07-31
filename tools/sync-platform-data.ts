@@ -84,6 +84,7 @@ function assertUnique(values: string[], label: string) {
 
 function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set<string>, mapIds: Set<string>) {
   const challengeIds = new Set<string>();
+  const challengeIdentities = new Set<string>();
   for (const [index, item] of platformData.achievements.entries()) {
     const prefix = `achievements[${index}]`;
     const challengeId = requireString(item.challengeId, `${prefix}.challengeId`);
@@ -99,13 +100,21 @@ function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
       if (!mapIds.has(mapId)) throw new Error(`${prefix} references unknown map ${mapId}`);
       const rule = item.mapTitleRule;
-      if (!rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+      if (item.mapVariant === 'classic') {
+        if (titleKey !== 'CLASSIC') throw new Error(`${prefix}.mapVariant classic must reference CLASSIC`);
+      } else if (!rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
         throw new Error(`${prefix} has an invalid dynamic map title rule`);
       }
+      const challengeIdentity = `${challengeId}:${mapId}`;
+      if (challengeIdentities.has(challengeIdentity)) throw new Error(`Duplicate challengeId: ${challengeId}`);
+      challengeIdentities.add(challengeIdentity);
     } else {
       throw new Error(`${prefix} has an unsupported challenge enum`);
     }
-    if (challengeIds.has(challengeId)) throw new Error(`Duplicate challengeId: ${challengeId}`);
+    if (item.family !== 'map') {
+      if (challengeIdentities.has(challengeId)) throw new Error(`Duplicate challengeId: ${challengeId}`);
+      challengeIdentities.add(challengeId);
+    }
     challengeIds.add(challengeId);
   }
   return challengeIds;
@@ -218,6 +227,7 @@ function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: S
   const definitions = new Map<string, string>();
   for (const [index, item] of platformData.achievements.entries()) {
     if (item.family !== 'map' || item.type !== 'map_completion' || item.kind !== 'map_title_achievement') continue;
+    if (item.mapVariant === 'classic') continue;
     const prefix = `achievements[${index}]`;
     const mapId = requireString(item.mapId, `${prefix}.mapId`);
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);

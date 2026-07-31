@@ -27,10 +27,10 @@ const platformData: PlatformData = {
   ,playerTitleGrants: [], mapTitleHolders: []
 };
 
-function merge(overrides: Partial<PlatformData> = {}) {
+function merge(overrides: Partial<PlatformData> = {}, source = titleSource) {
   return mergePlatformData({
     platformData: { ...platformData, ...overrides },
-    titleSource,
+    titleSource: source,
     eventEntries,
     platformEventIds: { EVENT_ONE: 'event.one' },
     mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
@@ -67,6 +67,23 @@ test('rejects an event category that disagrees with the Bastion enum', () => {
 
 test('rejects unknown challenge references', () => {
   assert.throws(() => merge({ events: [{ ...platformData.events[0], challenges: [{ family: 'achievement', challengeId: 'title.UNKNOWN' }] }] }), /unknown challenge title.UNKNOWN/);
+});
+
+test('accepts map classic achievements that reuse the global title challenge ID', () => {
+  const result = merge({
+    achievements: [
+      { challengeId: 'title.CLASSIC', family: 'map', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual' },
+      { challengeId: 'title.CLASSIC', family: 'achievement', type: 'title_achievement', kind: 'title_achievement', titleKey: 'CLASSIC', status: 'active', submissionMode: 'manual' }
+    ],
+    titles: [
+      platformData.titles[0],
+      { ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵' }
+    ]
+  }, {
+    ...titleSource,
+    titles: [...titleSource.titles, { key: 'CLASSIC', label: '老兵', category: '地图精通系列', condition: '通关经典版地图', availability: 'active', displayExpr: '__currentMapClassicText___', colorExpr: 'null' }]
+  });
+  assert.equal(result.counts.achievements, 2);
 });
 
 test('rejects unknown platform title IDs', () => {
@@ -125,6 +142,7 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map', mapName: '新地图' }],
+      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual' }],
       titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }],
       playerTitleGrants: [{ playerName: '经典玩家', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerName: '经典玩家' }]
