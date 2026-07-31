@@ -19,4 +19,3 @@ rule "[VishkarEvent]: 治疗光塔 ProMax (全图奶)":
     wait(EVT_25_HOT_DURATION, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
         loop()
-    clearEventEffect()

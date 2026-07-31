@@ -8,6 +8,7 @@ subroutine clearPlayerEvent
 def clearPlayerEvent():
     @Name "[VishkarEvent]: player event end"
     
+    clearEventEffect()
     eventPlayer.stopForcingThrottle()
     eventPlayer.stopThrottleInDirection()
     eventPlayer.combatRegen = false
@@ -23,8 +24,10 @@ def clearPlayerEvent():
     eventPlayer.eventId = -1
     eventPlayer.eventType = null
     eventPlayer.eventDuration = null
+    eventPlayer.eventDurationHud = 0
     eventPlayer.eventName = null
     eventPlayer.eventDesc = null
+    eventPlayer.eventEffectPlayers = null
     eventPlayer.mod_speed_event = null
     eventPlayer.mod_heal_event = null
     eventPlayer.heal_recv = null
@@ -34,6 +37,7 @@ def clearPlayerEvent():
     eventPlayer.knockback = null
     eventPlayer.sizeHealth = 1
     eventPlayer.eventSize = 0
+    eventPlayer.eventTargetHP = 0
     eventPlayer.altFormActive = false
     if eventPlayer.isWinner:
         goto lbl_0
@@ -48,7 +52,6 @@ def clearPlayerEvent():
     eventPlayer.stopScalingBarriers()
     eventPlayer.stopModifyingVoicelinePitch()
     updatePlayerStats()
-    clearEventEffect()
     smallMessage(
         eventPlayer, 
         STR_MSG_EVENT_ENDED.format(

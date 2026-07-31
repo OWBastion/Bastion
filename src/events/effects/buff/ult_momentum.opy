@@ -29,7 +29,6 @@ rule "Create effect":
     createEffect(getAllPlayers() if eventPlayer.isUsingUltimate() else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != BuffEventId.ULT_MOMENTUM or eventPlayer.eventType != EventType.BUFF, eventPlayer.eventDuration)
-    clearEventEffect()
 
 
 rule "Sustain ultimate":

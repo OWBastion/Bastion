@@ -7,11 +7,9 @@ def clearEventEffect():
     @Name "[VishkarEvent]: clear Player event effect"
     
     if len(eventPlayer.eventEffect) > 0:
-        while len(eventPlayer.eventEffect) > 0:
-            destroyEffect(eventPlayer.eventEffect[0])
-            eventPlayer.eventEffect.remove(eventPlayer.eventEffect[0])
-            wait()
+        destroyEffect(eventPlayer.eventEffect[0])
+        if len(eventPlayer.eventEffect) > 1:
+            destroyEffect(eventPlayer.eventEffect[1])
     else:
         destroyEffect(eventPlayer.eventEffect)
-    wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.eventEffect = null

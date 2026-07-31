@@ -30,10 +30,11 @@ rule "Pull toward bastion":
     eventPlayer.mod_speed_event -= EVT_DEBUFF_5_SPEED_REDUCTION
     updatePlayerStats()
     lbl_0:
-    if getPlayers(Team.2)[1] == null:
-        eventPlayer.target = getPlayers(Team.2)[0]
+    eventPlayer.temp = getPlayers(Team.2)
+    if eventPlayer.temp[1] == null:
+        eventPlayer.target = eventPlayer.temp[0]
     else:
-        eventPlayer.target = sorted(getPlayers(Team.2), lambda player: distance(eventPlayer, player))[0]
+        eventPlayer.target = sorted(eventPlayer.temp, lambda player: distance(eventPlayer, player))[0]
     eventPlayer.applyImpulse(directionTowards(eventPlayer, eventPlayer.target), EVT_DEBUFF_5_PULL_AIR if eventPlayer.isInAir() else EVT_DEBUFF_5_PULL_GROUND, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait()
     if ruleCondition:

@@ -24,5 +24,4 @@ rule "[VishkarEvent]: ↑↑↓↓←→←→BABA":
     playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_REAPPEAR, Color.TEAM_1, eventPlayer, 200)
     wait(0.5)
     eventPlayer.controlPlayerRespawnPosition = null
-    clearEventEffect()
     eventPlayer.eventDuration = 0

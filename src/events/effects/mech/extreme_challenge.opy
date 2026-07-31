@@ -24,7 +24,6 @@ rule "Apply challenge":
     waitUntil(eventPlayer.isDead(), eventPlayer.eventDuration)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()
-    clearEventEffect()
     eventPlayer.mod_heal_event = 0
     eventPlayer.heal_recv = 0
     updatePlayerStats()

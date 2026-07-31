@@ -6,10 +6,8 @@
 #!rulePrefix "System"
 
 #!define HEALTH_POOL_CLEANUP_MAX_REMOVALS 6
-#!define HEALTH_POOL_WAIT_MIN 0.496
-#!define HEALTH_POOL_WAIT_MAX 0.96
-#!define HEALTH_POOL_WAIT_LOAD_MIN 85
-#!define HEALTH_POOL_WAIT_LOAD_MAX 115
+#!define HEALTH_POOL_CLEANUP_ITEM_DT 0.8
+#!define HEALTH_POOL_CLEANUP_LOOP_DT 1
 
 
 rule "Clean expired health pools":
@@ -28,16 +26,8 @@ rule "Clean expired health pools":
             goto lbl_cleanup_done
         removeHealthPool(eventPlayer.hp_data[0][1])
         del eventPlayer.hp_data[0]
-        wait(
-            HEALTH_POOL_WAIT_MIN +
-            max(0, min(1, (getServerLoad() - HEALTH_POOL_WAIT_LOAD_MIN) / (HEALTH_POOL_WAIT_LOAD_MAX - HEALTH_POOL_WAIT_LOAD_MIN))) *
-            (HEALTH_POOL_WAIT_MAX - HEALTH_POOL_WAIT_MIN)
-        )
+        wait(HEALTH_POOL_CLEANUP_ITEM_DT)
     lbl_cleanup_done:
-    eventPlayer.hp_data = [
-        player for player in eventPlayer.hp_data
-        if player[0] > getTotalTimeElapsed() and (len(player) <= 2 or eventPlayer.eventId == player[2])
-    ]
-    wait(max(1, getServerLoad() / 100 * 0.032))
+    wait(HEALTH_POOL_CLEANUP_LOOP_DT)
     if ruleCondition:
         loop()

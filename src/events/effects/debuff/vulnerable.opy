@@ -21,4 +21,3 @@ rule "[VishkarEvent]: 易损":
     wait(eventPlayer.eventDuration)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()
-    clearEventEffect()

@@ -11,13 +11,14 @@ rule "[VishkarEvent]: 保镖 (Bodyguard)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BODYGUARD, eventPlayer.phaseState == true]) == true
     
-    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_20_ALLY_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
+    eventPlayer.eventEffectPlayers = getPlayersInRadius(eventPlayer, EVT_20_ALLY_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     eventPlayer.addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.maxHealthPercent(EVT_20_ARMOR_MAXHP_FACTOR * 100)), false, false)
-    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool()]])
+    eventPlayer.hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool(), eventPlayer.eventId]])
     playEffect(getAllPlayers(), DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR, Color.WHITE, eventPlayer, EVT_20_VFX_RADIUS)
     wait()
-    if len(eventPlayer.target) > 0:
-        playEffect(getAllPlayers(), DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR, Color.WHITE, eventPlayer.target[0], EVT_20_VFX_RADIUS)
-        eventPlayer.target[0].addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.maxHealthPercent(EVT_20_ARMOR_MAXHP_FACTOR * 100)), false, false)
-        eventPlayer.target[0].hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool()]])
+    if len(eventPlayer.eventEffectPlayers) > 0:
+        playEffect(getAllPlayers(), DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR, Color.WHITE, eventPlayer.eventEffectPlayers[0], EVT_20_VFX_RADIUS)
+        eventPlayer.eventEffectPlayers[0].addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.maxHealthPercent(EVT_20_ARMOR_MAXHP_FACTOR * 100)), false, false)
+        eventPlayer.eventEffectPlayers[0].hp_data.append([[getTotalTimeElapsed() + EVT_20_ARMOR_DURATION, getLastCreatedHealthPool()]])
+    eventPlayer.eventEffectPlayers = null
     wait(EVT_20_POST_WAIT)

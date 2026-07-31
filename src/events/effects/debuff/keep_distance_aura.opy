@@ -38,4 +38,3 @@ rule "[VishkarEvent]: 保持距离 (易伤光环)":
     eventPlayer.mod_dmg_taken = 0
     eventPlayer.hudText = ""
     updatePlayerStats()
-    clearEventEffect()

@@ -20,7 +20,6 @@ rule "Create effect":
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != MechEventId.STEALTH_CROUCH or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
-    clearEventEffect()
 
 
 rule "Apply stealth crouch":

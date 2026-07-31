@@ -39,4 +39,3 @@ rule "[VishkarEvent]: 胜利意志":
     eventPlayer.clearStatusEffect(Status.INVINCIBLE)
     destroyEffect(eventPlayer.invincibleEffect)
     eventPlayer.invincibleEffect = null
-    clearEventEffect()
