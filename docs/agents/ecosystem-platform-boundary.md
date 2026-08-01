@@ -26,26 +26,30 @@ The target system contains four repositories:
 | Repository | Ownership |
 | --- | --- |
 | `OWBastion/Bastion` | Game source, released content, generated title structure, build and release |
-| `OWBastion/owbastion.codes` | Public portal, review platform, admin/developer control plane, business data |
+| `OWBastion/owbastion.com` | Public portal, review platform, admin/developer control plane, business data |
 | `OWBastion/qqbot` | QQ channel adapter and user notifications |
 | `OWBastion/ocrkit` | Stateless screenshot recognition and model lifecycle |
 
 ### Hard boundary
 
-`Bastion` owns the stable game definitions, OverPy implementations, generated data, and compilation. `owbastion.codes` owns the current platform metadata for events, maps, achievements, and titles. Bastion reads that metadata through the Agents APIs when it runs its sync tool; the platform does not mutate Bastion source files or run Bastion builds.
+`Bastion` owns the stable game definitions, OverPy implementations, generated data, and compilation. `owbastion.com` owns the current platform metadata for events, maps, achievements, and titles. Bastion reads that metadata through the Agents APIs when it runs its sync tool; the platform does not mutate Bastion source files or run Bastion builds.
 
 No external service may silently mutate released game data or bypass repository CI.
 
 ## 3. Source-of-Truth Rules
 
+The platform is authoritative for:
+
+- event names, weights, durations, and status;
+- title names, conditions, scope, and grants;
+- map metadata and challenge rules.
+
 This repository is authoritative for:
 
-- formal event IDs, event types, weights, durations, and effect implementations;
-- title IDs, labels, slots, styles, map mappings, and released grants;
-- map and difficulty definitions used by the game;
-- localization keys and released player-visible text;
-- game version identifiers;
-- build scripts, compiler configuration, and release artifacts.
+- event Workshop effects;
+- OverPy indices, arrays, and implementation mappings;
+- game versions, build artifacts, and releases;
+- localization keys and released player-visible text where they are implemented in Bastion.
 
 This repository is not authoritative for:
 
@@ -60,7 +64,7 @@ This repository is not authoritative for:
 ## 4. Transitional Web UI Rules
 
 The former `web/title-query` page has been removed. Its title, event, glossary, and
-allocator views are owned by `OWBastion/owbastion.codes`; Bastion does not generate
+allocator views are owned by `OWBastion/owbastion.com`; Bastion does not generate
 or deploy a web page.
 
 ## 5. Agents Current Metadata Sync
