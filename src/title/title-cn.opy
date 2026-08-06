@@ -249,7 +249,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["卖核弹的小女孩", "八月八月八"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八月八月八"], "-")\
 ]
 
 # 花冈
