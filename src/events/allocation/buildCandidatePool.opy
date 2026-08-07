@@ -36,8 +36,6 @@ def buildCandidatePool():
         if not eventPlayer.supportsPhaseTrigger():
             eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
             eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-        if eventPlayer.isWinner:
-            eventPlayer.eventTempId.remove(BuffEventId.HEART_OF_STEEL)
         if eventPlayer.playerOnceEventState != null:
             if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                 eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
@@ -50,8 +48,6 @@ def buildCandidatePool():
             if not eventPlayer.supportsPhaseTrigger():
                 eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
                 eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-            if eventPlayer.isWinner:
-                eventPlayer.eventTempId.remove(BuffEventId.HEART_OF_STEEL)
             if eventPlayer.playerOnceEventState != null:
                 if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
                     eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
