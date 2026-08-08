@@ -46,25 +46,70 @@ jobs:
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "Release flow continues on latest main head: ${GITHUB_SHA}"
 
-      - name: Setup pnpm
+      - name: Detect substantive changes
         if: steps.freshness.outputs.should_run == 'true'
+        id: substantive_changes
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Manual release dispatch: substantive-change detection is bypassed"
+            exit 0
+          fi
+
+          base_sha="${EVENT_BEFORE:-}"
+          if [[ "${GITHUB_EVENT_NAME}" != "push" ]]; then
+            base_sha="$(git describe --tags --abbrev=0 "${GITHUB_SHA}" 2>/dev/null || true)"
+          fi
+          if [[ -z "${base_sha}" || "${base_sha}" =~ ^0+$ ]]; then
+            base_sha="$(git hash-object -t tree /dev/null)"
+          fi
+
+          substantive=false
+          if ! git diff --quiet --no-ext-diff "${base_sha}" "${GITHUB_SHA}" -- . ':(exclude)src/env/env.opy'; then
+            substantive=true
+          else
+            non_version_diff="$(git diff --no-ext-diff --unified=0 "${base_sha}" "${GITHUB_SHA}" -- src/env/env.opy | awk '
+              /^diff --git / || /^index / || /^--- / || /^\+\+\+ / || /^@@ / { next }
+              /^[+-]#!define VERSION "[^"]+"[[:space:]]*$/ { next }
+              /^[+-]/ { print }
+            ')"
+            if [[ -n "${non_version_diff}" ]]; then
+              substantive=true
+            fi
+          fi
+
+          if [[ "${substantive}" == "true" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Substantive changes detected between ${base_sha} and ${GITHUB_SHA}"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "Skip release flow: only src/env/env.opy VERSION changed between ${base_sha} and ${GITHUB_SHA}"
+          fi
+
+      - name: Setup pnpm
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         uses: pnpm/action-setup@v6
         with:
           version: 11.10.0
 
       - name: Setup Node.js
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
 
       - name: Install dependencies
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Bump env version
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         id: bump
         shell: bash
         run: |
@@ -90,7 +135,7 @@ jobs:
           echo "Version bump: ${old_version} -> ${new_version}"
 
       - name: Resolve release tag
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         id: release_meta
         shell: bash
         run: |
@@ -102,7 +147,7 @@ jobs:
           echo "Release tag: ${tag}"
 
       - name: Verify platform sync credentials
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -113,11 +158,11 @@ jobs:
           echo "Platform sync credential: configured"
 
       - name: Build workshop outputs
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         run: pnpm run build:release
 
       - name: Commit release inputs back to main
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -132,7 +177,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Ensure git tag exists
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -146,7 +191,7 @@ jobs:
           echo "Created and pushed tag: ${tag}"
 
       - name: Generate custom release notes
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         id: notes
         shell: bash
         run: |
@@ -192,7 +237,7 @@ jobs:
           echo "Generated ${notes_file} from range: ${commit_range}"
 
       - name: Publish GitHub Release with build artifacts
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
@@ -203,7 +248,7 @@ jobs:
           gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow
 
       - name: Release summary
-        if: steps.freshness.outputs.should_run == 'true'
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         shell: bash
         run: |
           echo "Version bump: ${{ steps.bump.outputs.old_version }} -> ${{ steps.bump.outputs.new_version }}"
