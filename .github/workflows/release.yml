@@ -70,12 +70,15 @@ jobs:
           fi
 
           substantive=false
-          if ! git diff --quiet --no-ext-diff "${base_sha}" "${GITHUB_SHA}" -- . ':(exclude)src/env/env.opy'; then
+          if ! git diff --quiet --no-ext-diff "${base_sha}" "${GITHUB_SHA}" -- . \
+            ':(exclude)src/env/env.opy' \
+            ':(exclude)src/constants/event_manifest.opy'; then
             substantive=true
           else
-            non_version_diff="$(git diff --no-ext-diff --unified=0 "${base_sha}" "${GITHUB_SHA}" -- src/env/env.opy | awk '
+            non_version_diff="$(git diff --no-ext-diff --unified=0 "${base_sha}" "${GITHUB_SHA}" -- \
+              src/env/env.opy src/constants/event_manifest.opy | awk '
               /^diff --git / || /^index / || /^--- / || /^\+\+\+ / || /^@@ / { next }
-              /^[+-]#!define VERSION "[^"]+"[[:space:]]*$/ { next }
+              /^[+-]#!define VERSION "[^"]+"[[:space:]]*$/ || /^[+-]#!define EVENT_MANIFEST_MAIN_VERSION "[^"]+"[[:space:]]*$/ { next }
               /^[+-]/ { print }
             ')"
             if [[ -n "${non_version_diff}" ]]; then
@@ -88,7 +91,7 @@ jobs:
             echo "Substantive changes detected between ${base_sha} and ${GITHUB_SHA}"
           else
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "Skip release flow: only src/env/env.opy VERSION changed between ${base_sha} and ${GITHUB_SHA}"
+            echo "Skip release flow: only release version metadata changed between ${base_sha} and ${GITHUB_SHA}"
           fi
 
       - name: Setup pnpm
