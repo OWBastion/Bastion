@@ -6,6 +6,7 @@
 rule "map - paris":
     @Condition __currentMap___ == Map.PARIS
     
+    __currentMapClassicText___ = "塞納河畔灬噯已散場"
     __currentMapText___ = STR_MAP_PARIS
     if classicMapVariant == CLASSIC_MAP_VARIANT_PARIS:
         __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(STR_MAP_PARIS)
@@ -39,5 +40,6 @@ rule "map - paris":
     mapTitlePlayersByKey = [
         DATA_PARIS[0].split("-"),
         DATA_PARIS[1].split("-"),
-        DATA_PARIS[2].split("-")
+        DATA_PARIS[2].split("-"),
+        DATA_PARIS[3].split("-")
     ]
