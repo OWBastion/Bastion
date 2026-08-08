@@ -249,7 +249,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八月八月八"], "-")\
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
 ]
 
 # 花冈
@@ -385,7 +385,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["八月八月八"], "-")\
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "八月八月八"], "-")\
 ]
 
 # 里阿尔托
