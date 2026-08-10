@@ -342,8 +342,8 @@
 #!define STR_HUD_PANEL_BOTTOM "└───────────┘"
 
 # Stats Panel Content
-# {0}=Deaths/Skips, {1}=Event Stats, {2}=Total Time
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}"
+# {0}=Deaths/Skips, {1}=Event Stats, {2}=Player Attributes, {3}=Total Time, {4}=Run Code
+#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
 
 # Deaths/Skips
 # {0}=Deaths, {1}=Skips
@@ -352,6 +352,9 @@
 # Event Stats
 # {0}=Buff, {1}=Debuff, {2}=Total
 #!define STR_HUD_STATS_EVENT "Buff/Debuff/Total\r\n{0}/{1}/{2} "
+
+# {0}=Room-level run code
+#!define STR_HUD_RUN_CODE "Run Code: {0}"
 
 # Random Events 4.0 Title
 #!define STR_HUD_RANDOM_EVENTS_VERSION "[Random Events 5.0]"

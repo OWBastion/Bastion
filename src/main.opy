@@ -234,6 +234,7 @@ rule "Resolve finish":
         progressHero()
     elif eventPlayer.getHero() == heroList.last() and not eventPlayer.isWinner:
         eventPlayer.isWinner = true
+        masteryRunCompleted = true
         eventPlayer.winnerTime = evalOnce(getTotalTimeElapsed()) - eventPlayer.joinTime
         if any([eventPlayer.dmgReduc, eventPlayer.invincible, eventPlayer.isPortalEnabled, eventPlayer.isAirWalkEnabled]):
             goto lbl_1

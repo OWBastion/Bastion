@@ -350,8 +350,8 @@
 #!define STR_HUD_PANEL_BOTTOM "└───────────┘"
 
 # 统计面板内容 (多行格式)
-# {0}=阵亡/跳过数值, {1}=事件统计(可选), {2}=通关总耗时
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}"
+# {0}=阵亡/跳过数值, {1}=事件统计, {2}=玩家属性, {3}=通关总耗时, {4}=本局代码
+#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
 
 # 阵亡/跳过
 # {0}=阵亡数, {1}=跳过数
@@ -360,6 +360,9 @@
 # 事件统计
 # {0}=增益, {1}=减益, {2}=总计
 #!define STR_HUD_STATS_EVENT "增益/减益/总计\r\n{0}/{1}/{2} "
+
+# {0}=房间级通关代码
+#!define STR_HUD_RUN_CODE "本局代码：{0}"
 
 # 随机事件 4.0 标题
 #!define STR_HUD_RANDOM_EVENTS_VERSION "［随机事件 5.0］"
