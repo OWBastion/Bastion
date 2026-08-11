@@ -21,7 +21,7 @@
 - `heroList` 动态校验（与 `getAllHeroes()` 对齐）
 - `phaseHero`（相位/位移技能检测分组）初始化
 - 开发者名单、颜色表初始化
-- 房间级 `masteryRunCode` 初始化：每个新游戏局生成一次 `NNNN-NNNN-NNNN` 数字代码；玩家重生、换英雄和进度重置不会改写它
+- 房间级 `masteryRunCode`：新局初始化为空；首个玩家通关时生成一次 `NNNN-NNNN-NNNN` 数字代码；玩家重生、换英雄和进度重置不会改写它
 
 ## `constants/` 模块
 

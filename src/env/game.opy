@@ -56,8 +56,7 @@ rule "Initialize global variables":
     maxDeath = 5 * difficulty
     savedIndex = []
     savedData = [[], [], [], [], [], [], []]
-    masteryRunCode = "{0}-{1}-{2}".format(random.randint(1000, 9999), random.randint(1000, 9999), random.randint(1000, 9999))
-    masteryRunCompleted = false
+    masteryRunCode = ""
     globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]

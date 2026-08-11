@@ -59,7 +59,7 @@ rule "initialize effects":
         )) if localPlayer.isWinner else "",
 
         # 4. 房间级通关代码 (首个玩家通关后对所有参与者可见)
-        "\r\n{0}".format(STR_HUD_RUN_CODE.format(masteryRunCode)) if masteryRunCompleted else ""
+        "\r\n{0}".format(masteryRunCode) if masteryRunCode != "" else ""
 
     ), HudPosition.LEFT, 7, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
