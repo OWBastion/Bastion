@@ -77,6 +77,16 @@ globalvar devEventCategory
 globalvar devEventIndex
 globalvar challengeTitleIds
 globalvar hashTagWeightVerifyState
+globalvar platformMapRevisionMapId
+globalvar platformMapRevisionVariant
+globalvar platformMapRevisionCandidates
+globalvar platformMapRevisionDefaults
+globalvar platformMapRevisionSelectableCandidates
+globalvar platformMapRevision
+globalvar platformMapRevisionId
+globalvar platformMapRevisionChallengeRefs
+globalvar platformMapRevisionLoaded
+globalvar platformMapRevisionDataError
 
 #Player variables
 

@@ -325,6 +325,7 @@
 #!define STR_HUD_WELCOME_NORMAL "Escape with all heroes! Unlocked heroes are saved for future runs. Skip heroes after {0} deaths."
 #!define STR_HUD_WELCOME_NORMAL_HARD "Escape with all heroes! Hero skipping is disabled. Good luck!"
 #!define STR_HUD_MAP_CLASSIC_SUFFIX "{0} Classic"
+#!define STR_HUD_MAP_REVISION_DATA_INVALID "Map revision data is unavailable: {0}. Map initialization stopped."
 #!define STR_HUD_FOOTER_INFO "Top 500 Group: 445152554 | Join the group to upvote your favorite events \n"
 #!define STR_HUD_EVENT_GLOBAL "Global Event: {0} {1} ({2})"
 #!define STR_HUD_EVENT_DESC "{0} {1}"

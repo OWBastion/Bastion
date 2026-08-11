@@ -2,7 +2,7 @@
 
 ## 设计目标
 
-- 每张图独立维护点位与地图流程
+- 每张图独立维护地图流程；已迁移地图的声明式点位由平台修订数据提供
 - 支持单图逃生与多段控制点/传送切图
 - 与玩家进度系统、Bastion 生成逻辑解耦
 
@@ -13,7 +13,7 @@
 
 ## 地图文件通用职责
 
-每个地图文件通常设置以下变量：
+地图文件保留 Workshop 行为和引擎相关的地图/变体判定。以下运行时变量由地图规则在设置阶段使用；对于已迁移地图，它们由 `applyPlatformMapRevision.opy` 从生成数据填充：
 
 - `bastionPosition`
 - `endPosition`
@@ -22,6 +22,14 @@
 - 可选：`controlRespawnPosition`, `controlJumpPosition`, `controlRespawnAxis`, `controlRespawnAxisThreshold`
 - 可选：`portalPosition`, `springBoardPosition`
 - 可选：`__currentMapText___`, `__currentMapPioneerText___`
+
+当前已迁移空间配置的代表地图：
+
+- `paraiso.opy`：普通单图点位
+- `eichenwalde.opy`：默认 revision 与 `classic` 可选 revision
+- `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
+
+`src/constants/platform_map_revision_data.opy` 是 `sync:platform-data` 的生成输出，不是第二个手工真源。每个生成行显式携带 `mapId`、`gameplayRevisionId`、生命周期、选择标志、空间数据、挑战引用和修订称号持有者；历史/准备中 revision 不进入该文件。运行时只在地图设置阶段选择唯一默认 revision，只有显式请求的可选 revision 才会替换它，不在热循环中重新解析。
 
 ## 多段地图（典型）
 
@@ -51,8 +59,10 @@
 
 ## 开发注意
 
-- 点位优先维护在各地图文件，避免散落在入口。
+- 对已迁移地图，点位只能在平台 revision 的空间配置中维护；如果流程没有改变，纯坐标更新只需要平台数据同步和 Bastion 构建，不应再编辑地图 `.opy` 坐标。
+- 尚未迁移的地图可以暂时保留本地点位，但按配置形状分组迁移后必须删除旧的本地权威值，不能长期维护双重真源。
 - 添加新地图时，需验证：
   - Bastion 数量与 `bastionPosition` 长度一致
   - 终点触发半径可达
   - reset/third-person/world text 不重叠
+- 修改已迁移 revision 时，先通过 `tools/sync-platform-data.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建。

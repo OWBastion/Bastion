@@ -61,6 +61,16 @@ rule "Initialize global variables":
     devList = ["他又", "别感冒"]
     obstrucVis = []
     mapTitlePlayersByKey = []
+    platformMapRevisionMapId = null
+    platformMapRevisionVariant = null
+    platformMapRevisionCandidates = []
+    platformMapRevisionDefaults = []
+    platformMapRevisionSelectableCandidates = []
+    platformMapRevision = null
+    platformMapRevisionId = null
+    platformMapRevisionChallengeRefs = []
+    platformMapRevisionLoaded = false
+    platformMapRevisionDataError = false
 
 rule "Update targetPlayer when player left":
     @Event playerLeft

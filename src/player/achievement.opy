@@ -15,7 +15,7 @@ rule "Init Achievement Data":
         57, # PHANTOM_THIEF 怪盗 触发 10 次「窃贼」
     ]
 
-    if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
+    if classicMapVariant != CLASSIC_MAP_VARIANT_OFF or platformMapRevisionVariant != null:
         challengeTitleIds = []
 
 

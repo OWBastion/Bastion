@@ -333,6 +333,7 @@
 #!define STR_HUD_WELCOME_NORMAL "使用全部英雄通关，一旦你解锁了一个英雄就可以在后续的游戏中随时使用！当阵亡 {0} 次之后可跳过英雄"
 #!define STR_HUD_WELCOME_NORMAL_HARD "使用全部英雄通关！当前难度无法跳过英雄，加油吧！"
 #!define STR_HUD_MAP_CLASSIC_SUFFIX "{0}·经典版"
+#!define STR_HUD_MAP_REVISION_DATA_INVALID "地图修订数据不可用：{0}。已停止地图初始化。"
 #!define STR_HUD_FOOTER_INFO "500强交流群：445152554 | 加群给你喜欢的事件点赞 \n"
 #!define STR_HUD_EVENT_GLOBAL "全局事件：{0} {1}（{2}）"
 #!define STR_HUD_EVENT_DESC "{0} {1}"

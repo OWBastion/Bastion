@@ -30,6 +30,17 @@ const spatialConfig = {
   springboardPositions: []
 };
 
+const busanSpatialConfig = {
+  ...spatialConfig,
+  control: {
+    centerPositions: [[16, 17, 18], [19, 20, 21], [22, 23, 24]],
+    jumpPositions: [[25, 26, 27], [28, 29, 30], [40, 41, 42]],
+    respawnPositions: [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
+    respawnAxis: 'x' as const,
+    respawnAxisThreshold: 40
+  }
+};
+
 const defaultGameplayRevision = {
   gameplayRevisionId: 'revision:map.test_map:default',
   mapId: 'map.test_map',
@@ -292,15 +303,50 @@ test('generates deterministic revision-scoped map data for default and selectabl
       maps: [{ ...platformData.maps[0], gameplayRevisions: [selectableGameplayRevision, defaultGameplayRevision] }],
       achievements: [{ challengeId: 'map.test_map.pioneer', family: 'map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'TITLE_ONE', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15', mapTitleRule: { ruleId: 'rule.pioneer', kind: 'pioneer', displayKind: 'map_pioneer', slot: 'pioneer', dynamic: true } }],
       titles: [{ ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
-      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-5', playerName: '修订玩家' }]
+      mapTitleHolders: [
+        { mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-6', playerName: '默认玩家' },
+        { mapId: 'map.test_map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-5', playerName: '修订玩家' }
+      ]
     }
   });
   assert.deepEqual(source.maps[0]?.revisions.map((revision) => revision.gameplayRevisionId), [defaultGameplayRevision.gameplayRevisionId, selectableGameplayRevision.gameplayRevisionId]);
+  assert.equal(source.maps[0]?.revisions[0]?.titleHolders[0]?.playerName, '默认玩家');
   assert.equal(source.maps[0]?.revisions[1]?.titleHolders[0]?.playerName, '修订玩家');
   const output = renderPlatformMapRevisionData(source);
   assert.match(output, /PLATFORM_MAP_REVISION_CONTRACT_VERSION "1"/);
   assert.match(output, /vect\(1, 2, 3\)/);
+  assert.match(output, /PLATFORM_MAP_REVISION_FIELD_GAMEPLAY_REVISION_ID 2/);
+  assert.match(output, /\["map.test_map", "新地图", "revision:map.test_map:default"/);
+  assert.match(output, /\["map.test_map", "新地图", "revision:map.test_map:default"[\s\S]*\[\["默认玩家"\], \[\], \[\], \[\]\]\]/);
+  assert.match(output, /\[\["修订玩家"\], \[\], \[\], \[\]\]\]/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
+});
+
+test('validates the migrated Busan control-map shape before generation', () => {
+  const busanRevision = {
+    ...defaultGameplayRevision,
+    gameplayRevisionId: 'revision:map.busan:default',
+    mapId: 'map.busan',
+    spatialConfig: busanSpatialConfig
+  };
+  const busanPlatformData = {
+    ...platformData,
+    maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [busanRevision] }]
+  };
+  const source = buildPlatformMapRevisionSource({ platformData: busanPlatformData });
+  assert.match(renderPlatformMapRevisionData(source), /map.busan/);
+  assert.throws(() => buildPlatformMapRevisionSource({
+    platformData: {
+      ...busanPlatformData,
+      maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: null } }] }]
+    }
+  }), /control is required for map.busan/);
+  assert.throws(() => buildPlatformMapRevisionSource({
+    platformData: {
+      ...busanPlatformData,
+      maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: { ...busanSpatialConfig.control, jumpPositions: [[25, 26, 27]] } } }] }]
+    }
+  }), /matching lengths/);
 });
 
 test('rejects invalid revision lifecycle, defaults, spatial data, and challenge references before generation', () => {

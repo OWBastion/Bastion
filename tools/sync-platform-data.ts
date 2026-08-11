@@ -196,6 +196,19 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   };
 }
 
+function validateMigratedMapSpatialConfig(mapId: string, config: SpatialConfig, label: string) {
+  if (mapId === 'map.busan') {
+    if (!config.control) throw new Error(`${label}.control is required for map.busan`);
+    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 3) {
+      throw new Error(`${label}.control must contain three center/jump/respawn positions for map.busan`);
+    }
+    return;
+  }
+  if ((mapId === 'map.paraiso' || mapId === 'map.eichenwalde') && config.control !== null) {
+    throw new Error(`${label}.control must be null for ${mapId}`);
+  }
+}
+
 function validateGameplayRevision(value: unknown, mapId: string, label: string): ValidatedGameplayRevision {
   assertExactKeys(value, label, ['gameplayRevisionId', 'mapId', 'mapVariant', 'lifecycle', 'enabled', 'isDefault', 'isSelectable', 'gameVersion', 'spatialConfig', 'challengeRefs']);
   const revision = value as Record<string, unknown>;
@@ -208,6 +221,7 @@ function validateGameplayRevision(value: unknown, mapId: string, label: string):
   if (revision.lifecycle === 'selectable' && (revision.isDefault !== false || revision.isSelectable !== true)) throw new Error(`${label} has invalid selectable revision semantics`);
   const gameVersion = requireString(revision.gameVersion, `${label}.gameVersion`);
   const spatialConfig = validateSpatialConfig(revision.spatialConfig, `${label}.spatialConfig`);
+  validateMigratedMapSpatialConfig(mapId, spatialConfig, `${label}.spatialConfig`);
   if (!Array.isArray(revision.challengeRefs) || revision.challengeRefs.length > 256) throw new Error(`${label}.challengeRefs must contain at most 256 references`);
   const challengeIds = new Set<string>();
   const challengeRefs = revision.challengeRefs.map((rawRef, index) => {
@@ -533,23 +547,23 @@ function renderSpatialPosition(position: SpatialPosition): OverPyExpression {
   return { __overPyExpression: `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})` };
 }
 
-function overPySpatialConfig(config: SpatialConfig): JsonObject {
-  return {
-    bastionPositions: config.bastionPositions.map(renderSpatialPosition),
-    resetPosition: renderSpatialPosition(config.resetPosition),
-    endPosition: renderSpatialPosition(config.endPosition),
-    thirdPersonPosition: renderSpatialPosition(config.thirdPersonPosition),
-    creditsPosition: renderSpatialPosition(config.creditsPosition),
-    control: config.control ? {
-      centerPositions: config.control.centerPositions.map(renderSpatialPosition),
-      jumpPositions: config.control.jumpPositions.map(renderSpatialPosition),
-      respawnPositions: config.control.respawnPositions.map(renderSpatialPosition),
-      respawnAxis: config.control.respawnAxis,
-      respawnAxisThreshold: config.control.respawnAxisThreshold
-    } : null,
-    portalPositions: config.portalPositions.map(renderSpatialPosition),
-    springboardPositions: config.springboardPositions.map(renderSpatialPosition)
-  };
+function overPySpatialConfig(config: SpatialConfig): unknown[] {
+  return [
+    config.bastionPositions.map(renderSpatialPosition),
+    renderSpatialPosition(config.resetPosition),
+    renderSpatialPosition(config.endPosition),
+    renderSpatialPosition(config.thirdPersonPosition),
+    renderSpatialPosition(config.creditsPosition),
+    config.control ? [
+      config.control.centerPositions.map(renderSpatialPosition),
+      config.control.jumpPositions.map(renderSpatialPosition),
+      config.control.respawnPositions.map(renderSpatialPosition),
+      config.control.respawnAxis,
+      config.control.respawnAxisThreshold
+    ] : null,
+    config.portalPositions.map(renderSpatialPosition),
+    config.springboardPositions.map(renderSpatialPosition)
+  ];
 }
 
 export function buildPlatformMapRevisionSource({ platformData }: { platformData: PlatformData }): PlatformMapRevisionSource {
@@ -563,6 +577,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
   const titleKeys = new Set(platformData.titles.map((item) => requireString(item.titleKey, 'titleKey')));
   validatePlatformAchievements(platformData, titleKeys, catalog);
   const holdersByRevision = new Map<string, PlatformMapRevisionSource['maps'][number]['revisions'][number]['titleHolders']>();
+  const holderIdentitiesByRevision = new Map<string, Set<string>>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
     const prefix = `mapTitleHolders[${index}]`;
     assertExactKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerId', 'playerName']);
@@ -579,6 +594,11 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
     const title = platformData.titles.find((candidate) => candidate.titleKey === titleKey && candidate.scope === 'map' && candidate.mapId === mapId);
     if (!title) throw new Error(`${prefix} references unknown map title ${mapId}/${titleKey}`);
     const holder = { titleKey, slot: item.slotSemantics === 'none' ? null : item.slot as 'pioneer' | 'conqueror' | 'dominator', slotSemantics: item.slotSemantics, playerId, playerName };
+    const identity = `${titleKey}:${holder.slot ?? 'classic'}:${playerName}`;
+    const identities = holderIdentitiesByRevision.get(gameplayRevisionId) ?? new Set<string>();
+    if (identities.has(identity)) throw new Error(`Duplicate map holder: ${mapId}/${gameplayRevisionId}/${identity}`);
+    identities.add(identity);
+    holderIdentitiesByRevision.set(gameplayRevisionId, identities);
     const current = holdersByRevision.get(gameplayRevisionId) ?? [];
     const duplicate = current.some((candidate) => candidate.titleKey === holder.titleKey && candidate.slot === holder.slot && candidate.playerId === holder.playerId);
     if (duplicate) throw new Error(`Duplicate map holder: ${mapId}/${gameplayRevisionId}/${titleKey}/${playerId}`);
@@ -603,28 +623,62 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
   };
 }
 
+function renderRevisionTitleHolders(holders: PlatformMapRevisionSource['maps'][number]['revisions'][number]['titleHolders']): string[][] {
+  const slots: Array<'pioneer' | 'conqueror' | 'dominator' | 'classic'> = ['pioneer', 'conqueror', 'dominator', 'classic'];
+  return slots.map((slot) => holders.filter((holder) => (holder.slotSemantics === 'none' ? 'classic' : holder.slot) === slot).map((holder) => holder.playerName));
+}
+
 export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource): string {
   const entries = source.maps.flatMap((map) => map.revisions.map((revision) => ({
-    mapId: map.mapId,
-    mapName: map.mapName,
-    gameplayRevisionId: revision.gameplayRevisionId,
-    mapVariant: revision.mapVariant,
-    lifecycle: revision.lifecycle,
-    isDefault: revision.isDefault,
-    isSelectable: revision.isSelectable,
-    gameVersion: revision.gameVersion,
-    spatialConfig: overPySpatialConfig(revision.spatialConfig),
-    challengeRefs: revision.challengeRefs.map((ref) => ref.challengeId),
-    titleHolders: revision.titleHolders
+    values: [
+      map.mapId,
+      map.mapName,
+      revision.gameplayRevisionId,
+      revision.mapVariant,
+      revision.lifecycle,
+      revision.enabled,
+      revision.isDefault,
+      revision.isSelectable,
+      revision.gameVersion,
+      overPySpatialConfig(revision.spatialConfig),
+      revision.challengeRefs.map((ref) => ref.challengeId),
+      renderRevisionTitleHolders(revision.titleHolders)
+    ]
   })));
   const lines = [
     '#!mainFile "../main.opy"',
     '',
     '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION DATA',
     '# Source: OWBastion Agents API',
+    '# Field order is stable; use the generated field macros instead of numeric literals.',
+    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_ID 0',
+    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_NAME 1',
+    '#!define PLATFORM_MAP_REVISION_FIELD_GAMEPLAY_REVISION_ID 2',
+    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_VARIANT 3',
+    '#!define PLATFORM_MAP_REVISION_FIELD_LIFECYCLE 4',
+    '#!define PLATFORM_MAP_REVISION_FIELD_ENABLED 5',
+    '#!define PLATFORM_MAP_REVISION_FIELD_IS_DEFAULT 6',
+    '#!define PLATFORM_MAP_REVISION_FIELD_IS_SELECTABLE 7',
+    '#!define PLATFORM_MAP_REVISION_FIELD_GAME_VERSION 8',
+    '#!define PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG 9',
+    '#!define PLATFORM_MAP_REVISION_FIELD_CHALLENGE_REFS 10',
+    '#!define PLATFORM_MAP_REVISION_FIELD_TITLE_HOLDERS 11',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_BASTION_POSITIONS 0',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_RESET_POSITION 1',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_END_POSITION 2',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_THIRD_PERSON_POSITION 3',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CREDITS_POSITION 4',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL 5',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS 6',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS 7',
+    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS 0',
+    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS 1',
+    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS 2',
+    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS 3',
+    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS_THRESHOLD 4',
     `#!define PLATFORM_MAP_REVISION_DATA [ \\`
   ];
-  entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
+  entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry.values)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
   lines.push(']');
   lines.push(`#!define PLATFORM_MAP_REVISION_CONTRACT_VERSION "${source.contractVersion}"`);
   lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA', '');
