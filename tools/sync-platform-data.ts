@@ -411,6 +411,12 @@ function mapKeyFromPlatformId(mapId: string): string {
   return `DATA_${mapId.slice(4).toUpperCase()}`;
 }
 
+function hasMapSource(mapId: string, mapSourceFiles: Array<{ file: string; content: string }>): boolean {
+  const mapKey = mapKeyFromPlatformId(mapId);
+  const revisionSourceMarker = `platformMapRevisionMapId = ${JSON.stringify(mapId)}`;
+  return mapSourceFiles.some(({ content }) => content.includes(mapKey) || content.includes(revisionSourceMarker));
+}
+
 function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
   const definitions = new Map<string, string>();
   for (const [index, item] of platformData.achievements.entries()) {
@@ -435,8 +441,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   const mapIds = new Set(platformData.maps.map((item) => requireString(item.mapId, 'mapId')));
   const mapLabels = new Map(platformData.maps.map((item) => [requireString(item.mapId, 'mapId'), requireString(item.mapName, 'mapName')]));
   for (const mapId of mapIds) {
-    const mapKey = mapKeyFromPlatformId(mapId);
-    if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
+    if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
   }
 
   const dynamicMapTitleDefinitions = collectDynamicMapTitleDefinitions(platformData, mapIds);
@@ -861,7 +866,7 @@ export function mergePlatformData({
 }) {
   const sourceMapKeys = new Set(titleSource.mapTitles.map((item) => requireString(item.mapKey, 'mapKey')));
   for (const mapKey of sourceMapKeys) {
-    if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
+    if (!hasMapSource(platformMapId(mapKey), mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKey}`);
   }
   const mapCatalog = validatePlatformMaps(platformData, titleSource);
   const mapIds = new Set(mapCatalog.maps.keys());
@@ -918,8 +923,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const mapIds = new Set(maps.map((item) => requireString(item.mapId, 'mapId')));
   const orderedMapIds = [...mapIds].sort();
   for (const mapId of mapIds) {
-    const mapKey = mapKeyFromPlatformId(mapId);
-    if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
+    if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
   }
   console.log('Platform sync: fetching achievements');
   const achievements = await client.fetchResource('achievements');

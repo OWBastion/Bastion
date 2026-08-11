@@ -190,6 +190,23 @@ test('builds player and map title generation input from public player names', ()
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
 });
 
+test('recognizes revision-aware map sources without legacy DATA macros', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{
+        ...platformData.maps[0],
+        mapId: 'map.paraiso',
+        mapName: 'Paraíso',
+        gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.paraiso:default', mapId: 'map.paraiso' }]
+      }]
+    },
+    mapSourceFiles: [{ file: 'paraiso.opy', content: 'platformMapRevisionMapId = "map.paraiso"' }]
+  });
+
+  assert.equal(source.mapTitles[0]?.mapKey, 'DATA_PARAISO');
+});
+
 test('maps the platform scoped CLASSIC title to the internal classic slot', () => {
   const source = buildPlatformTitleSource({
     platformData: {
