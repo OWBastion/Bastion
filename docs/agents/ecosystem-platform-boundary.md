@@ -32,7 +32,7 @@ The target system contains four repositories:
 
 ### Hard boundary
 
-`Bastion` owns the stable game definitions, OverPy implementations, generated data, and compilation. `owbastion.com` owns the current platform metadata for events, maps, achievements, and titles. Bastion reads that metadata through the Agents APIs when it runs its sync tool; the platform does not mutate Bastion source files or run Bastion builds.
+`Bastion` owns the stable game definitions, OverPy implementations, generated data, and compilation. `owbastion.com` owns the current platform metadata, gameplay-revision lifecycle, spatial configuration, challenge applicability, and progression facts. Bastion reads that metadata through the Agents APIs when it runs its sync tool; the platform does not mutate Bastion source files or run Bastion builds.
 
 No external service may silently mutate released game data or bypass repository CI.
 
@@ -42,7 +42,7 @@ The platform is authoritative for:
 
 - event names, weights, durations, and status;
 - title names, conditions, scope, and grants;
-- map metadata and challenge rules.
+- map metadata, revision lifecycle, spatial configuration, challenge applicability, and revision-scoped progression facts.
 
 This repository is authoritative for:
 
@@ -80,23 +80,37 @@ GET /v1/agents/player-title-grants
 GET /v1/agents/map-title-holders?mapId=...
 ```
 
+`/v1/agents/maps` is the revision-aware contract. Each map must expose exactly one
+`default` revision and may expose `selectable` revisions. `preparing` and
+`historical` revisions are intentionally omitted. A projected revision carries
+`gameplayRevisionId`, spatial data, and revision-scoped challenge references;
+map title holders carry the same revision ID and an explicit slot discriminator.
+
 `sync:platform-data` must:
 
 - fetch all pages and validate the response contract;
+- require `contractVersion` `1`, exactly one default revision per map, and only
+  default/selectable revisions;
+- validate finite spatial coordinates, control-point array cardinality, default
+  versus selectable semantics, revision-scoped challenge references, and holder
+  references before writing any generated file;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
-- generate player and map holder data from public player names; reject duplicate names or holders that do not have a corresponding active grant;
+- generate revision-scoped map/challenge/title-holder data deterministically;
+- generate player and map holder data from public player names; reject duplicate
+  names or holders without a valid active map-grant projection;
 - retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
 - treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only;
 - require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
-- update the existing generated data;
+- update the existing generated title data and
+  `src/constants/platform_map_revision_data.opy`;
 - compile the normal OverPy entries after the data sync succeeds.
 
-The platform supplies current metadata only. Administrators make the relevant
-data changes centrally when the version's content is determined, so this flow
-does not require a data lock, Draft, Candidate, `contentRevision`, or a
-build-consistency snapshot. It also does not add a Release API or a platform
-build task.
+The platform supplies the revision-aware metadata only. Administrators make
+revision and progression changes centrally; Bastion does not create revisions,
+copy player progress, or resolve platform lifecycle state in a hot loop. This
+flow does not add a Release API, a platform build task, runtime HTTP, or dynamic
+include generation.
 
 Generated files remain deterministic outputs of the sync and build inputs, not
 an independent platform source of truth.
@@ -109,7 +123,7 @@ Agents must preserve this flow:
 administrator determines current platform data
 → Bastion sync:platform-data
 → GET Agents current metadata
-→ stable ID, enum, and reference validation
+→ contract, revision, spatial, enum, and reference validation
 → generated-data synchronization
 → tests and OverPy compilation
 → normal Git review and release

@@ -66,6 +66,7 @@
 - 同步脚本：`tools/sync-platform-data.ts`
 - 生成目标：
   - `src/title/title-cn.opy` 的受管区块（`enum TITLE` / `player_database` / `allTitle`）
+  - `src/constants/platform_map_revision_data.opy` 的地图修订、空间配置、挑战引用和修订称号持有者区块
 
 `src/title/title-cn.opy` 中以下区块为自动生成，禁止手工直接维护：
 
@@ -73,7 +74,9 @@
 - `# BEGIN/END AUTO-GENERATED TITLE PLAYER DATABASE`
 - `# BEGIN/END AUTO-GENERATED ALL_TITLE`
 
-地图称号映射由平台地图称号持有者 API 返回，并由同步脚本自动生成到 `title-cn.opy`。
+地图称号映射由平台地图称号持有者 API 返回，并由同步脚本按 `gameplayRevisionId` 校验；旧的默认地图称号区块继续生成到 `title-cn.opy`，完整修订范围数据生成到 `platform_map_revision_data.opy`。
+
+地图修订数据必须先通过默认/可选生命周期、空间坐标、挑战引用和持有者引用校验，之后才允许写入生成文件或进入 main/dev 编译。历史和准备中修订不会进入该生成文件。
 
 ## 维护要点
 

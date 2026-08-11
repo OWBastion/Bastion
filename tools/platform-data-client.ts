@@ -44,8 +44,13 @@ const RESOURCE_ID_FIELDS: Record<PlatformDataResource, ResourceIdField> = {
 
 function itemIdentity(resource: PlatformDataResource, item: PlatformDataItem): string {
   const id = String(item[RESOURCE_ID_FIELDS[resource]]);
-  if (resource === 'achievements' && item.family === 'map' && typeof item.mapId === 'string' && item.mapId.trim() !== '') {
-    return `${id}:${item.mapId}`;
+  if (resource === 'achievements' && item.family === 'map') {
+    if (typeof item.mapId === 'string' && item.mapId.trim() !== '' && typeof item.gameplayRevisionId === 'string' && item.gameplayRevisionId.trim() !== '') {
+      return `${id}:${item.mapId}:${item.gameplayRevisionId}`;
+    }
+    if (typeof item.mapId === 'string' && item.mapId.trim() !== '') {
+      return `${id}:${item.mapId}`;
+    }
   }
   return id;
 }
@@ -235,7 +240,7 @@ export class PlatformDataClient {
 
   async fetchMapTitleHolders(mapId: string): Promise<PlatformDataItem[]> {
     const query = new URLSearchParams({ mapId });
-    return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.slot)}:${String(item.playerName)}`);
+    return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.gameplayRevisionId)}:${String(item.titleKey)}:${String(item.slot)}:${String(item.playerId)}:${String(item.playerName)}`);
   }
 
   async fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {

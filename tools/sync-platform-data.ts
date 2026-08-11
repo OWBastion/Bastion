@@ -19,6 +19,7 @@ const ROOT = path.resolve(__dirname, '..');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
 const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
+const MAP_REVISION_DATA_FILE = path.join(ROOT, 'src/constants/platform_map_revision_data.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
 const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
@@ -49,6 +50,66 @@ type TitleSource = JsonObject & {
 type EventType = 'buff' | 'debuff' | 'mech';
 type EventMacros = { id: string | number; duration: string; weight: string };
 type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
+type SpatialPosition = [number, number, number];
+type OverPyExpression = { __overPyExpression: string };
+type SpatialConfig = {
+  bastionPositions: SpatialPosition[];
+  resetPosition: SpatialPosition;
+  endPosition: SpatialPosition;
+  thirdPersonPosition: SpatialPosition;
+  creditsPosition: SpatialPosition;
+  control: {
+    centerPositions: SpatialPosition[];
+    jumpPositions: SpatialPosition[];
+    respawnPositions: SpatialPosition[];
+    respawnAxis: 'x' | 'y' | 'z' | null;
+    respawnAxisThreshold: number | null;
+  } | null;
+  portalPositions: SpatialPosition[];
+  springboardPositions: SpatialPosition[];
+};
+type ValidatedGameplayRevision = {
+  gameplayRevisionId: string;
+  mapId: string;
+  mapVariant: 'classic' | null;
+  lifecycle: 'default' | 'selectable';
+  enabled: true;
+  isDefault: boolean;
+  isSelectable: boolean;
+  gameVersion: string;
+  spatialConfig: SpatialConfig;
+  challengeRefs: Array<{ family: 'map'; challengeId: string }>;
+};
+type ValidatedPlatformMap = {
+  mapId: string;
+  mapName: string;
+  gameVersion: string;
+  difficultyRating: string | null;
+  mechanics: string[];
+  coverUrl: string | null;
+  backgroundUrl: string | null;
+  gameplayRevisions: ValidatedGameplayRevision[];
+};
+type ValidatedMapCatalog = {
+  maps: Map<string, ValidatedPlatformMap>;
+  revisions: Map<string, ValidatedGameplayRevision>;
+};
+export type PlatformMapRevisionSource = {
+  contractVersion: typeof PLATFORM_DATA_CONTRACT_VERSION;
+  maps: Array<{
+    mapId: string;
+    mapName: string;
+    revisions: Array<ValidatedGameplayRevision & {
+      titleHolders: Array<{
+        titleKey: string;
+        slot: 'pioneer' | 'conqueror' | 'dominator' | null;
+        slotSemantics: 'named' | 'none';
+        playerId: string;
+        playerName: string;
+      }>;
+    }>;
+  }>;
+};
 
 export type PlatformSyncOptions = PlatformDataClientOptions & {
   build?: boolean;
@@ -82,7 +143,87 @@ function assertUnique(values: string[], label: string) {
   }
 }
 
-function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set<string>, mapIds: Set<string>) {
+function assertExactKeys(value: unknown, label: string, expectedKeys: string[]) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
+  const actualKeys = Object.keys(value).sort();
+  const expected = [...expectedKeys].sort();
+  if (actualKeys.length !== expected.length || actualKeys.some((key, index) => key !== expected[index])) {
+    throw new Error(`${label} has an invalid shape; expected keys ${expected.join(', ')}`);
+  }
+}
+
+function validateSpatialPosition(value: unknown, label: string): SpatialPosition {
+  if (!Array.isArray(value) || value.length !== 3 || value.some((part) => typeof part !== 'number' || !Number.isFinite(part))) {
+    throw new Error(`${label} must be a finite 3D coordinate`);
+  }
+  return value as SpatialPosition;
+}
+
+function validateSpatialPositions(value: unknown, label: string, required: boolean): SpatialPosition[] {
+  if (!Array.isArray(value) || value.length > 128 || (required && value.length < 1)) {
+    throw new Error(`${label} must contain ${required ? 'one or more and ' : ''}at most 128 coordinates`);
+  }
+  return value.map((position, index) => validateSpatialPosition(position, `${label}[${index}]`));
+}
+
+function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
+  assertExactKeys(value, label, ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions']);
+  const config = value as Record<string, unknown>;
+  let control: SpatialConfig['control'] = null;
+  if (config.control !== null) {
+    assertExactKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
+    const rawControl = config.control as Record<string, unknown>;
+    const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, true);
+    const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, true);
+    const respawnPositions = validateSpatialPositions(rawControl.respawnPositions, `${label}.control.respawnPositions`, true);
+    if (centerPositions.length !== respawnPositions.length || jumpPositions.length !== respawnPositions.length) throw new Error(`${label}.control position arrays must have matching lengths`);
+    const respawnAxis = rawControl.respawnAxis;
+    if (respawnAxis !== null && respawnAxis !== 'x' && respawnAxis !== 'y' && respawnAxis !== 'z') throw new Error(`${label}.control.respawnAxis has an unsupported value`);
+    const threshold = rawControl.respawnAxisThreshold;
+    if (threshold !== null && (typeof threshold !== 'number' || !Number.isFinite(threshold) || threshold < 0)) throw new Error(`${label}.control.respawnAxisThreshold must be a non-negative finite number or null`);
+    if ((respawnAxis === null) !== (threshold === null)) throw new Error(`${label}.control axis and threshold must be provided together`);
+    control = { centerPositions, jumpPositions, respawnPositions, respawnAxis, respawnAxisThreshold: threshold };
+  }
+  return {
+    bastionPositions: validateSpatialPositions(config.bastionPositions, `${label}.bastionPositions`, true),
+    resetPosition: validateSpatialPosition(config.resetPosition, `${label}.resetPosition`),
+    endPosition: validateSpatialPosition(config.endPosition, `${label}.endPosition`),
+    thirdPersonPosition: validateSpatialPosition(config.thirdPersonPosition, `${label}.thirdPersonPosition`),
+    creditsPosition: validateSpatialPosition(config.creditsPosition, `${label}.creditsPosition`),
+    control,
+    portalPositions: validateSpatialPositions(config.portalPositions, `${label}.portalPositions`, false),
+    springboardPositions: validateSpatialPositions(config.springboardPositions, `${label}.springboardPositions`, false)
+  };
+}
+
+function validateGameplayRevision(value: unknown, mapId: string, label: string): ValidatedGameplayRevision {
+  assertExactKeys(value, label, ['gameplayRevisionId', 'mapId', 'mapVariant', 'lifecycle', 'enabled', 'isDefault', 'isSelectable', 'gameVersion', 'spatialConfig', 'challengeRefs']);
+  const revision = value as Record<string, unknown>;
+  const gameplayRevisionId = requireString(revision.gameplayRevisionId, `${label}.gameplayRevisionId`);
+  if (requireString(revision.mapId, `${label}.mapId`) !== mapId) throw new Error(`${label}.mapId does not match ${mapId}`);
+  if (revision.mapVariant !== null && revision.mapVariant !== 'classic') throw new Error(`${label}.mapVariant has an unsupported value`);
+  if (revision.lifecycle !== 'default' && revision.lifecycle !== 'selectable') throw new Error(`${label}.lifecycle must be default or selectable`);
+  if (revision.enabled !== true || typeof revision.isDefault !== 'boolean' || typeof revision.isSelectable !== 'boolean') throw new Error(`${label} has invalid enabled/default/selectable flags`);
+  if (revision.lifecycle === 'default' && (revision.isDefault !== true || revision.isSelectable !== false || revision.mapVariant === 'classic')) throw new Error(`${label} has invalid default revision semantics`);
+  if (revision.lifecycle === 'selectable' && (revision.isDefault !== false || revision.isSelectable !== true)) throw new Error(`${label} has invalid selectable revision semantics`);
+  const gameVersion = requireString(revision.gameVersion, `${label}.gameVersion`);
+  const spatialConfig = validateSpatialConfig(revision.spatialConfig, `${label}.spatialConfig`);
+  if (!Array.isArray(revision.challengeRefs) || revision.challengeRefs.length > 256) throw new Error(`${label}.challengeRefs must contain at most 256 references`);
+  const challengeIds = new Set<string>();
+  const challengeRefs = revision.challengeRefs.map((rawRef, index) => {
+    const refLabel = `${label}.challengeRefs[${index}]`;
+    assertExactKeys(rawRef, refLabel, ['family', 'challengeId']);
+    const ref = rawRef as Record<string, unknown>;
+    if (ref.family !== 'map') throw new Error(`${refLabel}.family must be map`);
+    const challengeId = requireString(ref.challengeId, `${refLabel}.challengeId`);
+    if (challengeIds.has(challengeId)) throw new Error(`Duplicate challenge reference ${mapId}/${gameplayRevisionId}/${challengeId}`);
+    challengeIds.add(challengeId);
+    return { family: 'map' as const, challengeId };
+  }).sort((left, right) => left.challengeId.localeCompare(right.challengeId));
+  return { gameplayRevisionId, mapId, mapVariant: revision.mapVariant, lifecycle: revision.lifecycle, enabled: true, isDefault: revision.isDefault, isSelectable: revision.isSelectable, gameVersion, spatialConfig, challengeRefs };
+}
+
+function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set<string>, catalog: ValidatedMapCatalog) {
   const challengeIds = new Set<string>();
   const challengeIdentities = new Set<string>();
   for (const [index, item] of platformData.achievements.entries()) {
@@ -98,14 +239,18 @@ function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set
       }
     } else if (item.family === 'map' && item.type === 'map_completion' && item.kind === 'map_title_achievement') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
-      if (!mapIds.has(mapId)) throw new Error(`${prefix} references unknown map ${mapId}`);
+      const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`);
+      const revision = catalog.revisions.get(gameplayRevisionId);
+      if (!revision || revision.mapId !== mapId) throw new Error(`${prefix} references unknown map revision ${mapId}/${gameplayRevisionId}`);
+      if (item.mapVariant !== undefined && item.mapVariant !== revision.mapVariant) throw new Error(`${prefix}.mapVariant disagrees with ${gameplayRevisionId}`);
+      if (item.gameVersion !== revision.gameVersion) throw new Error(`${prefix}.gameVersion disagrees with ${gameplayRevisionId}`);
       const rule = item.mapTitleRule;
       if (item.mapVariant === 'classic') {
         if (titleKey !== 'CLASSIC') throw new Error(`${prefix}.mapVariant classic must reference CLASSIC`);
       } else if (!rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
         throw new Error(`${prefix} has an invalid dynamic map title rule`);
       }
-      const challengeIdentity = `${challengeId}:${mapId}`;
+      const challengeIdentity = `${challengeId}:${mapId}:${gameplayRevisionId}`;
       if (challengeIdentities.has(challengeIdentity)) throw new Error(`Duplicate challengeId: ${challengeId}`);
       challengeIdentities.add(challengeIdentity);
     } else {
@@ -117,6 +262,15 @@ function validatePlatformAchievements(platformData: PlatformData, titleKeys: Set
     }
     challengeIds.add(challengeId);
   }
+  for (const revision of catalog.revisions.values()) {
+    for (const challengeRef of revision.challengeRefs) {
+      const referenced = platformData.achievements.some((item) => item.family === 'map'
+        && item.mapId === revision.mapId
+        && item.gameplayRevisionId === revision.gameplayRevisionId
+        && item.challengeId === challengeRef.challengeId);
+      if (!referenced) throw new Error(`Map revision ${revision.mapId}/${revision.gameplayRevisionId} references unknown challenge ${challengeRef.challengeId}`);
+    }
+  }
   return challengeIds;
 }
 
@@ -125,6 +279,8 @@ function validatePlatformMaps(platformData: PlatformData, titleSource: TitleSour
   const mapIds = new Set<string>();
   const mapKeyById = new Map<string, string>();
   const platformMapIds = new Set<string>();
+  const maps = new Map<string, ValidatedPlatformMap>();
+  const revisions = new Map<string, ValidatedGameplayRevision>();
   for (const mapKey of sourceMapKeys) {
     const id = platformMapId(mapKey);
     mapIds.add(id);
@@ -141,17 +297,35 @@ function validatePlatformMaps(platformData: PlatformData, titleSource: TitleSour
     if (item.difficultyRating !== null && !MAP_DIFFICULTIES.has(item.difficultyRating)) {
       throw new Error(`${prefix}.difficultyRating has an unsupported value`);
     }
-    if (!Array.isArray(item.mechanics) || item.mechanics.some((value: unknown) => typeof value !== 'string' || value.trim() === '')) {
+    if (!Array.isArray(item.mechanics) || item.mechanics.length > 16 || item.mechanics.some((value: unknown) => typeof value !== 'string' || value.trim() === '')) {
       throw new Error(`${prefix}.mechanics must contain non-empty strings`);
     }
     for (const field of ['coverUrl', 'backgroundUrl']) {
-      if (item[field] !== null && typeof item[field] !== 'string') throw new Error(`${prefix}.${field} must be a string or null`);
+      if (item[field] !== null && (typeof item[field] !== 'string' || !/^https?:\/\//.test(item[field]))) throw new Error(`${prefix}.${field} must be a valid URL or null`);
     }
     if (!mapKeyById.has(mapId)) throw new Error(`${prefix} references unknown Bastion map ${mapId}`);
+    if (!Array.isArray(item.gameplayRevisions) || item.gameplayRevisions.length > 32) throw new Error(`${prefix}.gameplayRevisions must contain at most 32 revisions`);
+    const gameplayRevisions = item.gameplayRevisions.map((revision, revisionIndex) => validateGameplayRevision(revision, mapId, `${prefix}.gameplayRevisions[${revisionIndex}]`));
+    const defaultRevisions = gameplayRevisions.filter((revision) => revision.isDefault);
+    if (defaultRevisions.length !== 1) throw new Error(`${prefix}.gameplayRevisions must contain exactly one default revision`);
+    for (const revision of gameplayRevisions) {
+      if (revisions.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
+      revisions.set(revision.gameplayRevisionId, revision);
+    }
+    maps.set(mapId, {
+      mapId,
+      mapName: requireString(item.mapName, `${prefix}.mapName`),
+      gameVersion: requireString(item.gameVersion, `${prefix}.gameVersion`),
+      difficultyRating: item.difficultyRating as string | null,
+      mechanics: item.mechanics as string[],
+      coverUrl: item.coverUrl as string | null,
+      backgroundUrl: item.backgroundUrl as string | null,
+      gameplayRevisions
+    });
     mapIds.delete(mapId);
   }
   if (mapIds.size) throw new Error(`Platform maps are missing Bastion maps: ${[...mapIds].join(', ')}`);
-  return new Set(platformData.maps.map((item) => requireString(item.mapId, 'mapId')));
+  return { maps, revisions } satisfies ValidatedMapCatalog;
 }
 
 function validateAndMergeTitles(platformData: PlatformData, titleSource: TitleSource, mapIds: Set<string>) {
@@ -236,7 +410,8 @@ function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: S
       throw new Error(`${prefix} has an invalid dynamic map title rule`);
     }
     const key = `${mapId}:${titleKey}`;
-    if (definitions.has(key)) throw new Error(`Duplicate dynamic map title definition: ${key}`);
+    const previous = definitions.get(key);
+    if (previous !== undefined && previous !== rule.slot) throw new Error(`Inconsistent dynamic map title definition: ${key}`);
     definitions.set(key, rule.slot);
   }
   return definitions;
@@ -299,27 +474,161 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (players.has(playerName)) throw new Error(`Duplicate player name: ${playerName}`);
     players.set(playerName, { name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
   }
+  const revisionsById = new Map<string, ValidatedGameplayRevision>();
+  const defaultRevisionByMap = new Map<string, string>();
+  for (const map of platformData.maps) {
+    const mapId = requireString(map.mapId, 'mapId');
+    if (!Array.isArray(map.gameplayRevisions)) throw new Error(`maps.${mapId}.gameplayRevisions must be an array`);
+    const revisions = map.gameplayRevisions.map((revision, index) => validateGameplayRevision(revision, mapId, `maps.${mapId}.gameplayRevisions[${index}]`));
+    if (revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
+    for (const revision of revisions) {
+      if (revisionsById.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
+      revisionsById.set(revision.gameplayRevisionId, revision);
+      if (revision.isDefault) defaultRevisionByMap.set(mapId, revision.gameplayRevisionId);
+    }
+  }
+  const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
+  for (const [index, item] of platformData.mapTitleHolders.entries()) {
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`); const playerName = requireString(item.playerName, `${prefix}.playerName`); requireString(item.playerId, `${prefix}.playerId`); const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const revision = revisionsById.get(gameplayRevisionId);
+    const slot = item.slotSemantics === 'named'
+      ? requireString(item.slot, `${prefix}.slot`)
+      : item.slotSemantics === 'none' && item.slot === null && titleKey === 'CLASSIC'
+        ? 'classic'
+        : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
+    if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !mapTitleMetadata.has(`${mapId}:${titleKey}`)) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
+    const player = players.get(playerName);
+    if (player?.allTitles !== true) {
+      if (!player) players.set(playerName, { name: playerName, titleKeys: [titleKey], allTitles: false });
+      else if (Array.isArray(player.titleKeys) && !player.titleKeys.includes(titleKey)) player.titleKeys.push(titleKey);
+    }
+    if (defaultRevisionByMap.get(mapId) !== gameplayRevisionId) continue;
+    const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
+    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
+  }
   const titleIds = new Map([...titleRecords.keys()].map((key, index) => [key, index]));
   const normalizedPlayers = [...players.values()].sort((left, right) => String(left.name).localeCompare(String(right.name))).map((player) => {
     if (!Array.isArray(player.titleKeys) || player.titleKeys.some((key: unknown) => typeof key !== 'string' || !titleRecords.has(key))) throw new Error(`Invalid titleKeys for player ${player.name}`);
     return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
   });
-  const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
-  for (const [index, item] of platformData.mapTitleHolders.entries()) {
-    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const playerName = requireString(item.playerName, `${prefix}.playerName`);
-    const slot = item.slotSemantics === 'named'
-      ? requireString(item.slot, `${prefix}.slot`)
-      : item.slotSemantics === 'none' && item.slot === null && item.titleKey === 'CLASSIC'
-        ? 'classic'
-        : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
-    if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !players.has(playerName)) throw new Error(`${prefix} has an invalid map, slot or player reference`);
-    const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
-    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
-  }
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
   for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
   const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
+}
+
+function renderInlineOverPyValue(value: unknown): string {
+  if (value === null) return 'null';
+  if (value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 1 && '__overPyExpression' in value) return String((value as OverPyExpression).__overPyExpression);
+  if (typeof value === 'string') return JSON.stringify(value);
+  if (typeof value === 'number' || typeof value === 'boolean') return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map((item) => renderInlineOverPyValue(item)).join(', ')}]`;
+  if (value && typeof value === 'object') {
+    return `{${Object.entries(value as Record<string, unknown>).map(([key, item]) => `${key}: ${renderInlineOverPyValue(item)}`).join(', ')}}`;
+  }
+  throw new Error(`Unable to render unsupported platform revision value: ${String(value)}`);
+}
+
+function renderSpatialPosition(position: SpatialPosition): OverPyExpression {
+  return { __overPyExpression: `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})` };
+}
+
+function overPySpatialConfig(config: SpatialConfig): JsonObject {
+  return {
+    bastionPositions: config.bastionPositions.map(renderSpatialPosition),
+    resetPosition: renderSpatialPosition(config.resetPosition),
+    endPosition: renderSpatialPosition(config.endPosition),
+    thirdPersonPosition: renderSpatialPosition(config.thirdPersonPosition),
+    creditsPosition: renderSpatialPosition(config.creditsPosition),
+    control: config.control ? {
+      centerPositions: config.control.centerPositions.map(renderSpatialPosition),
+      jumpPositions: config.control.jumpPositions.map(renderSpatialPosition),
+      respawnPositions: config.control.respawnPositions.map(renderSpatialPosition),
+      respawnAxis: config.control.respawnAxis,
+      respawnAxisThreshold: config.control.respawnAxisThreshold
+    } : null,
+    portalPositions: config.portalPositions.map(renderSpatialPosition),
+    springboardPositions: config.springboardPositions.map(renderSpatialPosition)
+  };
+}
+
+export function buildPlatformMapRevisionSource({ platformData }: { platformData: PlatformData }): PlatformMapRevisionSource {
+  const syntheticTitleSource = {
+    meta: { sourceLabel: 'platform-map-revision-validation' },
+    titles: [],
+    players: [],
+    mapTitles: platformData.maps.map((map) => ({ mapKey: mapKeyFromPlatformId(requireString(map.mapId, 'mapId')) }))
+  } as TitleSource;
+  const catalog = validatePlatformMaps(platformData, syntheticTitleSource);
+  const titleKeys = new Set(platformData.titles.map((item) => requireString(item.titleKey, 'titleKey')));
+  validatePlatformAchievements(platformData, titleKeys, catalog);
+  const holdersByRevision = new Map<string, PlatformMapRevisionSource['maps'][number]['revisions'][number]['titleHolders']>();
+  for (const [index, item] of platformData.mapTitleHolders.entries()) {
+    const prefix = `mapTitleHolders[${index}]`;
+    assertExactKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerId', 'playerName']);
+    const mapId = requireString(item.mapId, `${prefix}.mapId`);
+    const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`);
+    const revision = catalog.revisions.get(gameplayRevisionId);
+    const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const playerId = requireString(item.playerId, `${prefix}.playerId`);
+    const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    if (!revision || revision.mapId !== mapId) throw new Error(`${prefix} references unknown map revision ${mapId}/${gameplayRevisionId}`);
+    if (item.slotSemantics !== 'named' && item.slotSemantics !== 'none') throw new Error(`${prefix}.slotSemantics has an unsupported value`);
+    if (item.slotSemantics === 'named' && !['pioneer', 'conqueror', 'dominator'].includes(String(item.slot))) throw new Error(`${prefix} has an invalid named slot`);
+    if (item.slotSemantics === 'none' && (item.slot !== null || titleKey !== 'CLASSIC')) throw new Error(`${prefix} has an invalid none slot reference`);
+    const title = platformData.titles.find((candidate) => candidate.titleKey === titleKey && candidate.scope === 'map' && candidate.mapId === mapId);
+    if (!title) throw new Error(`${prefix} references unknown map title ${mapId}/${titleKey}`);
+    const holder = { titleKey, slot: item.slotSemantics === 'none' ? null : item.slot as 'pioneer' | 'conqueror' | 'dominator', slotSemantics: item.slotSemantics, playerId, playerName };
+    const current = holdersByRevision.get(gameplayRevisionId) ?? [];
+    const duplicate = current.some((candidate) => candidate.titleKey === holder.titleKey && candidate.slot === holder.slot && candidate.playerId === holder.playerId);
+    if (duplicate) throw new Error(`Duplicate map holder: ${mapId}/${gameplayRevisionId}/${titleKey}/${playerId}`);
+    current.push(holder);
+    holdersByRevision.set(gameplayRevisionId, current);
+  }
+  return {
+    contractVersion: PLATFORM_DATA_CONTRACT_VERSION,
+    maps: [...catalog.maps.values()].sort((left, right) => left.mapId.localeCompare(right.mapId)).map((map) => ({
+      mapId: map.mapId,
+      mapName: map.mapName,
+      revisions: map.gameplayRevisions
+        .slice()
+        .sort((left, right) => Number(right.isDefault) - Number(left.isDefault) || left.gameplayRevisionId.localeCompare(right.gameplayRevisionId))
+        .map((revision) => ({
+          ...revision,
+          spatialConfig: revision.spatialConfig,
+          challengeRefs: revision.challengeRefs.slice().sort((left, right) => left.challengeId.localeCompare(right.challengeId)),
+          titleHolders: (holdersByRevision.get(revision.gameplayRevisionId) ?? []).slice().sort((left, right) => left.titleKey.localeCompare(right.titleKey) || String(left.slot).localeCompare(String(right.slot)) || left.playerId.localeCompare(right.playerId) || left.playerName.localeCompare(right.playerName))
+        }))
+    }))
+  };
+}
+
+export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource): string {
+  const entries = source.maps.flatMap((map) => map.revisions.map((revision) => ({
+    mapId: map.mapId,
+    mapName: map.mapName,
+    gameplayRevisionId: revision.gameplayRevisionId,
+    mapVariant: revision.mapVariant,
+    lifecycle: revision.lifecycle,
+    isDefault: revision.isDefault,
+    isSelectable: revision.isSelectable,
+    gameVersion: revision.gameVersion,
+    spatialConfig: overPySpatialConfig(revision.spatialConfig),
+    challengeRefs: revision.challengeRefs.map((ref) => ref.challengeId),
+    titleHolders: revision.titleHolders
+  })));
+  const lines = [
+    '#!mainFile "../main.opy"',
+    '',
+    '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION DATA',
+    '# Source: OWBastion Agents API',
+    `#!define PLATFORM_MAP_REVISION_DATA [ \\`
+  ];
+  entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
+  lines.push(']');
+  lines.push(`#!define PLATFORM_MAP_REVISION_CONTRACT_VERSION "${source.contractVersion}"`);
+  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA', '');
+  return `${lines.join('\n')}\n`;
 }
 
 function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
@@ -500,14 +809,16 @@ export function mergePlatformData({
   for (const mapKey of sourceMapKeys) {
     if (!mapSourceFiles.some(({ content }) => content.includes(mapKey))) throw new Error(`Unable to find map source for ${mapKey}`);
   }
-  const mapIds = validatePlatformMaps(platformData, titleSource);
+  const mapCatalog = validatePlatformMaps(platformData, titleSource);
+  const mapIds = new Set(mapCatalog.maps.keys());
   const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
-  const challengeIds = validatePlatformAchievements(platformData, titleKeys, mapIds);
+  const challengeIds = validatePlatformAchievements(platformData, titleKeys, mapCatalog);
   const mergedTitles = validateAndMergeTitles(platformData, titleSource, mapIds);
   const mergedMapTitles = validateAndMergeMaps(platformData, titleSource);
   const mergedEvents = validateAndMergeEvents(platformData, platformEventIds, challengeIds, eventEntries);
   return {
     titleSource: { ...titleSource, titles: mergedTitles, mapTitles: mergedMapTitles },
+    mapRevisionSource: buildPlatformMapRevisionSource({ platformData }),
     eventEntries: mergedEvents,
     counts: {
       events: platformData.events.length,
@@ -576,23 +887,23 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   }
   const titleData = { ...emptyData(), maps, achievements, titles, playerTitleGrants, mapTitleHolders };
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
-  const titleKeys = new Set(titleSource.titles.map((item) => requireString(item.key, 'title.key')));
-  await syncTitleData({ sourceData: titleSource });
 
   console.log('Platform sync: fetching events');
-  const achievementData = { ...emptyData(), achievements, titles };
-  const challengeIds = validatePlatformAchievements(achievementData, titleKeys, mapIds);
-
   const events = await client.fetchResource('events');
   console.log(`Platform sync: fetched ${achievements.length} achievements and ${events.length} events`);
-  const eventData = { ...emptyData(), events, achievements };
-  const validatedEventEntries = validateAndMergeEvents(eventData, platformEventIds, challengeIds, eventEntries);
+  const platformData = { ...titleData, events };
+  const merged = mergePlatformData({ platformData, titleSource, eventEntries, platformEventIds, mapSourceFiles });
+  const mapRevisionSource = merged.mapRevisionSource;
+  const eventData = { ...emptyData(), events, achievements, titles };
+  const validatedEventEntries = merged.eventEntries;
   const platformEventData = mergePlatformEventOverPyData({
     platformData: eventData,
     eventEntries: validatedEventEntries,
     constantsSource,
     localeSource
   });
+  await syncTitleData({ sourceData: merged.titleSource });
+  await fs.writeFile(MAP_REVISION_DATA_FILE, renderPlatformMapRevisionData(mapRevisionSource), 'utf8');
   await fs.writeFile(EVENT_CONSTANTS_FILE, platformEventData.constantsSource, 'utf8');
   await fs.writeFile(ZH_LOCALE_FILE, platformEventData.localeSource, 'utf8');
   await fs.writeFile(EVENT_MANIFEST_FILE, renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)), 'utf8');
