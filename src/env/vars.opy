@@ -87,6 +87,7 @@ globalvar platformMapRevisionId
 globalvar platformMapRevisionChallengeRefs
 globalvar platformMapRevisionLoaded
 globalvar platformMapRevisionDataError
+globalvar masteryRunCode
 
 #Player variables
 

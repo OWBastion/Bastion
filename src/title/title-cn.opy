@@ -174,7 +174,7 @@ enum MapTITLEKey:
 
 # 南极半岛
 #!define DATA_ANTARCTIC_PENINSULA [ \
-   playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    []\
@@ -209,7 +209,7 @@ enum MapTITLEKey:
    playerNameToIndexDelimited(["他又"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
 ]
 
 # 斗兽场
@@ -223,8 +223,8 @@ enum MapTITLEKey:
 # 多拉多
 #!define DATA_DORADO [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -249,7 +249,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
 ]
 
 # 花冈
@@ -385,7 +385,7 @@ enum MapTITLEKey:
    [], \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "八月八月八", "训犬大师"], "-")\
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")\
 ]
 
 # 里阿尔托

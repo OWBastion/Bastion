@@ -7,6 +7,7 @@ rule "map - eichenwalde":
     @Condition (__currentMap___ == Map.EICHENWALDE or __currentMap___ == 565) == true
     @Condition platformMapRevisionLoaded == false
 
+    masteryRunCode = ""
     platformMapRevisionMapId = "map.eichenwalde"
     platformMapRevisionVariant = "classic" if __currentMap___ == 565 else null
     applyPlatformMapRevision()

@@ -7,6 +7,7 @@ rule "map - 釜山":
     @Condition __currentMap___ == Map.BUSAN
     @Condition platformMapRevisionLoaded == false
 
+    masteryRunCode = ""
     platformMapRevisionMapId = "map.busan"
     platformMapRevisionVariant = null
     applyPlatformMapRevision()

@@ -56,6 +56,7 @@ rule "Initialize global variables":
     maxDeath = 5 * difficulty
     savedIndex = []
     savedData = [[], [], [], [], [], [], []]
+    masteryRunCode = ""
     globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
@@ -71,6 +72,7 @@ rule "Initialize global variables":
     platformMapRevisionChallengeRefs = []
     platformMapRevisionLoaded = false
     platformMapRevisionDataError = false
+    masteryRunCode = "{0}-{1}-{2}".format(random.randint(1000, 9999), random.randint(1000, 9999), random.randint(1000, 9999))
 
 rule "Update targetPlayer when player left":
     @Event playerLeft

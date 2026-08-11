@@ -7,6 +7,7 @@ rule "map - paraiso":
     @Condition __currentMap___ == Map.PARAISO
     @Condition platformMapRevisionLoaded == false
 
+    masteryRunCode = ""
     platformMapRevisionMapId = "map.paraiso"
     platformMapRevisionVariant = null
     applyPlatformMapRevision()
