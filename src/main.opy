@@ -32,6 +32,9 @@ settings {
         "skirmish": {
             "disabledMaps": [
                 "kingsRow",
+                "busan",
+                "eichenwalde",
+                "paraiso",
                 "workshopChamber",
                 "workshopIsland",
                 "workshopIslandNight",
