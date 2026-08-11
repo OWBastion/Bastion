@@ -339,6 +339,11 @@ test('generates deterministic revision-scoped map data for default and selectabl
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
 
+test('accepts an unmigrated map with an empty revision projection', () => {
+  const result = merge({ maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] });
+  assert.deepEqual(result.mapRevisionSource.maps[0]?.revisions, []);
+});
+
 test('validates the migrated Busan control-map shape before generation', () => {
   const busanRevision = {
     ...defaultGameplayRevision,

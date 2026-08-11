@@ -321,7 +321,7 @@ function validatePlatformMaps(platformData: PlatformData, titleSource: TitleSour
     if (!Array.isArray(item.gameplayRevisions) || item.gameplayRevisions.length > 32) throw new Error(`${prefix}.gameplayRevisions must contain at most 32 revisions`);
     const gameplayRevisions = item.gameplayRevisions.map((revision, revisionIndex) => validateGameplayRevision(revision, mapId, `${prefix}.gameplayRevisions[${revisionIndex}]`));
     const defaultRevisions = gameplayRevisions.filter((revision) => revision.isDefault);
-    if (defaultRevisions.length !== 1) throw new Error(`${prefix}.gameplayRevisions must contain exactly one default revision`);
+    if (gameplayRevisions.length > 0 && defaultRevisions.length !== 1) throw new Error(`${prefix}.gameplayRevisions must contain exactly one default revision`);
     for (const revision of gameplayRevisions) {
       if (revisions.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
       revisions.set(revision.gameplayRevisionId, revision);
@@ -499,7 +499,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const mapId = requireString(map.mapId, 'mapId');
     if (!Array.isArray(map.gameplayRevisions)) throw new Error(`maps.${mapId}.gameplayRevisions must be an array`);
     const revisions = map.gameplayRevisions.map((revision, index) => validateGameplayRevision(revision, mapId, `maps.${mapId}.gameplayRevisions[${index}]`));
-    if (revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
+    if (revisions.length > 0 && revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
     for (const revision of revisions) {
       if (revisionsById.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
       revisionsById.set(revision.gameplayRevisionId, revision);
