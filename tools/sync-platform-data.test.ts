@@ -344,6 +344,29 @@ test('accepts an unmigrated map with an empty revision projection', () => {
   assert.deepEqual(result.mapRevisionSource.maps[0]?.revisions, []);
 });
 
+test('accepts the same title key across map projections when presentation agrees', () => {
+  const secondMap = { ...platformData.maps[0], mapId: 'map.second_map', mapName: '第二地图', gameplayRevisions: [] };
+  const firstTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] };
+  const secondTitle = { ...firstTitle, mapId: 'map.second_map' };
+  const result = mergePlatformData({
+    platformData: { ...platformData, maps: [platformData.maps[0], secondMap], titles: [firstTitle, secondTitle] },
+    titleSource: {
+      ...titleSource,
+      mapTitles: [
+        ...titleSource.mapTitles,
+        { mapKey: 'DATA_SECOND_MAP', mapLabel: '旧第二地图', holders: { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }
+      ]
+    },
+    eventEntries,
+    platformEventIds: { EVENT_ONE: 'event.one' },
+    mapSourceFiles: [
+      { file: 'test_map.opy', content: 'DATA_TEST_MAP' },
+      { file: 'second_map.opy', content: 'DATA_SECOND_MAP' }
+    ]
+  });
+  assert.equal(result.titleSource.titles[0]?.label, '新称号');
+});
+
 test('validates the migrated Busan control-map shape before generation', () => {
   const busanRevision = {
     ...defaultGameplayRevision,

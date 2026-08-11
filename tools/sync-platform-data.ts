@@ -345,13 +345,11 @@ function validatePlatformMaps(platformData: PlatformData, titleSource: TitleSour
 function validateAndMergeTitles(platformData: PlatformData, titleSource: TitleSource, mapIds: Set<string>) {
   const titles = titleSource.titles.map((item) => ({ ...item }));
   const titleByKey = new Map(titles.map((item) => [requireString(item.key, 'title.key'), item]));
-  const seen = new Set<string>();
+  const seenDefinitions = new Map<string, string>();
 
   for (const [index, item] of platformData.titles.entries()) {
     const prefix = `titles[${index}]`;
     const key = requireString(item.titleKey, `${prefix}.titleKey`);
-    if (seen.has(key)) throw new Error(`Duplicate platform title key: ${key}`);
-    seen.add(key);
     const local = titleByKey.get(key);
     if (!local) throw new Error(`${prefix} references unknown Bastion title ${key}`);
     if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) {
@@ -361,14 +359,20 @@ function validateAndMergeTitles(platformData: PlatformData, titleSource: TitleSo
       throw new Error(`${prefix} references unknown map ${String(item.mapId)}`);
     }
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
-    const previousLabel = requireString(local.label, `${key}.label`);
     const label = requireString(item.label, `${prefix}.label`);
+    const category = requireString(item.category, `${prefix}.category`);
+    const condition = requireString(item.condition, `${prefix}.condition`);
+    const definition = JSON.stringify({ label, category, condition, availability: item.availability, displayKind: item.displayKind, color: item.color });
+    const previousDefinition = seenDefinitions.get(key);
+    if (previousDefinition !== undefined && previousDefinition !== definition) throw new Error(`Inconsistent platform title definition: ${key}`);
+    seenDefinitions.set(key, definition);
+    const previousLabel = requireString(local.label, `${key}.label`);
     local.label = label;
     if (item.displayKind === 'fixed' && local.displayExpr === JSON.stringify(previousLabel)) {
       local.displayExpr = JSON.stringify(label);
     }
-    local.category = requireString(item.category, `${prefix}.category`);
-    local.condition = requireString(item.condition, `${prefix}.condition`);
+    local.category = category;
+    local.condition = condition;
     local.availability = item.availability;
     if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
   }
