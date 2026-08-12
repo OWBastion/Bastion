@@ -339,13 +339,22 @@ test('generates deterministic revision-scoped map data for default and selectabl
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
 
-test('accepts an unmigrated map with an empty revision projection', () => {
-  const result = merge({ maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] });
-  assert.deepEqual(result.mapRevisionSource.maps[0]?.revisions, []);
+test('rejects an empty revision projection before generated source is accepted', () => {
+  const incompleteData = { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] };
+  assert.throws(() => merge({ maps: incompleteData.maps }), /exactly one default revision/);
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: incompleteData,
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  }), /exactly one default revision/);
 });
 
 test('accepts the same title key across map projections when presentation agrees', () => {
-  const secondMap = { ...platformData.maps[0], mapId: 'map.second_map', mapName: '第二地图', gameplayRevisions: [] };
+  const secondMap = {
+    ...platformData.maps[0],
+    mapId: 'map.second_map',
+    mapName: '第二地图',
+    gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.second_map:default', mapId: 'map.second_map' }]
+  };
   const firstTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] };
   const secondTitle = { ...firstTitle, mapId: 'map.second_map' };
   const result = mergePlatformData({
