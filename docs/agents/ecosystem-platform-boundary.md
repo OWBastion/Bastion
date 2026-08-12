@@ -94,6 +94,8 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - validate finite spatial coordinates, map-specific control-role cardinality,
   default versus selectable semantics, revision-scoped challenge references,
   and holder references before writing any generated file;
+- preserve multi-stage `alternateStages` in stable `stageId` order; map runtime
+  resolves its active stage only during setup;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
 - generate revision-scoped map/challenge/title-holder data deterministically;

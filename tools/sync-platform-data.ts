@@ -52,7 +52,7 @@ type EventMacros = { id: string | number; duration: string; weight: string };
 type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 type SpatialPosition = [number, number, number];
 type OverPyExpression = { __overPyExpression: string };
-type SpatialConfig = {
+type SpatialConfigBase = {
   bastionPositions: SpatialPosition[];
   resetPosition: SpatialPosition;
   endPosition: SpatialPosition;
@@ -67,6 +67,9 @@ type SpatialConfig = {
   } | null;
   portalPositions: SpatialPosition[];
   springboardPositions: SpatialPosition[];
+};
+type SpatialConfig = SpatialConfigBase & {
+  alternateStages: Array<SpatialConfigBase & { stageId: string }>;
 };
 type ValidatedGameplayRevision = {
   gameplayRevisionId: string;
@@ -166,10 +169,12 @@ function validateSpatialPositions(value: unknown, label: string, required: boole
   return value.map((position, index) => validateSpatialPosition(position, `${label}[${index}]`));
 }
 
-function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
-  assertExactKeys(value, label, ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions']);
+const spatialConfigKeys = ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions'];
+
+function validateSpatialConfigBase(value: unknown, label: string): SpatialConfigBase {
+  assertExactKeys(value, label, spatialConfigKeys);
   const config = value as Record<string, unknown>;
-  let control: SpatialConfig['control'] = null;
+  let control: SpatialConfigBase['control'] = null;
   if (config.control !== null) {
     assertExactKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
     const rawControl = config.control as Record<string, unknown>;
@@ -196,11 +201,37 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   };
 }
 
+function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
+  const config = value as Record<string, unknown>;
+  const actualKeys = Object.keys(config).sort();
+  const expectedKeys = [...spatialConfigKeys, 'alternateStages'].sort();
+  const missingKeys = spatialConfigKeys.filter((key) => !(key in config));
+  if (missingKeys.length || actualKeys.some((key) => !expectedKeys.includes(key))) {
+    throw new Error(`${label} has an invalid shape; expected keys ${expectedKeys.join(', ')}`);
+  }
+  const base = validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, config[key]])), label);
+  const rawAlternateStages = config.alternateStages ?? [];
+  if (!Array.isArray(rawAlternateStages) || rawAlternateStages.length > 15) throw new Error(`${label}.alternateStages must contain at most 15 stages`);
+  const stageIds = new Set<string>();
+  const alternateStages = rawAlternateStages.map((rawStage, index) => {
+    const stageLabel = `${label}.alternateStages[${index}]`;
+    assertExactKeys(rawStage, stageLabel, ['stageId', ...spatialConfigKeys]);
+    const stage = rawStage as Record<string, unknown>;
+    const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
+    if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
+    if (stageIds.has(stageId)) throw new Error(`Duplicate alternate spatial stage ${stageId}`);
+    stageIds.add(stageId);
+    return { stageId, ...validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, stage[key]])), stageLabel) };
+  }).sort((left, right) => left.stageId.localeCompare(right.stageId));
+  return { ...base, alternateStages };
+}
+
 function validateMigratedMapSpatialConfig(mapId: string, config: SpatialConfig, label: string) {
   if (mapId === 'map.busan') {
     if (!config.control) throw new Error(`${label}.control is required for map.busan`);
-    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 3) {
-      throw new Error(`${label}.control must contain three center/jump/respawn positions for map.busan`);
+    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 2) {
+      throw new Error(`${label}.control must contain three center/respawn and two jump positions for map.busan`);
     }
     return;
   }
@@ -556,7 +587,7 @@ function renderSpatialPosition(position: SpatialPosition): OverPyExpression {
   return { __overPyExpression: `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})` };
 }
 
-function overPySpatialConfig(config: SpatialConfig): unknown[] {
+function overPySpatialConfigBase(config: SpatialConfigBase): unknown[] {
   return [
     config.bastionPositions.map(renderSpatialPosition),
     renderSpatialPosition(config.resetPosition),
@@ -572,6 +603,13 @@ function overPySpatialConfig(config: SpatialConfig): unknown[] {
     ] : null,
     config.portalPositions.map(renderSpatialPosition),
     config.springboardPositions.map(renderSpatialPosition)
+  ];
+}
+
+function overPySpatialConfig(config: SpatialConfig): unknown[] {
+  return [
+    ...overPySpatialConfigBase(config),
+    config.alternateStages.map((stage) => [stage.stageId, overPySpatialConfigBase(stage)])
   ];
 }
 
@@ -680,6 +718,9 @@ export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource)
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL 5',
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS 6',
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS 7',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_ID 0',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SPATIAL_CONFIG 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS 0',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS 2',

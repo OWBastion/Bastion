@@ -34,7 +34,7 @@ const busanSpatialConfig = {
   ...spatialConfig,
   control: {
     centerPositions: [[16, 17, 18], [19, 20, 21], [22, 23, 24]],
-    jumpPositions: [[25, 26, 27], [28, 29, 30], [40, 41, 42]],
+    jumpPositions: [[25, 26, 27], [28, 29, 30]],
     respawnPositions: [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
     respawnAxis: 'x' as const,
     respawnAxisThreshold: 40
@@ -400,7 +400,32 @@ test('validates the migrated Busan control-map shape before generation', () => {
       ...busanPlatformData,
       maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: { ...busanSpatialConfig.control, jumpPositions: [[25, 26, 27]] } } }] }]
     }
-  }), /must contain three/);
+  }), /three center\/respawn and two jump/);
+});
+
+test('renders sorted alternate spatial stages deterministically', () => {
+  const alternateSpatialConfig = {
+    ...spatialConfig,
+    alternateStages: [
+      { stageId: 'zeta', ...spatialConfig, resetPosition: [20, 21, 22] },
+      { stageId: 'alpha', ...spatialConfig, resetPosition: [30, 31, 32] }
+    ]
+  };
+  const source = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: alternateSpatialConfig }] }]
+    }
+  });
+  assert.deepEqual(source.maps[0]?.revisions[0]?.spatialConfig.alternateStages.map((stage) => stage.stageId), ['alpha', 'zeta']);
+  const reversedSource = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...alternateSpatialConfig, alternateStages: [...alternateSpatialConfig.alternateStages].reverse() } }] }]
+    }
+  });
+  assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
+  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8/);
 });
 
 test('accepts only the control roles required by a supported map implementation', () => {
