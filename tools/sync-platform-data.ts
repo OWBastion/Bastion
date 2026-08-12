@@ -764,7 +764,7 @@ export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource)
   entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry.values)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
   lines.push(']');
   lines.push(`#!define PLATFORM_MAP_REVISION_CONTRACT_VERSION "${source.contractVersion}"`);
-  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA', '');
+  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA');
   return `${lines.join('\n')}\n`;
 }
 

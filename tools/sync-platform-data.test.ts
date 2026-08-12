@@ -427,6 +427,8 @@ test('renders sorted alternate spatial stages deterministically', () => {
   assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
   assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8/);
   assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2/);
+  assert.match(renderPlatformMapRevisionData(source), /# END AUTO-GENERATED PLATFORM MAP REVISION DATA\n$/);
+  assert.doesNotMatch(renderPlatformMapRevisionData(source), /\n\n$/);
 });
 
 test('requires each map source to consume generated revision data without local spatial truth', () => {
