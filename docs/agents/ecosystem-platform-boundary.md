@@ -91,9 +91,12 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - fetch all pages and validate the response contract;
 - require `contractVersion` `1`, exactly one default revision per map, and only
   default/selectable revisions;
-- validate finite spatial coordinates, control-point array cardinality, default
-  versus selectable semantics, revision-scoped challenge references, and holder
-  references before writing any generated file;
+- validate finite spatial coordinates, map-specific control-role cardinality,
+  default versus selectable semantics, revision-scoped challenge references,
+  and holder references before writing any generated file;
+- preserve multi-stage `alternateStages` in stable `stageId` order and validate
+  their finite `setupDetection` coordinates plus positive radius; map runtime
+  resolves its active stage only once during setup;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
 - generate revision-scoped map/challenge/title-holder data deterministically;
@@ -104,6 +107,8 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
 - update the existing generated title data and
   `src/constants/platform_map_revision_data.opy`;
+- reject a map source that does not consume its generated revision data or still
+  declares local spatial/map-title truth;
 - compile the normal OverPy entries after the data sync succeeds.
 
 The platform supplies the revision-aware metadata only. Administrators make

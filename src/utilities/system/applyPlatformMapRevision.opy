@@ -2,7 +2,43 @@
 
 #!optimizeStrict
 
+subroutine failPlatformMapRevisionData
+subroutine applyPlatformMapRevisionSpatialConfig
 subroutine applyPlatformMapRevision
+subroutine applyPlatformMapRevisionStage
+
+def failPlatformMapRevisionData():
+    @Name "Fail platform map revision data"
+
+    platformMapRevisionDataError = true
+    bastionPosition = []
+    getPlayers(Team.1).disableRespawn()
+    bigMessage(getAllPlayers(), STR_HUD_MAP_REVISION_DATA_INVALID.format(platformMapRevisionMapId))
+
+def applyPlatformMapRevisionSpatialConfig():
+    @Name "Apply platform spatial config"
+
+    bastionPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_BASTION_POSITIONS]
+    resetPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_RESET_POSITION]
+    endPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_END_POSITION]
+    thirdPersonPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_THIRD_PERSON_POSITION]
+    creditsPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CREDITS_POSITION]
+
+    if platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL] == null:
+        controlCenterPosition = null
+        controlJumpPosition = null
+        controlRespawnPosition = null
+        controlRespawnAxis = null
+        controlRespawnAxisThreshold = null
+    else:
+        controlCenterPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS]
+        controlJumpPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS]
+        controlRespawnPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS]
+        controlRespawnAxis = null if platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == null else 0 if platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == "x" else 1 if platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == "y" else 2
+        controlRespawnAxisThreshold = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS_THRESHOLD]
+
+    portalPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS] if len(platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS]) > 0 else null
+    springBoardPosition = platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS][0] if len(platformMapRevisionSpatialConfig[PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS]) > 0 else null
 
 def applyPlatformMapRevision():
     @Name "Apply platform map revision"
@@ -26,10 +62,7 @@ def applyPlatformMapRevision():
     )
 
     if len(platformMapRevisionDefaults) != 1:
-        platformMapRevisionDataError = true
-        bastionPosition = []
-        getPlayers(Team.1).disableRespawn()
-        bigMessage(getAllPlayers(), STR_HUD_MAP_REVISION_DATA_INVALID.format(platformMapRevisionMapId))
+        failPlatformMapRevisionData()
         return
 
     platformMapRevision = platformMapRevisionDefaults[0]
@@ -43,10 +76,7 @@ def applyPlatformMapRevision():
             revision[PLATFORM_MAP_REVISION_FIELD_MAP_VARIANT] == platformMapRevisionVariant
         )
         if len(platformMapRevisionSelectableCandidates) != 1:
-            platformMapRevisionDataError = true
-            bastionPosition = []
-            getPlayers(Team.1).disableRespawn()
-            bigMessage(getAllPlayers(), STR_HUD_MAP_REVISION_DATA_INVALID.format(platformMapRevisionMapId))
+            failPlatformMapRevisionData()
             return
         platformMapRevision = platformMapRevisionSelectableCandidates[0]
 
@@ -57,26 +87,26 @@ def applyPlatformMapRevision():
     if platformMapRevisionVariant == "classic":
         __currentMapText___ = __currentMapClassicText___
     __currentMapPioneerText___ = __currentMapText___
-
-    bastionPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_BASTION_POSITIONS]
-    resetPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_RESET_POSITION]
-    endPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_END_POSITION]
-    thirdPersonPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_THIRD_PERSON_POSITION]
-    creditsPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CREDITS_POSITION]
     mapTitlePlayersByKey = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_TITLE_HOLDERS]
+    platformMapRevisionSpatialConfig = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG]
+    applyPlatformMapRevisionSpatialConfig()
 
-    if platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL] == null:
-        controlCenterPosition = null
-        controlJumpPosition = null
-        controlRespawnPosition = null
-        controlRespawnAxis = null
-        controlRespawnAxisThreshold = null
-    else:
-        controlCenterPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS]
-        controlJumpPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS]
-        controlRespawnPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS]
-        controlRespawnAxis = null if platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == null else 0 if platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == "x" else 1 if platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS] == "y" else 2
-        controlRespawnAxisThreshold = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL][PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS_THRESHOLD]
+def applyPlatformMapRevisionStage():
+    @Name "Apply platform map revision stage"
 
-    portalPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS] if len(platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS]) > 0 else null
-    springBoardPosition = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS][0] if len(platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS]) > 0 else null
+    if platformMapRevisionDataError:
+        return
+    platformMapRevisionStageCandidates = platformMapRevision[PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG][PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES].filter(lambda stage:
+        len(getPlayersInRadius(
+            stage[PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION][PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_POSITION],
+            stage[PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION][PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_RADIUS],
+            Team.1
+        )) != 0
+    )
+    if len(platformMapRevisionStageCandidates) == 0:
+        return
+    if len(platformMapRevisionStageCandidates) != 1:
+        failPlatformMapRevisionData()
+        return
+    platformMapRevisionSpatialConfig = platformMapRevisionStageCandidates[0][PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SPATIAL_CONFIG]
+    applyPlatformMapRevisionSpatialConfig()

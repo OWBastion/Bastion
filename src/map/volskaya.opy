@@ -5,18 +5,12 @@
 
 rule "map - volskaya industries":
     @Condition __currentMap___ == Map.VOLSKAYA
+    @Condition platformMapRevisionLoaded == false
     
-    bastionPosition = [vect(-72.477, 16.869, 47.82), vect(-68.159, 2.02, 82.854), vect(-29.458, 2.097, 77.543), vect(-39.212, -2.064, 80.626), vect(-82.963, -0.157, 22.991), vect(-13.924, -2.98, 117.617), vect(-28.688, 2.803, 35.54), vect(-38.633, -1.459, 38.463)]
-    endPosition = vect(-40.94, 2.95, 38.35)
-    thirdPersonPosition = vect(-113.051, -1.98, 31.996)
-    resetPosition = vect(-115.18, -1.98, 35.24)
-    creditsPosition = vect(-128.25, 0.5, 24.75)
-    startForcingSpawn(Team.1, 0)
+    platformMapRevisionMapId = "map.volskaya"
+    platformMapRevisionVariant = null
+    applyPlatformMapRevision()
     __currentMapText___ = "沃斯卡娅"
     __currentMapPioneerText___ = __currentMapText___
-
-    mapTitlePlayersByKey = [
-        DATA_VOLSKAYA[0].split("-"),
-        DATA_VOLSKAYA[1].split("-"),
-        DATA_VOLSKAYA[2].split("-")
-    ]
+    if not platformMapRevisionDataError:
+        startForcingSpawn(Team.1, 0)

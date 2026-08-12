@@ -68,6 +68,8 @@ rule "Initialize global variables":
     platformMapRevisionDefaults = []
     platformMapRevisionSelectableCandidates = []
     platformMapRevision = null
+    platformMapRevisionSpatialConfig = null
+    platformMapRevisionStageCandidates = []
     platformMapRevisionId = null
     platformMapRevisionChallengeRefs = []
     platformMapRevisionLoaded = false

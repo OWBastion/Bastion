@@ -51,8 +51,9 @@ type EventType = 'buff' | 'debuff' | 'mech';
 type EventMacros = { id: string | number; duration: string; weight: string };
 type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 type SpatialPosition = [number, number, number];
+type AlternateStageSetupDetection = { position: SpatialPosition; radius: number };
 type OverPyExpression = { __overPyExpression: string };
-type SpatialConfig = {
+type SpatialConfigBase = {
   bastionPositions: SpatialPosition[];
   resetPosition: SpatialPosition;
   endPosition: SpatialPosition;
@@ -67,6 +68,9 @@ type SpatialConfig = {
   } | null;
   portalPositions: SpatialPosition[];
   springboardPositions: SpatialPosition[];
+};
+type SpatialConfig = SpatialConfigBase & {
+  alternateStages: Array<SpatialConfigBase & { stageId: string; setupDetection: AlternateStageSetupDetection }>;
 };
 type ValidatedGameplayRevision = {
   gameplayRevisionId: string;
@@ -166,22 +170,32 @@ function validateSpatialPositions(value: unknown, label: string, required: boole
   return value.map((position, index) => validateSpatialPosition(position, `${label}[${index}]`));
 }
 
-function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
-  assertExactKeys(value, label, ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions']);
+function validateAlternateStageSetupDetection(value: unknown, label: string): AlternateStageSetupDetection {
+  assertExactKeys(value, label, ['position', 'radius']);
+  const detection = value as Record<string, unknown>;
+  const radius = detection.radius;
+  if (typeof radius !== 'number' || !Number.isFinite(radius) || radius <= 0) throw new Error(`${label}.radius must be a positive finite number`);
+  return { position: validateSpatialPosition(detection.position, `${label}.position`), radius };
+}
+
+const spatialConfigKeys = ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions'];
+
+function validateSpatialConfigBase(value: unknown, label: string): SpatialConfigBase {
+  assertExactKeys(value, label, spatialConfigKeys);
   const config = value as Record<string, unknown>;
-  let control: SpatialConfig['control'] = null;
+  let control: SpatialConfigBase['control'] = null;
   if (config.control !== null) {
     assertExactKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
     const rawControl = config.control as Record<string, unknown>;
-    const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, true);
-    const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, true);
-    const respawnPositions = validateSpatialPositions(rawControl.respawnPositions, `${label}.control.respawnPositions`, true);
-    if (centerPositions.length !== respawnPositions.length || jumpPositions.length !== respawnPositions.length) throw new Error(`${label}.control position arrays must have matching lengths`);
+    const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, false);
+    const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, false);
+    const respawnPositions = validateSpatialPositions(rawControl.respawnPositions, `${label}.control.respawnPositions`, false);
     const respawnAxis = rawControl.respawnAxis;
     if (respawnAxis !== null && respawnAxis !== 'x' && respawnAxis !== 'y' && respawnAxis !== 'z') throw new Error(`${label}.control.respawnAxis has an unsupported value`);
     const threshold = rawControl.respawnAxisThreshold;
     if (threshold !== null && (typeof threshold !== 'number' || !Number.isFinite(threshold) || threshold < 0)) throw new Error(`${label}.control.respawnAxisThreshold must be a non-negative finite number or null`);
     if ((respawnAxis === null) !== (threshold === null)) throw new Error(`${label}.control axis and threshold must be provided together`);
+    if (respawnAxis !== null && respawnPositions.length === 0) throw new Error(`${label}.control axis requires a respawn position`);
     control = { centerPositions, jumpPositions, respawnPositions, respawnAxis, respawnAxisThreshold: threshold };
   }
   return {
@@ -196,11 +210,41 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   };
 }
 
+function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
+  const config = value as Record<string, unknown>;
+  const actualKeys = Object.keys(config).sort();
+  const expectedKeys = [...spatialConfigKeys, 'alternateStages'].sort();
+  const missingKeys = spatialConfigKeys.filter((key) => !(key in config));
+  if (missingKeys.length || actualKeys.some((key) => !expectedKeys.includes(key))) {
+    throw new Error(`${label} has an invalid shape; expected keys ${expectedKeys.join(', ')}`);
+  }
+  const base = validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, config[key]])), label);
+  const rawAlternateStages = config.alternateStages ?? [];
+  if (!Array.isArray(rawAlternateStages) || rawAlternateStages.length > 15) throw new Error(`${label}.alternateStages must contain at most 15 stages`);
+  const stageIds = new Set<string>();
+  const alternateStages = rawAlternateStages.map((rawStage, index) => {
+    const stageLabel = `${label}.alternateStages[${index}]`;
+    assertExactKeys(rawStage, stageLabel, ['stageId', 'setupDetection', ...spatialConfigKeys]);
+    const stage = rawStage as Record<string, unknown>;
+    const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
+    if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
+    if (stageIds.has(stageId)) throw new Error(`Duplicate alternate spatial stage ${stageId}`);
+    stageIds.add(stageId);
+    return {
+      stageId,
+      setupDetection: validateAlternateStageSetupDetection(stage.setupDetection, `${stageLabel}.setupDetection`),
+      ...validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, stage[key]])), stageLabel)
+    };
+  }).sort((left, right) => left.stageId.localeCompare(right.stageId));
+  return { ...base, alternateStages };
+}
+
 function validateMigratedMapSpatialConfig(mapId: string, config: SpatialConfig, label: string) {
   if (mapId === 'map.busan') {
     if (!config.control) throw new Error(`${label}.control is required for map.busan`);
-    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 3) {
-      throw new Error(`${label}.control must contain three center/jump/respawn positions for map.busan`);
+    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 2) {
+      throw new Error(`${label}.control must contain three center/respawn and two jump positions for map.busan`);
     }
     return;
   }
@@ -321,7 +365,7 @@ function validatePlatformMaps(platformData: PlatformData, titleSource: TitleSour
     if (!Array.isArray(item.gameplayRevisions) || item.gameplayRevisions.length > 32) throw new Error(`${prefix}.gameplayRevisions must contain at most 32 revisions`);
     const gameplayRevisions = item.gameplayRevisions.map((revision, revisionIndex) => validateGameplayRevision(revision, mapId, `${prefix}.gameplayRevisions[${revisionIndex}]`));
     const defaultRevisions = gameplayRevisions.filter((revision) => revision.isDefault);
-    if (gameplayRevisions.length > 0 && defaultRevisions.length !== 1) throw new Error(`${prefix}.gameplayRevisions must contain exactly one default revision`);
+    if (defaultRevisions.length !== 1) throw new Error(`${prefix}.gameplayRevisions must contain exactly one default revision`);
     for (const revision of gameplayRevisions) {
       if (revisions.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
       revisions.set(revision.gameplayRevisionId, revision);
@@ -421,6 +465,19 @@ function hasMapSource(mapId: string, mapSourceFiles: Array<{ file: string; conte
   return mapSourceFiles.some(({ content }) => content.includes(mapKey) || content.includes(revisionSourceMarker));
 }
 
+const localMapSpatialAssignment = /^\s*(?:bastionPosition|resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlCenterPosition|controlJumpPosition|controlRespawnPosition|controlRespawnAxis|controlRespawnAxisThreshold|portalPosition|springBoardPosition|mapTitlePlayersByKey)(?:\s*\[[^\r\n\]]+\])*\s*(?:=|\.append\s*\()/m;
+
+export function validateRevisionAwareMapSources({ mapIds, mapSourceFiles }: { mapIds: string[]; mapSourceFiles: Array<{ file: string; content: string }> }) {
+  for (const mapId of mapIds) {
+    const marker = `platformMapRevisionMapId = ${JSON.stringify(mapId)}`;
+    const matches = mapSourceFiles.filter(({ content }) => content.includes(marker));
+    if (matches.length !== 1) throw new Error(`${mapKeyFromPlatformId(mapId)} must declare exactly one revision-aware map source`);
+    const source = matches[0]!;
+    if (!source.content.includes('applyPlatformMapRevision()')) throw new Error(`${source.file} must apply generated platform revision data`);
+    if (localMapSpatialAssignment.test(source.content)) throw new Error(`${source.file} must not declare local spatial or map-title data`);
+  }
+}
+
 function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
   const definitions = new Map<string, string>();
   for (const [index, item] of platformData.achievements.entries()) {
@@ -503,7 +560,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const mapId = requireString(map.mapId, 'mapId');
     if (!Array.isArray(map.gameplayRevisions)) throw new Error(`maps.${mapId}.gameplayRevisions must be an array`);
     const revisions = map.gameplayRevisions.map((revision, index) => validateGameplayRevision(revision, mapId, `maps.${mapId}.gameplayRevisions[${index}]`));
-    if (revisions.length > 0 && revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
+    if (revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
     for (const revision of revisions) {
       if (revisionsById.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
       revisionsById.set(revision.gameplayRevisionId, revision);
@@ -556,7 +613,7 @@ function renderSpatialPosition(position: SpatialPosition): OverPyExpression {
   return { __overPyExpression: `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})` };
 }
 
-function overPySpatialConfig(config: SpatialConfig): unknown[] {
+function overPySpatialConfigBase(config: SpatialConfigBase): unknown[] {
   return [
     config.bastionPositions.map(renderSpatialPosition),
     renderSpatialPosition(config.resetPosition),
@@ -572,6 +629,17 @@ function overPySpatialConfig(config: SpatialConfig): unknown[] {
     ] : null,
     config.portalPositions.map(renderSpatialPosition),
     config.springboardPositions.map(renderSpatialPosition)
+  ];
+}
+
+function overPySpatialConfig(config: SpatialConfig): unknown[] {
+  return [
+    ...overPySpatialConfigBase(config),
+    config.alternateStages.map((stage) => [
+      stage.stageId,
+      overPySpatialConfigBase(stage),
+      [renderSpatialPosition(stage.setupDetection.position), stage.setupDetection.radius]
+    ])
   ];
 }
 
@@ -680,6 +748,12 @@ export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource)
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL 5',
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS 6',
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS 7',
+    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_ID 0',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SPATIAL_CONFIG 1',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2',
+    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_POSITION 0',
+    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_RADIUS 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS 0',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS 2',
@@ -690,7 +764,7 @@ export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource)
   entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry.values)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
   lines.push(']');
   lines.push(`#!define PLATFORM_MAP_REVISION_CONTRACT_VERSION "${source.contractVersion}"`);
-  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA', '');
+  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA');
   return `${lines.join('\n')}\n`;
 }
 
@@ -929,6 +1003,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   for (const mapId of mapIds) {
     if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
   }
+  validateRevisionAwareMapSources({ mapIds: orderedMapIds, mapSourceFiles });
   console.log('Platform sync: fetching achievements');
   const achievements = await client.fetchResource('achievements');
   console.log('Platform sync: fetching global and map titles');

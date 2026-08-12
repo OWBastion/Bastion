@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, renderPlatformMapRevisionData } from './sync-platform-data.ts';
+import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, renderPlatformMapRevisionData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
 import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
@@ -34,7 +34,7 @@ const busanSpatialConfig = {
   ...spatialConfig,
   control: {
     centerPositions: [[16, 17, 18], [19, 20, 21], [22, 23, 24]],
-    jumpPositions: [[25, 26, 27], [28, 29, 30], [40, 41, 42]],
+    jumpPositions: [[25, 26, 27], [28, 29, 30]],
     respawnPositions: [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
     respawnAxis: 'x' as const,
     respawnAxisThreshold: 40
@@ -339,13 +339,22 @@ test('generates deterministic revision-scoped map data for default and selectabl
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
 
-test('accepts an unmigrated map with an empty revision projection', () => {
-  const result = merge({ maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] });
-  assert.deepEqual(result.mapRevisionSource.maps[0]?.revisions, []);
+test('rejects an empty revision projection before generated source is accepted', () => {
+  const incompleteData = { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] };
+  assert.throws(() => merge({ maps: incompleteData.maps }), /exactly one default revision/);
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: incompleteData,
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  }), /exactly one default revision/);
 });
 
 test('accepts the same title key across map projections when presentation agrees', () => {
-  const secondMap = { ...platformData.maps[0], mapId: 'map.second_map', mapName: '第二地图', gameplayRevisions: [] };
+  const secondMap = {
+    ...platformData.maps[0],
+    mapId: 'map.second_map',
+    mapName: '第二地图',
+    gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.second_map:default', mapId: 'map.second_map' }]
+  };
   const firstTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] };
   const secondTitle = { ...firstTitle, mapId: 'map.second_map' };
   const result = mergePlatformData({
@@ -391,7 +400,71 @@ test('validates the migrated Busan control-map shape before generation', () => {
       ...busanPlatformData,
       maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: { ...busanSpatialConfig.control, jumpPositions: [[25, 26, 27]] } } }] }]
     }
-  }), /matching lengths/);
+  }), /three center\/respawn and two jump/);
+});
+
+test('renders sorted alternate spatial stages deterministically', () => {
+  const alternateSpatialConfig = {
+    ...spatialConfig,
+    alternateStages: [
+      { stageId: 'zeta', ...spatialConfig, resetPosition: [20, 21, 22], setupDetection: { position: [40, 41, 42], radius: 30 } },
+      { stageId: 'alpha', ...spatialConfig, resetPosition: [30, 31, 32], setupDetection: { position: [50, 51, 52], radius: 30 } }
+    ]
+  };
+  const source = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: alternateSpatialConfig }] }]
+    }
+  });
+  assert.deepEqual(source.maps[0]?.revisions[0]?.spatialConfig.alternateStages.map((stage) => stage.stageId), ['alpha', 'zeta']);
+  const reversedSource = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...alternateSpatialConfig, alternateStages: [...alternateSpatialConfig.alternateStages].reverse() } }] }]
+    }
+  });
+  assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
+  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8/);
+  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2/);
+  assert.match(renderPlatformMapRevisionData(source), /# END AUTO-GENERATED PLATFORM MAP REVISION DATA\n$/);
+  assert.doesNotMatch(renderPlatformMapRevisionData(source), /\n\n$/);
+});
+
+test('requires each map source to consume generated revision data without local spatial truth', () => {
+  const source = { file: 'test_map.opy', content: 'platformMapRevisionMapId = "map.test_map"\napplyPlatformMapRevision()\n' };
+  assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [source] }));
+  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
+  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition[0] = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
+});
+
+test('accepts only the control roles required by a supported map implementation', () => {
+  const aatlisRevision = {
+    ...defaultGameplayRevision,
+    gameplayRevisionId: 'revision:map.aatlis:initial',
+    mapId: 'map.aatlis',
+    spatialConfig: {
+      ...spatialConfig,
+      control: {
+        centerPositions: [],
+        jumpPositions: [],
+        respawnPositions: [[16, 17, 18]],
+        respawnAxis: 'z' as const,
+        respawnAxisThreshold: 30
+      }
+    }
+  };
+  const aatlisPlatformData = {
+    ...platformData,
+    maps: [{ ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [aatlisRevision] }]
+  };
+  assert.match(renderPlatformMapRevisionData(buildPlatformMapRevisionSource({ platformData: aatlisPlatformData })), /map.aatlis/);
+  assert.throws(() => buildPlatformMapRevisionSource({
+    platformData: {
+      ...aatlisPlatformData,
+      maps: [{ ...aatlisPlatformData.maps[0], gameplayRevisions: [{ ...aatlisRevision, spatialConfig: { ...aatlisRevision.spatialConfig, control: { ...aatlisRevision.spatialConfig.control, respawnPositions: [] } } }] }]
+    }
+  }), /axis requires a respawn position/);
 });
 
 test('rejects invalid revision lifecycle, defaults, spatial data, and challenge references before generation', () => {
@@ -399,5 +472,7 @@ test('rejects invalid revision lifecycle, defaults, spatial data, and challenge 
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, lifecycle: 'historical' }) }), /lifecycle must be default or selectable/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, { ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.test_map:another-default' }] }] } }), /exactly one default revision/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, resetPosition: [1, 2] } }) }), /resetPosition must be a finite 3D coordinate/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'missing-selector', ...spatialConfig }] } }) }), /setupDetection/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'invalid-selector', ...spatialConfig, setupDetection: { position: [1, 2, 3], radius: 0 } }] } }) }), /radius must be a positive finite number/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, challengeRefs: [{ family: 'map', challengeId: 'missing.challenge' }] }) }), /references unknown challenge missing.challenge/);
 });
