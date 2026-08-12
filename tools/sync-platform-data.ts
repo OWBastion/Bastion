@@ -173,15 +173,15 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   if (config.control !== null) {
     assertExactKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
     const rawControl = config.control as Record<string, unknown>;
-    const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, true);
-    const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, true);
-    const respawnPositions = validateSpatialPositions(rawControl.respawnPositions, `${label}.control.respawnPositions`, true);
-    if (centerPositions.length !== respawnPositions.length || jumpPositions.length !== respawnPositions.length) throw new Error(`${label}.control position arrays must have matching lengths`);
+    const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, false);
+    const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, false);
+    const respawnPositions = validateSpatialPositions(rawControl.respawnPositions, `${label}.control.respawnPositions`, false);
     const respawnAxis = rawControl.respawnAxis;
     if (respawnAxis !== null && respawnAxis !== 'x' && respawnAxis !== 'y' && respawnAxis !== 'z') throw new Error(`${label}.control.respawnAxis has an unsupported value`);
     const threshold = rawControl.respawnAxisThreshold;
     if (threshold !== null && (typeof threshold !== 'number' || !Number.isFinite(threshold) || threshold < 0)) throw new Error(`${label}.control.respawnAxisThreshold must be a non-negative finite number or null`);
     if ((respawnAxis === null) !== (threshold === null)) throw new Error(`${label}.control axis and threshold must be provided together`);
+    if (respawnAxis !== null && respawnPositions.length === 0) throw new Error(`${label}.control axis requires a respawn position`);
     control = { centerPositions, jumpPositions, respawnPositions, respawnAxis, respawnAxisThreshold: threshold };
   }
   return {

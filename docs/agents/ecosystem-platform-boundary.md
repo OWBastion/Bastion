@@ -91,9 +91,9 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - fetch all pages and validate the response contract;
 - require `contractVersion` `1`, exactly one default revision per map, and only
   default/selectable revisions;
-- validate finite spatial coordinates, control-point array cardinality, default
-  versus selectable semantics, revision-scoped challenge references, and holder
-  references before writing any generated file;
+- validate finite spatial coordinates, map-specific control-role cardinality,
+  default versus selectable semantics, revision-scoped challenge references,
+  and holder references before writing any generated file;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
 - generate revision-scoped map/challenge/title-holder data deterministically;

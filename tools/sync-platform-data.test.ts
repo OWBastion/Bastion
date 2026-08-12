@@ -400,7 +400,36 @@ test('validates the migrated Busan control-map shape before generation', () => {
       ...busanPlatformData,
       maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: { ...busanSpatialConfig.control, jumpPositions: [[25, 26, 27]] } } }] }]
     }
-  }), /matching lengths/);
+  }), /must contain three/);
+});
+
+test('accepts only the control roles required by a supported map implementation', () => {
+  const aatlisRevision = {
+    ...defaultGameplayRevision,
+    gameplayRevisionId: 'revision:map.aatlis:initial',
+    mapId: 'map.aatlis',
+    spatialConfig: {
+      ...spatialConfig,
+      control: {
+        centerPositions: [],
+        jumpPositions: [],
+        respawnPositions: [[16, 17, 18]],
+        respawnAxis: 'z' as const,
+        respawnAxisThreshold: 30
+      }
+    }
+  };
+  const aatlisPlatformData = {
+    ...platformData,
+    maps: [{ ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [aatlisRevision] }]
+  };
+  assert.match(renderPlatformMapRevisionData(buildPlatformMapRevisionSource({ platformData: aatlisPlatformData })), /map.aatlis/);
+  assert.throws(() => buildPlatformMapRevisionSource({
+    platformData: {
+      ...aatlisPlatformData,
+      maps: [{ ...aatlisPlatformData.maps[0], gameplayRevisions: [{ ...aatlisRevision, spatialConfig: { ...aatlisRevision.spatialConfig, control: { ...aatlisRevision.spatialConfig.control, respawnPositions: [] } } }] }]
+    }
+  }), /axis requires a respawn position/);
 });
 
 test('rejects invalid revision lifecycle, defaults, spatial data, and challenge references before generation', () => {
