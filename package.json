@@ -24,7 +24,7 @@
     "build": "pnpm run sync:platform-data"
   },
   "dependencies": {
-    "overpy": "^9.7.9"
+    "overpy": "^9.7.10"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
