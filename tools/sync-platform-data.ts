@@ -51,6 +51,7 @@ type EventType = 'buff' | 'debuff' | 'mech';
 type EventMacros = { id: string | number; duration: string; weight: string };
 type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 type SpatialPosition = [number, number, number];
+type AlternateStageSetupDetection = { position: SpatialPosition; radius: number };
 type OverPyExpression = { __overPyExpression: string };
 type SpatialConfigBase = {
   bastionPositions: SpatialPosition[];
@@ -69,7 +70,7 @@ type SpatialConfigBase = {
   springboardPositions: SpatialPosition[];
 };
 type SpatialConfig = SpatialConfigBase & {
-  alternateStages: Array<SpatialConfigBase & { stageId: string }>;
+  alternateStages: Array<SpatialConfigBase & { stageId: string; setupDetection: AlternateStageSetupDetection }>;
 };
 type ValidatedGameplayRevision = {
   gameplayRevisionId: string;
@@ -169,6 +170,14 @@ function validateSpatialPositions(value: unknown, label: string, required: boole
   return value.map((position, index) => validateSpatialPosition(position, `${label}[${index}]`));
 }
 
+function validateAlternateStageSetupDetection(value: unknown, label: string): AlternateStageSetupDetection {
+  assertExactKeys(value, label, ['position', 'radius']);
+  const detection = value as Record<string, unknown>;
+  const radius = detection.radius;
+  if (typeof radius !== 'number' || !Number.isFinite(radius) || radius <= 0) throw new Error(`${label}.radius must be a positive finite number`);
+  return { position: validateSpatialPosition(detection.position, `${label}.position`), radius };
+}
+
 const spatialConfigKeys = ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions'];
 
 function validateSpatialConfigBase(value: unknown, label: string): SpatialConfigBase {
@@ -216,13 +225,17 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   const stageIds = new Set<string>();
   const alternateStages = rawAlternateStages.map((rawStage, index) => {
     const stageLabel = `${label}.alternateStages[${index}]`;
-    assertExactKeys(rawStage, stageLabel, ['stageId', ...spatialConfigKeys]);
+    assertExactKeys(rawStage, stageLabel, ['stageId', 'setupDetection', ...spatialConfigKeys]);
     const stage = rawStage as Record<string, unknown>;
     const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
     if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
     if (stageIds.has(stageId)) throw new Error(`Duplicate alternate spatial stage ${stageId}`);
     stageIds.add(stageId);
-    return { stageId, ...validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, stage[key]])), stageLabel) };
+    return {
+      stageId,
+      setupDetection: validateAlternateStageSetupDetection(stage.setupDetection, `${stageLabel}.setupDetection`),
+      ...validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, stage[key]])), stageLabel)
+    };
   }).sort((left, right) => left.stageId.localeCompare(right.stageId));
   return { ...base, alternateStages };
 }
@@ -452,6 +465,19 @@ function hasMapSource(mapId: string, mapSourceFiles: Array<{ file: string; conte
   return mapSourceFiles.some(({ content }) => content.includes(mapKey) || content.includes(revisionSourceMarker));
 }
 
+const localMapSpatialAssignment = /^\s*(?:bastionPosition|resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlCenterPosition|controlJumpPosition|controlRespawnPosition|controlRespawnAxis|controlRespawnAxisThreshold|portalPosition|springBoardPosition|mapTitlePlayersByKey)(?:\s*\[[^\r\n\]]+\])*\s*(?:=|\.append\s*\()/m;
+
+export function validateRevisionAwareMapSources({ mapIds, mapSourceFiles }: { mapIds: string[]; mapSourceFiles: Array<{ file: string; content: string }> }) {
+  for (const mapId of mapIds) {
+    const marker = `platformMapRevisionMapId = ${JSON.stringify(mapId)}`;
+    const matches = mapSourceFiles.filter(({ content }) => content.includes(marker));
+    if (matches.length !== 1) throw new Error(`${mapKeyFromPlatformId(mapId)} must declare exactly one revision-aware map source`);
+    const source = matches[0]!;
+    if (!source.content.includes('applyPlatformMapRevision()')) throw new Error(`${source.file} must apply generated platform revision data`);
+    if (localMapSpatialAssignment.test(source.content)) throw new Error(`${source.file} must not declare local spatial or map-title data`);
+  }
+}
+
 function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
   const definitions = new Map<string, string>();
   for (const [index, item] of platformData.achievements.entries()) {
@@ -609,7 +635,11 @@ function overPySpatialConfigBase(config: SpatialConfigBase): unknown[] {
 function overPySpatialConfig(config: SpatialConfig): unknown[] {
   return [
     ...overPySpatialConfigBase(config),
-    config.alternateStages.map((stage) => [stage.stageId, overPySpatialConfigBase(stage)])
+    config.alternateStages.map((stage) => [
+      stage.stageId,
+      overPySpatialConfigBase(stage),
+      [renderSpatialPosition(stage.setupDetection.position), stage.setupDetection.radius]
+    ])
   ];
 }
 
@@ -721,6 +751,9 @@ export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource)
     '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8',
     '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_ID 0',
     '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SPATIAL_CONFIG 1',
+    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2',
+    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_POSITION 0',
+    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_RADIUS 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS 0',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS 1',
     '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS 2',
@@ -970,6 +1003,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   for (const mapId of mapIds) {
     if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
   }
+  validateRevisionAwareMapSources({ mapIds: orderedMapIds, mapSourceFiles });
   console.log('Platform sync: fetching achievements');
   const achievements = await client.fetchResource('achievements');
   console.log('Platform sync: fetching global and map titles');

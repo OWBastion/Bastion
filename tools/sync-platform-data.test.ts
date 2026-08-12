@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, renderPlatformMapRevisionData } from './sync-platform-data.ts';
+import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, renderPlatformMapRevisionData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
 import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
@@ -407,8 +407,8 @@ test('renders sorted alternate spatial stages deterministically', () => {
   const alternateSpatialConfig = {
     ...spatialConfig,
     alternateStages: [
-      { stageId: 'zeta', ...spatialConfig, resetPosition: [20, 21, 22] },
-      { stageId: 'alpha', ...spatialConfig, resetPosition: [30, 31, 32] }
+      { stageId: 'zeta', ...spatialConfig, resetPosition: [20, 21, 22], setupDetection: { position: [40, 41, 42], radius: 30 } },
+      { stageId: 'alpha', ...spatialConfig, resetPosition: [30, 31, 32], setupDetection: { position: [50, 51, 52], radius: 30 } }
     ]
   };
   const source = buildPlatformMapRevisionSource({
@@ -426,6 +426,14 @@ test('renders sorted alternate spatial stages deterministically', () => {
   });
   assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
   assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8/);
+  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2/);
+});
+
+test('requires each map source to consume generated revision data without local spatial truth', () => {
+  const source = { file: 'test_map.opy', content: 'platformMapRevisionMapId = "map.test_map"\napplyPlatformMapRevision()\n' };
+  assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [source] }));
+  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
+  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition[0] = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
 });
 
 test('accepts only the control roles required by a supported map implementation', () => {
@@ -462,5 +470,7 @@ test('rejects invalid revision lifecycle, defaults, spatial data, and challenge 
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, lifecycle: 'historical' }) }), /lifecycle must be default or selectable/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, { ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.test_map:another-default' }] }] } }), /exactly one default revision/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, resetPosition: [1, 2] } }) }), /resetPosition must be a finite 3D coordinate/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'missing-selector', ...spatialConfig }] } }) }), /setupDetection/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'invalid-selector', ...spatialConfig, setupDetection: { position: [1, 2, 3], radius: 0 } }] } }) }), /radius must be a positive finite number/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, challengeRefs: [{ family: 'map', challengeId: 'missing.challenge' }] }) }), /references unknown challenge missing.challenge/);
 });
