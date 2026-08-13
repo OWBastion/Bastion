@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, renderPlatformMapRevisionData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
+import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, prepareGeneratedPlatformFiles, renderPlatformMapRevisionData, syncPlatformData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
 import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
@@ -190,6 +191,26 @@ test('builds player and map title generation input from public player names', ()
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
 });
 
+test('allows a legitimate map-holder removal without requiring a non-zero result', () => {
+  const mapTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] };
+  const withHolder = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      titles: [mapTitle],
+      playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-1', playerName: '玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+  const withoutHolder = buildPlatformTitleSource({
+    platformData: { ...platformData, titles: [mapTitle], playerTitleGrants: [], mapTitleHolders: [] },
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+
+  assert.deepEqual(withHolder.mapTitles[0]?.holders.PIONEER, ['玩家']);
+  assert.deepEqual(withoutHolder.mapTitles[0]?.holders.PIONEER, []);
+});
+
 test('recognizes revision-aware map sources without legacy DATA macros', () => {
   const source = buildPlatformTitleSource({
     platformData: {
@@ -265,6 +286,45 @@ test('generates the all-titles player entry without title keys', async () => {
 
   const result = await syncTitleData({ sourceData: source, dryRun: true });
   assert.equal(result.sourceData.players[0].allTitles, true);
+});
+
+test('prepares every generated file before any replacement is attempted', async () => {
+  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const before = await readFile(titleFile, 'utf8');
+  const source = buildPlatformTitleSource({
+    platformData,
+    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+  });
+
+  await assert.rejects(() => prepareGeneratedPlatformFiles({
+    titleSource: source,
+    mapRevisionSource: null as never,
+    platformEventData: { constantsSource: '#!define EVT_BUFF_0_DURATION 20\n', localeSource: '#!define STR_EVT_BUFF_0_TITLE "事件"\n' },
+    validatedEventEntries: eventEntries,
+    envSource: '#!define VERSION "2026.08.13"\n',
+  }));
+  assert.equal(await readFile(titleFile, 'utf8'), before);
+});
+
+test('does not build after an unavailable holder projection', async () => {
+  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const before = await readFile(titleFile, 'utf8');
+  let buildReached = false;
+  const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }), { headers: { 'content-type': 'application/json' } });
+  const fakeFetch: typeof globalThis.fetch = async (input) => {
+    const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
+    if (url.pathname.endsWith('/maps')) return page([{ mapId: 'map.aatlis' }]);
+    if (url.pathname.endsWith('/achievements') || url.pathname.endsWith('/titles') || url.pathname.endsWith('/player-title-grants')) return page([]);
+    if (url.pathname.endsWith('/map-title-holders')) return new Response(JSON.stringify({ error: { code: 'AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE' } }), { status: 503, statusText: 'Unavailable' });
+    throw new Error(`Unexpected fake platform request: ${url.pathname}`);
+  };
+
+  await assert.rejects(() => syncPlatformData({
+    fetch: fakeFetch,
+    buildRunner: async () => { buildReached = true; }
+  }), /HTTP 503/);
+  assert.equal(buildReached, false);
+  assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
 test('falls back to the existing generated title color when the platform omits it', () => {

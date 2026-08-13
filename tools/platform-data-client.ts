@@ -315,7 +315,16 @@ export class PlatformDataClient {
     const url = new URL(`${this.baseUrl}/v1/agents/${resource}`);
     for (const [key, value] of query) url.searchParams.set(key, value);
     const response = await this.request(url, { page });
-    if (!response.ok) throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText} from ${url.pathname}`, { page, status: response.status });
+    if (!response.ok) {
+      let body = '';
+      try {
+        body = (await response.text()).trim().slice(0, 256);
+      } catch {
+        // Preserve the HTTP status when the response body cannot be read.
+      }
+      const suffix = body ? `: ${body}` : '';
+      throw new PlatformDataClientError(`HTTP ${response.status} ${response.statusText}${suffix} from ${url.pathname}`, { page, status: response.status });
+    }
     let payload: unknown;
     try { payload = await response.json(); }
     catch (error) { throw new PlatformDataClientError(`Response is not valid JSON: ${error instanceof Error ? error.message : String(error)}`, { page }); }

@@ -26,19 +26,19 @@ afterEach(async () => {
 });
 
 async function startFakeServer(
-  handler: (resource: PlatformDataResource, page: number, pageSize: number, requestUrl: URL) => unknown
+  handler: (resource: PlatformDataResource | 'player-title-grants' | 'map-title-holders', page: number, pageSize: number, requestUrl: URL) => unknown
 ): Promise<{ baseUrl: string; requests: URL[] }> {
   const requests: URL[] = [];
   const server = createServer((request, response) => {
     const requestUrl = new URL(request.url ?? '/', 'http://127.0.0.1');
-    const match = requestUrl.pathname.match(/^\/v1\/agents\/(events|maps|achievements|titles)$/);
+    const match = requestUrl.pathname.match(/^\/v1\/agents\/(events|maps|achievements|titles|player-title-grants|map-title-holders)$/);
     if (request.method !== 'GET' || !match) {
       response.writeHead(404, { 'content-type': 'application/json' });
       response.end(JSON.stringify({ error: 'not found' }));
       return;
     }
 
-    const resource = match[1] as PlatformDataResource;
+    const resource = match[1] as PlatformDataResource | 'player-title-grants' | 'map-title-holders';
     const page = Number(requestUrl.searchParams.get('page'));
     const pageSize = Number(requestUrl.searchParams.get('pageSize'));
     requests.push(requestUrl);
@@ -189,6 +189,24 @@ test('rejects non-success HTTP responses with resource and status context', asyn
       assert.equal(error.status, 503);
       assert.equal(error.resource, 'events');
       assert.match(error.message, /HTTP 503 Service Unavailable/);
+      return true;
+    }
+  );
+});
+
+test('rejects unavailable map-holder projections before an empty collection can be consumed', async () => {
+  const { baseUrl } = await startFakeServer((resource) => {
+    if (resource === 'map-title-holders') return new Response(JSON.stringify({ error: { code: 'AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE' } }), { status: 503, statusText: 'Unavailable' });
+    return validPage(resource as PlatformDataResource, 1, 100);
+  });
+
+  await assert.rejects(
+    () => new PlatformDataClient({ baseUrl }).fetchMapTitleHolders('map.test'),
+    (error: unknown) => {
+      assert.ok(error instanceof PlatformDataClientError);
+      assert.equal(error.status, 503);
+      assert.match(error.message, /HTTP 503 Service Unavailable/);
+      assert.match(error.message, /AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE/);
       return true;
     }
   );

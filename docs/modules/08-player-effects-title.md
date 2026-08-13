@@ -76,3 +76,7 @@ HUD 在既有左侧结算统计区域直接显示该数字代码（无标签前�
 1. 在平台管理端维护称号定义和 active 授予关系。
 2. 执行 `pnpm run sync:platform-data`，从平台 API 拉取并生成 OverPy 数据。
 3. 执行 `pnpm run tools -- test:platform-data-sync`。
+
+同步会先 dry-run 生成称号、地图 revision、locale 和事件清单的全部输出；
+任一 Agents 投影错误或一致性校验失败时不会替换已有生成文件，也不会进入
+构建。可投影地图没有任何持有者仍是合法的空结果。

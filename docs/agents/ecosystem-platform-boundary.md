@@ -107,6 +107,10 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
 - update the existing generated title data and
   `src/constants/platform_map_revision_data.opy`;
+- render and validate every generated output in a dry-run plan before replacing
+  any generated file; a producer HTTP error, including
+  `AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE`, aborts the sync before build/release;
+  a valid projectable map with zero holders remains a valid empty result;
 - reject a map source that does not consume its generated revision data or still
   declares local spatial/map-title truth;
 - compile the normal OverPy entries after the data sync succeeds.

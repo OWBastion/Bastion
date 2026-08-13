@@ -117,7 +117,10 @@ export type PlatformMapRevisionSource = {
 
 export type PlatformSyncOptions = PlatformDataClientOptions & {
   build?: boolean;
+  buildRunner?: () => Promise<void>;
 };
+
+export type GeneratedPlatformFile = { path: string; content: string };
 
 function requireString(value: unknown, label: string): string {
   if (typeof value !== 'string' || value.trim() === '') throw new Error(`${label} must be a non-empty string`);
@@ -973,6 +976,33 @@ async function runBuild() {
   }
 }
 
+export async function prepareGeneratedPlatformFiles({
+  titleSource,
+  mapRevisionSource,
+  platformEventData,
+  validatedEventEntries,
+  envSource,
+}: {
+  titleSource: TitleSource;
+  mapRevisionSource: PlatformMapRevisionSource;
+  platformEventData: { constantsSource: string; localeSource: string };
+  validatedEventEntries: EventEntry[];
+  envSource: string;
+}): Promise<GeneratedPlatformFile[]> {
+  const titleSync = await syncTitleData({ sourceData: titleSource, dryRun: true });
+  return [
+    ...titleSync.generatedFiles,
+    { path: MAP_REVISION_DATA_FILE, content: renderPlatformMapRevisionData(mapRevisionSource) },
+    { path: EVENT_CONSTANTS_FILE, content: platformEventData.constantsSource },
+    { path: ZH_LOCALE_FILE, content: platformEventData.localeSource },
+    { path: EVENT_MANIFEST_FILE, content: renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)) },
+  ];
+}
+
+async function writeGeneratedPlatformFiles(files: GeneratedPlatformFile[]) {
+  await Promise.all(files.map(({ path: filePath, content }) => fs.writeFile(filePath, content, 'utf8')));
+}
+
 export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
   const accessToken = options.accessToken ?? process.env[PLATFORM_DATA_TOKEN_ENV];
@@ -1039,12 +1069,15 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     constantsSource,
     localeSource
   });
-  await syncTitleData({ sourceData: merged.titleSource });
-  await fs.writeFile(MAP_REVISION_DATA_FILE, renderPlatformMapRevisionData(mapRevisionSource), 'utf8');
-  await fs.writeFile(EVENT_CONSTANTS_FILE, platformEventData.constantsSource, 'utf8');
-  await fs.writeFile(ZH_LOCALE_FILE, platformEventData.localeSource, 'utf8');
-  await fs.writeFile(EVENT_MANIFEST_FILE, renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)), 'utf8');
-  if (options.build !== false) await runBuild();
+  const generatedFiles = await prepareGeneratedPlatformFiles({
+    titleSource: merged.titleSource,
+    mapRevisionSource,
+    platformEventData,
+    validatedEventEntries,
+    envSource,
+  });
+  await writeGeneratedPlatformFiles(generatedFiles);
+  if (options.build !== false) await (options.buildRunner ?? runBuild)();
   const counts = {
     events: events.length,
     maps: maps.length,

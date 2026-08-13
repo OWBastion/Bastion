@@ -576,6 +576,10 @@ export async function syncTitleData({
     titleFileChanged: nextTitleFile !== titleSource,
     playerNameToIndexFileChanged: nextPlayerNameToIndexFile !== playerNameToIndexSource,
     playerNameToIndexDelimitedFileChanged: nextPlayerNameToIndexDelimitedFile !== playerNameToIndexDelimitedSource,
-    sourceData
+    generatedFiles: [
+      { path: titleFile, content: nextTitleFile },
+      { path: playerNameToIndexFile, content: nextPlayerNameToIndexFile },
+      { path: playerNameToIndexDelimitedFile, content: nextPlayerNameToIndexDelimitedFile },
+    ],
   };
 }
