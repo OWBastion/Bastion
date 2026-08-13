@@ -67,7 +67,7 @@
 - 同步脚本：`tools/sync-platform-data.ts`
 - 生成目标：
   - `src/title/title-cn.opy` 的受管区块（`enum TITLE` / `player_database` / `allTitle`）
-  - `src/constants/platform_map_revision_data.opy` 的地图修订、空间配置、挑战引用和修订称号持有者区块
+  - `src/map/*.opy` 中每张地图的地图修订、空间配置和修订称号持有者受管区块
 
 `src/title/title-cn.opy` 中以下区块为自动生成，禁止手工直接维护：
 
@@ -75,9 +75,9 @@
 - `# BEGIN/END AUTO-GENERATED TITLE PLAYER DATABASE`
 - `# BEGIN/END AUTO-GENERATED ALL_TITLE`
 
-地图称号映射由平台地图称号持有者 API 返回，并由同步脚本按 `gameplayRevisionId` 校验；旧的默认地图称号区块继续生成到 `title-cn.opy`，完整修订范围数据生成到 `platform_map_revision_data.opy`。
+地图称号映射由平台地图称号持有者 API 返回，并由同步脚本按 `gameplayRevisionId` 校验；旧的默认地图称号区块继续生成到 `title-cn.opy`，revision 作用域的持有者表达式注入对应地图宏。
 
-地图修订数据必须先通过默认/可选生命周期、空间坐标、控制点数组形状、挑战引用和持有者引用校验，之后才允许写入生成文件或进入 main/dev 编译。生成文件使用带稳定字段宏的数组行，运行时不依赖字典复制；历史和准备中修订不会进入该生成文件。
+地图修订数据必须先通过默认/可选生命周期、空间坐标、控制点数组形状、挑战引用和持有者引用校验，之后才允许注入地图宏或进入 main/dev 编译。OverPy 在编译期展开地图宏；历史和准备中修订不会进入地图产物。
 
 ## 维护要点
 

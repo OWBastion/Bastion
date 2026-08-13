@@ -13,7 +13,7 @@
 
 ## 地图文件通用职责
 
-地图文件保留 Workshop 行为和引擎相关的地图/变体判定。每张地图在设置阶段传入显式 `mapId` 和可选变体，再由 `applyPlatformMapRevision.opy` 从生成数据填充以下运行时变量：
+地图文件保留 Workshop 行为和引擎相关的地图/变体判定。平台同步把 revision 数据编译期注入每张地图文件的受管宏区块；地图规则只调用本地图宏，不创建运行时 revision 数据表或平台数据子程序。宏直接声明以下原有地图变量：
 
 - `bastionPosition`
 - `endPosition`
@@ -30,7 +30,7 @@
 - `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
 - `antarctic_peninsula.opy`, `ilios.opy`：在玩家首次出生后，以平台的 `alternateStages.setupDetection` 一次性选择子图；没有命中时使用 base 配置
 
-`src/constants/platform_map_revision_data.opy` 是 `sync:platform-data` 的生成输出，不是第二个手工真源。每个生成行显式携带 `mapId`、`gameplayRevisionId`、生命周期、选择标志、空间数据、挑战引用和修订称号持有者；历史/准备中 revision 不进入该文件。运行时只在地图设置阶段选择唯一默认 revision，只有显式请求的可选 revision 才会替换它；子图也只在 setup 转换时解析，不在热循环中重新解析。
+每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。每个地图宏显式携带自身的 `gameplayRevisionId`、地图文案、矢量坐标、控制点配置和修订称号持有者；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
 
 ## 多段地图（典型）
 
@@ -60,10 +60,10 @@
 
 ## 开发注意
 
-- 对已迁移地图，点位只能在平台 revision 的空间配置中维护；如果流程没有改变，纯坐标更新只需要平台数据同步和 Bastion 构建，不应再编辑地图 `.opy` 坐标。
-- `sync:platform-data` 会拒绝没有显式 revision 消费或仍声明本地空间/地图称号数据的地图源文件，避免长期双重真源。
+- 对已迁移地图，点位只能在平台 revision 的空间配置中维护；如果流程没有改变，纯坐标更新只需要平台数据同步和 Bastion 构建，不应手工编辑地图 `.opy` 中的生成坐标区块。
+- `sync:platform-data` 会要求每张地图声明并消费自己的 revision 宏区块，再把平台坐标和称号持有者注入该区块；地图行为和引擎判定仍由地图文件本身维护。
 - 添加新地图时，需验证：
   - Bastion 数量与 `bastionPosition` 长度一致
   - 终点触发半径可达
   - reset/third-person/world text 不重叠
-- 修改已迁移 revision 时，先通过 `tools/sync-platform-data.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建。
+  - 修改已迁移 revision 时，先通过 `tools/sync-platform-data.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建并确认元素数低于 Workshop 导入上限。

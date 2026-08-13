@@ -105,14 +105,14 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
 - treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only;
 - require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
-- update the existing generated title data and
-  `src/constants/platform_map_revision_data.opy`;
+- update the existing generated title data and the managed revision macro block
+  in each matching `src/map/*.opy` source;
 - render and validate every generated output in a dry-run plan before replacing
   any generated file; a producer HTTP error, including
   `AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE`, aborts the sync before build/release;
   a valid projectable map with zero holders remains a valid empty result;
-- reject a map source that does not consume its generated revision data or still
-  declares local spatial/map-title truth;
+- reject a map source that does not declare and consume its generated revision
+  macro block;
 - compile the normal OverPy entries after the data sync succeeds.
 
 The platform supplies the revision-aware metadata only. Administrators make
@@ -121,8 +121,10 @@ copy player progress, or resolve platform lifecycle state in a hot loop. This
 flow does not add a Release API, a platform build task, runtime HTTP, or dynamic
 include generation.
 
-Generated files remain deterministic outputs of the sync and build inputs, not
-an independent platform source of truth.
+Generated title data and map revision macro blocks remain deterministic outputs
+of the sync and build inputs, not an independent platform source of truth. The
+revision values are expanded by OverPy at compile time; the Workshop output
+does not contain a runtime platform revision table or loader subroutines.
 
 ## 6. Data and Build Flow
 

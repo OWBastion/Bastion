@@ -62,18 +62,8 @@ rule "Initialize global variables":
     devList = ["他又", "别感冒"]
     obstrucVis = []
     mapTitlePlayersByKey = []
-    platformMapRevisionMapId = null
     platformMapRevisionVariant = null
-    platformMapRevisionCandidates = []
-    platformMapRevisionDefaults = []
-    platformMapRevisionSelectableCandidates = []
-    platformMapRevision = null
-    platformMapRevisionSpatialConfig = null
-    platformMapRevisionStageCandidates = []
     platformMapRevisionId = null
-    platformMapRevisionChallengeRefs = []
-    platformMapRevisionLoaded = false
-    platformMapRevisionDataError = false
     masteryRunCode = "{0}-{1}-{2}".format(random.randint(1000, 9999), random.randint(1000, 9999), random.randint(1000, 9999))
 
 rule "Update targetPlayer when player left":

@@ -13,6 +13,17 @@ const titleSource = {
   mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }]
 };
 
+function mapSource(mapKey: string): string {
+  return [
+    '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION',
+    `macro platformMapRevision_${mapKey}_DEFAULT():`,
+    '    platformMapRevisionId = null',
+    '# END AUTO-GENERATED PLATFORM MAP REVISION'
+  ].join('\n');
+}
+
+const testMapSource = mapSource('TEST_MAP');
+
 const eventEntries = [{
   key: 'EVENT_ONE',
   type: 'buff' as const,
@@ -86,7 +97,7 @@ function merge(overrides: Partial<PlatformData> = {}, source = titleSource) {
     titleSource: source,
     eventEntries,
     platformEventIds: { EVENT_ONE: 'event.one' },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 }
 
@@ -183,7 +194,7 @@ test('builds player and map title generation input from public player names', ()
       playerTitleGrants: [{ playerName: '玩家改名', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-1', playerName: '玩家改名' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
   assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: ['TITLE_ONE'] }]);
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
@@ -200,11 +211,11 @@ test('allows a legitimate map-holder removal without requiring a non-zero result
       playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-1', playerName: '玩家' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
   const withoutHolder = buildPlatformTitleSource({
     platformData: { ...platformData, titles: [mapTitle], playerTitleGrants: [], mapTitleHolders: [] },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   assert.deepEqual(withHolder.mapTitles[0]?.holders.PIONEER, ['玩家']);
@@ -222,7 +233,7 @@ test('recognizes revision-aware map sources without legacy DATA macros', () => {
         gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.paraiso:default', mapId: 'map.paraiso' }]
       }]
     },
-    mapSourceFiles: [{ file: 'paraiso.opy', content: 'platformMapRevisionMapId = "map.paraiso"' }]
+    mapSourceFiles: [{ file: 'paraiso.opy', content: mapSource('PARAISO') }]
   });
 
   assert.equal(source.mapTitles[0]?.mapKey, 'DATA_PARAISO');
@@ -238,7 +249,7 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
       playerTitleGrants: [{ playerName: '经典玩家', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: 'player-2', playerName: '经典玩家' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: ['经典玩家'] });
@@ -255,7 +266,7 @@ test('uses dynamic map-title achievements as the authoritative slot projection',
       playerTitleGrants: [{ playerName: '征服者', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CONQUEROR', slot: 'conqueror', slotSemantics: 'named', playerId: 'player-3', playerName: '征服者' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: ['征服者'], DOMINATOR: [], CLASSIC: [] });
@@ -270,7 +281,7 @@ test('rejects map holders that omit the explicit slot semantics', () => {
       playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', playerId: 'player-4', playerName: '玩家' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   }), /invalid slot semantics/);
 });
 
@@ -281,7 +292,7 @@ test('generates the all-titles player entry without title keys', async () => {
       titles: [{ ...platformData.titles[0], color: null }],
       playerTitleGrants: [{ playerId: '123', playerName: '全称号玩家', titleKeys: [], allTitles: true }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   const result = await syncTitleData({ sourceData: source, dryRun: true });
@@ -293,7 +304,7 @@ test('prepares every generated file before any replacement is attempted', async 
   const before = await readFile(titleFile, 'utf8');
   const source = buildPlatformTitleSource({
     platformData,
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   await assert.rejects(() => prepareGeneratedPlatformFiles({
@@ -369,42 +380,44 @@ test('rejects map holders that reference a player without an active grant', () =
       playerTitleGrants: [],
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]
     },
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   }), /playerId/);
 });
 
-test('generates deterministic revision-scoped map data for default and selectable revisions', () => {
+test('generates deterministic map-local macros for default and classic revisions', () => {
   const source = buildPlatformMapRevisionSource({
     platformData: {
       ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [selectableGameplayRevision, defaultGameplayRevision] }],
-      achievements: [{ challengeId: 'map.test_map.pioneer', family: 'map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'TITLE_ONE', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15', mapTitleRule: { ruleId: 'rule.pioneer', kind: 'pioneer', displayKind: 'map_pioneer', slot: 'pioneer', dynamic: true } }],
-      titles: [{ ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] }],
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [classicGameplayRevision, defaultGameplayRevision] }],
+      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
+      titles: [
+        { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] },
+        { ...platformData.titles[0], titleKey: 'CLASSIC', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }
+      ],
       mapTitleHolders: [
         { mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-6', playerName: '默认玩家' },
-        { mapId: 'map.test_map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-5', playerName: '修订玩家' }
+        { mapId: 'map.test_map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: 'player-5', playerName: '经典玩家' }
       ]
     }
   });
-  assert.deepEqual(source.maps[0]?.revisions.map((revision) => revision.gameplayRevisionId), [defaultGameplayRevision.gameplayRevisionId, selectableGameplayRevision.gameplayRevisionId]);
+  assert.deepEqual(source.maps[0]?.revisions.map((revision) => revision.gameplayRevisionId), [defaultGameplayRevision.gameplayRevisionId, classicGameplayRevision.gameplayRevisionId]);
   assert.equal(source.maps[0]?.revisions[0]?.titleHolders[0]?.playerName, '默认玩家');
-  assert.equal(source.maps[0]?.revisions[1]?.titleHolders[0]?.playerName, '修订玩家');
+  assert.equal(source.maps[0]?.revisions[1]?.titleHolders[0]?.playerName, '经典玩家');
   const output = renderPlatformMapRevisionData(source);
-  assert.match(output, /PLATFORM_MAP_REVISION_CONTRACT_VERSION "1"/);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):/);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_CLASSIC\(\):/);
+  assert.match(output, /platformMapRevisionVariant = "classic"/);
   assert.match(output, /vect\(1, 2, 3\)/);
-  assert.match(output, /PLATFORM_MAP_REVISION_FIELD_GAMEPLAY_REVISION_ID 2/);
-  assert.match(output, /\["map.test_map", "新地图", "revision:map.test_map:default"/);
-  assert.match(output, /\["map.test_map", "新地图", "revision:map.test_map:default"[\s\S]*\[\["默认玩家"\], \[\], \[\], \[\]\]\]/);
-  assert.match(output, /\[\["修订玩家"\], \[\], \[\], \[\]\]\]/);
+  assert.match(output, /playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
+  assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
-
 test('rejects an empty revision projection before generated source is accepted', () => {
   const incompleteData = { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] };
   assert.throws(() => merge({ maps: incompleteData.maps }), /exactly one default revision/);
   assert.throws(() => buildPlatformTitleSource({
     platformData: incompleteData,
-    mapSourceFiles: [{ file: 'test_map.opy', content: 'DATA_TEST_MAP' }]
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   }), /exactly one default revision/);
 });
 
@@ -429,8 +442,8 @@ test('accepts the same title key across map projections when presentation agrees
     eventEntries,
     platformEventIds: { EVENT_ONE: 'event.one' },
     mapSourceFiles: [
-      { file: 'test_map.opy', content: 'DATA_TEST_MAP' },
-      { file: 'second_map.opy', content: 'DATA_SECOND_MAP' }
+      { file: 'test_map.opy', content: testMapSource },
+      { file: 'second_map.opy', content: mapSource('SECOND_MAP') }
     ]
   });
   assert.equal(result.titleSource.titles[0]?.label, '新称号');
@@ -448,7 +461,7 @@ test('validates the migrated Busan control-map shape before generation', () => {
     maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [busanRevision] }]
   };
   const source = buildPlatformMapRevisionSource({ platformData: busanPlatformData });
-  assert.match(renderPlatformMapRevisionData(source), /map.busan/);
+  assert.match(renderPlatformMapRevisionData(source), /platformMapRevision_BUSAN_DEFAULT/);
   assert.throws(() => buildPlatformMapRevisionSource({
     platformData: {
       ...busanPlatformData,
@@ -485,17 +498,19 @@ test('renders sorted alternate spatial stages deterministically', () => {
     }
   });
   assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
-  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8/);
-  assert.match(renderPlatformMapRevisionData(source), /PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2/);
-  assert.match(renderPlatformMapRevisionData(source), /# END AUTO-GENERATED PLATFORM MAP REVISION DATA\n$/);
-  assert.doesNotMatch(renderPlatformMapRevisionData(source), /\n\n$/);
+  const output = renderPlatformMapRevisionData(source);
+  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION vect\(50, 51, 52\)/);
+  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ZETA_SETUP_POSITION vect\(40, 41, 42\)/);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
+  assert.match(output, /# END AUTO-GENERATED PLATFORM MAP REVISION\n$/);
+  assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
 });
 
-test('requires each map source to consume generated revision data without local spatial truth', () => {
-  const source = { file: 'test_map.opy', content: 'platformMapRevisionMapId = "map.test_map"\napplyPlatformMapRevision()\n' };
+test('requires each map source to declare its generated revision macro block', () => {
+  const source = { file: 'test_map.opy', content: testMapSource };
   assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [source] }));
-  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
-  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}bastionPosition[0] = vect(1, 2, 3)\n` }] }), /must not declare local spatial/);
+  assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}\nbastionPosition = vect(1, 2, 3)\n` }] }));
+  assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: 'bastionPosition = vect(1, 2, 3)\n' }] }), /exactly one revision-aware map source/);
 });
 
 test('accepts only the control roles required by a supported map implementation', () => {
@@ -518,7 +533,7 @@ test('accepts only the control roles required by a supported map implementation'
     ...platformData,
     maps: [{ ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [aatlisRevision] }]
   };
-  assert.match(renderPlatformMapRevisionData(buildPlatformMapRevisionSource({ platformData: aatlisPlatformData })), /map.aatlis/);
+  assert.match(renderPlatformMapRevisionData(buildPlatformMapRevisionSource({ platformData: aatlisPlatformData })), /platformMapRevision_AATLIS_DEFAULT/);
   assert.throws(() => buildPlatformMapRevisionSource({
     platformData: {
       ...aatlisPlatformData,

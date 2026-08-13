@@ -133,8 +133,6 @@ rule STR_LICENSE_PERMIT:
 
 #!include "utilities/system/unlockAchievement.opy"
 
-#!include "utilities/system/applyPlatformMapRevision.opy"
-
 ## Utilities: event_core
 #!include "utilities/event_core/updatePlayerStats.opy"
 

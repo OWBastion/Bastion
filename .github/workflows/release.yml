@@ -171,7 +171,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/env/env.opy src/constants/event_constants.opy src/constants/event_manifest.opy src/constants/platform_map_revision_data.opy src/locales/zh-CN.opy src/title/title-cn.opy src/tools/playerNameToIndex.js src/tools/playerNameToIndexDelimited.js
+          git add src/env/env.opy src/constants/event_constants.opy src/constants/event_manifest.opy src/locales/zh-CN.opy src/title/title-cn.opy src/map/*.opy src/tools/playerNameToIndex.js src/tools/playerNameToIndexDelimited.js
           if git diff --cached --quiet; then
             echo "No release input changes to commit"
             exit 0

@@ -19,7 +19,6 @@ const ROOT = path.resolve(__dirname, '..');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
 const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
-const MAP_REVISION_DATA_FILE = path.join(ROOT, 'src/constants/platform_map_revision_data.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
 const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
@@ -52,7 +51,6 @@ type EventMacros = { id: string | number; duration: string; weight: string };
 type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 type SpatialPosition = [number, number, number];
 type AlternateStageSetupDetection = { position: SpatialPosition; radius: number };
-type OverPyExpression = { __overPyExpression: string };
 type SpatialConfigBase = {
   bastionPositions: SpatialPosition[];
   resetPosition: SpatialPosition;
@@ -463,21 +461,30 @@ function mapKeyFromPlatformId(mapId: string): string {
 }
 
 function hasMapSource(mapId: string, mapSourceFiles: Array<{ file: string; content: string }>): boolean {
-  const mapKey = mapKeyFromPlatformId(mapId);
-  const revisionSourceMarker = `platformMapRevisionMapId = ${JSON.stringify(mapId)}`;
-  return mapSourceFiles.some(({ content }) => content.includes(mapKey) || content.includes(revisionSourceMarker));
+  const revisionMacroMarker = `${mapRevisionStem(mapId)}_DEFAULT()`;
+  return mapSourceFiles.some(({ content }) => content.includes(revisionMacroMarker));
 }
 
-const localMapSpatialAssignment = /^\s*(?:bastionPosition|resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlCenterPosition|controlJumpPosition|controlRespawnPosition|controlRespawnAxis|controlRespawnAxisThreshold|portalPosition|springBoardPosition|mapTitlePlayersByKey)(?:\s*\[[^\r\n\]]+\])*\s*(?:=|\.append\s*\()/m;
+const MAP_REVISION_BEGIN = '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION';
+const MAP_REVISION_END = '# END AUTO-GENERATED PLATFORM MAP REVISION';
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceManagedBlock(source: string, beginMarker: string, endMarker: string, blockContent: string): string | null {
+  const pattern = new RegExp(`${escapeRegex(beginMarker)}[\\s\\S]*?${escapeRegex(endMarker)}`);
+  return pattern.test(source) ? source.replace(pattern, blockContent) : null;
+}
 
 export function validateRevisionAwareMapSources({ mapIds, mapSourceFiles }: { mapIds: string[]; mapSourceFiles: Array<{ file: string; content: string }> }) {
   for (const mapId of mapIds) {
-    const marker = `platformMapRevisionMapId = ${JSON.stringify(mapId)}`;
+    const mapKey = mapKeyFromPlatformId(mapId).replace(/^DATA_/, '');
+    const marker = `platformMapRevision_${mapKey}_DEFAULT()`;
     const matches = mapSourceFiles.filter(({ content }) => content.includes(marker));
     if (matches.length !== 1) throw new Error(`${mapKeyFromPlatformId(mapId)} must declare exactly one revision-aware map source`);
     const source = matches[0]!;
-    if (!source.content.includes('applyPlatformMapRevision()')) throw new Error(`${source.file} must apply generated platform revision data`);
-    if (localMapSpatialAssignment.test(source.content)) throw new Error(`${source.file} must not declare local spatial or map-title data`);
+    if (!source.content.includes(MAP_REVISION_BEGIN) || !source.content.includes(MAP_REVISION_END)) throw new Error(`${source.file} must contain the generated platform revision macro block`);
   }
 }
 
@@ -600,52 +607,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }
 
-function renderInlineOverPyValue(value: unknown): string {
-  if (value === null) return 'null';
-  if (value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 1 && '__overPyExpression' in value) return String((value as OverPyExpression).__overPyExpression);
-  if (typeof value === 'string') return JSON.stringify(value);
-  if (typeof value === 'number' || typeof value === 'boolean') return JSON.stringify(value);
-  if (Array.isArray(value)) return `[${value.map((item) => renderInlineOverPyValue(item)).join(', ')}]`;
-  if (value && typeof value === 'object') {
-    return `{${Object.entries(value as Record<string, unknown>).map(([key, item]) => `${key}: ${renderInlineOverPyValue(item)}`).join(', ')}}`;
-  }
-  throw new Error(`Unable to render unsupported platform revision value: ${String(value)}`);
-}
-
-function renderSpatialPosition(position: SpatialPosition): OverPyExpression {
-  return { __overPyExpression: `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})` };
-}
-
-function overPySpatialConfigBase(config: SpatialConfigBase): unknown[] {
-  return [
-    config.bastionPositions.map(renderSpatialPosition),
-    renderSpatialPosition(config.resetPosition),
-    renderSpatialPosition(config.endPosition),
-    renderSpatialPosition(config.thirdPersonPosition),
-    renderSpatialPosition(config.creditsPosition),
-    config.control ? [
-      config.control.centerPositions.map(renderSpatialPosition),
-      config.control.jumpPositions.map(renderSpatialPosition),
-      config.control.respawnPositions.map(renderSpatialPosition),
-      config.control.respawnAxis,
-      config.control.respawnAxisThreshold
-    ] : null,
-    config.portalPositions.map(renderSpatialPosition),
-    config.springboardPositions.map(renderSpatialPosition)
-  ];
-}
-
-function overPySpatialConfig(config: SpatialConfig): unknown[] {
-  return [
-    ...overPySpatialConfigBase(config),
-    config.alternateStages.map((stage) => [
-      stage.stageId,
-      overPySpatialConfigBase(stage),
-      [renderSpatialPosition(stage.setupDetection.position), stage.setupDetection.radius]
-    ])
-  ];
-}
-
 export function buildPlatformMapRevisionSource({ platformData }: { platformData: PlatformData }): PlatformMapRevisionSource {
   const syntheticTitleSource = {
     meta: { sourceLabel: 'platform-map-revision-validation' },
@@ -703,72 +664,144 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
   };
 }
 
-function renderRevisionTitleHolders(holders: PlatformMapRevisionSource['maps'][number]['revisions'][number]['titleHolders']): string[][] {
-  const slots: Array<'pioneer' | 'conqueror' | 'dominator' | 'classic'> = ['pioneer', 'conqueror', 'dominator', 'classic'];
-  return slots.map((slot) => holders.filter((holder) => (holder.slotSemantics === 'none' ? 'classic' : holder.slot) === slot).map((holder) => holder.playerName));
+function renderSpatialPosition(position: SpatialPosition): string {
+  return `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})`;
+}
+
+function renderVectorAssignment(field: string, positions: SpatialPosition[], indent: string, compressed = false): string[] {
+  const opening = compressed ? 'compressed([' : '[';
+  const lines = [`${indent}${field} = ${opening}`];
+  const itemIndent = `${indent}    `;
+  positions.forEach((position, index) => lines.push(`${itemIndent}${renderSpatialPosition(position)}${index === positions.length - 1 ? '' : ','}`));
+  lines.push(`${indent}]${compressed ? ')' : ''}`);
+  return lines;
+}
+
+function renderPlayerIndexDelimited(names: string[]): string {
+  return names.length === 0 ? '[]' : `playerNameToIndexDelimited([${names.map((name) => JSON.stringify(name)).join(', ')}], "-")`;
+}
+
+function mapRevisionStem(mapId: string): string {
+  return `platformMapRevision_${mapKeyFromPlatformId(mapId).replace(/^DATA_/, '')}`;
+}
+
+function mapRevisionVariantName(revision: PlatformMapRevisionSource['maps'][number]['revisions'][number]): 'DEFAULT' | 'CLASSIC' {
+  return revision.mapVariant === 'classic' ? 'CLASSIC' : 'DEFAULT';
+}
+
+function mapRevisionMacroName(mapId: string, variant: 'DEFAULT' | 'CLASSIC'): string {
+  return `${mapRevisionStem(mapId)}_${variant}`;
+}
+
+function stageMacroName(mapId: string, variant: 'DEFAULT' | 'CLASSIC', stageId: string): string {
+  const safeStageId = stageId.replace(/[^a-zA-Z0-9_]/g, '_').toUpperCase();
+  return `${mapRevisionMacroName(mapId, variant)}_STAGE_${safeStageId}`;
+}
+
+function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, compressedBastion = false) {
+  lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', compressedBastion));
+  lines.push(`    resetPosition = ${renderSpatialPosition(config.resetPosition)}`);
+  lines.push(`    endPosition = ${renderSpatialPosition(config.endPosition)}`);
+  lines.push(`    thirdPersonPosition = ${renderSpatialPosition(config.thirdPersonPosition)}`);
+  lines.push(`    creditsPosition = ${renderSpatialPosition(config.creditsPosition)}`);
+  if (config.control) {
+    if (config.control.centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', config.control.centerPositions, '    '));
+    if (config.control.jumpPositions.length > 0) lines.push(...renderVectorAssignment('controlJumpPosition', config.control.jumpPositions, '    '));
+    if (config.control.respawnPositions.length > 0) lines.push(...renderVectorAssignment('controlRespawnPosition', config.control.respawnPositions, '    '));
+    if (config.control.respawnAxis !== null) {
+      const axis = { x: 0, y: 1, z: 2 }[config.control.respawnAxis];
+      lines.push(`    controlRespawnAxis = ${axis}`);
+      lines.push(`    controlRespawnAxisThreshold = ${config.control.respawnAxisThreshold}`);
+    }
+  }
+  if (config.portalPositions.length > 0) lines.push(...renderVectorAssignment('portalPosition', config.portalPositions, '    '));
+  if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${renderSpatialPosition(config.springboardPositions[0]!)}`);
+}
+
+function renderRevisionTitleHolderExpression(revision: PlatformMapRevisionSource['maps'][number]['revisions'][number]) {
+  const classicHolders = revision.titleHolders
+    .filter((holder) => (holder.slotSemantics === 'none' ? 'classic' : holder.slot) === 'classic')
+    .map((holder) => holder.playerName);
+  return renderPlayerIndexDelimited(classicHolders);
+}
+
+function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]): string {
+  const unsupported = map.revisions.filter((revision) => !revision.isDefault && revision.mapVariant !== 'classic');
+  if (unsupported.length > 0) throw new Error(`${map.mapId} has selectable revisions that cannot be selected by the compile-time map source: ${unsupported.map((revision) => revision.gameplayRevisionId).join(', ')}`);
+
+  const mapKey = mapKeyFromPlatformId(map.mapId);
+  const lines = [
+    MAP_REVISION_BEGIN,
+    '# Source: OWBastion Agents API',
+  ];
+  const titleMacros = new Map<string, string>();
+  for (const revision of map.revisions) {
+    if (revision.mapVariant === 'classic') titleMacros.set(mapRevisionVariantName(revision), renderRevisionTitleHolderExpression(revision));
+  }
+  if (titleMacros.size > 0) lines.push('');
+
+  for (const revision of map.revisions) {
+    const variant = mapRevisionVariantName(revision);
+    const macroName = mapRevisionMacroName(map.mapId, variant);
+    const isClassic = variant === 'CLASSIC';
+    lines.push(`macro ${macroName}():`);
+    lines.push(`    platformMapRevisionId = ${JSON.stringify(revision.gameplayRevisionId)}`);
+    lines.push(`    platformMapRevisionVariant = ${JSON.stringify(isClassic ? 'classic' : null)}`);
+    const mapText = JSON.stringify(map.mapName);
+    lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
+    lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
+    lines.push('    __currentMapPioneerText___ = __currentMapText___');
+    lines.push('');
+    renderSpatialAssignments(lines, revision.spatialConfig, mapKey === 'DATA_ANTARCTIC_PENINSULA');
+    lines.push('');
+    if (isClassic) {
+      lines.push('    mapTitlePlayersByKey = [');
+      lines.push('        [],');
+      lines.push('        [],');
+      lines.push('        [],');
+      lines.push(`        ${titleMacros.get(variant)}`);
+      lines.push('    ]');
+    } else {
+      lines.push('    mapTitlePlayersByKey = [');
+      lines.push(`        ${mapKey}[0].split("-"),`);
+      lines.push(`        ${mapKey}[1].split("-"),`);
+      lines.push(`        ${mapKey}[2].split("-")`);
+      lines.push('    ]');
+    }
+    for (const stage of revision.spatialConfig.alternateStages) {
+      const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
+      const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
+      lines.push('');
+      lines.push(`#!define ${setupPositionMacro} ${renderSpatialPosition(stage.setupDetection.position)}`);
+      lines.push(`#!define ${setupRadiusMacro} ${stage.setupDetection.radius}`);
+      lines.push(`macro ${stageMacroName(map.mapId, variant, stage.stageId)}():`);
+      renderSpatialAssignments(lines, stage, false);
+    }
+    lines.push('');
+  }
+  lines.push(MAP_REVISION_END);
+  return lines.join('\n');
 }
 
 export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource): string {
-  const entries = source.maps.flatMap((map) => map.revisions.map((revision) => ({
-    values: [
-      map.mapId,
-      map.mapName,
-      revision.gameplayRevisionId,
-      revision.mapVariant,
-      revision.lifecycle,
-      revision.enabled,
-      revision.isDefault,
-      revision.isSelectable,
-      revision.gameVersion,
-      overPySpatialConfig(revision.spatialConfig),
-      revision.challengeRefs.map((ref) => ref.challengeId),
-      renderRevisionTitleHolders(revision.titleHolders)
-    ]
-  })));
-  const lines = [
-    '#!mainFile "../main.opy"',
-    '',
-    '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION DATA',
-    '# Source: OWBastion Agents API',
-    '# Field order is stable; use the generated field macros instead of numeric literals.',
-    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_ID 0',
-    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_NAME 1',
-    '#!define PLATFORM_MAP_REVISION_FIELD_GAMEPLAY_REVISION_ID 2',
-    '#!define PLATFORM_MAP_REVISION_FIELD_MAP_VARIANT 3',
-    '#!define PLATFORM_MAP_REVISION_FIELD_LIFECYCLE 4',
-    '#!define PLATFORM_MAP_REVISION_FIELD_ENABLED 5',
-    '#!define PLATFORM_MAP_REVISION_FIELD_IS_DEFAULT 6',
-    '#!define PLATFORM_MAP_REVISION_FIELD_IS_SELECTABLE 7',
-    '#!define PLATFORM_MAP_REVISION_FIELD_GAME_VERSION 8',
-    '#!define PLATFORM_MAP_REVISION_FIELD_SPATIAL_CONFIG 9',
-    '#!define PLATFORM_MAP_REVISION_FIELD_CHALLENGE_REFS 10',
-    '#!define PLATFORM_MAP_REVISION_FIELD_TITLE_HOLDERS 11',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_BASTION_POSITIONS 0',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_RESET_POSITION 1',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_END_POSITION 2',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_THIRD_PERSON_POSITION 3',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CREDITS_POSITION 4',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_CONTROL 5',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_PORTAL_POSITIONS 6',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_SPRINGBOARD_POSITIONS 7',
-    '#!define PLATFORM_MAP_REVISION_SPATIAL_FIELD_ALTERNATE_STAGES 8',
-    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_ID 0',
-    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SPATIAL_CONFIG 1',
-    '#!define PLATFORM_MAP_REVISION_ALTERNATE_STAGE_FIELD_SETUP_DETECTION 2',
-    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_POSITION 0',
-    '#!define PLATFORM_MAP_REVISION_STAGE_SETUP_DETECTION_FIELD_RADIUS 1',
-    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_CENTER_POSITIONS 0',
-    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_JUMP_POSITIONS 1',
-    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_POSITIONS 2',
-    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS 3',
-    '#!define PLATFORM_MAP_REVISION_CONTROL_FIELD_RESPAWN_AXIS_THRESHOLD 4',
-    `#!define PLATFORM_MAP_REVISION_DATA [ \\`
-  ];
-  entries.forEach((entry, index) => lines.push(`    ${renderInlineOverPyValue(entry.values)}${index === entries.length - 1 ? ' \\' : ', \\'}`));
-  lines.push(']');
-  lines.push(`#!define PLATFORM_MAP_REVISION_CONTRACT_VERSION "${source.contractVersion}"`);
-  lines.push('# END AUTO-GENERATED PLATFORM MAP REVISION DATA');
-  return `${lines.join('\n')}\n`;
+  return source.maps.map((map) => renderMapRevisionBlock(map)).join('\n\n') + '\n';
+}
+
+export function renderPlatformMapRevisionMapSources({
+  source,
+  mapSourceFiles
+}: {
+  source: PlatformMapRevisionSource;
+  mapSourceFiles: Array<{ file: string; content: string }>;
+}): GeneratedPlatformFile[] {
+  return source.maps.map((map) => {
+    const matches = mapSourceFiles.filter(({ content }) => content.includes(`${mapRevisionStem(map.mapId)}_DEFAULT()`));
+    if (matches.length !== 1) throw new Error(`${mapKeyFromPlatformId(map.mapId)} must match exactly one map source for compile-time revision injection`);
+    const sourceFile = matches[0]!;
+    const content = replaceManagedBlock(sourceFile.content, MAP_REVISION_BEGIN, MAP_REVISION_END, renderMapRevisionBlock(map));
+    if (content === null) throw new Error(`${sourceFile.file} must contain the generated platform revision macro block`);
+    return { path: path.join(MAP_SOURCE_DIR, sourceFile.file), content };
+  });
 }
 
 function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
@@ -979,12 +1012,14 @@ async function runBuild() {
 export async function prepareGeneratedPlatformFiles({
   titleSource,
   mapRevisionSource,
+  mapSourceFiles,
   platformEventData,
   validatedEventEntries,
   envSource,
 }: {
   titleSource: TitleSource;
   mapRevisionSource: PlatformMapRevisionSource;
+  mapSourceFiles: Array<{ file: string; content: string }>;
   platformEventData: { constantsSource: string; localeSource: string };
   validatedEventEntries: EventEntry[];
   envSource: string;
@@ -992,7 +1027,7 @@ export async function prepareGeneratedPlatformFiles({
   const titleSync = await syncTitleData({ sourceData: titleSource, dryRun: true });
   return [
     ...titleSync.generatedFiles,
-    { path: MAP_REVISION_DATA_FILE, content: renderPlatformMapRevisionData(mapRevisionSource) },
+    ...renderPlatformMapRevisionMapSources({ source: mapRevisionSource, mapSourceFiles }),
     { path: EVENT_CONSTANTS_FILE, content: platformEventData.constantsSource },
     { path: ZH_LOCALE_FILE, content: platformEventData.localeSource },
     { path: EVENT_MANIFEST_FILE, content: renderEventManifest(validatedEventEntries, platformEventData.constantsSource, parseMainVersion(envSource)) },
@@ -1072,6 +1107,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const generatedFiles = await prepareGeneratedPlatformFiles({
     titleSource: merged.titleSource,
     mapRevisionSource,
+    mapSourceFiles,
     platformEventData,
     validatedEventEntries,
     envSource,
