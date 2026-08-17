@@ -61,10 +61,13 @@ jobs:
             exit 0
           fi
 
-          base_sha="${EVENT_BEFORE:-}"
-          if [[ "${GITHUB_EVENT_NAME}" != "push" ]]; then
-            base_sha="$(git describe --tags --abbrev=0 "${GITHUB_SHA}" 2>/dev/null || true)"
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Scheduled run: prepare platform sync before deciding whether a release is needed"
+            exit 0
           fi
+
+          base_sha="${EVENT_BEFORE:-}"
           if [[ -z "${base_sha}" || "${base_sha}" =~ ^0+$ ]]; then
             base_sha="$(git hash-object -t tree /dev/null)"
           fi
@@ -111,8 +114,45 @@ jobs:
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Bump env version
+      - name: Verify platform sync credentials
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${BASTION_BUILD_TOKEN:-}" ]]; then
+            echo "::error::BASTION_BUILD_TOKEN repository secret is missing; platform sync cannot run from GitHub Actions."
+            exit 1
+          fi
+          echo "Platform sync credential: configured"
+
+      - name: Sync platform data
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        run: pnpm run sync:platform-data --no-build
+
+      - name: Decide whether release is needed
+        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        id: release_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_EVENT_NAME}" == "schedule" ]]; then
+            if git diff --quiet --no-ext-diff -- .; then
+              echo "should_release=false" >> "$GITHUB_OUTPUT"
+              echo "Scheduled platform sync produced no repository changes; release is not needed"
+            else
+              echo "should_release=true" >> "$GITHUB_OUTPUT"
+              echo "Scheduled platform sync changed release inputs:"
+              git diff --name-only -- .
+            fi
+            exit 0
+          fi
+
+          echo "should_release=true" >> "$GITHUB_OUTPUT"
+          echo "${GITHUB_EVENT_NAME} trigger requires a release after platform sync"
+
+      - name: Bump env version
+        if: steps.release_gate.outputs.should_release == 'true'
         id: bump
         shell: bash
         run: |
@@ -138,7 +178,7 @@ jobs:
           echo "Version bump: ${old_version} -> ${new_version}"
 
       - name: Resolve release tag
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         id: release_meta
         shell: bash
         run: |
@@ -149,23 +189,12 @@ jobs:
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "Release tag: ${tag}"
 
-      - name: Verify platform sync credentials
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ -z "${BASTION_BUILD_TOKEN:-}" ]]; then
-            echo "::error::BASTION_BUILD_TOKEN repository secret is missing; platform sync cannot run from GitHub Actions."
-            exit 1
-          fi
-          echo "Platform sync credential: configured"
-
       - name: Build workshop outputs
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
-        run: pnpm run build:release
+        if: steps.release_gate.outputs.should_release == 'true'
+        run: pnpm run build:main:en && pnpm run build:main:zh
 
       - name: Commit release inputs back to main
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -180,7 +209,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Ensure git tag exists
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -194,7 +223,7 @@ jobs:
           echo "Created and pushed tag: ${tag}"
 
       - name: Generate custom release notes
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         id: notes
         shell: bash
         run: |
@@ -240,7 +269,7 @@ jobs:
           echo "Generated ${notes_file} from range: ${commit_range}"
 
       - name: Publish GitHub Release with build artifacts
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
@@ -251,7 +280,7 @@ jobs:
           gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow
 
       - name: Release summary
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
+        if: steps.release_gate.outputs.should_release == 'true'
         shell: bash
         run: |
           echo "Version bump: ${{ steps.bump.outputs.old_version }} -> ${{ steps.bump.outputs.new_version }}"
