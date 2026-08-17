@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_AYUTTHAYA_DEFAULT():
-    platformMapRevisionId = "revision:map.ayutthaya:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "阿育陀耶"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿育陀耶")
     __currentMapPioneerText___ = __currentMapText___

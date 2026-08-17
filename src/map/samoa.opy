@@ -5,8 +5,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_SAMOA_DEFAULT():
-    platformMapRevisionId = "revision:map.samoa:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "萨摩亚"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("萨摩亚")
     __currentMapPioneerText___ = __currentMapText___

@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_ILIOS_DEFAULT():
-    platformMapRevisionId = "revision:map.ilios:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "伊利奥斯"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("伊利奥斯")
     __currentMapPioneerText___ = __currentMapText___

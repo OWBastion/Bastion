@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
-    platformMapRevisionId = "revision:map.horizon_lunar_colony:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "月球基地"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("月球基地")
     __currentMapPioneerText___ = __currentMapText___

@@ -5,8 +5,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_NEW_JUNK_CITY_DEFAULT():
-    platformMapRevisionId = "revision:map.new_junk_city:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "新渣客城"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新渣客城")
     __currentMapPioneerText___ = __currentMapText___

@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_HAVANA_DEFAULT():
-    platformMapRevisionId = "revision:map.havana:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "哈瓦那"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("哈瓦那")
     __currentMapPioneerText___ = __currentMapText___

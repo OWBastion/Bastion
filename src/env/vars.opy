@@ -77,8 +77,6 @@ globalvar devEventCategory
 globalvar devEventIndex
 globalvar challengeTitleIds
 globalvar hashTagWeightVerifyState
-globalvar platformMapRevisionVariant
-globalvar platformMapRevisionId
 globalvar masteryRunCode
 
 #Player variables

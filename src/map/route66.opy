@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_ROUTE66_DEFAULT():
-    platformMapRevisionId = "revision:map.route66:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "66号公路"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("66号公路")
     __currentMapPioneerText___ = __currentMapText___

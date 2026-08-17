@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_ESPERANCA_DEFAULT():
-    platformMapRevisionId = "revision:map.esperanca:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "埃斯佩兰萨"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("埃斯佩兰萨")
     __currentMapPioneerText___ = __currentMapText___

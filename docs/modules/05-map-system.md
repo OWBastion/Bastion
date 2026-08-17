@@ -30,7 +30,7 @@
 - `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
 - `antarctic_peninsula.opy`, `ilios.opy`：在玩家首次出生后，以平台的 `alternateStages.setupDetection` 一次性选择子图；没有命中时使用 base 配置
 
-每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。每个地图宏显式携带自身的 `gameplayRevisionId`、地图文案、矢量坐标、控制点配置和修订称号持有者；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
+每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标、控制点配置和修订称号持有者。历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
 
 ## 多段地图（典型）
 

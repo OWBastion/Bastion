@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_DORADO_DEFAULT():
-    platformMapRevisionId = "revision:map.dorado:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "多拉多"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("多拉多")
     __currentMapPioneerText___ = __currentMapText___

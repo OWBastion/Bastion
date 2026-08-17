@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
-    platformMapRevisionId = "revision:map.watchpoint_gibraltar:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "直布罗陀"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("直布罗陀")
     __currentMapPioneerText___ = __currentMapText___

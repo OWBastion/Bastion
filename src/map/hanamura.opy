@@ -6,8 +6,6 @@
 # Source: OWBastion Agents API
 
 macro platformMapRevision_HANAMURA_DEFAULT():
-    platformMapRevisionId = "revision:map.hanamura:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "花村"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapPioneerText___ = __currentMapText___
@@ -35,8 +33,6 @@ macro platformMapRevision_HANAMURA_DEFAULT():
     ]
 
 macro platformMapRevision_HANAMURA_CLASSIC():
-    platformMapRevisionId = "revision:map.hanamura:v0"
-    platformMapRevisionVariant = "classic"
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapPioneerText___ = __currentMapText___

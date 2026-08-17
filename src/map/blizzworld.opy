@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
-    platformMapRevisionId = "revision:map.blizzard_world:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "暴雪世界"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("暴雪世界")
     __currentMapPioneerText___ = __currentMapText___

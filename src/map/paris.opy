@@ -6,8 +6,6 @@
 # Source: OWBastion Agents API
 
 macro platformMapRevision_PARIS_DEFAULT():
-    platformMapRevisionId = "revision:map.paris:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "巴黎"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
     __currentMapPioneerText___ = __currentMapText___
@@ -32,8 +30,6 @@ macro platformMapRevision_PARIS_DEFAULT():
     ]
 
 macro platformMapRevision_PARIS_CLASSIC():
-    platformMapRevisionId = "revision:map.paris:v0"
-    platformMapRevisionVariant = "classic"
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
     __currentMapPioneerText___ = __currentMapText___

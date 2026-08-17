@@ -17,7 +17,6 @@ function mapSource(mapKey: string): string {
   return [
     '# BEGIN AUTO-GENERATED PLATFORM MAP REVISION',
     `macro platformMapRevision_${mapKey}_DEFAULT():`,
-    '    platformMapRevisionId = null',
     '# END AUTO-GENERATED PLATFORM MAP REVISION'
   ].join('\n');
 }
@@ -406,7 +405,7 @@ test('generates deterministic map-local macros for default and classic revisions
   const output = renderPlatformMapRevisionData(source);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_CLASSIC\(\):/);
-  assert.match(output, /platformMapRevisionVariant = "classic"/);
+  assert.doesNotMatch(output, /platformMapRevision(?:Id|Variant)/);
   assert.match(output, /vect\(1, 2, 3\)/);
   assert.match(output, /playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);

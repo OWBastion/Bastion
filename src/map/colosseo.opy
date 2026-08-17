@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_COLOSSEO_DEFAULT():
-    platformMapRevisionId = "revision:map.colosseo:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "斗兽场"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("斗兽场")
     __currentMapPioneerText___ = __currentMapText___

@@ -7,8 +7,6 @@
 # Source: OWBastion Agents API
 
 macro platformMapRevision_EICHENWALDE_DEFAULT():
-    platformMapRevisionId = "revision:map.eichenwalde:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "艾兴瓦尔德"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapPioneerText___ = __currentMapText___
@@ -38,8 +36,6 @@ macro platformMapRevision_EICHENWALDE_DEFAULT():
     ]
 
 macro platformMapRevision_EICHENWALDE_CLASSIC():
-    platformMapRevisionId = "revision:map.eichenwalde:v0"
-    platformMapRevisionVariant = "classic"
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapPioneerText___ = __currentMapText___

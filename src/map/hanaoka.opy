@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_HANAOKA_DEFAULT():
-    platformMapRevisionId = "revision:map.hanaoka:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "花冈"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花冈")
     __currentMapPioneerText___ = __currentMapText___

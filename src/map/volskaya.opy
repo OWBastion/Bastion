@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_VOLSKAYA_DEFAULT():
-    platformMapRevisionId = "revision:map.volskaya:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "沃斯卡娅工业区"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("沃斯卡娅工业区")
     __currentMapPioneerText___ = __currentMapText___

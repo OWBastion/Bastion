@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_KINGS_ROW_DEFAULT():
-    platformMapRevisionId = "revision:map.kings_row:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "国王大道"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("国王大道")
     __currentMapPioneerText___ = __currentMapText___

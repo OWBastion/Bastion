@@ -5,8 +5,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_RIALTO_DEFAULT():
-    platformMapRevisionId = "revision:map.rialto:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "里阿尔托"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("里阿尔托")
     __currentMapPioneerText___ = __currentMapText___

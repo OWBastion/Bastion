@@ -745,8 +745,6 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     const macroName = mapRevisionMacroName(map.mapId, variant);
     const isClassic = variant === 'CLASSIC';
     lines.push(`macro ${macroName}():`);
-    lines.push(`    platformMapRevisionId = ${JSON.stringify(revision.gameplayRevisionId)}`);
-    lines.push(`    platformMapRevisionVariant = ${JSON.stringify(isClassic ? 'classic' : null)}`);
     const mapText = JSON.stringify(map.mapName);
     lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
     lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);

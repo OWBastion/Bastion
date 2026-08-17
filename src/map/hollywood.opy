@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_HOLLYWOOD_DEFAULT():
-    platformMapRevisionId = "revision:map.hollywood:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "好莱坞"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("好莱坞")
     __currentMapPioneerText___ = __currentMapText___

@@ -5,8 +5,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
-    platformMapRevisionId = "revision:map.lijiang_tower:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "漓江塔"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("漓江塔")
     __currentMapPioneerText___ = __currentMapText___

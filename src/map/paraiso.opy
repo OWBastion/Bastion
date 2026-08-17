@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_PARAISO_DEFAULT():
-    platformMapRevisionId = "revision:map.paraiso:133313bb-df07-4a80-9c6d-5305a90146d6"
-    platformMapRevisionVariant = null
     __currentMapText___ = "帕拉伊苏"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("帕拉伊苏")
     __currentMapPioneerText___ = __currentMapText___

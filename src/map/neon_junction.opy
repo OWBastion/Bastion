@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_NEON_JUNCTION_DEFAULT():
-    platformMapRevisionId = "revision:map.neon_junction:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "霓虹枢纽"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("霓虹枢纽")
     __currentMapPioneerText___ = __currentMapText___

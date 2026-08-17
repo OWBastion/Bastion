@@ -5,8 +5,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_NEPAL_DEFAULT():
-    platformMapRevisionId = "revision:map.nepal:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "尼泊尔"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("尼泊尔")
     __currentMapPioneerText___ = __currentMapText___

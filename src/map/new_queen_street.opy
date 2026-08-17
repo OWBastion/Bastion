@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_NEW_QUEEN_STREET_DEFAULT():
-    platformMapRevisionId = "revision:map.new_queen_street:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "新皇后街"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新皇后街")
     __currentMapPioneerText___ = __currentMapText___

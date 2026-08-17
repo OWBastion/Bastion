@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
-    platformMapRevisionId = "revision:map.throne_of_anubis:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "阿努比斯王座"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿努比斯王座")
     __currentMapPioneerText___ = __currentMapText___

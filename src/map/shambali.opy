@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
-    platformMapRevisionId = "revision:map.shambali_monastery:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "香巴里寺院"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("香巴里寺院")
     __currentMapPioneerText___ = __currentMapText___

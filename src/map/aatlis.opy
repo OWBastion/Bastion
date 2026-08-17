@@ -6,8 +6,6 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_AATLIS_DEFAULT():
-    platformMapRevisionId = "revision:map.aatlis:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "阿特利斯"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿特利斯")
     __currentMapPioneerText___ = __currentMapText___

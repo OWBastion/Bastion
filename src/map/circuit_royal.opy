@@ -6,8 +6,6 @@
 # Source: OWBastion Agents API
 
 macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
-    platformMapRevisionId = "revision:map.circuit_royal:initial"
-    platformMapRevisionVariant = null
     __currentMapText___ = "皇家赛道"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
     __currentMapPioneerText___ = __currentMapText___
@@ -37,8 +35,6 @@ macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
     ]
 
 macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
-    platformMapRevisionId = "revision:map.circuit_royal:v0"
-    platformMapRevisionVariant = "classic"
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
     __currentMapPioneerText___ = __currentMapText___
