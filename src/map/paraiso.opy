@@ -6,21 +6,22 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_PARAISO_DEFAULT():
-    platformMapRevisionId = "revision:map.paraiso:initial"
+    platformMapRevisionId = "revision:map.paraiso:133313bb-df07-4a80-9c6d-5305a90146d6"
     platformMapRevisionVariant = null
     __currentMapText___ = "帕拉伊苏"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("帕拉伊苏")
     __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
-        vect(-47.03, 6.86, -141.73),
-        vect(5.22, 12, -122),
-        vect(-5.81, 10, -88.75),
-        vect(10.08, 3.9, -56.92),
-        vect(-13.62, 8.22, -44.11),
-        vect(11.42, 5.1, -24.26),
-        vect(-6.88, 0.5, 26.09),
-        vect(-40.63, 3, 40.01)
+        vect(-10.3, 6.832, -132.595),
+        vect(-41.189, 3.79, -155.701),
+        vect(-1.528, 12.665, -112.339),
+        vect(10.71, 10.361, -67.628),
+        vect(-15.164, 9.512, -47.168),
+        vect(-4.057, 10.45, -18.278),
+        vect(13.362, 4.189, 13.072),
+        vect(-43.153, 3, 42.732),
+        vect(-58.618, 0.007, 19.441)
     ]
     resetPosition = vect(-78.3, 5.03, -170.8)
     endPosition = vect(-39.54, -2, 62.86)
