@@ -154,6 +154,14 @@ enum MapTITLEKey:
     { \
         name: "初一", \
         titleSetIndex: 12 \
+    }, \
+    { \
+        name: "云雀", \
+        titleSetIndex: 4 \
+    }, \
+    { \
+        name: "墙上静止的钟", \
+        titleSetIndex: 4 \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -172,32 +180,32 @@ enum MapTITLEKey:
 # 阿特利斯
 #!define DATA_AATLIS [ \
    playerNameToIndexDelimited(["卖核弹的小女孩", "他又"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 南极半岛
 #!define DATA_ANTARCTIC_PENINSULA [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 阿育陀耶
 #!define DATA_AYUTTHAYA [ \
    playerNameToIndexDelimited(["他又"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 暴雪世界
 #!define DATA_BLIZZARD_WORLD [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -220,32 +228,32 @@ enum MapTITLEKey:
 # 斗兽场
 #!define DATA_COLOSSEO [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 多拉多
 #!define DATA_DORADO [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 艾兴瓦尔德
 #!define DATA_EICHENWALDE [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "初一"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 埃斯佩兰萨
 #!define DATA_ESPERANCA [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -260,56 +268,56 @@ enum MapTITLEKey:
 # 花冈
 #!define DATA_HANAOKA [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 哈瓦那
 #!define DATA_HAVANA [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 好莱坞
 #!define DATA_HOLLYWOOD [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 月球基地
 #!define DATA_HORIZON_LUNAR_COLONY [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 伊利奥斯
 #!define DATA_ILIOS [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 渣客镇
 #!define DATA_JUNKERTOWN [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 国王大道
 #!define DATA_KINGS_ROW [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -340,40 +348,40 @@ enum MapTITLEKey:
 # 尼泊尔
 #!define DATA_NEPAL [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 新渣客城
 #!define DATA_NEW_JUNK_CITY [ \
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 新皇后街
 #!define DATA_NEW_QUEEN_STREET [ \
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 努巴尼
 #!define DATA_NUMBANI [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 绿洲城
 #!define DATA_OASIS [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -388,8 +396,8 @@ enum MapTITLEKey:
 # 巴黎
 #!define DATA_PARIS [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -404,56 +412,56 @@ enum MapTITLEKey:
 # 66号公路
 #!define DATA_ROUTE66 [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 鲁纳塞彼
 #!define DATA_RUNASAPI [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 萨摩亚
 #!define DATA_SAMOA [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 香巴里寺院
 #!define DATA_SHAMBALI_MONASTERY [ \
    playerNameToIndexDelimited(["他又"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 苏拉瓦萨
 #!define DATA_SURAVASA [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "他又"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "墙上静止的钟", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 阿努比斯神殿
 #!define DATA_TEMPLE_OF_ANUBIS [ \
    playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 阿努比斯王座
 #!define DATA_THRONE_OF_ANUBIS [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "初一"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "天树是只臭猫", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -468,8 +476,8 @@ enum MapTITLEKey:
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
