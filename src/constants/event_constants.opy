@@ -879,6 +879,11 @@ enum HeartSteelData:
 # --- ID 23 (Mech/Special): 镜像反转 ---
 #!define EVT_MECH_23_DURATION 15
 #!define EVT_MECH_23_WEIGHT 0.8
+enum MirrorInversionStat:
+    DAMAGE = 0
+    SPEED
+    HEALING
+    HEART_STEEL
 
 # --- ID 24 (Mech/Special): 赌徒：赢家通吃 ---
 #!define EVT_MECH_24_DURATION 15
