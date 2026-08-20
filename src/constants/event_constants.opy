@@ -318,8 +318,10 @@ enum HeartSteelData:
 #!define EVT_BUFF_31_DURATION 180
 # Weight（权重）
 #!define EVT_BUFF_31_WEIGHT 0.3
-# 需通过终点推进的英雄数目标
+# 需通过终点推进的英雄数目标（普通模式）
 #!define EVT_31_HERO_GOAL 3
+# 需通过终点推进的英雄数目标（三合一模式）
+#!define EVT_31_HERO_GOAL_MULTI 2
 # 已有心之钢层数倍率
 #!define EVT_31_STACK_MULTIPLIER 1.5
 # 每层最大生命值百分比永久提升量（0.75% -> 1%，即 +0.25）

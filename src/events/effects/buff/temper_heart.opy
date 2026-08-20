@@ -9,27 +9,30 @@
 rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMissionGoal == 0]) == true
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
-    # clearPlayerEvent() 会在事件结束后统一把 eventMission 清零，本规则不重复清理。
+    # 根据是否三合一模式动态决定目标推进英雄数并记录到 eventMissionGoal。
+    # clearPlayerEvent() 会在事件结束后统一把 eventMission 和 eventMissionGoal 清零，本规则不重复清理。
     if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.COMPLETED:
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.DRAWN
     eventPlayer.eventMission = eventPlayer.heroNumber
+    eventPlayer.eventMissionGoal = EVT_31_HERO_GOAL_MULTI if (controlJumpPosition != null and portalPosition == null) else EVT_31_HERO_GOAL
 
 rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMission != null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMissionGoal > 0]) == true
 
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
-    # eventMission 基准仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。
-    waitUntil(eventPlayer.heroNumber - eventPlayer.eventMission >= EVT_31_HERO_GOAL or eventPlayer.isWinner == true, eventPlayer.eventDuration)
+    # eventMission 基准与 eventMissionGoal 目标仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。
+    waitUntil(eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true, eventPlayer.eventDuration)
     wait(getAverageServerLoad() / 100 * 0.032)
-    if eventPlayer.heroNumber - eventPlayer.eventMission >= EVT_31_HERO_GOAL or eventPlayer.isWinner:
+    if eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：钢化你心 成功！")
         smallMessage(eventPlayer, "  {0}  心之钢层数×{1}，每层生命值永久提升至 {2}%".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS))
-        eventPlayer.heart_steel[HeartSteelData.STACKS] *= EVT_31_STACK_MULTIPLIER
+        if eventPlayer.heart_steel[HeartSteelData.STACKS] > 0:
+            eventPlayer.heart_steel[HeartSteelData.STACKS] *= EVT_31_STACK_MULTIPLIER
         eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER
         eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.COMPLETED

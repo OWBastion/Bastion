@@ -223,7 +223,7 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
 
     buffEventName[BuffEventId.TEMPER_HEART] = STR_EVT_BUFF_31_TITLE
-    buffEventDesc[BuffEventId.TEMPER_HEART] = STR_EVT_BUFF_31_DESC.format(EVT_31_HERO_GOAL, EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS)
+    buffEventDesc[BuffEventId.TEMPER_HEART] = STR_EVT_BUFF_31_DESC.format(EVT_31_HERO_GOAL_MULTI if (controlJumpPosition != null and portalPosition == null) else EVT_31_HERO_GOAL, EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS)
     buffEventDuration[BuffEventId.TEMPER_HEART] = EVT_BUFF_31_DURATION
     buffEventWeight[BuffEventId.TEMPER_HEART] = EVT_BUFF_31_WEIGHT
     buffEventId.append(BuffEventId.TEMPER_HEART)
