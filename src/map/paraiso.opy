@@ -40,4 +40,6 @@ rule "map - paraiso":
 
     masteryRunCode = ""
     platformMapRevision_PARAISO_DEFAULT()
+    __currentMapPioneerText___ = "黄金节拍"
+    __currentPioneerText___ = ""
     startForcingSpawn(Team.1, 2)
