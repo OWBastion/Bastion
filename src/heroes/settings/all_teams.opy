@@ -99,7 +99,6 @@ macro HERO_SETTINGS_ALL_TEAMS = {
     },
     "lifeweaver": {
         "ability2Cooldown%": 84,
-        "enableAbility2": false,
         "primaryFireRange%": 200,
         "secondaryFireCooldown%": 84
     },
