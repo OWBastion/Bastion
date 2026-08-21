@@ -195,7 +195,7 @@ test('builds player and map title generation input from public player names', ()
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
-  assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: ['TITLE_ONE'] }]);
+  assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: [] }]);
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');

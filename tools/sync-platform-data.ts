@@ -588,10 +588,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
         : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
     if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !mapTitleMetadata.has(`${mapId}:${titleKey}`)) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
     const player = players.get(playerName);
-    if (player?.allTitles !== true) {
-      if (!player) players.set(playerName, { name: playerName, titleKeys: [titleKey], allTitles: false });
-      else if (Array.isArray(player.titleKeys) && !player.titleKeys.includes(titleKey)) player.titleKeys.push(titleKey);
-    }
+    if (!player) players.set(playerName, { name: playerName, titleKeys: [], allTitles: false });
     if (defaultRevisionByMap.get(mapId) !== gameplayRevisionId) continue;
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
     const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
