@@ -82,9 +82,14 @@
 
 `rejectSampling` 通过 `random.uniform(0, eventWeight) < 当前事件权重` 决策是否命中，高权重更易命中。
 
-去重策略：
+去重与候选池门控策略：
 
-- `eventLastId` 现为最近事件历史组合键数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 5），按 `eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId` 存储，避免不同类别同数值 ID 相互误排除。
+- `eventLastId` 现为最近事件历史组合键数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），按 `eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId` 存储，避免不同类别同数值 ID 相互误排除。
+- 候选池构建（`buildCandidatePool`）在去重与抽样前根据玩家状态过滤不兼容事件：
+  - 增益组：无相位触发支持英雄过滤 `PHASE_SURGE` / `BODYGUARD`；已抽取/完成一次性事件过滤 `TEMPER_HEART`。
+  - 减益组：处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`。
+  - 机制组：心之钢层数 `<= 0` 时过滤依赖正向本金/百分比/乘数赌注的变体（`GAMBLER_SPEED_CHALLENGE`、`GAMBLER_HEART_OF_STEEL`、`GAMBLER_ALL_IN_ART_5`；`GAMBLER_WINNER_TAKE_ALL` 需奖池与层数达标），保留固定加减运算的合法赌徒变体（如基础 `GAMBLER`、`GAMBLER_DICE_MANIAC`、`GAMBLER_SHORT_INVESTMENT`、`GAMBLER_LONG_INVESTMENT` 等）；无任何负面永久属性时过滤 `MIRROR_INVERSION`。
+- 候选池降级兜底路径同样严格执行上述硬性门控，避免去重降级后误抽入不兼容事件。
 - 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
 - 当可用事件总量过少导致候选池为空时，会降级到仅按启用状态过滤，避免抽样中断。
 
