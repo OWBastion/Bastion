@@ -6,9 +6,7 @@
 # BEGIN AUTO-GENERATED PLATFORM MAP REVISION
 # Source: OWBastion Agents API
 macro platformMapRevision_PARAISO_DEFAULT():
-    __currentMapText___ = "帕拉伊苏"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("帕拉伊苏")
-    __currentMapPioneerText___ = __currentMapText___
+
 
     bastionPosition = [
         vect(-10.3, 6.832, -132.595),
@@ -28,8 +26,6 @@ macro platformMapRevision_PARAISO_DEFAULT():
 
     mapTitlePlayersByKey = [
         DATA_PARAISO[0].split("-"),
-        DATA_PARAISO[1].split("-"),
-        DATA_PARAISO[2].split("-")
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
@@ -38,8 +34,8 @@ macro platformMapRevision_PARAISO_DEFAULT():
 rule "map - paraiso":
     @Condition __currentMap___ == Map.PARAISO
 
-    masteryRunCode = ""
     platformMapRevision_PARAISO_DEFAULT()
-    __currentMapPioneerText___ = "黄金节拍"
-    __currentPioneerText___ = ""
+
+    __currentMapPioneerText___ = ""
+    __currentPioneerText___ = "黄金节拍"
     startForcingSpawn(Team.1, 2)
