@@ -139,9 +139,6 @@ macro HERO_SETTINGS_ALL_TEAMS = {
         "primaryFireRange%": 500,
         "secondaryFireMaximumTime%": 300
     },
-    "roadhog": {
-        "secondaryFireCooldown%": 100
-    },
     "kiriko": {
         "ability1Distance%": 143,
         "ability2Cooldown%": 29
