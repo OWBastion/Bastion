@@ -183,6 +183,14 @@ Any change to the Agents metadata contract, generated data, or build outputs mus
 
 Breaking changes must not be hidden inside routine content work.
 
+For settlement/completion HUD changes, keep the producer-side screenshot contract in
+`docs/contracts/settlement-screenshot-hud.md` current with the real released version.
+The change description must state either `no OCR compatibility impact`, with a reason,
+or `requires OCRKit compatibility update`, naming the affected contract revision and
+fields. This assessment covers visible field grouping, localized labels, value formats,
+visibility conditions, additions/removals, and screenshot-affecting layout changes; it
+does not add OCR implementation details or runtime coupling to Bastion.
+
 ## 10. Security and Release Safety
 
 - Do not commit credentials, tokens, private screenshots, QQ identifiers, or OCR artifacts.
