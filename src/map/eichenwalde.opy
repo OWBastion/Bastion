@@ -67,11 +67,7 @@ macro platformMapRevision_EICHENWALDE_CLASSIC():
 
 
 rule "map - eichenwalde":
-    @Condition (__currentMap___ == Map.EICHENWALDE or __currentMap___ == 565) == true
+    @Condition (__currentMap___ == Map.EICHENWALDE) == true
 
-    masteryRunCode = ""
-    if __currentMap___ == 565:
-        platformMapRevision_EICHENWALDE_CLASSIC()
-    else:
-        platformMapRevision_EICHENWALDE_DEFAULT()
+    platformMapRevision_EICHENWALDE_DEFAULT()
     startForcingSpawn(Team.1, 2)
