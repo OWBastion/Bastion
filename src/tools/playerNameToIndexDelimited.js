@@ -13,7 +13,8 @@ const TITLE_PLAYER_NAMES = [
   "锄禾日当午",
   "初一",
   "云雀",
-  "墙上静止的钟"
+  "墙上静止的钟",
+  "眼镜小宅"
 ];
 
 const titleIndexByName = Object.fromEntries(
