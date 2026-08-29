@@ -8,8 +8,7 @@
 
 macro platformMapRevision_EICHENWALDE_DEFAULT():
     __currentMapText___ = "艾兴瓦尔德"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
-    __currentMapPioneerText___ = __currentMapText___
+    __currentMapPioneerText___ = "十字军之王"
 
     bastionPosition = [
         vect(124.187, 18.867, -24.169),
