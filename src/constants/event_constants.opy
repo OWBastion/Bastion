@@ -817,10 +817,10 @@ enum HeartSteelData:
 #!define EVT_MECH_14_SPEED_FACTOR 2.5
 
 # 心之钢每跳增加量
-#!define EVT_MECH_14_HEART_STEEL_PER_TICK 0.25
+#!define EVT_MECH_14_HEART_STEEL_PER_TICK 1
 
 # 循环间隔 (秒)
-#!define EVT_MECH_14_INTERVAL 1
+#!define EVT_MECH_14_INTERVAL 4
 
 # --- ID 15 (Mech/Special): 赌徒：掷骰狂人 ---
 # Duration（秒）
