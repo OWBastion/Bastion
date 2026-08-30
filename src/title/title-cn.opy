@@ -250,7 +250,7 @@ enum MapTITLEKey:
 
 # 艾兴瓦尔德
 #!define DATA_EICHENWALDE [ \
-   [], \
+   playerNameToIndexDelimited(["卖核弹的小女孩", "云雀", "八月八月八"], "-"), \
    [], \
    [], \
    []\
