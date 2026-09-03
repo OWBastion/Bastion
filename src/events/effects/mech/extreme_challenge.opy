@@ -19,7 +19,7 @@ rule "Apply challenge":
     eventPlayer.eventEffect = getLastCreatedEntity()
     playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND, Color.WHITE, eventPlayer, 200)
     eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_MECH_0_HP_PERCENT * 100))
-    eventPlayer.mod_dmg_taken = EVT_MECH_0_DMG_TAKEN
+    eventPlayer.mod_dmg_taken = EVT_MECH_0_DMG_TAKEN - eventPlayer.mod_dmg_perma
     updatePlayerStats()
     waitUntil(eventPlayer.isDead(), eventPlayer.eventDuration)
     eventPlayer.mod_dmg_taken = 0
