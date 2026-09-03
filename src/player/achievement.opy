@@ -12,7 +12,6 @@ rule "Init Achievement Data":
         54, # BREAK_ATMOSPHERE 冲出地表 地狱难度中触发 20 次登月火箭并通关
         55, # LIST_THEM 把他们上市 触发并赢下 3 次「赌徒：短期投资」与 1 次「赌徒：长期投资」，心之钢层数 ≥ 300
         56, # LIFE_GUARDS_LIFE 生命守护生命 触发 2 次「有难同当」、「保持距离」与「电磁脉冲 ProMax」
-        57, # PHANTOM_THIEF 怪盗 触发 10 次「窃贼」
     ]
 
     if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
@@ -74,13 +73,3 @@ rule "[VishkarEvent]: Challenge 56 Track (LIFE_GUARDS_LIFE)":
     @Condition 56 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(56)
-
-rule "[VishkarEvent]: Challenge 57 Track (PHANTOM_THIEF)":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag == true
-    @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[8] >= 10
-    @Condition 57 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(57)

@@ -12,7 +12,6 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.playerTitleRelationIndex = null
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
-    eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
     eventPlayer.sizeHealth = 1
     eventPlayer.earnedAchievements = []
@@ -25,8 +24,6 @@ rule "when a player joins, load player data if they have it and initialize them"
         eventPlayer.skipCount = savedData.savedSkipCount[eventPlayer.savedIndex(savedIndex)]
         eventPlayer.winnerTime = savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)]
         wait(eventPlayer.getSlot() * 0.032)
-        if savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] != null:
-            eventPlayer.playerOnceEventState = savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
         if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)]
     else:
@@ -34,10 +31,6 @@ rule "when a player joins, load player data if they have it and initialize them"
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())
     eventPlayer.dmgReduc = false
     eventPlayer.invincible = false
-    if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
-        eventPlayer.heart_steel[HeartSteelData.STACKS] = DEFAULT_HEART_STEEL_DATA[HeartSteelData.STACKS]
-        eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER
-        eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))

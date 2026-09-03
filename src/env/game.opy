@@ -15,8 +15,6 @@ macro savedData.savedWinner = self[2]
 macro savedData.savedSkipCount = self[3]
 macro savedData.savedJoinTime = self[4]
 macro savedData.savedWinnerTime = self[5]
-macro savedData.savedPlayerOnceEventState = self[6]
-
 macro breathPalette.red = self[0]
 macro breathPalette.purple = self[1]
 macro breathPalette.blue = self[2]
@@ -55,7 +53,7 @@ rule "Initialize global variables":
     turnSpeedMultiplier = 4 + difficulty if difficulty < 4 else 12 * 0.8
     maxDeath = 5 * difficulty
     savedIndex = []
-    savedData = [[], [], [], [], [], [], []]
+    savedData = [[], [], [], [], [], []]
     masteryRunCode = ""
     globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     gamblerHeartsteelJackpot = 0

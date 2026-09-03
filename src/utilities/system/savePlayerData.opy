@@ -27,7 +27,6 @@ def savePlayerData():
         savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.winnerTime
         lbl_0:
         wait(getAverageServerLoad() / 100 * 0.5)
-        savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] = eventPlayer.playerOnceEventState.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT) if eventPlayer.playerOnceEventState != null else DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
         savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)
 

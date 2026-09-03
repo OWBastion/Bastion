@@ -24,25 +24,13 @@ enum EventMatchCounterSlot:
     PHASE_SURGE = 0
     COUNT
 
-# 玩家层 / 全局层 once-only 特殊事件状态槽位（按内部顺序存储，不复用 legacy event id）
-enum PlayerOnceEventSlot:
-    TEMPER_HEART = 0
-    COUNT
-
-#!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
 #!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
-enum TemperHeartState:
-    NONE = 0
-    DRAWN
-    COMPLETED
-
 enum HeartSteelData:
     STACKS = 0
     GAIN_MULTIPLIER
     PERCENT_PER_STACK
     COUNT
 
-#!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE]
 #!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 #!define DEFAULT_HEART_STEEL_DATA [0, 1, EVT_8_HP_PERCENT_PER_STACK]
 

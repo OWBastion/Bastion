@@ -3,6 +3,8 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
+# Temporary Bastion#170 mitigation: omit 5.0 events until the projection in #169 lands.
+
 rule "initialize event array":
     @Condition vishkarEventActivated == true
 
@@ -411,37 +413,6 @@ rule "initialize event array":
     mechEventWeight[MechEventId.VAMPIRE] = EVT_MECH_18_WEIGHT
     mechEventId.append(MechEventId.VAMPIRE)
 
-    mechEventName[MechEventId.THIEF] = STR_EVT_MECH_19_TITLE
-    mechEventDesc[MechEventId.THIEF] = STR_EVT_MECH_19_DESC.format(Button.RELOAD)
-    mechEventDuration[MechEventId.THIEF] = EVT_MECH_19_DURATION
-    mechEventWeight[MechEventId.THIEF] = EVT_MECH_19_WEIGHT
-    mechEventId.append(MechEventId.THIEF)
-
-    mechEventName[MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_TITLE
-    mechEventDesc[MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_DESC.format(Button.RELOAD, EVT_MECH_20_WIN_RATE, percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), 100 - EVT_MECH_20_WIN_RATE)
-    mechEventDuration[MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_DURATION
-    mechEventWeight[MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_WEIGHT
-    mechEventId.append(MechEventId.GAMBLER_HELPFUL_SOUL)
-
-    mechEventName[MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_TITLE
-    mechEventDesc[MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_DESC.format(Button.RELOAD, EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
-    mechEventDuration[MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_DURATION
-    mechEventWeight[MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_WEIGHT
-    mechEventId.append(MechEventId.CHEAT_BACKROOM_DEAL)
-
-    mechEventName[MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_TITLE
-    mechEventDesc[MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_DESC.format(Button.RELOAD)
-    mechEventDuration[MechEventId.MIRROR_INVERSION] = EVT_MECH_23_DURATION
-    mechEventWeight[MechEventId.MIRROR_INVERSION] = EVT_MECH_23_WEIGHT
-    mechEventId.append(MechEventId.MIRROR_INVERSION)
-
-    mechEventName[MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_TITLE
-    mechEventDesc[MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_DESC.format(Button.RELOAD, percent(EVT_MECH_24_STAKE_RATIO), EVT_MECH_24_WIN_RATE)
-    mechEventDuration[MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_DURATION
-    mechEventWeight[MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_WEIGHT
-    mechEventId.append(MechEventId.GAMBLER_WINNER_TAKE_ALL)
-
-
     lbl_3:
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5, true, 1):
         goto lbl_4
@@ -449,69 +420,12 @@ rule "initialize event array":
     # ================================================
     # Pack 5: Buffs
     # ================================================
-    buffEventName[BuffEventId.MAGIC_MASTER] = STR_EVT_BUFF_29_TITLE
-    buffEventDesc[BuffEventId.MAGIC_MASTER] = STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST)
-    buffEventDuration[BuffEventId.MAGIC_MASTER] = EVT_BUFF_29_DURATION
-    buffEventWeight[BuffEventId.MAGIC_MASTER] = EVT_BUFF_29_WEIGHT
-    buffEventId.append(BuffEventId.MAGIC_MASTER)
-
-    buffEventName[BuffEventId.DIVINE_REINFORCEMENT] = STR_EVT_BUFF_30_TITLE
-    buffEventDesc[BuffEventId.DIVINE_REINFORCEMENT] = STR_EVT_BUFF_30_DESC.format(Button.RELOAD, EVT_30_HEAL_FLAT, percent(EVT_30_HEAL_MAXHP_FACTOR), EVT_30_COOLDOWN)
-    buffEventDuration[BuffEventId.DIVINE_REINFORCEMENT] = EVT_BUFF_30_DURATION
-    buffEventWeight[BuffEventId.DIVINE_REINFORCEMENT] = EVT_BUFF_30_WEIGHT
-    buffEventId.append(BuffEventId.DIVINE_REINFORCEMENT)
-
-    buffEventName[BuffEventId.TEMPER_HEART] = STR_EVT_BUFF_31_TITLE
-    buffEventDesc[BuffEventId.TEMPER_HEART] = STR_EVT_BUFF_31_DESC.format(EVT_31_HERO_GOAL_MULTI if (controlJumpPosition != null and portalPosition == null) else EVT_31_HERO_GOAL, EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS)
-    buffEventDuration[BuffEventId.TEMPER_HEART] = EVT_BUFF_31_DURATION
-    buffEventWeight[BuffEventId.TEMPER_HEART] = EVT_BUFF_31_WEIGHT
-    buffEventId.append(BuffEventId.TEMPER_HEART)
-
-    buffEventName[BuffEventId.BATTLEFIELD_MEDIC] = STR_EVT_BUFF_32_TITLE
-    buffEventDesc[BuffEventId.BATTLEFIELD_MEDIC] = STR_EVT_BUFF_32_DESC.format(EVT_32_HEAL_BASE, EVT_32_HEAL_PER_PLAYER, EVT_32_REWARD_HEAL_PERMA)
-    buffEventDuration[BuffEventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_DURATION
-    buffEventWeight[BuffEventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_WEIGHT
-    buffEventId.append(BuffEventId.BATTLEFIELD_MEDIC)
     # ================================================
     # Pack 5: Debuffs
     # ================================================
-    debuffEventName[DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_TITLE
-    debuffEventDesc[DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_INTERVAL)
-    debuffEventDuration[DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_DURATION
-    debuffEventWeight[DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_WEIGHT
-    debuffEventId.append(DebuffEventId.WAYWARD_NAVIGATION)
-
-    debuffEventName[DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_TITLE
-    debuffEventDesc[DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_DESC.format(EVT_DEBUFF_23_HP_UNIT, EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT)
-    debuffEventDuration[DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_DURATION
-    debuffEventWeight[DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_WEIGHT
-    debuffEventId.append(DebuffEventId.OVERWEIGHT_PACK)
-
-    debuffEventName[DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_TITLE
-    debuffEventDesc[DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO))
-    debuffEventDuration[DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_DURATION
-    debuffEventWeight[DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_WEIGHT
-    debuffEventId.append(DebuffEventId.ADLERSBRUNN_WRAITH)
 
     # ================================================
     # Pack 5: Mechanics
     # ================================================
-    mechEventName[MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_TITLE
-    mechEventDesc[MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_INTERACT_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA)
-    mechEventDuration[MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_DURATION
-    mechEventWeight[MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_WEIGHT
-    mechEventId.append(MechEventId.GAMBLER_DICE_MANIAC)
-
-    mechEventName[MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_TITLE
-    mechEventDesc[MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_DESC.format(Button.RELOAD, EVT_MECH_16_WIN_RATE, EVT_MECH_16_WIN_MULTIPLIER, 100 - EVT_MECH_16_WIN_RATE, percent(EVT_MECH_16_LOSE_RATIO))
-    mechEventDuration[MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_DURATION
-    mechEventWeight[MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_WEIGHT
-    mechEventId.append(MechEventId.GAMBLER_HEART_OF_STEEL)
-
-    mechEventName[MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_TITLE
-    mechEventDesc[MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_DESC.format(Button.RELOAD, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER)
-    mechEventDuration[MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_DURATION
-    mechEventWeight[MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
-    mechEventId.append(MechEventId.GAMBLER_ALL_IN_ART_5)
 
     lbl_4:
