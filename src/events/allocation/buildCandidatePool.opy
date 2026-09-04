@@ -30,57 +30,37 @@ macro Player.usesPhaseTrigger():
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
-    if eventPlayer.eventType == EventType.BUFF:
-        eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if not eventPlayer.supportsPhaseTrigger():
-            eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
-            eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            buffEventWeight[id] != 0 and buffEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+    eventPlayer.eventTempIndex = eventPoolIndex
+    wait(getAverageServerLoad() / 100 * 0.032)
+    eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda index:
+        eventPoolWeight[index] > 0 and
+        (eventPlayer.eventForceRoll == null or
+            (eventPlayer.eventForceRoll < 42.5 and eventPoolType[index] == EventType.BUFF) or
+            (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventPoolType[index] == EventType.DEBUFF) or
+            (eventPlayer.eventForceRoll >= 80 and eventPoolType[index] == EventType.MECH)) and
+        (eventPoolType[index] != EventType.BUFF or eventPlayer.supportsPhaseTrigger() or
+            (eventPoolId[index] != BuffEventId.PHASE_SURGE and eventPoolId[index] != BuffEventId.BODYGUARD)) and
+        not (eventPoolType[index] == EventType.DEBUFF and
+            eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL and
+            eventPoolId[index] == DebuffEventId.SELFLESS_GIVEAWAY) and
+        (eventPoolType[index] != EventType.MECH or
+            eventPoolId[index] != MechEventId.GAMBLER_SPEED_CHALLENGE or
+            eventPlayer.heart_steel[HeartSteelData.STACKS] > 0) and
+        (eventPlayer.eventLastId == null or index not in eventPlayer.eventLastId)
+    )
+    if len(eventPlayer.eventTempIndex) <= 0:
+        eventPlayer.eventTempIndex = eventPoolIndex.filter(lambda index:
+            eventPoolWeight[index] > 0 and
+            (eventPlayer.eventForceRoll == null or
+                (eventPlayer.eventForceRoll < 42.5 and eventPoolType[index] == EventType.BUFF) or
+                (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventPoolType[index] == EventType.DEBUFF) or
+                (eventPlayer.eventForceRoll >= 80 and eventPoolType[index] == EventType.MECH)) and
+            (eventPoolType[index] != EventType.BUFF or eventPlayer.supportsPhaseTrigger() or
+                (eventPoolId[index] != BuffEventId.PHASE_SURGE and eventPoolId[index] != BuffEventId.BODYGUARD)) and
+            not (eventPoolType[index] == EventType.DEBUFF and
+                eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL and
+                eventPoolId[index] == DebuffEventId.SELFLESS_GIVEAWAY) and
+            (eventPoolType[index] != EventType.MECH or
+                eventPoolId[index] != MechEventId.GAMBLER_SPEED_CHALLENGE or
+                eventPlayer.heart_steel[HeartSteelData.STACKS] > 0)
         )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-            if not eventPlayer.supportsPhaseTrigger():
-                eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
-                eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                buffEventWeight[id] != 0 and buffEventWeight[id] > 0
-            )
-    elif eventPlayer.eventType == EventType.DEBUFF:
-        eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
-            eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.DEBUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
-        )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
-            if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
-                eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
-            )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = debuffEventId.filter(lambda id:
-                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
-            )
-    else:
-        eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
-            eventPlayer.eventTempId.remove(MechEventId.GAMBLER_SPEED_CHALLENGE)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            mechEventWeight[id] != 0 and mechEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
-        )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
-            if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
-                eventPlayer.eventTempId.remove(MechEventId.GAMBLER_SPEED_CHALLENGE)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                mechEventWeight[id] != 0 and mechEventWeight[id] > 0
-            )

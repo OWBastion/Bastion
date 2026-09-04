@@ -13,16 +13,13 @@ def clearPlayerEvent():
     eventPlayer.stopThrottleInDirection()
     eventPlayer.combatRegen = false
     eventPlayer.passiveRegenBlocked = false
-    if eventPlayer.categoryRollSnapshot == null:
-        eventPlayer.categoryRoll = random.uniform(0, 100)
-        eventPlayer.categoryRollSnapshot = eventPlayer.categoryRoll
-    elif eventPlayer.categoryRoll == eventPlayer.categoryRollSnapshot:
-        eventPlayer.categoryRoll = random.uniform(0, 100)
-        eventPlayer.categoryRollSnapshot = eventPlayer.categoryRoll
-    else:
-        eventPlayer.categoryRollSnapshot = eventPlayer.categoryRoll
     eventPlayer.eventId = -1
     eventPlayer.eventType = null
+    eventPlayer.eventCandidateIndex = null
+    eventPlayer.eventTempIndex = []
+    eventPlayer.eventTempWeight = 0
+    eventPlayer.eventLoopCount = 0
+    eventPlayer.eventIsSelected = false
     eventPlayer.eventDuration = null
     eventPlayer.eventDurationHud = 0
     eventPlayer.eventName = null
