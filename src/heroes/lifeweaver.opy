@@ -4,6 +4,27 @@
 #!optimizeStrict
 #!rulePrefix "Hero/Lifeweaver"
 
+rule "Manage Life Grip availability":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
+    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.playerTitleRelationIndex != null
+    @Condition eventPlayer.isWinner == false
+
+    eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.setAbility2Enabled(true)
+    waitUntil(
+        eventPlayer.hasSpawned() == false
+        or eventPlayer.getHero() != Hero.LIFEWEAVER
+        or eventPlayer.playerTitleRelationIndex == null
+        or eventPlayer.isWinner == true,
+        Math.INFINITY
+    )
+    eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.setAbility2Enabled(false)
+
+
 rule "Break Petal Platform":
     @Event eachPlayer
     @Team 1
