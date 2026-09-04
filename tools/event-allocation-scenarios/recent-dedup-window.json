@@ -1,19 +1,17 @@
 {
   "playerState": {
     "heroNumber": 0,
-    "categoryRoll": 20,
-    "categoryRollSnapshot": 20,
-    "eventLastKeys": [
-      "buff:OLIVIA_GIFT",
-      "buff:GALE_BLESSING",
-      "buff:IRON_BULWARK",
-      "buff:KONAMI_CODE",
-      "buff:LIFE_SPRING",
-      "buff:BLACK_FANS_ASSAULT",
-      "buff:SPEED_STACK",
-      "buff:FLESH_REGEN",
-      "buff:HEART_OF_STEEL",
-      "buff:DEATH_DELAY"
+    "eventLastIndices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
     ]
   },
   "iterations": 200000,
