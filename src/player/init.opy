@@ -9,6 +9,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     @Team 1
     
     eventPlayer.isDev = eventPlayer.key in devList
+    eventPlayer.playerTitleRelationIndex = null
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
