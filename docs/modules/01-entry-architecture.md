@@ -38,7 +38,7 @@
 入口文件通过共享/增量变量 include 形成完整的 `globalvar` / `playervar` 索引表，重点包含：
 
 - 地图点位：`bastionPosition`, `endPosition`, `controlJumpPosition`, `controlRespawnPosition`
-- 事件池：`buffEvent/debuffEvent/mechEvent` 与对应 `*Id`
+- 事件池：按类别维护的 `buffEvent/debuffEvent/mechEvent` 与初始化合并的 `eventPool*` 全局目录
 - 玩家事件态：`eventId`, `eventType`, `eventDuration`, `eventCount`, `eventLucky`
 - 进度态：`heroNumber`, `progressionDeathCount`, `runDeathCount`, `isWinner`
 - 扩展态：`heart_steel`, `eventSize`, `phase_trigger`, `earnedAchievements`
