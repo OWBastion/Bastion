@@ -7,7 +7,7 @@
 rule "Manage Life Grip availability":
     @Event eachPlayer
     @Team 1
-    @Hero lifeweaver
+    @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.playerTitleRelationIndex != null
     @Condition eventPlayer.isWinner == false
