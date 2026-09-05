@@ -394,7 +394,7 @@ enum MapTITLEKey:
 
 # 帕拉伊苏
 #!define DATA_PARAISO [ \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "云雀", "八月八月八", "训犬大师", "眼镜小宅"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师", "眼镜小宅"], "-"), \
    playerNameToIndexDelimited(["云雀"], "-"), \
    playerNameToIndexDelimited(["云雀"], "-"), \
    []\
