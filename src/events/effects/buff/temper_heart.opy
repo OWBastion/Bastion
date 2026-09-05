@@ -9,7 +9,10 @@
 rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMissionGoal == 0]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.TEMPER_HEART
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.eventMissionGoal == 0
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
     # 根据是否三合一模式动态决定目标推进英雄数并记录到 eventMissionGoal。
@@ -22,7 +25,10 @@ rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
 rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.TEMPER_HEART, eventPlayer.eventMissionGoal > 0]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.TEMPER_HEART
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.eventMissionGoal > 0
 
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
     # eventMission 基准与 eventMissionGoal 目标仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。

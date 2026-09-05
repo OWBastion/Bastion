@@ -9,7 +9,10 @@
 rule "[VishkarEvent]: 屁动力":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.JUMP_THRUST, eventPlayer.isHoldingButton(Button.JUMP)]) == true
+    @Condition eventPlayer.eventType == EventType.MECH
+    @Condition eventPlayer.eventId == MechEventId.JUMP_THRUST
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     
     if eventPlayer.mod_dmg_taken != 0:
         goto lb_1
@@ -27,7 +30,10 @@ rule "[VishkarEvent]: 屁动力":
 rule "[VishkarEvent]: 屁动力 eff":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_SHORT_INVESTMENT, eventPlayer.nanoEffect == null]) == true
+    @Condition eventPlayer.eventType == EventType.MECH
+    @Condition eventPlayer.eventId == MechEventId.GAMBLER_SHORT_INVESTMENT
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.nanoEffect == null
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.JUMP) else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.nanoEffect = getLastCreatedEntity()

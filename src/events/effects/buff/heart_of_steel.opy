@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: 心之钢 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.HEART_OF_STEEL
+    @Condition eventPlayer.hasSpawned()
     
     wait()
     if eventPlayer.eventEffect != null:
@@ -23,7 +25,9 @@ rule "[VishkarEvent]: 心之钢 Effect":
 rule "[VishkarEvent]: 心之钢":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.HEART_OF_STEEL
+    @Condition eventPlayer.hasSpawned()
     @Condition (attacker.getHero() == Hero.BASTION or eventPlayer.isWinner) == true
     
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_8_HP_LAYER_PER_DEATH * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]

@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH]) == true
+    @Condition eventPlayer.eventType == EventType.DEBUFF
+    @Condition eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH
+    @Condition eventPlayer.hasSpawned()
 
     eventPlayer.eventMission = EVT_DEBUFF_21_TOTAL_STACK
     eventPlayer.mod_heal_perma += eventPlayer.eventMission * EVT_DEBUFF_21_HEAL_DELTA_PER_STACK
@@ -21,7 +23,11 @@ rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (抵消层数)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH,  eventPlayer.eventMission > 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.eventType == EventType.DEBUFF
+    @Condition eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.eventMission > 0
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_DEBUFF_21_HP_COST_RATIO * 100))

@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: F5 (循环刷新)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.F5_REFRESH]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.F5_REFRESH
+    @Condition eventPlayer.hasSpawned()
     
     resetPlayerCD()
     wait(EVT_24_REFRESH_INTERVAL, Wait.ABORT_WHEN_FALSE)

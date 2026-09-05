@@ -9,14 +9,22 @@
 rule "[VishkarEvent]: 胜利意志（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.WILL_TO_WIN
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.hasStatus(Status.UNKILLABLE) != true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
 
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.invincibleEffect == null]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.WILL_TO_WIN
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.invincibleEffect == null
     @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
 
     # Exception: multi-phase revive/invincible flow keeps explicit phase waits.
