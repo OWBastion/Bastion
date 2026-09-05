@@ -12,9 +12,6 @@ def setPlayerEvent():
         eventPlayer.temp = eventPlayer.eventForceRoll
     else:
         eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.uniform(0, 100)
-    if eventPlayer.thiefBuffStolen == true and eventPlayer.temp < 42.5:
-        eventPlayer.thiefBuffStolen = false
-        eventPlayer.temp = random.uniform(42.5, 100)
     if eventPlayer.temp < 42.5:
         eventPlayer.eventType = EventType.BUFF
         buildCandidatePool()
