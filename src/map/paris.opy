@@ -51,7 +51,7 @@ macro platformMapRevision_PARIS_CLASSIC():
         [],
         [],
         [],
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "训犬大师"], "-")
+        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

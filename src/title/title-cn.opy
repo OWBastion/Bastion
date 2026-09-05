@@ -250,7 +250,7 @@ enum MapTITLEKey:
 
 # 艾兴瓦尔德
 #!define DATA_EICHENWALDE [ \
-   playerNameToIndexDelimited(["卖核弹的小女孩", "云雀", "八月八月八"], "-"), \
+   playerNameToIndexDelimited(["卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-"), \
    [], \
    [], \
    []\
@@ -339,8 +339,8 @@ enum MapTITLEKey:
 # 中城
 #!define DATA_MIDTOWN [ \
    [], \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
 
