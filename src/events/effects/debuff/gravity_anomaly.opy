@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: 重力异常":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_ANOMALY]) == true
+    @Condition eventPlayer.eventType == EventType.DEBUFF
+    @Condition eventPlayer.eventId == DebuffEventId.GRAVITY_ANOMALY
+    @Condition eventPlayer.hasSpawned()
     
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.setGravity(100 + EVT_DEBUFF_0_GRAVITY)

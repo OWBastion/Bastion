@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: 心之钢 Pro":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO
+    @Condition eventPlayer.hasSpawned()
     
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
     smallMessage(eventPlayer, "  {0}  已获得 {1} 层（{2}%）心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))

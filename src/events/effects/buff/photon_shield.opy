@@ -10,7 +10,9 @@
 rule "Bind shield source":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.PHOTON_SHIELD
+    @Condition eventPlayer.hasSpawned()
     
     wait()
     getPlayers(Team.1).target = eventPlayer
@@ -22,7 +24,9 @@ rule "Bind shield source":
 rule "Grant shields":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.target != null
     
     wait()
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.target.maxHealthPercent(EVT_12_SHIELD_PERCENT * 100) if eventPlayer.target.maxHealthPercent(EVT_12_SHIELD_PERCENT * 100) > EVT_12_MIN_SHIELD else EVT_12_MIN_SHIELD, true, false)

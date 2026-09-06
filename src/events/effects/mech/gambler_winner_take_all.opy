@@ -9,7 +9,10 @@
 rule "[VishkarEvent]: 赌徒：赢家通吃":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_WINNER_TAKE_ALL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.eventType == EventType.MECH
+    @Condition eventPlayer.eventId == MechEventId.GAMBLER_WINNER_TAKE_ALL
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     eventPlayer.hudText = "当前奖池：{0}层".format(round(gamblerHeartsteelJackpot))
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)

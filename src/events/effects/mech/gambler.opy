@@ -9,7 +9,10 @@
 rule "[VishkarEvent]: 赌徒":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.eventType == EventType.MECH
+    @Condition eventPlayer.eventId == MechEventId.GAMBLER
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_1_WIN_RATE:

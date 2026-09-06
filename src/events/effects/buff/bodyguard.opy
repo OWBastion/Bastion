@@ -9,7 +9,10 @@
 rule "[VishkarEvent]: 保镖 (Bodyguard)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BODYGUARD, eventPlayer.phaseState == true]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.BODYGUARD
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.phaseState == true
     
     eventPlayer.eventEffectPlayers = getPlayersInRadius(eventPlayer, EVT_20_ALLY_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     eventPlayer.addHealthPool(EVT_20_HEALTH_TYPE, round(EVT_20_ARMOR_FLAT + eventPlayer.maxHealthPercent(EVT_20_ARMOR_MAXHP_FACTOR * 100)), false, false)

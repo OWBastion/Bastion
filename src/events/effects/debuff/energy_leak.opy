@@ -9,7 +9,9 @@
 rule "[VishkarEvent]: 能量泄漏":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ENERGY_LEAK]) == true
+    @Condition eventPlayer.eventType == EventType.DEBUFF
+    @Condition eventPlayer.eventId == DebuffEventId.ENERGY_LEAK
+    @Condition eventPlayer.hasSpawned()
     @Condition any([eventPlayer.isUsingAbility1(), eventPlayer.isUsingAbility2()]) == true
     
     eventPlayer.passiveRegenBlocked = true

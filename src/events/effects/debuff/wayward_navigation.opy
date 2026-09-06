@@ -9,7 +9,10 @@
 rule "Random launch":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WAYWARD_NAVIGATION]) == true
+    @Condition eventPlayer.eventType == EventType.DEBUFF
+    @Condition eventPlayer.eventId == DebuffEventId.WAYWARD_NAVIGATION
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
 
     wait(EVT_DEBUFF_22_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.applyImpulse(directionFromAngles(random.randint(0, 359), 0), EVT_DEBUFF_22_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)

@@ -9,12 +9,10 @@
 rule "[VishkarEvent]: 魔术大师":
     @Event eachPlayer
     @Team 1
-    @Condition all([
-        eventPlayer.hasSpawned(),
-        eventPlayer.eventType == EventType.BUFF,
-        eventPlayer.eventId == BuffEventId.MAGIC_MASTER,
-        eventPlayer.isCommunicatingEmote() == true
-    ]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.MAGIC_MASTER
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isCommunicatingEmote() == true
 
     eventPlayer.targetSilence = true
     eventPlayer.mod_speed_event += EVT_29_SPEED_BOOST

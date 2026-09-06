@@ -9,8 +9,12 @@
 rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     @Event eachPlayer
     @Team 1
+    @Condition eventPlayer.eventType == EventType.MECH
+    @Condition eventPlayer.eventId == MechEventId.CHEAT_SKIP_HERO
     @Condition  eventPlayer.getHero() != Hero.BASTION
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.CHEAT_SKIP_HERO, eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.getHero() == heroList[eventPlayer.heroNumber]]) == true
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition eventPlayer.getHero() == heroList[eventPlayer.heroNumber]
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     # 兼容三合一：先缓存当前控制点索引，避免 progressHero() 重置到 0 后丢失进度

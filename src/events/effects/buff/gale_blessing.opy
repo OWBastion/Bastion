@@ -12,7 +12,9 @@ rule "未经原作者许可，任何人不得将以下代码进行二次创作�
 
 rule "[VishkarEvent]: 疾风祝福":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.GALE_BLESSING]) == true
+    @Condition eventPlayer.eventType == EventType.BUFF
+    @Condition eventPlayer.eventId == BuffEventId.GALE_BLESSING
+    @Condition eventPlayer.hasSpawned()
     
     wait(getAverageServerLoad() / 100 * 0.032)
     createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
