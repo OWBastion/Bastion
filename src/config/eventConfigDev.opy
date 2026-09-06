@@ -529,3 +529,35 @@ rule "initialize event array":
     # Pack 5: Mechanics
     # ================================================
     lbl_127:
+
+    eventPoolType = []
+    eventPoolId = []
+    eventPoolName = []
+    eventPoolDesc = []
+    eventPoolDuration = []
+    eventPoolWeight = []
+    eventPoolIndex = []
+    for I in range(len(buffEventId)):
+        eventPoolType.append(EventType.BUFF)
+        eventPoolId.append(buffEventId[I])
+        eventPoolName.append(buffEventName[buffEventId[I]])
+        eventPoolDesc.append(buffEventDesc[buffEventId[I]])
+        eventPoolDuration.append(buffEventDuration[buffEventId[I]])
+        eventPoolWeight.append(buffEventWeight[buffEventId[I]])
+        eventPoolIndex.append(len(eventPoolIndex))
+    for I in range(len(debuffEventId)):
+        eventPoolType.append(EventType.DEBUFF)
+        eventPoolId.append(debuffEventId[I])
+        eventPoolName.append(debuffEventName[debuffEventId[I]])
+        eventPoolDesc.append(debuffEventDesc[debuffEventId[I]])
+        eventPoolDuration.append(debuffEventDuration[debuffEventId[I]])
+        eventPoolWeight.append(debuffEventWeight[debuffEventId[I]])
+        eventPoolIndex.append(len(eventPoolIndex))
+    for I in range(len(mechEventId)):
+        eventPoolType.append(EventType.MECH)
+        eventPoolId.append(mechEventId[I])
+        eventPoolName.append(mechEventName[mechEventId[I]])
+        eventPoolDesc.append(mechEventDesc[mechEventId[I]])
+        eventPoolDuration.append(mechEventDuration[mechEventId[I]])
+        eventPoolWeight.append(mechEventWeight[mechEventId[I]])
+        eventPoolIndex.append(len(eventPoolIndex))

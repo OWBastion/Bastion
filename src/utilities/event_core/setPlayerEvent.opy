@@ -7,42 +7,25 @@ subroutine setPlayerEvent
 
 def setPlayerEvent():
     @Name "[VishkarEvent]: set player event"
-    
-    if eventPlayer.eventForceRoll != null:
-        eventPlayer.temp = eventPlayer.eventForceRoll
-    else:
-        eventPlayer.temp = eventPlayer.categoryRoll if eventPlayer.categoryRoll != null else random.uniform(0, 100)
-    if eventPlayer.temp < 42.5:
-        eventPlayer.eventType = EventType.BUFF
-        buildCandidatePool()
-        wait(getAverageServerLoad() / 100 * 0.032)
-        rejecSampling()
-        eventPlayer.eventName = buffEventName[eventPlayer.eventId]
-        eventPlayer.eventDesc = buffEventDesc[eventPlayer.eventId]
-        eventPlayer.eventDuration = buffEventDuration[eventPlayer.eventId]
+
+    buildCandidatePool()
+    wait(getAverageServerLoad() / 100 * 0.032)
+    rejecSampling()
+    eventPlayer.eventType = eventPoolType[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventId = eventPoolId[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventName = eventPoolName[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDesc = eventPoolDesc[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDuration = eventPoolDuration[eventPlayer.eventCandidateIndex]
+    if eventPlayer.eventType == EventType.BUFF:
         if eventPlayer.eventId == BuffEventId.OLIVIA_GIFT:
             goto lbl_0
         eventPlayer.eventCount[EventType.BUFF]++
         lbl_0:
         eventPlayer.eventLucky = eventPlayer.eventLucky + 1 if eventPlayer.eventLucky > 0 else 1
-    elif eventPlayer.temp < 80:
-        eventPlayer.eventType = EventType.DEBUFF
-        buildCandidatePool()
-        wait(getAverageServerLoad() / 100 * 0.032)
-        rejecSampling()
-        eventPlayer.eventName = debuffEventName[eventPlayer.eventId]
-        eventPlayer.eventDesc = debuffEventDesc[eventPlayer.eventId]
-        eventPlayer.eventDuration = debuffEventDuration[eventPlayer.eventId]
+    elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventCount[EventType.DEBUFF]++
         eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
-    else:
-        eventPlayer.eventType = EventType.MECH
-        buildCandidatePool()
-        wait(getAverageServerLoad() / 100 * 0.032)
-        rejecSampling()
-        eventPlayer.eventName = mechEventName[eventPlayer.eventId]
-        eventPlayer.eventDesc = mechEventDesc[eventPlayer.eventId]
-        eventPlayer.eventDuration = mechEventDuration[eventPlayer.eventId]
+    elif eventPlayer.eventType == EventType.MECH:
         eventPlayer.eventCount[EventType.MECH]++
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
@@ -52,7 +35,7 @@ def setPlayerEvent():
             eventPlayer.eventForceCount--
         else:
             eventPlayer.eventForceRoll = null
-    eventPlayer.eventLastId.append(eventPlayer.eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventPlayer.eventId)
+    eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
     if eventPlayer.eventDesc == null:

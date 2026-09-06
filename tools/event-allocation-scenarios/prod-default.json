@@ -1,8 +1,6 @@
 {
   "playerState": {
-    "heroNumber": 0,
-    "categoryRoll": 20,
-    "categoryRollSnapshot": 20
+    "heroNumber": 0
   },
   "iterations": 200000,
   "seed": 1

@@ -14,10 +14,11 @@
 1. `detectFlag` 在开局一段时间后激活事件系统（debug 与正式阈值不同）
 2. `initialize event array` 构建事件池数组与可抽取 ID 列表
 3. `assignPlayerEvent` 对符合条件玩家按周期触发抽取
-4. `setPlayerEvent` 决定类别并填充当前玩家事件数据
-5. `rejectSampling` 在类别池内按权重抽样（最多 8 轮）
-6. 事件效果规则在 `events/effects/*` 中执行
-7. 到期后 `clearPlayerEvent` 清理状态与特效
+4. `buildCandidatePool` 从全局事件目录构建硬资格候选集，并按事件身份应用最近事件去重
+5. `rejectSampling` 在全局候选集内按权重抽样（最多 8 轮）
+6. `setPlayerEvent` 接收选中的事件，然后回填类别并填充当前玩家事件数据
+7. 事件效果规则在 `events/effects/*` 中执行
+8. 到期后 `clearPlayerEvent` 清理状态与特效
 
 ## 事件数据结构
 
@@ -34,13 +35,17 @@
 - `debuffEventName`, `debuffEventDesc`, `debuffEventDuration`, `debuffEventWeight`
 - `mechEventName`, `mechEventDesc`, `mechEventDuration`, `mechEventWeight`
 - `buffEventId`, `debuffEventId`, `mechEventId`
+- `eventPoolType`, `eventPoolId`, `eventPoolName`, `eventPoolDesc`, `eventPoolDuration`, `eventPoolWeight`, `eventPoolIndex`
+
+`eventPool*` 是初始化时由当前启用的三类事件目录合并出的单一全局目录。抽样使用目录索引；`eventPoolIndex` 是当前房间内稳定的全局事件身份，也允许未来不预先确定效果类别的事件进入目录。
 
 玩家态：
 
-- `eventId`, `eventLastId`（最近 N 次去重组合键数组，格式：`eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId`）, `eventType`, `eventDuration`, `eventDurationHud`
+- `eventId`, `eventLastId`（最近 N 次全局目录索引）, `eventType`, `eventDuration`, `eventDurationHud`
 - `eventCount[3]`（各类别计数）
 - `eventLucky`（幸运倾向累计）
-- `eventForceRoll/eventForceCount`（强制类别调试与作弊链）
+- `eventForceRoll/eventForceCount`（仅作为现有作弊链的类别资格约束）
+- `eventCandidateIndex`, `eventTempIndex`, `eventTempWeight`（本次抽样的目录索引与临时结果）
 
 ## 机制事件 ID（Enum 管理）
 
@@ -72,26 +77,21 @@
   - Pack 4-5 已回收到按包开关，用于控制 `devMain` 的元素数
 - 调试某个旧事件依然高效；调试 Pack 4-5 事件时，优先结合 `devTool`、强制事件入口或临时局部改动做验证
 
-## 类别概率与抽样
+## 全局候选与抽样
 
-在 `setPlayerEvent` 中：
+`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventPool*` 全局目录筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。
 
-- `0 <= roll < 42.5`：Buff
-- `42.5 <= roll < 80`：Debuff
-- `80 <= roll <= 100`：Mech
+现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
-`rejectSampling` 通过 `random.uniform(0, eventWeight) < 当前事件权重` 决策是否命中，高权重更易命中。
+`rejectSampling` 通过 `random.uniform(0, eventWeight) < eventPoolWeight[index]` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。`EVT_INIT_EVENT_WEIGHT` 与现有事件权重暂时沿用 SSR 模型的基础值，旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
 
 去重与候选池门控策略：
 
-- `eventLastId` 现为最近事件历史组合键数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），按 `eventType * EVT_DEDUP_TYPE_MULTIPLIER + eventId` 存储，避免不同类别同数值 ID 相互误排除。
-- 候选池构建（`buildCandidatePool`）在去重与抽样前根据玩家状态过滤不兼容事件：
-  - 增益组：无相位触发支持英雄过滤 `PHASE_SURGE` / `BODYGUARD`；已抽取/完成一次性事件过滤 `TEMPER_HEART`。
-  - 减益组：处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`。
-  - 机制组：心之钢层数 `<= 0` 时过滤依赖正向本金/百分比/乘数赌注的变体（`GAMBLER_SPEED_CHALLENGE`、`GAMBLER_HEART_OF_STEEL`、`GAMBLER_ALL_IN_ART_5`；`GAMBLER_WINNER_TAKE_ALL` 需奖池与层数达标），保留固定加减运算的合法赌徒变体（如基础 `GAMBLER`、`GAMBLER_DICE_MANIAC`、`GAMBLER_SHORT_INVESTMENT`、`GAMBLER_LONG_INVESTMENT` 等）；无任何负面永久属性时过滤 `MIRROR_INVERSION`。
-- 候选池降级兜底路径同样严格执行上述硬性门控，避免去重降级后误抽入不兼容事件。
+- `eventLastId` 现为最近事件历史全局目录索引数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），不再依赖类别编码，避免不同类别同数值 ID 相互误排除。
+- 候选池构建在全局目录上执行现有硬门控：无相位触发支持英雄过滤 `PHASE_SURGE` / `BODYGUARD`；处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`；心之钢层数 `<= 0` 时过滤 `GAMBLER_SPEED_CHALLENGE`。
+- 若最近事件去重后为空，兜底路径只移除去重条件，仍执行所有硬资格门控，避免把不兼容事件恢复进候选集。
 - 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
-- 当可用事件总量过少导致候选池为空时，会降级到仅按启用状态过滤，避免抽样中断。
+- 当最近事件去重导致候选池为空时，会降级到保留硬资格门控、仅移除去重条件，避免抽样中断。
 
 版本假设：
 

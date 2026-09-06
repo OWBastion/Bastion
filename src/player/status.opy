@@ -27,10 +27,9 @@ def resetPlayerEventState():
     eventPlayer.eventDurationHud = 0
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false
-    eventPlayer.eventTempId = []
+    eventPlayer.eventCandidateIndex = null
+    eventPlayer.eventTempIndex = []
     eventPlayer.eventTempWeight = 0
-    eventPlayer.categoryRoll = null
-    eventPlayer.categoryRollSnapshot = null
     wait(getAverageServerLoad() / 100 * 0.032)
 
 def resetPlayerProgressState():
