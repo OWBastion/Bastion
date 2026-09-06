@@ -12,7 +12,6 @@ rule "Manage Life Grip availability":
     @Condition eventPlayer.playerTitleRelationIndex != null
     @Condition eventPlayer.isWinner == false
 
-    eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setAbility2Enabled(true)
     waitUntil(
         eventPlayer.hasSpawned() == false
@@ -21,8 +20,8 @@ rule "Manage Life Grip availability":
         or eventPlayer.isWinner == true,
         Math.INFINITY
     )
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.setAbility2Enabled(false)
+    if eventPlayer.getHero() == Hero.LIFEWEAVER:
+        eventPlayer.setAbility2Enabled(false)
 
 
 rule "Break Petal Platform":
