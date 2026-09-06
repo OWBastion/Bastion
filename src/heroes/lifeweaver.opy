@@ -4,7 +4,7 @@
 #!optimizeStrict
 #!rulePrefix "Hero/Lifeweaver"
 
-rule "Manage Life Grip availability":
+rule "Enable Life Grip for eligible players":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
@@ -13,15 +13,22 @@ rule "Manage Life Grip availability":
     @Condition eventPlayer.isWinner == false
 
     eventPlayer.setAbility2Enabled(true)
+
+
+rule "Lock Life Grip while ineligible":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.getHero() == Hero.LIFEWEAVER
+    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.playerTitleRelationIndex == null or eventPlayer.isWinner == true
+
+    eventPlayer.setAbility2Enabled(false)
     waitUntil(
-        eventPlayer.hasSpawned() == false
-        or eventPlayer.getHero() != Hero.LIFEWEAVER
-        or eventPlayer.playerTitleRelationIndex == null
-        or eventPlayer.isWinner == true,
+        eventPlayer.getHero() != Hero.LIFEWEAVER
+        or (eventPlayer.playerTitleRelationIndex != null and eventPlayer.isWinner == false),
         Math.INFINITY
     )
-    if eventPlayer.getHero() == Hero.LIFEWEAVER:
-        eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setAbility2Enabled(true)
 
 
 rule "Break Petal Platform":
