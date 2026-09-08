@@ -30,7 +30,8 @@ macro platformMapRevision_EICHENWALDE_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_EICHENWALDE[0].split("-"),
         DATA_EICHENWALDE[1].split("-"),
-        DATA_EICHENWALDE[2].split("-")
+        DATA_EICHENWALDE[2].split("-"),
+        []
     ]
 
 macro platformMapRevision_EICHENWALDE_CLASSIC():
