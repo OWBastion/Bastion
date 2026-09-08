@@ -531,6 +531,7 @@ rule "initialize event array":
         eventPoolDuration.append(buffEventDuration[buffEventId[I]])
         eventPoolWeight.append(buffEventWeight[buffEventId[I]])
         eventPoolIndex.append(len(eventPoolIndex))
+        wait(0.016)
     for I in range(len(debuffEventId)):
         eventPoolType.append(EventType.DEBUFF)
         eventPoolId.append(debuffEventId[I])
@@ -539,6 +540,7 @@ rule "initialize event array":
         eventPoolDuration.append(debuffEventDuration[debuffEventId[I]])
         eventPoolWeight.append(debuffEventWeight[debuffEventId[I]])
         eventPoolIndex.append(len(eventPoolIndex))
+        wait(0.016)
     for I in range(len(mechEventId)):
         eventPoolType.append(EventType.MECH)
         eventPoolId.append(mechEventId[I])
@@ -547,3 +549,4 @@ rule "initialize event array":
         eventPoolDuration.append(mechEventDuration[mechEventId[I]])
         eventPoolWeight.append(mechEventWeight[mechEventId[I]])
         eventPoolIndex.append(len(eventPoolIndex))
+        wait(0.016)
