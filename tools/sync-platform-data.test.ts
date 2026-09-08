@@ -246,13 +246,22 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
       achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: 'revision:map.test_map:classic', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
       titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }],
       playerTitleGrants: [{ playerName: '经典玩家', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: 'player-2', playerName: '经典玩家' }]
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: 'player-2', playerName: '经典玩家' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   });
 
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: ['经典玩家'] });
   assert.equal(source.titles[0].displayExpr, '__currentMapClassicText___');
+});
+
+test('selects map titles from the active map revision rather than the global classic setting', async () => {
+  const source = await readFile(new URL('../src/utilities/system/setPlayerTitle.opy', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /classicMapVariant/);
+  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.PIONEER\]/);
+  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.CONQUEROR\]/);
+  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.DOMINATOR\]/);
+  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.CLASSIC\]/);
 });
 
 test('uses dynamic map-title achievements as the authoritative slot projection', () => {
@@ -408,6 +417,7 @@ test('generates deterministic map-local macros for default and classic revisions
   assert.doesNotMatch(output, /platformMapRevision(?:Id|Variant)/);
   assert.match(output, /vect\(1, 2, 3\)/);
   assert.match(output, /playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
+  assert.match(output, /DATA_TEST_MAP\[2\]\.split\("-"\),\n        playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });

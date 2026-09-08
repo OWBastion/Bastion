@@ -565,7 +565,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     players.set(playerName, { name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
   }
   const revisionsById = new Map<string, ValidatedGameplayRevision>();
-  const defaultRevisionByMap = new Map<string, string>();
   for (const map of platformData.maps) {
     const mapId = requireString(map.mapId, 'mapId');
     if (!Array.isArray(map.gameplayRevisions)) throw new Error(`maps.${mapId}.gameplayRevisions must be an array`);
@@ -574,7 +573,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     for (const revision of revisions) {
       if (revisionsById.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
       revisionsById.set(revision.gameplayRevisionId, revision);
-      if (revision.isDefault) defaultRevisionByMap.set(mapId, revision.gameplayRevisionId);
     }
   }
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
@@ -589,7 +587,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !mapTitleMetadata.has(`${mapId}:${titleKey}`)) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
     const player = players.get(playerName);
     if (!player) players.set(playerName, { name: playerName, titleKeys: [], allTitles: false });
-    if (defaultRevisionByMap.get(mapId) !== gameplayRevisionId) continue;
+    if (slot !== 'classic' && !revision.isDefault) continue;
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
     const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
   }
@@ -715,8 +713,8 @@ function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, co
   if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${renderSpatialPosition(config.springboardPositions[0]!)}`);
 }
 
-function renderRevisionTitleHolderExpression(revision: PlatformMapRevisionSource['maps'][number]['revisions'][number]) {
-  const classicHolders = revision.titleHolders
+function renderMapClassicTitleHolderExpression(map: PlatformMapRevisionSource['maps'][number]) {
+  const classicHolders = map.revisions.flatMap((revision) => revision.titleHolders)
     .filter((holder) => (holder.slotSemantics === 'none' ? 'classic' : holder.slot) === 'classic')
     .map((holder) => holder.playerName);
   return renderPlayerIndexDelimited(classicHolders);
@@ -731,11 +729,8 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     MAP_REVISION_BEGIN,
     '# Source: OWBastion Agents API',
   ];
-  const titleMacros = new Map<string, string>();
-  for (const revision of map.revisions) {
-    if (revision.mapVariant === 'classic') titleMacros.set(mapRevisionVariantName(revision), renderRevisionTitleHolderExpression(revision));
-  }
-  if (titleMacros.size > 0) lines.push('');
+  const classicHolders = renderMapClassicTitleHolderExpression(map);
+  if (map.revisions.some((revision) => revision.mapVariant === 'classic')) lines.push('');
 
   for (const revision of map.revisions) {
     const variant = mapRevisionVariantName(revision);
@@ -754,13 +749,14 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
       lines.push('        [],');
       lines.push('        [],');
       lines.push('        [],');
-      lines.push(`        ${titleMacros.get(variant)}`);
+      lines.push(`        ${classicHolders}`);
       lines.push('    ]');
     } else {
       lines.push('    mapTitlePlayersByKey = [');
       lines.push(`        ${mapKey}[0].split("-"),`);
       lines.push(`        ${mapKey}[1].split("-"),`);
-      lines.push(`        ${mapKey}[2].split("-")`);
+      lines.push(`        ${mapKey}[2].split("-"),`);
+      lines.push(`        ${classicHolders}`);
       lines.push('    ]');
     }
     for (const stage of revision.spatialConfig.alternateStages) {
