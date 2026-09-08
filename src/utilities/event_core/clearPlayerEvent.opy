@@ -15,6 +15,7 @@ def clearPlayerEvent():
     eventPlayer.passiveRegenBlocked = false
     eventPlayer.eventId = -1
     eventPlayer.eventType = null
+    eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventCandidateIndex = null
     eventPlayer.eventTempIndex = []
     eventPlayer.eventTempWeight = 0

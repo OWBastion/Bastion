@@ -4,20 +4,13 @@
 #!optimizeStrict
 
 subroutine setPlayerEvent
+subroutine commitPlayerEventCategory
 
-def setPlayerEvent():
-    @Name "[VishkarEvent]: set player event"
+def commitPlayerEventCategory():
+    @Name "[VishkarEvent]: commit player event category"
 
-    buildCandidatePool()
-    wait(getAverageServerLoad() / 100 * 0.032)
-    rejecSampling()
-    if eventPlayer.thiefBuffStolen == true:
-        eventPlayer.thiefBuffStolen = false
-    eventPlayer.eventType = eventPoolType[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventId = eventPoolId[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventName = eventPoolName[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDesc = eventPoolDesc[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDuration = eventPoolDuration[eventPlayer.eventCandidateIndex]
+    if eventPlayer.eventCategoryCommitted == true or eventPlayer.eventType == null:
+        return
     if eventPlayer.eventType == EventType.BUFF:
         if eventPlayer.eventId == BuffEventId.OLIVIA_GIFT:
             goto lbl_0
@@ -29,6 +22,25 @@ def setPlayerEvent():
         eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
     elif eventPlayer.eventType == EventType.MECH:
         eventPlayer.eventCount[EventType.MECH]++
+    else:
+        return
+    eventPlayer.eventCategoryCommitted = true
+
+def setPlayerEvent():
+    @Name "[VishkarEvent]: set player event"
+
+    buildCandidatePool()
+    wait(getAverageServerLoad() / 100 * 0.032)
+    rejecSampling()
+    if eventPlayer.thiefBuffStolen == true:
+        eventPlayer.thiefBuffStolen = false
+    eventPlayer.eventCategoryCommitted = false
+    eventPlayer.eventType = eventPoolType[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventId = eventPoolId[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventName = eventPoolName[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDesc = eventPoolDesc[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDuration = eventPoolDuration[eventPlayer.eventCandidateIndex]
+    commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
