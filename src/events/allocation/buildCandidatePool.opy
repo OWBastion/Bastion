@@ -37,7 +37,7 @@ def buildCandidatePool():
             eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
             eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
         if eventPlayer.playerOnceEventState != null:
-            if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
+            if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
                 eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
         eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
             buffEventWeight[id] != 0 and buffEventWeight[id] > 0 and
@@ -49,7 +49,7 @@ def buildCandidatePool():
                 eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
                 eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
             if eventPlayer.playerOnceEventState != null:
-                if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.NONE:
+                if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
                     eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
             eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
                 buffEventWeight[id] != 0 and buffEventWeight[id] > 0
