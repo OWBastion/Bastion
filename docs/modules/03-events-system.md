@@ -39,10 +39,12 @@
 
 `eventPool*` 是初始化时由当前启用的三类事件目录合并出的单一全局目录。抽样使用目录索引；`eventPoolIndex` 是当前房间内稳定的全局事件身份，也允许未来不预先确定效果类别的事件进入目录。
 
+若目录项的 `eventPoolType` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
+
 玩家态：
 
 - `eventId`, `eventLastId`（最近 N 次全局目录索引）, `eventType`, `eventDuration`, `eventDurationHud`
-- `eventCount[3]`（各类别计数）
+- `eventCount[3]`（各类别计数；由 `commitPlayerEventCategory()` 在类别确定后更新）
 - `eventLucky`（幸运倾向累计）
 - `eventForceRoll/eventForceCount`（仅作为现有作弊链的类别资格约束）
 - `eventCandidateIndex`, `eventTempIndex`, `eventTempWeight`（本次抽样的目录索引与临时结果）

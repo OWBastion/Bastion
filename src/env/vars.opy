@@ -146,6 +146,7 @@ playervar eventIsSelected 71
 playervar eventCandidateIndex 72
 playervar eventTempIndex 74
 playervar eventTempWeight 73
+playervar eventCategoryCommitted
 playervar mod_speed_event 76
 playervar mod_speed_perma 77
 playervar mod_heal_event 78
