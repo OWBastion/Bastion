@@ -22,3 +22,6 @@
 #!include "debuff/selfless_giveaway.opy"
 #!include "debuff/keep_distance_aura.opy"
 #!include "debuff/moon_rocket.opy"
+#!include "debuff/wayward_navigation.opy"
+#!include "debuff/overweight_pack.opy"
+#!include "debuff/adlersbrunn_wraith.opy"
