@@ -29,7 +29,8 @@ macro platformMapRevision_HANAMURA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_HANAMURA[0].split("-"),
         DATA_HANAMURA[1].split("-"),
-        DATA_HANAMURA[2].split("-")
+        DATA_HANAMURA[2].split("-"),
+        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
     ]
 
 macro platformMapRevision_HANAMURA_CLASSIC():

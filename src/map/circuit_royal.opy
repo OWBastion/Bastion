@@ -31,7 +31,8 @@ macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_CIRCUIT_ROYAL[0].split("-"),
         DATA_CIRCUIT_ROYAL[1].split("-"),
-        DATA_CIRCUIT_ROYAL[2].split("-")
+        DATA_CIRCUIT_ROYAL[2].split("-"),
+        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
     ]
 
 macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():

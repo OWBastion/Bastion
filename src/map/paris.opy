@@ -26,7 +26,8 @@ macro platformMapRevision_PARIS_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_PARIS[0].split("-"),
         DATA_PARIS[1].split("-"),
-        DATA_PARIS[2].split("-")
+        DATA_PARIS[2].split("-"),
+        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
     ]
 
 macro platformMapRevision_PARIS_CLASSIC():
