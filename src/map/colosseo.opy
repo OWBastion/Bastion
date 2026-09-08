@@ -28,7 +28,8 @@ macro platformMapRevision_COLOSSEO_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_COLOSSEO[0].split("-"),
         DATA_COLOSSEO[1].split("-"),
-        DATA_COLOSSEO[2].split("-")
+        DATA_COLOSSEO[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

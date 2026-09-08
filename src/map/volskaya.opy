@@ -28,7 +28,8 @@ macro platformMapRevision_VOLSKAYA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_VOLSKAYA[0].split("-"),
         DATA_VOLSKAYA[1].split("-"),
-        DATA_VOLSKAYA[2].split("-")
+        DATA_VOLSKAYA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

@@ -27,7 +27,8 @@ macro platformMapRevision_HAVANA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_HAVANA[0].split("-"),
         DATA_HAVANA[1].split("-"),
-        DATA_HAVANA[2].split("-")
+        DATA_HAVANA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

@@ -34,7 +34,8 @@ macro platformMapRevision_SURAVASA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_SURAVASA[0].split("-"),
         DATA_SURAVASA[1].split("-"),
-        DATA_SURAVASA[2].split("-")
+        DATA_SURAVASA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

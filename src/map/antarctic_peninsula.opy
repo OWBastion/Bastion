@@ -41,7 +41,8 @@ macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_ANTARCTIC_PENINSULA[0].split("-"),
         DATA_ANTARCTIC_PENINSULA[1].split("-"),
-        DATA_ANTARCTIC_PENINSULA[2].split("-")
+        DATA_ANTARCTIC_PENINSULA[2].split("-"),
+        []
     ]
 
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION vect(175.87, -9.5, -228)

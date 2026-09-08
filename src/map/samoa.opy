@@ -44,7 +44,8 @@ macro platformMapRevision_SAMOA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_SAMOA[0].split("-"),
         DATA_SAMOA[1].split("-"),
-        DATA_SAMOA[2].split("-")
+        DATA_SAMOA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

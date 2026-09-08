@@ -27,7 +27,8 @@ macro platformMapRevision_ROUTE66_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_ROUTE66[0].split("-"),
         DATA_ROUTE66[1].split("-"),
-        DATA_ROUTE66[2].split("-")
+        DATA_ROUTE66[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

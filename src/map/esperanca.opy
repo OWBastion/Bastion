@@ -33,7 +33,8 @@ macro platformMapRevision_ESPERANCA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_ESPERANCA[0].split("-"),
         DATA_ESPERANCA[1].split("-"),
-        DATA_ESPERANCA[2].split("-")
+        DATA_ESPERANCA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

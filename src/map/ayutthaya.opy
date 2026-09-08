@@ -26,7 +26,8 @@ macro platformMapRevision_AYUTTHAYA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_AYUTTHAYA[0].split("-"),
         DATA_AYUTTHAYA[1].split("-"),
-        DATA_AYUTTHAYA[2].split("-")
+        DATA_AYUTTHAYA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

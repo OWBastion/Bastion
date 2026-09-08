@@ -31,7 +31,8 @@ macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_SHAMBALI_MONASTERY[0].split("-"),
         DATA_SHAMBALI_MONASTERY[1].split("-"),
-        DATA_SHAMBALI_MONASTERY[2].split("-")
+        DATA_SHAMBALI_MONASTERY[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

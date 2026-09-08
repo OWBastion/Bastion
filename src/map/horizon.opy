@@ -26,7 +26,8 @@ macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_HORIZON_LUNAR_COLONY[0].split("-"),
         DATA_HORIZON_LUNAR_COLONY[1].split("-"),
-        DATA_HORIZON_LUNAR_COLONY[2].split("-")
+        DATA_HORIZON_LUNAR_COLONY[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

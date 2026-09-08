@@ -37,7 +37,8 @@ macro platformMapRevision_RIALTO_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_RIALTO[0].split("-"),
         DATA_RIALTO[1].split("-"),
-        DATA_RIALTO[2].split("-")
+        DATA_RIALTO[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

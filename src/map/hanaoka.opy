@@ -35,7 +35,8 @@ macro platformMapRevision_HANAOKA_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_HANAOKA[0].split("-"),
         DATA_HANAOKA[1].split("-"),
-        DATA_HANAOKA[2].split("-")
+        DATA_HANAOKA[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

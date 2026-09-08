@@ -44,7 +44,8 @@ macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_LIJIANG_TOWER[0].split("-"),
         DATA_LIJIANG_TOWER[1].split("-"),
-        DATA_LIJIANG_TOWER[2].split("-")
+        DATA_LIJIANG_TOWER[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

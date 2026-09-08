@@ -28,7 +28,8 @@ macro platformMapRevision_HOLLYWOOD_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_HOLLYWOOD[0].split("-"),
         DATA_HOLLYWOOD[1].split("-"),
-        DATA_HOLLYWOOD[2].split("-")
+        DATA_HOLLYWOOD[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

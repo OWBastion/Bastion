@@ -28,7 +28,8 @@ macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_TEMPLE_OF_ANUBIS[0].split("-"),
         DATA_TEMPLE_OF_ANUBIS[1].split("-"),
-        DATA_TEMPLE_OF_ANUBIS[2].split("-")
+        DATA_TEMPLE_OF_ANUBIS[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

@@ -28,7 +28,8 @@ macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_BLIZZARD_WORLD[0].split("-"),
         DATA_BLIZZARD_WORLD[1].split("-"),
-        DATA_BLIZZARD_WORLD[2].split("-")
+        DATA_BLIZZARD_WORLD[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

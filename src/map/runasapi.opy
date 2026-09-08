@@ -27,7 +27,8 @@ macro platformMapRevision_RUNASAPI_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_RUNASAPI[0].split("-"),
         DATA_RUNASAPI[1].split("-"),
-        DATA_RUNASAPI[2].split("-")
+        DATA_RUNASAPI[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

@@ -26,7 +26,8 @@ macro platformMapRevision_ILIOS_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_ILIOS[0].split("-"),
         DATA_ILIOS[1].split("-"),
-        DATA_ILIOS[2].split("-")
+        DATA_ILIOS[2].split("-"),
+        []
     ]
 
 #!define platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_POSITION vect(322.692, -21.52, 42.832)

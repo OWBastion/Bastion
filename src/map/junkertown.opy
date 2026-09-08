@@ -27,7 +27,8 @@ macro platformMapRevision_JUNKERTOWN_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_JUNKERTOWN[0].split("-"),
         DATA_JUNKERTOWN[1].split("-"),
-        DATA_JUNKERTOWN[2].split("-")
+        DATA_JUNKERTOWN[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

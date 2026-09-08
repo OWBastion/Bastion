@@ -29,7 +29,8 @@ macro platformMapRevision_NEON_JUNCTION_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_NEON_JUNCTION[0].split("-"),
         DATA_NEON_JUNCTION[1].split("-"),
-        DATA_NEON_JUNCTION[2].split("-")
+        DATA_NEON_JUNCTION[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

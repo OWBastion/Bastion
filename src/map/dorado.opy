@@ -28,7 +28,8 @@ macro platformMapRevision_DORADO_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_DORADO[0].split("-"),
         DATA_DORADO[1].split("-"),
-        DATA_DORADO[2].split("-")
+        DATA_DORADO[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

@@ -42,7 +42,8 @@ macro platformMapRevision_NEPAL_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_NEPAL[0].split("-"),
         DATA_NEPAL[1].split("-"),
-        DATA_NEPAL[2].split("-")
+        DATA_NEPAL[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

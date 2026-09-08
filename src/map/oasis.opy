@@ -48,7 +48,8 @@ macro platformMapRevision_OASIS_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_OASIS[0].split("-"),
         DATA_OASIS[1].split("-"),
-        DATA_OASIS[2].split("-")
+        DATA_OASIS[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION

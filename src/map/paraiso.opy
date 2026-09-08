@@ -29,7 +29,8 @@ macro platformMapRevision_PARAISO_DEFAULT():
     mapTitlePlayersByKey = [
         DATA_PARAISO[0].split("-"),
         DATA_PARAISO[1].split("-"),
-        DATA_PARAISO[2].split("-")
+        DATA_PARAISO[2].split("-"),
+        []
     ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
