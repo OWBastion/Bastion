@@ -170,8 +170,10 @@ playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
 playervar altFormActive 111
+playervar playerOnceEventState
 playervar tempUnlockId
 playervar earnedAchievements
 playervar menuHeroIndex
 playervar mod_heal_perma
+playervar thiefBuffStolen
 playervar eventMatchCounters
