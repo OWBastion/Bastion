@@ -165,7 +165,7 @@ rule "initialize event array":
     buffEventId.append(BuffEventId.KONAMI_CODE)
 
     buffEventName[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_TITLE
-    buffEventDesc[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(percent(EVT_12_SHIELD_PERCENT))
+    buffEventDesc[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_BASE_SHIELD, percent(EVT_12_SHIELD_PERCENT))
     buffEventDuration[BuffEventId.PHOTON_SHIELD] = EVT_BUFF_12_DURATION
     buffEventWeight[BuffEventId.PHOTON_SHIELD] = EVT_BUFF_12_WEIGHT
     buffEventId.append(BuffEventId.PHOTON_SHIELD)

@@ -151,10 +151,9 @@ enum HeartSteelData:
 #!define EVT_BUFF_12_DURATION 120
 # Weight（权重）
 #!define EVT_BUFF_12_WEIGHT 0.9
-# 给予最大生命值 20% 的护盾
+# 护盾基础值与最大生命值比例
+#!define EVT_12_BASE_SHIELD 50
 #!define EVT_12_SHIELD_PERCENT 0.2
-# 最小护盾值
-#!define EVT_12_MIN_SHIELD 75
 # 护盾池 ID 索引
 #!define EVT_12_HEALTH_ID 2
 

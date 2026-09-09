@@ -117,7 +117,7 @@ rule "initialize event array":
     if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_12_TITLE, true, BuffEventId.PHOTON_SHIELD):
         goto lbl_13
     buffEventName[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_TITLE
-    buffEventDesc[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_SHIELD_PERCENT * 100)
+    buffEventDesc[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_BASE_SHIELD, EVT_12_SHIELD_PERCENT * 100)
     buffEventDuration[BuffEventId.PHOTON_SHIELD] = EVT_BUFF_12_DURATION
     buffEventWeight[BuffEventId.PHOTON_SHIELD] = EVT_BUFF_12_WEIGHT
     buffEventId.append(BuffEventId.PHOTON_SHIELD)
