@@ -88,7 +88,7 @@
 #!define STR_EVT_BUFF_11_TITLE "↑↑↓↓←→←→BABA"
 #!define STR_EVT_BUFF_11_DESC "阵亡后在阵亡地点复活"
 #!define STR_EVT_BUFF_12_TITLE "费斯卡光子护盾"
-#!define STR_EVT_BUFF_12_DESC "所有人获得一个可恢复的护盾\n数值为你{0}%最大生命值\n护盾持续到你阵亡或事件结束"
+#!define STR_EVT_BUFF_12_DESC "所有人获得一个可恢复的护盾\n数值为{0}+{1}%最大生命值\n护盾持续到你阵亡或事件结束"
 #!define STR_EVT_BUFF_13_TITLE "向我靠拢"
 #!define STR_EVT_BUFF_13_DESC "你和你附近的队友每{0}秒获得{1}秒无敌"
 #!define STR_EVT_BUFF_14_TITLE "胜利意志"

@@ -83,7 +83,7 @@
 #!define STR_EVT_BUFF_11_TITLE "Konami Code"
 #!define STR_EVT_BUFF_11_DESC "Respawn at your death location when you die."
 #!define STR_EVT_BUFF_12_TITLE "Vishkar Photon Shield"
-#!define STR_EVT_BUFF_12_DESC "All players gain a recoverable shield\nequal to {0}% of your max HP.\nThe shield lasts until death or event end."
+#!define STR_EVT_BUFF_12_DESC "All players gain a recoverable shield\nequal to {0} + {1}% of your max HP.\nThe shield lasts until death or event end."
 #!define STR_EVT_BUFF_13_TITLE "Rally to Me"
 #!define STR_EVT_BUFF_13_DESC "You and nearby allies gain {1}s invulnerability every {0}s."
 #!define STR_EVT_BUFF_14_TITLE "Will to Win"
