@@ -27,13 +27,6 @@ globalvar controlJumpPosition 37
 globalvar controlRespawnPosition 38
 globalvar controlRespawnAxis 39
 globalvar controlRespawnAxisThreshold 40
-globalvar mapTitlePlayersByKey 43
-globalvar titleText 44
-globalvar titleColor
-globalvar titlePlayer 45
-globalvar playerTitleSetIndex 46
-globalvar playerTitleRelation 47
-globalvar rgbList 48
 globalvar turnSpeedMultiplier 55
 globalvar berserkerTime 56
 globalvar eventId 57
@@ -69,8 +62,6 @@ globalvar springBoardPosition 100
 globalvar portalPosition 101
 globalvar phaseHero 103
 globalvar __currentMapText___ 105
-globalvar __currentPioneerText___ 106
-globalvar __currentMapPioneerText___ 107
 globalvar classicMapVariant 108
 globalvar __currentMapClassicText___
 globalvar devEventCategory
@@ -113,15 +104,7 @@ playervar isPortalEnabled 30
 playervar controlCenterIndex 31
 playervar controlJumpIndex 32
 playervar controlPlayerRespawnPosition 33
-playervar playerTitleAndColor 37
-playervar titleTextID 38
-playervar rgb_vect 39
-playervar info_pvar 40
-playervar rgb_activated 41
 playervar winnerTime 42
-playervar playerTitles 43
-playervar playerTitleIndex 44
-playervar playerTitleRelationIndex 45
 playervar eventMission 58
 playervar eventEffectPlayers 59
 playervar eventId 60
@@ -171,8 +154,6 @@ playervar hudText 109
 playervar eventMissionGoal 110
 playervar altFormActive 111
 playervar playerOnceEventState
-playervar tempUnlockId
-playervar earnedAchievements
 playervar menuHeroIndex
 playervar mod_heal_perma
 playervar thiefBuffStolen

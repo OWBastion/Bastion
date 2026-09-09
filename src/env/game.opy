@@ -61,7 +61,6 @@ rule "Initialize global variables":
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
     obstrucVis = []
-    mapTitlePlayersByKey = []
     masteryRunCode = "{0}-{1}-{2}".format(random.randint(1000, 9999), random.randint(1000, 9999), random.randint(1000, 9999))
 
 rule "Update targetPlayer when player left":
@@ -75,7 +74,6 @@ rule "Update targetPlayer when player left":
         destroyHudText(eventPlayer.hudTextId)
 
 rule "initialize color array":
-    rgbList = [vect(255, 0, 0), vect(255, 165, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 0, 255), vect(75, 0, 130), vect(238, 130, 238)]
     wait(getAverageServerLoad() / 100 * 0.032)
     breathPalette = [[], [], [], [], []]
     breathPalette.red = [vect(238, 75, 43), vect(233, 116, 81), vect(210, 43, 43), vect(220, 20, 60), vect(255, 36, 0), vect(255, 50, 50), vect(255, 0, 0)]

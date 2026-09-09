@@ -7,7 +7,6 @@
 macro platformMapRevision_NEW_JUNK_CITY_DEFAULT():
     __currentMapText___ = "新渣客城"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新渣客城")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-45.678, 8.298, 88.433),
@@ -41,12 +40,6 @@ macro platformMapRevision_NEW_JUNK_CITY_DEFAULT():
         vect(-118.06, 30.58, -2.12)
     ]
 
-    mapTitlePlayersByKey = [
-        DATA_NEW_JUNK_CITY[0].split("-"),
-        DATA_NEW_JUNK_CITY[1].split("-"),
-        DATA_NEW_JUNK_CITY[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

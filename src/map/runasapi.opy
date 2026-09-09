@@ -7,7 +7,6 @@
 macro platformMapRevision_RUNASAPI_DEFAULT():
     __currentMapText___ = "鲁纳塞彼"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("鲁纳塞彼")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(70.39, 7.86, 24.73),
@@ -24,12 +23,6 @@ macro platformMapRevision_RUNASAPI_DEFAULT():
     thirdPersonPosition = vect(113.31, 7.09, -3.5)
     creditsPosition = vect(124.6, 8.77, -15.99)
 
-    mapTitlePlayersByKey = [
-        DATA_RUNASAPI[0].split("-"),
-        DATA_RUNASAPI[1].split("-"),
-        DATA_RUNASAPI[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

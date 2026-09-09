@@ -8,7 +8,6 @@
 macro platformMapRevision_ESPERANCA_DEFAULT():
     __currentMapText___ = "埃斯佩兰萨"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("埃斯佩兰萨")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(86.815, -0.268, -54.406),
@@ -30,12 +29,6 @@ macro platformMapRevision_ESPERANCA_DEFAULT():
     creditsPosition = vect(116.67, -0.29, -82.29)
     springBoardPosition = vect(-73.72, -3, -34.19)
 
-    mapTitlePlayersByKey = [
-        DATA_ESPERANCA[0].split("-"),
-        DATA_ESPERANCA[1].split("-"),
-        DATA_ESPERANCA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

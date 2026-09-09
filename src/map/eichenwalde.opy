@@ -9,7 +9,6 @@
 macro platformMapRevision_EICHENWALDE_DEFAULT():
     __currentMapText___ = "艾兴瓦尔德"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(124.187, 18.867, -24.169),
@@ -27,17 +26,10 @@ macro platformMapRevision_EICHENWALDE_DEFAULT():
     thirdPersonPosition = vect(131.335, 10.72, 1.098)
     creditsPosition = vect(132.82, 13.72, 9.04)
 
-    mapTitlePlayersByKey = [
-        DATA_EICHENWALDE[0].split("-"),
-        DATA_EICHENWALDE[1].split("-"),
-        DATA_EICHENWALDE[2].split("-"),
-        []
-    ]
 
 macro platformMapRevision_EICHENWALDE_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(115.78, 14.732, -29.038),
@@ -57,12 +49,6 @@ macro platformMapRevision_EICHENWALDE_CLASSIC():
     thirdPersonPosition = vect(131.335, 10.72, 1.098)
     creditsPosition = vect(132.82, 13.72, 9.04)
 
-    mapTitlePlayersByKey = [
-        [],
-        [],
-        [],
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

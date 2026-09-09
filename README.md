@@ -85,9 +85,9 @@ The sync validates stable IDs, supported enums, and cross-resource references, u
 This project supports automatic compile-and-release of Workshop files via GitHub Actions when pushing to `main`:
 
 - Workflow file: `.github/workflows/release.yml`
-- Release artifacts (dual-language):
-  - `build/en-US.ow`
-  - `build/zh-CN.ow`
+- Release artifacts:
+  - `build/cn-zh-CN.ow`
+  - `build/external-en-US.ow`
 - Package manager: `pnpm`
 
 Local build:
@@ -97,15 +97,16 @@ pnpm install
 pnpm run build
 ```
 
-`pnpm run build` first synchronizes current platform metadata through the Agents API, then compiles both OverPy entries. The release build follows the same rule for the dual-language outputs.
+`pnpm run build` first synchronizes current platform metadata through the Agents API, then compiles CN zh-CN, External en-US, External zh-CN, and CN development zh-CN. The release build emits the CN and External production artifacts.
 
 Build scripts use the `overpy` CLI (`overpy compile ...`) from the npm package.
 
 Build each entry independently:
 
 ```bash
-pnpm run build:main
-pnpm run build:dev
+pnpm run build:cn:zh
+pnpm run build:external:en
+pnpm run build:dev:cn:zh
 ```
 
 The platform website now owns the title, event, glossary, and allocator views. Bastion keeps only the source data, OverPy generation, and build validation.

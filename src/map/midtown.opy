@@ -8,7 +8,6 @@
 macro platformMapRevision_MIDTOWN_DEFAULT():
     __currentMapText___ = "中城"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("中城")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(59.17, 9.847, -6.159),
@@ -27,12 +26,6 @@ macro platformMapRevision_MIDTOWN_DEFAULT():
     thirdPersonPosition = vect(133.91, 1.84, -104.94)
     creditsPosition = vect(126.5, 3, -125.37)
 
-    mapTitlePlayersByKey = [
-        DATA_MIDTOWN[0].split("-"),
-        DATA_MIDTOWN[1].split("-"),
-        DATA_MIDTOWN[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

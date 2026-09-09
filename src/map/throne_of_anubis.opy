@@ -8,7 +8,6 @@
 macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯王座"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿努比斯王座")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-28.955, 6.079, 65.912),
@@ -32,12 +31,6 @@ macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30
 
-    mapTitlePlayersByKey = [
-        DATA_THRONE_OF_ANUBIS[0].split("-"),
-        DATA_THRONE_OF_ANUBIS[1].split("-"),
-        DATA_THRONE_OF_ANUBIS[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -47,6 +40,5 @@ rule "map - 阿努比斯王座":
     
     platformMapRevision_THRONE_OF_ANUBIS_DEFAULT()
     __currentMapText___ = "王座"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 1)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

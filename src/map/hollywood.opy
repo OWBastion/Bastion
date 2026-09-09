@@ -8,7 +8,6 @@
 macro platformMapRevision_HOLLYWOOD_DEFAULT():
     __currentMapText___ = "好莱坞"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("好莱坞")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-20.813, 9.795, -128.879),
@@ -25,12 +24,6 @@ macro platformMapRevision_HOLLYWOOD_DEFAULT():
     thirdPersonPosition = vect(-27.291, 3.92, -156.654)
     creditsPosition = vect(-31.65, 8.96, -175.05)
 
-    mapTitlePlayersByKey = [
-        DATA_HOLLYWOOD[0].split("-"),
-        DATA_HOLLYWOOD[1].split("-"),
-        DATA_HOLLYWOOD[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -40,5 +33,4 @@ rule "map - hollywood":
     
     platformMapRevision_HOLLYWOOD_DEFAULT()
     __currentMapText___ = "好莱坞"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 2)

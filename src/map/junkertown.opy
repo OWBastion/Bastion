@@ -8,7 +8,6 @@
 macro platformMapRevision_JUNKERTOWN_DEFAULT():
     __currentMapText___ = "渣客镇"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("渣客镇")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-101.37, 12.72, -135.27),
@@ -24,12 +23,6 @@ macro platformMapRevision_JUNKERTOWN_DEFAULT():
     thirdPersonPosition = vect(-88.03, 11.22, -88)
     creditsPosition = vect(-92.71, 14.04, -73.79)
 
-    mapTitlePlayersByKey = [
-        DATA_JUNKERTOWN[0].split("-"),
-        DATA_JUNKERTOWN[1].split("-"),
-        DATA_JUNKERTOWN[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -8,7 +8,6 @@
 macro platformMapRevision_VOLSKAYA_DEFAULT():
     __currentMapText___ = "沃斯卡娅工业区"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("沃斯卡娅工业区")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-72.477, 16.869, 47.82),
@@ -25,12 +24,6 @@ macro platformMapRevision_VOLSKAYA_DEFAULT():
     thirdPersonPosition = vect(-113.051, -1.98, 31.996)
     creditsPosition = vect(-128.25, 0.5, 24.75)
 
-    mapTitlePlayersByKey = [
-        DATA_VOLSKAYA[0].split("-"),
-        DATA_VOLSKAYA[1].split("-"),
-        DATA_VOLSKAYA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -40,5 +33,4 @@ rule "map - volskaya industries":
     
     platformMapRevision_VOLSKAYA_DEFAULT()
     __currentMapText___ = "沃斯卡娅"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 0)

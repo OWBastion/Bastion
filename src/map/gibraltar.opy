@@ -8,7 +8,6 @@
 macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
     __currentMapText___ = "直布罗陀"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("直布罗陀")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(70.099, 9, 26.803),
@@ -26,12 +25,6 @@ macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
     thirdPersonPosition = vect(93.88, 1.06, 63.17)
     creditsPosition = vect(112.23, 0, 73.59)
 
-    mapTitlePlayersByKey = [
-        DATA_WATCHPOINT_GIBRALTAR[0].split("-"),
-        DATA_WATCHPOINT_GIBRALTAR[1].split("-"),
-        DATA_WATCHPOINT_GIBRALTAR[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -41,16 +34,4 @@ rule "map - watchpoint gibraltar":
     
     platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT()
     __currentMapText___ = "直布罗陀"
-    if random.randint(0, 99) < 50:
-        __currentMapPioneerText___ = "守望先锋"
-        __currentPioneerText___ = ""
-    else:
-        __currentMapPioneerText___ = "黑爪特工"
-        __currentPioneerText___ = ""
     startForcingSpawn(Team.1, 2)
-
-    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-    if __currentMapPioneerText___ == "守望先锋":
-        titleColor[TITLE.PIONEER] = vect(240, 101, 20)
-    else:
-        titleColor[TITLE.PIONEER] = vect(227, 3, 3)

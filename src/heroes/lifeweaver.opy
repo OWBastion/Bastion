@@ -8,7 +8,7 @@ rule "Disable Life Grip":
     @Event eachPlayer
     @Team 1
     @Hero lifeweaver
-    @Condition (eventPlayer.isWinner or eventPlayer.playerTitleRelationIndex != null) == true
+    @Condition PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer) == true
     
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setAbility2Enabled(true)

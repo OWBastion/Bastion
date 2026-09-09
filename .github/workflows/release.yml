@@ -191,7 +191,7 @@ jobs:
 
       - name: Build workshop outputs
         if: steps.release_gate.outputs.should_release == 'true'
-        run: pnpm run build:main:en && pnpm run build:main:zh
+        run: pnpm run build:cn:zh && pnpm run build:external:en
 
       - name: Commit release inputs back to main
         if: steps.release_gate.outputs.should_release == 'true'

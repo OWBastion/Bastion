@@ -7,7 +7,6 @@
 macro platformMapRevision_OASIS_DEFAULT():
     __currentMapText___ = "绿洲城"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("绿洲城")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(170.7, 13.57, -216.17),
@@ -45,12 +44,6 @@ macro platformMapRevision_OASIS_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-    mapTitlePlayersByKey = [
-        DATA_OASIS[0].split("-"),
-        DATA_OASIS[1].split("-"),
-        DATA_OASIS[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -4,6 +4,9 @@
 #!optimizeStrict
 #!rulePrefix "Title"
 
+rule "Initialize title colors":
+    rgbList = [vect(255, 0, 0), vect(255, 165, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 0, 255), vect(75, 0, 130), vect(238, 130, 238)]
+
 rule "Create in-world title":
     @Event eachPlayer
     @Condition eventPlayer.hasSpawned() == true

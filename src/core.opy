@@ -1,108 +1,9 @@
-#!include "env/env.opy"
-#!include "locales/en-US.opy"
-# Useful constants and macros
-#!include "constants/"
-#!include "utilities/dev_support/macros.opy"
-#!include "heroes/settings/team_rules.opy"
-#!include "heroes/settings/all_teams.opy"
-
-settings {
-    "main": {
-        "description": FULL_DESCRIPTION,
-        "modeName": STR_MODE_NAME
-    },
-    "lobby": {
-        "mapRotation": "afterGame",
-        "enableMatchVoiceChat": true,
-        "team1Slots": LOBBY_TEAM1_SLOTS,
-        "team2Slots": LOBBY_TEAM2_SLOTS,
-        "spectatorSlots": LOBBY_SPECTATOR_SLOTS_MAIN,
-        "returnToLobby": "never",
-        "allowPlayersInQueue": true
-    },
-    "gamemodes": {
-        "ctf": {
-            "enabledMaps": [
-                "ayutthaya"
-            ],
-            "flagScoreRespawnTime": 15,
-            "flagReturnTime": 4,
-            "flagDroppedLockTime": 5
-        },
-        "skirmish": {
-            "disabledMaps": [
-                "kingsRow",
-                "workshopChamber",
-                "workshopIsland",
-                "workshopIslandNight",
-                "workshopExpanse",
-                "workshopExpanseNight",
-                "workshopGreenScreen",
-                "blizzWorld"
-            ]
-        },
-        "general": {
-            "enablePerks": true,
-            "perkGeneration%": PERK_GENERATION_PCT,
-            "respawnTime%": RESPAWN_TIME_PCT,
-            "healthPackRespawnTime%": HEALTHPACK_RESPAWN_TIME_PCT,
-            "enableEnemyHealthBars": false,
-            "gamemodeStartTrigger": "manual",
-            "heroLimit": "off",
-            "enableKillCam": false
-        }
-    },
-    "heroes": {
-        "team1": HERO_SETTINGS_TEAM1,
-        "team2": HERO_SETTINGS_TEAM2,
-        "allTeams": HERO_SETTINGS_ALL_TEAMS
-    },
-    "workshop": {
-        "自动重开时间间隔（小时）": 2,
-        "经典版地图": [
-            0
-        ],
-        "难度": [
-            4
-        ]
-    }
-}
-
-#!include "env/vars.opy"
-
-#Activated extensions
-
-#!extension buffStatusEffects
-#!extension debuffStatusEffects
-#!extension buffAndDebuffSounds
-#!extension energyExplosionEffects
-#!extension spawnMoreDummyBots
-
-#Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
-#!optimizeStrict
-#!rulePrefixTemplate f"[{$prefix}] {$rule}" if $prefix and $rule and not $isDelimiter else $rule
-
-rule STR_LICENSE_TITLE:
-    @Disabled
-    @Delimiter
-
-rule STR_LICENSE_PERMIT:
-    @Disabled
-    @Delimiter
-
 #!include "utilities/system/mapDetection.opy"
-
 #!include "blacklist/init.opy"
-
 #!include "utilities/system/removeFromBlacklist.opy"
-
-#!include "env/game.opy"
-
 #!include "events/init/detectFlag.opy"
 
 #!include "heroes/all_hero.opy"
-
-#!include "./config/eventConfig.opy"
 
 #!include "events/allocation/buildCandidatePool.opy"
 
@@ -125,6 +26,7 @@ rule STR_LICENSE_PERMIT:
 
 #!include "utilities/system/createBastionBot.opy"
 
+#!include "utilities/system/hashtag.opy"
 
 ## Utilities: event_core
 #!include "utilities/event_core/updatePlayerStats.opy"
@@ -275,6 +177,7 @@ rule "Charge winner ult":
 
 #!include "player/status.opy"
 #!include "player/init.opy"
+
 
 #!include "utilities/system/autoReboot.opy"
 

@@ -7,7 +7,6 @@
 macro platformMapRevision_NEPAL_DEFAULT():
     __currentMapText___ = "尼泊尔"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("尼泊尔")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-152.68, -92.115, -64.862),
@@ -39,12 +38,6 @@ macro platformMapRevision_NEPAL_DEFAULT():
     controlRespawnAxis = 1
     controlRespawnAxisThreshold = 30
 
-    mapTitlePlayersByKey = [
-        DATA_NEPAL[0].split("-"),
-        DATA_NEPAL[1].split("-"),
-        DATA_NEPAL[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

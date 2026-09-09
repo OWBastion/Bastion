@@ -5,10 +5,11 @@
   "description": "Build tooling for OverPy workshop outputs",
   "packageManager": "pnpm@11.10.0",
   "scripts": {
-    "build:main": "overpy compile -i src/main.opy -o build/main.ow -l zh-CN",
-    "build:dev": "overpy compile -i src/devMain.opy -o build/devMain.ow -l zh-CN",
-    "build:main:en": "overpy compile -i src/main.opy -o build/en-US.ow -l en-US",
-    "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
+    "build:cn:zh": "overpy compile -i src/main.opy -o build/cn-zh-CN.ow -l zh-CN",
+    "build:cn:en": "overpy compile -i src/main.opy -o build/cn-en-US.ow -l en-US",
+    "build:dev:cn:zh": "overpy compile -i src/devMain.opy -o build/dev-cn-zh-CN.ow -l zh-CN",
+    "build:external:en": "overpy compile -i src/externalMain.opy -o build/external-en-US.ow -l en-US",
+    "build:external:zh": "overpy compile -i src/externalMain.opy -o build/external-zh-CN.ow -l zh-CN",
     "tools": "tsx tools/cli.ts",
     "sync": "pnpm run tools -- sync",
     "sync:title-data": "pnpm run tools -- sync:title-data",
@@ -20,7 +21,7 @@
     "test:title-data-sync": "pnpm run tools -- test:title-data-sync",
     "test:platform-data-sync": "pnpm run tools -- test:platform-data-sync",
     "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:platform-data-sync && node --import tsx --test tools/temper-heart.test.ts",
-    "build:release": "pnpm run sync:platform-data --no-build && pnpm run build:main:en && pnpm run build:main:zh",
+    "build:release": "pnpm run sync:platform-data --no-build && pnpm run build:cn:zh && pnpm run build:external:en",
     "build": "pnpm run sync:platform-data"
   },
   "dependencies": {

@@ -21,7 +21,7 @@
 - `creditsPosition`
 - 可选：`controlRespawnPosition`, `controlJumpPosition`, `controlRespawnAxis`, `controlRespawnAxisThreshold`
 - 可选：`portalPosition`, `springBoardPosition`
-- 可选：`__currentMapText___`, `__currentMapPioneerText___`
+- 可选：`__currentMapText___`
 
 配置形状覆盖：
 
@@ -30,7 +30,7 @@
 - `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
 - `antarctic_peninsula.opy`, `ilios.opy`：在玩家首次出生后，以平台的 `alternateStages.setupDetection` 一次性选择子图；没有命中时使用 base 配置
 
-每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标、控制点配置和修订称号持有者。历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
+每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标和控制点配置。CN 称号持有人投影由 `title/map-title-data.opy` 独立消费；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
 
 ## 多段地图（典型）
 
@@ -61,7 +61,7 @@
 ## 开发注意
 
 - 对已迁移地图，点位只能在平台 revision 的空间配置中维护；如果流程没有改变，纯坐标更新只需要平台数据同步和 Bastion 构建，不应手工编辑地图 `.opy` 中的生成坐标区块。
-- `sync:platform-data` 会要求每张地图声明并消费自己的 revision 宏区块，再把平台坐标和称号持有者注入该区块；地图行为和引擎判定仍由地图文件本身维护。
+- `sync:platform-data` 会要求每张地图声明并消费自己的 revision 宏区块，再把平台坐标注入该区块；CN 称号投影保留在 profile 专属模块，地图行为和引擎判定仍由地图文件本身维护。
 - 添加新地图时，需验证：
   - Bastion 数量与 `bastionPosition` 长度一致
   - 终点触发半径可达
