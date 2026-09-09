@@ -5,3 +5,5 @@
 #!define PROFILE_DEV_MENU_OPTIONS(next) STR_MENU_OPT_TITLE_PREV.format(inputBindingString(Button.ULTIMATE), STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), next))
 #!define PROFILE_HOST_MENU_OPTIONS(next) STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), next)
 #!define PROFILE_PLAYER_MENU_OPTIONS(next) STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), next)
+#!define PROFILE_RESET_ACHIEVEMENT_STATE() eventPlayer.tempUnlockId = null\
+eventPlayer.earnedAchievements = []

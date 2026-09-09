@@ -3,3 +3,4 @@
 #!define PROFILE_DEV_MENU_OPTIONS(next) next
 #!define PROFILE_HOST_MENU_OPTIONS(next) next
 #!define PROFILE_PLAYER_MENU_OPTIONS(next) next
+#!define PROFILE_RESET_ACHIEVEMENT_STATE() #
