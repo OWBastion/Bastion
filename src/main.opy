@@ -1,5 +1,6 @@
 #!include "env/env.opy"
 #!include "locales/zh-CN.opy"
+#!define EVENT_PLAYER_ELIGIBILITY(player) any([player.playerTitles[0][1] == vect(149, 239, 66) and player.heroNumber >= 1, player.heroNumber > 2])
 # Useful constants and macros
 #!include "constants/"
 #!include "utilities/dev_support/macros.opy"
@@ -277,6 +278,7 @@ rule "Charge winner ult":
 #!rulePrefix ""
 
 #!include "effects/init.opy"
+#!include "effects/title.opy"
 #!include "effects/nano.opy"
 #!include "effects/player.opy"
 

@@ -48,9 +48,3 @@ rule "map - watchpoint gibraltar":
         __currentMapPioneerText___ = "黑爪特工"
         __currentPioneerText___ = ""
     startForcingSpawn(Team.1, 2)
-
-    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-    if __currentMapPioneerText___ == "守望先锋":
-        titleColor[TITLE.PIONEER] = vect(240, 101, 20)
-    else:
-        titleColor[TITLE.PIONEER] = vect(227, 3, 3)

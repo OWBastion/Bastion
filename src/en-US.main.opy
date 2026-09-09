@@ -1,5 +1,6 @@
 #!include "env/env.opy"
-#!include "locales/en-US.opy"
+#!include "locales/zh-CN.opy"
+#!define EVENT_PLAYER_ELIGIBILITY(player) player.heroNumber > 2
 # Useful constants and macros
 #!include "constants/"
 #!include "utilities/dev_support/macros.opy"
@@ -154,6 +155,7 @@ rule STR_LICENSE_PERMIT:
 #!include "events/effects/mechEffects.opy"
 
 # Maps
+#!include "map/external-data.opy"
 #!include "map/setup_all_map.opy"
 
 #!include "bastion/init.opy"

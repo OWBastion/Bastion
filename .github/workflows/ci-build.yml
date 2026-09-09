@@ -40,3 +40,6 @@ jobs:
 
       - name: Build with OverPy
         run: pnpm run build
+
+      - name: Build external profile with zh-CN localization
+        run: pnpm run build:external:zh

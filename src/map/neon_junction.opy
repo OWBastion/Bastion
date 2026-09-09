@@ -43,6 +43,3 @@ rule "map - 霓虹枢纽":
     __currentMapPioneerText___ = "桥元御守"
     __currentPioneerText___ = ""
     startForcingSpawn(Team.1, 2)
-
-    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-    titleColor[TITLE.PIONEER] = vect(250, 120, 115)

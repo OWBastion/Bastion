@@ -42,29 +42,6 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     wait(6)
-    if eventPlayer.key in titlePlayer:
-        eventPlayer.playerTitleRelationIndex = titlePlayer.index(eventPlayer.key)
-        setPlayerTitle()
-        wait(0.032)
-        
-        
-        smallMessage(eventPlayer, "  称号已加载")
-
-        eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
-
-        if titleColor[eventPlayer.playerTitleAndColor] == null:
-            eventPlayer.info_pvar = 0
-            eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
-            eventPlayer.rgb_activated = true
-        elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-            eventPlayer.info_pvar = 0
-            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-            eventPlayer.rgb_activated = true
-        else:
-            # 单色向量（或你定义的其他形式）
-            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-            eventPlayer.rgb_activated = false
-
     eventPlayer.obstrucVis = []
     if eventPlayer.inSaved(savedIndex):
         smallMessage(eventPlayer, "  你的进度已成功加载")

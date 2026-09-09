@@ -9,6 +9,7 @@
     "build:dev": "overpy compile -i src/devMain.opy -o build/devMain.ow -l zh-CN",
     "build:main:en": "overpy compile -i src/main.opy -o build/en-US.ow -l en-US",
     "build:main:zh": "overpy compile -i src/main.opy -o build/zh-CN.ow -l zh-CN",
+    "build:external:zh": "overpy compile -i src/en-US.main.opy -o build/external-zh-CN.ow -l zh-CN",
     "tools": "tsx tools/cli.ts",
     "sync": "pnpm run tools -- sync",
     "sync:title-data": "pnpm run tools -- sync:title-data",

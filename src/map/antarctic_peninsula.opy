@@ -119,6 +119,3 @@ rule "map - 南极半岛":
         platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER()
     elif len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_RADIUS, Team.1)) != 0:
         platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY()
-
-    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-    titleColor[TITLE.PIONEER] = vect(109, 171, 235)

@@ -4,6 +4,47 @@
 #!optimizeStrict
 #!rulePrefix "Title"
 
+rule "Load player title data":
+    @Event playerJoined
+    @Team 1
+
+    wait(6)
+    waitUntil(len(titlePlayer) > 0, Math.INFINITY)
+    if eventPlayer.key in titlePlayer:
+        eventPlayer.playerTitleRelationIndex = titlePlayer.index(eventPlayer.key)
+        setPlayerTitle()
+        wait(0.032)
+        smallMessage(eventPlayer, "  称号已加载")
+
+        eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
+
+        if titleColor[eventPlayer.playerTitleAndColor] == null:
+            eventPlayer.info_pvar = 0
+            eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
+            eventPlayer.rgb_activated = true
+        elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
+            eventPlayer.info_pvar = 0
+            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
+            eventPlayer.rgb_activated = true
+        else:
+            eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
+            eventPlayer.rgb_activated = false
+
+rule "Initialize map title colors":
+    @Event global
+    @Condition __currentMapPioneerText___ != null
+
+    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+    if __currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860:
+        titleColor[TITLE.PIONEER] = vect(250, 120, 115)
+    elif __currentMap___ == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177:
+        titleColor[TITLE.PIONEER] = vect(109, 171, 235)
+    elif __currentMap___ == Map.WATCHPOINT_GIBRALTAR:
+        if __currentMapPioneerText___ == "守望先锋":
+            titleColor[TITLE.PIONEER] = vect(240, 101, 20)
+        else:
+            titleColor[TITLE.PIONEER] = vect(227, 3, 3)
+
 rule "Create in-world title":
     @Event eachPlayer
     @Condition eventPlayer.hasSpawned() == true

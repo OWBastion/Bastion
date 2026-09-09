@@ -9,7 +9,7 @@ rule "[VishkarEvent]: get player event":
     @Team 1
     @Condition getNumberOfPlayers(Team.2) == len(bastionPosition)
     @Condition all([vishkarEventActivated, eventPlayer.hasSpawned(), eventPlayer.eventId == -1]) == true
-    @Condition (any([eventPlayer.playerTitles[0][1] == vect(149, 239, 66) and eventPlayer.heroNumber >= 1, eventPlayer.heroNumber > 2])) == true
+    @Condition EVENT_PLAYER_ELIGIBILITY(eventPlayer) == true
 
     if eventPlayer.hudTextId != null:
         goto lbl_0
