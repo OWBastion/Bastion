@@ -36,9 +36,7 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：钢化你心 成功！")
-        smallMessage(eventPlayer, "  {0}  心之钢层数×{1}，每层生命值永久提升至 {2}%".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS))
-        if eventPlayer.heart_steel[HeartSteelData.STACKS] > 0:
-            eventPlayer.heart_steel[HeartSteelData.STACKS] *= EVT_31_STACK_MULTIPLIER
+        smallMessage(eventPlayer, "  {0}  后续心之钢层数获取×{1}，每层生命值永久提升至 {2}%".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS))
         eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER
         eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.COMPLETED
