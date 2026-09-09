@@ -78,13 +78,7 @@ globalvar devEventIndex
 globalvar challengeTitleIds
 globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
-globalvar eventPoolType
-globalvar eventPoolId
-globalvar eventPoolName
-globalvar eventPoolDesc
-globalvar eventPoolDuration
-globalvar eventPoolWeight
-globalvar eventPoolIndex
+globalvar eventPool
 
 #Player variables
 

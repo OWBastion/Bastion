@@ -516,37 +516,13 @@ rule "initialize event array":
 
     lbl_4:
 
-    eventPoolType = []
-    eventPoolId = []
-    eventPoolName = []
-    eventPoolDesc = []
-    eventPoolDuration = []
-    eventPoolWeight = []
-    eventPoolIndex = []
+    eventPool = []
     for I in range(len(buffEventId)):
-        eventPoolType.append(EventType.BUFF)
-        eventPoolId.append(buffEventId[I])
-        eventPoolName.append(buffEventName[buffEventId[I]])
-        eventPoolDesc.append(buffEventDesc[buffEventId[I]])
-        eventPoolDuration.append(buffEventDuration[buffEventId[I]])
-        eventPoolWeight.append(buffEventWeight[buffEventId[I]])
-        eventPoolIndex.append(len(eventPoolIndex))
+        eventPool.append([EventType.BUFF, buffEventId[I], buffEventName[buffEventId[I]], buffEventDesc[buffEventId[I]], buffEventDuration[buffEventId[I]], buffEventWeight[buffEventId[I]], len(eventPool)])
         wait(0.016)
     for I in range(len(debuffEventId)):
-        eventPoolType.append(EventType.DEBUFF)
-        eventPoolId.append(debuffEventId[I])
-        eventPoolName.append(debuffEventName[debuffEventId[I]])
-        eventPoolDesc.append(debuffEventDesc[debuffEventId[I]])
-        eventPoolDuration.append(debuffEventDuration[debuffEventId[I]])
-        eventPoolWeight.append(debuffEventWeight[debuffEventId[I]])
-        eventPoolIndex.append(len(eventPoolIndex))
+        eventPool.append([EventType.DEBUFF, debuffEventId[I], debuffEventName[debuffEventId[I]], debuffEventDesc[debuffEventId[I]], debuffEventDuration[debuffEventId[I]], debuffEventWeight[debuffEventId[I]], len(eventPool)])
         wait(0.016)
     for I in range(len(mechEventId)):
-        eventPoolType.append(EventType.MECH)
-        eventPoolId.append(mechEventId[I])
-        eventPoolName.append(mechEventName[mechEventId[I]])
-        eventPoolDesc.append(mechEventDesc[mechEventId[I]])
-        eventPoolDuration.append(mechEventDuration[mechEventId[I]])
-        eventPoolWeight.append(mechEventWeight[mechEventId[I]])
-        eventPoolIndex.append(len(eventPoolIndex))
+        eventPool.append([EventType.MECH, mechEventId[I], mechEventName[mechEventId[I]], mechEventDesc[mechEventId[I]], mechEventDuration[mechEventId[I]], mechEventWeight[mechEventId[I]], len(eventPool)])
         wait(0.016)

@@ -35,11 +35,11 @@ def setPlayerEvent():
     if eventPlayer.thiefBuffStolen == true:
         eventPlayer.thiefBuffStolen = false
     eventPlayer.eventCategoryCommitted = false
-    eventPlayer.eventType = eventPoolType[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventId = eventPoolId[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventName = eventPoolName[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDesc = eventPoolDesc[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDuration = eventPoolDuration[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventType = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.TYPE]
+    eventPlayer.eventId = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.ID]
+    eventPlayer.eventName = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.NAME]
+    eventPlayer.eventDesc = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.DESC]
+    eventPlayer.eventDuration = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.DURATION]
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:

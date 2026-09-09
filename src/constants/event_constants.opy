@@ -17,6 +17,15 @@ enum EventType:
     DEBUFF
     MECH
 
+enum EventPoolField:
+    TYPE = 0
+    ID
+    NAME
+    DESC
+    DURATION
+    WEIGHT
+    INDEX
+
 # 局内事件计数槽位（按内部顺序存储，不存入 savedData）
 enum EventMatchCounterSlot:
     PHASE_SURGE = 0
