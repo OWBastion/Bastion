@@ -71,4 +71,5 @@ rule "map - eichenwalde":
     @Condition (__currentMap___ == Map.EICHENWALDE) == true
 
     platformMapRevision_EICHENWALDE_DEFAULT()
+    __currentMapPioneerText___ = "十字军之王"
     startForcingSpawn(Team.1, 2)
