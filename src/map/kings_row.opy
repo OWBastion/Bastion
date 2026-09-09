@@ -8,7 +8,6 @@
 macro platformMapRevision_KINGS_ROW_DEFAULT():
     __currentMapText___ = "国王大道"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("国王大道")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-143.9, 7.13, 10.15),
@@ -24,12 +23,6 @@ macro platformMapRevision_KINGS_ROW_DEFAULT():
     thirdPersonPosition = vect(-176.048, -0.07, 36.54)
     creditsPosition = vect(-185.56, 3.53, 38.32)
 
-    mapTitlePlayersByKey = [
-        DATA_KINGS_ROW[0].split("-"),
-        DATA_KINGS_ROW[1].split("-"),
-        DATA_KINGS_ROW[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -39,5 +32,4 @@ rule "map - king's row":
     
     platformMapRevision_KINGS_ROW_DEFAULT()
     __currentMapText___ = "国王大道"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 1)

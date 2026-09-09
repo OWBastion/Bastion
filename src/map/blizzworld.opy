@@ -8,7 +8,6 @@
 macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     __currentMapText___ = "暴雪世界"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("暴雪世界")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-114.474, 4.902, 100.451),
@@ -25,12 +24,6 @@ macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     thirdPersonPosition = vect(-149.17, 0.83, 100.85)
     creditsPosition = vect(-170.8, 3.65, 96.45)
 
-    mapTitlePlayersByKey = [
-        DATA_BLIZZARD_WORLD[0].split("-"),
-        DATA_BLIZZARD_WORLD[1].split("-"),
-        DATA_BLIZZARD_WORLD[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -40,5 +33,4 @@ rule "map - blizzworld":
     
     platformMapRevision_BLIZZARD_WORLD_DEFAULT()
     __currentMapText___ = "暴雪世界"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 2)

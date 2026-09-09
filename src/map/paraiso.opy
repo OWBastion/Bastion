@@ -8,7 +8,6 @@
 macro platformMapRevision_PARAISO_DEFAULT():
     __currentMapText___ = "帕拉伊苏"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("帕拉伊苏")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-10.3, 6.832, -132.595),
@@ -26,12 +25,6 @@ macro platformMapRevision_PARAISO_DEFAULT():
     thirdPersonPosition = vect(-78.25, 6.33, -167.96)
     creditsPosition = vect(-70.2, 7.75, -183.14)
 
-    mapTitlePlayersByKey = [
-        DATA_PARAISO[0].split("-"),
-        DATA_PARAISO[1].split("-"),
-        DATA_PARAISO[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -41,6 +34,4 @@ rule "map - paraiso":
 
     platformMapRevision_PARAISO_DEFAULT()
 
-    __currentMapPioneerText___ = ""
-    __currentPioneerText___ = "黄金节拍"
     startForcingSpawn(Team.1, 2)

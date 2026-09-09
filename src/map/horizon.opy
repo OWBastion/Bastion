@@ -8,7 +8,6 @@
 macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     __currentMapText___ = "月球基地"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("月球基地")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-15.287, 6, -127.244),
@@ -23,12 +22,6 @@ macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     thirdPersonPosition = vect(-41.39, 5, -159.03)
     creditsPosition = vect(-55.87, 7.68, -171.97)
 
-    mapTitlePlayersByKey = [
-        DATA_HORIZON_LUNAR_COLONY[0].split("-"),
-        DATA_HORIZON_LUNAR_COLONY[1].split("-"),
-        DATA_HORIZON_LUNAR_COLONY[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -38,5 +31,4 @@ rule "map - horizon lunar colony":
     
     platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT()
     __currentMapText___ = "月球基地"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 0)

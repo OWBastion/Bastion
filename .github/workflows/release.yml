@@ -24,6 +24,8 @@ jobs:
     env:
       TZ: Asia/Singapore
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
+      CN_RELEASE_ARTIFACT: build/cn-zh-CN.ow
+      EXTERNAL_RELEASE_ARTIFACT: build/external-en-US.ow
 
     steps:
       - name: Checkout
@@ -191,7 +193,7 @@ jobs:
 
       - name: Build workshop outputs
         if: steps.release_gate.outputs.should_release == 'true'
-        run: pnpm run build:main:en && pnpm run build:main:zh
+        run: pnpm run build:cn:zh && pnpm run build:external:en
 
       - name: Commit release inputs back to main
         if: steps.release_gate.outputs.should_release == 'true'
@@ -277,7 +279,7 @@ jobs:
           set -euo pipefail
           tag="${{ steps.release_meta.outputs.tag }}"
           notes_file="${{ steps.notes.outputs.body_path }}"
-          gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" build/en-US.ow build/zh-CN.ow
+          gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" "${CN_RELEASE_ARTIFACT}" "${EXTERNAL_RELEASE_ARTIFACT}"
 
       - name: Release summary
         if: steps.release_gate.outputs.should_release == 'true'
@@ -286,5 +288,5 @@ jobs:
           echo "Version bump: ${{ steps.bump.outputs.old_version }} -> ${{ steps.bump.outputs.new_version }}"
           echo "Release tag: ${{ steps.release_meta.outputs.tag }}"
           echo "Uploaded artifacts:"
-          echo "- build/en-US.ow"
-          echo "- build/zh-CN.ow"
+          echo "- ${CN_RELEASE_ARTIFACT}"
+          echo "- ${EXTERNAL_RELEASE_ARTIFACT}"

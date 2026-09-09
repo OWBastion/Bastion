@@ -8,7 +8,6 @@
 macro platformMapRevision_DORADO_DEFAULT():
     __currentMapText___ = "多拉多"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("多拉多")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(167.25, 10.85, 42.4),
@@ -25,12 +24,6 @@ macro platformMapRevision_DORADO_DEFAULT():
     thirdPersonPosition = vect(182.47, 7.04, 42.27)
     creditsPosition = vect(197.72, 10.01, 44.63)
 
-    mapTitlePlayersByKey = [
-        DATA_DORADO[0].split("-"),
-        DATA_DORADO[1].split("-"),
-        DATA_DORADO[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -8,7 +8,6 @@
 macro platformMapRevision_NEW_QUEEN_STREET_DEFAULT():
     __currentMapText___ = "新皇后街"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新皇后街")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-74.922, 14.194, -16.661),
@@ -26,12 +25,6 @@ macro platformMapRevision_NEW_QUEEN_STREET_DEFAULT():
     thirdPersonPosition = vect(-111.26, 11, -32.03)
     creditsPosition = vect(-102.08, 17.29, -24.46)
 
-    mapTitlePlayersByKey = [
-        DATA_NEW_QUEEN_STREET[0].split("-"),
-        DATA_NEW_QUEEN_STREET[1].split("-"),
-        DATA_NEW_QUEEN_STREET[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

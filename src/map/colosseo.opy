@@ -8,7 +8,6 @@
 macro platformMapRevision_COLOSSEO_DEFAULT():
     __currentMapText___ = "斗兽场"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("斗兽场")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(60.94, 12.5, -13.78),
@@ -25,12 +24,6 @@ macro platformMapRevision_COLOSSEO_DEFAULT():
     thirdPersonPosition = vect(117.38, 9, -38.98)
     creditsPosition = vect(117.64, 13, -48.66)
 
-    mapTitlePlayersByKey = [
-        DATA_COLOSSEO[0].split("-"),
-        DATA_COLOSSEO[1].split("-"),
-        DATA_COLOSSEO[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

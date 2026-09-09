@@ -8,7 +8,6 @@
 macro platformMapRevision_NUMBANI_DEFAULT():
     __currentMapText___ = "努巴尼"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("努巴尼")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(203.716, 0.209, -0.271),
@@ -27,12 +26,6 @@ macro platformMapRevision_NUMBANI_DEFAULT():
     thirdPersonPosition = vect(225.74, 0.2, 4.55)
     creditsPosition = vect(254.54, 3.2, 22.87)
 
-    mapTitlePlayersByKey = [
-        DATA_NUMBANI[0].split("-"),
-        DATA_NUMBANI[1].split("-"),
-        DATA_NUMBANI[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

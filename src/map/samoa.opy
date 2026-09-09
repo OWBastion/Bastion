@@ -7,7 +7,6 @@
 macro platformMapRevision_SAMOA_DEFAULT():
     __currentMapText___ = "萨摩亚"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("萨摩亚")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-408.95, 14.4, -84.76),
@@ -41,12 +40,6 @@ macro platformMapRevision_SAMOA_DEFAULT():
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
 
-    mapTitlePlayersByKey = [
-        DATA_SAMOA[0].split("-"),
-        DATA_SAMOA[1].split("-"),
-        DATA_SAMOA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

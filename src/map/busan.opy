@@ -8,7 +8,6 @@
 macro platformMapRevision_BUSAN_DEFAULT():
     __currentMapText___ = "釜山"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("釜山")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-327.44, 17.73, 166.8),
@@ -47,12 +46,6 @@ macro platformMapRevision_BUSAN_DEFAULT():
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
 
-    mapTitlePlayersByKey = [
-        DATA_BUSAN[0].split("-"),
-        DATA_BUSAN[1].split("-"),
-        DATA_BUSAN[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

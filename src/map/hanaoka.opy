@@ -8,7 +8,6 @@
 macro platformMapRevision_HANAOKA_DEFAULT():
     __currentMapText___ = "花冈"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花冈")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-22.263, 46.024, -89.586),
@@ -32,12 +31,6 @@ macro platformMapRevision_HANAOKA_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30
 
-    mapTitlePlayersByKey = [
-        DATA_HANAOKA[0].split("-"),
-        DATA_HANAOKA[1].split("-"),
-        DATA_HANAOKA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -47,6 +40,5 @@ rule "map - 花冈":
     
     platformMapRevision_HANAOKA_DEFAULT()
      __currentMapText___ = "花冈"
-     __currentMapPioneerText___ = __currentMapText___
      startForcingSpawn(Team.1, 2)
      waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

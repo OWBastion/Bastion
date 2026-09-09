@@ -8,7 +8,6 @@
 macro platformMapRevision_AYUTTHAYA_DEFAULT():
     __currentMapText___ = "阿育陀耶"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿育陀耶")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(18.158, 1.217, -56.711),
@@ -23,12 +22,6 @@ macro platformMapRevision_AYUTTHAYA_DEFAULT():
     thirdPersonPosition = vect(15.45, 1, -103.8)
     creditsPosition = vect(17.69, 9.22, -111.87)
 
-    mapTitlePlayersByKey = [
-        DATA_AYUTTHAYA[0].split("-"),
-        DATA_AYUTTHAYA[1].split("-"),
-        DATA_AYUTTHAYA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -39,6 +32,4 @@ rule "map - 阿育陀耶":
     
     rebootTime = 5400
     platformMapRevision_AYUTTHAYA_DEFAULT()
-    __currentMapPioneerText___ = "大城"
-    __currentPioneerText___ = "守护者"
     startForcingSpawn(Team.1, 1)

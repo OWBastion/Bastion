@@ -8,7 +8,6 @@
 macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
     __currentMapText___ = "皇家赛道"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(97.763, 15.967, 29.045),
@@ -28,17 +27,10 @@ macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
     thirdPersonPosition = vect(135.08, 10, -3.31)
     creditsPosition = vect(147.52, 11.5, -10.9)
 
-    mapTitlePlayersByKey = [
-        DATA_CIRCUIT_ROYAL[0].split("-"),
-        DATA_CIRCUIT_ROYAL[1].split("-"),
-        DATA_CIRCUIT_ROYAL[2].split("-"),
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(105.65, 15.95, 14.28),
@@ -54,12 +46,6 @@ macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
     thirdPersonPosition = vect(135.08, 10, -3.31)
     creditsPosition = vect(147.52, 11.5, -10.9)
 
-    mapTitlePlayersByKey = [
-        [],
-        [],
-        [],
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

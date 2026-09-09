@@ -7,7 +7,6 @@
 macro platformMapRevision_RIALTO_DEFAULT():
     __currentMapText___ = "里阿尔托"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("里阿尔托")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-64.421, 5.04, -125.927),
@@ -34,12 +33,6 @@ macro platformMapRevision_RIALTO_DEFAULT():
         vect(53.17, 1.25, 22.99)
     ]
 
-    mapTitlePlayersByKey = [
-        DATA_RIALTO[0].split("-"),
-        DATA_RIALTO[1].split("-"),
-        DATA_RIALTO[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -8,7 +8,6 @@
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     __currentMapText___ = "南极半岛"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("南极半岛")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = compressed([
         vect(-98.119, 15.423, 46.112),
@@ -38,12 +37,6 @@ macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-    mapTitlePlayersByKey = [
-        DATA_ANTARCTIC_PENINSULA[0].split("-"),
-        DATA_ANTARCTIC_PENINSULA[1].split("-"),
-        DATA_ANTARCTIC_PENINSULA[2].split("-"),
-        []
-    ]
 
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION vect(175.87, -9.5, -228)
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS 30
@@ -111,14 +104,9 @@ rule "map - 南极半岛":
     @Condition (getCurrentMap() == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177) == true
 
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT()
-    __currentMapPioneerText___ = "科研先锋"
-    __currentPioneerText___ = ""
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     if len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS, Team.1)) != 0:
         platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER()
     elif len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_RADIUS, Team.1)) != 0:
         platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY()
-
-    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-    titleColor[TITLE.PIONEER] = vect(109, 171, 235)
