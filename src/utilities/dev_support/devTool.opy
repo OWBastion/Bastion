@@ -608,9 +608,7 @@ rule "Unlock all heroes":
         wait(getAverageServerLoad() / 100 * 0.5)
         smallMessage(eventPlayer, "  {0} 开发者模式：已通关".format(iconString(Icon.BOLT)))
 
-#!define getCurrentEventArray() (buffEventName if devEventCategory == 0 else (debuffEventName if devEventCategory == 1 else mechEventName))
-#!define getCurrentEventWeightArray() (buffEventWeight if devEventCategory == 0 else (debuffEventWeight if devEventCategory == 1 else mechEventWeight))
-#!define getCurrentEventIdArray() (buffEventId if devEventCategory == 0 else (debuffEventId if devEventCategory == 1 else mechEventId))
+#!define getCurrentEventIdArray() eventCatalogId.filter(lambda id: eventCatalogType[id] == devEventCategory)
 
 rule "Display event weights":
     @Event eachPlayer
@@ -638,14 +636,14 @@ rule "Display event weights":
             
             inputBindingString(Button.ABILITY_2),
             "{0} (Idx: {1})".format(
-                getCurrentEventArray()[devEventIndex], 
-                devEventIndex
-            ) if len(getCurrentEventArray()) > 0 else "无事件",
+                eventName[getCurrentEventIdArray()[devEventIndex]],
+                getCurrentEventIdArray()[devEventIndex]
+            ) if len(getCurrentEventIdArray()) > 0 else "无事件",
             
             "{0}/{1}".format(inputBindingString(Button.ABILITY_1), inputBindingString(Button.RELOAD)),
             # 获取权重：如果数组长度>=4则取第4个元素，否则默认为 1.0
-            getCurrentEventWeightArray()[devEventIndex] if getCurrentEventWeightArray()[devEventIndex] != null else 1.0 
-            if len(getCurrentEventArray()) > 0 else "N/A",
+            eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] != null else 1.0
+            if len(getCurrentEventIdArray()) > 0 else "N/A",
             
             STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))
         ), 
@@ -670,8 +668,8 @@ rule "Cycle event selection":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
     
     # 循环切换索引
-    if len(getCurrentEventArray()) > 0:
-        devEventIndex = (devEventIndex + 1) % len(getCurrentEventArray())
+    if len(getCurrentEventIdArray()) > 0:
+        devEventIndex = (devEventIndex + 1) % len(getCurrentEventIdArray())
     wait(0.1)
 
 rule "Increase event weight":
@@ -680,26 +678,10 @@ rule "Increase event weight":
     @Condition eventPlayer.menu == 4
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
     
-    # 必须显式区分变量来修改
-    if devEventCategory == 0:
-        if len(buffEventName) > 0:
-            # 检查并初始化权重
-            if buffEventWeight[devEventIndex] == null:
-                buffEventWeight[devEventIndex] = 1.0
-            # 增加权重
-            buffEventWeight[devEventIndex] += 0.1
-            
-    elif devEventCategory == 1:
-        if len(debuffEventName) > 0:
-            if debuffEventWeight[devEventIndex] == null:
-                debuffEventWeight[devEventIndex] = 1.0
-            debuffEventWeight[devEventIndex] += 0.1
-            
-    elif devEventCategory == 2:
-        if len(mechEventName) > 0:
-            if mechEventWeight[devEventIndex] == null:
-                mechEventWeight[devEventIndex] = 1.0
-            mechEventWeight[devEventIndex] += 0.1
+    if len(getCurrentEventIdArray()) > 0:
+        if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] == null:
+            eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] = 1.0
+        eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] += 0.1
             
     wait(0.1)
 
@@ -709,32 +691,12 @@ rule "Decrease event weight":
     @Condition eventPlayer.menu == 4
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    if devEventCategory == 0:
-        if len(buffEventName) > 0:
-            if buffEventWeight[devEventIndex] == null:
-                buffEventWeight[devEventIndex] = 1.0
-            # 减少权重
-            if buffEventWeight[devEventIndex] >= 0.1:
-                buffEventWeight[devEventIndex] -= 0.1
-            else:
-                buffEventWeight[devEventIndex] = 0
-                
-    elif devEventCategory == 1:
-        if len(debuffEventName) > 0:
-            if debuffEventWeight[devEventIndex] == null:
-                debuffEventWeight[devEventIndex] = 1.0
-            if debuffEventWeight[devEventIndex] >= 0.1:
-                debuffEventWeight[devEventIndex] -= 0.1
-            else:
-                debuffEventWeight[devEventIndex] = 0
-
-    elif devEventCategory == 2:
-        if len(mechEventName) > 0:
-            if mechEventWeight[devEventIndex] == null:
-                mechEventWeight[devEventIndex] = 1.0
-            if mechEventWeight[devEventIndex] >= 0.1:
-                mechEventWeight[devEventIndex] -= 0.1
-            else:
-                mechEventWeight[devEventIndex] = 0
+    if len(getCurrentEventIdArray()) > 0:
+        if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] == null:
+            eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] = 1.0
+        if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] >= 0.1:
+            eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] -= 0.1
+        else:
+            eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] = 0
                 
     wait(0.1)

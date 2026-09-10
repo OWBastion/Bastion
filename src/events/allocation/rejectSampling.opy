@@ -13,8 +13,8 @@ def rejecSampling():
     while eventPlayer.eventIsSelected == false and eventPlayer.eventLoopCount < 8:
         if eventPlayer.eventLoopCount > 0:
             wait(0.016)
-        eventPlayer.eventCandidateIndex = random.choice(eventPlayer.eventTempIndex)[EventPoolField.INDEX]
-        eventPlayer.eventTempWeight = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.WEIGHT]
+        eventPlayer.eventCandidateIndex = random.choice(eventPlayer.eventTempIndex)
+        eventPlayer.eventTempWeight = eventCatalogWeight[eventPlayer.eventCandidateIndex]
         if random.uniform(0, eventWeight) < eventPlayer.eventTempWeight:
             eventPlayer.eventIsSelected = true
             break

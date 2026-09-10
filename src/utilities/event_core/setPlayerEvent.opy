@@ -32,14 +32,16 @@ def setPlayerEvent():
     buildCandidatePool()
     wait(getAverageServerLoad() / 100 * 0.032)
     rejecSampling()
-    if eventPlayer.thiefBuffStolen == true:
+    if eventPlayer.thiefBuffStolen == true and eventCatalogType[eventPlayer.eventCandidateIndex] == EventType.BUFF:
         eventPlayer.thiefBuffStolen = false
+        eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: eventCatalogType[candidateIndex] != EventType.BUFF)
+        rejecSampling()
     eventPlayer.eventCategoryCommitted = false
-    eventPlayer.eventType = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.TYPE]
-    eventPlayer.eventId = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.ID]
-    eventPlayer.eventName = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.NAME]
-    eventPlayer.eventDesc = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.DESC]
-    eventPlayer.eventDuration = eventPool[eventPlayer.eventCandidateIndex][EventPoolField.DURATION]
+    eventPlayer.eventType = eventCatalogType[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventId = eventCatalogEffectId[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:

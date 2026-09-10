@@ -30,16 +30,12 @@ rule "hashTag | Event Weight Sum Verify":
     @Condition hashTagWeightVerifyState[0] != true
     @Condition getTotalTimeElapsed() > 125
 
-    waitUntil(len(buffEventId) > 0 and len(debuffEventId) > 0 and len(mechEventId) > 0, 125)
+    waitUntil(len(eventCatalogId) > 0, 125)
 
     hashTagWeightVerifyState[1] = 0
     I = 0
-    for I in range(len(buffEventId)):
-        hashTagWeightVerifyState[1] += buffEventWeight[buffEventId[I]]
-    for I in range(len(debuffEventId)):
-        hashTagWeightVerifyState[1] += debuffEventWeight[debuffEventId[I]]
-    for I in range(len(mechEventId)):
-        hashTagWeightVerifyState[1] += mechEventWeight[mechEventId[I]]
+    for I in range(len(eventCatalogId)):
+        hashTagWeightVerifyState[1] += eventCatalogWeight[eventCatalogId[I]]
 
     if round(hashTagWeightVerifyState[1] * 1000) != round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000):
         hashTag = false
@@ -51,9 +47,9 @@ rule "Hashtag":
     @Condition vishkarEventActivated == true
     @Condition getTotalTimeElapsed() > 125
     @Condition any([
-            len(buffEventId) < EVENT_MANIFEST_ACTIVE_BUFF_COUNT,
-            len(debuffEventId) < EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT,
-            len(mechEventId) < EVENT_MANIFEST_ACTIVE_MECH_COUNT
+            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.BUFF)) < EVENT_MANIFEST_ACTIVE_BUFF_COUNT,
+            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.DEBUFF)) < EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT,
+            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.MECH)) < EVENT_MANIFEST_ACTIVE_MECH_COUNT
         ]) == true
 
     wait()

@@ -22,24 +22,9 @@
 
 ## 事件数据结构
 
-事件配置按事件 ID 对齐的字段数组存储：
+事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight`、`eventCatalogType` 和 `eventCatalogEffectId`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
 
-- `*EventName`
-- `*EventDesc`
-- `*EventDuration`
-- `*EventWeight`
-
-全局池：
-
-- `buffEventName`, `buffEventDesc`, `buffEventDuration`, `buffEventWeight`
-- `debuffEventName`, `debuffEventDesc`, `debuffEventDuration`, `debuffEventWeight`
-- `mechEventName`, `mechEventDesc`, `mechEventDuration`, `mechEventWeight`
-- `buffEventId`, `debuffEventId`, `mechEventId`
-- `eventPool`（单一全局目录；行结构为 `[type, id, name, desc, duration, weight, index]`）
-
-`eventPool` 是初始化时由当前启用的三类事件目录合并出的单一全局目录。抽样使用行内的稳定全局索引；该目录也允许未来不预先确定效果类别的事件进入目录。
-
-若目录行的 `type` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
+若 `eventCatalogType[id]` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
 
 玩家态：
 
@@ -81,11 +66,11 @@
 
 ## 全局候选与抽样
 
-`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventPool` 全局目录筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。
+`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventCatalogId` 筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 标记仅在原本抽中的 Buff 被非 Buff 替换时消耗。
 
 现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
-`rejectSampling` 通过 `random.uniform(0, eventWeight) < eventPool[candidate][EventPoolField.WEIGHT]` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。`EVT_INIT_EVENT_WEIGHT` 与现有事件权重暂时沿用 SSR 模型的基础值，旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
+`rejectSampling` 通过 `random.uniform(0, eventWeight) < eventCatalogWeight[candidate]` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。`EVT_INIT_EVENT_WEIGHT` 与现有事件权重暂时沿用 SSR 模型的基础值，旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
 
 去重与候选池门控策略：
 

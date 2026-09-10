@@ -17,14 +17,8 @@ enum EventType:
     DEBUFF
     MECH
 
-enum EventPoolField:
-    TYPE = 0
-    ID
-    NAME
-    DESC
-    DURATION
-    WEIGHT
-    INDEX
+#!define EVENT_DEBUFF_OFFSET 25
+#!define EVENT_MECH_OFFSET 44
 
 # 局内事件计数槽位（按内部顺序存储，不存入 savedData）
 enum EventMatchCounterSlot:
