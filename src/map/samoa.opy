@@ -40,7 +40,6 @@ macro platformMapRevision_SAMOA_DEFAULT():
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

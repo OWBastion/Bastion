@@ -26,7 +26,6 @@ macro platformMapRevision_EICHENWALDE_DEFAULT():
     thirdPersonPosition = vect(131.335, 10.72, 1.098)
     creditsPosition = vect(132.82, 13.72, 9.04)
 
-
 macro platformMapRevision_EICHENWALDE_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
@@ -48,7 +47,6 @@ macro platformMapRevision_EICHENWALDE_CLASSIC():
     endPosition = vect(-26.72, 1.97, -34.09)
     thirdPersonPosition = vect(131.335, 10.72, 1.098)
     creditsPosition = vect(132.82, 13.72, 9.04)
-
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

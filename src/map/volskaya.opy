@@ -24,7 +24,6 @@ macro platformMapRevision_VOLSKAYA_DEFAULT():
     thirdPersonPosition = vect(-113.051, -1.98, 31.996)
     creditsPosition = vect(-128.25, 0.5, 24.75)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

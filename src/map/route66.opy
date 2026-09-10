@@ -23,7 +23,6 @@ macro platformMapRevision_ROUTE66_DEFAULT():
     thirdPersonPosition = vect(-115.228, 5.799, -49.59)
     creditsPosition = vect(-113.27, 7.5, -63.14)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

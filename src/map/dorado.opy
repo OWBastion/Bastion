@@ -24,7 +24,6 @@ macro platformMapRevision_DORADO_DEFAULT():
     thirdPersonPosition = vect(182.47, 7.04, 42.27)
     creditsPosition = vect(197.72, 10.01, 44.63)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

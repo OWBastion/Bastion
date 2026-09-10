@@ -40,7 +40,6 @@ macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
     controlRespawnAxis = 1
     controlRespawnAxisThreshold = 40
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

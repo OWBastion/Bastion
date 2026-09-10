@@ -25,7 +25,6 @@ macro platformMapRevision_HANAMURA_DEFAULT():
     thirdPersonPosition = vect(-33.2, 1, -115.04)
     creditsPosition = vect(-48.1, 2.5, -116.08)
 
-
 macro platformMapRevision_HANAMURA_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
@@ -42,7 +41,6 @@ macro platformMapRevision_HANAMURA_CLASSIC():
     endPosition = vect(72.38, -1.96, -0.16)
     thirdPersonPosition = vect(-33.2, 1, -115.04)
     creditsPosition = vect(-48.1, 2.5, -116.08)
-
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -24,7 +24,6 @@ macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     thirdPersonPosition = vect(-149.17, 0.83, 100.85)
     creditsPosition = vect(-170.8, 3.65, 96.45)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

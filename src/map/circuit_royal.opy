@@ -27,7 +27,6 @@ macro platformMapRevision_CIRCUIT_ROYAL_DEFAULT():
     thirdPersonPosition = vect(135.08, 10, -3.31)
     creditsPosition = vect(147.52, 11.5, -10.9)
 
-
 macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("皇家赛道")
@@ -45,7 +44,6 @@ macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
     endPosition = vect(-76.75, 4.03, -74.17)
     thirdPersonPosition = vect(135.08, 10, -3.31)
     creditsPosition = vect(147.52, 11.5, -10.9)
-
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -40,7 +40,6 @@ macro platformMapRevision_NEW_JUNK_CITY_DEFAULT():
         vect(-118.06, 30.58, -2.12)
     ]
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

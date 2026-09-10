@@ -22,7 +22,6 @@ macro platformMapRevision_AYUTTHAYA_DEFAULT():
     thirdPersonPosition = vect(15.45, 1, -103.8)
     creditsPosition = vect(17.69, 9.22, -111.87)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

@@ -25,7 +25,6 @@ macro platformMapRevision_PARAISO_DEFAULT():
     thirdPersonPosition = vect(-78.25, 6.33, -167.96)
     creditsPosition = vect(-70.2, 7.75, -183.14)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

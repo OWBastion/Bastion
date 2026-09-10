@@ -38,7 +38,6 @@ macro platformMapRevision_NEPAL_DEFAULT():
     controlRespawnAxis = 1
     controlRespawnAxisThreshold = 30
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

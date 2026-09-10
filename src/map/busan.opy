@@ -46,7 +46,6 @@ macro platformMapRevision_BUSAN_DEFAULT():
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

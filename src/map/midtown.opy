@@ -26,7 +26,6 @@ macro platformMapRevision_MIDTOWN_DEFAULT():
     thirdPersonPosition = vect(133.91, 1.84, -104.94)
     creditsPosition = vect(126.5, 3, -125.37)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

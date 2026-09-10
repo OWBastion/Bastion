@@ -22,7 +22,6 @@ macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     thirdPersonPosition = vect(-41.39, 5, -159.03)
     creditsPosition = vect(-55.87, 7.68, -171.97)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

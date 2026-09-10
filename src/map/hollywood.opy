@@ -24,7 +24,6 @@ macro platformMapRevision_HOLLYWOOD_DEFAULT():
     thirdPersonPosition = vect(-27.291, 3.92, -156.654)
     creditsPosition = vect(-31.65, 8.96, -175.05)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

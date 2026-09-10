@@ -25,7 +25,6 @@ macro platformMapRevision_NEW_QUEEN_STREET_DEFAULT():
     thirdPersonPosition = vect(-111.26, 11, -32.03)
     creditsPosition = vect(-102.08, 17.29, -24.46)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

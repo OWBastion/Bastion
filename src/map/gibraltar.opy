@@ -25,7 +25,6 @@ macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
     thirdPersonPosition = vect(93.88, 1.06, 63.17)
     creditsPosition = vect(112.23, 0, 73.59)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

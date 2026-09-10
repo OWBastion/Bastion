@@ -37,7 +37,6 @@ macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION vect(175.87, -9.5, -228)
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS 30
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER():

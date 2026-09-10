@@ -23,7 +23,6 @@ macro platformMapRevision_RUNASAPI_DEFAULT():
     thirdPersonPosition = vect(113.31, 7.09, -3.5)
     creditsPosition = vect(124.6, 8.77, -15.99)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

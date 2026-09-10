@@ -27,7 +27,6 @@ macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     thirdPersonPosition = vect(-7.69, 31.07, 226.97)
     creditsPosition = vect(1.75, 35, 232.5)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

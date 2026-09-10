@@ -44,7 +44,6 @@ macro platformMapRevision_OASIS_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

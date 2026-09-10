@@ -26,7 +26,6 @@ macro platformMapRevision_NUMBANI_DEFAULT():
     thirdPersonPosition = vect(225.74, 0.2, 4.55)
     creditsPosition = vect(254.54, 3.2, 22.87)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

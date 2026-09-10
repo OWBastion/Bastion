@@ -30,7 +30,6 @@ macro platformMapRevision_SURAVASA_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 50
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

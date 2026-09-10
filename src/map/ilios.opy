@@ -22,7 +22,6 @@ macro platformMapRevision_ILIOS_DEFAULT():
     thirdPersonPosition = vect(-148.168, -1.504, -88.932)
     creditsPosition = vect(-150.88, 0.2, -97.02)
 
-
 #!define platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_POSITION vect(322.692, -21.52, 42.832)
 #!define platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_RADIUS 30
 macro platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE():

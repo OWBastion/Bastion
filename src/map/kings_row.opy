@@ -23,7 +23,6 @@ macro platformMapRevision_KINGS_ROW_DEFAULT():
     thirdPersonPosition = vect(-176.048, -0.07, 36.54)
     creditsPosition = vect(-185.56, 3.53, 38.32)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

@@ -22,7 +22,6 @@ macro platformMapRevision_PARIS_DEFAULT():
     thirdPersonPosition = vect(-109.263, 15.3, -111.151)
     creditsPosition = vect(-119.74, 19, -132.45)
 
-
 macro platformMapRevision_PARIS_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
@@ -39,7 +38,6 @@ macro platformMapRevision_PARIS_CLASSIC():
     endPosition = vect(9.563, 8.329, -59.98)
     thirdPersonPosition = vect(-109.263, 15.3, -111.151)
     creditsPosition = vect(-119.74, 19, -132.45)
-
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

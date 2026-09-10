@@ -25,7 +25,6 @@ macro platformMapRevision_NEON_JUNCTION_DEFAULT():
     thirdPersonPosition = vect(-17.28, 0.75, 431.46)
     creditsPosition = vect(-7.51, 4.05, 438.32)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

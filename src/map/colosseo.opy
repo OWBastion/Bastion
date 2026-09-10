@@ -24,7 +24,6 @@ macro platformMapRevision_COLOSSEO_DEFAULT():
     thirdPersonPosition = vect(117.38, 9, -38.98)
     creditsPosition = vect(117.64, 13, -48.66)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

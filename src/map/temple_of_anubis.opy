@@ -24,7 +24,6 @@ macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     creditsPosition = vect(-11.3, 7.35, 149.11)
     springBoardPosition = vect(-47.93, 1.5, 51.33)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

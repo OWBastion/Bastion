@@ -33,7 +33,6 @@ macro platformMapRevision_RIALTO_DEFAULT():
         vect(53.17, 1.25, 22.99)
     ]
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

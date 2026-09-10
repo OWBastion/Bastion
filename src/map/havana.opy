@@ -23,7 +23,6 @@ macro platformMapRevision_HAVANA_DEFAULT():
     thirdPersonPosition = vect(158.256, 11, -47.739)
     creditsPosition = vect(193.45, 13.25, -46.49)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

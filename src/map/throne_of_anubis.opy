@@ -31,7 +31,6 @@ macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 

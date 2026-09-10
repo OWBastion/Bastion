@@ -29,7 +29,6 @@ macro platformMapRevision_ESPERANCA_DEFAULT():
     creditsPosition = vect(116.67, -0.29, -82.29)
     springBoardPosition = vect(-73.72, -3, -34.19)
 
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 
