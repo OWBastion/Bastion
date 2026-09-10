@@ -57,7 +57,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 
 - CI-parity install: `pnpm install --frozen-lockfile`
 - Core compile validation: `pnpm run build`
-- Entry-specific compile validation: `pnpm run build:main` and `pnpm run build:dev`
+- Entry-specific compile validation: `pnpm run build:cn:zh`, `pnpm run build:external:en`, `pnpm run build:external:zh`, and `pnpm run build:dev:cn:zh`
 - Aggregate tool test suite: `pnpm run tools:test`
 - Unified source data sync: `pnpm run tools -- sync`
 - Title data sync: `pnpm run sync:platform-data`
@@ -70,7 +70,7 @@ If a rule is referenced elsewhere, keep only a short pointer and do not duplicat
 - Performance loop scan helper: `pnpm run tools -- perf:scan`
 - Performance loop strict gate (non-zero on high-risk findings): `pnpm run tools -- perf:scan --strict`
 - Release artifact build (local parity): `pnpm run build:release`
-- Locale-specific release builds: `pnpm run build:main:en` and `pnpm run build:main:zh`
+- Profile-specific release builds: `pnpm run build:cn:zh` and `pnpm run build:external:en`
 - Manual env version bump (release helper): `pnpm run tools -- bump:env-version`
 - Release trigger: push to `main` with `src/**` changes, or manual `workflow_dispatch` (workflow auto-runs `pnpm run tools -- bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
 - Release freshness guard: workflow skips stale runs when `github.sha` is not current `origin/main` head.

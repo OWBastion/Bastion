@@ -8,7 +8,6 @@
 macro platformMapRevision_PARIS_DEFAULT():
     __currentMapText___ = "巴黎"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-95.984, 13.454, -83.535),
@@ -23,17 +22,10 @@ macro platformMapRevision_PARIS_DEFAULT():
     thirdPersonPosition = vect(-109.263, 15.3, -111.151)
     creditsPosition = vect(-119.74, 19, -132.45)
 
-    mapTitlePlayersByKey = [
-        DATA_PARIS[0].split("-"),
-        DATA_PARIS[1].split("-"),
-        DATA_PARIS[2].split("-"),
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 macro platformMapRevision_PARIS_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("巴黎")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-95.984, 13.454, -83.535),
@@ -48,12 +40,6 @@ macro platformMapRevision_PARIS_CLASSIC():
     thirdPersonPosition = vect(-109.263, 15.3, -111.151)
     creditsPosition = vect(-119.74, 19, -132.45)
 
-    mapTitlePlayersByKey = [
-        [],
-        [],
-        [],
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

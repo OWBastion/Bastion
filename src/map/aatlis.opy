@@ -8,7 +8,6 @@
 macro platformMapRevision_AATLIS_DEFAULT():
     __currentMapText___ = "阿特利斯"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿特利斯")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-27.31, 30.462, 99.799),
@@ -34,12 +33,6 @@ macro platformMapRevision_AATLIS_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30
 
-    mapTitlePlayersByKey = [
-        DATA_AATLIS[0].split("-"),
-        DATA_AATLIS[1].split("-"),
-        DATA_AATLIS[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -49,6 +42,4 @@ rule "map - 阿特利斯":
     @Condition (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true
     
     platformMapRevision_AATLIS_DEFAULT()
-    __currentMapPioneerText___ = "织金"
-    __currentPioneerText___ = "门徒"
     startForcingSpawn(Team.1, 1)

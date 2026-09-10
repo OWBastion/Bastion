@@ -4,12 +4,12 @@ This document is the canonical rule source for build commands and validation wor
 
 ## Canonical Commands
 
-1. `pnpm run build` (sync current platform metadata, then build both entries)
-2. `pnpm run build:main`
-3. `pnpm run build:dev`
-4. `pnpm run build:main:en`
-5. `pnpm run build:main:zh`
-6. `pnpm run build:release` (sync current platform metadata, then build the dual-language release outputs)
+1. `pnpm run build` (sync current platform metadata, then build every canonical profile, locale, and environment combination)
+2. `pnpm run build:cn:zh`
+3. `pnpm run build:external:en`
+4. `pnpm run build:external:zh`
+5. `pnpm run build:dev:cn:zh`
+6. `pnpm run build:release` (sync current platform metadata, then build the CN zh-CN and External en-US release outputs)
 
 ## CI References
 

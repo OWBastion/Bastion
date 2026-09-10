@@ -7,7 +7,6 @@
 macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
     __currentMapText___ = "漓江塔"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("漓江塔")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(34.55, 33.85, -36.64),
@@ -41,12 +40,6 @@ macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
     controlRespawnAxis = 1
     controlRespawnAxisThreshold = 40
 
-    mapTitlePlayersByKey = [
-        DATA_LIJIANG_TOWER[0].split("-"),
-        DATA_LIJIANG_TOWER[1].split("-"),
-        DATA_LIJIANG_TOWER[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

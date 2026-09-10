@@ -713,13 +713,6 @@ function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, co
   if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${renderSpatialPosition(config.springboardPositions[0]!)}`);
 }
 
-function renderMapClassicTitleHolderExpression(map: PlatformMapRevisionSource['maps'][number]) {
-  const classicHolders = map.revisions.flatMap((revision) => revision.titleHolders)
-    .filter((holder) => (holder.slotSemantics === 'none' ? 'classic' : holder.slot) === 'classic')
-    .map((holder) => holder.playerName);
-  return renderPlayerIndexDelimited(classicHolders);
-}
-
 function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]): string {
   const unsupported = map.revisions.filter((revision) => !revision.isDefault && revision.mapVariant !== 'classic');
   if (unsupported.length > 0) throw new Error(`${map.mapId} has selectable revisions that cannot be selected by the compile-time map source: ${unsupported.map((revision) => revision.gameplayRevisionId).join(', ')}`);
@@ -729,7 +722,6 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     MAP_REVISION_BEGIN,
     '# Source: OWBastion Agents API',
   ];
-  const classicHolders = renderMapClassicTitleHolderExpression(map);
   if (map.revisions.some((revision) => revision.mapVariant === 'classic')) lines.push('');
 
   for (const revision of map.revisions) {
@@ -740,25 +732,8 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     const mapText = JSON.stringify(map.mapName);
     lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
     lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
-    lines.push('    __currentMapPioneerText___ = __currentMapText___');
     lines.push('');
     renderSpatialAssignments(lines, revision.spatialConfig, mapKey === 'DATA_ANTARCTIC_PENINSULA');
-    lines.push('');
-    if (isClassic) {
-      lines.push('    mapTitlePlayersByKey = [');
-      lines.push('        [],');
-      lines.push('        [],');
-      lines.push('        [],');
-      lines.push(`        ${classicHolders}`);
-      lines.push('    ]');
-    } else {
-      lines.push('    mapTitlePlayersByKey = [');
-      lines.push(`        ${mapKey}[0].split("-"),`);
-      lines.push(`        ${mapKey}[1].split("-"),`);
-      lines.push(`        ${mapKey}[2].split("-"),`);
-      lines.push(`        ${classicHolders}`);
-      lines.push('    ]');
-    }
     for (const stage of revision.spatialConfig.alternateStages) {
       const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
       const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
@@ -995,7 +970,7 @@ export function mergePlatformData({
 }
 
 async function runBuild() {
-  for (const command of ['build:main', 'build:dev']) {
+  for (const command of ['build:cn:zh', 'build:dev:cn:zh', 'build:external:en', 'build:external:zh']) {
     await execFileAsync('pnpm', ['run', command], { cwd: ROOT, maxBuffer: 20 * 1024 * 1024 });
   }
 }

@@ -8,7 +8,6 @@
 macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     __currentMapText___ = "香巴里寺院"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("香巴里寺院")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-16.139, 40.508, 181.288),
@@ -28,12 +27,6 @@ macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     thirdPersonPosition = vect(-7.69, 31.07, 226.97)
     creditsPosition = vect(1.75, 35, 232.5)
 
-    mapTitlePlayersByKey = [
-        DATA_SHAMBALI_MONASTERY[0].split("-"),
-        DATA_SHAMBALI_MONASTERY[1].split("-"),
-        DATA_SHAMBALI_MONASTERY[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -43,5 +36,4 @@ rule "map - shambali monastery":
     
     platformMapRevision_SHAMBALI_MONASTERY_DEFAULT()
     __currentMapText___ = "香巴佬寺院"
-    __currentMapPioneerText___ = __currentMapText___
     startForcingSpawn(Team.1, 2)

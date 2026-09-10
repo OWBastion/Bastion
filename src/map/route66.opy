@@ -8,7 +8,6 @@
 macro platformMapRevision_ROUTE66_DEFAULT():
     __currentMapText___ = "66号公路"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("66号公路")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-95.624, 12.66, -5.541),
@@ -24,12 +23,6 @@ macro platformMapRevision_ROUTE66_DEFAULT():
     thirdPersonPosition = vect(-115.228, 5.799, -49.59)
     creditsPosition = vect(-113.27, 7.5, -63.14)
 
-    mapTitlePlayersByKey = [
-        DATA_ROUTE66[0].split("-"),
-        DATA_ROUTE66[1].split("-"),
-        DATA_ROUTE66[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

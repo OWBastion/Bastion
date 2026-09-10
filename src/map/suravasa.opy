@@ -8,7 +8,6 @@
 macro platformMapRevision_SURAVASA_DEFAULT():
     __currentMapText___ = "苏拉瓦萨"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("苏拉瓦萨")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(16.734, 10.5, 72.11),
@@ -31,12 +30,6 @@ macro platformMapRevision_SURAVASA_DEFAULT():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 50
 
-    mapTitlePlayersByKey = [
-        DATA_SURAVASA[0].split("-"),
-        DATA_SURAVASA[1].split("-"),
-        DATA_SURAVASA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
@@ -46,6 +39,4 @@ rule "map - 苏拉瓦萨":
     @Condition __currentMap___ == Map.SURAVASA
     
     platformMapRevision_SURAVASA_DEFAULT()
-    __currentMapPioneerText___ = "瓦拉纳西"
-    __currentPioneerText___ = "守护者"
     startForcingSpawn(Team.1, 1)

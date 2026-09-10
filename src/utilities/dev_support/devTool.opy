@@ -88,11 +88,11 @@ rule "Display mode page":
     hudHeader(eventPlayer, STR_MENU_TITLE_INGAME.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)), HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()
     if eventPlayer.isDev:
-        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_OPT_TITLE_PREV.format(inputBindingString(Button.ULTIMATE), STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_DEV_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     elif eventPlayer == hostPlayer:
-        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE),  STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_HOST_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     else:
-        hudSubheader(eventPlayer, STR_MENU_OPT_TITLE_NEXT.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+        hudSubheader(eventPlayer, PROFILE_PLAYER_MENU_OPTIONS(STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     eventPlayer.menuTextID[1] = getLastCreatedText()
 
 rule "Display hero page":
@@ -261,93 +261,6 @@ rule "Reduce reboot timer":
             smallMessage(getAllPlayers(), "  {0}  模式调整： 房主已将自动重开时间缩短 {1} 分钟".format(iconString(Icon.BOLT), 300 / 60))
 
             
-rule "Next title":
-    @Event eachPlayer
-    @Condition eventPlayer.menu == 1
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
-    @Condition len(eventPlayer.playerTitles) > 0
-    
-    if eventPlayer.playerTitleIndex == null:
-        eventPlayer.playerTitleIndex = 0
-    wait(getAverageServerLoad() / 100 * 0.032)
-
-    eventPlayer.playerTitleIndex = (eventPlayer.playerTitleIndex + 1) % len(eventPlayer.playerTitles)
-    wait(getAverageServerLoad() / 100 * 0.032)
-
-    eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
-    wait()
-
-     if titleColor[eventPlayer.playerTitleAndColor] == null:
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
-        eventPlayer.rgb_activated = true
-    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-        eventPlayer.rgb_activated = true
-    else:
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-        eventPlayer.rgb_activated = false
-
-    smallMessage(
-        eventPlayer,
-        "  {0}  已将称号更改为 {1}".format(iconString(Icon.BOLT), titleText[eventPlayer.playerTitleAndColor])
-    )
-    wait(getAverageServerLoad() / 100 * 0.032)
-
-
-rule "Previous title":
-    @Event eachPlayer
-    @Condition eventPlayer.menu == 1
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
-    @Condition len(eventPlayer.playerTitles) > 0
-    
-    if eventPlayer.playerTitleIndex == null or eventPlayer.playerTitleIndex <= 0:
-        eventPlayer.playerTitleIndex = len(eventPlayer.playerTitles)
-
-    wait(getAverageServerLoad() / 100 * 0.032)
-    eventPlayer.playerTitleIndex--
-    wait(getAverageServerLoad() / 100 * 0.032)
-
-    # 当前称号ID(使用原变量名,内容改为ID)
-    eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
-    wait()
-
-    # 取出全局表里该称号的颜色数据
-    # titleColor[eventPlayer.playerTitleAndColor] 可能是: null / [vect, vect, ...] / vect
-    if titleColor[eventPlayer.playerTitleAndColor] == null:
-        # 无自带颜色 → 用 rgbList 做彩虹
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
-        eventPlayer.rgb_activated = true
-
-    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-        # 多段 RGB 数组
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-        eventPlayer.rgb_activated = true
-
-    else:
-        # 单色向量(或其它非数组形式)
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-        eventPlayer.rgb_activated = false
-
-    # 提示文本: 从 titleText 按ID取标题字符串
-    smallMessage(
-        eventPlayer,
-        "  {0}  已将称号更改为 {1}".format(
-            iconString(Icon.BOLT),
-            titleText[eventPlayer.playerTitleAndColor]
-        )
-    )
-
-    wait(getAverageServerLoad() / 100 * 0.032)
-
-
 rule "Restart match":
     @Event eachPlayer
     @Condition eventPlayer.menu == 2

@@ -8,7 +8,6 @@
 macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯神殿"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿努比斯神殿")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-17.188, 11.237, 105.646),
@@ -25,12 +24,6 @@ macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     creditsPosition = vect(-11.3, 7.35, 149.11)
     springBoardPosition = vect(-47.93, 1.5, 51.33)
 
-    mapTitlePlayersByKey = [
-        DATA_TEMPLE_OF_ANUBIS[0].split("-"),
-        DATA_TEMPLE_OF_ANUBIS[1].split("-"),
-        DATA_TEMPLE_OF_ANUBIS[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

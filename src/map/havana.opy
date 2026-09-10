@@ -8,7 +8,6 @@
 macro platformMapRevision_HAVANA_DEFAULT():
     __currentMapText___ = "哈瓦那"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("哈瓦那")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(117.332, 14.433, -58.091),
@@ -24,12 +23,6 @@ macro platformMapRevision_HAVANA_DEFAULT():
     thirdPersonPosition = vect(158.256, 11, -47.739)
     creditsPosition = vect(193.45, 13.25, -46.49)
 
-    mapTitlePlayersByKey = [
-        DATA_HAVANA[0].split("-"),
-        DATA_HAVANA[1].split("-"),
-        DATA_HAVANA[2].split("-"),
-        []
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

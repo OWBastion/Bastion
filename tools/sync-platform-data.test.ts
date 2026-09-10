@@ -416,8 +416,7 @@ test('generates deterministic map-local macros for default and classic revisions
   assert.match(output, /macro platformMapRevision_TEST_MAP_CLASSIC\(\):/);
   assert.doesNotMatch(output, /platformMapRevision(?:Id|Variant)/);
   assert.match(output, /vect\(1, 2, 3\)/);
-  assert.match(output, /playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
-  assert.match(output, /DATA_TEST_MAP\[2\]\.split\("-"\),\n        playerNameToIndexDelimited\(\["经典玩家"\], "-"\)/);
+  assert.doesNotMatch(output, /playerNameToIndexDelimited|mapTitlePlayersByKey|__currentMapPioneerText___/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });

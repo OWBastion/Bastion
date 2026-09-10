@@ -8,7 +8,6 @@
 macro platformMapRevision_HANAMURA_DEFAULT():
     __currentMapText___ = "花村"
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-20.75, 9.21, -78.14),
@@ -26,17 +25,10 @@ macro platformMapRevision_HANAMURA_DEFAULT():
     thirdPersonPosition = vect(-33.2, 1, -115.04)
     creditsPosition = vect(-48.1, 2.5, -116.08)
 
-    mapTitlePlayersByKey = [
-        DATA_HANAMURA[0].split("-"),
-        DATA_HANAMURA[1].split("-"),
-        DATA_HANAMURA[2].split("-"),
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 macro platformMapRevision_HANAMURA_CLASSIC():
     __currentMapText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花村")
-    __currentMapPioneerText___ = __currentMapText___
 
     bastionPosition = [
         vect(-15.46, 9.68, -89.3),
@@ -51,12 +43,6 @@ macro platformMapRevision_HANAMURA_CLASSIC():
     thirdPersonPosition = vect(-33.2, 1, -115.04)
     creditsPosition = vect(-48.1, 2.5, -116.08)
 
-    mapTitlePlayersByKey = [
-        [],
-        [],
-        [],
-        playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-")
-    ]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
