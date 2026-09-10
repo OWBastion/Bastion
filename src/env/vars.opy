@@ -40,21 +40,10 @@ globalvar eventWeight 65
 globalvar hashTag 69
 globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
-globalvar buffEventId 82
-globalvar buffEventName
-globalvar buffEventDesc
-globalvar buffEventDuration
-globalvar buffEventWeight
-globalvar debuffEventId 84
-globalvar debuffEventName
-globalvar debuffEventDesc
-globalvar debuffEventDuration
-globalvar debuffEventWeight
-globalvar mechEventId 86
-globalvar mechEventName
-globalvar mechEventDesc
-globalvar mechEventDuration
-globalvar mechEventWeight
+globalvar eventCatalogId 82
+globalvar eventCatalogType
+globalvar eventCatalogEffectId
+globalvar eventCatalogWeight
 globalvar obstrucVis 89
 globalvar heroColor 90
 globalvar breathPalette 91
@@ -119,10 +108,10 @@ playervar eventEffect 68
 playervar eventDurationHud 69
 playervar eventLoopCount 70
 playervar eventIsSelected 71
-playervar eventTempId 72
+playervar eventCandidateIndex 72
+playervar eventTempIndex 74
 playervar eventTempWeight 73
-playervar categoryRoll 74
-playervar categoryRollSnapshot 83
+playervar eventCategoryCommitted
 playervar mod_speed_event 76
 playervar mod_speed_perma 77
 playervar mod_heal_event 78

@@ -774,7 +774,7 @@ function collectEventEntries(configSources: string[]): Array<{ key: string; type
   const entries = new Map<string, { key: string; type: EventType }>();
   for (const source of configSources) {
     for (const [type, enumType] of [['buff', 'BuffEventId'], ['debuff', 'DebuffEventId'], ['mech', 'MechEventId']] as const) {
-      const pattern = new RegExp(`${type}EventName\\[\\s*${enumType}\\.([A-Z0-9_]+)\\s*\\]\\s*=`, 'g');
+      const pattern = new RegExp(`eventCatalogEffectId\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.([A-Z0-9_]+)\\s*\\]\\s*=`, 'g');
       for (const match of source.matchAll(pattern)) entries.set(match[1], { key: match[1], type });
     }
   }
@@ -842,13 +842,13 @@ function resolveEventMacros(eventKey: string, eventType: string, configSources: 
   const enumType = type === 'BUFF' ? 'BuffEventId' : type === 'DEBUFF' ? 'DebuffEventId' : 'MechEventId';
   const escapedKey = eventKey.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
   const titlePattern = new RegExp(
-    `(?:buff|debuff|mech)EventName\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
+    `eventName\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
   );
   const durationPattern = new RegExp(
-    `(?:buff|debuff|mech)EventDuration\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+    `eventDuration\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
   );
   const weightPattern = new RegExp(
-    `(?:buff|debuff|mech)EventWeight\\[\\s*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+    `eventCatalogWeight\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
   );
   let id: string | undefined;
   let duration: string | undefined;

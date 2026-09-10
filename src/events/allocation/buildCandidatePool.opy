@@ -30,75 +30,69 @@ macro Player.usesPhaseTrigger():
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
-    if eventPlayer.eventType == EventType.BUFF:
-        eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if not eventPlayer.supportsPhaseTrigger():
-            eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
-            eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-        if eventPlayer.playerOnceEventState != null:
-            if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
-                eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            buffEventWeight[id] != 0 and buffEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.BUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
+    eventPlayer.eventTempIndex = eventCatalogId
+    wait(getAverageServerLoad() / 100 * 0.032)
+    eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex:
+        eventCatalogWeight[candidateIndex] > 0 and
+        (eventPlayer.thiefBuffStolen != true or eventCatalogType[candidateIndex] != EventType.BUFF) and
+        (eventPlayer.thiefBuffStolen == true or eventPlayer.eventForceRoll == null or
+            (eventPlayer.eventForceRoll < 42.5 and eventCatalogType[candidateIndex] == EventType.BUFF) or
+            (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventCatalogType[candidateIndex] == EventType.DEBUFF) or
+            (eventPlayer.eventForceRoll >= 80 and eventCatalogType[candidateIndex] == EventType.MECH)) and
+        (eventCatalogType[candidateIndex] != EventType.BUFF or eventPlayer.supportsPhaseTrigger() or
+            (eventCatalogEffectId[candidateIndex] != BuffEventId.PHASE_SURGE and eventCatalogEffectId[candidateIndex] != BuffEventId.BODYGUARD)) and
+        (eventCatalogType[candidateIndex] != EventType.BUFF or eventPlayer.playerOnceEventState == null or
+            len(eventPlayer.playerOnceEventState) <= PlayerOnceEventSlot.TEMPER_HEART or
+            eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.COMPLETED or
+            eventCatalogEffectId[candidateIndex] != BuffEventId.TEMPER_HEART) and
+        not (eventCatalogType[candidateIndex] == EventType.DEBUFF and
+            eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL and
+            eventCatalogEffectId[candidateIndex] == DebuffEventId.SELFLESS_GIVEAWAY) and
+        (eventCatalogType[candidateIndex] != EventType.MECH or
+            eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_SPEED_CHALLENGE or
+            eventPlayer.heart_steel[HeartSteelData.STACKS] > 0) and
+        (eventCatalogType[candidateIndex] != EventType.MECH or
+            (eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_WINNER_TAKE_ALL or
+                (gamblerHeartsteelJackpot >= EVT_MECH_24_POOL_MIN and
+                    eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_24_PLAYER_STACKS_MIN)) and
+            (eventPlayer.heart_steel[HeartSteelData.STACKS] > 0 or
+                (eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_SPEED_CHALLENGE and
+                    eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_HEART_OF_STEEL and
+                    eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_ALL_IN_ART_5)) and
+            ((eventPlayer.mod_dmg_perma < 0 or eventPlayer.mod_speed_perma < 0 or
+                eventPlayer.mod_heal_perma < 0 or eventPlayer.heart_steel[HeartSteelData.STACKS] < 0) or
+                eventCatalogEffectId[candidateIndex] != MechEventId.MIRROR_INVERSION)) and
+        (eventPlayer.eventLastId == null or candidateIndex not in eventPlayer.eventLastId)
+    )
+    if len(eventPlayer.eventTempIndex) <= 0:
+        eventPlayer.eventTempIndex = eventCatalogId.filter(lambda candidateIndex:
+            eventCatalogWeight[candidateIndex] > 0 and
+            (eventPlayer.thiefBuffStolen != true or eventCatalogType[candidateIndex] != EventType.BUFF) and
+            (eventPlayer.thiefBuffStolen == true or eventPlayer.eventForceRoll == null or
+                (eventPlayer.eventForceRoll < 42.5 and eventCatalogType[candidateIndex] == EventType.BUFF) or
+                (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventCatalogType[candidateIndex] == EventType.DEBUFF) or
+                (eventPlayer.eventForceRoll >= 80 and eventCatalogType[candidateIndex] == EventType.MECH)) and
+            (eventCatalogType[candidateIndex] != EventType.BUFF or eventPlayer.supportsPhaseTrigger() or
+                (eventCatalogEffectId[candidateIndex] != BuffEventId.PHASE_SURGE and eventCatalogEffectId[candidateIndex] != BuffEventId.BODYGUARD)) and
+            (eventCatalogType[candidateIndex] != EventType.BUFF or eventPlayer.playerOnceEventState == null or
+                len(eventPlayer.playerOnceEventState) <= PlayerOnceEventSlot.TEMPER_HEART or
+                eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.COMPLETED or
+                eventCatalogEffectId[candidateIndex] != BuffEventId.TEMPER_HEART) and
+            not (eventCatalogType[candidateIndex] == EventType.DEBUFF and
+                eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL and
+                eventCatalogEffectId[candidateIndex] == DebuffEventId.SELFLESS_GIVEAWAY) and
+            (eventCatalogType[candidateIndex] != EventType.MECH or
+                eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_SPEED_CHALLENGE or
+                eventPlayer.heart_steel[HeartSteelData.STACKS] > 0) and
+            (eventCatalogType[candidateIndex] != EventType.MECH or
+                (eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_WINNER_TAKE_ALL or
+                    (gamblerHeartsteelJackpot >= EVT_MECH_24_POOL_MIN and
+                        eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_24_PLAYER_STACKS_MIN)) and
+                (eventPlayer.heart_steel[HeartSteelData.STACKS] > 0 or
+                    (eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_SPEED_CHALLENGE and
+                        eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_HEART_OF_STEEL and
+                        eventCatalogEffectId[candidateIndex] != MechEventId.GAMBLER_ALL_IN_ART_5)) and
+                ((eventPlayer.mod_dmg_perma < 0 or eventPlayer.mod_speed_perma < 0 or
+                    eventPlayer.mod_heal_perma < 0 or eventPlayer.heart_steel[HeartSteelData.STACKS] < 0) or
+                    eventCatalogEffectId[candidateIndex] != MechEventId.MIRROR_INVERSION))
         )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = buffEventId.slice(0, len(buffEventId))
-            if not eventPlayer.supportsPhaseTrigger():
-                eventPlayer.eventTempId.remove(BuffEventId.PHASE_SURGE)
-                eventPlayer.eventTempId.remove(BuffEventId.BODYGUARD)
-            if eventPlayer.playerOnceEventState != null:
-                if len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
-                    eventPlayer.eventTempId.remove(BuffEventId.TEMPER_HEART)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                buffEventWeight[id] != 0 and buffEventWeight[id] > 0
-            )
-    elif eventPlayer.eventType == EventType.DEBUFF:
-        eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
-            eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.DEBUFF * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
-        )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = debuffEventId.slice(0, len(debuffEventId))
-            if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
-                eventPlayer.eventTempId.remove(DebuffEventId.SELFLESS_GIVEAWAY)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
-            )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = debuffEventId.filter(lambda id:
-                debuffEventWeight[id] != 0 and debuffEventWeight[id] > 0
-            )
-    else:
-        eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
-        wait(getAverageServerLoad() / 100 * 0.032)
-        if gamblerHeartsteelJackpot < EVT_MECH_24_POOL_MIN or eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_24_PLAYER_STACKS_MIN:
-            eventPlayer.eventTempId.remove(MechEventId.GAMBLER_WINNER_TAKE_ALL)
-        if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
-            eventPlayer.eventTempId.remove(MechEventId.GAMBLER_SPEED_CHALLENGE)
-            eventPlayer.eventTempId.remove(MechEventId.GAMBLER_HEART_OF_STEEL)
-            eventPlayer.eventTempId.remove(MechEventId.GAMBLER_ALL_IN_ART_5)
-        if not (eventPlayer.mod_dmg_perma < 0 or eventPlayer.mod_speed_perma < 0 or eventPlayer.mod_heal_perma < 0 or eventPlayer.heart_steel[HeartSteelData.STACKS] < 0):
-            eventPlayer.eventTempId.remove(MechEventId.MIRROR_INVERSION)
-        eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-            mechEventWeight[id] != 0 and mechEventWeight[id] > 0 and
-            (eventPlayer.eventLastId == null or (EventType.MECH * EVT_DEDUP_TYPE_MULTIPLIER + id) not in eventPlayer.eventLastId)
-        )
-        if len(eventPlayer.eventTempId) <= 0:
-            eventPlayer.eventTempId = mechEventId.slice(0, len(mechEventId))
-            if gamblerHeartsteelJackpot < EVT_MECH_24_POOL_MIN or eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_24_PLAYER_STACKS_MIN:
-                eventPlayer.eventTempId.remove(MechEventId.GAMBLER_WINNER_TAKE_ALL)
-            if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
-                eventPlayer.eventTempId.remove(MechEventId.GAMBLER_SPEED_CHALLENGE)
-                eventPlayer.eventTempId.remove(MechEventId.GAMBLER_HEART_OF_STEEL)
-                eventPlayer.eventTempId.remove(MechEventId.GAMBLER_ALL_IN_ART_5)
-            if not (eventPlayer.mod_dmg_perma < 0 or eventPlayer.mod_speed_perma < 0 or eventPlayer.mod_heal_perma < 0 or eventPlayer.heart_steel[HeartSteelData.STACKS] < 0):
-                eventPlayer.eventTempId.remove(MechEventId.MIRROR_INVERSION)
-            eventPlayer.eventTempId = eventPlayer.eventTempId.filter(lambda id:
-                mechEventWeight[id] != 0 and mechEventWeight[id] > 0
-            )
