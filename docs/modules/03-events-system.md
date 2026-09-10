@@ -66,7 +66,7 @@
 
 ## 全局候选与抽样
 
-`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventCatalogId` 筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 标记仅在原本抽中的 Buff 被非 Buff 替换时消耗。
+`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventCatalogId` 筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 会将受害者的下一次候选池限制为非 Buff，并在该次分配后消耗标记。
 
 现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
