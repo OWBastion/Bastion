@@ -20,7 +20,7 @@
     "bump:env-version": "pnpm run tools -- bump:env-version",
     "test:title-data-sync": "pnpm run tools -- test:title-data-sync",
     "test:platform-data-sync": "pnpm run tools -- test:platform-data-sync",
-    "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:platform-data-sync && node --import tsx --test tools/temper-heart.test.ts",
+    "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:platform-data-sync && node --import tsx --test tools/temper-heart.test.ts tools/event-allocation.test.ts",
     "build:release": "pnpm run sync:platform-data --no-build && pnpm run build:cn:zh && pnpm run build:external:en",
     "build": "pnpm run sync:platform-data"
   },
