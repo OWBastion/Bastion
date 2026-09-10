@@ -92,73 +92,73 @@ rule "initialize event array":
     # ================================================
     # Pack 1: Debuffs
     # ================================================
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_DESC.format(EVT_DEBUFF_0_GRAVITY)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY] = DebuffEventId.GRAVITY_ANOMALY
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_ANOMALY)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_DESC.format(EVT_DEBUFF_0_GRAVITY)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = DebuffEventId.GRAVITY_ANOMALY
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_DESC
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = EVT_DEBUFF_1_HACK_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = EVT_DEBUFF_1_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP] = DebuffEventId.EMP
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.EMP)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_DESC
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = EVT_DEBUFF_1_HACK_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = EVT_DEBUFF_1_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = DebuffEventId.EMP
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.EMP)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_DESC.format(percent(EVT_DEBUFF_2_DMG_PERCENT))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = EVT_DEBUFF_2_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = EVT_DEBUFF_2_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE] = DebuffEventId.SACRIFICE
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.SACRIFICE)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_DESC.format(percent(EVT_DEBUFF_2_DMG_PERCENT))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = EVT_DEBUFF_2_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = EVT_DEBUFF_2_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = DebuffEventId.SACRIFICE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_DESC.format(EVT_DEBUFF_3_DMG_TAKEN)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = EVT_DEBUFF_3_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = EVT_DEBUFF_3_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE] = DebuffEventId.VULNERABLE
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.VULNERABLE)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_DESC.format(EVT_DEBUFF_3_DMG_TAKEN)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = EVT_DEBUFF_3_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = EVT_DEBUFF_3_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = DebuffEventId.VULNERABLE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_DESC.format(EVT_DEBUFF_4_DMG_BASE, percent(EVT_DEBUFF_4_DMG_PERCENT))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = EVT_DEBUFF_4_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = EVT_DEBUFF_4_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40] = DebuffEventId.SPEED_LIMIT_40
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.SPEED_LIMIT_40)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_DESC.format(EVT_DEBUFF_4_DMG_BASE, percent(EVT_DEBUFF_4_DMG_PERCENT))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = EVT_DEBUFF_4_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = EVT_DEBUFF_4_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = DebuffEventId.SPEED_LIMIT_40
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40)
 
 
     # ================================================
     # Pack 1: Mechanics
     # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = STR_EVT_MECH_1_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = EVT_MECH_1_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = EVT_MECH_1_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER] = MechEventId.GAMBLER
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = STR_EVT_MECH_1_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = EVT_MECH_1_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = EVT_MECH_1_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = MechEventId.GAMBLER
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = STR_EVT_MECH_2_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = STR_EVT_MECH_2_DESC.format(percent(1 - EVT_MECH_2_MODEL_SCALE), percent(1 - EVT_MECH_2_HP_SCALE), EVT_MECH_2_SPEED_BOOST)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = EVT_MECH_2_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = EVT_MECH_2_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.MINI_FORM] = MechEventId.MINI_FORM
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.MINI_FORM)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = STR_EVT_MECH_2_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = STR_EVT_MECH_2_DESC.format(percent(1 - EVT_MECH_2_MODEL_SCALE), percent(1 - EVT_MECH_2_HP_SCALE), EVT_MECH_2_SPEED_BOOST)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = EVT_MECH_2_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = EVT_MECH_2_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = MechEventId.MINI_FORM
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = EVT_MECH_3_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = EVT_MECH_3_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH] = MechEventId.STEALTH_CROUCH
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.STEALTH_CROUCH)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = EVT_MECH_3_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = EVT_MECH_3_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = MechEventId.STEALTH_CROUCH
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH)
 
     lbl_0:
 
@@ -196,73 +196,73 @@ rule "initialize event array":
     # ================================================
     # Pack 2: Debuffs
     # ================================================
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_DESC.format(EVT_DEBUFF_5_SPEED_REDUCTION)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = EVT_DEBUFF_5_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = EVT_DEBUFF_5_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL] = DebuffEventId.GRAVITY_PULL
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.GRAVITY_PULL)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_DESC.format(EVT_DEBUFF_5_SPEED_REDUCTION)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = EVT_DEBUFF_5_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = EVT_DEBUFF_5_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = DebuffEventId.GRAVITY_PULL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_DESC.format(negToPos(EVT_DEBUFF_6_MAX_SPEED_DEC))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = EVT_DEBUFF_6_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = EVT_DEBUFF_6_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS] = DebuffEventId.OSTEOPOROSIS
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.OSTEOPOROSIS)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_DESC.format(negToPos(EVT_DEBUFF_6_MAX_SPEED_DEC))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = EVT_DEBUFF_6_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = EVT_DEBUFF_6_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = DebuffEventId.OSTEOPOROSIS
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_DESC.format(EVT_DEBUFF_7_RADIUS)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = EVT_DEBUFF_7_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = EVT_DEBUFF_7_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX] = DebuffEventId.EMP_PROMAX
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.EMP_PROMAX)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_DESC.format(EVT_DEBUFF_7_RADIUS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = EVT_DEBUFF_7_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = EVT_DEBUFF_7_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = DebuffEventId.EMP_PROMAX
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_DESC.format(percent(EVT_DEBUFF_8_DMG_PERCENT))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = EVT_DEBUFF_8_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = EVT_DEBUFF_8_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK] = DebuffEventId.ENERGY_LEAK
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.ENERGY_LEAK)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_DESC.format(percent(EVT_DEBUFF_8_DMG_PERCENT))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = EVT_DEBUFF_8_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = EVT_DEBUFF_8_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = DebuffEventId.ENERGY_LEAK
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_FACTOR), EVT_DEBUFF_9_RADIUS)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN] = DebuffEventId.SHARE_THE_PAIN
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.SHARE_THE_PAIN)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_FACTOR), EVT_DEBUFF_9_RADIUS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = DebuffEventId.SHARE_THE_PAIN
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_DESC.format(EVT_DEBUFF_10_BERSERK_ADD)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = EVT_DEBUFF_10_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = EVT_DEBUFF_10_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY] = DebuffEventId.FEAST_FRENZY
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.FEAST_FRENZY)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_DESC.format(EVT_DEBUFF_10_BERSERK_ADD)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = EVT_DEBUFF_10_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = EVT_DEBUFF_10_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = DebuffEventId.FEAST_FRENZY
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_DESC.format(EVT_DEBUFF_11_DELAY, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE] = DebuffEventId.POWERLESS_SPOUSE
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.POWERLESS_SPOUSE)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_DESC.format(EVT_DEBUFF_11_DELAY, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = DebuffEventId.POWERLESS_SPOUSE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE)
 
 
     # ================================================
     # Pack 2: Mechanics
     # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_DESC.format(100 + EVT_MECH_4_MAX_SPEED)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = EVT_MECH_4_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = EVT_MECH_4_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE] = MechEventId.BRAKE_FAILURE
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.BRAKE_FAILURE)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_DESC.format(100 + EVT_MECH_4_MAX_SPEED)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = EVT_MECH_4_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = EVT_MECH_4_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = MechEventId.BRAKE_FAILURE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE)
 
     
     lbl_1:
@@ -316,52 +316,52 @@ rule "initialize event array":
     # ================================================
     # Pack 3: Debuffs
     # ================================================
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_DESC.format(EVT_DEBUFF_13_INTERVAL, percent(EVT_DEBUFF_13_DAMAGE_PERCENT), percent(EVT_DEBUFF_13_EXECUTE_THRESHOLD))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = EVT_DEBUFF_13_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = EVT_DEBUFF_13_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED] = DebuffEventId.HALVED
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.HALVED)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_DESC.format(EVT_DEBUFF_13_INTERVAL, percent(EVT_DEBUFF_13_DAMAGE_PERCENT), percent(EVT_DEBUFF_13_EXECUTE_THRESHOLD))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = EVT_DEBUFF_13_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = EVT_DEBUFF_13_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = DebuffEventId.HALVED
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_DESC.format(EVT_DEBUFF_14_STACKS_TAKE)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = EVT_DEBUFF_14_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = EVT_DEBUFF_14_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY] = DebuffEventId.SELFLESS_GIVEAWAY
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.SELFLESS_GIVEAWAY)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_DESC.format(EVT_DEBUFF_14_STACKS_TAKE)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EVT_DEBUFF_14_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EVT_DEBUFF_14_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = DebuffEventId.SELFLESS_GIVEAWAY
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY)
 
-
-    # ================================================
-    # Pack 3: Mechanics
-    # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_DESC.format(negToPos(EVT_MECH_0_DMG_TAKEN), percent(EVT_MECH_0_HP_PERCENT))
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = EVT_MECH_0_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = EVT_MECH_0_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE] = MechEventId.EXTREME_CHALLENGE
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.EXTREME_CHALLENGE)
 
     # ================================================
     # Pack 3: Mechanics
     # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_DESC.format(Button.JUMP, negToPos(EVT_MECH_5_DMG_TAKEN))
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = EVT_MECH_5_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = EVT_MECH_5_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST] = MechEventId.JUMP_THRUST
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.JUMP_THRUST)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_DESC.format(negToPos(EVT_MECH_0_DMG_TAKEN), percent(EVT_MECH_0_HP_PERCENT))
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = EVT_MECH_0_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = EVT_MECH_0_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = MechEventId.EXTREME_CHALLENGE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_DESC.format(Button.RELOAD, EVT_MECH_6_HEARTSTEEL_COST, EVT_MECH_6_PROB_LOSE_NORMAL - EVT_MECH_6_PROB_WIN_NORMAL, EVT_MECH_6_VAL_NORMAL, 100 - EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_RARE)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE] = MechEventId.GAMBLER_SPEED_CHALLENGE
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_SPEED_CHALLENGE)
+    # ================================================
+    # Pack 3: Mechanics
+    # ================================================
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_DESC.format(Button.JUMP, negToPos(EVT_MECH_5_DMG_TAKEN))
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = EVT_MECH_5_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = EVT_MECH_5_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = MechEventId.JUMP_THRUST
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST)
+
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_DESC.format(Button.RELOAD, EVT_MECH_6_HEARTSTEEL_COST, EVT_MECH_6_PROB_LOSE_NORMAL - EVT_MECH_6_PROB_WIN_NORMAL, EVT_MECH_6_VAL_NORMAL, 100 - EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_RARE)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = MechEventId.GAMBLER_SPEED_CHALLENGE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE)
 
     
     lbl_2:
@@ -415,129 +415,129 @@ rule "initialize event array":
     # ================================================
     # Pack 4: Debuffs
     # ================================================
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_DESC
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = EVT_DEBUFF_15_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = EVT_DEBUFF_15_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA] = DebuffEventId.KEEP_DISTANCE_AURA
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.KEEP_DISTANCE_AURA)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_DESC
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = EVT_DEBUFF_15_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = EVT_DEBUFF_15_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = DebuffEventId.KEEP_DISTANCE_AURA
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = STR_EVT_DEBUFF_20_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = STR_EVT_DEBUFF_20_DESC
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = EVT_DEBUFF_20_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = EVT_DEBUFF_20_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET] = DebuffEventId.MOON_ROCKET
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.MOON_ROCKET)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = STR_EVT_DEBUFF_20_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = STR_EVT_DEBUFF_20_DESC
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = EVT_DEBUFF_20_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = EVT_DEBUFF_20_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = DebuffEventId.MOON_ROCKET
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET)
 
 
     # ================================================
     # Pack 4: Mechanics
     # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_DESC.format(Button.RELOAD, EVT_MECH_7_HEART_STEEL_COST, EVT_MECH_7_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = EVT_MECH_7_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = EVT_MECH_7_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING] = MechEventId.CHEAT_CARD_COUNTING
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.CHEAT_CARD_COUNTING)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_DESC.format(Button.RELOAD, EVT_MECH_7_HEART_STEEL_COST, EVT_MECH_7_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = EVT_MECH_7_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = EVT_MECH_7_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = MechEventId.CHEAT_CARD_COUNTING
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = STR_EVT_MECH_8_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = STR_EVT_MECH_8_DESC.format(Button.RELOAD, EVT_MECH_8_CONTRACT_EVENTS, EVT_MECH_8_WIN_CHANCE, EVT_MECH_8_REWARD_STACKS)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = EVT_MECH_8_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = EVT_MECH_8_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT] = MechEventId.GAMBLER_SHORT_INVESTMENT
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_SHORT_INVESTMENT)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = STR_EVT_MECH_8_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = STR_EVT_MECH_8_DESC.format(Button.RELOAD, EVT_MECH_8_CONTRACT_EVENTS, EVT_MECH_8_WIN_CHANCE, EVT_MECH_8_REWARD_STACKS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = EVT_MECH_8_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = EVT_MECH_8_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT] = MechEventId.GAMBLER_SHORT_INVESTMENT
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SHORT_INVESTMENT)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = STR_EVT_MECH_10_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = STR_EVT_MECH_10_DESC.format(Button.RELOAD)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = EVT_MECH_10_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = EVT_MECH_10_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO] = MechEventId.CHEAT_SKIP_HERO
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.CHEAT_SKIP_HERO)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = STR_EVT_MECH_10_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = STR_EVT_MECH_10_DESC.format(Button.RELOAD)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = EVT_MECH_10_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = EVT_MECH_10_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO] = MechEventId.CHEAT_SKIP_HERO
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_SKIP_HERO)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = STR_EVT_MECH_11_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = STR_EVT_MECH_11_DESC.format(EVT_MECH_11_RESURRECT_DELAY, percent(EVT_MECH_11_SIZE_STEP), EVT_MECH_11_SPEED_STEP)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = EVT_MECH_11_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = EVT_MECH_11_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL] = MechEventId.NESTING_DOLL
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.NESTING_DOLL)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = STR_EVT_MECH_11_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = STR_EVT_MECH_11_DESC.format(EVT_MECH_11_RESURRECT_DELAY, percent(EVT_MECH_11_SIZE_STEP), EVT_MECH_11_SPEED_STEP)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = EVT_MECH_11_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = EVT_MECH_11_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL] = MechEventId.NESTING_DOLL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.NESTING_DOLL)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = STR_EVT_MECH_12_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = STR_EVT_MECH_12_DESC.format(Button.RELOAD, EVT_MECH_12_CONTRACT_EVENTS, EVT_MECH_12_WIN_CHANCE, EVT_MECH_12_REWARD_STACKS)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = EVT_MECH_12_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = EVT_MECH_12_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT] = MechEventId.GAMBLER_LONG_INVESTMENT
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_LONG_INVESTMENT)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = STR_EVT_MECH_12_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = STR_EVT_MECH_12_DESC.format(Button.RELOAD, EVT_MECH_12_CONTRACT_EVENTS, EVT_MECH_12_WIN_CHANCE, EVT_MECH_12_REWARD_STACKS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = EVT_MECH_12_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = EVT_MECH_12_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT] = MechEventId.GAMBLER_LONG_INVESTMENT
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_LONG_INVESTMENT)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = STR_EVT_MECH_13_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = STR_EVT_MECH_13_DESC.format(EVT_MECH_13_SIZE_HEALTH * 100, percent(EVT_MECH_13_HEAL_SMOOTHING))
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = EVT_MECH_13_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = EVT_MECH_13_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT] = MechEventId.VALKYRIE_DESCENT
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.VALKYRIE_DESCENT)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = STR_EVT_MECH_13_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = STR_EVT_MECH_13_DESC.format(EVT_MECH_13_SIZE_HEALTH * 100, percent(EVT_MECH_13_HEAL_SMOOTHING))
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = EVT_MECH_13_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = EVT_MECH_13_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT] = MechEventId.VALKYRIE_DESCENT
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VALKYRIE_DESCENT)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = STR_EVT_MECH_14_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = STR_EVT_MECH_14_DESC.format(100 / EVT_MECH_14_DMG_REDUCE_DIVISOR, EVT_MECH_14_SPEED_FACTOR, EVT_MECH_14_INTERVAL / EVT_MECH_14_HEART_STEEL_PER_TICK)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = EVT_MECH_14_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = EVT_MECH_14_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR] = MechEventId.TRINITY_SSR
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.TRINITY_SSR)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = STR_EVT_MECH_14_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = STR_EVT_MECH_14_DESC.format(100 / EVT_MECH_14_DMG_REDUCE_DIVISOR, EVT_MECH_14_SPEED_FACTOR, EVT_MECH_14_INTERVAL / EVT_MECH_14_HEART_STEEL_PER_TICK)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = EVT_MECH_14_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = EVT_MECH_14_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR] = MechEventId.TRINITY_SSR
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TRINITY_SSR)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = STR_EVT_MECH_18_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = STR_EVT_MECH_18_DESC.format(EVT_MECH_18_DRAIN_FLAT, percent(EVT_MECH_18_DRAIN_MAXHP_FACTOR), EVT_MECH_18_KILL_HEAL_PERMA)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = EVT_MECH_18_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = EVT_MECH_18_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.VAMPIRE] = MechEventId.VAMPIRE
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.VAMPIRE)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = STR_EVT_MECH_18_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = STR_EVT_MECH_18_DESC.format(EVT_MECH_18_DRAIN_FLAT, percent(EVT_MECH_18_DRAIN_MAXHP_FACTOR), EVT_MECH_18_KILL_HEAL_PERMA)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = EVT_MECH_18_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = EVT_MECH_18_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = MechEventId.VAMPIRE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.THIEF] = STR_EVT_MECH_19_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.THIEF] = STR_EVT_MECH_19_DESC.format(Button.RELOAD)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.THIEF] = EVT_MECH_19_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.THIEF] = EVT_MECH_19_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.THIEF] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.THIEF] = MechEventId.THIEF
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.THIEF)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = STR_EVT_MECH_19_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = STR_EVT_MECH_19_DESC.format(Button.RELOAD)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = EVT_MECH_19_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = EVT_MECH_19_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = MechEventId.THIEF
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_DESC.format(Button.RELOAD, EVT_MECH_20_WIN_RATE, percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), 100 - EVT_MECH_20_WIN_RATE)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL] = MechEventId.GAMBLER_HELPFUL_SOUL
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_HELPFUL_SOUL)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = STR_EVT_MECH_20_DESC.format(Button.RELOAD, EVT_MECH_20_WIN_RATE, percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), 100 - EVT_MECH_20_WIN_RATE)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = EVT_MECH_20_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL] = MechEventId.GAMBLER_HELPFUL_SOUL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HELPFUL_SOUL)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_DESC.format(Button.RELOAD, EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL] = MechEventId.CHEAT_BACKROOM_DEAL
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.CHEAT_BACKROOM_DEAL)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = STR_EVT_MECH_22_DESC.format(Button.RELOAD, EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = EVT_MECH_22_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL] = MechEventId.CHEAT_BACKROOM_DEAL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_BACKROOM_DEAL)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_DESC.format(Button.RELOAD)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = EVT_MECH_23_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = EVT_MECH_23_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION] = MechEventId.MIRROR_INVERSION
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.MIRROR_INVERSION)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = STR_EVT_MECH_23_DESC.format(Button.RELOAD)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = EVT_MECH_23_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = EVT_MECH_23_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = MechEventId.MIRROR_INVERSION
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_DESC.format(Button.RELOAD, percent(EVT_MECH_24_STAKE_RATIO), EVT_MECH_24_WIN_RATE)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL] = MechEventId.GAMBLER_WINNER_TAKE_ALL
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_WINNER_TAKE_ALL)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = STR_EVT_MECH_24_DESC.format(Button.RELOAD, percent(EVT_MECH_24_STAKE_RATIO), EVT_MECH_24_WIN_RATE)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EVT_MECH_24_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = MechEventId.GAMBLER_WINNER_TAKE_ALL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL)
 
 
     lbl_3:
@@ -581,56 +581,56 @@ rule "initialize event array":
     # ================================================
     # Pack 5: Debuffs
     # ================================================
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_INTERVAL)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION] = DebuffEventId.WAYWARD_NAVIGATION
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.WAYWARD_NAVIGATION)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_INTERVAL)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = DebuffEventId.WAYWARD_NAVIGATION
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_DESC.format(EVT_DEBUFF_23_HP_UNIT, EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT)
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK] = DebuffEventId.OVERWEIGHT_PACK
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.OVERWEIGHT_PACK)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = STR_EVT_DEBUFF_23_DESC.format(EVT_DEBUFF_23_HP_UNIT, EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = EVT_DEBUFF_23_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK] = DebuffEventId.OVERWEIGHT_PACK
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.OVERWEIGHT_PACK)
 
-    eventName[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_TITLE
-    eventDesc[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO))
-    eventDuration[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_DURATION
-    eventCatalogWeight[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_WEIGHT
-    eventCatalogType[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
-    eventCatalogEffectId[EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
-    eventCatalogId.append(EVENT_DEBUFF_OFFSET + DebuffEventId.ADLERSBRUNN_WRAITH)
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = STR_EVT_DEBUFF_21_DESC.format(EVT_DEBUFF_21_TOTAL_STACK, negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK), Button.RELOAD, percent(EVT_DEBUFF_21_HP_COST_RATIO))
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
 
     # ================================================
     # Pack 5: Mechanics
     # ================================================
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_INTERACT_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC] = MechEventId.GAMBLER_DICE_MANIAC
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_DICE_MANIAC)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_INTERACT_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC] = MechEventId.GAMBLER_DICE_MANIAC
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_DICE_MANIAC)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_DESC.format(Button.RELOAD, EVT_MECH_16_WIN_RATE, EVT_MECH_16_WIN_MULTIPLIER, 100 - EVT_MECH_16_WIN_RATE, percent(EVT_MECH_16_LOSE_RATIO))
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL] = MechEventId.GAMBLER_HEART_OF_STEEL
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_HEART_OF_STEEL)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_DESC.format(Button.RELOAD, EVT_MECH_16_WIN_RATE, EVT_MECH_16_WIN_MULTIPLIER, 100 - EVT_MECH_16_WIN_RATE, percent(EVT_MECH_16_LOSE_RATIO))
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL] = MechEventId.GAMBLER_HEART_OF_STEEL
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL)
 
-    eventName[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_TITLE
-    eventDesc[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_DESC.format(Button.RELOAD, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER)
-    eventDuration[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_DURATION
-    eventCatalogWeight[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
-    eventCatalogType[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
-    eventCatalogEffectId[EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5] = MechEventId.GAMBLER_ALL_IN_ART_5
-    eventCatalogId.append(EVENT_MECH_OFFSET + MechEventId.GAMBLER_ALL_IN_ART_5)
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_DESC.format(Button.RELOAD, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = MechEventId.GAMBLER_ALL_IN_ART_5
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5)
 
     lbl_4:
 

@@ -34,6 +34,7 @@ def buildCandidatePool():
     wait(getAverageServerLoad() / 100 * 0.032)
     eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex:
         eventCatalogWeight[candidateIndex] > 0 and
+        (eventPlayer.thiefBuffStolen != true or eventCatalogType[candidateIndex] != EventType.BUFF) and
         (eventPlayer.thiefBuffStolen == true or eventPlayer.eventForceRoll == null or
             (eventPlayer.eventForceRoll < 42.5 and eventCatalogType[candidateIndex] == EventType.BUFF) or
             (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventCatalogType[candidateIndex] == EventType.DEBUFF) or
@@ -66,6 +67,7 @@ def buildCandidatePool():
     if len(eventPlayer.eventTempIndex) <= 0:
         eventPlayer.eventTempIndex = eventCatalogId.filter(lambda candidateIndex:
             eventCatalogWeight[candidateIndex] > 0 and
+            (eventPlayer.thiefBuffStolen != true or eventCatalogType[candidateIndex] != EventType.BUFF) and
             (eventPlayer.thiefBuffStolen == true or eventPlayer.eventForceRoll == null or
                 (eventPlayer.eventForceRoll < 42.5 and eventCatalogType[candidateIndex] == EventType.BUFF) or
                 (eventPlayer.eventForceRoll >= 42.5 and eventPlayer.eventForceRoll < 80 and eventCatalogType[candidateIndex] == EventType.DEBUFF) or
