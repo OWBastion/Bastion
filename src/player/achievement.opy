@@ -36,7 +36,7 @@ rule "[VishkarEvent]: Challenge 54 Track (BREAK_ATMOSPHERE)":
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition difficulty == 5
-    @Condition eventPlayer.dlcTimeChallenge[2] >= 20
+    @Condition eventPlayer.dlcTimeChallenge[2] >= 15
     @Condition 54 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(54)
