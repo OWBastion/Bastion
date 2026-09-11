@@ -6,7 +6,7 @@ const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 
 
 test('Temper Heart retries after DRAWN and only completion consumes it', async () => {
   const pool = await read('src/events/allocation/buildCandidatePool.opy');
-  assert.equal((pool.match(/TemperHeartState\.COMPLETED/g) ?? []).length, 2);
+  assert.match(pool, /if eventPlayer\.playerOnceEventState != null and len\(eventPlayer\.playerOnceEventState\) > PlayerOnceEventSlot\.TEMPER_HEART and eventPlayer\.playerOnceEventState\[PlayerOnceEventSlot\.TEMPER_HEART\] == TemperHeartState\.COMPLETED:\n        eventPlayer\.eventTempIndex\.remove\(BuffEventId\.TEMPER_HEART\)/);
   assert.doesNotMatch(pool, /TEMPER_HEART\].*!= TemperHeartState\.NONE/);
 });
 

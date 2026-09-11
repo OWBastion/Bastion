@@ -110,6 +110,7 @@ playervar eventLoopCount 70
 playervar eventIsSelected 71
 playervar eventCandidateIndex 72
 playervar eventTempIndex 74
+playervar eventHardCandidateIndex 112
 playervar eventTempWeight 73
 playervar eventCategoryCommitted
 playervar mod_speed_event 76

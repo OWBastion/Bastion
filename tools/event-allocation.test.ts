@@ -4,14 +4,17 @@ import test from 'node:test';
 
 const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
-test('Thief constrains the victim candidate pool before sampling', async () => {
+test('candidate-pool hard eligibility is built once before recent-event fallback', async () => {
   const [pool, setEvent] = await Promise.all([
     read('src/events/allocation/buildCandidatePool.opy'),
     read('src/utilities/event_core/setPlayerEvent.opy')
   ]);
 
-  assert.equal((pool.match(/eventPlayer\.thiefBuffStolen != true or eventCatalogType\[candidateIndex\] != EventType\.BUFF/g) ?? []).length, 2);
-  assert.equal((pool.match(/eventPlayer\.thiefBuffStolen == true or eventPlayer\.eventForceRoll == null/g) ?? []).length, 2);
+  assert.match(pool, /if eventPlayer\.thiefBuffStolen == true:\n        eventPlayer\.eventTempIndex = eventPlayer\.eventTempIndex\.filter\(lambda candidateIndex: eventCatalogType\[candidateIndex\] != EventType\.BUFF\)/);
+  assert.match(pool, /eventPlayer\.eventHardCandidateIndex = eventPlayer\.eventTempIndex/);
+  assert.match(pool, /eventPlayer\.eventTempIndex = eventPlayer\.eventTempIndex\.filter\(lambda candidateIndex: candidateIndex not in eventPlayer\.eventLastId\)/);
+  assert.match(pool, /if len\(eventPlayer\.eventTempIndex\) <= 0:\n        eventPlayer\.eventTempIndex = eventPlayer\.eventHardCandidateIndex/);
+  assert.equal((pool.match(/eventCatalogId\.filter/g) ?? []).length, 1);
   assert.doesNotMatch(setEvent, /eventTempIndex = eventPlayer\.eventTempIndex\.filter/);
   assert.match(setEvent, /if eventPlayer\.thiefBuffStolen == true:\n        eventPlayer\.thiefBuffStolen = false/);
 });
