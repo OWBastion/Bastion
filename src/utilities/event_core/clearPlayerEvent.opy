@@ -18,7 +18,6 @@ def clearPlayerEvent():
     eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventCandidateIndex = null
     eventPlayer.eventTempIndex = []
-    eventPlayer.eventHardCandidateIndex = []
     eventPlayer.eventTempWeight = 0
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false

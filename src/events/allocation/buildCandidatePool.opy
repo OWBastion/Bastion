@@ -58,8 +58,7 @@ def buildCandidatePool():
     if eventPlayer.mod_dmg_perma >= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION)
 
-    eventPlayer.eventHardCandidateIndex = eventPlayer.eventTempIndex
     if eventPlayer.eventLastId != null:
-        eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
-    if len(eventPlayer.eventTempIndex) <= 0:
-        eventPlayer.eventTempIndex = eventPlayer.eventHardCandidateIndex
+        eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
+        if len(eventPlayer.eventCandidateIndex) > 0:
+            eventPlayer.eventTempIndex = eventPlayer.eventCandidateIndex
