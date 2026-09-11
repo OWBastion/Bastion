@@ -9,7 +9,7 @@ subroutine commitPlayerEventCategory
 def commitPlayerEventCategory():
     @Name "[VishkarEvent]: commit player event category"
 
-    if eventPlayer.eventCategoryCommitted == true or eventPlayer.eventType == null:
+    if eventPlayer.eventCategoryCommitted == true or eventPlayer.eventIsSelected == false:
         return
     if eventPlayer.eventType == EventType.BUFF:
         if eventPlayer.eventId == BuffEventId.OLIVIA_GIFT:
