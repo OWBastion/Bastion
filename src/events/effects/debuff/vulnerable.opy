@@ -9,9 +9,7 @@
 rule "[VishkarEvent]: 易损":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.VULNERABLE
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.VULNERABLE]) == true
     
     createEffect(getAllPlayers(), Effect.ZENYATTA_ORB_OF_DISCORD_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()

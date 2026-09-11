@@ -10,9 +10,7 @@
 
 rule "[VishkarEvent]: 黑粉来袭":
     @Event eachPlayer
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
    
     # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
     wait(BLACK_FANS_SCAN_DT)

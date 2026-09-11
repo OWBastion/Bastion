@@ -8,9 +8,7 @@
 
 rule "[VishkarEvent]: 钢铁防线":
     @Event eachPlayer
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.IRON_BULWARK
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.IRON_BULWARK]) == true
     
     wait(0.032)
     if eventPlayer.healthId[1] == null:

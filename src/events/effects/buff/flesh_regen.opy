@@ -9,9 +9,7 @@
 rule "[VishkarEvent]: 血肉再生":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.FLESH_REGEN
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.FLESH_REGEN]) == true
     
     wait(0.032)
     removeHealthPool(eventPlayer.healthId[0])

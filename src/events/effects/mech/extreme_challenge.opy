@@ -10,9 +10,7 @@
 rule "Apply challenge":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     
     waitUntil(eventPlayer.isAlive(), Math.INFINITY)
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
@@ -34,9 +32,7 @@ rule "Apply challenge":
 rule "Clamp health":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     @Condition eventPlayer.healthAbovePercent(EVT_MECH_0_HP_PERCENT * 100) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)

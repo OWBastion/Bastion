@@ -9,9 +9,7 @@
 rule "[VishkarEvent]: 有难同当 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     
     eventPlayer.dlcTimeChallenge[5]++
     wait(getAverageServerLoad() / 100 * 0.032)
@@ -22,9 +20,7 @@ rule "[VishkarEvent]: 有难同当 Effect":
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     @Condition attacker.getHero() == Hero.BASTION
     @Condition eventAbility != null
     

@@ -10,10 +10,7 @@
 rule "Create effect":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.GRAVITY_PULL
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.eventEffect == null
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL, eventPlayer.eventEffect == null]) == true
     
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
@@ -25,10 +22,7 @@ rule "Create effect":
 rule "Pull toward bastion":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.GRAVITY_PULL
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.isAlive()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL]) == true
     @Condition getPlayers(Team.2)[0] != null
     
     if eventPlayer.mod_speed_event != 0:

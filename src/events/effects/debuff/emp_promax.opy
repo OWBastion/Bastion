@@ -10,9 +10,7 @@
 rule "Broadcast EMP":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.EMP_PROMAX
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.EMP_PROMAX]) == true
     
     eventPlayer.dlcTimeChallenge[7]++
     ([player for player in getPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
@@ -23,9 +21,7 @@ rule "Broadcast EMP":
 rule "Apply hack":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.hasStatus(Status.HACKED) != true
-    @Condition eventPlayer.empProMax != null
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.hasStatus(Status.HACKED) != true, eventPlayer.empProMax != null]) == true
     
     stopChasingVariable(eventPlayer.hack_timer)
     eventPlayer.hack_timer = max(0, EVT_DEBUFF_7_HACK_BASE_DURATION if eventPlayer.empProMax == eventPlayer else EVT_DEBUFF_7_HACK_BASE_DURATION - distance(eventPlayer, eventPlayer.empProMax) * EVT_DEBUFF_7_DIST_FACTOR)

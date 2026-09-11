@@ -9,9 +9,7 @@
 rule "[VishkarEvent]: 治疗光塔 ProMax (全图奶)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.HEALING_TOWER_PROMAX
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEALING_TOWER_PROMAX]) == true
     
     if eventPlayer.getNormalizedHealth() == 1:
         goto lbl_0

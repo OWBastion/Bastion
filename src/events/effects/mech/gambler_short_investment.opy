@@ -11,10 +11,7 @@
 rule "[VishkarEvent]: 赌徒：短期投资 (交易)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.GAMBLER_SHORT_INVESTMENT
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_SHORT_INVESTMENT, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_8_WIN_CHANCE:

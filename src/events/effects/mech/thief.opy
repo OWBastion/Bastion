@@ -9,10 +9,7 @@
 rule "[VishkarEvent]: 窃贼":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.THIEF
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     wait(0.25)

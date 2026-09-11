@@ -9,12 +9,7 @@
 rule "[VishkarEvent]: 天降神兵":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.altFormActive != true
-    @Condition getTotalTimeElapsed() >= eventPlayer.eventMissionGoal
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT, eventPlayer.altFormActive != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormActive = true
@@ -33,9 +28,7 @@ rule "[VishkarEvent]: 天降神兵":
 rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT]) == true
 
     wait(eventPlayer.eventDuration)
     eventPlayer.altFormActive = false

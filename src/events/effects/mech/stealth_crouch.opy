@@ -10,10 +10,12 @@
 rule "Create effect":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.STEALTH_CROUCH
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.eventEffect == null
+    @Condition all([
+        eventPlayer.hasSpawned(),
+        eventPlayer.eventType == EventType.MECH,
+        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.eventEffect == null
+    ]) == true
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -23,9 +25,7 @@ rule "Create effect":
 rule "Apply stealth crouch":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.STEALTH_CROUCH
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.STEALTH_CROUCH]) == true
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
     
     eventPlayer.targetSilence = true
@@ -41,12 +41,14 @@ rule "Apply stealth crouch":
 rule "Drain health":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.MECH
-    @Condition eventPlayer.eventId == MechEventId.STEALTH_CROUCH
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
-    @Condition eventPlayer.isMoving()
-    @Condition eventPlayer.getSpeed() != 0
+    @Condition all([
+        eventPlayer.hasSpawned(),
+        eventPlayer.eventType == EventType.MECH,
+        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.isHoldingButton(Button.CROUCH) == true,
+        eventPlayer.isMoving(),
+        eventPlayer.getSpeed() != 0
+    ]) == true
     
     wait(EVT_MECH_3_TICK_INTERVAL, Wait.ABORT_WHEN_FALSE)
     damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_MECH_3_HP_COST_RATIO * 100))

@@ -9,10 +9,7 @@
 rule "[VishkarEvent]: 战地医生 (记录基准)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.eventMissionGoal == 0
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal == 0]) == true
 
     eventPlayer.eventMission = eventPlayer.getStatistic(Stat.HEALING_DEALT)
     eventPlayer.eventMissionGoal = eventPlayer.eventMission + (EVT_32_HEAL_BASE + EVT_32_HEAL_PER_PLAYER * len(getPlayers(Team.1).exclude(eventPlayer)))
@@ -24,10 +21,7 @@ rule "[VishkarEvent]: 战地医生 (记录基准)":
 rule "[VishkarEvent]: 战地医生 (更新 HUD)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.eventMissionGoal > 0
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
 
     wait(EVT_32_HUD_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.hudText = "{0}/{1}".format(
@@ -40,10 +34,7 @@ rule "[VishkarEvent]: 战地医生 (更新 HUD)":
 rule "[VishkarEvent]: 战地医生 (结束判定)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC
-    @Condition eventPlayer.hasSpawned()
-    @Condition eventPlayer.eventMissionGoal > 0
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
 
     waitUntil(eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true, eventPlayer.eventDuration)
     wait(getAverageServerLoad() / 100 * 0.032)

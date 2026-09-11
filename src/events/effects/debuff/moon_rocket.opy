@@ -9,9 +9,7 @@
 rule "[VishkarEvent]: 登月火箭":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.eventType == EventType.DEBUFF
-    @Condition eventPlayer.eventId == DebuffEventId.MOON_ROCKET
-    @Condition eventPlayer.hasSpawned()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.MOON_ROCKET]) == true
 
     eventPlayer.dlcTimeChallenge[2]++
     playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Team.2, eventPlayer, 200)
