@@ -314,7 +314,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_31_DURATION 180
 # Weight（权重）
-#!define EVT_BUFF_31_WEIGHT 0.3
+#!define EVT_BUFF_31_WEIGHT 0.45
 # 需通过终点推进的英雄数目标（普通模式）
 #!define EVT_31_HERO_GOAL 3
 # 需通过终点推进的英雄数目标（三合一模式）
