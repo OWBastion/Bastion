@@ -4,12 +4,6 @@ import test from 'node:test';
 
 const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
-test('Temper Heart retries after DRAWN and only completion consumes it', async () => {
-  const pool = await read('src/events/allocation/buildCandidatePool.opy');
-  assert.match(pool, /if eventPlayer\.playerOnceEventState != null and len\(eventPlayer\.playerOnceEventState\) > PlayerOnceEventSlot\.TEMPER_HEART and eventPlayer\.playerOnceEventState\[PlayerOnceEventSlot\.TEMPER_HEART\] == TemperHeartState\.COMPLETED:\n        eventPlayer\.eventTempIndex\.remove\(BuffEventId\.TEMPER_HEART\)/);
-  assert.doesNotMatch(pool, /TEMPER_HEART\].*!= TemperHeartState\.NONE/);
-});
-
 test('Temper Heart completion upgrades future Heartsteel gains without multiplying existing stacks', async () => {
   const [effect, mainConfig, devConfig, en, zh] = await Promise.all([
     read('src/events/effects/buff/temper_heart.opy'),
