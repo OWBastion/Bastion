@@ -494,7 +494,7 @@ enum MapTITLEKey:
 # ------------------------------
 rule "initialize title array":
     wait(getAverageServerLoad() / 100 * 0.5)
-    waitUntil(__currentMap___ != null, Math.INFINITY)
+    waitUntil(__currentMapPioneerText___ != null, Math.INFINITY)
     # BEGIN AUTO-GENERATED ALL_TITLE
     titleText = [
         # 0: PIONEER
