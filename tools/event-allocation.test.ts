@@ -1,128 +1,208 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 import test from 'node:test';
+import { compile, OverPyCompiler, readyPromise } from 'overpy';
 
 const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
-type Candidate = {
-  id: string;
-  type: 'BUFF' | 'DEBUFF' | 'MECH';
-  weight?: number;
+type Ast = {
+  name: string;
+  args: Ast[];
+  children: Ast[];
+  numValue?: number;
+  ruleAttributes?: { subroutineName?: string };
 };
 
 type CandidatePoolState = {
-  thiefBuffStolen?: boolean;
-  eventForceRoll?: number | null;
-  supportsPhaseTrigger?: boolean;
-  temperHeartCompleted?: boolean;
-  heartsteelStacks?: number;
-  gamblerHeartsteelJackpot?: number;
-  hasNegativePermanentStat?: boolean;
-  recentIds?: string[];
+  globals: Record<string, unknown>;
+  player: Record<string, unknown>;
 };
 
-function buildCandidatePool(catalog: Candidate[], state: CandidatePoolState) {
-  let hard = catalog.filter((candidate) => (candidate.weight ?? 1) > 0);
-  const forceRoll = state.eventForceRoll ?? null;
+let productionCandidatePoolRule: Promise<Ast> | undefined;
 
-  if (state.thiefBuffStolen) {
-    hard = hard.filter((candidate) => candidate.type !== 'BUFF');
-  } else if (forceRoll != null) {
-    const type = forceRoll < 42.5 ? 'BUFF' : forceRoll < 80 ? 'DEBUFF' : 'MECH';
-    hard = hard.filter((candidate) => candidate.type === type);
-  }
+function getProductionCandidatePoolRule() {
+  productionCandidatePoolRule ??= (async () => {
+    await readyPromise;
+    let rules: Ast[] | undefined;
+    const compileRules = OverPyCompiler.prototype.compileRules;
+    OverPyCompiler.prototype.compileRules = function (astRules: Ast[]) {
+      rules = astRules;
+      return compileRules.call(this, astRules);
+    };
 
-  const excluded = new Set<string>();
-  if (!state.supportsPhaseTrigger) {
-    excluded.add('PHASE_SURGE');
-    excluded.add('BODYGUARD');
-  }
-  if (state.temperHeartCompleted) {
-    excluded.add('TEMPER_HEART');
-  }
-  if (forceRoll === 50) {
-    excluded.add('SELFLESS_GIVEAWAY');
-  }
-  if ((state.heartsteelStacks ?? 0) <= 0) {
-    excluded.add('GAMBLER_SPEED_CHALLENGE');
-    excluded.add('GAMBLER_HEART_OF_STEEL');
-    excluded.add('GAMBLER_ALL_IN_ART_5');
-  }
-  if ((state.gamblerHeartsteelJackpot ?? 0) < 8 || (state.heartsteelStacks ?? 0) < 4) {
-    excluded.add('GAMBLER_WINNER_TAKE_ALL');
-  }
-  if (!state.hasNegativePermanentStat) {
-    excluded.add('MIRROR_INVERSION');
-  }
-  hard = hard.filter((candidate) => !excluded.has(candidate.id));
+    try {
+      await compile('#!mainFile "main.opy"\n', 'en-US', path.resolve('src'), 'main.opy');
+    } finally {
+      OverPyCompiler.prototype.compileRules = compileRules;
+    }
 
-  const strict = hard.filter((candidate) => !state.recentIds?.includes(candidate.id));
-  return strict.length > 0 ? strict : hard;
+    const rule = rules?.find((item) => item.ruleAttributes?.subroutineName === 'buildCandidatePool');
+    if (!rule) {
+      throw new Error('buildCandidatePool rule was not compiled');
+    }
+    return rule;
+  })();
+  return productionCandidatePoolRule;
 }
 
-test('Thief excludes buffs and dedup fallback restores only hard-eligible candidates', () => {
-  const candidates = buildCandidatePool(
-    [
-      { id: 'BUFF', type: 'BUFF' },
-      { id: 'DEBUFF', type: 'DEBUFF' },
-      { id: 'MECH', type: 'MECH' },
-      { id: 'GAMBLER_SPEED_CHALLENGE', type: 'MECH' }
-    ],
-    {
-      thiefBuffStolen: true,
-      heartsteelStacks: 0,
-      recentIds: ['DEBUFF', 'MECH']
-    }
-  );
+function evaluate(node: Ast, state: CandidatePoolState, current?: unknown): unknown {
+  if (node.args.length === 0 && node.numValue != null) {
+    return node.numValue;
+  }
+  if (['==', '!=', '<', '<=', '>', '>='].includes(node.name)) {
+    return node.name;
+  }
+  if (node.name === 'true') {
+    return true;
+  }
+  if (node.name === 'null') {
+    return null;
+  }
+  if (node.name === 'eventPlayer') {
+    return state.player;
+  }
+  if (node.name === '__currentArrayElement__') {
+    return current;
+  }
+  if (node.name === '__number__') {
+    return evaluate(node.args[0], state, current);
+  }
+  if (node.name === '__globalVar__') {
+    return state.globals[node.args[0].name];
+  }
+  if (node.name === '__playerVar__') {
+    return state.player[node.args[1].name];
+  }
+  if (node.name === '__hero__') {
+    return node.args[0].name;
+  }
+  if (node.name === '.getHero') {
+    return state.player.hero;
+  }
+  if (node.name === '__filteredArray__') {
+    return (evaluate(node.args[0], state, current) as unknown[]).filter((item) => evaluate(node.args[1], state, item));
+  }
 
-  assert.deepEqual(candidates.map((candidate) => candidate.id), ['DEBUFF', 'MECH']);
+  const args = node.args.map((arg) => evaluate(arg, state, current));
+  switch (node.name) {
+    case '__valueInArray__':
+      if (args[0] == null) {
+        throw new Error(`Expected an array in __valueInArray__ (${node.args[0].name}, ${node.args[1].name})`);
+      }
+      return (args[0] as unknown[])[Number(args[1])];
+    case '__compare__':
+      {
+        const nullablePlayerVariables = new Set(['eventForceRoll', 'eventLastId', 'playerOnceEventState']);
+        const left = args[0];
+        const right = node.args[2].name === 'null' && !nullablePlayerVariables.has(node.args[0].args[1]?.name)
+          ? 0
+          : args[2];
+        return ({ '==': left === right, '!=': left !== right, '<': (left as number) < (right as number), '<=': (left as number) <= (right as number), '>': (left as number) > (right as number), '>=': (left as number) >= (right as number) } as Record<string, boolean>)[args[1] as string];
+      }
+    case '__and__':
+      return Boolean(args[0]) && Boolean(args[1]);
+    case '__or__':
+      return Boolean(args[0]) || Boolean(args[1]);
+    case '__not__':
+      return !args[0];
+    case '__array__':
+      return args;
+    case '__arrayContains__':
+      return (args[0] as unknown[]).includes(args[1]);
+    case '__any__':
+      return (args[0] as unknown[]).some(Boolean);
+    case 'len':
+      return (args[0] as unknown[]).length;
+    default:
+      throw new Error(`Unsupported candidate-pool value: ${node.name}`);
+  }
+}
+
+function runActions(actions: Ast[], state: CandidatePoolState) {
+  for (let index = 0; index < actions.length; index += 1) {
+    const action = actions[index];
+    if (action.name === '__if__') {
+      let matched = Boolean(evaluate(action.args[0], state));
+      if (matched) {
+        runActions(action.children, state);
+      }
+      while (actions[index + 1]?.name === '__elif__' || actions[index + 1]?.name === '__else__') {
+        index += 1;
+        const branch = actions[index];
+        if (!matched && (branch.name === '__else__' || Boolean(evaluate(branch.args[0], state)))) {
+          matched = true;
+          runActions(branch.children, state);
+        }
+      }
+      continue;
+    }
+    if (action.name === '__setPlayerVariable__') {
+      state.player[action.args[1].name] = evaluate(action.args[2], state);
+      continue;
+    }
+    if (action.name === '__modifyPlayerVariable__' && action.args[2].name === '__removeFromArrayByValue__') {
+      const variable = action.args[1].name;
+      const value = evaluate(action.args[3], state);
+      state.player[variable] = (state.player[variable] as unknown[]).filter((item) => item !== value);
+    }
+  }
+}
+
+async function buildCandidates(player: Record<string, unknown>, catalog: Array<[number, number]>) {
+  const rule = await getProductionCandidatePoolRule();
+  const eventCatalogWeight: number[] = [];
+  const eventCatalogType: number[] = [];
+  for (const [id, type] of catalog) {
+    eventCatalogWeight[id] = 1;
+    eventCatalogType[id] = type;
+  }
+  const state = {
+    globals: {
+      eventCatalogId: catalog.map(([id]) => id),
+      eventCatalogWeight,
+      eventCatalogType,
+      gamblerHeartsteelJackpot: 8,
+      phaseHero: [[], [], [], [], []]
+    },
+    player: {
+      hero: 'SOLDIER',
+      thiefBuffStolen: false,
+      eventForceRoll: null,
+      eventLastId: null,
+      playerOnceEventState: [0],
+      heart_steel: [4],
+      mod_dmg_perma: 0,
+      mod_speed_perma: 0,
+      mod_heal_perma: 0,
+      ...player
+    }
+  };
+  runActions(rule.children, state);
+  return state.player.eventTempIndex;
+}
+
+test('production candidate pool preserves Thief and dedup fallback semantics', async () => {
+  assert.deepEqual(
+    await buildCandidates({ thiefBuffStolen: true, eventForceRoll: 50, eventLastId: [40, 55] }, [[1, 0], [40, 1], [55, 2]]),
+    [40, 55]
+  );
 });
 
-test('forced categories and event-specific eligibility preserve valid candidates', () => {
-  const catalog = [
-    { id: 'TEMPER_HEART', type: 'BUFF' as const },
-    { id: 'SELFLESS_GIVEAWAY', type: 'DEBUFF' as const },
-    { id: 'DEBUFF', type: 'DEBUFF' as const }
-  ];
-
-  assert.deepEqual(
-    buildCandidatePool(catalog, { eventForceRoll: 50 }).map((candidate) => candidate.id),
-    ['DEBUFF']
-  );
-  assert.deepEqual(
-    buildCandidatePool(catalog, { eventForceRoll: 0, temperHeartCompleted: false }).map((candidate) => candidate.id),
-    ['TEMPER_HEART']
-  );
-  assert.deepEqual(
-    buildCandidatePool(catalog, { eventForceRoll: 0, temperHeartCompleted: true }).map((candidate) => candidate.id),
-    []
-  );
+test('production candidate pool preserves forced-category and Temper Heart semantics', async () => {
+  assert.deepEqual(await buildCandidates({ eventForceRoll: 50 }, [[38, 1], [40, 1]]), [40]);
+  assert.deepEqual(await buildCandidates({ eventForceRoll: 0, playerOnceEventState: [1] }, [[1, 0], [23, 0]]), [1, 23]);
+  assert.deepEqual(await buildCandidates({ eventForceRoll: 0, playerOnceEventState: [2] }, [[1, 0], [23, 0]]), [1]);
 });
 
-test('hard eligibility excludes only candidates whose prerequisites are unmet', () => {
-  const candidates = buildCandidatePool(
-    [
-      { id: 'PHASE_SURGE', type: 'BUFF' },
-      { id: 'BODYGUARD', type: 'BUFF' },
-      { id: 'TEMPER_HEART', type: 'BUFF' },
-      { id: 'GAMBLER_SPEED_CHALLENGE', type: 'MECH' },
-      { id: 'GAMBLER_HEART_OF_STEEL', type: 'MECH' },
-      { id: 'GAMBLER_ALL_IN_ART_5', type: 'MECH' },
-      { id: 'GAMBLER_WINNER_TAKE_ALL', type: 'MECH' },
-      { id: 'MIRROR_INVERSION', type: 'MECH' },
-      { id: 'SELFLESS_GIVEAWAY', type: 'DEBUFF' },
-      { id: 'ELIGIBLE', type: 'BUFF' }
-    ],
-    {
-      supportsPhaseTrigger: false,
-      temperHeartCompleted: true,
-      heartsteelStacks: 0,
-      gamblerHeartsteelJackpot: 0,
-      hasNegativePermanentStat: false
-    }
+test('production candidate pool preserves hard eligibility across dedup fallback', async () => {
+  assert.deepEqual(
+    await buildCandidates(
+      { playerOnceEventState: [2], heart_steel: [0], eventLastId: [38, 40] },
+      [[16, 0], [17, 0], [23, 0], [38, 1], [40, 1], [50, 2], [59, 2], [60, 2], [65, 2], [66, 2]]
+    ),
+    [38, 40]
   );
-
-  assert.deepEqual(candidates.map((candidate) => candidate.id), ['SELFLESS_GIVEAWAY', 'ELIGIBLE']);
 });
 
 test('category offsets are derived from event ID counts', async () => {
