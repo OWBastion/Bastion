@@ -37,6 +37,7 @@ globalvar eventCount 61
 globalvar eventType 63
 globalvar eventDurationHud 64
 globalvar eventWeight 65
+globalvar eventWeightBias
 globalvar hashTag 69
 globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
