@@ -7,6 +7,13 @@
 # 事件系统全局参数
 # 初始事件权重基准（用于整体权重缩放/校准）
 #!define EVT_INIT_EVENT_WEIGHT 2.5
+# 稀有事件权重压缩 15% 节点（秒）
+#!define EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC 7200
+# 稀有事件权重压缩 20% 节点（秒）
+#!define EVT_EVENT_WEIGHT_COMPRESSION_END_SEC 10800
+# 稀有事件权重压缩比例
+#!define EVT_EVENT_WEIGHT_COMPRESSION_MID 0.15
+#!define EVT_EVENT_WEIGHT_COMPRESSION_MAX 0.2
 # 最近事件去重窗口（排除最近 N 次抽到的事件）
 #!define EVT_RECENT_EVENT_DEDUP_COUNT 10
 # 事件交互长按判定时长（秒）

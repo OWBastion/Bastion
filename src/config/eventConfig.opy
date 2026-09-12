@@ -8,6 +8,7 @@ rule "initialize event array":
     @Condition vishkarEventActivated == true
 
     eventWeight = EVT_INIT_EVENT_WEIGHT
+    eventWeightBias = 0
     
     eventCatalogId = []
     eventName = []

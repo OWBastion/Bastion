@@ -4,7 +4,7 @@
 
 - 初始化：`src/events/init/detectFlag.opy`
 - 配置：`src/config/eventConfig.opy`, `src/config/eventConfigDev.opy`
-- 分配：`src/events/allocation/assignPlayerEvent.opy`
+- 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
 - 玩家态子程序：`utilities/event_core/setPlayerEvent.opy`, `clearPlayerEvent.opy`, `setEventDuration.opy`
@@ -15,7 +15,7 @@
 2. `initialize event array` 构建事件池数组与可抽取 ID 列表
 3. `assignPlayerEvent` 对符合条件玩家按周期触发抽取
 4. `buildCandidatePool` 从全局事件目录构建硬资格候选集，并按事件身份应用最近事件去重
-5. `rejectSampling` 在全局候选集内按权重抽样（最多 8 轮）
+5. `rejectSampling` 在全局候选集内按权重抽样（最多 8 轮），长局按经过时间临时压缩稀有事件权重
 6. `setPlayerEvent` 接收选中的事件，然后回填类别并填充当前玩家事件数据
 7. 事件效果规则在 `events/effects/*` 中执行
 8. 到期后 `clearPlayerEvent` 清理状态与特效
@@ -70,7 +70,7 @@
 
 现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
-`rejectSampling` 通过 `random.uniform(0, eventWeight) < eventCatalogWeight[candidate]` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。`EVT_INIT_EVENT_WEIGHT` 与现有事件权重暂时沿用 SSR 模型的基础值，旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
+`rejectSampling` 通过 `random.uniform(0, eventWeight) < effectiveWeight(candidate)` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。全局 `eventWeightBias` 在 120 分钟时由低频规则设为 15%，在 180 分钟时设为 20%，之后保持封顶；因此小于 120 分钟不压缩，120–180 分钟使用 15%，180 分钟及以后使用 20%。`effectiveWeight` 仅在抽样时将基础权重向 `eventWeight`（当前由 `EVT_INIT_EVENT_WEIGHT` 初始化）压缩，且不修改目录基础权重。旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
 
 去重与候选池门控策略：
 

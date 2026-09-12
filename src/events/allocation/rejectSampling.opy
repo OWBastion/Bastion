@@ -5,6 +5,18 @@
 
 subroutine rejecSampling
 
+macro eventSamplingWeight(baseWeight):
+    min(eventWeight, baseWeight + (eventWeight - baseWeight) * eventWeightBias)
+
+rule "Update event weight bias":
+    @Condition vishkarEventActivated == true
+    @Condition eventWeightBias == 0
+
+    waitUntil(getTotalTimeElapsed() >= EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC, 99999)
+    eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MID
+    waitUntil(getTotalTimeElapsed() >= EVT_EVENT_WEIGHT_COMPRESSION_END_SEC, 99999)
+    eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MAX
+
 def rejecSampling():
     @Name "[VishkarEvent]: set player event"
     
@@ -14,7 +26,7 @@ def rejecSampling():
         if eventPlayer.eventLoopCount > 0:
             wait(0.016)
         eventPlayer.eventCandidateIndex = random.choice(eventPlayer.eventTempIndex)
-        eventPlayer.eventTempWeight = eventCatalogWeight[eventPlayer.eventCandidateIndex]
+        eventPlayer.eventTempWeight = eventSamplingWeight(eventCatalogWeight[eventPlayer.eventCandidateIndex])
         if random.uniform(0, eventWeight) < eventPlayer.eventTempWeight:
             eventPlayer.eventIsSelected = true
             break
