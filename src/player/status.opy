@@ -59,6 +59,7 @@ def resetPlayerProgressState():
     eventPlayer.eventForceCount = 0
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     PROFILE_RESET_ACHIEVEMENT_STATE()
+    PROFILE_RESET_ACHIEVEMENT_LIST()
     eventPlayer.thiefBuffStolen = false
     wait(getAverageServerLoad() / 100 * 0.032)
     setPlayerHP()
