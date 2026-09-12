@@ -70,7 +70,7 @@
 
 现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
-`rejectSampling` 通过 `random.uniform(0, eventWeight) < effectiveWeight(candidate)` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。全局 `eventWeightBias` 在局内经过时间超过 60 分钟后由低频规则按 60–120、120–180、180+ 三个阶段更新，达到约 15% / 20% 后停止；`effectiveWeight` 仅在抽样时将基础权重向 `eventWeight`（当前由 `EVT_INIT_EVENT_WEIGHT` 初始化）压缩，且不修改目录基础权重。旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
+`rejectSampling` 通过 `random.uniform(0, eventWeight) < effectiveWeight(candidate)` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。全局 `eventWeightBias` 在 120 分钟时由低频规则设为 15%，在 180 分钟时设为 20%，之后保持封顶；因此小于 120 分钟不压缩，120–180 分钟使用 15%，180 分钟及以后使用 20%。`effectiveWeight` 仅在抽样时将基础权重向 `eventWeight`（当前由 `EVT_INIT_EVENT_WEIGHT` 初始化）压缩，且不修改目录基础权重。旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
 
 去重与候选池门控策略：
 

@@ -10,20 +10,12 @@ macro eventSamplingWeight(baseWeight):
 
 rule "Update event weight bias":
     @Condition vishkarEventActivated == true
-    @Condition getTotalTimeElapsed() > EVT_EVENT_WEIGHT_COMPRESSION_START_SEC
-    @Condition eventWeightBias < EVT_EVENT_WEIGHT_COMPRESSION_MAX
+    @Condition eventWeightBias == 0
 
-    switch 1 if getTotalTimeElapsed() <= EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC else 2 if getTotalTimeElapsed() <= EVT_EVENT_WEIGHT_COMPRESSION_END_SEC else 3:
-        case 1:
-            eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MID * (getTotalTimeElapsed() - EVT_EVENT_WEIGHT_COMPRESSION_START_SEC) / (EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC - EVT_EVENT_WEIGHT_COMPRESSION_START_SEC)
-            break
-        case 2:
-            eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MID + (EVT_EVENT_WEIGHT_COMPRESSION_MAX - EVT_EVENT_WEIGHT_COMPRESSION_MID) * (getTotalTimeElapsed() - EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC) / (EVT_EVENT_WEIGHT_COMPRESSION_END_SEC - EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC)
-            break
-        case 3:
-            eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MAX
-
-    wait(60)
+    waitUntil(getTotalTimeElapsed() >= EVT_EVENT_WEIGHT_COMPRESSION_MID_SEC, 99999)
+    eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MID
+    waitUntil(getTotalTimeElapsed() >= EVT_EVENT_WEIGHT_COMPRESSION_END_SEC, 99999)
+    eventWeightBias = EVT_EVENT_WEIGHT_COMPRESSION_MAX
 
 def rejecSampling():
     @Name "[VishkarEvent]: set player event"
