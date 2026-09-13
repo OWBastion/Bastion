@@ -1,7 +1,7 @@
 #!include "env/env.opy"
-#!include "locales/en-US.opy"
+#!include "locales/zh-CN.opy"
 #!define ENTRY_SPECTATOR_SLOTS LOBBY_SPECTATOR_SLOTS_MAIN
-#!define ENTRY_ALLOW_PLAYERS_IN_QUEUE true
+#!define ENTRY_ALLOW_PLAYERS_IN_QUEUE false
 #!define ENTRY_AUTOREBOOT_HOURS 2
 #!define ENTRY_CLASSIC_MAP_VARIANT CLASSIC_MAP_VARIANT_OFF
 #!define ENTRY_DIFFICULTY 4

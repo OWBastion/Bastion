@@ -2,7 +2,7 @@
 
 # 核心信息
 #!define STR_MODE_NAME "躲避堡垒3"
-#!define STR_MODE_CODE "代码【SVMQK】"
+#!define STR_MODE_CODE "国服代码【SVMQK】| 亚服【1ACCZ】"
 
 # 描述文本 - 标题与状态
 #!define STR_DESC_EVENT_STATUS "随机事件 5.0 贪婪之徒 已上线"

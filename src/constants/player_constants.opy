@@ -4,7 +4,8 @@
     STR_DESC_EVENT_STATUS "\n" \
     STR_DESC_GAMEPLAY_TAG "\n" \
     "————————————————\n" \
-    STR_MODE_CODE "  |  " STR_DESC_LAST_UPDATE_PREFIX VERSION "\n\n" \
+    STR_MODE_CODE "\n" \
+    STR_DESC_LAST_UPDATE_PREFIX VERSION "\n\n" \
     "github.com/OWBastion/Bastion\n\n" \
     STR_DESC_CONTACT_INFO "\n\n" \
     STR_DESC_ORIGINAL_CREDIT
