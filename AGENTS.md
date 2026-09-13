@@ -1,86 +1,98 @@
 # AGENTS.md
 
-This file is the minimal entrypoint for AI agents. Detailed rules are canonical in `docs/agents/*.md`.
+This file is the repository entrypoint for AI agents working on Bastion. Workspace guidance owns shared engineering policy; this file specializes Bastion-specific contracts, risk routing, and local validation.
 
-## Goals
+## Repository role
 
-- Keep gameplay changes low risk.
-- Keep `src/main.opy` and `src/devMain.opy` aligned.
-- Prevent server load regressions.
-- Use route-first, conditional context loading (no full-context injection by default).
+Bastion owns gameplay implementation, Workshop / OverPy source, game-side UI, build and release behavior, and game-specific performance characteristics.
 
-## Minimal Red Lines
+Platform-owned metadata is consumed through the platform contract. Do not duplicate platform business truth in this repository or move platform-owned behavior into game code for implementation convenience.
 
-1. Do not reorder entry include flow casually.
-2. Do not bypass commit hooks (`git commit --no-verify` is forbidden).
-3. Do not implement seasonal/event-specific content on current mainline.
-4. Do not preload all docs; read only routed files for the task.
-5. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
+## Start here
 
-## Task-to-Doc Routing
+For substantive work:
 
-Read only the documents needed by task type:
+1. Read the linked Issue and inspect the relevant source before deciding where to change code.
+2. Identify the affected gameplay or build responsibility and load only the routed guidance for that risk surface.
+3. Compare the Issue contract, current Bastion contract, and current code reality. If they materially disagree, report the mismatch instead of inventing a new gameplay or architecture decision.
+4. Implement the smallest complete change that keeps the affected behavior in a coherent local responsibility.
+5. Verify at the narrowest decisive surface first, then run the broader repository gates required by the touched risk.
 
-| Task type | Read first | Then read if needed |
+Do not preload all documentation or skills. Use the smallest relevant context.
+
+## Minimal red lines
+
+1. Do not reorder the entry include flow casually.
+2. Keep `src/main.opy` and `src/devMain.opy` aligned where their intended behavior is shared.
+3. Do not bypass commit hooks (`git commit --no-verify` is forbidden).
+4. Do not implement seasonal/event-specific content on the current mainline unless the Issue explicitly targets it.
+5. Do not use `shared` in project-owned names for common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
+6. Do not turn gameplay code into a generic interpreter or extension framework without a current approved requirement.
+
+## Risk routing
+
+Read only the documents needed for the actual change:
+
+| Risk / task shape | Read first | Then read if needed |
 | --- | --- | --- |
-| Entry/include/order updates, `main/devMain` parity | `docs/agents/architecture-rules.md` | `docs/modules/01-entry-architecture.md` |
-| Build/CI/check commands and validation flow | `docs/agents/build-validation.md` | `.github/workflows/ci-build.yml`, `.github/workflows/release.yml` |
-| Title source sync | `docs/modules/08-player-effects-title.md` | `README.md`, `tools/sync-title-data.ts` |
-| Performance tuning, loops, Ongoing rules | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/Loops.md` |
-| Cross-repository boundaries, platform change requests, snapshot contracts, and external automation safety | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/architecture-rules.md`, `docs/agents/build-validation.md`, `docs/agents/doc-sync.md` |
-| PR/commit hygiene and AI collaboration boundaries | `docs/agents/collaboration-commit.md` | this file (`AGENTS.md`) |
-| Doc sync and module documentation updates | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
-| Context loading strategy and scope declaration | `docs/agents/context-routing.md` | `docs/agents/README.md` |
+| Entry/include/order changes or `main/devMain` parity | `docs/agents/architecture-rules.md` | `docs/modules/01-entry-architecture.md` |
+| Build, CI, release, or local validation | `docs/agents/build-validation.md` | relevant workflow files |
+| Performance, loops, `Ongoing`, polling, expensive player scans | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/Loops.md` |
+| Event lifecycle, temporary effects/state, reconnect/leave cleanup | `docs/agents/performance-loop-safety.md` | affected event/module docs and source |
+| Random-event selection, eligibility, weighting, history/duplication logic | affected event-selection source and tests | performance guidance if hot-path behavior changes |
+| Platform metadata, title/event/map sync, Agents API, cross-repository contract changes | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/build-validation.md`, affected sync tooling |
+| PR/commit hygiene and collaboration boundaries | `docs/agents/collaboration-commit.md` | this file |
+| Documentation ownership or source-to-doc synchronization | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
+| Context acquisition and route-first loading | `docs/agents/context-routing.md` | `docs/agents/README.md` |
 
-## On-Demand Read Protocol
+When a change materially affects gameplay behavior, state lifecycle, random selection, cross-repository contracts, or performance-sensitive logic, verification must include an independent attempt to falsify the change rather than relying only on the authoring test/build pass. Where practical, temporarily remove, invert, or simplify the key behavior and confirm that the targeted regression becomes observable again.
 
-1. Layer 1: touched file(s) only.
-2. Layer 2: direct dependencies (include/config/constants used by Layer 1).
-3. Layer 3: routed rule docs in `docs/agents/` only.
-4. Never default-load all `docs/agents/*` or all `docs/modules/*`.
+## Local invariants
 
-## Canonical Rule Index
+- No repeating loop may run without an appropriate `Wait` or equivalent bounded/event-driven control.
+- `0.016` is reserved for behavior that genuinely requires near-frame updates.
+- Prefer event-driven or low-frequency checks over polling. Put cheap, stable, selective conditions before expensive distance, raycast, array-filter, player-scan, or dynamic-text work.
+- Temporary gameplay state must account for creation, update, normal completion, abnormal termination, player leave, and reconnect/reset paths where applicable.
+- Long-session changes must consider stale variables, effect/HUD handles, array growth, and cumulative cost across repeated events.
+- Performance-sensitive changes should reduce frequency, candidate scope, or persistent state before pursuing micro-optimizations.
+- Code should communicate gameplay responsibility through naming, structure, and control flow. Do not use explanatory comments to compensate for unclear feature placement or mixed responsibility.
 
-Each rule family has exactly one canonical document:
+## Canonical rule index
+
+Each rule family has one canonical document:
 
 1. Architecture consistency and entry constraints -> `docs/agents/architecture-rules.md`
-2. Build and validation process -> `docs/agents/build-validation.md`
+2. Build and validation -> `docs/agents/build-validation.md`
 3. Performance and loop safety -> `docs/agents/performance-loop-safety.md`
 4. Collaboration and commit hygiene -> `docs/agents/collaboration-commit.md`
 5. Documentation synchronization -> `docs/agents/doc-sync.md`
-6. Context routing and conditional loading -> `docs/agents/context-routing.md`
-7. Ecosystem platform boundaries and cross-repository contracts -> `docs/agents/ecosystem-platform-boundary.md`
+6. Context routing -> `docs/agents/context-routing.md`
+7. Ecosystem/platform boundaries -> `docs/agents/ecosystem-platform-boundary.md`
 
-If a rule is referenced elsewhere, keep only a short pointer and do not duplicate full rule text.
+If another document needs one of these rules, link to its canonical owner rather than duplicating the full guidance.
 
-## Workflow Command Pointers
+## Workflow command pointers
 
 - CI-parity install: `pnpm install --frozen-lockfile`
 - Core compile validation: `pnpm run build`
 - Entry-specific compile validation: `pnpm run build:cn:zh`, `pnpm run build:external:en`, `pnpm run build:external:zh`, and `pnpm run build:dev:cn:zh`
-- Aggregate tool test suite: `pnpm run tools:test`
-- Unified source data sync: `pnpm run tools -- sync`
-- Title data sync: `pnpm run sync:platform-data`
-- Event add workflow: `pnpm run tools -- event:add`
-- Event remove workflow: `pnpm run tools -- event:remove`
-- Title data sync and validation: `pnpm run sync:platform-data` then `pnpm run tools -- test:platform-data-sync`
-- Player title grants are managed by the platform; Bastion has no local grant helper.
-- Platform metadata sync and OverPy build: `pnpm run sync:platform-data`
-- Locale key integrity check (when touching source/localization/event text): `./tools/check_locale_keys.sh`
-- Performance loop scan helper: `pnpm run tools -- perf:scan`
-- Performance loop strict gate (non-zero on high-risk findings): `pnpm run tools -- perf:scan --strict`
-- Release artifact build (local parity): `pnpm run build:release`
-- Profile-specific release builds: `pnpm run build:cn:zh` and `pnpm run build:external:en`
-- Manual env version bump (release helper): `pnpm run tools -- bump:env-version`
-- Release trigger: push to `main` with `src/**` changes, or manual `workflow_dispatch` (workflow auto-runs `pnpm run tools -- bump:env-version`, builds release artifacts, tags `v{VERSION}`, and publishes GitHub Release)
-- Release freshness guard: workflow skips stale runs when `github.sha` is not current `origin/main` head.
-- Release skip guard: include `[skip release]` in a `main` commit message to bypass release workflow.
-- TODO: Document one canonical local decompile verification command once standardized.
+- Aggregate tool tests: `pnpm run tools:test`
+- Unified source-data sync: `pnpm run tools -- sync`
+- Platform/title metadata sync: `pnpm run sync:platform-data`
+- Event add/remove workflows: `pnpm run tools -- event:add`, `pnpm run tools -- event:remove`
+- Platform-data sync validation: `pnpm run sync:platform-data` then `pnpm run tools -- test:platform-data-sync`
+- Locale-key integrity when touching source/localization/event text: `./tools/check_locale_keys.sh`
+- Performance scan: `pnpm run tools -- perf:scan`; strict gate: `pnpm run tools -- perf:scan --strict`
+- Release artifact parity: `pnpm run build:release`
+- Profile release builds: `pnpm run build:cn:zh` and `pnpm run build:external:en`
+- Manual env-version helper: `pnpm run tools -- bump:env-version`
+
+Player title grants remain platform-owned; Bastion has no local grant helper.
 
 ## Skills
 
-- `add-workshop-title`: platform title metadata and grant sync with generated artifact checks.
-- `add-workshop-event`: event enum/constants/i18n/config/effects workflow with `COUNT` and rule safety checks.
-- `session-skill-maintainer`: summarize recent sessions and orchestrate skill maintenance updates with verifiable checks.
+- `add-workshop-title`: platform title metadata and generated-artifact checks.
+- `add-workshop-event`: event enum/constants/i18n/config/effects workflow with count and rule-safety checks.
+- `session-skill-maintainer`: maintain repository-local skills and routing from durable evidence.
 
-Skill maintenance convention: keep AGENTS as route-only pointers; detailed step-by-step rules remain in each `skills/*/SKILL.md` and `skills/*/references/*`.
+Skills are procedures, not additional policy owners. Keep root `AGENTS.md` as a route-first entrypoint and keep detailed procedures in the skill or canonical routed document.
