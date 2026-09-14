@@ -51,7 +51,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL "https://raw.githubusercontent.com/wrightkit/wright/v${WRIGHT_VERSION}/install.sh" \
+          curl -fsSL https://wrightkit.dev/install.sh \
             | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
 
