@@ -17,9 +17,10 @@ permissions:
 jobs:
   overpy-build:
     runs-on: ubuntu-latest
-    name: OverPy
+    name: OverPy and Wright
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
+      WRIGHT_VERSION: 0.2.23
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -38,5 +39,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build with OverPy
+      - name: Synchronize platform data
         run: pnpm run build
+
+      - name: Build production entries with OverPy
+        run: |
+          pnpm run build:cn:zh
+          pnpm run build:external:en
+
+      - name: Install released Wright CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://raw.githubusercontent.com/wrightkit/wright/v${WRIGHT_VERSION}/install.sh" \
+            | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
+          echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
+
+      - name: Check Bastion source with Wright and opy-rs
+        run: wright check src/main.opy --kind opy --root .
+
+      - name: Check generated Workshop with Wright and workshop-rs
+        run: wright check build/cn-zh-CN.ow --kind workshop
