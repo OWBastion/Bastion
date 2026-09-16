@@ -75,7 +75,7 @@
 去重与候选池门控策略：
 
 - `eventLastId` 现为最近事件历史全局目录索引数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），不再依赖类别编码，避免不同类别同数值 ID 相互误排除。
-- 候选池构建在全局目录上执行现有硬门控：无相位触发支持英雄过滤 `PHASE_SURGE` / `BODYGUARD`；处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`；心之钢层数 `<= 0` 时过滤 `GAMBLER_SPEED_CHALLENGE`。
+- 候选池构建在全局目录上执行现有硬门控。共享资格由 `buildCandidatePool.opy` 中的数值事件组表示：`EVENT_GROUP_PHASE_TRIGGER` 包含 `PHASE_SURGE` / `BODYGUARD`，`EVENT_GROUP_HEART_STEEL` 包含需要正向心之钢层数的三个赌徒事件；不满足组条件时，组内所有事件在加权抽样前被排除。事件组只表达资格，不携带概率、稀有度或独立抽样步骤。处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`；赢家通吃的奖池门槛、Temper Heart 一次性状态和 Mirror Inversion 仍保留为事件特例。
 - 若最近事件去重后为空，兜底路径只移除去重条件，仍执行所有硬资格门控，避免把不兼容事件恢复进候选集。
 - 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
 - 当最近事件去重导致候选池为空时，会降级到保留硬资格门控、仅移除去重条件，避免抽样中断。
