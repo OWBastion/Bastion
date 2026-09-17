@@ -1,4 +1,3 @@
-
 #!mainFile "../devMain.opy"
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
@@ -503,8 +502,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
     lbl_127:
-
-#!mainFile "../devMain.opy"
     
     
     # ================================================

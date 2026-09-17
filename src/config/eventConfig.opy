@@ -1,4 +1,3 @@
-
 #!mainFile "../main.opy"
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
@@ -634,5 +633,3 @@ rule "initialize event array":
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5)
 
     lbl_4:
-
-#!mainFile "../main.opy"
