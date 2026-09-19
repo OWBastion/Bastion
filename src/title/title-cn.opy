@@ -746,21 +746,21 @@ rule "initialize title array":
         # 55: LIST_THEM
         breathPalette.gold,
         # 56: LIFE_GUARDS_LIFE
-        heroColor[28],
+        heroColor[11],
         # 57: PHANTOM_THIEF
         heroColor[22],
         # 58: CLASSIC
         heroColor[43],
         # 59: EMOTICON_CONFUSED
-        null,
+        heroColor[11],
         # 60: EMOTICON_GRIMACE
-        null,
+        heroColor[11],
         # 61: EMOTICON_SURPRISED
-        null,
+        heroColor[11],
         # 62: I_THINK_NO
-        null,
+        heroColor[11],
         # 63: I_THINK_YES
-        null
+        heroColor[11]
     ]
     # END AUTO-GENERATED ALL_TITLE
     playerTitleRelation = player_title_set_pool
