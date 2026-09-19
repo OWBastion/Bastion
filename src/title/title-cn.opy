@@ -99,6 +99,7 @@ enum MapTITLEKey:
     [], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.FLAWLESS, TITLE.HARD_TO_KILL, TITLE.PASS_EGGS, TITLE.V_50], \
     [TITLE.TRAVELER, TITLE.EVENT5_GAMBLE_SAINT], \
+    [TITLE.GREAT_BENEFACTOR], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.LIGHT_PACK, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL], \
     [TITLE.STEEL, TITLE.EVENT5_CARDS_ARE_FINE], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.GOOD_LUCK], \
@@ -146,7 +147,7 @@ enum MapTITLEKey:
     }, \
     { \
         name: "嘤嘤嘤丶", \
-        titleSetIndex: 5 \
+        titleSetIndex: 8 \
     }, \
     { \
         name: "墙上静止的钟", \
@@ -158,23 +159,23 @@ enum MapTITLEKey:
     }, \
     { \
         name: "眼镜小宅", \
-        titleSetIndex: 8 \
-    }, \
-    { \
-        name: "训犬大师", \
         titleSetIndex: 9 \
     }, \
     { \
-        name: "豆本豆豆奶", \
+        name: "训犬大师", \
         titleSetIndex: 10 \
     }, \
     { \
-        name: "銀狼", \
+        name: "豆本豆豆奶", \
         titleSetIndex: 11 \
     }, \
     { \
-        name: "锄禾日当午", \
+        name: "銀狼", \
         titleSetIndex: 12 \
+    }, \
+    { \
+        name: "锄禾日当午", \
+        titleSetIndex: 13 \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
