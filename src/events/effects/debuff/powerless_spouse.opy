@@ -12,4 +12,4 @@ rule "[VishkarEvent]: 归于大地":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.POWERLESS_SPOUSE]) == true
 
     wait(EVT_DEBUFF_11_DELAY, Wait.ABORT_WHEN_FALSE)
-    ([player for player in getLivingPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_11_RADIUS and eventPlayer != player]).setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
+    getLivingPlayers(Team.1).setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
