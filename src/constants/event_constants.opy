@@ -551,7 +551,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_20_DURATION 5
 # Weight（权重）
-#!define EVT_DEBUFF_20_WEIGHT 1.2
+#!define EVT_DEBUFF_20_WEIGHT 1.4
 #!define EVT_DEBUFF_20_GRAVITY 5
 #!define EVT_DEBUFF_20_UPWARD_IMPULSE 95
 #!define EVT_DEBUFF_20_LAUNCH_DELAY 0.32
