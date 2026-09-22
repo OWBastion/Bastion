@@ -120,7 +120,7 @@
 #!define STR_EVT_DEBUFF_10_TITLE "Carnival Feast"
 #!define STR_EVT_DEBUFF_10_DESC "If you die during the Feast,\nBastion enters Berserk for {0}s."
 #!define STR_EVT_DEBUFF_11_TITLE "Return to Earth"
-#!define STR_EVT_DEBUFF_11_DESC "After {0}s, nearby allies are knocked down for {1}s."
+#!define STR_EVT_DEBUFF_11_DESC "After {0}s, all living allies are knocked down for {1}s."
 #!define STR_EVT_DEBUFF_13_TITLE "Halved"
 #!define STR_EVT_DEBUFF_13_DESC "Lose {1}% HP every {0}s.\nDie instantly when HP drops below {2}%."
 #!define STR_EVT_DEBUFF_14_TITLE "Self-Sacrifice"

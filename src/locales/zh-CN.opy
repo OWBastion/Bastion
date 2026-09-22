@@ -126,7 +126,7 @@
 #!define STR_EVT_DEBUFF_10_TITLE "狂欢盛宴"
 #!define STR_EVT_DEBUFF_10_DESC "当你在盛宴期间内阵亡\n堡垒将进入{0}秒狂暴状态"
 #!define STR_EVT_DEBUFF_11_TITLE "归于大地"
-#!define STR_EVT_DEBUFF_11_DESC "{0}秒后附近的友方将被击倒{1}秒"
+#!define STR_EVT_DEBUFF_11_DESC "{0}秒后所有存活的友方将被击倒{1}秒"
 #!define STR_EVT_DEBUFF_13_TITLE "减半"
 #!define STR_EVT_DEBUFF_13_DESC "每{0}秒损失{1}%生命值\n当生命值低于{2}%时立即阵亡"
 #!define STR_EVT_DEBUFF_14_TITLE "舍己为人"

@@ -488,8 +488,6 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_11_WEIGHT 1
 # 延迟时间 (秒)
 #!define EVT_DEBUFF_11_DELAY 1.5
-# 影响半径
-#!define EVT_DEBUFF_11_RADIUS 45
 
 # 击倒持续时间
 #!define EVT_DEBUFF_11_KNOCKDOWN_DURATION 2.5
