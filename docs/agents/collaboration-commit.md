@@ -15,13 +15,22 @@ This document is the canonical Bastion rule source for task scope, remote delive
 A verified local worktree is not the shared review surface.
 
 - An `implement` or `fix` request normally authorizes in-scope code edits, non-destructive validation, commit, push to a non-default branch, and opening or updating the task PR. Stop earlier only for an explicit local-only request or a concrete blocker.
-- A PR review request normally authorizes posting the review result to the PR. Review the complete relevant diff in one pass where practical; report actionable findings rather than a sequence of speculative micro-comments.
-- If review finds no blocking issue, use the repository-appropriate approve/LGTM signal rather than asking the user to repeat the review action manually.
+- A PR review request normally authorizes posting the review result to the PR.
 - Review-fix work is complete only after verified corrections are pushed to the existing PR branch, affected threads are handled without hiding unresolved findings, and the PR is handed back for review.
 - Never push implementation commits directly to the default branch unless explicitly authorized.
 - Merge, release, deployment, production mutation, destructive actions, and material scope expansion remain separate authorization boundaries.
 
 Why: leaving verified work only in an agent worktree, or leaving review conclusions only in chat, creates coordination work for the user and leaves the authoritative GitHub surface stale.
+
+## Review output
+
+Keep review comments as short as the finding allows.
+
+- If there is a problem, state the concrete issue, why it matters when not obvious, and the required change. Prefer one focused inline comment per actionable finding.
+- Do not restate the PR, summarize unchanged code, praise correct implementation at length, explain the whole reasoning process, or add generic review boilerplate.
+- Group only tightly related findings. Do not drip-feed minor comments across repeated review rounds.
+- If there are no blocking findings, approve with no body or a minimal `LGTM`. Do not attach a review summary unless the user asks for one or a non-obvious residual risk must be recorded.
+- Follow-up review should mention only unresolved prior findings, new regressions, or newly relevant risks.
 
 ## Commit process
 
@@ -35,7 +44,6 @@ Why: leaving verified work only in an agent worktree, or leaving review conclusi
 - Start from the Issue/contract and observable behavior, not from a preferred implementation shape.
 - First review should aim to cover the full PR scope. Prioritize correctness, lifecycle/state cleanup, ownership boundaries, Workshop performance risk, compatibility, and evidence gaps.
 - Do not require a refactor solely because another structure is aesthetically preferable when the current implementation satisfies the contract cleanly.
-- Follow-up review should focus on original findings, the new diff, and regressions introduced by the fix rather than reopening unrelated design questions.
 - CI/test counts are evidence summaries, not correctness conclusions. For material behavior, require the independent falsification routed by root `AGENTS.md`.
 
 ## GitHub labels
