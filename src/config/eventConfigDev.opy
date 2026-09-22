@@ -18,8 +18,6 @@ rule "initialize event array":
     eventCatalogEffectId = []
     
     # Pack 0 - Special
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_0_TITLE, true, BuffEventId.OLIVIA_GIFT):
-        goto lbl_special_0
     eventName[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
     eventDesc[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_DESC
     eventDuration[BuffEventId.OLIVIA_GIFT] = EVT_BUFF_0_DURATION
@@ -27,13 +25,10 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.OLIVIA_GIFT] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.OLIVIA_GIFT] = BuffEventId.OLIVIA_GIFT
     eventCatalogId.append(BuffEventId.OLIVIA_GIFT)
-    lbl_special_0:
     
     # ================================================
     # Pack 1: Buffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_1_TITLE, true, BuffEventId.GALE_BLESSING):
-        goto lbl_0
     eventName[BuffEventId.GALE_BLESSING] = STR_EVT_BUFF_1_TITLE
     eventDesc[BuffEventId.GALE_BLESSING] = STR_EVT_BUFF_1_DESC.format(EVT_1_SPEED_BOOST)
     eventDuration[BuffEventId.GALE_BLESSING] = EVT_BUFF_1_DURATION
@@ -41,10 +36,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.GALE_BLESSING] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.GALE_BLESSING] = BuffEventId.GALE_BLESSING
     eventCatalogId.append(BuffEventId.GALE_BLESSING)
-    lbl_0:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_2_TITLE, true, BuffEventId.IRON_BULWARK):
-        goto lbl_1
     eventName[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_TITLE
     eventDesc[BuffEventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_FLAT, percent(EVT_2_ARMOR_MAXHP_FACTOR), negToPos(EVT_2_DMG_TAKEN))
     eventDuration[BuffEventId.IRON_BULWARK] = EVT_BUFF_2_DURATION
@@ -52,10 +44,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.IRON_BULWARK] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.IRON_BULWARK] = BuffEventId.IRON_BULWARK
     eventCatalogId.append(BuffEventId.IRON_BULWARK)
-    lbl_1:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_4_TITLE, true, BuffEventId.LIFE_SPRING):
-        goto lbl_3
     eventName[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_TITLE
     eventDesc[BuffEventId.LIFE_SPRING] = STR_EVT_BUFF_4_DESC.format(percent(EVT_4_HEALTH_MAXHP_FACTOR), percent(EVT_4_HEAL_PERCENT))
     eventDuration[BuffEventId.LIFE_SPRING] = EVT_BUFF_4_DURATION
@@ -63,10 +52,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.LIFE_SPRING] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.LIFE_SPRING] = BuffEventId.LIFE_SPRING
     eventCatalogId.append(BuffEventId.LIFE_SPRING)
-    lbl_3:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_5_TITLE, true, BuffEventId.BLACK_FANS_ASSAULT):
-        goto lbl_4
     eventName[BuffEventId.BLACK_FANS_ASSAULT] = STR_EVT_BUFF_5_TITLE
     eventDesc[BuffEventId.BLACK_FANS_ASSAULT] = STR_EVT_BUFF_5_DESC.format(EVT_5_BASE_HEALTH, percent(EVT_5_HEALTH_MAXHP_PERCENT), EVT_5_SPEED_BOOST)
     eventDuration[BuffEventId.BLACK_FANS_ASSAULT] = EVT_BUFF_5_DURATION
@@ -74,10 +60,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.BLACK_FANS_ASSAULT] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.BLACK_FANS_ASSAULT] = BuffEventId.BLACK_FANS_ASSAULT
     eventCatalogId.append(BuffEventId.BLACK_FANS_ASSAULT)
-    lbl_4:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_6_TITLE, true, BuffEventId.SPEED_STACK):
-        goto lbl_5
     eventName[BuffEventId.SPEED_STACK] = STR_EVT_BUFF_6_TITLE
     eventDesc[BuffEventId.SPEED_STACK] = STR_EVT_BUFF_6_DESC.format(EVT_6_SPEED_INC_PER_SEC)
     eventDuration[BuffEventId.SPEED_STACK] = EVT_BUFF_6_DURATION
@@ -85,10 +68,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.SPEED_STACK] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.SPEED_STACK] = BuffEventId.SPEED_STACK
     eventCatalogId.append(BuffEventId.SPEED_STACK)
-    lbl_5:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_7_TITLE, true, BuffEventId.FLESH_REGEN):
-        goto lbl_6
     eventName[BuffEventId.FLESH_REGEN] = STR_EVT_BUFF_7_TITLE
     eventDesc[BuffEventId.FLESH_REGEN] = STR_EVT_BUFF_7_DESC.format(EVT_7_BASE_HEALTH, EVT_7_HEALTH_PERCENT * 100, EVT_7_REGEN_INTERVAL)
     eventDuration[BuffEventId.FLESH_REGEN] = EVT_BUFF_7_DURATION
@@ -96,10 +76,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.FLESH_REGEN] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.FLESH_REGEN] = BuffEventId.FLESH_REGEN
     eventCatalogId.append(BuffEventId.FLESH_REGEN)
-    lbl_6:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_BUFF, STR_EVT_BUFF_8_TITLE, true, BuffEventId.HEART_OF_STEEL):
-        goto lbl_7
     eventName[BuffEventId.HEART_OF_STEEL] = STR_EVT_BUFF_8_TITLE
     eventDesc[BuffEventId.HEART_OF_STEEL] = STR_EVT_BUFF_8_DESC.format(EVT_8_HP_LAYER_PER_DEATH, EVT_8_HP_PERCENT_PER_STACK)
     eventDuration[BuffEventId.HEART_OF_STEEL] = EVT_BUFF_8_DURATION
@@ -107,13 +84,10 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.HEART_OF_STEEL] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.HEART_OF_STEEL] = BuffEventId.HEART_OF_STEEL
     eventCatalogId.append(BuffEventId.HEART_OF_STEEL)
-    lbl_7:
 
     # ================================================
     # Pack 2: Buffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_9_TITLE, true, BuffEventId.DEATH_DELAY):
-        goto lbl_10
     eventName[BuffEventId.DEATH_DELAY] = STR_EVT_BUFF_9_TITLE
     eventDesc[BuffEventId.DEATH_DELAY] = STR_EVT_BUFF_9_DESC
     eventDuration[BuffEventId.DEATH_DELAY] = EVT_BUFF_9_DURATION
@@ -121,10 +95,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.DEATH_DELAY] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.DEATH_DELAY] = BuffEventId.DEATH_DELAY
     eventCatalogId.append(BuffEventId.DEATH_DELAY)
-    lbl_10:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_11_TITLE, true, BuffEventId.KONAMI_CODE):
-        goto lbl_12
     eventName[BuffEventId.KONAMI_CODE] = STR_EVT_BUFF_11_TITLE
     eventDesc[BuffEventId.KONAMI_CODE] = STR_EVT_BUFF_11_DESC
     eventDuration[BuffEventId.KONAMI_CODE] = EVT_BUFF_11_DURATION
@@ -132,10 +103,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.KONAMI_CODE] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.KONAMI_CODE] = BuffEventId.KONAMI_CODE
     eventCatalogId.append(BuffEventId.KONAMI_CODE)
-    lbl_12:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_BUFF, STR_EVT_BUFF_12_TITLE, true, BuffEventId.PHOTON_SHIELD):
-        goto lbl_13
     eventName[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_TITLE
     eventDesc[BuffEventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_BASE_SHIELD, EVT_12_SHIELD_PERCENT * 100)
     eventDuration[BuffEventId.PHOTON_SHIELD] = EVT_BUFF_12_DURATION
@@ -143,13 +111,10 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.PHOTON_SHIELD] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.PHOTON_SHIELD] = BuffEventId.PHOTON_SHIELD
     eventCatalogId.append(BuffEventId.PHOTON_SHIELD)
-    lbl_13:
 
     # ================================================
     # Pack 3: Buffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_13_TITLE, true, BuffEventId.REGROUP_CALL):
-        goto lbl_15
     eventName[BuffEventId.REGROUP_CALL] = STR_EVT_BUFF_13_TITLE
     eventDesc[BuffEventId.REGROUP_CALL] = STR_EVT_BUFF_13_DESC.format(EVT_13_CHECK_INTERVAL, EVT_13_INVINCIBLE_DURATION)
     eventDuration[BuffEventId.REGROUP_CALL] = EVT_BUFF_13_DURATION
@@ -157,10 +122,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.REGROUP_CALL] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.REGROUP_CALL] = BuffEventId.REGROUP_CALL
     eventCatalogId.append(BuffEventId.REGROUP_CALL)
-    lbl_15:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_14_TITLE, true, BuffEventId.WILL_TO_WIN):
-        goto lbl_18
     eventName[BuffEventId.WILL_TO_WIN] = STR_EVT_BUFF_14_TITLE
     eventDesc[BuffEventId.WILL_TO_WIN] = STR_EVT_BUFF_14_DESC.format(EVT_14_TRIGGER_HP_PERCENT * 100, EVT_14_INVINCIBLE_DURATION)
     eventDuration[BuffEventId.WILL_TO_WIN] = EVT_BUFF_14_DURATION
@@ -168,10 +130,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.WILL_TO_WIN] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.WILL_TO_WIN] = BuffEventId.WILL_TO_WIN
     eventCatalogId.append(BuffEventId.WILL_TO_WIN)
-    lbl_18:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_15_TITLE, true, BuffEventId.PHEIDIPPIDES_TRIAL):
-        goto lbl_19
     eventName[BuffEventId.PHEIDIPPIDES_TRIAL] = STR_EVT_BUFF_15_TITLE
     eventDesc[BuffEventId.PHEIDIPPIDES_TRIAL] = STR_EVT_BUFF_15_DESC.format(EVT_15_DISTANCE_GOAL, EVT_15_REWARD_SPEED)
     eventDuration[BuffEventId.PHEIDIPPIDES_TRIAL] = EVT_BUFF_15_DURATION
@@ -179,10 +138,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.PHEIDIPPIDES_TRIAL] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.PHEIDIPPIDES_TRIAL] = BuffEventId.PHEIDIPPIDES_TRIAL
     eventCatalogId.append(BuffEventId.PHEIDIPPIDES_TRIAL)
-    lbl_19:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_16_TITLE, true, BuffEventId.HEART_OF_STEEL_PRO):
-        goto lbl_20
     eventName[BuffEventId.HEART_OF_STEEL_PRO] = STR_EVT_BUFF_16_TITLE
     eventDesc[BuffEventId.HEART_OF_STEEL_PRO] = STR_EVT_BUFF_16_DESC.format(EVT_16_HP_GAIN_FLAT, EVT_16_HP_MULTIPLIER)
     eventDuration[BuffEventId.HEART_OF_STEEL_PRO] = EVT_BUFF_16_DURATION
@@ -190,10 +146,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.HEART_OF_STEEL_PRO] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.HEART_OF_STEEL_PRO] = BuffEventId.HEART_OF_STEEL_PRO
     eventCatalogId.append(BuffEventId.HEART_OF_STEEL_PRO)
-    lbl_20:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_BUFF, STR_EVT_BUFF_18_TITLE, true, BuffEventId.ULT_MOMENTUM):
-        goto lbl_22
     eventName[BuffEventId.ULT_MOMENTUM] = STR_EVT_BUFF_18_TITLE
     eventDesc[BuffEventId.ULT_MOMENTUM] = STR_EVT_BUFF_18_DESC.format(EVT_18_DMG_REDUCTION_DURING_ULT)
     eventDuration[BuffEventId.ULT_MOMENTUM] = EVT_BUFF_18_DURATION
@@ -201,13 +154,10 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.ULT_MOMENTUM] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.ULT_MOMENTUM] = BuffEventId.ULT_MOMENTUM
     eventCatalogId.append(BuffEventId.ULT_MOMENTUM)
-    lbl_22:
     
     # ================================================
     # Pack 4: Buffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_4_BUFF, true, 1):
-        goto lbl_101
     eventName[BuffEventId.PHASE_SURGE] = STR_EVT_BUFF_19_TITLE
     eventDesc[BuffEventId.PHASE_SURGE] = STR_EVT_BUFF_19_DESC.format(EVT_19_SPEED_BOOST, EVT_19_SPEED_BONUS_PER_TRIGGER)
     eventDuration[BuffEventId.PHASE_SURGE] = EVT_BUFF_19_DURATION
@@ -247,11 +197,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.HEALING_TOWER_PROMAX] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.HEALING_TOWER_PROMAX] = BuffEventId.HEALING_TOWER_PROMAX
     eventCatalogId.append(BuffEventId.HEALING_TOWER_PROMAX)
-    lbl_101:
 
-    lbl_109:
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5_BUFF, true, 1):
-        goto lbl_199
     eventName[BuffEventId.MAGIC_MASTER] = STR_EVT_BUFF_29_TITLE
     eventDesc[BuffEventId.MAGIC_MASTER] = STR_EVT_BUFF_29_DESC.format(EVT_29_SPEED_BOOST)
     eventDuration[BuffEventId.MAGIC_MASTER] = EVT_BUFF_29_DURATION
@@ -283,15 +229,11 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.BATTLEFIELD_MEDIC] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.BATTLEFIELD_MEDIC] = BuffEventId.BATTLEFIELD_MEDIC
     eventCatalogId.append(BuffEventId.BATTLEFIELD_MEDIC)
-    lbl_199:
 
-    lbl_33:
     
     # ================================================
     # Pack 1: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_DEBUFF, STR_EVT_DEBUFF_0_TITLE, true, DebuffEventId.GRAVITY_ANOMALY):
-        goto lbl_33
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_DESC.format(EVT_DEBUFF_0_GRAVITY)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_DURATION
@@ -299,10 +241,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY] = DebuffEventId.GRAVITY_ANOMALY
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_ANOMALY)
-    lbl_33:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_DEBUFF, STR_EVT_DEBUFF_1_TITLE, true, DebuffEventId.EMP):
-        goto lbl_34
     # 注：常量里没有 EVT_DEBUFF_1_DURATION，通常用 HACK_DURATION 作为该事件持续时间
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = STR_EVT_DEBUFF_1_DESC
@@ -311,10 +250,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP] = DebuffEventId.EMP
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.EMP)
-    lbl_34:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_DEBUFF, STR_EVT_DEBUFF_2_TITLE, true, DebuffEventId.SACRIFICE):
-        goto lbl_35
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = STR_EVT_DEBUFF_2_DESC.format(percent(EVT_DEBUFF_2_DMG_PERCENT))
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = EVT_DEBUFF_2_DURATION
@@ -322,10 +258,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE] = DebuffEventId.SACRIFICE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SACRIFICE)
-    lbl_35:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_DEBUFF, STR_EVT_DEBUFF_3_TITLE, true, DebuffEventId.VULNERABLE):
-        goto lbl_36
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = STR_EVT_DEBUFF_3_DESC.format(EVT_DEBUFF_3_DMG_TAKEN)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = EVT_DEBUFF_3_DURATION
@@ -333,10 +266,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE] = DebuffEventId.VULNERABLE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.VULNERABLE)
-    lbl_36:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_DEBUFF, STR_EVT_DEBUFF_4_TITLE, true, DebuffEventId.SPEED_LIMIT_40):
-        goto lbl_37
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = STR_EVT_DEBUFF_4_DESC.format(EVT_DEBUFF_4_DMG_BASE, percent(EVT_DEBUFF_4_DMG_PERCENT))
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = EVT_DEBUFF_4_DURATION
@@ -344,13 +274,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = DebuffEventId.SPEED_LIMIT_40
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40)
-    lbl_37:
 
     # ================================================
     # Pack 2: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_5_TITLE, true, DebuffEventId.GRAVITY_PULL):
-        goto lbl_38
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = STR_EVT_DEBUFF_5_DESC.format(EVT_DEBUFF_5_SPEED_REDUCTION)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = EVT_DEBUFF_5_DURATION
@@ -358,10 +285,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL] = DebuffEventId.GRAVITY_PULL
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.GRAVITY_PULL)
-    lbl_38:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_6_TITLE, true, DebuffEventId.OSTEOPOROSIS):
-        goto lbl_39
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = STR_EVT_DEBUFF_6_DESC.format(negToPos(EVT_DEBUFF_6_MAX_SPEED_DEC))
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = EVT_DEBUFF_6_DURATION
@@ -369,10 +293,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS] = DebuffEventId.OSTEOPOROSIS
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.OSTEOPOROSIS)
-    lbl_39:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_7_TITLE, true, DebuffEventId.EMP_PROMAX):
-        goto lbl_40
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = STR_EVT_DEBUFF_7_DESC.format(EVT_DEBUFF_7_RADIUS)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = EVT_DEBUFF_7_DURATION
@@ -380,10 +301,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX] = DebuffEventId.EMP_PROMAX
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.EMP_PROMAX)
-    lbl_40:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_8_TITLE, true, DebuffEventId.ENERGY_LEAK):
-        goto lbl_41
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = STR_EVT_DEBUFF_8_DESC.format(percent(EVT_DEBUFF_8_DMG_PERCENT))
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = EVT_DEBUFF_8_DURATION
@@ -391,10 +309,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK] = DebuffEventId.ENERGY_LEAK
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ENERGY_LEAK)
-    lbl_41:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_9_TITLE, true, DebuffEventId.SHARE_THE_PAIN):
-        goto lbl_43
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_FACTOR), EVT_DEBUFF_9_RADIUS)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_DURATION
@@ -402,10 +317,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN] = DebuffEventId.SHARE_THE_PAIN
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SHARE_THE_PAIN)
-    lbl_43:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_10_TITLE, true, DebuffEventId.FEAST_FRENZY):
-        goto lbl_44
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = STR_EVT_DEBUFF_10_DESC.format(EVT_DEBUFF_10_BERSERK_ADD)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = EVT_DEBUFF_10_DURATION
@@ -413,10 +325,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY] = DebuffEventId.FEAST_FRENZY
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.FEAST_FRENZY)
-    lbl_44:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_DEBUFF, STR_EVT_DEBUFF_11_TITLE, true, DebuffEventId.POWERLESS_SPOUSE):
-        goto lbl_45
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = STR_EVT_DEBUFF_11_DESC.format(EVT_DEBUFF_11_DELAY, EVT_DEBUFF_11_KNOCKDOWN_DURATION)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = EVT_DEBUFF_11_DURATION
@@ -424,13 +333,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = DebuffEventId.POWERLESS_SPOUSE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE)
-    lbl_45:
 
     # ================================================
     # Pack 3: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_DEBUFF, STR_EVT_DEBUFF_13_TITLE, true, DebuffEventId.HALVED):
-        goto lbl_47
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = STR_EVT_DEBUFF_13_DESC.format(EVT_DEBUFF_13_INTERVAL, percent(EVT_DEBUFF_13_DAMAGE_PERCENT), percent(EVT_DEBUFF_13_EXECUTE_THRESHOLD))
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = EVT_DEBUFF_13_DURATION
@@ -438,10 +344,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED] = DebuffEventId.HALVED
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.HALVED)
-    lbl_47:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_DEBUFF, STR_EVT_DEBUFF_14_TITLE, true, DebuffEventId.SELFLESS_GIVEAWAY):
-        goto lbl_48
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = STR_EVT_DEBUFF_14_DESC.format(EVT_DEBUFF_14_STACKS_TAKE)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EVT_DEBUFF_14_DURATION
@@ -449,13 +352,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = DebuffEventId.SELFLESS_GIVEAWAY
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY)
-    lbl_48:
     
     # ================================================
     # Pack 4: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_4_DEBUFF, true, 1):
-        goto lbl_109
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = STR_EVT_DEBUFF_15_DESC
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.KEEP_DISTANCE_AURA] = EVT_DEBUFF_15_DURATION
@@ -471,13 +371,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = DebuffEventId.MOON_ROCKET
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET)
-    lbl_109:
 
     # ================================================
     # Pack 5: Debuffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5_DEBUFF, true, 1):
-        goto lbl_127
     eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = STR_EVT_DEBUFF_22_DESC.format(EVT_DEBUFF_22_INTERVAL)
     eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.WAYWARD_NAVIGATION] = EVT_DEBUFF_22_DURATION
@@ -501,14 +398,11 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
-    lbl_127:
     
     
     # ================================================
     # Pack 3: Mechanics
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_MECH, STR_EVT_MECH_0_TITLE, true, MechEventId.EXTREME_CHALLENGE):
-        goto lbl_55
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = STR_EVT_MECH_0_DESC.format(negToPos(EVT_MECH_0_DMG_TAKEN), percent(EVT_MECH_0_HP_PERCENT))
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = EVT_MECH_0_DURATION
@@ -516,13 +410,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE] = MechEventId.EXTREME_CHALLENGE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EXTREME_CHALLENGE)
-    lbl_55:
 
     # ================================================
     # Pack 1: Mechanics
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_MECH, STR_EVT_MECH_1_TITLE, true, MechEventId.GAMBLER):
-        goto lbl_57
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = STR_EVT_MECH_1_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = EVT_MECH_1_DURATION
@@ -530,10 +421,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER] = MechEventId.GAMBLER
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER)
-    lbl_57:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_MECH, STR_EVT_MECH_2_TITLE, true, MechEventId.MINI_FORM):
-        goto lbl_59
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = STR_EVT_MECH_2_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = STR_EVT_MECH_2_DESC.format(percent(1 - EVT_MECH_2_MODEL_SCALE), percent(1 - EVT_MECH_2_HP_SCALE), EVT_MECH_2_SPEED_BOOST)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = EVT_MECH_2_DURATION
@@ -541,10 +429,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM] = MechEventId.MINI_FORM
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MINI_FORM)
-    lbl_59:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_1_MECH, STR_EVT_MECH_3_TITLE, true, MechEventId.STEALTH_CROUCH):
-        goto lbl_60
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = EVT_MECH_3_DURATION
@@ -552,13 +437,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = MechEventId.STEALTH_CROUCH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH)
-    lbl_60:
 
     # ================================================
     # Pack 2: Mechanics
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_2_MECH, STR_EVT_MECH_4_TITLE, true, MechEventId.BRAKE_FAILURE):
-        goto lbl_62
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = STR_EVT_MECH_4_DESC.format(100 + EVT_MECH_4_MAX_SPEED)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = EVT_MECH_4_DURATION
@@ -566,13 +448,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = MechEventId.BRAKE_FAILURE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE)
-    lbl_62:
 
     # ================================================
     # Pack 3: Mechanics
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_MECH, STR_EVT_MECH_5_TITLE, true, MechEventId.JUMP_THRUST):
-        goto lbl_67
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = STR_EVT_MECH_5_DESC.format(Button.JUMP, negToPos(EVT_MECH_5_DMG_TAKEN))
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = EVT_MECH_5_DURATION
@@ -580,10 +459,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST] = MechEventId.JUMP_THRUST
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.JUMP_THRUST)
-    lbl_67:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK_3_MECH, STR_EVT_MECH_6_TITLE, true, MechEventId.GAMBLER_SPEED_CHALLENGE):
-        goto lbl_68
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_DESC.format(Button.RELOAD, EVT_MECH_6_HEARTSTEEL_COST, EVT_MECH_6_PROB_LOSE_NORMAL - EVT_MECH_6_PROB_WIN_NORMAL, EVT_MECH_6_VAL_NORMAL, 100 - EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_RARE)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_DURATION
@@ -591,13 +467,10 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = MechEventId.GAMBLER_SPEED_CHALLENGE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE)
-    lbl_68:
 
     # ================================================
     # Pack 4: Mechanics
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_4_MECH, true, 1):
-        goto lbl_115
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = STR_EVT_MECH_7_DESC.format(Button.RELOAD, EVT_MECH_7_HEART_STEEL_COST, EVT_MECH_7_HEART_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CHEAT_CARD_COUNTING] = EVT_MECH_7_DURATION
@@ -661,10 +534,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE] = MechEventId.VAMPIRE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.VAMPIRE)
-    lbl_115:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5_MECH, true, 1):
-        goto lbl_127
     eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = STR_EVT_MECH_19_TITLE
     eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = STR_EVT_MECH_19_DESC.format(Button.RELOAD)
     eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.THIEF] = EVT_MECH_19_DURATION
@@ -731,4 +601,3 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION] = MechEventId.MIRROR_INVERSION
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION)
-    lbl_127:
