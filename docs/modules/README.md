@@ -63,7 +63,7 @@
   - `main/devMain` 的 `settings.heroes` 已提取为共享宏 + 入口覆盖结构（`src/heroes/settings/`），降低双入口重复维护成本。
   - `docs/modules/01-entry-architecture.md` 与 `docs/modules/07-heroes.md` 已同步说明新的 include 与覆盖策略。
 - 事件系统调参与可控性增强
-  - 开发入口对 Buff Pack 4（含 Buff 32/34）补充了 Workshop 开关，便于单事件回归测试。
+  - 事件配置不再暴露包级或单事件 Workshop 开关；主/开发入口按构建输入注册事件目录。
   - Buff 34（坚韧）描述改为基于常量格式化注入，减少文案与数值漂移。
   - Mech 20（三位一体）减伤/移速换算参数上调，并同步中英文文案描述。
   - Buff 19（胜利意志）增加存活前置条件，避免死亡后误触发。

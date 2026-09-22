@@ -17,7 +17,6 @@ rule "initialize event array":
     eventCatalogType = []
     eventCatalogEffectId = []
 
-
     
     # Pack 0 - Special
     eventName[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
@@ -31,8 +30,6 @@ rule "initialize event array":
     # ================================================
     # Pack 1: Buffs
     # ================================================
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_1, true, 1):
-        goto lbl_0
     eventName[BuffEventId.GALE_BLESSING] = STR_EVT_BUFF_1_TITLE
     eventDesc[BuffEventId.GALE_BLESSING] = STR_EVT_BUFF_1_DESC.format(EVT_1_SPEED_BOOST)
     eventDuration[BuffEventId.GALE_BLESSING] = EVT_BUFF_1_DURATION
@@ -132,7 +129,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40] = DebuffEventId.SPEED_LIMIT_40
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SPEED_LIMIT_40)
 
-
     # ================================================
     # Pack 1: Mechanics
     # ================================================
@@ -160,11 +156,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH] = MechEventId.STEALTH_CROUCH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.STEALTH_CROUCH)
 
-    lbl_0:
-
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_2, true, 1):
-        goto lbl_1
-
     # ================================================
     # Pack 2: Buffs
     # ================================================
@@ -191,7 +182,6 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.PHOTON_SHIELD] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.PHOTON_SHIELD] = BuffEventId.PHOTON_SHIELD
     eventCatalogId.append(BuffEventId.PHOTON_SHIELD)
-
 
     # ================================================
     # Pack 2: Debuffs
@@ -252,7 +242,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE] = DebuffEventId.POWERLESS_SPOUSE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.POWERLESS_SPOUSE)
 
-
     # ================================================
     # Pack 2: Mechanics
     # ================================================
@@ -265,10 +254,7 @@ rule "initialize event array":
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE)
 
     
-    lbl_1:
 
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_3, true, 1):
-        goto lbl_2
     
     # ================================================
     # Pack 3: Buffs
@@ -332,7 +318,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = DebuffEventId.SELFLESS_GIVEAWAY
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY)
 
-
     # ================================================
     # Pack 3: Mechanics
     # ================================================
@@ -364,10 +349,7 @@ rule "initialize event array":
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE)
 
     
-    lbl_2:
     
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_4, true, 1):
-        goto lbl_3
 
     # ================================================
     # Pack 4: Buffs
@@ -430,7 +412,6 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET] = DebuffEventId.MOON_ROCKET
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.MOON_ROCKET)
-
 
     # ================================================
     # Pack 4: Mechanics
@@ -539,11 +520,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL] = MechEventId.GAMBLER_WINNER_TAKE_ALL
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL)
 
-
-    lbl_3:
-    if not createWorkshopSettingBool(STR_CAT_RANDOM_PACK, STR_CAT_RANDOM_PACK_5, true, 1):
-        goto lbl_4
-
     # ================================================
     # Pack 5: Buffs
     # ================================================
@@ -631,5 +607,3 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5] = MechEventId.GAMBLER_ALL_IN_ART_5
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5)
-
-    lbl_4:
