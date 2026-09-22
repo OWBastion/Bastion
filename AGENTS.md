@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file is the repository entrypoint for AI agents working on Bastion. Workspace guidance owns shared engineering policy; this file specializes Bastion contracts, risk routing, delivery, and local validation. Keep durable guidance stable: current versions, counts, issue state, and temporary gaps belong in their live source of truth rather than here.
+This file is the repository entrypoint for AI agents working on Bastion. Workspace guidance owns shared engineering policy; this file specializes Bastion contracts, risk routing, delivery constraints, and local validation. Keep durable guidance stable: current versions, counts, issue state, and temporary gaps belong in their live source of truth rather than here.
 
 ## Repository role
 
@@ -23,15 +23,9 @@ For substantive work:
 
 Do not preload all documentation or skills.
 
-## Authorization and delivery
+## Repository delivery constraints
 
-- For answer, diagnosis, planning, or review requests, inspect the necessary material and report or record the result; do not implement unrelated changes.
-- For implementation or fix requests, make the in-scope change and run relevant non-destructive validation without asking again.
-- A repository implementation is not delivered merely because it works locally. Unless the user explicitly requested local-only work, finish on a non-default branch, push it, and open or update the PR review surface.
-- For PR review, inspect the complete relevant diff in one pass where practical. If there are actionable findings, leave them on the PR rather than merely suggesting that the user post them. If there are no blocking findings, approve or leave the repository-appropriate LGTM signal.
-- For review-fix work, keep the patch focused on the findings, push the verified correction to the PR branch, handle affected review threads, and hand the PR back for review.
-- Merge, release, deploy, production mutation, destructive operations, or scope expansion require explicit authorization unless a narrower repository contract already grants them.
-- Never push implementation commits directly to the default branch unless explicitly authorized.
+Use `docs/agents/collaboration-commit.md` for the full local delivery contract. In particular: implementation/fix work uses a non-default branch and PR unless explicitly local-only; PR review results belong on the PR rather than only in chat; review-fix work includes thread/re-review handoff. Never push implementation commits directly to the default branch. Merge, release, deployment, production mutation, destructive operations, and material scope expansion remain separate authorization boundaries.
 
 ## Minimal red lines
 
