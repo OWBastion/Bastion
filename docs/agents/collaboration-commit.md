@@ -1,55 +1,43 @@
-# Collaboration and Commit Hygiene (Canonical)
+# Collaboration, Review, and Commit Hygiene (Canonical)
 
-This document is the canonical rule source for AI collaboration boundaries and commit process.
+This document is the canonical Bastion rule source for task scope, remote delivery, PR review handoff, and commit hygiene.
 
-## Collaboration Rules
+## Scope and collaboration
 
-1. Read relevant modules before editing. Avoid blind edits in large entry files.
-2. Follow minimal-change scope by default.
-3. Do not casually rename existing rule, constant, or macro names.
-4. Do not change build-entry conventions unless explicitly required.
-5. In change summaries, clearly state impacted entry points and required linkage validation.
+1. Read the relevant Issue and implementation surface before editing; avoid blind edits in large entry files.
+2. Keep changes within the task-owned behavior. Include only bounded structural work required for correctness or coherent responsibility.
+3. Do not casually rename existing rule, constant, or macro names or change build-entry conventions.
+4. Do not turn a review finding into unrelated cleanup, redesign, or architecture work.
+5. In change summaries, identify affected entry points and the validation that actually supports the claim.
 
-## Commit Process Rules
+## Delivery is part of completion
+
+A verified local worktree is not the shared review surface.
+
+- An `implement` or `fix` request normally authorizes in-scope code edits, non-destructive validation, commit, push to a non-default branch, and opening or updating the task PR. Stop earlier only for an explicit local-only request or a concrete blocker.
+- A PR review request normally authorizes posting the review result to the PR. Review the complete relevant diff in one pass where practical; report actionable findings rather than a sequence of speculative micro-comments.
+- If review finds no blocking issue, use the repository-appropriate approve/LGTM signal rather than asking the user to repeat the review action manually.
+- Review-fix work is complete only after verified corrections are pushed to the existing PR branch, affected threads are handled without hiding unresolved findings, and the PR is handed back for review.
+- Never push implementation commits directly to the default branch unless explicitly authorized.
+- Merge, release, deployment, production mutation, destructive actions, and material scope expansion remain separate authorization boundaries.
+
+Why: leaving verified work only in an agent worktree, or leaving review conclusions only in chat, creates coordination work for the user and leaves the authoritative GitHub surface stale.
+
+## Commit process
 
 1. Never bypass hooks with `git commit --no-verify`.
-2. Commit only intentional changes for the current task.
+2. Commit only intentional task-owned changes.
 3. Keep commit messages concise and conventional.
+4. Before handoff, inspect the final diff for unrelated files, generated artifacts that do not belong in source control, credentials, and private data.
 
-## GitHub Label Rules
+## Review quality
 
-Use a compact three-axis label model for issues and pull requests:
+- Start from the Issue/contract and observable behavior, not from a preferred implementation shape.
+- First review should aim to cover the full PR scope. Prioritize correctness, lifecycle/state cleanup, ownership boundaries, Workshop performance risk, compatibility, and evidence gaps.
+- Do not require a refactor solely because another structure is aesthetically preferable when the current implementation satisfies the contract cleanly.
+- Follow-up review should focus on original findings, the new diff, and regressions introduced by the fix rather than reopening unrelated design questions.
+- CI/test counts are evidence summaries, not correctness conclusions. For material behavior, require the independent falsification routed by root `AGENTS.md`.
 
-1. `type/*` for the main work category.
-2. `status/*` for the current workflow state.
-3. `priority/*` for urgency and scheduling order.
-4. Domain labels such as `event` and `map` are plain labels and do not consume a three-axis slot.
-5. Auxiliary labels such as `question`, `help wanted`, `good first issue`, `codex`, `dependencies`, `github_actions`, and `javascript` may be added when they add routing value.
+## GitHub labels
 
-Current canonical label set:
-
-- `type/bug`
-- `type/feature`
-- `type/refactor`
-- `type/docs`
-- `type/perf`
-- `type/chore`
-- `status/triage`
-- `status/in-progress`
-- `status/need-review`
-- `status/blocked`
-- `status/ready-to-merge`
-- `priority/p0`
-- `priority/p1`
-- `priority/p2`
-- `priority/p3`
-- `event`
-- `map`
-
-Usage constraints:
-
-1. Apply at most one label from each axis on the same issue or pull request.
-2. For new issues, prefer setting `type/*` and `priority/*` during triage.
-3. For new pull requests, prefer setting `type/*` and `status/need-review`.
-4. Use `event` and `map` only for domain routing; do not encode those domains inside `type/*`.
-5. Before merge, switch the workflow label to `status/ready-to-merge` if review is complete.
+Use labels for routing, not as a second source of project status or architecture truth. Prefer one label from each configured `type/*`, `status/*`, and `priority/*` axis when those labels exist, plus domain labels such as `event` or `map` where useful. Query the repository's current labels instead of treating a hard-coded label inventory in documentation as authoritative.
