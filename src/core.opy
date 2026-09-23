@@ -70,7 +70,11 @@ rule "Reset to control respawn":
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.isInSpawnRoom() == true
     @Condition controlRespawnPosition[eventPlayer.controlJumpIndex] != null
-    @Condition (any([controlRespawnAxis == 0 and distance(vect(eventPlayer.getPosition().x, 0, 0), vect(controlRespawnPosition[eventPlayer.controlJumpIndex].x, 0, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 1 and distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[eventPlayer.controlJumpIndex].y, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 2 and distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[eventPlayer.controlJumpIndex].z)) >= controlRespawnAxisThreshold])) == true
+    @Condition any([
+        (controlRespawnAxisByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisByRespawnIndex != null else controlRespawnAxis) == 0 and distance(vect(eventPlayer.getPosition().x, 0, 0), vect(controlRespawnPosition[eventPlayer.controlJumpIndex].x, 0, 0)) >= (controlRespawnAxisThresholdByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisThresholdByRespawnIndex != null else controlRespawnAxisThreshold),
+        (controlRespawnAxisByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisByRespawnIndex != null else controlRespawnAxis) == 1 and distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[eventPlayer.controlJumpIndex].y, 0)) >= (controlRespawnAxisThresholdByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisThresholdByRespawnIndex != null else controlRespawnAxisThreshold),
+        (controlRespawnAxisByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisByRespawnIndex != null else controlRespawnAxis) == 2 and distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[eventPlayer.controlJumpIndex].z)) >= (controlRespawnAxisThresholdByRespawnIndex[eventPlayer.controlJumpIndex] if controlRespawnAxisThresholdByRespawnIndex != null else controlRespawnAxisThreshold)
+    ]) == true
     
     eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)

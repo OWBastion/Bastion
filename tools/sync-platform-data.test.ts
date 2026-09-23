@@ -638,12 +638,51 @@ test('accepts random-first composites and rejects invalid composition constraint
     ...compositeSpatialConfig,
     stages: [compositeStage('base', 100), compositeStage('other', 200)]
   }) }), /requires setupDetection for every non-fallback stage/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+});
+
+test('composes nullable multi-position controls with per-respawn axes and clears detected default centers once', async () => {
+  const compositeConfig = {
     ...compositeSpatialConfig,
-    stages: compositeSpatialConfig.stages.map((stage) => stage.stageId === 'icebreaker'
-      ? { ...stage, control: { ...stage.control, respawnAxis: 'x' } }
-      : stage)
-  }) }), /control axis and threshold must agree/);
+    stages: [
+      { ...compositeStage('base', 100), control: null },
+      {
+        ...compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 }),
+        control: {
+          centerPositions: [],
+          jumpPositions: [[219, 220, 221], [220, 221, 222]],
+          respawnPositions: [[222, 223, 224], [223, 224, 225]],
+          respawnAxis: 'x' as const,
+          respawnAxisThreshold: 20
+        }
+      },
+      {
+        ...compositeStage('laboratory', 300, { position: [930, 931, 932], radius: 30 }),
+        control: {
+          centerPositions: [[316, 317, 318]],
+          jumpPositions: [[319, 320, 321]],
+          respawnPositions: [[322, 323, 324], [323, 324, 325]],
+          respawnAxis: 'y' as const,
+          respawnAxisThreshold: 50
+        }
+      }
+    ]
+  };
+  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeConfig }] }] }
+  }));
+  const mapDetectionSource = await readFile(new URL('../src/utilities/system/mapDetection.opy', import.meta.url), 'utf8');
+  const coreSource = await readFile(new URL('../src/core.opy', import.meta.url), 'utf8');
+
+  assert.match(mapDetectionSource, /controlCenterPosition = \[getObjectivePosition\(0\), getObjectivePosition\(1\), getObjectivePosition\(2\)\]/);
+  assert.match(output, /COMPOSITE_CENTER_POSITIONS_INITIALIZED = false/);
+  assert.match(output, /controlRespawnAxisByRespawnIndex\.append\(0\)[\s\S]*controlRespawnAxisThresholdByRespawnIndex\.append\(20\)[\s\S]*controlRespawnAxisByRespawnIndex\.append\(1\)[\s\S]*controlRespawnAxisThresholdByRespawnIndex\.append\(50\)/);
+  assert.equal(output.split('controlRespawnAxisByRespawnIndex.append(0)').length - 1, 2);
+  assert.equal(output.split('controlRespawnAxisByRespawnIndex.append(1)').length - 1, 2);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2\(stageOrder\):[\s\S]*if platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED != true:\n        controlCenterPosition = \[\]\n        platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED = true\n    controlCenterPosition\.append\(vect\(316, 317, 318\)\)/);
+  assert.doesNotMatch(output.match(/macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1\(stageOrder\):[\s\S]*?\n\n/)?.[0] ?? '', /controlCenterPosition = \[\]/);
+  assert.doesNotMatch(output, /controlRespawnAxis = (?:0|1|2)/);
+  assert.match(coreSource, /controlRespawnAxisByRespawnIndex\[eventPlayer\.controlJumpIndex\] if controlRespawnAxisByRespawnIndex != null else controlRespawnAxis/);
+  assert.match(coreSource, /controlRespawnAxisThresholdByRespawnIndex\[eventPlayer\.controlJumpIndex\] if controlRespawnAxisThresholdByRespawnIndex != null else controlRespawnAxisThreshold/);
 });
 
 test('Antarctic delegates route selection to one setup-time generated macro', async () => {

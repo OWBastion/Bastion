@@ -27,6 +27,8 @@ globalvar controlJumpPosition 37
 globalvar controlRespawnPosition 38
 globalvar controlRespawnAxis 39
 globalvar controlRespawnAxisThreshold 40
+globalvar controlRespawnAxisByRespawnIndex 41
+globalvar controlRespawnAxisThresholdByRespawnIndex 42
 globalvar turnSpeedMultiplier 55
 globalvar berserkerTime 56
 globalvar eventId 57

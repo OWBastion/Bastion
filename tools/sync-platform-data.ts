@@ -290,13 +290,6 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
     } else if (stages.some((stage) => stage.setupDetection)) {
       throw new Error(`${label}.stages.setupDetection is not supported with random first-stage selection`);
     }
-    const controlPresence = new Set(stages.map((stage) => stage.control !== null));
-    if (controlPresence.size > 1) throw new Error(`${label}.stages control must be present for every stage or none`);
-    if (controlPresence.has(true) && stages.some((stage) => stage.control!.jumpPositions.length !== 1 || stage.control!.respawnPositions.length !== 1)) {
-      throw new Error(`${label}.stages control must contain one jump and one respawn position per stage`);
-    }
-    const configuredAxes = stages.flatMap((stage) => stage.control ? [`${stage.control.respawnAxis}:${stage.control.respawnAxisThreshold}`] : []);
-    if (new Set(configuredAxes).size > 1) throw new Error(`${label}.stages control axis and threshold must agree for route composition`);
     return {
       composition: { selectionCount, firstStageSelection, remainingStageSelection: 'random_unique' },
       stages
@@ -796,7 +789,8 @@ function compositeRouteScratchNames(mapId: string) {
     selectedStages: `${prefix}_SELECTED_STAGE_INDICES`,
     selectedStage: `${prefix}_SELECTED_STAGE_INDEX`,
     stageOrder: `${prefix}_STAGE_ORDER`,
-    stageBastionPositions: `${prefix}_STAGE_BASTION_POSITIONS`
+    stageBastionPositions: `${prefix}_STAGE_BASTION_POSITIONS`,
+    centerPositionsInitialized: `${prefix}_CENTER_POSITIONS_INITIALIZED`
   };
 }
 
@@ -829,7 +823,7 @@ function renderCompositeStageMacro(
   selectionCount: number
 ) {
   const macroName = compositeStageMacroName(mapId, variant, stageIndex);
-  const stagePositions = compositeRouteScratchNames(mapId).stageBastionPositions;
+  const { stageBastionPositions: stagePositions, centerPositionsInitialized } = compositeRouteScratchNames(mapId);
   lines.push(`macro ${macroName}(stageOrder):`);
   lines.push(`    ${stagePositions} = compressed([`);
   stage.bastionPositions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === stage.bastionPositions.length - 1 ? '' : ','}`));
@@ -844,21 +838,32 @@ function renderCompositeStageMacro(
   lines.push('    endPosition = ' + renderSpatialPosition(stage.endPosition));
 
   if (stage.control) {
-    lines.push('    if stageOrder == 0:');
-    lines.push('        controlJumpPosition = []');
-    lines.push('        controlRespawnPosition = []');
-    lines.push('    controlRespawnAxis = ' + (stage.control.respawnAxis === null ? 'null' : String({ x: 0, y: 1, z: 2 }[stage.control.respawnAxis])));
-    lines.push(`    controlRespawnAxisThreshold = ${stage.control.respawnAxisThreshold === null ? 'null' : String(stage.control.respawnAxisThreshold)}`);
     if (stage.control.centerPositions.length > 0) {
-      lines.push('    if controlCenterPosition == null:');
+      lines.push(`    if ${centerPositionsInitialized} != true:`);
       lines.push('        controlCenterPosition = []');
+      lines.push(`        ${centerPositionsInitialized} = true`);
       stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${renderSpatialPosition(position)})`));
     }
     if (stage.control.jumpPositions.length > 0) {
       lines.push(`    if stageOrder < ${selectionCount - 1}:`);
+      lines.push('        if controlJumpPosition == null:');
+      lines.push('            controlJumpPosition = []');
       stage.control.jumpPositions.forEach((position) => lines.push(`        controlJumpPosition.append(${renderSpatialPosition(position)})`));
     }
-    stage.control.respawnPositions.forEach((position) => lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(position)})`));
+    if (stage.control.respawnPositions.length > 0) {
+      lines.push('    if controlRespawnPosition == null:');
+      lines.push('        controlRespawnPosition = []');
+      lines.push('    if controlRespawnAxisByRespawnIndex == null:');
+      lines.push('        controlRespawnAxisByRespawnIndex = []');
+      lines.push('        controlRespawnAxisThresholdByRespawnIndex = []');
+      const axis = stage.control.respawnAxis === null ? 'null' : String({ x: 0, y: 1, z: 2 }[stage.control.respawnAxis]);
+      const threshold = stage.control.respawnAxisThreshold === null ? 'null' : String(stage.control.respawnAxisThreshold);
+      stage.control.respawnPositions.forEach((position) => {
+        lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(position)})`);
+        lines.push(`    controlRespawnAxisByRespawnIndex.append(${axis})`);
+        lines.push(`    controlRespawnAxisThresholdByRespawnIndex.append(${threshold})`);
+      });
+    }
   }
 
   if (stage.portalPositions.length > 0) {
@@ -887,6 +892,7 @@ function renderCompositeSetupMacro(
   const { availableStages, selectedStages, selectedStage, stageOrder, stageBastionPositions } = compositeRouteScratchNames(mapId);
 
   lines.push(`macro ${macroName}_SETUP_ROUTE():`);
+  lines.push(`    ${compositeRouteScratchNames(mapId).centerPositionsInitialized} = false`);
   lines.push(`    ${availableStages} = [${stageIndices.join(', ')}]`);
   lines.push(`    ${selectedStages} = []`);
   if (firstSelection.mode === 'random') {
@@ -923,6 +929,7 @@ function renderCompositeSetupMacro(
   lines.push(`    ${selectedStage} = null`);
   lines.push(`    ${stageOrder} = null`);
   lines.push(`    ${stageBastionPositions} = null`);
+  lines.push(`    ${compositeRouteScratchNames(mapId).centerPositionsInitialized} = null`);
   lines.push('');
 }
 
