@@ -28,7 +28,7 @@
 - `paraiso.opy`：普通单图点位
 - `eichenwalde.opy`：默认 revision 与 `classic` 可选 revision
 - `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
-- `antarctic_peninsula.opy`：玩家首次出生后，根据平台的原子阶段与 `composition` 约束一次性抽取有序且不重复的两段路线；`ilios.opy` 继续以 `alternateStages.setupDetection` 选择完整子图配置
+- `antarctic_peninsula.opy`：玩家首次出生后调用生成的 setup-route 宏；当前平台投影仍使用 `alternateStages`，平台切换为 `composition + stages` 后由同一入口抽取复合路线。`ilios.opy` 继续以 `alternateStages.setupDetection` 选择完整子图配置
 
 每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标和控制点配置。CN 称号持有人投影由 `title/map-title-data.opy` 独立消费；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
 
@@ -44,9 +44,9 @@
 
 - 传送门地图：`new_junk_city.opy`（`portalPosition`）
 - 弹板地图：`temple_of_anubis.opy`, `esperanca.opy`（`springBoardPosition`）
-- 子图判定地图：`antarctic_peninsula.opy`（平台提供原子阶段，Bastion 在运行时组装路线）、`ilios.opy`（平台 selector 选定完整子图配置）
+- 子图判定地图：`antarctic_peninsula.opy`（当前以 `alternateStages` 选择完整配置；切换到复合投影后 Bastion 在运行时组装路线）、`ilios.opy`（平台 selector 选定完整子图配置）
 
-南极半岛的 composite route 在首名玩家出生后检测首段；没有命中检测区域时使用平台指定的 fallback stage。随后 Bastion 从剩余阶段中随机选出所需数量，保留抽取顺序且不重复，并在同一地图设置规则中组装活动路线。每个原子阶段的坐标只生成一次。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
+南极半岛的地图规则在首名玩家出生后只调用一次生成的 setup-route 宏。当前平台投影仍是 `alternateStages`，因此继续选择完整子图配置；平台切换到 `composition + stages` 后，该宏会检测首段并使用指定 fallback，再从剩余阶段中随机选择所需数量，保留顺序且不重复，在同一地图设置规则中组装活动路线。复合投影中的每个原子阶段坐标只生成一次。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
 
 ## 地图清单摘要（38 个文件）
 
