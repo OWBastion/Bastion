@@ -67,9 +67,19 @@ type SpatialConfigBase = {
   portalPositions: SpatialPosition[];
   springboardPositions: SpatialPosition[];
 };
-type SpatialConfig = SpatialConfigBase & {
+type LegacySpatialConfig = SpatialConfigBase & {
   alternateStages: Array<SpatialConfigBase & { stageId: string; setupDetection: AlternateStageSetupDetection }>;
 };
+type CompositeSpatialStage = SpatialConfigBase & { stageId: string; setupDetection?: AlternateStageSetupDetection };
+type CompositeSpatialConfig = {
+  composition: {
+    selectionCount: number;
+    firstStageSelection: { mode: 'setup_detection'; fallbackStageId: string } | { mode: 'random' };
+    remainingStageSelection: 'random_unique';
+  };
+  stages: CompositeSpatialStage[];
+};
+type SpatialConfig = LegacySpatialConfig | CompositeSpatialConfig;
 type ValidatedGameplayRevision = {
   gameplayRevisionId: string;
   mapId: string;
@@ -214,6 +224,84 @@ function validateSpatialConfigBase(value: unknown, label: string): SpatialConfig
 function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
   const config = value as Record<string, unknown>;
+  if ('composition' in config || 'stages' in config) {
+    assertExactKeys(config, label, ['composition', 'stages']);
+    assertExactKeys(config.composition, `${label}.composition`, ['selectionCount', 'firstStageSelection', 'remainingStageSelection']);
+    const rawComposition = config.composition as Record<string, unknown>;
+    const selectionCount = rawComposition.selectionCount;
+    if (typeof selectionCount !== 'number' || !Number.isInteger(selectionCount) || selectionCount < 2 || selectionCount > 16) {
+      throw new Error(`${label}.composition.selectionCount must be an integer from 2 to 16`);
+    }
+    if (rawComposition.remainingStageSelection !== 'random_unique') throw new Error(`${label}.composition.remainingStageSelection must be random_unique`);
+    const rawFirstStageSelection = rawComposition.firstStageSelection;
+    if (!rawFirstStageSelection || typeof rawFirstStageSelection !== 'object' || Array.isArray(rawFirstStageSelection)) {
+      throw new Error(`${label}.composition.firstStageSelection must be an object`);
+    }
+    const firstStageSelectionValue = rawFirstStageSelection as Record<string, unknown>;
+    let firstStageSelection: CompositeSpatialConfig['composition']['firstStageSelection'];
+    if (firstStageSelectionValue.mode === 'setup_detection') {
+      assertExactKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode', 'fallbackStageId']);
+      firstStageSelection = {
+        mode: 'setup_detection',
+        fallbackStageId: requireString(firstStageSelectionValue.fallbackStageId, `${label}.composition.firstStageSelection.fallbackStageId`)
+      };
+      if (!/^[a-z0-9][a-z0-9_-]*$/.test(firstStageSelection.fallbackStageId) || firstStageSelection.fallbackStageId.length > 64) {
+        throw new Error(`${label}.composition.firstStageSelection.fallbackStageId has an unsupported value`);
+      }
+    } else if (firstStageSelectionValue.mode === 'random') {
+      assertExactKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode']);
+      firstStageSelection = { mode: 'random' };
+    } else {
+      throw new Error(`${label}.composition.firstStageSelection.mode has an unsupported value`);
+    }
+    const rawStages = config.stages;
+    if (!Array.isArray(rawStages) || rawStages.length < 2 || rawStages.length > 16) {
+      throw new Error(`${label}.stages must contain between 2 and 16 stages`);
+    }
+    const stageIds = new Set<string>();
+    const stages = rawStages.map((rawStage, index) => {
+      const stageLabel = `${label}.stages[${index}]`;
+      if (!rawStage || typeof rawStage !== 'object' || Array.isArray(rawStage)) throw new Error(`${stageLabel} must be an object`);
+      const stage = rawStage as Record<string, unknown>;
+      const expectedKeys = ['stageId', ...spatialConfigKeys];
+      const allowedKeys = [...expectedKeys, 'setupDetection'];
+      const actualKeys = Object.keys(stage).sort();
+      if (spatialConfigKeys.some((key) => !(key in stage)) || actualKeys.some((key) => !allowedKeys.includes(key))) {
+        throw new Error(`${stageLabel} has an invalid shape; expected keys ${allowedKeys.join(', ')}`);
+      }
+      const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
+      if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
+      if (stageIds.has(stageId)) throw new Error(`Duplicate composite spatial stage ${stageId}`);
+      stageIds.add(stageId);
+      return {
+        stageId,
+        ...(stage.setupDetection === undefined ? {} : { setupDetection: validateAlternateStageSetupDetection(stage.setupDetection, `${stageLabel}.setupDetection`) }),
+        ...validateSpatialConfigBase(Object.fromEntries(spatialConfigKeys.map((key) => [key, stage[key]])), stageLabel)
+      };
+    }).sort((left, right) => left.stageId.localeCompare(right.stageId));
+    if (selectionCount > stages.length) throw new Error(`${label}.composition.selectionCount exceeds the number of stages`);
+    if (firstStageSelection.mode === 'setup_detection') {
+      const fallback = stages.find((stage) => stage.stageId === firstStageSelection.fallbackStageId);
+      if (!fallback) throw new Error(`${label}.composition.firstStageSelection fallback stage does not exist`);
+      if (fallback.setupDetection) throw new Error(`${label}.stages.${fallback.stageId}.setupDetection must be omitted for the fallback stage`);
+      if (stages.some((stage) => stage.stageId !== fallback.stageId && !stage.setupDetection)) {
+        throw new Error(`${label}.stages requires setupDetection for every non-fallback stage`);
+      }
+    } else if (stages.some((stage) => stage.setupDetection)) {
+      throw new Error(`${label}.stages.setupDetection is not supported with random first-stage selection`);
+    }
+    const controlPresence = new Set(stages.map((stage) => stage.control !== null));
+    if (controlPresence.size > 1) throw new Error(`${label}.stages control must be present for every stage or none`);
+    if (controlPresence.has(true) && stages.some((stage) => stage.control!.jumpPositions.length !== 1 || stage.control!.respawnPositions.length !== 1)) {
+      throw new Error(`${label}.stages control must contain one jump and one respawn position per stage`);
+    }
+    const configuredAxes = stages.flatMap((stage) => stage.control ? [`${stage.control.respawnAxis}:${stage.control.respawnAxisThreshold}`] : []);
+    if (new Set(configuredAxes).size > 1) throw new Error(`${label}.stages control axis and threshold must agree for route composition`);
+    return {
+      composition: { selectionCount, firstStageSelection, remainingStageSelection: 'random_unique' },
+      stages
+    };
+  }
   const actualKeys = Object.keys(config).sort();
   const expectedKeys = [...spatialConfigKeys, 'alternateStages'].sort();
   const missingKeys = spatialConfigKeys.filter((key) => !(key in config));
@@ -242,14 +330,18 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
 }
 
 function validateMigratedMapSpatialConfig(mapId: string, config: SpatialConfig, label: string) {
+  const configs = 'composition' in config ? config.stages : [config];
   if (mapId === 'map.busan') {
-    if (!config.control) throw new Error(`${label}.control is required for map.busan`);
-    if (config.control.respawnPositions.length !== 3 || config.control.centerPositions.length !== 3 || config.control.jumpPositions.length !== 2) {
-      throw new Error(`${label}.control must contain three center/respawn and two jump positions for map.busan`);
+    for (const [index, stageConfig] of configs.entries()) {
+      const stageLabel = 'composition' in config ? `${label}.stages[${index}]` : label;
+      if (!stageConfig.control) throw new Error(`${stageLabel}.control is required for map.busan`);
+      if (stageConfig.control.respawnPositions.length !== 3 || stageConfig.control.centerPositions.length !== 3 || stageConfig.control.jumpPositions.length !== 2) {
+        throw new Error(`${stageLabel}.control must contain three center/respawn and two jump positions for map.busan`);
+      }
     }
     return;
   }
-  if ((mapId === 'map.paraiso' || mapId === 'map.eichenwalde') && config.control !== null) {
+  if ((mapId === 'map.paraiso' || mapId === 'map.eichenwalde') && configs.some((stageConfig) => stageConfig.control !== null)) {
     throw new Error(`${label}.control must be null for ${mapId}`);
   }
 }
@@ -693,6 +785,21 @@ function stageMacroName(mapId: string, variant: 'DEFAULT' | 'CLASSIC', stageId: 
   return `${mapRevisionMacroName(mapId, variant)}_STAGE_${safeStageId}`;
 }
 
+function compositeStageMacroName(mapId: string, variant: 'DEFAULT' | 'CLASSIC', stageIndex: number): string {
+  return `${mapRevisionMacroName(mapId, variant)}_COMPOSITE_STAGE_${stageIndex}`;
+}
+
+function compositeRouteScratchNames(mapId: string) {
+  const prefix = `${mapRevisionStem(mapId)}_COMPOSITE`;
+  return {
+    availableStages: `${prefix}_AVAILABLE_STAGE_INDICES`,
+    selectedStages: `${prefix}_SELECTED_STAGE_INDICES`,
+    selectedStage: `${prefix}_SELECTED_STAGE_INDEX`,
+    stageOrder: `${prefix}_STAGE_ORDER`,
+    stageBastionPositions: `${prefix}_STAGE_BASTION_POSITIONS`
+  };
+}
+
 function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, compressedBastion = false) {
   lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', compressedBastion));
   lines.push(`    resetPosition = ${renderSpatialPosition(config.resetPosition)}`);
@@ -713,6 +820,112 @@ function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, co
   if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${renderSpatialPosition(config.springboardPositions[0]!)}`);
 }
 
+function renderCompositeStageMacro(
+  lines: string[],
+  mapId: string,
+  variant: 'DEFAULT' | 'CLASSIC',
+  stage: CompositeSpatialStage,
+  stageIndex: number,
+  selectionCount: number
+) {
+  const macroName = compositeStageMacroName(mapId, variant, stageIndex);
+  const stagePositions = compositeRouteScratchNames(mapId).stageBastionPositions;
+  lines.push(`macro ${macroName}(stageOrder):`);
+  lines.push(`    ${stagePositions} = compressed([`);
+  stage.bastionPositions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === stage.bastionPositions.length - 1 ? '' : ','}`));
+  lines.push('    ])');
+  lines.push('    if stageOrder == 0:');
+  lines.push(`        bastionPosition = ${stagePositions}`);
+  lines.push(`        resetPosition = ${renderSpatialPosition(stage.resetPosition)}`);
+  lines.push(`        thirdPersonPosition = ${renderSpatialPosition(stage.thirdPersonPosition)}`);
+  lines.push(`        creditsPosition = ${renderSpatialPosition(stage.creditsPosition)}`);
+  lines.push('    else:');
+  lines.push(`        bastionPosition.append(${stagePositions})`);
+  lines.push('    endPosition = ' + renderSpatialPosition(stage.endPosition));
+
+  if (stage.control) {
+    lines.push('    if stageOrder == 0:');
+    lines.push('        controlJumpPosition = []');
+    lines.push('        controlRespawnPosition = []');
+    lines.push('    controlRespawnAxis = ' + (stage.control.respawnAxis === null ? 'null' : String({ x: 0, y: 1, z: 2 }[stage.control.respawnAxis])));
+    lines.push(`    controlRespawnAxisThreshold = ${stage.control.respawnAxisThreshold === null ? 'null' : String(stage.control.respawnAxisThreshold)}`);
+    if (stage.control.centerPositions.length > 0) {
+      lines.push('    if controlCenterPosition == null:');
+      lines.push('        controlCenterPosition = []');
+      stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${renderSpatialPosition(position)})`));
+    }
+    if (stage.control.jumpPositions.length > 0) {
+      lines.push(`    if stageOrder < ${selectionCount - 1}:`);
+      stage.control.jumpPositions.forEach((position) => lines.push(`        controlJumpPosition.append(${renderSpatialPosition(position)})`));
+    }
+    stage.control.respawnPositions.forEach((position) => lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(position)})`));
+  }
+
+  if (stage.portalPositions.length > 0) {
+    lines.push('    if portalPosition == null:');
+    lines.push('        portalPosition = []');
+    stage.portalPositions.forEach((position) => lines.push(`    portalPosition.append(${renderSpatialPosition(position)})`));
+  }
+  if (stage.springboardPositions.length > 0) {
+    lines.push('    if springBoardPosition == null:');
+    lines.push(`        springBoardPosition = ${renderSpatialPosition(stage.springboardPositions[0]!)}`);
+  }
+  lines.push('');
+}
+
+function renderCompositeSetupMacro(
+  lines: string[],
+  mapId: string,
+  variant: 'DEFAULT' | 'CLASSIC',
+  spatialConfig: CompositeSpatialConfig
+) {
+  const macroName = mapRevisionMacroName(mapId, variant);
+  const stages = spatialConfig.stages;
+  const stageIndices = stages.map((_, index) => index);
+  const firstSelection = spatialConfig.composition.firstStageSelection;
+  const stageName = (index: number) => compositeStageMacroName(mapId, variant, index);
+  const { availableStages, selectedStages, selectedStage, stageOrder, stageBastionPositions } = compositeRouteScratchNames(mapId);
+
+  lines.push(`macro ${macroName}_SETUP_ROUTE():`);
+  lines.push(`    ${availableStages} = [${stageIndices.join(', ')}]`);
+  lines.push(`    ${selectedStages} = []`);
+  if (firstSelection.mode === 'random') {
+    lines.push(`    ${selectedStage} = random.choice(${availableStages})`);
+  } else {
+    const fallbackIndex = stages.findIndex((stage) => stage.stageId === firstSelection.fallbackStageId);
+    const detectedStages = stages.map((stage, index) => ({ stage, index })).filter(({ stage }) => stage.setupDetection);
+    detectedStages.forEach(({ index }, detectionIndex) => {
+      lines.push(`    ${detectionIndex === 0 ? 'if' : 'elif'} len(getPlayersInRadius(${macroName}_COMPOSITE_STAGE_${index}_SETUP_POSITION, ${macroName}_COMPOSITE_STAGE_${index}_SETUP_RADIUS, Team.1)) != 0:`);
+      lines.push(`        ${selectedStage} = ${index}`);
+    });
+    lines.push(`${detectedStages.length > 0 ? '    else:' : '    if true:'}`);
+    lines.push(`        ${selectedStage} = ${fallbackIndex}`);
+  }
+  lines.push(`    ${selectedStages}.append(${selectedStage})`);
+  lines.push(`    ${availableStages}.remove(${selectedStage})`);
+  if (spatialConfig.composition.selectionCount > 2) {
+    lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
+    lines.push(`        ${selectedStage} = random.choice(${availableStages})`);
+    lines.push(`        ${selectedStages}.append(${selectedStage})`);
+    lines.push(`        ${availableStages}.remove(${selectedStage})`);
+  } else {
+    lines.push(`    ${selectedStage} = random.choice(${availableStages})`);
+    lines.push(`    ${selectedStages}.append(${selectedStage})`);
+    lines.push(`    ${availableStages}.remove(${selectedStage})`);
+  }
+  lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount}):`);
+  stages.forEach((_, index) => {
+    lines.push(`        ${index === 0 ? 'if' : 'elif'} ${selectedStages}[${stageOrder}] == ${index}:`);
+    lines.push(`            ${stageName(index)}(${stageOrder})`);
+  });
+  lines.push(`    ${availableStages} = null`);
+  lines.push(`    ${selectedStages} = null`);
+  lines.push(`    ${selectedStage} = null`);
+  lines.push(`    ${stageOrder} = null`);
+  lines.push(`    ${stageBastionPositions} = null`);
+  lines.push('');
+}
+
 function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]): string {
   const unsupported = map.revisions.filter((revision) => !revision.isDefault && revision.mapVariant !== 'classic');
   if (unsupported.length > 0) throw new Error(`${map.mapId} has selectable revisions that cannot be selected by the compile-time map source: ${unsupported.map((revision) => revision.gameplayRevisionId).join(', ')}`);
@@ -722,26 +935,55 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     MAP_REVISION_BEGIN,
     '# Source: OWBastion Agents API',
   ];
+  if (map.revisions.some((revision) => 'composition' in revision.spatialConfig)) {
+    lines.push('');
+    for (const scratchName of Object.values(compositeRouteScratchNames(map.mapId))) lines.push(`globalvar ${scratchName}`);
+    lines.push('');
+  }
   if (map.revisions.some((revision) => revision.mapVariant === 'classic')) lines.push('');
 
   for (const revision of map.revisions) {
     const variant = mapRevisionVariantName(revision);
     const macroName = mapRevisionMacroName(map.mapId, variant);
     const isClassic = variant === 'CLASSIC';
+    const isComposite = 'composition' in revision.spatialConfig;
     lines.push(`macro ${macroName}():`);
     const mapText = JSON.stringify(map.mapName);
     lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
     lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
     lines.push('');
-    renderSpatialAssignments(lines, revision.spatialConfig, mapKey === 'DATA_ANTARCTIC_PENINSULA');
-    for (const stage of revision.spatialConfig.alternateStages) {
-      const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
-      const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
-      lines.push('');
-      lines.push(`#!define ${setupPositionMacro} ${renderSpatialPosition(stage.setupDetection.position)}`);
-      lines.push(`#!define ${setupRadiusMacro} ${stage.setupDetection.radius}`);
-      lines.push(`macro ${stageMacroName(map.mapId, variant, stage.stageId)}():`);
-      renderSpatialAssignments(lines, stage, false);
+    if (isComposite) {
+      const composite = revision.spatialConfig as CompositeSpatialConfig;
+      for (const [stageIndex, stage] of composite.stages.entries()) {
+        lines.push('');
+        if (stage.setupDetection) {
+          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${renderSpatialPosition(stage.setupDetection.position)}`);
+          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_RADIUS ${stage.setupDetection.radius}`);
+        }
+        renderCompositeStageMacro(lines, map.mapId, variant, stage, stageIndex, composite.composition.selectionCount);
+      }
+      renderCompositeSetupMacro(lines, map.mapId, variant, composite);
+    } else {
+      const legacy = revision.spatialConfig as LegacySpatialConfig;
+      renderSpatialAssignments(lines, legacy, mapKey === 'DATA_ANTARCTIC_PENINSULA');
+      for (const stage of legacy.alternateStages) {
+        const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
+        const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
+        lines.push('');
+        lines.push(`#!define ${setupPositionMacro} ${renderSpatialPosition(stage.setupDetection.position)}`);
+        lines.push(`#!define ${setupRadiusMacro} ${stage.setupDetection.radius}`);
+        lines.push(`macro ${stageMacroName(map.mapId, variant, stage.stageId)}():`);
+        renderSpatialAssignments(lines, stage, false);
+      }
+      if (legacy.alternateStages.length > 0) {
+        lines.push('');
+        lines.push(`macro ${macroName}_SETUP_ROUTE():`);
+        legacy.alternateStages.forEach((stage, index) => {
+          lines.push(`    ${index === 0 ? 'if' : 'elif'} len(getPlayersInRadius(${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION, ${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS, Team.1)) != 0:`);
+          lines.push(`        ${stageMacroName(map.mapId, variant, stage.stageId)}()`);
+        });
+        lines.push('');
+      }
     }
     lines.push('');
   }

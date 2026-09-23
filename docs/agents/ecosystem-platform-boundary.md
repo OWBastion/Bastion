@@ -94,9 +94,23 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - validate finite spatial coordinates, map-specific control-role cardinality,
   default versus selectable semantics, revision-scoped challenge references,
   and holder references before writing any generated file;
-- preserve multi-stage `alternateStages` in stable `stageId` order and validate
-  their finite `setupDetection` coordinates plus positive radius; map runtime
-  resolves its active stage only once during setup;
+- preserve legacy `alternateStages` in stable `stageId` order and validate their
+  finite `setupDetection` coordinates plus positive radius;
+- accept composite spatial revisions with atomic stages and composition
+  constraints, sort stages by `stageId`, and validate stage IDs, setup detection,
+  selection count, control-role shape, and compatible control axes before output;
+- resolve a composite first stage once during map setup, using setup detection
+  and its declared fallback or random first-stage selection; choose remaining
+  stages randomly without replacement and retain their selection order;
+- assemble the active route by concatenating Bastion and control-center,
+  respawn, and portal positions; use the first stage's reset, third-person, and
+  credits positions, the last stage's end position, and control jump positions
+  from every selected stage except the final stage. Composite control stages
+  provide one jump and one respawn position each and share one respawn axis;
+  the first selected springboard position is active when present;
+- keep static and legacy alternate-stage revisions valid, and do not enable a
+  composite revision in the Agents projection until this consumer support has
+  landed;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
 - generate revision-scoped map/challenge/title-holder data deterministically;

@@ -52,6 +52,40 @@ const busanSpatialConfig = {
   }
 };
 
+function compositeStage(stageId: string, offset: number, setupDetection?: { position: [number, number, number]; radius: number }) {
+  return {
+    stageId,
+    ...(setupDetection ? { setupDetection } : {}),
+    bastionPositions: [[offset + 1, offset + 2, offset + 3]],
+    resetPosition: [offset + 4, offset + 5, offset + 6],
+    endPosition: [offset + 7, offset + 8, offset + 9],
+    thirdPersonPosition: [offset + 10, offset + 11, offset + 12],
+    creditsPosition: [offset + 13, offset + 14, offset + 15],
+    control: {
+      centerPositions: [[offset + 16, offset + 17, offset + 18]],
+      jumpPositions: [[offset + 19, offset + 20, offset + 21]],
+      respawnPositions: [[offset + 22, offset + 23, offset + 24]],
+      respawnAxis: 'z' as const,
+      respawnAxisThreshold: 40
+    },
+    portalPositions: [],
+    springboardPositions: []
+  };
+}
+
+const compositeSpatialConfig = {
+  composition: {
+    selectionCount: 2,
+    firstStageSelection: { mode: 'setup_detection', fallbackStageId: 'base' },
+    remainingStageSelection: 'random_unique'
+  },
+  stages: [
+    compositeStage('laboratory', 300, { position: [930, 931, 932], radius: 30 }),
+    compositeStage('base', 100),
+    compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 })
+  ]
+};
+
 const defaultGameplayRevision = {
   gameplayRevisionId: 'revision:map.test_map:default',
   mapId: 'map.test_map',
@@ -498,7 +532,9 @@ test('renders sorted alternate spatial stages deterministically', () => {
       maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: alternateSpatialConfig }] }]
     }
   });
-  assert.deepEqual(source.maps[0]?.revisions[0]?.spatialConfig.alternateStages.map((stage) => stage.stageId), ['alpha', 'zeta']);
+  const validatedSpatialConfig = source.maps[0]?.revisions[0]?.spatialConfig;
+  assert.ok(validatedSpatialConfig && 'alternateStages' in validatedSpatialConfig);
+  assert.deepEqual(validatedSpatialConfig.alternateStages.map((stage) => stage.stageId), ['alpha', 'zeta']);
   const reversedSource = buildPlatformMapRevisionSource({
     platformData: {
       ...platformData,
@@ -510,8 +546,113 @@ test('renders sorted alternate spatial stages deterministically', () => {
   assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION vect\(50, 51, 52\)/);
   assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ZETA_SETUP_POSITION vect\(40, 41, 42\)/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION/);
   assert.match(output, /# END AUTO-GENERATED PLATFORM MAP REVISION\n$/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
+});
+
+test('renders atomic composite stages once and selects an ordered unique route at runtime', () => {
+  const source = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeSpatialConfig }] }]
+    }
+  });
+  const validatedSpatialConfig = source.maps[0]?.revisions[0]?.spatialConfig;
+  assert.ok(validatedSpatialConfig && 'stages' in validatedSpatialConfig);
+  assert.deepEqual(validatedSpatialConfig.stages.map((stage) => stage.stageId), ['base', 'icebreaker', 'laboratory']);
+
+  const output = renderPlatformMapRevisionData(source);
+  const reversedSource = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: {
+        ...compositeSpatialConfig,
+        stages: [...compositeSpatialConfig.stages].reverse()
+      } }] }]
+    }
+  });
+  assert.equal(output, renderPlatformMapRevisionData(reversedSource));
+  for (const offset of [100, 200, 300]) {
+    for (const positionOffset of [1, 4, 7, 10, 13, 16, 19, 22]) {
+      const coordinate = `vect(${offset + positionOffset}, ${offset + positionOffset + 1}, ${offset + positionOffset + 2})`;
+      assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
+    }
+  }
+  assert.match(output, /if len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION, platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_RADIUS, Team\.1\)\) != 0:[\s\S]*elif len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
+  assert.match(output, /_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)[\s\S]*_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)/);
+  assert.match(output, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_STAGE_0\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_1\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_2\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)/);
+  assert.match(output, /controlJumpPosition\.append\(vect\(119, 120, 121\)\)/);
+  assert.match(output, /if stageOrder < 1:/);
+  assert.match(output, /resetPosition = vect\(104, 105, 106\)[\s\S]*endPosition = vect\(107, 108, 109\)/);
+  assert.doesNotMatch(output, /macro .*PAIR|macro .*PERMUTATION/);
+  const noCenterStages = compositeSpatialConfig.stages.map((stage) => ({ ...stage, control: { ...stage.control, centerPositions: [] } }));
+  const noCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...compositeSpatialConfig, stages: noCenterStages } }] }]
+    }
+  }));
+  assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
+});
+
+test('accepts random-first composites and rejects invalid composition constraints', () => {
+  const randomFirstConfig = {
+    ...compositeSpatialConfig,
+    composition: { ...compositeSpatialConfig.composition, firstStageSelection: { mode: 'random' } },
+    stages: [compositeStage('beta', 500), compositeStage('alpha', 400)]
+  };
+  const randomOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: randomFirstConfig }] }] }
+  }));
+  assert.match(randomOutput, /platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)/);
+  assert.doesNotMatch(randomOutput, /COMPOSITE_STAGE_0_SETUP_POSITION/);
+  const threeStageOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: {
+        ...compositeSpatialConfig,
+        composition: { ...compositeSpatialConfig.composition, selectionCount: 3 }
+      } }] }]
+    }
+  }));
+  assert.match(threeStageOutput, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(3\):/);
+
+  const withConfig = (spatialConfig: unknown) => ({
+    ...platformData,
+    maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig }] }]
+  });
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+    ...compositeSpatialConfig,
+    composition: { ...compositeSpatialConfig.composition, selectionCount: 4 }
+  }) }), /selectionCount exceeds the number of stages/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+    ...compositeSpatialConfig,
+    composition: { ...compositeSpatialConfig.composition, firstStageSelection: { mode: 'setup_detection', fallbackStageId: 'missing' } }
+  }) }), /fallback stage does not exist/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+    ...compositeSpatialConfig,
+    stages: [compositeStage('base', 100), compositeStage('base', 200)]
+  }) }), /Duplicate composite spatial stage base/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+    ...compositeSpatialConfig,
+    stages: [compositeStage('base', 100), compositeStage('other', 200)]
+  }) }), /requires setupDetection for every non-fallback stage/);
+  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
+    ...compositeSpatialConfig,
+    stages: compositeSpatialConfig.stages.map((stage) => stage.stageId === 'icebreaker'
+      ? { ...stage, control: { ...stage.control, respawnAxis: 'x' } }
+      : stage)
+  }) }), /control axis and threshold must agree/);
+});
+
+test('Antarctic delegates route selection to one setup-time generated macro', async () => {
+  const source = await readFile(new URL('../src/map/antarctic_peninsula.opy', import.meta.url), 'utf8');
+  const runtimeSource = source.split('# END AUTO-GENERATED PLATFORM MAP REVISION')[1] ?? '';
+  const routeCalls = runtimeSource.match(/platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE\(\)/g) ?? [];
+  assert.equal(routeCalls.length, 1);
+  assert.ok(runtimeSource.indexOf('waitUntil(getPlayers(Team.1).any') < runtimeSource.indexOf(routeCalls[0]!));
+  assert.doesNotMatch(runtimeSource, /DEFAULT_STAGE_(ICEBREAKER|LABORATORY)\(/);
 });
 
 test('requires each map source to declare its generated revision macro block', () => {
