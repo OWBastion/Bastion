@@ -57,16 +57,10 @@ function compositeStage(stageId: string, offset: number, setupDetection?: { posi
     stageId,
     ...(setupDetection ? { setupDetection } : {}),
     bastionPositions: [[offset + 1, offset + 2, offset + 3]],
-    resetPosition: [offset + 4, offset + 5, offset + 6],
-    endPosition: [offset + 7, offset + 8, offset + 9],
-    thirdPersonPosition: [offset + 10, offset + 11, offset + 12],
-    creditsPosition: [offset + 13, offset + 14, offset + 15],
     control: {
-      centerPositions: [[offset + 16, offset + 17, offset + 18]],
-      jumpPositions: [[offset + 19, offset + 20, offset + 21]],
-      respawnPositions: [[offset + 22, offset + 23, offset + 24]],
-      respawnAxis: 'z' as const,
-      respawnAxisThreshold: 40
+      centerPositions: [[offset + 4, offset + 5, offset + 6]],
+      jumpPositions: [[offset + 7, offset + 8, offset + 9]],
+      respawnPositions: [[offset + 10, offset + 11, offset + 12]]
     },
     portalPositions: [],
     springboardPositions: []
@@ -74,6 +68,11 @@ function compositeStage(stageId: string, offset: number, setupDetection?: { posi
 }
 
 const compositeSpatialConfig = {
+  resetPosition: [904, 905, 906],
+  endPosition: [907, 908, 909],
+  thirdPersonPosition: [910, 911, 912],
+  creditsPosition: [913, 914, 915],
+  control: { respawnAxis: 'z' as const, respawnAxisThreshold: 40 },
   composition: {
     selectionCount: 2,
     firstStageSelection: { mode: 'setup_detection', fallbackStageId: 'base' },
@@ -574,7 +573,7 @@ test('renders atomic composite stages once and selects an ordered unique route a
   });
   assert.equal(output, renderPlatformMapRevisionData(reversedSource));
   for (const offset of [100, 200, 300]) {
-    for (const positionOffset of [1, 4, 7, 10, 13, 16, 19, 22]) {
+    for (const positionOffset of [1, 4, 7, 10]) {
       const coordinate = `vect(${offset + positionOffset}, ${offset + positionOffset + 1}, ${offset + positionOffset + 2})`;
       assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
     }
@@ -582,9 +581,9 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.match(output, /if len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION, platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_RADIUS, Team\.1\)\) != 0:[\s\S]*elif len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
   assert.match(output, /_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)[\s\S]*_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)/);
   assert.match(output, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_STAGE_0\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_1\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_2\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(119, 120, 121\)\)/);
+  assert.match(output, /controlJumpPosition\.append\(vect\(207, 208, 209\)\)/);
   assert.match(output, /if stageOrder < 1:/);
-  assert.match(output, /resetPosition = vect\(104, 105, 106\)[\s\S]*endPosition = vect\(107, 108, 109\)/);
+  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
   assert.doesNotMatch(output, /macro .*PAIR|macro .*PERMUTATION/);
   const noCenterStages = compositeSpatialConfig.stages.map((stage) => ({ ...stage, control: { ...stage.control, centerPositions: [] } }));
   const noCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
@@ -594,6 +593,41 @@ test('renders atomic composite stages once and selects an ordered unique route a
     }
   }));
   assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
+});
+
+test('supports the next stage in cyclic order and emits the supplied Busan positions once', () => {
+  const positionGroups: SpatialPosition[][] = [
+    [[-387.866, 12.231, 177.954], [-372.397, 12.203, 128.218], [-301.703, 17.422, 167.231], [-330.068, 11.551, 119.593], [-327.409, 11.539, 116.231], [-277.643, 12.071, 176.188]],
+    [[-4.128, 17.014, -100.22], [36.542, 15.009, -133.395], [65.787, 15.01, -118.11], [51.653, 13.485, -97.256], [79.799, 16.029, -121.293], [102.575, 23, -133.553]],
+    [[269.78, 14.352, 213.057], [236.195, 15.616, 223.324], [206.817, 20.42, 205.305], [224.696, 16.14, 246.115], [165.586, 11.095, 265.157], [187.898, 18.595, 244.477]]
+  ];
+  const stages = positionGroups.map((bastionPositions, index) => ({
+    ...compositeStage(`stage-${index + 1}`, (index + 1) * 100, index === 0 ? undefined : { position: [index, 0, 0], radius: 30 }),
+    bastionPositions,
+    control: {
+      ...compositeStage(`stage-${index + 1}`, (index + 1) * 100).control,
+      jumpPositions: [index === 0 ? [-251.99, 11.34, 174.77] as SpatialPosition : [index + 100, index + 101, index + 102] as SpatialPosition]
+    }
+  }));
+  const spatialConfig = {
+    ...compositeSpatialConfig,
+    composition: { ...compositeSpatialConfig.composition, remainingStageSelection: 'next_in_order' },
+    stages
+  };
+  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', spatialConfig }] }]
+    }
+  }));
+
+  assert.match(output, /for platformMapRevision_BUSAN_COMPOSITE_STAGE_ORDER in range\(1\):\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX = \(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX \+ 1\) % 3\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDICES\.append\(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX\)/);
+  assert.doesNotMatch(output, /random\.choice\(platformMapRevision_BUSAN_COMPOSITE_AVAILABLE_STAGE_INDICES\)/);
+  assert.match(output, /controlJumpPosition\.append\(vect\(-251\.99, 11\.34, 174\.77\)\)/);
+  for (const position of positionGroups.flat()) {
+    const coordinate = `vect(${position.map(String).join(', ')})`;
+    assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
+  }
 });
 
 test('accepts random-first composites and rejects invalid composition constraints', () => {
@@ -641,18 +675,18 @@ test('accepts random-first composites and rejects invalid composition constraint
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
     ...compositeSpatialConfig,
     stages: [{ ...compositeStage('base', 100), control: null }, compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 })]
-  }) }), /control must be present for every stage or none/);
+  }) }), /stages\[0\]\.control must be an object/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
     ...compositeSpatialConfig,
     stages: [
-      { ...compositeStage('base', 100), control: { ...compositeStage('base', 100).control, jumpPositions: [[1, 2, 3], [4, 5, 6]] } },
+      { ...compositeStage('base', 100), control: { ...compositeStage('base', 100).control, jumpPositions: [[1, 2, 3], [4, 5, 6]], respawnPositions: [[7, 8, 9], [10, 11, 12]] } },
       compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 })
     ]
-  }) }), /one jump and one respawn position per stage/);
+  }) }), /must contain exactly one jump and one respawn position/);
   assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
     ...compositeSpatialConfig,
-    stages: [compositeStage('base', 100), { ...compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 }), control: { ...compositeStage('icebreaker', 200).control, respawnAxis: 'x' } }]
-  }) }), /control axis and threshold must agree/);
+    control: { respawnAxis: 'x', respawnAxisThreshold: null }
+  }) }), /respawnAxisThreshold must be a non-negative finite number/);
 });
 
 test('composes supported scalar controls and clears detected default centers before explicit centers', async () => {

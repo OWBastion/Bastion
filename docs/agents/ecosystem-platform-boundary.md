@@ -96,23 +96,21 @@ map title holders carry the same revision ID and an explicit slot discriminator.
   and holder references before writing any generated file;
 - preserve legacy `alternateStages` in stable `stageId` order and validate their
   finite `setupDetection` coordinates plus positive radius;
-- accept composite spatial revisions with atomic stages and composition
-  constraints, sort stages by `stageId`, and validate stage IDs, setup detection,
-  selection count, control-role shape, and compatible control axes before output;
+- accept the route-level composite projection with shared reset/end/third-person/
+  credits points and one route-level respawn axis/threshold; sort atomic stages
+  by `stageId` and validate stage IDs, setup detection, selection count, and one
+  paired control jump/respawn point per stage before output;
 - resolve a composite first stage once during map setup, using setup detection
   and its declared fallback or random first-stage selection; choose remaining
   stages randomly without replacement and retain their selection order;
-- assemble the active route by concatenating Bastion and control-center,
-  respawn, and portal positions; use the first stage's reset, third-person, and
-  credits positions, the last stage's end position, and control jump positions
-  from every selected stage except the final stage. Composite control data is
-  omitted from every stage or present in every stage; when present, each stage
-  provides one jump and one respawn position, and all stages share the same
-  respawn axis and threshold. The first selected springboard position is active
-  when present;
+- assemble the active route from the root's shared points and the selected
+  stages' Bastion, control-center, respawn, and portal positions; append each
+  stage's control jump except for the final stage. Keep the root respawn axis
+  and threshold scalar, and use the first selected springboard position when
+  present;
 - keep static and legacy alternate-stage revisions valid, and do not enable a
-  composite revision in the Agents projection until this consumer support has
-  landed;
+  composite revision in the Agents projection until this consumer support and
+  the owner-side composite control constraint have landed;
 - preserve and validate Bastion's stable IDs, supported enums, and cross-resource references;
 - merge platform metadata by stable ID only, never by localized name;
 - generate revision-scoped map/challenge/title-holder data deterministically;
