@@ -101,8 +101,9 @@ map title holders carry the same revision ID and an explicit slot discriminator.
   by `stageId` and validate stage IDs, setup detection, selection count, and one
   paired control jump/respawn point per stage before output;
 - resolve a composite first stage once during map setup, using setup detection
-  and its declared fallback or random first-stage selection; choose remaining
-  stages randomly without replacement and retain their selection order;
+  and its declared fallback or random first-stage selection; select remaining
+  stages randomly without replacement or by advancing through stable
+  `stageId` order with wraparound, as declared by the composition;
 - assemble the active route from the root's shared points and the selected
   stages' Bastion, control-center, respawn, and portal positions; append each
   stage's control jump except for the final stage. Keep the root respawn axis

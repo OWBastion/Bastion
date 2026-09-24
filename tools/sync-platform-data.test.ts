@@ -598,6 +598,48 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
 });
 
+test('generates a modulo stage successor that wraps from the final stage to the first', () => {
+  const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
+  const cycleConfig = {
+    ...compositeSpatialConfig,
+    composition: {
+      selectionCount: 3,
+      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'laboratory' },
+      remainingStageSelection: 'stage_id_cycle' as const
+    },
+    stages: [
+      compositeStage('laboratory', 300),
+      compositeStage('base', 100, setupDetection),
+      compositeStage('icebreaker', 200, setupDetection)
+    ]
+  };
+  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: cycleConfig }] }]
+    }
+  }));
+  const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
+  const selectedStage = 'platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX';
+  const selectedStages = 'platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDICES';
+  const stageOrder = 'platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER';
+  const selectionLoopStart = setupMacro.indexOf(`    for ${stageOrder} in range(2):`);
+  const stageDispatchStart = setupMacro.indexOf(`    for ${stageOrder} in range(3):`, selectionLoopStart);
+
+  assert.ok(selectionLoopStart >= 0);
+  assert.ok(stageDispatchStart > selectionLoopStart);
+  assert.equal(setupMacro.slice(selectionLoopStart, stageDispatchStart), [
+    `    for ${stageOrder} in range(2):`,
+    `        ${selectedStage} = (${selectedStage} + 1) % 3`,
+    `        ${selectedStages}.append(${selectedStage})`,
+    ''
+  ].join('\n'));
+  assert.ok(setupMacro.includes([
+    `        ${selectedStage} = 2`,
+    `    ${selectedStages}.append(${selectedStage})`
+  ].join('\n')));
+});
+
 test('accepts random-first composites and rejects invalid composition constraints', () => {
   const randomFirstConfig = {
     ...compositeSpatialConfig,
