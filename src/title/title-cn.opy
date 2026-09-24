@@ -231,9 +231,9 @@ enum MapTITLEKey:
 
 # 釜山
 #!define DATA_BUSAN [ \
-   playerNameToIndexDelimited(["吾携秋水揽星河"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   [], \
+   [], \
+   [], \
    []\
 ]
 
