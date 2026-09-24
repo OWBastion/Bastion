@@ -913,12 +913,6 @@ function renderCompositeSetupMacro(
 
   lines.push(`macro ${macroName}_SETUP_ROUTE():`);
   lines.push(`    ${compositeRouteScratchNames(mapId).centerPositionsInitialized} = false`);
-  lines.push(`    resetPosition = ${renderSpatialPosition(spatialConfig.resetPosition)}`);
-  lines.push(`    endPosition = ${renderSpatialPosition(spatialConfig.endPosition)}`);
-  lines.push(`    thirdPersonPosition = ${renderSpatialPosition(spatialConfig.thirdPersonPosition)}`);
-  lines.push(`    creditsPosition = ${renderSpatialPosition(spatialConfig.creditsPosition)}`);
-  lines.push(`    controlRespawnAxis = ${String({ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis])}`);
-  lines.push(`    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`);
   lines.push('    controlJumpPosition = []');
   lines.push('    controlRespawnPosition = []');
   lines.push(`    ${availableStages} = [${stageIndices.join(', ')}]`);
@@ -986,9 +980,15 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     const mapText = JSON.stringify(map.mapName);
     lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
     lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
-    lines.push('');
     if (isComposite) {
       const composite = revision.spatialConfig as CompositeSpatialConfig;
+      lines.push(`    resetPosition = ${renderSpatialPosition(composite.resetPosition)}`);
+      lines.push(`    endPosition = ${renderSpatialPosition(composite.endPosition)}`);
+      lines.push(`    thirdPersonPosition = ${renderSpatialPosition(composite.thirdPersonPosition)}`);
+      lines.push(`    creditsPosition = ${renderSpatialPosition(composite.creditsPosition)}`);
+      lines.push(`    controlRespawnAxis = ${String({ x: 0, y: 1, z: 2 }[composite.control.respawnAxis])}`);
+      lines.push(`    controlRespawnAxisThreshold = ${composite.control.respawnAxisThreshold}`);
+      lines.push('');
       for (const [stageIndex, stage] of composite.stages.entries()) {
         lines.push('');
         if (stage.setupDetection) {
@@ -999,6 +999,7 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
       }
       renderCompositeSetupMacro(lines, map.mapId, variant, composite);
     } else {
+      lines.push('');
       const legacy = revision.spatialConfig as LegacySpatialConfig;
       renderSpatialAssignments(lines, legacy, mapKey === 'DATA_ANTARCTIC_PENINSULA');
       for (const stage of legacy.alternateStages) {

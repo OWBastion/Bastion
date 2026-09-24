@@ -583,7 +583,10 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.match(output, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_STAGE_0\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_1\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_2\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)/);
   assert.match(output, /controlJumpPosition\.append\(vect\(207, 208, 209\)\)/);
   assert.match(output, /if stageOrder < 1:/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
+  const revisionMacro = output.split('macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_0')[0]!;
+  assert.match(revisionMacro, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
+  const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
+  assert.doesNotMatch(setupMacro, /(?:resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis|controlRespawnAxisThreshold)\s*=/);
   assert.doesNotMatch(output, /macro .*PAIR|macro .*PERMUTATION/);
   const noCenterStages = compositeSpatialConfig.stages.map((stage) => ({ ...stage, control: { ...stage.control, centerPositions: [] } }));
   const noCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
