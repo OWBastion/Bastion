@@ -1052,6 +1052,15 @@ export function renderPlatformMapRevisionMapSources({
     const sourceFile = matches[0]!;
     const content = replaceManagedBlock(sourceFile.content, MAP_REVISION_BEGIN, MAP_REVISION_END, renderMapRevisionBlock(map));
     if (content === null) throw new Error(`${sourceFile.file} must contain the generated platform revision macro block`);
+    const generatedBlockEnd = content.indexOf(MAP_REVISION_END) + MAP_REVISION_END.length;
+    const mapRuleSource = content.slice(generatedBlockEnd);
+    for (const revision of map.revisions) {
+      if (!('composition' in revision.spatialConfig)) continue;
+      const setupRouteMacro = `${mapRevisionMacroName(map.mapId, mapRevisionVariantName(revision))}_SETUP_ROUTE()`;
+      if (!mapRuleSource.includes(setupRouteMacro)) {
+        throw new Error(`${sourceFile.file} must call ${setupRouteMacro} for composite revision ${revision.gameplayRevisionId}`);
+      }
+    }
     return { path: path.join(MAP_SOURCE_DIR, sourceFile.file), content };
   });
 }
