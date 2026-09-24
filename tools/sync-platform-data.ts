@@ -290,6 +290,13 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
     } else if (stages.some((stage) => stage.setupDetection)) {
       throw new Error(`${label}.stages.setupDetection is not supported with random first-stage selection`);
     }
+    const controlPresence = new Set(stages.map((stage) => stage.control !== null));
+    if (controlPresence.size > 1) throw new Error(`${label}.stages control must be present for every stage or none`);
+    if (controlPresence.has(true) && stages.some((stage) => stage.control!.jumpPositions.length !== 1 || stage.control!.respawnPositions.length !== 1)) {
+      throw new Error(`${label}.stages control must contain one jump and one respawn position per stage`);
+    }
+    const configuredAxes = stages.flatMap((stage) => stage.control ? [`${stage.control.respawnAxis}:${stage.control.respawnAxisThreshold}`] : []);
+    if (new Set(configuredAxes).size > 1) throw new Error(`${label}.stages control axis and threshold must agree for route composition`);
     return {
       composition: { selectionCount, firstStageSelection, remainingStageSelection: 'random_unique' },
       stages
@@ -838,6 +845,11 @@ function renderCompositeStageMacro(
   lines.push('    endPosition = ' + renderSpatialPosition(stage.endPosition));
 
   if (stage.control) {
+    lines.push('    if stageOrder == 0:');
+    lines.push('        controlJumpPosition = []');
+    lines.push('        controlRespawnPosition = []');
+    lines.push('    controlRespawnAxis = ' + (stage.control.respawnAxis === null ? 'null' : String({ x: 0, y: 1, z: 2 }[stage.control.respawnAxis])));
+    lines.push(`    controlRespawnAxisThreshold = ${stage.control.respawnAxisThreshold === null ? 'null' : String(stage.control.respawnAxisThreshold)}`);
     if (stage.control.centerPositions.length > 0) {
       lines.push(`    if ${centerPositionsInitialized} != true:`);
       lines.push('        controlCenterPosition = []');
@@ -851,18 +863,7 @@ function renderCompositeStageMacro(
       stage.control.jumpPositions.forEach((position) => lines.push(`        controlJumpPosition.append(${renderSpatialPosition(position)})`));
     }
     if (stage.control.respawnPositions.length > 0) {
-      lines.push('    if controlRespawnPosition == null:');
-      lines.push('        controlRespawnPosition = []');
-      lines.push('    if controlRespawnAxisByRespawnIndex == null:');
-      lines.push('        controlRespawnAxisByRespawnIndex = []');
-      lines.push('        controlRespawnAxisThresholdByRespawnIndex = []');
-      const axis = stage.control.respawnAxis === null ? 'null' : String({ x: 0, y: 1, z: 2 }[stage.control.respawnAxis]);
-      const threshold = stage.control.respawnAxisThreshold === null ? 'null' : String(stage.control.respawnAxisThreshold);
-      stage.control.respawnPositions.forEach((position) => {
-        lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(position)})`);
-        lines.push(`    controlRespawnAxisByRespawnIndex.append(${axis})`);
-        lines.push(`    controlRespawnAxisThresholdByRespawnIndex.append(${threshold})`);
-      });
+      stage.control.respawnPositions.forEach((position) => lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(position)})`));
     }
   }
 

@@ -105,9 +105,11 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - assemble the active route by concatenating Bastion and control-center,
   respawn, and portal positions; use the first stage's reset, third-person, and
   credits positions, the last stage's end position, and control jump positions
-  from every selected stage except the final stage. Composite control stages
-  provide one jump and one respawn position each and share one respawn axis;
-  the first selected springboard position is active when present;
+  from every selected stage except the final stage. Composite control data is
+  omitted from every stage or present in every stage; when present, each stage
+  provides one jump and one respawn position, and all stages share the same
+  respawn axis and threshold. The first selected springboard position is active
+  when present;
 - keep static and legacy alternate-stage revisions valid, and do not enable a
   composite revision in the Agents projection until this consumer support has
   landed;
