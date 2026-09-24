@@ -934,10 +934,7 @@ function renderCompositeSetupMacro(
   lines.push(`    ${selectedStages}.append(${selectedStage})`);
   if (spatialConfig.composition.remainingStageSelection === 'stage_id_cycle') {
     lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
-    stages.forEach((_, index) => {
-      lines.push(`        ${index === 0 ? 'if' : 'elif'} ${selectedStage} == ${index}:`);
-      lines.push(`            ${selectedStage} = ${(index + 1) % stages.length}`);
-    });
+    lines.push(`        ${selectedStage} = (${selectedStage} + 1) % ${stages.length}`);
     lines.push(`        ${selectedStages}.append(${selectedStage})`);
   } else {
     lines.push(`    ${availableStages}.remove(${selectedStage})`);
