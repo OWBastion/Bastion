@@ -55,6 +55,13 @@ macro platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS():
     thirdPersonPosition = vect(129.56, 62.45, -153.472)
     creditsPosition = vect(137.54, 63.92, -158.9)
 
+macro platformMapRevision_ILIOS_DEFAULT_SETUP_ROUTE():
+    if len(getPlayersInRadius(platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_POSITION, platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_RADIUS, Team.1)) != 0:
+        platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE()
+    elif len(getPlayersInRadius(platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_POSITION, platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_RADIUS, Team.1)) != 0:
+        platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS()
+
+
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 rule "map - 伊利奥斯":
