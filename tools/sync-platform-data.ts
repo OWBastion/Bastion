@@ -92,7 +92,7 @@ type CompositeSpatialConfig = {
   composition: {
     selectionCount: number;
     firstStageSelection: { mode: 'setup_detection'; fallbackStageId: string } | { mode: 'random' };
-    remainingStageSelection: 'random_unique' | 'next_in_order';
+    remainingStageSelection: 'random_unique';
   };
   stages: CompositeSpatialStage[];
 };
@@ -252,8 +252,8 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
       throw new Error(`${label}.composition.selectionCount must be an integer from 2 to 16`);
     }
     const remainingStageSelection = rawComposition.remainingStageSelection;
-    if (remainingStageSelection !== 'random_unique' && remainingStageSelection !== 'next_in_order') {
-      throw new Error(`${label}.composition.remainingStageSelection must be random_unique or next_in_order`);
+    if (remainingStageSelection !== 'random_unique') {
+      throw new Error(`${label}.composition.remainingStageSelection must be random_unique`);
     }
     const rawFirstStageSelection = rawComposition.firstStageSelection;
     if (!rawFirstStageSelection || typeof rawFirstStageSelection !== 'object' || Array.isArray(rawFirstStageSelection)) {
@@ -936,12 +936,8 @@ function renderCompositeSetupMacro(
     lines.push(`        ${selectedStage} = ${fallbackIndex}`);
   }
   lines.push(`    ${selectedStages}.append(${selectedStage})`);
-  lines.push(`${availableStages}.remove(${selectedStage})`);
-  if (spatialConfig.composition.remainingStageSelection === 'next_in_order') {
-    lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
-    lines.push(`        ${selectedStage} = (${selectedStage} + 1) % ${stages.length}`);
-    lines.push(`        ${selectedStages}.append(${selectedStage})`);
-  } else if (spatialConfig.composition.selectionCount > 2) {
+  lines.push(`    ${availableStages}.remove(${selectedStage})`);
+  if (spatialConfig.composition.selectionCount > 2) {
     lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
     lines.push(`        ${selectedStage} = random.choice(${availableStages})`);
     lines.push(`        ${selectedStages}.append(${selectedStage})`);

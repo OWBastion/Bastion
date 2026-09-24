@@ -595,41 +595,6 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
 });
 
-test('supports the next stage in cyclic order and emits the supplied Busan positions once', () => {
-  const positionGroups: SpatialPosition[][] = [
-    [[-387.866, 12.231, 177.954], [-372.397, 12.203, 128.218], [-301.703, 17.422, 167.231], [-330.068, 11.551, 119.593], [-327.409, 11.539, 116.231], [-277.643, 12.071, 176.188]],
-    [[-4.128, 17.014, -100.22], [36.542, 15.009, -133.395], [65.787, 15.01, -118.11], [51.653, 13.485, -97.256], [79.799, 16.029, -121.293], [102.575, 23, -133.553]],
-    [[269.78, 14.352, 213.057], [236.195, 15.616, 223.324], [206.817, 20.42, 205.305], [224.696, 16.14, 246.115], [165.586, 11.095, 265.157], [187.898, 18.595, 244.477]]
-  ];
-  const stages = positionGroups.map((bastionPositions, index) => ({
-    ...compositeStage(`stage-${index + 1}`, (index + 1) * 100, index === 0 ? undefined : { position: [index, 0, 0], radius: 30 }),
-    bastionPositions,
-    control: {
-      ...compositeStage(`stage-${index + 1}`, (index + 1) * 100).control,
-      jumpPositions: [index === 0 ? [-251.99, 11.34, 174.77] as SpatialPosition : [index + 100, index + 101, index + 102] as SpatialPosition]
-    }
-  }));
-  const spatialConfig = {
-    ...compositeSpatialConfig,
-    composition: { ...compositeSpatialConfig.composition, remainingStageSelection: 'next_in_order' },
-    stages
-  };
-  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', spatialConfig }] }]
-    }
-  }));
-
-  assert.match(output, /for platformMapRevision_BUSAN_COMPOSITE_STAGE_ORDER in range\(1\):\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX = \(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX \+ 1\) % 3\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDICES\.append\(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX\)/);
-  assert.doesNotMatch(output, /random\.choice\(platformMapRevision_BUSAN_COMPOSITE_AVAILABLE_STAGE_INDICES\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(-251\.99, 11\.34, 174\.77\)\)/);
-  for (const position of positionGroups.flat()) {
-    const coordinate = `vect(${position.map(String).join(', ')})`;
-    assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
-  }
-});
-
 test('accepts random-first composites and rejects invalid composition constraints', () => {
   const randomFirstConfig = {
     ...compositeSpatialConfig,
