@@ -97,6 +97,13 @@ macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY():
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
+macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE():
+    if len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS, Team.1)) != 0:
+        platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER()
+    elif len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_RADIUS, Team.1)) != 0:
+        platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY()
+
+
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 rule "map - 南极半岛":
@@ -105,7 +112,4 @@ rule "map - 南极半岛":
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT()
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
-    if len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS, Team.1)) != 0:
-        platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER()
-    elif len(getPlayersInRadius(platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION, platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_RADIUS, Team.1)) != 0:
-        platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY()
+    platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE()
