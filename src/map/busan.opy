@@ -46,9 +46,6 @@ macro platformMapRevision_BUSAN_DEFAULT():
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
 
-macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE():
-    pass
-
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 
@@ -59,4 +56,3 @@ rule "map - 釜山":
     platformMapRevision_BUSAN_DEFAULT()
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
-    platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE()

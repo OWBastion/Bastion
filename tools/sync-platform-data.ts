@@ -1022,11 +1022,6 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
           lines.push(`        ${stageMacroName(map.mapId, variant, stage.stageId)}()`);
         });
         lines.push('');
-      } else if (mapKey === 'DATA_BUSAN') {
-        lines.push('');
-        lines.push(`macro ${macroName}_SETUP_ROUTE():`);
-        lines.push('    pass');
-        lines.push('');
       }
     }
     lines.push('');

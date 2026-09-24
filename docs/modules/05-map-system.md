@@ -46,7 +46,7 @@
 - 弹板地图：`temple_of_anubis.opy`, `esperanca.opy`（`springBoardPosition`）
 - 子图判定地图：`antarctic_peninsula.opy`（当前以 `alternateStages` 选择完整配置；切换到复合投影后 Bastion 在运行时组装路线）、`ilios.opy`（平台 selector 选定完整子图配置）
 
-南极半岛的地图规则在首名玩家出生后只调用一次生成的 setup-route 宏。当前平台投影仍是 `alternateStages`，因此继续选择完整子图配置；平台启用 `composition + stages` 后，该宏会检测首段并使用指定 fallback，再按配置随机抽取不重复阶段，或按阶段 ID 顺序循环选择后续阶段，在同一地图设置规则中组装活动路线。复合数据由路线根节点提供 reset、end、第三人称、credits 点位及单一重生轴/阈值；每个原子阶段提供 Bastion、control center、一个 jump/respawn 配对、portal 与 springboard 点位。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
+南极半岛的地图规则在首名玩家出生后只调用一次生成的 setup-route 宏。当前平台投影仍是 `alternateStages`，因此继续选择完整子图配置；平台启用 `composition + stages` 后，该宏会检测首段并使用指定 fallback，再从剩余阶段中随机选择所需数量，保留顺序且不重复，在同一地图设置规则中组装活动路线。复合数据由路线根节点提供 reset、end、第三人称、credits 点位及单一重生轴/阈值；每个原子阶段提供 Bastion、control center、一个 jump/respawn 配对、portal 与 springboard 点位。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
 
 ## 地图清单摘要（38 个文件）
 

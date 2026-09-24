@@ -102,7 +102,7 @@ map title holders carry the same revision ID and an explicit slot discriminator.
   paired control jump/respawn point per stage before output;
 - resolve a composite first stage once during map setup, using setup detection
   and its declared fallback or random first-stage selection; choose remaining
-  stages randomly without replacement or in cyclic stage-ID order as declared;
+  stages randomly without replacement and retain their selection order;
 - assemble the active route from the root's shared points and the selected
   stages' Bastion, control-center, respawn, and portal positions; append each
   stage's control jump except for the final stage. Keep the root respawn axis

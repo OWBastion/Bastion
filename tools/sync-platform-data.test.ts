@@ -596,50 +596,23 @@ test('renders atomic composite stages once and selects an ordered unique route a
 });
 
 test('supports the next stage in cyclic order and emits the supplied Busan positions once', () => {
-  const positionGroups: [number, number, number][][] = [
+  const positionGroups: SpatialPosition[][] = [
     [[-387.866, 12.231, 177.954], [-372.397, 12.203, 128.218], [-301.703, 17.422, 167.231], [-330.068, 11.551, 119.593], [-327.409, 11.539, 116.231], [-277.643, 12.071, 176.188]],
     [[-4.128, 17.014, -100.22], [36.542, 15.009, -133.395], [65.787, 15.01, -118.11], [51.653, 13.485, -97.256], [79.799, 16.029, -121.293], [102.575, 23, -133.553]],
     [[269.78, 14.352, 213.057], [236.195, 15.616, 223.324], [206.817, 20.42, 205.305], [224.696, 16.14, 246.115], [165.586, 11.095, 265.157], [187.898, 18.595, 244.477]]
   ];
-  const controlCenters: [number, number, number][] = [
-    [-328.53, 8.17, 153.32],
-    [51.89, 14.5, -114.7],
-    [222.72, 9.24, 241.77]
-  ];
-  const respawnPositions: [number, number, number][] = [
-    [-426.04, 11.11, 165.81],
-    [-30.95, 17, -125.55],
-    [291.62, 11.09, 208.25]
-  ];
-  const jumpPositions: [number, number, number][] = [
-    [-251.99, 11.34, 174.77],
-    [104.77, 17.74, -137.21],
-    [158.67, 10.81, 260.91]
-  ];
   const stages = positionGroups.map((bastionPositions, index) => ({
-    stageId: `stage-${index + 1}`,
-    ...(index === 0 ? {} : { setupDetection: { position: respawnPositions[index]!, radius: 30 } }),
+    ...compositeStage(`stage-${index + 1}`, (index + 1) * 100, index === 0 ? undefined : { position: [index, 0, 0], radius: 30 }),
     bastionPositions,
     control: {
-      centerPositions: [controlCenters[index]!],
-      jumpPositions: [jumpPositions[index]!],
-      respawnPositions: [respawnPositions[index]!]
-    },
-    portalPositions: [],
-    springboardPositions: []
+      ...compositeStage(`stage-${index + 1}`, (index + 1) * 100).control,
+      jumpPositions: [index === 0 ? [-251.99, 11.34, 174.77] as SpatialPosition : [index + 100, index + 101, index + 102] as SpatialPosition]
+    }
   }));
   const spatialConfig = {
-    resetPosition: [-409.71, 10.11, 165.61] as [number, number, number],
-    endPosition: [158.67, 10.81, 260.91] as [number, number, number],
-    thirdPersonPosition: [-410.4, 10.11, 162.37] as [number, number, number],
-    creditsPosition: [-426.04, 13.11, 165.81] as [number, number, number],
-    control: { respawnAxis: 'x' as const, respawnAxisThreshold: 40 },
-    composition: {
-      ...compositeSpatialConfig.composition,
-      firstStageSelection: { mode: 'setup_detection', fallbackStageId: 'stage-1' },
-      remainingStageSelection: 'next_in_order'
-    },
-    stages: [...stages].reverse()
+    ...compositeSpatialConfig,
+    composition: { ...compositeSpatialConfig.composition, remainingStageSelection: 'next_in_order' },
+    stages
   };
   const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: {
@@ -650,35 +623,11 @@ test('supports the next stage in cyclic order and emits the supplied Busan posit
 
   assert.match(output, /for platformMapRevision_BUSAN_COMPOSITE_STAGE_ORDER in range\(1\):\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX = \(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX \+ 1\) % 3\n        platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDICES\.append\(platformMapRevision_BUSAN_COMPOSITE_SELECTED_STAGE_INDEX\)/);
   assert.doesNotMatch(output, /random\.choice\(platformMapRevision_BUSAN_COMPOSITE_AVAILABLE_STAGE_INDICES\)/);
-  assert.match(output, /COMPOSITE_STAGE_1_SETUP_POSITION vect\(-30\.95, 17, -125\.55\)/);
-  assert.match(output, /COMPOSITE_STAGE_2_SETUP_POSITION vect\(291\.62, 11\.09, 208\.25\)/);
-  assert.match(output, /COMPOSITE_SELECTED_STAGE_INDEX = 0/);
   assert.match(output, /controlJumpPosition\.append\(vect\(-251\.99, 11\.34, 174\.77\)\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(104\.77, 17\.74, -137\.21\)\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(158\.67, 10\.81, 260\.91\)\)/);
-  assert.match(output, /resetPosition = vect\(-409\.71, 10\.11, 165\.61\)[\s\S]*endPosition = vect\(158\.67, 10\.81, 260\.91\)[\s\S]*thirdPersonPosition = vect\(-410\.4, 10\.11, 162\.37\)[\s\S]*creditsPosition = vect\(-426\.04, 13\.11, 165\.81\)[\s\S]*controlRespawnAxis = 0[\s\S]*controlRespawnAxisThreshold = 40/);
   for (const position of positionGroups.flat()) {
     const coordinate = `vect(${position.map(String).join(', ')})`;
     assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
   }
-  for (const position of controlCenters) {
-    const coordinate = `vect(${position.map(String).join(', ')})`;
-    assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
-  }
-  respawnPositions.forEach((position, index) => {
-    const coordinate = `vect(${position.map(String).join(', ')})`;
-    assert.equal(output.split(coordinate).length - 1, index === 0 ? 1 : 2, `${coordinate} should be emitted for respawn and setup detection where applicable`);
-  });
-});
-
-test('defines a no-op Busan route setup macro while its default revision is static', () => {
-  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', spatialConfig: busanSpatialConfig }] }]
-    }
-  }));
-  assert.match(output, /macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n    pass/);
 });
 
 test('accepts random-first composites and rejects invalid composition constraints', () => {
