@@ -92,7 +92,7 @@ type CompositeSpatialConfig = {
   composition: {
     selectionCount: number;
     firstStageSelection: { mode: 'setup_detection'; fallbackStageId: string } | { mode: 'random' };
-    remainingStageSelection: 'random_unique';
+    remainingStageSelection: 'random_unique' | 'stage_id_cycle';
   };
   stages: CompositeSpatialStage[];
 };
@@ -252,8 +252,8 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
       throw new Error(`${label}.composition.selectionCount must be an integer from 2 to 16`);
     }
     const remainingStageSelection = rawComposition.remainingStageSelection;
-    if (remainingStageSelection !== 'random_unique') {
-      throw new Error(`${label}.composition.remainingStageSelection must be random_unique`);
+    if (remainingStageSelection !== 'random_unique' && remainingStageSelection !== 'stage_id_cycle') {
+      throw new Error(`${label}.composition.remainingStageSelection must be random_unique or stage_id_cycle`);
     }
     const rawFirstStageSelection = rawComposition.firstStageSelection;
     if (!rawFirstStageSelection || typeof rawFirstStageSelection !== 'object' || Array.isArray(rawFirstStageSelection)) {
@@ -307,7 +307,7 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
         portalPositions: validateSpatialPositions(stage.portalPositions, `${stageLabel}.portalPositions`, false),
         springboardPositions: validateSpatialPositions(stage.springboardPositions, `${stageLabel}.springboardPositions`, false)
       };
-    }).sort((left, right) => left.stageId.localeCompare(right.stageId));
+    }).sort((left, right) => left.stageId < right.stageId ? -1 : left.stageId > right.stageId ? 1 : 0);
     const routeControlValue = config.control;
     assertExactKeys(routeControlValue, `${label}.control`, ['respawnAxis', 'respawnAxisThreshold']);
     const routeControl = routeControlValue as Record<string, unknown>;
@@ -915,7 +915,9 @@ function renderCompositeSetupMacro(
   lines.push(`    ${compositeRouteScratchNames(mapId).centerPositionsInitialized} = false`);
   lines.push('    controlJumpPosition = []');
   lines.push('    controlRespawnPosition = []');
-  lines.push(`    ${availableStages} = [${stageIndices.join(', ')}]`);
+  if (firstSelection.mode === 'random' || spatialConfig.composition.remainingStageSelection === 'random_unique') {
+    lines.push(`    ${availableStages} = [${stageIndices.join(', ')}]`);
+  }
   lines.push(`    ${selectedStages} = []`);
   if (firstSelection.mode === 'random') {
     lines.push(`    ${selectedStage} = random.choice(${availableStages})`);
@@ -930,16 +932,25 @@ function renderCompositeSetupMacro(
     lines.push(`        ${selectedStage} = ${fallbackIndex}`);
   }
   lines.push(`    ${selectedStages}.append(${selectedStage})`);
-  lines.push(`    ${availableStages}.remove(${selectedStage})`);
-  if (spatialConfig.composition.selectionCount > 2) {
+  if (spatialConfig.composition.remainingStageSelection === 'stage_id_cycle') {
     lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
-    lines.push(`        ${selectedStage} = random.choice(${availableStages})`);
+    stages.forEach((_, index) => {
+      lines.push(`        ${index === 0 ? 'if' : 'elif'} ${selectedStage} == ${index}:`);
+      lines.push(`            ${selectedStage} = ${(index + 1) % stages.length}`);
+    });
     lines.push(`        ${selectedStages}.append(${selectedStage})`);
-    lines.push(`        ${availableStages}.remove(${selectedStage})`);
   } else {
-    lines.push(`    ${selectedStage} = random.choice(${availableStages})`);
-    lines.push(`    ${selectedStages}.append(${selectedStage})`);
     lines.push(`    ${availableStages}.remove(${selectedStage})`);
+    if (spatialConfig.composition.selectionCount > 2) {
+      lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount - 1}):`);
+      lines.push(`        ${selectedStage} = random.choice(${availableStages})`);
+      lines.push(`        ${selectedStages}.append(${selectedStage})`);
+      lines.push(`        ${availableStages}.remove(${selectedStage})`);
+    } else {
+      lines.push(`    ${selectedStage} = random.choice(${availableStages})`);
+      lines.push(`    ${selectedStages}.append(${selectedStage})`);
+      lines.push(`    ${availableStages}.remove(${selectedStage})`);
+    }
   }
   lines.push(`    for ${stageOrder} in range(${spatialConfig.composition.selectionCount}):`);
   stages.forEach((_, index) => {
