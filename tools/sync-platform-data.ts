@@ -992,7 +992,8 @@ function renderSpawnDetectedCompositeRoutes(
     lines.push(`    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`);
     lines.push(`    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`);
     lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', true));
-    lines.push(...renderVectorAssignment('controlCenterPosition', route.flatMap((stage) => stage.control.centerPositions), '    '));
+    const centerPositions = route.flatMap((stage) => stage.control.centerPositions);
+    if (centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', centerPositions, '    '));
     lines.push(...renderVectorAssignment('controlJumpPosition', route.slice(0, -1).flatMap((stage) => stage.control.jumpPositions), '    '));
     lines.push(...renderVectorAssignment('controlRespawnPosition', route.flatMap((stage) => stage.control.respawnPositions), '    '));
     const portals = route.flatMap((stage) => stage.portalPositions);
