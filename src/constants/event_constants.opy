@@ -59,7 +59,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_0_DURATION 5
 # Weight（权重）
-#!define EVT_BUFF_0_WEIGHT 1.5
+#!define EVT_BUFF_0_WEIGHT 1.4
 
 # --- ID 1: 疾风祝福 ---
 # Duration（秒）
