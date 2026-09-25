@@ -1057,7 +1057,8 @@ export function renderPlatformMapRevisionMapSources({
     for (const revision of map.revisions) {
       if (!('composition' in revision.spatialConfig)) continue;
       const setupRouteMacro = `${mapRevisionMacroName(map.mapId, mapRevisionVariantName(revision))}_SETUP_ROUTE()`;
-      if (!mapRuleSource.includes(setupRouteMacro)) {
+      const hasExecutableSetupRouteCall = mapRuleSource.split(/\r?\n/).some((line) => line.split('#', 1)[0]?.trim() === setupRouteMacro);
+      if (!hasExecutableSetupRouteCall) {
         throw new Error(`${sourceFile.file} must call ${setupRouteMacro} for composite revision ${revision.gameplayRevisionId}`);
       }
     }
