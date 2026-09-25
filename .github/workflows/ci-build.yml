@@ -20,7 +20,8 @@ jobs:
     name: OverPy and Wright
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
-      WRIGHT_VERSION: 0.2.23
+      WRIGHT_VERSION: 0.2.37
+      OPY_PROVIDER_VERSION: 0.1.57
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -55,8 +56,33 @@ jobs:
             | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
 
+      - name: Install pinned OverPy provider
+        run: wright provider update opy --version "${OPY_PROVIDER_VERSION}"
+
       - name: Check Bastion source with Wright and opy-rs
-        run: wright check src/main.opy --kind opy --root .
+        run: |
+          wright check src/main.opy --kind opy --root .
+          wright check src/externalMain.opy --kind opy --root .
 
       - name: Check generated Workshop with Wright and workshop-rs
-        run: wright check build/cn-zh-CN.ow --kind workshop
+        run: |
+          wright check build/cn-zh-CN.ow --kind workshop
+          wright check build/external-en-US.ow --kind workshop
+
+      - name: Compare Wright and OverPy output
+        run: |
+          set -euo pipefail
+          mkdir -p build/wright
+          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/wright/cn-zh-CN.ow
+          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/wright/external-en-US.ow
+          for pair in "cn-zh-CN:zh-CN" "external-en-US:en-US"; do
+            name="${pair%%:*}"; locale="${pair##*:}"
+            wright compile "build/${name}.ow" --kind workshop --locale "${locale}" -o "build/wright/${name}.overpy.ow"
+            wright compile "build/wright/${name}.ow" --kind workshop --locale "${locale}" -o "build/wright/${name}.wright.ow"
+            {
+              echo "### ${name}: canonical Wright vs OverPy diff"
+              echo '```diff'
+              diff "build/wright/${name}.overpy.ow" "build/wright/${name}.wright.ow" || true
+              echo '```'
+            } >> "${GITHUB_STEP_SUMMARY}"
+          done
