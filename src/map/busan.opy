@@ -23,7 +23,7 @@ macro platformMapRevision_BUSAN_DEFAULT():
 #!define platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_RADIUS 30
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_0():
     resetPosition = vect(-409.71, 10.11, 165.61)
-    endPosition = vect(158.67, 10.81, 260.91)
+    endPosition = vect(104.77, 17.74, -137.21)
     thirdPersonPosition = vect(-410.4, 10.11, 162.37)
     creditsPosition = vect(-426.04, 13.11, 165.81)
     controlRespawnAxis = 0
@@ -55,10 +55,10 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_0():
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
-    resetPosition = vect(-409.71, 10.11, 165.61)
+    resetPosition = vect(-30.05, 17.00, -118.12)
     endPosition = vect(158.67, 10.81, 260.91)
-    thirdPersonPosition = vect(-410.4, 10.11, 162.37)
-    creditsPosition = vect(-426.04, 13.11, 165.81)
+    thirdPersonPosition = vect(-30.05, 17.00, -133.42)
+    creditsPosition = vect(-43.73, 19.00, -125.54)
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
     bastionPosition = compressed([
@@ -88,10 +88,10 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_2():
-    resetPosition = vect(-409.71, 10.11, 165.61)
-    endPosition = vect(158.67, 10.81, 260.91)
-    thirdPersonPosition = vect(-410.4, 10.11, 162.37)
-    creditsPosition = vect(-426.04, 13.11, 165.81)
+    resetPosition = vect(282.34, 12.10, 201.72)
+    endPosition = vect(-251.99, 11.34, 174.77)
+    thirdPersonPosition = vect(289.73, 12.10, 199.05)
+    creditsPosition = vect(297.09, 14.10, 208.95)
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
     bastionPosition = compressed([
@@ -135,7 +135,8 @@ macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE():
 rule "map - 釜山":
     @Condition __currentMap___ == Map.BUSAN
 
-    masteryRunCode = ""
+    __currentMapText___ = "釜山"
+    __currentMapPioneerText___ = "王牌驾驶员"
     platformMapRevision_BUSAN_DEFAULT()
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
