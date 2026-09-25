@@ -21,7 +21,7 @@ jobs:
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
       WRIGHT_VERSION: 0.2.37
-      OPY_PROVIDER_VERSION: 0.1.57
+      OPY_PROVIDER_VERSION: 0.1.58
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -69,20 +69,32 @@ jobs:
           wright check build/cn-zh-CN.ow --kind workshop
           wright check build/external-en-US.ow --kind workshop
 
+      - name: Build production entries with Wright
+        run: |
+          set -euo pipefail
+          mkdir -p build/compare/overpy build/compare/wright build/compare/canonical
+          cp build/cn-zh-CN.ow build/external-en-US.ow build/compare/overpy/
+          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/compare/wright/cn-zh-CN.ow
+          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/compare/wright/external-en-US.ow
+
       - name: Compare Wright and OverPy output
         run: |
           set -euo pipefail
-          mkdir -p build/wright
-          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/wright/cn-zh-CN.ow
-          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/wright/external-en-US.ow
           for pair in "cn-zh-CN:zh-CN" "external-en-US:en-US"; do
             name="${pair%%:*}"; locale="${pair##*:}"
-            wright compile "build/${name}.ow" --kind workshop --locale "${locale}" -o "build/wright/${name}.overpy.ow"
-            wright compile "build/wright/${name}.ow" --kind workshop --locale "${locale}" -o "build/wright/${name}.wright.ow"
+            wright compile "build/compare/overpy/${name}.ow" --kind workshop --locale "${locale}" -o "build/compare/canonical/${name}.overpy.ow"
+            wright compile "build/compare/wright/${name}.ow" --kind workshop --locale "${locale}" -o "build/compare/canonical/${name}.wright.ow"
             {
               echo "### ${name}: canonical Wright vs OverPy diff"
               echo '```diff'
-              diff "build/wright/${name}.overpy.ow" "build/wright/${name}.wright.ow" || true
+              diff "build/compare/canonical/${name}.overpy.ow" "build/compare/canonical/${name}.wright.ow" || true
               echo '```'
             } >> "${GITHUB_STEP_SUMMARY}"
           done
+
+      - name: Upload OverPy and Wright builds
+        uses: actions/upload-artifact@v7
+        with:
+          name: bastion-builds
+          path: build/compare
+          retention-days: 14
