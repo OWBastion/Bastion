@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, prepareGeneratedPlatformFiles, renderPlatformMapRevisionData, syncPlatformData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
+import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, prepareGeneratedPlatformFiles, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources, syncPlatformData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
 import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
@@ -735,6 +735,23 @@ test('Antarctic delegates route selection to one setup-time generated macro', as
   assert.equal(routeCalls.length, 1);
   assert.ok(runtimeSource.indexOf('waitUntil(getPlayers(Team.1).any') < runtimeSource.indexOf(routeCalls[0]!));
   assert.doesNotMatch(runtimeSource, /DEFAULT_STAGE_(ICEBREAKER|LABORATORY)\(/);
+});
+
+test('requires composite setup routes to be executable rather than commented out', () => {
+  const source = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeSpatialConfig }] }]
+    }
+  });
+  const routeCall = 'platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE()';
+  const renderSource = (call: string) => renderPlatformMapRevisionMapSources({
+    source,
+    mapSourceFiles: [{ file: 'test_map.opy', content: `${testMapSource}\nrule "test":\n    ${call}\n` }]
+  });
+
+  assert.doesNotThrow(() => renderSource(routeCall));
+  assert.throws(() => renderSource(`# ${routeCall}`), /must call platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\)/);
 });
 
 test('requires each map source to declare its generated revision macro block', () => {
