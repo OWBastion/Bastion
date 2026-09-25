@@ -837,6 +837,11 @@ function compositeRouteScratchNames(mapId: string) {
   };
 }
 
+function hasSpawnDetectedCycle(spatialConfig: CompositeSpatialConfig): boolean {
+  return spatialConfig.composition.firstStageSelection.mode === 'setup_detection'
+    && spatialConfig.composition.remainingStageSelection === 'stage_id_cycle';
+}
+
 function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, compressedBastion = false) {
   lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', compressedBastion));
   lines.push(`    resetPosition = ${renderSpatialPosition(config.resetPosition)}`);
@@ -963,6 +968,51 @@ function renderCompositeSetupMacro(
   lines.push('');
 }
 
+function renderSpawnDetectedCompositeRoutes(
+  lines: string[],
+  mapId: string,
+  variant: 'DEFAULT' | 'CLASSIC',
+  spatialConfig: CompositeSpatialConfig
+) {
+  const mapName = mapRevisionMacroName(mapId, variant);
+  const { stages } = spatialConfig;
+  const { selectionCount, firstStageSelection } = spatialConfig.composition;
+  const fallbackIndex = stages.findIndex((stage) => stage.stageId === firstStageSelection.fallbackStageId);
+  const routes = stages.map((_, startIndex) =>
+    Array.from({ length: selectionCount }, (_, offset) => stages[(startIndex + offset) % stages.length]!)
+  );
+
+  routes.forEach((route, startIndex) => {
+    const macroName = `${mapName}_ROUTE_${startIndex}`;
+    lines.push(`macro ${macroName}():`);
+    lines.push(`    resetPosition = ${renderSpatialPosition(spatialConfig.resetPosition)}`);
+    lines.push(`    endPosition = ${renderSpatialPosition(spatialConfig.endPosition)}`);
+    lines.push(`    thirdPersonPosition = ${renderSpatialPosition(spatialConfig.thirdPersonPosition)}`);
+    lines.push(`    creditsPosition = ${renderSpatialPosition(spatialConfig.creditsPosition)}`);
+    lines.push(`    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`);
+    lines.push(`    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`);
+    lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', true));
+    lines.push(...renderVectorAssignment('controlCenterPosition', route.flatMap((stage) => stage.control.centerPositions), '    '));
+    lines.push(...renderVectorAssignment('controlJumpPosition', route.slice(0, -1).flatMap((stage) => stage.control.jumpPositions), '    '));
+    lines.push(...renderVectorAssignment('controlRespawnPosition', route.flatMap((stage) => stage.control.respawnPositions), '    '));
+    const portals = route.flatMap((stage) => stage.portalPositions);
+    if (portals.length > 0) lines.push(...renderVectorAssignment('portalPosition', portals, '    '));
+    const springboard = route.find((stage) => stage.springboardPositions.length > 0)?.springboardPositions[0];
+    if (springboard) lines.push(`    springBoardPosition = ${renderSpatialPosition(springboard)}`);
+    lines.push('');
+  });
+
+  lines.push(`macro ${mapName}_SETUP_ROUTE():`);
+  const detectedStages = stages.map((stage, index) => ({ stage, index })).filter(({ stage }) => stage.setupDetection);
+  detectedStages.forEach(({ stage, index }, detectionIndex) => {
+    lines.push(`    ${detectionIndex === 0 ? 'if' : 'elif'} len(getPlayersInRadius(${mapName}_COMPOSITE_STAGE_${index}_SETUP_POSITION, ${mapName}_COMPOSITE_STAGE_${index}_SETUP_RADIUS, Team.1)) != 0:`);
+    lines.push(`        ${mapName}_ROUTE_${index}()`);
+  });
+  lines.push(`${detectedStages.length > 0 ? '    else:' : '    if true:'}`);
+  lines.push(`        ${mapName}_ROUTE_${fallbackIndex}()`);
+  lines.push('');
+}
+
 function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]): string {
   const unsupported = map.revisions.filter((revision) => !revision.isDefault && revision.mapVariant !== 'classic');
   if (unsupported.length > 0) throw new Error(`${map.mapId} has selectable revisions that cannot be selected by the compile-time map source: ${unsupported.map((revision) => revision.gameplayRevisionId).join(', ')}`);
@@ -972,7 +1022,7 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
     MAP_REVISION_BEGIN,
     '# Source: OWBastion Agents API',
   ];
-  if (map.revisions.some((revision) => 'composition' in revision.spatialConfig)) {
+  if (map.revisions.some((revision) => 'composition' in revision.spatialConfig && !hasSpawnDetectedCycle(revision.spatialConfig))) {
     lines.push('');
     for (const scratchName of Object.values(compositeRouteScratchNames(map.mapId))) lines.push(`globalvar ${scratchName}`);
     lines.push('');
@@ -998,14 +1048,21 @@ function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]):
       lines.push(`    controlRespawnAxisThreshold = ${composite.control.respawnAxisThreshold}`);
       lines.push('');
       for (const [stageIndex, stage] of composite.stages.entries()) {
-        lines.push('');
         if (stage.setupDetection) {
+          lines.push('');
           lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${renderSpatialPosition(stage.setupDetection.position)}`);
           lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_RADIUS ${stage.setupDetection.radius}`);
         }
-        renderCompositeStageMacro(lines, map.mapId, variant, stage, stageIndex, composite.composition.selectionCount);
       }
-      renderCompositeSetupMacro(lines, map.mapId, variant, composite);
+      if (hasSpawnDetectedCycle(composite)) {
+        renderSpawnDetectedCompositeRoutes(lines, map.mapId, variant, composite);
+      } else {
+        for (const [stageIndex, stage] of composite.stages.entries()) {
+          lines.push('');
+          renderCompositeStageMacro(lines, map.mapId, variant, stage, stageIndex, composite.composition.selectionCount);
+        }
+        renderCompositeSetupMacro(lines, map.mapId, variant, composite);
+      }
     } else {
       lines.push('');
       const legacy = revision.spatialConfig as LegacySpatialConfig;

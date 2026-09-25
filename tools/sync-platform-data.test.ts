@@ -598,46 +598,59 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
 });
 
-test('generates a modulo stage successor that wraps from the final stage to the first', () => {
+test('statically expands every spawn-detected cyclic route with complete spatial assignments', () => {
   const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
   const cycleConfig = {
     ...compositeSpatialConfig,
     composition: {
       selectionCount: 3,
-      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'laboratory' },
+      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'base' },
       remainingStageSelection: 'stage_id_cycle' as const
     },
     stages: [
-      compositeStage('laboratory', 300),
-      compositeStage('base', 100, setupDetection),
+      compositeStage('laboratory', 300, setupDetection),
+      compositeStage('base', 100),
       compositeStage('icebreaker', 200, setupDetection)
     ]
   };
+  cycleConfig.stages[0]!.portalPositions = [[310, 311, 312]];
+  cycleConfig.stages[1]!.springboardPositions = [[210, 211, 212]];
   const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: {
       ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: cycleConfig }] }]
+      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', gameplayRevisionId: 'revision:map.busan:default', spatialConfig: cycleConfig }] }]
     }
   }));
-  const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
-  const selectedStage = 'platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX';
-  const selectedStages = 'platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDICES';
-  const stageOrder = 'platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER';
-  const selectionLoopStart = setupMacro.indexOf(`    for ${stageOrder} in range(2):`);
-  const stageDispatchStart = setupMacro.indexOf(`    for ${stageOrder} in range(3):`, selectionLoopStart);
-
-  assert.ok(selectionLoopStart >= 0);
-  assert.ok(stageDispatchStart > selectionLoopStart);
-  assert.equal(setupMacro.slice(selectionLoopStart, stageDispatchStart), [
-    `    for ${stageOrder} in range(2):`,
-    `        ${selectedStage} = (${selectedStage} + 1) % 3`,
-    `        ${selectedStages}.append(${selectedStage})`,
-    ''
-  ].join('\n'));
-  assert.ok(setupMacro.includes([
-    `        ${selectedStage} = 2`,
-    `    ${selectedStages}.append(${selectedStage})`
-  ].join('\n')));
+  const routeBodies = output.split(/^macro /m).slice(1)
+    .map((block) => block.slice(0, block.search(/^macro |\n# END AUTO-GENERATED/m) < 0 ? undefined : block.search(/^macro |\n# END AUTO-GENERATED/m)))
+    .filter((block) => block.includes('bastionPosition = compressed(['));
+  assert.equal(routeBodies.length, 3);
+  const bastionCoordinates = routeBodies.map((body) => {
+    const assignment = body.match(/bastionPosition = compressed\(\[([\s\S]*?)\]\)/)?.[1] ?? '';
+    return [...assignment.matchAll(/vect\((\d+), (\d+), (\d+)\)/g)].map((match) => match[1]);
+  });
+  assert.deepEqual(bastionCoordinates, [
+    ['101', '201', '301'],
+    ['201', '301', '101'],
+    ['301', '101', '201']
+  ]);
+  for (const body of routeBodies) {
+    assert.match(body, /resetPosition = vect\(904, 905, 906\)/);
+    assert.match(body, /endPosition = vect\(907, 908, 909\)/);
+    assert.match(body, /thirdPersonPosition = vect\(910, 911, 912\)/);
+    assert.match(body, /creditsPosition = vect\(913, 914, 915\)/);
+    assert.match(body, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
+    assert.equal((body.match(/controlCenterPosition = \[/g) ?? []).length, 1);
+    assert.equal((body.match(/controlJumpPosition = \[/g) ?? []).length, 1);
+    assert.equal((body.match(/controlRespawnPosition = \[/g) ?? []).length, 1);
+    assert.match(body, /portalPosition = \[[\s\S]*vect\(310, 311, 312\)/);
+    assert.match(body, /springBoardPosition = vect\(210, 211, 212\)/);
+  }
+  const setupRoute = output.match(/macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n([\s\S]*?)(?=\n\n|$)/)?.[1] ?? '';
+  assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION/);
+  assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
+  assert.doesNotMatch(setupRoute, /for |%|\[[^\]]*\]|COMPOSITE_SELECTED|COMPOSITE_STAGE_ORDER/);
+  assert.doesNotMatch(output, /globalvar platformMapRevision_BUSAN_COMPOSITE|COMPOSITE_AVAILABLE_STAGE_INDICES|COMPOSITE_SELECTED_STAGE_INDICES/);
 });
 
 test('accepts random-first composites and rejects invalid composition constraints', () => {
