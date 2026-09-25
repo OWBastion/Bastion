@@ -100,15 +100,15 @@ map title holders carry the same revision ID and an explicit slot discriminator.
   credits points and one route-level respawn axis/threshold; sort atomic stages
   by `stageId` and validate stage IDs, setup detection, selection count, and one
   paired control jump/respawn point per stage before output;
-- resolve a composite first stage once during map setup, using setup detection
-  and its declared fallback or random first-stage selection; select remaining
-  stages randomly without replacement or by advancing through stable
-  `stageId` order with wraparound, as declared by the composition;
-- assemble the active route from the root's shared points and the selected
-  stages' Bastion, control-center, respawn, and portal positions; append each
-  stage's control jump except for the final stage. Keep the root respawn axis
-  and threshold scalar, and use the first selected springboard position when
-  present;
+- resolve composition metadata during generation when setup detection and
+  stable `stage_id_cycle` order determine every route. Emit each complete
+  cyclic route with its Bastion, Control, reset/end/camera/credits, portal,
+  springboard, and respawn-axis assignments; Workshop runtime detects the
+  spawn room and calls the matching generated route without stage arrays,
+  loops, modulo arithmetic, or scratch globals;
+- preserve declared runtime selection semantics for compositions whose routes
+  cannot be determined from spawn detection and stable stage order, including
+  random first-stage or random-unique selection;
 - keep static and legacy alternate-stage revisions valid, and do not enable a
   composite revision in the Agents projection until this consumer support and
   the owner-side composite control constraint have landed;
