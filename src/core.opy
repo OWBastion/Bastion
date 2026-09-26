@@ -5,6 +5,8 @@
 
 #!include "heroes/all_hero.opy"
 
+#!include "events/allocation/buildCompatibleEventPool.opy"
+
 #!include "events/allocation/buildCandidatePool.opy"
 
 #!include "events/allocation/rejectSampling.opy"

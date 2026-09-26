@@ -8,6 +8,7 @@ subroutine progressHero
 def progressHero():
     @Name "add 1 to heroNumber, switch player to the newly unlocked hero, and set hero availability to that hero and all preceding"
     
+    eventPlayer.eventCompatibleBasePool = null
     eventPlayer.heroNumber++
     eventPlayer.controlJumpIndex = 0
     eventPlayer.controlPlayerRespawnPosition = null
@@ -20,6 +21,7 @@ def progressHero():
     eventPlayer.stopForcingCurrentHero()
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
+    refreshCompatibleEventPool()
     wait(getServerLoad() / 100 * 0.5)
     wait(getServerLoad() / 100 * 0.5)
     wait(3)
