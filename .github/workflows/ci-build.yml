@@ -15,9 +15,9 @@ permissions:
   contents: read
 
 jobs:
-  overpy-build:
+  wright-build:
     runs-on: ubuntu-latest
-    name: OverPy and Wright
+    name: Wright
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
       WRIGHT_VERSION: 0.2.39
@@ -43,11 +43,6 @@ jobs:
       - name: Synchronize platform data
         run: pnpm run build
 
-      - name: Build production entries with OverPy
-        run: |
-          pnpm run build:cn:zh
-          pnpm run build:external:en
-
       - name: Install released Wright CLI
         shell: bash
         run: |
@@ -64,37 +59,23 @@ jobs:
           wright check src/main.opy --kind opy --root .
           wright check src/externalMain.opy --kind opy --root .
 
+      - name: Build production entries with Wright
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/cn-zh-CN.ow
+          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/external-en-US.ow
+
       - name: Check generated Workshop with Wright and workshop-rs
         run: |
           wright check build/cn-zh-CN.ow --kind workshop
           wright check build/external-en-US.ow --kind workshop
 
-      - name: Build production entries with Wright
-        run: |
-          set -euo pipefail
-          mkdir -p build/compare/overpy build/compare/wright build/compare/canonical
-          cp build/cn-zh-CN.ow build/external-en-US.ow build/compare/overpy/
-          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/compare/wright/cn-zh-CN.ow
-          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/compare/wright/external-en-US.ow
-
-      - name: Compare Wright and OverPy output
-        run: |
-          set -euo pipefail
-          for pair in "cn-zh-CN:zh-CN" "external-en-US:en-US"; do
-            name="${pair%%:*}"; locale="${pair##*:}"
-            wright compile "build/compare/overpy/${name}.ow" --kind workshop --locale "${locale}" -o "build/compare/canonical/${name}.overpy.ow"
-            wright compile "build/compare/wright/${name}.ow" --kind workshop --locale "${locale}" -o "build/compare/canonical/${name}.wright.ow"
-            {
-              echo "### ${name}: canonical Wright vs OverPy diff"
-              echo '```diff'
-              diff "build/compare/canonical/${name}.overpy.ow" "build/compare/canonical/${name}.wright.ow" || true
-              echo '```'
-            } >> "${GITHUB_STEP_SUMMARY}"
-          done
-
-      - name: Upload OverPy and Wright builds
+      - name: Upload Wright builds
         uses: actions/upload-artifact@v7
         with:
           name: bastion-builds
-          path: build/compare
+          path: |
+            build/cn-zh-CN.ow
+            build/external-en-US.ow
           retention-days: 14
