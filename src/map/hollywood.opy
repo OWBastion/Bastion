@@ -32,4 +32,5 @@ rule "map - hollywood":
     
     platformMapRevision_HOLLYWOOD_DEFAULT()
     __currentMapText___ = "好莱坞"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

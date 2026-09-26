@@ -31,4 +31,5 @@ rule "map - king's row":
     
     platformMapRevision_KINGS_ROW_DEFAULT()
     __currentMapText___ = "国王大道"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)

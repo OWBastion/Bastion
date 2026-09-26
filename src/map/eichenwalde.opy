@@ -56,4 +56,5 @@ rule "map - eichenwalde":
 
     platformMapRevision_EICHENWALDE_DEFAULT()
     __currentMapPioneerText___ = "十字军之王"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

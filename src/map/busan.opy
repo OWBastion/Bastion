@@ -138,6 +138,7 @@ rule "map - 釜山":
     __currentMapText___ = "釜山"
     __currentMapPioneerText___ = "王牌驾驶员"
     platformMapRevision_BUSAN_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE()

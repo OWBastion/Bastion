@@ -33,4 +33,5 @@ rule "map - watchpoint gibraltar":
     
     platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT()
     __currentMapText___ = "直布罗陀"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

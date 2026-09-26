@@ -234,6 +234,25 @@ test('builds player and map title generation input from public player names', ()
   assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
 });
 
+test('initializes title text only after map presentation overrides are ready', async () => {
+  const [titleSource, mapTitleSource, paraisoSource, parisSource] = await Promise.all([
+    readFile(new URL('../src/title/title-cn.opy', import.meta.url), 'utf8'),
+    readFile(new URL('../src/title/map-title-data.opy', import.meta.url), 'utf8'),
+    readFile(new URL('../src/map/paraiso.opy', import.meta.url), 'utf8'),
+    readFile(new URL('../src/map/paris.opy', import.meta.url), 'utf8')
+  ]);
+
+  assert.match(titleSource, /waitUntil\(__mapTitlePresentationReady___ == true, Math\.INFINITY\)[\s\S]*?titleText = \[/);
+  assert.match(mapTitleSource, /waitUntil\(__mapTitleMapDataReady___ == true, Math\.INFINITY\)[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('__mapTitlePresentationReady___ = true'));
+
+  const paraisoRule = paraisoSource.slice(paraisoSource.indexOf('rule "map - paraiso":'));
+  assert.ok(paraisoRule.indexOf('__mapTitleMapDataReady___ = true') > paraisoRule.indexOf('platformMapRevision_PARAISO_DEFAULT()'));
+
+  const parisRule = parisSource.slice(parisSource.indexOf('rule "map - paris":'));
+  assert.ok(parisRule.indexOf('__currentMapClassicText___ = "塞納河畔灬噯已散場"') < parisRule.indexOf('__mapTitleMapDataReady___ = true'));
+});
+
 test('allows a legitimate map-holder removal without requiring a non-zero result', () => {
   const mapTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] };
   const withHolder = buildPlatformTitleSource({

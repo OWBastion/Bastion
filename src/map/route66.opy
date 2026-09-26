@@ -30,4 +30,5 @@ rule "map - route 66":
     @Condition __currentMap___ == Map.ROUTE66
     
     platformMapRevision_ROUTE66_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)

@@ -33,4 +33,5 @@ rule "map - paraiso":
 
     platformMapRevision_PARAISO_DEFAULT()
 
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

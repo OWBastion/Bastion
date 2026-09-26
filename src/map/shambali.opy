@@ -35,4 +35,5 @@ rule "map - shambali monastery":
     
     platformMapRevision_SHAMBALI_MONASTERY_DEFAULT()
     __currentMapText___ = "香巴佬寺院"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

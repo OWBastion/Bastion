@@ -30,4 +30,5 @@ rule "map - junkertown":
     @Condition __currentMap___ == Map.JUNKERTOWN
     
     platformMapRevision_JUNKERTOWN_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

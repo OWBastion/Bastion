@@ -31,4 +31,5 @@ rule "map - dorado":
     @Condition __currentMap___ == Map.DORADO
     
     platformMapRevision_DORADO_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)

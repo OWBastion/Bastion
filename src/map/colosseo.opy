@@ -31,4 +31,5 @@ rule "map - 斗兽场":
     @Condition (getCurrentMap() == Map.COLOSSEO or __currentMap___ == 2147) == true
     
     platformMapRevision_COLOSSEO_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

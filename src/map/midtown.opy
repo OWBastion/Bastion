@@ -33,4 +33,5 @@ rule "map - 中城":
     @Condition __currentMap___ == Map.MIDTOWN
     
     platformMapRevision_MIDTOWN_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

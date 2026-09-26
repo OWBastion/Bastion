@@ -31,4 +31,5 @@ rule "map - havana":
     @Condition __currentMap___ == Map.HAVANA
     
     platformMapRevision_HAVANA_DEFAULT()
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

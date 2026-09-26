@@ -32,4 +32,5 @@ rule "map - blizzworld":
     
     platformMapRevision_BLIZZARD_WORLD_DEFAULT()
     __currentMapText___ = "暴雪世界"
+    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)
