@@ -37,7 +37,6 @@ globalvar eventCount 61
 globalvar eventType 63
 globalvar eventDurationHud 64
 globalvar eventWeight 65
-globalvar eventWeightBias
 globalvar hashTag 69
 globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
@@ -111,7 +110,6 @@ playervar eventLoopCount 70
 playervar eventIsSelected 71
 playervar eventCandidateIndex 72
 playervar eventTempIndex 74
-playervar eventTempWeight 73
 playervar eventCategoryCommitted
 playervar mod_speed_event 76
 playervar mod_speed_perma 77
