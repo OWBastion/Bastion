@@ -5,29 +5,12 @@
 
 subroutine buildCandidatePool
 
-# Event IDs in these groups share a hard eligibility gate. Groups only control
-# candidate inclusion; weights and selection remain attached to each event.
-macro EVENT_GROUP_PHASE_TRIGGER = [
-    BuffEventId.PHASE_SURGE,
-    BuffEventId.BODYGUARD
-]
-
+# Event IDs in these groups share a dynamic hard eligibility gate.
 macro EVENT_GROUP_HEART_STEEL = [
     BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE,
     BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL,
     BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5
 ]
-
-# Whether this hero has any supported input that can activate a phase trigger.
-macro Player.supportsPhaseTrigger():
-    any([
-        self.getHero() in phaseHero[0],
-        self.getHero() in phaseHero[1],
-        self.getHero() in phaseHero[2],
-        self.getHero() in phaseHero[3],
-        isHero(self, Hero.BRIGITTE),
-        self.getHero() in phaseHero[4]
-    ])
 
 # Whether this hero is currently using its supported phase-trigger input.
 macro Player.usesPhaseTrigger():
@@ -43,7 +26,7 @@ macro Player.usesPhaseTrigger():
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
-    eventPlayer.eventTempIndex = eventCatalogId.filter(lambda candidateIndex: eventCatalogWeight[candidateIndex] > 0)
+    eventPlayer.eventTempIndex = eventPlayer.eventCompatibleBasePool.filter(lambda candidateIndex: eventCatalogWeight[candidateIndex] > 0)
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.thiefBuffStolen == true:
         eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: eventCatalogType[candidateIndex] != EventType.BUFF)
@@ -55,8 +38,6 @@ def buildCandidatePool():
         else:
             eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: eventCatalogType[candidateIndex] == EventType.MECH)
 
-    if eventPlayer.supportsPhaseTrigger() == false:
-        eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in EVENT_GROUP_PHASE_TRIGGER)
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
         eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in EVENT_GROUP_HEART_STEEL)
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
