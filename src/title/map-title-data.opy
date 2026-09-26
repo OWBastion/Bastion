@@ -3,9 +3,11 @@
 #!optimizeStrict
 
 rule "Load CN map title holders":
+    @Condition __currentMapText___ != null
+    @Condition __currentMapClassicText___ != null
 
-    wait(0.032)
-    __currentMapPioneerText___ = __currentMapText___
+    if __currentMapPioneerText___ == null:
+        __currentMapPioneerText___ = __currentMapText___
     __currentPioneerText___ = null
     if (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true:
         __currentMapPioneerText___ = "织金"
@@ -318,6 +320,9 @@ rule "Load CN map title holders":
             DATA_VOLSKAYA[2].split("-"),
             []
         ]
+
+    if mapTitlePlayersByKey == null:
+        mapTitlePlayersByKey = [[], [], [], []]
 
     if __currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860:
         waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)

@@ -506,8 +506,9 @@ enum MapTITLEKey:
 # 4. 初始化变量
 # ------------------------------
 rule "initialize title array":
+    @Condition mapTitlePlayersByKey != null
+
     wait(getAverageServerLoad() / 100 * 0.5)
-    waitUntil(__currentMapPioneerText___ != null, Math.INFINITY)
     # BEGIN AUTO-GENERATED ALL_TITLE
     titleText = [
         # 0: PIONEER
