@@ -16,7 +16,7 @@ rule "Create effect":
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != EventId.GRAVITY_PULL, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.GRAVITY_PULL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 
 rule "Pull toward bastion":

@@ -19,7 +19,7 @@ rule "[VishkarEvent]: 迷你形态":
     eventPlayer.mod_speed_event = EVT_MECH_2_SPEED_BOOST
     updatePlayerStats()
     setPlayerHP()
-    waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.sizeHealth = 1
     setPlayerHP()
     eventPlayer.mod_speed_event = 0

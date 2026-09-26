@@ -21,7 +21,7 @@ rule "[VishkarEvent]: 钢铁防线":
     eventPlayer.mod_dmg_taken = EVT_2_DMG_TAKEN
     updatePlayerStats()
     # Exception: effect teardown is bound to event lifecycle completion.
-    waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()

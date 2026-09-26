@@ -19,4 +19,4 @@ rule "[VishkarEvent]: 作弊：我要验牌 (触发)":
     smallMessage(eventPlayer, "  {0}  已扣除 {1} 层心之钢（{2}% 最大生命值）".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_MECH_7_HEART_STEEL_COST, EVT_MECH_7_HEART_STEEL_COST * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     wait(0.2)
     smallMessage(eventPlayer, "  {0}  下一个事件必然是增益，祝你好运".format(iconString(Icon.CLUB)))
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()

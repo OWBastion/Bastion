@@ -9,6 +9,10 @@ def clearPlayerEvent():
     @Name "[VishkarEvent]: player event end"
     
     clearEventEffect()
+    if any([eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.eventId == EventId.WILL_TO_WIN]):
+        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+        if eventPlayer.eventId == EventId.WILL_TO_WIN:
+            eventPlayer.clearStatusEffect(Status.INVINCIBLE)
     eventPlayer.stopForcingThrottle()
     eventPlayer.stopThrottleInDirection()
     eventPlayer.combatRegen = false
@@ -22,6 +26,7 @@ def clearPlayerEvent():
     eventPlayer.eventIsSelected = false
     eventPlayer.eventDuration = null
     eventPlayer.eventDurationHud = 0
+    eventPlayer.eventEndTime = null
     eventPlayer.eventName = null
     eventPlayer.eventDesc = null
     eventPlayer.eventEffectPlayers = null
