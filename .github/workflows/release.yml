@@ -26,6 +26,8 @@ jobs:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
       CN_RELEASE_ARTIFACT: build/cn-zh-CN.ow
       EXTERNAL_RELEASE_ARTIFACT: build/external-en-US.ow
+      WRIGHT_VERSION: 0.2.39
+      OPY_PROVIDER_VERSION: 0.1.59
 
     steps:
       - name: Checkout
@@ -190,6 +192,16 @@ jobs:
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "Release tag: ${tag}"
+
+      - name: Install Wright and OverPy provider
+        if: steps.release_gate.outputs.should_release == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://wrightkit.dev/install.sh \
+            | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
+          echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
+          "${RUNNER_TEMP}/wright/bin/wright" provider update opy --version "${OPY_PROVIDER_VERSION}"
 
       - name: Build workshop outputs
         if: steps.release_gate.outputs.should_release == 'true'

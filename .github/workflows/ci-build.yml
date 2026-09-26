@@ -61,10 +61,8 @@ jobs:
 
       - name: Build production entries with Wright
         run: |
-          set -euo pipefail
-          mkdir -p build
-          wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/cn-zh-CN.ow
-          wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/external-en-US.ow
+          pnpm run build:cn:zh
+          pnpm run build:external:en
 
       - name: Check generated Workshop with Wright and workshop-rs
         run: |
