@@ -66,7 +66,15 @@ rule "Initialize global variables":
 rule "Update targetPlayer when player left":
     @Event playerLeft
     @Team 1
-    
+
+    destroyEffect(eventPlayer.deathDelayInvincibleEffect)
+    destroyEffect(eventPlayer.willToWinInvincibleEffect)
+    destroyEffect(eventPlayer.regroupCallInvincibleEffect)
+    destroyEffect(eventPlayer.devInvincibleEffect)
+    eventPlayer.deathDelayInvincibleEffect = null
+    eventPlayer.willToWinInvincibleEffect = null
+    eventPlayer.regroupCallInvincibleEffect = null
+    eventPlayer.devInvincibleEffect = null
     wait(getAverageServerLoad() / 100 * 0.032)
     targetPlayerIndex = 0
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[0]

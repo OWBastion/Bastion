@@ -16,9 +16,11 @@ def resetPlayerEventState():
     @Name "[VishkarEvent]: reset player event state"
 
     clearPlayerEvent()
-    destroyEffect(eventPlayer.invincibleEffect)
+    destroyEffect(eventPlayer.regroupCallInvincibleEffect)
+    destroyEffect(eventPlayer.devInvincibleEffect)
     destroyEffect(eventPlayer.nanoEffect)
-    eventPlayer.invincibleEffect = null
+    eventPlayer.regroupCallInvincibleEffect = null
+    eventPlayer.devInvincibleEffect = null
     eventPlayer.nanoEffect = null
     eventPlayer.hasNano = false
     eventPlayer.eventLastId = []

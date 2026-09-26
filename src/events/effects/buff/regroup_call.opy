@@ -27,10 +27,10 @@ rule "Apply invincibility":
     
     eventPlayer.setStatusEffect(eventPlayer.invincible[1], Status.INVINCIBLE, eventPlayer.invincible[2])
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    eventPlayer.invincibleEffect = getLastCreatedEntity()
+    eventPlayer.regroupCallInvincibleEffect = getLastCreatedEntity()
     smallMessage(eventPlayer, "  {0}  {1}（{2}） 为你提供 {3}秒无敌效果".format(abilityIconString(Hero.BAPTISTE, Button.ABILITY_2), eventPlayer.invincible[1], eventPlayer.invincible[1].getHero(), EVT_13_INVINCIBLE_DURATION))
     wait(EVT_13_INVINCIBLE_DURATION)
     eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-    destroyEffect(eventPlayer.invincibleEffect)
-    eventPlayer.invincibleEffect = null
+    destroyEffect(eventPlayer.regroupCallInvincibleEffect)
+    eventPlayer.regroupCallInvincibleEffect = null
     eventPlayer.invincible = null
