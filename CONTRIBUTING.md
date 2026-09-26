@@ -21,7 +21,7 @@ Please read these first before contributing:
 - [Visual Studio Code](https://code.visualstudio.com/download)  
   Recommended editor for `.opy` source files / 推荐用于编辑 `.opy` 源码
 - [OverPy]  
-  Toolchain for compiling OverPy source to Workshop script (repo scripts use the `overpy` CLI) / 用于将 OverPy 源码编译为工坊代码（仓库脚本使用 `overpy` CLI）
+  Toolchain for compiling OverPy source to Workshop script; repo scripts use the Wright CLI with its OverPy provider (`wright provider update opy`) / 用于将 OverPy 源码编译为工坊代码；仓库脚本使用 Wright CLI 及其 OverPy provider（`wright provider update opy`）
 - [Git](https://git-scm.com/downloads)  
   Version control / 版本控制
 - [GitHub](https://github.com/)  
