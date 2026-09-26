@@ -29,4 +29,4 @@ rule "[VishkarEvent]: 赌徒：赢家通吃":
     wait()
     eventPlayer.hudText = ""
     eventPlayer.eventMission = 0
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()

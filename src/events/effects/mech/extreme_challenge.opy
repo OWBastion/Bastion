@@ -21,13 +21,13 @@ rule "Apply challenge":
     eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_MECH_0_HP_PERCENT * 100))
     eventPlayer.mod_dmg_taken = EVT_MECH_0_DMG_TAKEN - eventPlayer.mod_dmg_perma
     updatePlayerStats()
-    waitUntil(eventPlayer.isDead(), eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.isDead() or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()
     eventPlayer.mod_heal_event = 0
     eventPlayer.heal_recv = 0
     updatePlayerStats()
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()
 
 rule "Clamp health":
     @Event eachPlayer

@@ -9,9 +9,9 @@
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
+    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
 rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
@@ -24,7 +24,9 @@ rule "[VishkarEvent]: 死亡延迟":
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     smallMessage(eventPlayer, "  {0}  已触发死亡延迟，致命伤害已延后".format(abilityIconString(Hero.BAPTISTE, Button.ABILITY_2)))
-    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead()]), eventPlayer.eventDuration)
+    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
+    if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
+        return
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     destroyEffect(eventPlayer.invincibleEffect)
     eventPlayer.invincibleEffect = null

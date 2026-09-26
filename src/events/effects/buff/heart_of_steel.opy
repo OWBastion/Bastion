@@ -18,7 +18,7 @@ rule "[VishkarEvent]: 心之钢 Effect":
     eventPlayer.eventEffect = getLastCreatedEntity()
     lbl_0:
     # Exception: one-shot effect owner, ends strictly on event lifecycle.
-    waitUntil(eventPlayer.eventId == -1, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 rule "[VishkarEvent]: 心之钢":
     @Event playerDied

@@ -36,10 +36,11 @@ def setPlayerEvent():
         eventPlayer.thiefBuffStolen = false
     eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventType = eventCatalogType[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventId = eventCatalogEffectId[eventPlayer.eventCandidateIndex]
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
+    setEventDuration()
+    eventPlayer.eventId = eventCatalogEffectId[eventPlayer.eventCandidateIndex]
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
@@ -73,5 +74,4 @@ def setPlayerEvent():
         )
     )
     lbl_2:
-    setEventDuration()
     lbl_1:

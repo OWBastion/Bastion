@@ -31,4 +31,4 @@ rule "[VishkarEvent]: 赌徒：竞速挑战":
             smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_RARE))
     wait()
     updatePlayerStats()
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()

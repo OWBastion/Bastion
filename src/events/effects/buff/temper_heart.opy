@@ -26,8 +26,10 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
 
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
     # eventMission 基准与 eventMissionGoal 目标仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。
-    waitUntil(eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait(getAverageServerLoad() / 100 * 0.032)
+    if eventPlayer.eventId == -1:
+        return
     if eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：钢化你心 成功！")
         smallMessage(eventPlayer, "  {0}  后续心之钢层数获取×{1}，每层生命值永久提升至 {2}%".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_31_STACK_MULTIPLIER, EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS))
@@ -35,6 +37,6 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
         eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.COMPLETED
         setPlayerHP()
-        eventPlayer.eventDuration = 0
+        requestPlayerEventEnd()
     else:
         bigMessage(eventPlayer, "任务：钢化你心 失败")

@@ -20,6 +20,8 @@
 7. 事件效果规则在 `events/effects/*` 中执行
 8. 到期后 `clearPlayerEvent` 清理状态与特效
 
+持续事件由 `eventDuration` 保存抽中时的配置时长，`eventEndTime` 保存基于 `getTotalTimeElapsed()` 的绝对结束时刻。事件开始时截止时间设为当前对局时间加配置时长；运行中前移或后移 `eventEndTime` 会同步改变调度器、事件效果等待和剩余时间 HUD。HUD 每秒按截止时间重算剩余秒数。即时事件的截止时间设为当前时刻。成功、失败等提前结束路径通过 `requestPlayerEventEnd()` 请求立即结束，不修改配置时长；随后由分配调度器调用 `clearPlayerEvent()` 完成最终清理。
+
 ## 事件数据结构
 
 事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight`、`eventCatalogType` 和 `eventCatalogEffectId`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
@@ -28,7 +30,7 @@
 
 玩家态：
 
-- `eventId`, `eventLastId`（最近 N 次全局目录索引）, `eventType`, `eventDuration`, `eventDurationHud`
+- `eventId`, `eventLastId`（最近 N 次全局目录索引）, `eventType`, `eventDuration`（抽中时配置时长）, `eventEndTime`（运行时截止时刻）, `eventDurationHud`
 - `eventCount[3]`（各类别计数；由 `commitPlayerEventCategory()` 在类别确定后更新）
 - `eventLucky`（幸运倾向累计）
 - `eventForceRoll/eventForceCount`（仅作为现有作弊链的类别资格约束）
@@ -104,6 +106,7 @@
 - 「有我有你（Buff 12）」在解除附身时会同步附身者与被附身者的 `controlJumpIndex`（仅在目标索引更高时同步），避免三合一地图跨图传送后出现索引回退导致的传送点失效。
 - AOE 触发链（`Player Dealt Damage` 及同类触发如治疗/击退）默认不要依赖 `wait` 之后的事件目标上下文来继续做多目标动作；多目标一致性动作前置到 `wait` 前，或改为每受击者路径/显式缓存目标集合。
 - `clearPlayerEvent()` 是事件结束时共享状态与持续 VFX 的唯一最终清理所有者；事件规则不得在完整持续时间后再次销毁共享 `eventEffect`。
+- 绑定整个事件生命周期的等待和效果使用 `eventEndTime`；需要持续至事件结束的原生状态效果显式设为无限时长，并由 `clearPlayerEvent()` 清理。
 - 事件内部反复进入的视觉状态使用单一 Effect 句柄和可见性重评估，不随状态边沿重复创建、销毁。
 - 伤害事件在首次 `wait` 前完成攻击者、伤害值和多目标集合的读取与结算，避免等待后事件上下文失效。
 - 数值更新统一走 `updatePlayerStats()`，避免重复写 setXxx。
