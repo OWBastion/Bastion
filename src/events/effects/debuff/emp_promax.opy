@@ -15,7 +15,7 @@ rule "Broadcast EMP":
     eventPlayer.dlcTimeChallenge[7]++
     ([player for player in getPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
     playEffect(getAllPlayers(), DynamicEffect.SOMBRA_EMP_EXPLOSION_EFFECT, Color.TEAM_2, eventPlayer, 200)
-    wait(eventPlayer.eventDuration - 1)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime - getTotalTimeElapsed() <= 1, Math.INFINITY)
     getPlayers(Team.1).empProMax = null
 
 rule "Apply hack":

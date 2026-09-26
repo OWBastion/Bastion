@@ -19,7 +19,7 @@ rule "Create effect":
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != MechEventId.STEALTH_CROUCH or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != MechEventId.STEALTH_CROUCH or eventPlayer.eventType != EventType.MECH or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 
 rule "Apply stealth crouch":
@@ -31,7 +31,7 @@ rule "Apply stealth crouch":
     eventPlayer.targetSilence = true
     eventPlayer.mod_speed_event += EVT_MECH_3_SPEED_BOOST
     updatePlayerStats()
-    waitUntil(eventPlayer.isHoldingButton(Button.CROUCH) == false, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.isHoldingButton(Button.CROUCH) == false or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.targetSilence = false
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()

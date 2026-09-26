@@ -28,4 +28,4 @@ rule "[VishkarEvent]: 赌徒：心之钢":
     wait()
     setPlayerHP()
     wait()
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()

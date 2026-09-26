@@ -28,7 +28,7 @@ rule "Create effect":
     
     createEffect(getAllPlayers() if eventPlayer.isUsingUltimate() else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != BuffEventId.ULT_MOMENTUM or eventPlayer.eventType != EventType.BUFF, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != BuffEventId.ULT_MOMENTUM or eventPlayer.eventType != EventType.BUFF or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 
 rule "Sustain ultimate":
@@ -39,6 +39,6 @@ rule "Sustain ultimate":
     resetPlayerCD()
     eventPlayer.mod_dmg_taken -= EVT_18_DMG_REDUCTION_DURING_ULT
     updatePlayerStats()
-    waitUntil(not eventPlayer.isUsingUltimate(), eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or not eventPlayer.isUsingUltimate() or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()

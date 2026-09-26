@@ -18,6 +18,6 @@ rule "[VishkarEvent]: 登月火箭":
     eventPlayer.setGravity(EVT_DEBUFF_20_GRAVITY)
     wait(EVT_DEBUFF_20_LAUNCH_DELAY)
     eventPlayer.applyImpulse(Vector.UP, EVT_DEBUFF_20_UPWARD_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)

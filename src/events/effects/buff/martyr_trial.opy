@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
         len(eventPlayer.eventMission),
         eventPlayer.eventMissionGoal
     )
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
     @Event playerDied
@@ -47,15 +47,15 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
         smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))
         eventPlayer.mod_dmg_perma += EVT_21_REWARD_DMG_PERMA
         updatePlayerStats()
-        eventPlayer.eventDuration = 0
+        requestPlayerEventEnd()
 
 rule "[VishkarEvent]: 任务：殉道者 (通关结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventDuration != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
     bigMessage(eventPlayer, "任务：殉道者 完成！")
     smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))
     eventPlayer.mod_dmg_perma += EVT_21_REWARD_DMG_PERMA
     updatePlayerStats()
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()

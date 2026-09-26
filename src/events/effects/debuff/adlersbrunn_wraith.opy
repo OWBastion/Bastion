@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
     eventPlayer.mod_heal_perma += eventPlayer.eventMission * EVT_DEBUFF_21_HEAL_DELTA_PER_STACK
     eventPlayer.hudText = "诅咒：{0}层".format(eventPlayer.eventMission)
     updatePlayerStats()
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.hudText = ""
 
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (抵消层数)":

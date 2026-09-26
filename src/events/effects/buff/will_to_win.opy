@@ -9,9 +9,9 @@
 rule "[VishkarEvent]: 胜利意志（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
+    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage
@@ -33,9 +33,7 @@ rule "[VishkarEvent]: 胜利意志":
     bigMessage(eventPlayer, "胜利意志！")
     resetPlayerCD()
     heal(eventPlayer, eventPlayer, 99999)
-    waitUntil(eventPlayer.isDead(), 5)
-    eventPlayer.eventDuration = 0
-    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
-    eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-    destroyEffect(eventPlayer.invincibleEffect)
-    eventPlayer.invincibleEffect = null
+    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), 5)
+    if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
+        return
+    requestPlayerEventEnd()

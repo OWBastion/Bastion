@@ -47,6 +47,8 @@
 
 #!include "utilities/event_core/startCombatRegen.opy"
 
+#!include "utilities/event_core/requestPlayerEventEnd.opy"
+
 #!include "events/allocation/assignPlayerEvent.opy"
 
 #!include "events/effects/buffEffects.opy"

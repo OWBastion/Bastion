@@ -15,8 +15,7 @@ rule "[VishkarEvent]: 窃贼":
     wait(0.25)
     if len(getPlayers(Team.1).exclude(eventPlayer)) == 0:
         smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
-        eventPlayer.eventDuration = 0
-        clearPlayerEvent()
+        requestPlayerEventEnd()
     else:
         eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer))
         eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
@@ -25,5 +24,4 @@ rule "[VishkarEvent]: 窃贼":
         eventPlayer.dlcTimeChallenge[8]++
         smallMessage(eventPlayer, "  {0}  已窃取一名友方的下一个增益事件".format(iconString(Icon.DIAMOND)))
         smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
-        eventPlayer.eventDuration = 0
-        clearPlayerEvent()
+        requestPlayerEventEnd()

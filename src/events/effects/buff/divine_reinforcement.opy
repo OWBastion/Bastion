@@ -30,7 +30,7 @@ rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT]) == true
 
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
     eventPlayer.target = null
     eventPlayer.eventMissionGoal = 0

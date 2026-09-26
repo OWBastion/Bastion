@@ -22,7 +22,7 @@ rule "[VishkarEvent]: 魔术大师":
     if eventPlayer.eventEffect == null:
         createEffect(getAllPlayers() if eventPlayer.isCommunicatingEmote() else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.isCommunicatingEmote() == false, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.isCommunicatingEmote() == false or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.targetSilence = false
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()

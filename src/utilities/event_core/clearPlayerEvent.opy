@@ -9,6 +9,14 @@ def clearPlayerEvent():
     @Name "[VishkarEvent]: player event end"
     
     clearEventEffect()
+    if eventPlayer.eventType == EventType.BUFF and any([eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.eventId == BuffEventId.WILL_TO_WIN]):
+        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+        destroyEffect(eventPlayer.invincibleEffect)
+        eventPlayer.invincibleEffect = null
+        if eventPlayer.eventId == BuffEventId.WILL_TO_WIN:
+            eventPlayer.clearStatusEffect(Status.INVINCIBLE)
+    elif eventPlayer.isWinner != true:
+        destroyEffect(eventPlayer.invincibleEffect)
     eventPlayer.stopForcingThrottle()
     eventPlayer.stopThrottleInDirection()
     eventPlayer.combatRegen = false
@@ -22,6 +30,7 @@ def clearPlayerEvent():
     eventPlayer.eventIsSelected = false
     eventPlayer.eventDuration = null
     eventPlayer.eventDurationHud = 0
+    eventPlayer.eventEndTime = null
     eventPlayer.eventName = null
     eventPlayer.eventDesc = null
     eventPlayer.eventEffectPlayers = null
@@ -36,10 +45,6 @@ def clearPlayerEvent():
     eventPlayer.eventSize = 0
     eventPlayer.eventTargetHP = 0
     eventPlayer.altFormActive = false
-    if eventPlayer.isWinner:
-        goto lbl_0
-    destroyEffect(eventPlayer.invincibleEffect)
-    lbl_0:
     eventPlayer.eventMission = 0
     eventPlayer.eventMissionGoal = 0
     eventPlayer.hudText = ""

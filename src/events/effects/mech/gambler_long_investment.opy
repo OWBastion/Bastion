@@ -22,4 +22,4 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
     eventPlayer.eventForceRoll = EVT_MECH_12_FORCE_ROLL
     eventPlayer.eventForceCount = EVT_MECH_12_FORCE_COUNT
     smallMessage(eventPlayer, "  {0}  合约已生效：未来 5 个事件为 减益".format(iconString(Icon.DIAMOND)))
-    clearPlayerEvent()
+    requestPlayerEventEnd()

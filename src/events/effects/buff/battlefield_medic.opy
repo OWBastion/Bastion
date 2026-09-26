@@ -36,14 +36,16 @@ rule "[VishkarEvent]: 战地医生 (结束判定)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
 
-    waitUntil(eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait(getAverageServerLoad() / 100 * 0.032)
+    if eventPlayer.eventId == -1:
+        return
     if eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：战地医生 成功！")
         smallMessage(eventPlayer, "  {0}  奖励：永久获得 {1}% 治疗强度".format(abilityIconString(Hero.MERCY, Button.ULTIMATE), EVT_32_REWARD_HEAL_PERMA))
         eventPlayer.mod_heal_perma += EVT_32_REWARD_HEAL_PERMA
         updatePlayerStats()
-        eventPlayer.eventDuration = 0
+        requestPlayerEventEnd()
     else:
         bigMessage(eventPlayer, "任务：战地医生 失败")
     eventPlayer.hudText = null

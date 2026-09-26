@@ -24,4 +24,4 @@ rule "[VishkarEvent]: 赌徒：短期投资 (交易)":
     eventPlayer.eventForceRoll = EVT_MECH_8_FORCE_ROLL
     eventPlayer.eventForceCount = EVT_MECH_8_FORCE_COUNT
     smallMessage(eventPlayer, "  {0}  合约已生效：未来 3 个事件为 减益".format(iconString(Icon.DIAMOND)))   
-    clearPlayerEvent()
+    requestPlayerEventEnd()
