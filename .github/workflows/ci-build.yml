@@ -40,9 +40,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Synchronize platform data
-        run: pnpm run build
-
       - name: Install released Wright CLI
         shell: bash
         run: |
@@ -54,15 +51,13 @@ jobs:
       - name: Install pinned OverPy provider
         run: wright provider update opy --version "${OPY_PROVIDER_VERSION}"
 
+      - name: Synchronize platform data and build every entry with Wright
+        run: pnpm run build
+
       - name: Check Bastion source with Wright and opy-rs
         run: |
           wright check src/main.opy --kind opy --root .
           wright check src/externalMain.opy --kind opy --root .
-
-      - name: Build production entries with Wright
-        run: |
-          pnpm run build:cn:zh
-          pnpm run build:external:en
 
       - name: Check generated Workshop with Wright and workshop-rs
         run: |
