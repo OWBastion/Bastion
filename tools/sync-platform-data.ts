@@ -78,6 +78,10 @@ type CompositeStageControl = {
 type CompositeSpatialStage = {
   stageId: string;
   setupDetection?: AlternateStageSetupDetection;
+  resetPosition?: SpatialPosition;
+  endPosition?: SpatialPosition;
+  thirdPersonPosition?: SpatialPosition;
+  creditsPosition?: SpatialPosition;
   bastionPositions: SpatialPosition[];
   control: CompositeStageControl;
   portalPositions: SpatialPosition[];
@@ -209,6 +213,7 @@ function validateAlternateStageSetupDetection(value: unknown, label: string): Al
 const spatialConfigKeys = ['bastionPositions', 'resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control', 'portalPositions', 'springboardPositions'];
 const compositeSharedSpatialKeys = ['resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition', 'control'];
 const compositeStageSpatialKeys = ['bastionPositions', 'control', 'portalPositions', 'springboardPositions'];
+const compositeStageRouteAnchorKeys = ['resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition'];
 
 function validateSpatialConfigBase(value: unknown, label: string): SpatialConfigBase {
   assertExactKeys(value, label, spatialConfigKeys);
@@ -286,7 +291,7 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
       if (!rawStage || typeof rawStage !== 'object' || Array.isArray(rawStage)) throw new Error(`${stageLabel} must be an object`);
       const stage = rawStage as Record<string, unknown>;
       const expectedKeys = ['stageId', ...compositeStageSpatialKeys];
-      const allowedKeys = [...expectedKeys, 'setupDetection'];
+      const allowedKeys = [...expectedKeys, 'setupDetection', ...compositeStageRouteAnchorKeys];
       const actualKeys = Object.keys(stage).sort();
       if (compositeStageSpatialKeys.some((key) => !(key in stage)) || actualKeys.some((key) => !allowedKeys.includes(key))) throw new Error(`${stageLabel} has an invalid shape; expected keys ${allowedKeys.join(', ')}`);
       const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
@@ -302,6 +307,10 @@ function validateSpatialConfig(value: unknown, label: string): SpatialConfig {
       return {
         stageId,
         ...(stage.setupDetection === undefined ? {} : { setupDetection: validateAlternateStageSetupDetection(stage.setupDetection, `${stageLabel}.setupDetection`) }),
+        ...(stage.resetPosition === undefined ? {} : { resetPosition: validateSpatialPosition(stage.resetPosition, `${stageLabel}.resetPosition`) }),
+        ...(stage.endPosition === undefined ? {} : { endPosition: validateSpatialPosition(stage.endPosition, `${stageLabel}.endPosition`) }),
+        ...(stage.thirdPersonPosition === undefined ? {} : { thirdPersonPosition: validateSpatialPosition(stage.thirdPersonPosition, `${stageLabel}.thirdPersonPosition`) }),
+        ...(stage.creditsPosition === undefined ? {} : { creditsPosition: validateSpatialPosition(stage.creditsPosition, `${stageLabel}.creditsPosition`) }),
         bastionPositions: validateSpatialPositions(stage.bastionPositions, `${stageLabel}.bastionPositions`, true),
         control: { centerPositions, jumpPositions: jumpPositions as [SpatialPosition], respawnPositions: respawnPositions as [SpatialPosition] },
         portalPositions: validateSpatialPositions(stage.portalPositions, `${stageLabel}.portalPositions`, false),
@@ -984,11 +993,13 @@ function renderSpawnDetectedCompositeRoutes(
 
   routes.forEach((route, startIndex) => {
     const macroName = `${mapName}_ROUTE_${startIndex}`;
+    const firstStage = route[0]!;
+    const lastStage = route[route.length - 1]!;
     lines.push(`macro ${macroName}():`);
-    lines.push(`    resetPosition = ${renderSpatialPosition(spatialConfig.resetPosition)}`);
-    lines.push(`    endPosition = ${renderSpatialPosition(spatialConfig.endPosition)}`);
-    lines.push(`    thirdPersonPosition = ${renderSpatialPosition(spatialConfig.thirdPersonPosition)}`);
-    lines.push(`    creditsPosition = ${renderSpatialPosition(spatialConfig.creditsPosition)}`);
+    lines.push(`    resetPosition = ${renderSpatialPosition(firstStage.resetPosition ?? spatialConfig.resetPosition)}`);
+    lines.push(`    endPosition = ${renderSpatialPosition(lastStage.endPosition ?? spatialConfig.endPosition)}`);
+    lines.push(`    thirdPersonPosition = ${renderSpatialPosition(firstStage.thirdPersonPosition ?? spatialConfig.thirdPersonPosition)}`);
+    lines.push(`    creditsPosition = ${renderSpatialPosition(firstStage.creditsPosition ?? spatialConfig.creditsPosition)}`);
     lines.push(`    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`);
     lines.push(`    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`);
     lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', true));
