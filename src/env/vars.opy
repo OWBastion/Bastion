@@ -53,8 +53,6 @@ globalvar phaseHero 103
 globalvar __currentMapText___ 105
 globalvar classicMapVariant 108
 globalvar __currentMapClassicText___
-globalvar __mapTitleMapDataReady___ 109
-globalvar __mapTitlePresentationReady___ 110
 globalvar devEventCategory
 globalvar devEventIndex
 globalvar challengeTitleIds

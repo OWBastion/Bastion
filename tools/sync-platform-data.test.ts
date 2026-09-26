@@ -235,22 +235,19 @@ test('builds player and map title generation input from public player names', ()
 });
 
 test('initializes title text only after map presentation overrides are ready', async () => {
-  const [titleSource, mapTitleSource, paraisoSource, parisSource] = await Promise.all([
+  const [titleSource, mapTitleSource, parisSource] = await Promise.all([
     readFile(new URL('../src/title/title-cn.opy', import.meta.url), 'utf8'),
     readFile(new URL('../src/title/map-title-data.opy', import.meta.url), 'utf8'),
-    readFile(new URL('../src/map/paraiso.opy', import.meta.url), 'utf8'),
     readFile(new URL('../src/map/paris.opy', import.meta.url), 'utf8')
   ]);
 
-  assert.match(titleSource, /waitUntil\(__mapTitlePresentationReady___ == true, Math\.INFINITY\)[\s\S]*?titleText = \[/);
-  assert.match(mapTitleSource, /waitUntil\(__mapTitleMapDataReady___ == true, Math\.INFINITY\)[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
-  assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('__mapTitlePresentationReady___ = true'));
-
-  const paraisoRule = paraisoSource.slice(paraisoSource.indexOf('rule "map - paraiso":'));
-  assert.ok(paraisoRule.indexOf('__mapTitleMapDataReady___ = true') > paraisoRule.indexOf('platformMapRevision_PARAISO_DEFAULT()'));
+  assert.match(titleSource, /@Condition mapTitlePlayersByKey != null[\s\S]*?titleText = \[/);
+  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n    @Condition __currentMapClassicText___ != null[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('mapTitlePlayersByKey = ['));
+  assert.ok(mapTitleSource.indexOf('if mapTitlePlayersByKey == null:') > mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"'));
 
   const parisRule = parisSource.slice(parisSource.indexOf('rule "map - paris":'));
-  assert.ok(parisRule.indexOf('__currentMapClassicText___ = "塞納河畔灬噯已散場"') < parisRule.indexOf('__mapTitleMapDataReady___ = true'));
+  assert.ok(parisRule.indexOf('__currentMapClassicText___ = "塞納河畔灬噯已散場"') > parisRule.indexOf('platformMapRevision_PARIS_DEFAULT()'));
 });
 
 test('allows a legitimate map-holder removal without requiring a non-zero result', () => {

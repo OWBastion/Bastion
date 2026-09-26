@@ -40,5 +40,4 @@ rule "map - rialto":
     @Condition __currentMap___ == Map.RIALTO
 
     platformMapRevision_RIALTO_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

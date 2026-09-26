@@ -68,7 +68,6 @@ rule "map - 伊利奥斯":
     @Condition __currentMap___ == Map.ILIOS
 
     platformMapRevision_ILIOS_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     if len(getPlayersInRadius(platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_POSITION, platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_RADIUS, Team.1)) != 0:

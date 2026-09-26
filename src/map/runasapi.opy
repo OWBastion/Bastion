@@ -30,5 +30,4 @@ rule "map - 鲁纳塞彼":
     @Condition (__currentMap___ == Map.RUNASAPI or __currentMap___ == 8048) == true
 
     platformMapRevision_RUNASAPI_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

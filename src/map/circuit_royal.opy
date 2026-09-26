@@ -56,5 +56,4 @@ rule "map - 皇家赛道":
     else:
         platformMapRevision_CIRCUIT_ROYAL_DEFAULT()
     __currentMapClassicText___ = "賽檤の盡頭灬只剩莪"
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

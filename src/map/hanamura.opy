@@ -53,4 +53,3 @@ rule "map - 花村":
     else:
         platformMapRevision_HANAMURA_DEFAULT()
     __currentMapClassicText___ = "ミ櫻花落亽噯成殤"
-    __mapTitleMapDataReady___ = true

@@ -36,5 +36,4 @@ rule "map - 埃斯佩兰萨":
     @Condition (__currentMap___ == Map.ESPERANCA or __currentMap___ == 276) == true
     
     platformMapRevision_ESPERANCA_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

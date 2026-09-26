@@ -45,6 +45,5 @@ rule "map - 尼泊尔":
     @Condition __currentMap___ == Map.NEPAL
 
     platformMapRevision_NEPAL_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

@@ -30,5 +30,4 @@ rule "map - horizon lunar colony":
     
     platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT()
     __currentMapText___ = "月球基地"
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 0)

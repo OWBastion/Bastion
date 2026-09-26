@@ -32,5 +32,4 @@ rule "map - volskaya industries":
     
     platformMapRevision_VOLSKAYA_DEFAULT()
     __currentMapText___ = "沃斯卡娅"
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 0)

@@ -32,5 +32,4 @@ rule "map - 霓虹枢纽":
     @Condition (__currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860) == true
 
     platformMapRevision_NEON_JUNCTION_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 2)

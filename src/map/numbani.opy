@@ -33,5 +33,4 @@ rule "map - numbani":
     @Condition __currentMap___ == Map.NUMBANI
     
     platformMapRevision_NUMBANI_DEFAULT()
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)

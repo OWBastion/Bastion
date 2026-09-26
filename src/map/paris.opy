@@ -50,5 +50,4 @@ rule "map - paris":
     else:
         platformMapRevision_PARIS_DEFAULT()
     __currentMapClassicText___ = "塞納河畔灬噯已散場"
-    __mapTitleMapDataReady___ = true
     startForcingSpawn(Team.1, 1)
