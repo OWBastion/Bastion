@@ -20,8 +20,8 @@ jobs:
     name: OverPy and Wright
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
-      WRIGHT_VERSION: 0.2.37
-      OPY_PROVIDER_VERSION: 0.1.58
+      WRIGHT_VERSION: 0.2.39
+      OPY_PROVIDER_VERSION: 0.1.59
     steps:
       - name: Checkout
         uses: actions/checkout@v7
