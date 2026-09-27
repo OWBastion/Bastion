@@ -8,6 +8,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     @Event playerJoined
     @Team 1
     
+    eventPlayer.invincibleEffect = DEFAULT_INVINCIBLE_EFFECTS.slice(0, InvincibleEffectSlot.COUNT)
     eventPlayer.isDev = eventPlayer.key in devList
     eventPlayer.eventId = -1
     eventPlayer.eventLastId = []
