@@ -87,7 +87,7 @@ playervar third 24
 playervar hasNano 25
 playervar nanoEffect 26
 playervar invincible 27
-playervar deathDelayInvincibleEffect 28
+playervar invincibleEffect 28
 playervar isAirWalkEnabled 29
 playervar isPortalEnabled 30
 playervar controlCenterIndex 31
@@ -141,9 +141,6 @@ playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
 playervar altFormActive 111
-playervar willToWinInvincibleEffect 112
-playervar regroupCallInvincibleEffect 113
-playervar devInvincibleEffect 114
 playervar playerOnceEventState
 playervar menuHeroIndex
 playervar mod_heal_perma

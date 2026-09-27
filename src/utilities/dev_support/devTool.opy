@@ -381,12 +381,12 @@ rule "Toggle invincible":
     if eventPlayer.invincible:
         eventPlayer.setStatusEffect(null, Status.INVINCIBLE, Math.INFINITY)
         createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-        eventPlayer.devInvincibleEffect = getLastCreatedEntity()
+        eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL] = getLastCreatedEntity()
         smallMessage(eventPlayer, "  {0}  开发者模式： 已设置为无敌状态".format(iconString(Icon.BOLT)))
     else:
         eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-        destroyEffect(eventPlayer.devInvincibleEffect)
-        eventPlayer.devInvincibleEffect = null
+        destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL])
+        eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL] = null
         smallMessage(eventPlayer, "  {0}  开发者模式： 已取消无敌状态".format(iconString(Icon.BOLT)))
 
 
