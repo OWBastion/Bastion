@@ -20,7 +20,6 @@ jobs:
     name: Wright
     env:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
-      WRIGHT_VERSION: 0.2.39
       OPY_PROVIDER_VERSION: 0.1.59
     steps:
       - name: Checkout
@@ -44,8 +43,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL https://wrightkit.dev/install.sh \
-            | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
+          curl -fsSL https://install.wrightkit.dev/wright/install.sh \
+            | bash -s -- --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
 
       - name: Install pinned OverPy provider
