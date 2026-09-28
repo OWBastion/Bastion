@@ -681,43 +681,48 @@ test('statically expands every spawn-detected cyclic route with complete spatial
   assert.doesNotMatch(emptyCenterOutput, /controlCenterPosition = \[\s*\]/);
 });
 
-test('uses Busan stage route anchors at each generated route boundary', () => {
+test('uses stage route anchors at each generated cyclic route boundary', () => {
   const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
+  const point = (offset: number): [number, number, number] => [offset, offset + 1, offset + 2];
+  const root = {
+    resetPosition: point(1),
+    endPosition: point(4),
+    thirdPersonPosition: point(7),
+    creditsPosition: point(10)
+  };
   const routeConfig = {
     ...compositeSpatialConfig,
-    resetPosition: [-409.71, 10.11, 165.61] as [number, number, number],
-    endPosition: [158.67, 10.81, 260.91] as [number, number, number],
-    thirdPersonPosition: [-410.4, 10.11, 162.37] as [number, number, number],
-    creditsPosition: [-426.04, 13.11, 165.81] as [number, number, number],
+    ...root,
     composition: {
       selectionCount: 2,
-      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'busan-1' },
+      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'stage-0' },
       remainingStageSelection: 'stage_id_cycle' as const
     },
     stages: [
-      { ...compositeStage('busan-1', 100), endPosition: [-251.99, 11.34, 174.77] as [number, number, number] },
+      { ...compositeStage('stage-0', 100), endPosition: point(13) },
       {
-        ...compositeStage('busan-2', 200, setupDetection),
-        resetPosition: [-30.05, 17, -118.12] as [number, number, number],
-        thirdPersonPosition: [-30.05, 17, -133.42] as [number, number, number],
-        creditsPosition: [-43.73, 19, -125.54] as [number, number, number],
-        endPosition: [104.77, 17.74, -137.21] as [number, number, number]
+        ...compositeStage('stage-1', 200, setupDetection),
+        resetPosition: point(16),
+        thirdPersonPosition: point(19),
+        creditsPosition: point(22),
+        endPosition: point(25)
       },
       {
-        ...compositeStage('busan-3', 300, setupDetection),
-        resetPosition: [282.34, 12.1, 201.72] as [number, number, number],
-        thirdPersonPosition: [289.73, 12.1, 199.05] as [number, number, number],
-        creditsPosition: [297.09, 14.1, 208.95] as [number, number, number]
+        ...compositeStage('stage-2', 300, setupDetection),
+        resetPosition: point(28),
+        thirdPersonPosition: point(31),
+        creditsPosition: point(34)
       }
     ]
   };
+  const stages = routeConfig.stages;
   const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: {
       ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', gameplayRevisionId: 'revision:map.busan:default', spatialConfig: routeConfig }] }]
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: routeConfig }] }]
     }
   }));
-  const routes = [...output.matchAll(/macro platformMapRevision_BUSAN_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
+  const routes = [...output.matchAll(/macro platformMapRevision_TEST_MAP_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
   assert.equal(routes.length, 3);
   const anchors = routes.map(([, index, body]) => [
     index,
@@ -726,11 +731,19 @@ test('uses Busan stage route anchors at each generated route boundary', () => {
     body!.match(/thirdPersonPosition = vect\(([^)]+)\)/)?.[1],
     body!.match(/creditsPosition = vect\(([^)]+)\)/)?.[1]
   ]);
-  assert.deepEqual(anchors, [
-    ['0', '-409.71, 10.11, 165.61', '104.77, 17.74, -137.21', '-410.4, 10.11, 162.37', '-426.04, 13.11, 165.81'],
-    ['1', '-30.05, 17, -118.12', '158.67, 10.81, 260.91', '-30.05, 17, -133.42', '-43.73, 19, -125.54'],
-    ['2', '282.34, 12.1, 201.72', '-251.99, 11.34, 174.77', '289.73, 12.1, 199.05', '297.09, 14.1, 208.95']
-  ]);
+  const formatPosition = (position: [number, number, number]) => position.join(', ');
+  const expected = stages.map((_, startIndex) => {
+    const first = stages[startIndex]!;
+    const last = stages[(startIndex + 1) % stages.length]!;
+    return [
+      String(startIndex),
+      formatPosition(first.resetPosition ?? root.resetPosition),
+      formatPosition(last.endPosition ?? root.endPosition),
+      formatPosition(first.thirdPersonPosition ?? root.thirdPersonPosition),
+      formatPosition(first.creditsPosition ?? root.creditsPosition)
+    ];
+  });
+  assert.deepEqual(anchors, expected);
 });
 
 test('accepts random-first composites and rejects invalid composition constraints', () => {
