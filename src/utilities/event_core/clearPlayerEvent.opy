@@ -36,10 +36,10 @@ def clearPlayerEvent():
     eventPlayer.eventSize = 0
     eventPlayer.eventTargetHP = 0
     eventPlayer.altFormActive = false
-    if eventPlayer.isWinner:
-        goto lbl_0
-    destroyEffect(eventPlayer.invincibleEffect)
-    lbl_0:
+    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY])
+    eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] = null
+    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
+    eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] = null
     eventPlayer.eventMission = 0
     eventPlayer.eventMissionGoal = 0
     eventPlayer.hudText = ""

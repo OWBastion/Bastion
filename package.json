@@ -5,11 +5,12 @@
   "description": "Build tooling for OverPy workshop outputs",
   "packageManager": "pnpm@11.10.0",
   "scripts": {
-    "build:cn:zh": "overpy compile -i src/main.opy -o build/cn-zh-CN.ow -l zh-CN",
-    "build:cn:en": "overpy compile -i src/main.opy -o build/cn-en-US.ow -l en-US",
-    "build:dev:cn:zh": "overpy compile -i src/devMain.opy -o build/dev-cn-zh-CN.ow -l zh-CN",
-    "build:external:en": "overpy compile -i src/externalMain.opy -o build/external-en-US.ow -l en-US",
-    "build:external:zh": "overpy compile -i src/externalMain.opy -o build/external-zh-CN.ow -l zh-CN",
+    "build:dir": "node -e \"require('fs').mkdirSync('build',{recursive:true})\"",
+    "build:cn:zh": "pnpm run build:dir && wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/cn-zh-CN.ow",
+    "build:cn:en": "pnpm run build:dir && wright compile src/main.opy --kind opy --root . --locale en-US -o build/cn-en-US.ow",
+    "build:dev:cn:zh": "pnpm run build:dir && wright compile src/devMain.opy --kind opy --root . --locale zh-CN -o build/dev-cn-zh-CN.ow",
+    "build:external:en": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/external-en-US.ow",
+    "build:external:zh": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale zh-CN -o build/external-zh-CN.ow",
     "tools": "tsx tools/cli.ts",
     "sync": "pnpm run tools -- sync",
     "sync:title-data": "pnpm run tools -- sync:title-data",
@@ -23,9 +24,6 @@
     "tools:test": "pnpm run tools -- test:title-data-sync && pnpm run tools -- test:platform-data-sync && node --import tsx --test tools/temper-heart.test.ts",
     "build:release": "pnpm run sync:platform-data --no-build && pnpm run build:cn:zh && pnpm run build:external:en",
     "build": "pnpm run sync:platform-data"
-  },
-  "dependencies": {
-    "overpy": "^9.7.10"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

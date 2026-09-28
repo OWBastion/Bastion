@@ -99,7 +99,7 @@ pnpm run build
 
 `pnpm run build` first synchronizes current platform metadata through the Agents API, then compiles CN zh-CN, External en-US, External zh-CN, and CN development zh-CN. The release build emits the CN and External production artifacts.
 
-Build scripts use the `overpy` CLI (`overpy compile ...`) from the npm package.
+Build scripts use the Wright CLI (`wright compile ...`) with the OverPy provider. Install Wright from <https://wrightkit.dev> and run `wright provider update opy` once; CI pins the versions in `.github/workflows/ci-build.yml` and `release.yml`.
 
 Build each entry independently:
 

@@ -27,8 +27,16 @@ enum PlayerOnceEventSlot:
     TEMPER_HEART = 0
     COUNT
 
+enum InvincibleEffectSlot:
+    DEATH_DELAY = 0
+    WILL_TO_WIN
+    REGROUP_CALL
+    DEV_TOOL
+    COUNT
+
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
 #!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
+#!define DEFAULT_INVINCIBLE_EFFECTS [null, null, null, null]
 enum TemperHeartState:
     NONE = 0
     DRAWN

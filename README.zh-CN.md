@@ -96,7 +96,7 @@ pnpm install
 pnpm run build
 ```
 
-构建脚本已切换为 npm 包 `overpy` 的 CLI（`overpy compile ...`）。
+构建脚本使用 Wright CLI（`wright compile ...`）及其 OverPy provider。请从 <https://wrightkit.dev> 安装 Wright，并执行一次 `wright provider update opy`；CI 的固定版本见 `.github/workflows/ci-build.yml` 和 `release.yml`。
 
 分别构建双入口：
 

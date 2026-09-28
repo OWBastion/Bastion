@@ -16,17 +16,17 @@ rule "[VishkarEvent]: 胜利意志（预备态）":
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.invincibleEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null]) == true
     @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
 
     # Exception: multi-phase revive/invincible flow keeps explicit phase waits.
     wait()
     eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-    destroyEffect(eventPlayer.invincibleEffect)
+    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
     wait()
     eventPlayer.setStatusEffect(eventPlayer, Status.INVINCIBLE, EVT_14_INVINCIBLE_DURATION)
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
-    eventPlayer.invincibleEffect = getLastCreatedEntity()
+    eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
@@ -37,5 +37,5 @@ rule "[VishkarEvent]: 胜利意志":
     eventPlayer.eventDuration = 0
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-    destroyEffect(eventPlayer.invincibleEffect)
-    eventPlayer.invincibleEffect = null
+    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
+    eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] = null
