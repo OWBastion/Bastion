@@ -697,6 +697,71 @@ test('statically expands every spawn-detected cyclic route with complete spatial
   assert.doesNotMatch(emptyCenterOutput, /controlCenterPosition = \[\s*\]/);
 });
 
+test('uses stage route anchors at each generated cyclic route boundary', () => {
+  const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
+  const point = (offset: number): [number, number, number] => [offset, offset + 1, offset + 2];
+  const root = {
+    resetPosition: point(1),
+    endPosition: point(4),
+    thirdPersonPosition: point(7),
+    creditsPosition: point(10)
+  };
+  const routeConfig = {
+    ...compositeSpatialConfig,
+    ...root,
+    composition: {
+      selectionCount: 2,
+      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'stage-0' },
+      remainingStageSelection: 'stage_id_cycle' as const
+    },
+    stages: [
+      { ...compositeStage('stage-0', 100), endPosition: point(13) },
+      {
+        ...compositeStage('stage-1', 200, setupDetection),
+        resetPosition: point(16),
+        thirdPersonPosition: point(19),
+        creditsPosition: point(22),
+        endPosition: point(25)
+      },
+      {
+        ...compositeStage('stage-2', 300, setupDetection),
+        resetPosition: point(28),
+        thirdPersonPosition: point(31),
+        creditsPosition: point(34)
+      }
+    ]
+  };
+  const stages = routeConfig.stages;
+  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: routeConfig }] }]
+    }
+  }));
+  const routes = [...output.matchAll(/macro platformMapRevision_TEST_MAP_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
+  assert.equal(routes.length, 3);
+  const anchors = routes.map(([, index, body]) => [
+    index,
+    body!.match(/resetPosition = vect\(([^)]+)\)/)?.[1],
+    body!.match(/endPosition = vect\(([^)]+)\)/)?.[1],
+    body!.match(/thirdPersonPosition = vect\(([^)]+)\)/)?.[1],
+    body!.match(/creditsPosition = vect\(([^)]+)\)/)?.[1]
+  ]);
+  const formatPosition = (position: [number, number, number]) => position.join(', ');
+  const expected = stages.map((_, startIndex) => {
+    const first = stages[startIndex]!;
+    const last = stages[(startIndex + 1) % stages.length]!;
+    return [
+      String(startIndex),
+      formatPosition(first.resetPosition ?? root.resetPosition),
+      formatPosition(last.endPosition ?? root.endPosition),
+      formatPosition(first.thirdPersonPosition ?? root.thirdPersonPosition),
+      formatPosition(first.creditsPosition ?? root.creditsPosition)
+    ];
+  });
+  assert.deepEqual(anchors, expected);
+});
+
 test('accepts random-first composites and rejects invalid composition constraints', () => {
   const randomFirstConfig = {
     ...compositeSpatialConfig,
