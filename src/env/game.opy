@@ -67,6 +67,11 @@ rule "Update targetPlayer when player left":
     @Event playerLeft
     @Team 1
 
+    if eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL:
+        eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
+        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+        eventPlayer.eventMission = 0
+
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY])
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.REGROUP_CALL])

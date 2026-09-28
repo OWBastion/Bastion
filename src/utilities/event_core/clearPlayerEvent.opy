@@ -8,6 +8,13 @@ subroutine clearPlayerEvent
 def clearPlayerEvent():
     @Name "[VishkarEvent]: player event end"
     
+    if eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL:
+        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+        if eventPlayer.eventMission == 1:
+            eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
+            eventPlayer.eventMission = 0
+            kill(eventPlayer, eventPlayer)
+
     clearEventEffect()
     eventPlayer.stopForcingThrottle()
     eventPlayer.stopThrottleInDirection()
