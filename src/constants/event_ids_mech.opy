@@ -58,6 +58,8 @@ enum MechEventId:
     CYCLE_REPLAY
     # legacy numeric id: 29
     LIFE_PULSE
+    # legacy numeric id: 30
+    PARTNER_CHAIN
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

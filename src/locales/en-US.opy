@@ -243,6 +243,8 @@
 #!define STR_EVT_MECH_29_TITLE "Life Pulse"
 #!define STR_EVT_MECH_29_DESC "Hold {0} to channel, draining {1}% of your max HP per second.\nRelease to heal allies within {2}m — healing grows with channel time ({3}% of your max HP per second channeled).\n{4}s cooldown after release."
 #!define STR_EVT_MECH_29_CHARGING "Channeling {0}s (heal {1}%)"
+#!define STR_EVT_MECH_30_TITLE "Partner Chain"
+#!define STR_EVT_MECH_30_DESC "For the duration, you are linked to a random valid ally and pulled toward them.\nWithin {0}m you are unaffected; pull peaks beyond {1}m."
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"

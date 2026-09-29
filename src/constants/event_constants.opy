@@ -1008,4 +1008,18 @@ enum EquivalentExchangeOffer:
 # 释放后再次蓄力的间隔（秒）
 #!define EVT_MECH_29_RELEASE_COOLDOWN 6
 
+
+# --- ID 30 (Mech): 同行链 ---
+# Duration（秒）
+#!define EVT_MECH_30_DURATION 45
+# Weight（权重）
+#!define EVT_MECH_30_WEIGHT 1
+# 自由距离（米）：该距离内不施加牵引，基本不影响正常移动
+#!define EVT_MECH_30_FREE_DISTANCE 8
+# 满牵引距离（米）：FREE→FULL 线性斜坡，达到该距离时牵引拉满
+#!define EVT_MECH_30_FULL_PULL_DISTANCE 20
+# 最大牵引强度（每 tick 速度增量 m/s）：沿用黑洞量纲校准，
+# 0.13/tick ≈ 8m/s²（8 × 0.016 ≈ 0.128，Issue 原型最大牵引）
+#!define EVT_MECH_30_MAX_PULL_STRENGTH 0.13
+
 # -----------------------------------------------------------------------------

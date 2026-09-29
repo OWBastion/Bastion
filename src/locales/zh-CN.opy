@@ -252,6 +252,8 @@
 #!define STR_EVT_MECH_29_TITLE "生命脉冲"
 #!define STR_EVT_MECH_29_DESC "长按{0}消耗生命蓄力，每秒消耗{1}%最大生命值\n松开治疗{2}米内友方，治疗量随蓄力时间增长（每蓄力1秒恢复{3}%最大生命值）\n释放后{4}秒内无法再次蓄力"
 #!define STR_EVT_MECH_29_CHARGING "蓄力 {0}秒（治疗 {1}%）"
+#!define STR_EVT_MECH_30_TITLE "同行链"
+#!define STR_EVT_MECH_30_DESC "持续期间与一名随机有效友方相连，被持续牵引向对方\n{0}米内不受影响，{1}米外达到最大牵引"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
