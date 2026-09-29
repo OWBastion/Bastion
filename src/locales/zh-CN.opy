@@ -196,6 +196,8 @@
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
 #!define STR_EVT_DEBUFF_23_DESC "每有{0}点生命值，使受到的伤害提高{1}%"
+#!define STR_EVT_DEBUFF_24_TITLE "轨道投射"
+#!define STR_EVT_DEBUFF_24_DESC "堡垒每{0}秒锁定你的位置\n{1}秒预警后对锁定位置发起炮击"
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------

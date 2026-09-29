@@ -187,6 +187,8 @@
 #!define STR_EVT_DEBUFF_22_DESC "Every {0}s, launch yourself at high speed in a random direction."
 #!define STR_EVT_DEBUFF_23_TITLE "Overweight Backpack"
 #!define STR_EVT_DEBUFF_23_DESC "For every {0} max HP, damage taken increases by {1}%."
+#!define STR_EVT_DEBUFF_24_TITLE "Orbital Strike"
+#!define STR_EVT_DEBUFF_24_DESC "Bastion locks your position every {0}s\nand fires a grenade strike at it after a {1}s warning."
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------

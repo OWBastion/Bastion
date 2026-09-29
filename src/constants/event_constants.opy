@@ -597,6 +597,20 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT 10
 #!define EVT_DEBUFF_23_REFRESH_INTERVAL 0.25
 
+# --- ID 24 (Debuff): 轨道投射 ---
+# Duration（秒）
+#!define EVT_DEBUFF_24_DURATION 30
+# Weight（权重）
+#!define EVT_DEBUFF_24_WEIGHT 0.8
+# 锁定间隔 (秒)
+#!define EVT_DEBUFF_24_LOCK_INTERVAL 6
+# 炮击预警时长 (秒)
+#!define EVT_DEBUFF_24_WARNING_TIME 2
+# 预警圈半径 (米，约等于榴弹溅射范围)
+#!define EVT_DEBUFF_24_WARNING_RADIUS 4
+# 堡垒瞄准接管预约窗口 (秒，需覆盖预警+开火；异常中断后自动过期恢复常规瞄准)
+#!define EVT_DEBUFF_24_RESERVE_TIME 3
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------

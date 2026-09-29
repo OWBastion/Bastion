@@ -294,6 +294,8 @@ rule "Update aim point":
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target != null
+    # eventMission > now: 事件接管瞄准（如轨道投射锁定位），暂停覆写 aimPosition
+    @Condition eventPlayer.eventMission <= getTotalTimeElapsed()
     
     eventPlayer.tempAimPosition = (eventPlayer.target.getPosition() + eventPlayer.target.getEyePosition()) / 2
     if isInLoS(eventPlayer.getEyePosition(), eventPlayer.tempAimPosition):
@@ -314,6 +316,8 @@ rule "Pre-aim nearest target":
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target == false
+    # eventMission > now: 事件接管瞄准（如轨道投射锁定位），暂停覆写 aimPosition
+    @Condition eventPlayer.eventMission <= getTotalTimeElapsed()
     
     wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
     #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]

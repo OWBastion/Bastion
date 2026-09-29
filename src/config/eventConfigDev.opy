@@ -415,7 +415,15 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
 
-    
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = STR_EVT_DEBUFF_24_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = STR_EVT_DEBUFF_24_DESC.format(EVT_DEBUFF_24_LOCK_INTERVAL, EVT_DEBUFF_24_WARNING_TIME)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = EVT_DEBUFF_24_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = EVT_DEBUFF_24_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE] = DebuffEventId.ORBITAL_STRIKE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ORBITAL_STRIKE)
+
+
     # ================================================
     # Pack 3: Mechanics
     # ================================================
