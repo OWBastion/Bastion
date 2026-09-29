@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file is the repository entrypoint for AI agents working on Bastion. Workspace guidance owns shared engineering policy; this file specializes Bastion contracts, risk routing, delivery constraints, and local validation. Keep durable guidance stable: current versions, counts, issue state, and temporary gaps belong in their live source of truth rather than here.
+This file is the repository entrypoint for AI agents working on Bastion. [OWBastion organization policy](https://github.com/OWBastion/.github/blob/main/README.md) owns shared engineering, testing, verification, entropy, and delivery policy. This file specializes Bastion ownership, domain constraints, risk routing, and local validation.
 
 ## Repository role
 
@@ -8,24 +8,9 @@ Bastion owns gameplay implementation, Workshop / OverPy source, game-side UI, bu
 
 Platform-owned metadata is consumed through the platform contract. Do not duplicate platform business truth here or move platform-owned behavior into game code for implementation convenience.
 
-## Work from intent, not a checklist
-
-A short request such as `implement #123`, `fix #123`, or `review #123` is sufficient. Resolve the smallest relevant context yourself instead of asking the user to repeat repository rules, architecture links, or skill names.
-
-For substantive work:
-
-1. Read the linked Issue and inspect the relevant source, tests, and current contract before deciding where to change code.
-2. Identify the owning gameplay/build responsibility and load only guidance relevant to the actual risk surface.
-3. Compare the Issue contract, current Bastion contract, and code reality. If they materially disagree, surface the mismatch instead of inventing a new gameplay, public-contract, ownership, or architecture decision.
-4. Implement the smallest complete coherent change. Before adding persistent state, abstractions, compatibility layers, configuration, or cross-repository contracts, establish the present requirement they satisfy.
-5. Verify the narrowest decisive behavior first, then the broader gates required by the touched risk.
-6. Re-evaluate the original goal after verification and continue until the requested work is delivered or a concrete blocker remains.
-
-Do not preload all documentation or skills.
-
 ## Repository delivery constraints
 
-Use `docs/agents/collaboration-commit.md` for the full local delivery contract. In particular: implementation/fix work uses a non-default branch and PR unless explicitly local-only; PR review results belong on the PR rather than only in chat; review-fix work includes thread/re-review handoff. Never push implementation commits directly to the default branch. Merge, release, deployment, production mutation, destructive operations, and material scope expansion remain separate authorization boundaries.
+Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/main/docs/pr-delivery.md) and `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
 
 ## Minimal red lines
 
@@ -52,13 +37,9 @@ Read only documents needed for the actual change:
 | Documentation ownership or source-to-doc sync | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
 | Context acquisition and route-first loading | `docs/agents/context-routing.md` | `docs/agents/README.md` |
 
-## Verification: correctness and necessity are different questions
+## Gameplay verification
 
-For material gameplay behavior, state lifecycle, random selection, cross-repository contracts, or performance-sensitive logic, verification must include an independent attempt to falsify the claimed behavior. State the claim and the independent basis for the expected result; where practical, remove, invert, or simplify the key behavior and confirm the targeted regression becomes observable again. Rerunning the author's green test/build is not independent evidence.
-
-Separately, perform one simplification/ablation pass for substantive design or implementation changes. Ask whether each newly added mechanism can be removed, deferred, inlined, merged into an existing path, or represented with less persistent state while the accepted requirement still holds. Keep complexity only when the simpler form would violate a current contract, constraint, or real workflow. Ablation tests necessity; it does not prove correctness.
-
-Tests should protect durable behavior, regressions, and invariants. Do not create expectations from current counts, incidental implementation structure, mutable documentation text, or the implementation's own output without an independent basis. A plausible wrong implementation should fail the relevant verification.
+Apply the [organization testing policy](https://github.com/OWBastion/.github/blob/main/docs/testing-policy.md) and [verification policy](https://github.com/OWBastion/.github/blob/main/docs/verification-and-acceptance.md). Material gameplay behavior, state lifecycle, random-event selection, platform boundaries, and performance-sensitive changes need evidence that can expose an incorrect behavior at the affected game/build boundary.
 
 ## Local invariants
 
