@@ -5,6 +5,14 @@
 
 subroutine setPlayerEvent
 subroutine commitPlayerEventCategory
+subroutine rerollNextEvent
+
+# 承诺预取模型：每次分配结束时把“下一个事件”预取进 eventNextIndex，
+# 由下一次 setPlayerEvent 直接消费；先知展示的就是这份承诺，展示与实发恒等。
+# 资格门槛只在掷骰当时判定；承诺一旦作出，即使门槛随后失效（如心之钢层数
+# 被花掉）也不再重验——以这种可接受的滞后换取“权威真实 next event”。
+# eventNextIndex 必须跨 clearPlayerEvent 存活到下一次分配，因此不能在那里清零；
+# 生命周期终点 = 消费、玩家重置、离开/重进。
 
 def commitPlayerEventCategory():
     @Name "[VishkarEvent]: commit player event category"
@@ -29,9 +37,20 @@ def commitPlayerEventCategory():
 def setPlayerEvent():
     @Name "[VishkarEvent]: set player event"
 
-    buildCandidatePool()
-    wait(getAverageServerLoad() / 100 * 0.032)
-    rejecSampling()
+    if eventPlayer.eventNextIndex != null:
+        eventPlayer.eventCandidateIndex = eventPlayer.eventNextIndex
+        eventPlayer.eventNextIndex = null
+        eventPlayer.eventIsSelected = true
+        # Unique 兜底：承诺先知在先，他人在此期间先一步成为先知。
+        # 唯一性优先于承诺——按候选池（Unique 门控已剔除先知）重掷。
+        if eventPlayer.eventCandidateIndex == BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET and len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)) > 0:
+            buildCandidatePool()
+            wait(getAverageServerLoad() / 100 * 0.032)
+            rejecSampling()
+    else:
+        buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
+        rejecSampling()
     if eventPlayer.thiefBuffStolen == true:
         eventPlayer.thiefBuffStolen = false
     eventPlayer.eventCategoryCommitted = false
@@ -75,3 +94,15 @@ def setPlayerEvent():
     lbl_2:
     setEventDuration()
     lbl_1:
+    # 在事件落账（eventLastId）之后预取下一个事件：去重窗口已包含本次结果
+    rerollNextEvent()
+
+def rerollNextEvent():
+    @Name "[VishkarEvent]: reroll committed next event"
+
+    # 供事件效果在改写 eventForceRoll / thiefBuffStolen 等待掷旗标后调用：
+    # 已承诺的 eventNextIndex 立刻按最新旗标重取，保证预览与实发一致。
+    buildCandidatePool()
+    wait(getAverageServerLoad() / 100 * 0.032)
+    rejecSampling()
+    eventPlayer.eventNextIndex = eventPlayer.eventCandidateIndex

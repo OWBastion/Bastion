@@ -50,6 +50,8 @@ enum MechEventId:
     MIRROR_INVERSION
     # legacy numeric id: 24
     GAMBLER_WINNER_TAKE_ALL
+    # legacy numeric id: 25
+    PROPHET
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

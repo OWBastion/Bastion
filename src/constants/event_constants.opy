@@ -928,4 +928,10 @@ enum MirrorInversionStat:
 #!define EVT_MECH_24_POOL_MIN 8
 #!define EVT_MECH_24_PLAYER_STACKS_MIN 4
 
+# --- ID 25 (Mech/Unique): 先知 ---
+# Duration（秒）
+#!define EVT_MECH_25_DURATION 60
+# Weight（权重）
+#!define EVT_MECH_25_WEIGHT 0.6
+
 # -----------------------------------------------------------------------------
