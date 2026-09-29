@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file is the repository entrypoint for AI agents working on Bastion. [OWBastion organization policy](https://github.com/OWBastion/.github/blob/main/README.md) owns shared engineering, testing, verification, entropy, and delivery policy. This file specializes Bastion ownership, domain constraints, risk routing, and local validation.
+This file is the repository entrypoint for AI agents working on Bastion. [OWBastion organization routing](https://github.com/OWBastion/.github/blob/main/AGENTS.md) owns repository ownership, shared policy routing, and global invariants. This file specializes Bastion ownership, domain constraints, risk routing, and local validation.
 
 ## Repository role
 
@@ -10,7 +10,7 @@ Platform-owned metadata is consumed through the platform contract. Do not duplic
 
 ## Repository delivery constraints
 
-Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/main/docs/pr-delivery.md) and `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
+Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/main/docs/pr-delivery.md), [issue readiness and preflight](https://github.com/OWBastion/.github/blob/main/docs/issue-readiness.md), and `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
 
 ## Minimal red lines
 
@@ -86,5 +86,7 @@ Player title grants remain platform-owned; Bastion has no local grant helper.
 - `add-workshop-title`: use when platform title metadata or generated title artifacts are being added or changed.
 - `add-workshop-event`: use when adding/removing/changing event enum/constants/i18n/config/effects or their generated facts.
 - `session-skill-maintainer`: use when durable evidence shows repository-local skill content or routing needs maintenance.
+
+Workspace governance skills in `.agents/skills/` apply organization policy when the task shape matches: `owbastion-reclaim-entropy` (cleanup and load-bearing investigations), `owbastion-verify-change` (independent verification of another author's material change), and `owbastion-test-design-review` (test necessity and stability).
 
 Skill metadata is an activation surface. Relevant task shapes, changed artifacts, or failure signals should trigger the skill without the user having to name it. Skills are procedures, not policy owners, and must not enlarge task scope or override this file and its canonical routed contracts.
