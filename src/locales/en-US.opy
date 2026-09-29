@@ -230,6 +230,12 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
+#!define STR_EVT_MECH_27_TITLE "Equivalent Exchange"
+#!define STR_EVT_MECH_27_DESC "Hold {0} to close the offered one-way trade (once only):\n{1} Heartsteel → +{2}% Speed → +{2}% Dmg Reduction → +{2}% Healing → +{1} Heartsteel"
+#!define STR_EVT_MECH_27_OFFER_STACKS_TO_SPEED "{0} Heartsteel → +{1}% Speed"
+#!define STR_EVT_MECH_27_OFFER_SPEED_TO_REDUCTION "-{0}% Speed → +{0}% Dmg Reduction"
+#!define STR_EVT_MECH_27_OFFER_REDUCTION_TO_HEALING "-{0}% Dmg Reduction → +{0}% Healing"
+#!define STR_EVT_MECH_27_OFFER_HEALING_TO_STACKS "-{0}% Healing → +{1} Heartsteel"
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"
