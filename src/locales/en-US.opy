@@ -229,6 +229,8 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
+#!define STR_EVT_MECH_26_TITLE "Black Hole"
+#!define STR_EVT_MECH_26_DESC "For the duration, all allies are pulled toward you.\nAllies within {0}m are unaffected."
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"

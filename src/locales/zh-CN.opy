@@ -238,6 +238,8 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
+#!define STR_EVT_MECH_26_TITLE "黑洞"
+#!define STR_EVT_MECH_26_DESC "持续期间所有友方被你牵引\n{0}米内停止牵引"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
