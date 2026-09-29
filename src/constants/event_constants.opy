@@ -1008,4 +1008,22 @@ enum EquivalentExchangeOffer:
 # 释放后再次蓄力的间隔（秒）
 #!define EVT_MECH_29_RELEASE_COOLDOWN 6
 
+# --- ID 30 (Mech): 失败的Man ---
+# Duration（秒）
+#!define EVT_MECH_30_DURATION 30
+# Weight（权重）
+#!define EVT_MECH_30_WEIGHT 1
+# 抓钩目标最大距离（米）：准星射线命中点；未命中时取该距离端点
+#!define EVT_MECH_30_MAX_TARGET_DISTANCE 35
+# 飞行速度（m/s）：每 tick 沿"当前位置→目标"方向把速度分量补足到该值
+# （INCORPORATE_CONTRARY_MOTION 为纯速度增量，缺口脉冲使方向分量精确收敛到该值；
+# 超速段不主动刹车——俯冲/坠落可超过该值，符合"约"与失败的Man的粗糙手感）
+#!define EVT_MECH_30_FLIGHT_SPEED 22
+# 到达判定半径（米）：距目标 ≤ 该值即结束本次抓钩
+#!define EVT_MECH_30_ARRIVE_RADIUS 2
+# 重新选点保护（秒）：每次抓钩结束后再次选点的间隔
+#!define EVT_MECH_30_RESELECT_COOLDOWN 0.75
+# 单次抓钩飞行时限（秒）：35m/22m/s≈1.6s，冗余至3s——贴墙卡住等异常时强制收尾
+#!define EVT_MECH_30_MAX_FLIGHT_TIME 3
+
 # -----------------------------------------------------------------------------
