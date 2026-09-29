@@ -236,6 +236,10 @@
 #!define STR_EVT_MECH_27_OFFER_SPEED_TO_REDUCTION "-{0}% Speed → +{0}% Dmg Reduction"
 #!define STR_EVT_MECH_27_OFFER_REDUCTION_TO_HEALING "-{0}% Dmg Reduction → +{0}% Healing"
 #!define STR_EVT_MECH_27_OFFER_HEALING_TO_STACKS "-{0}% Healing → +{1} Heartsteel"
+#!define STR_EVT_MECH_28_TITLE "Cheat: Cycle Replay"
+#!define STR_EVT_MECH_28_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event replays your most recent replayable buff."
+#!define STR_EVT_MECH_28_TARGET "Replay target: {0}"
+#!define STR_EVT_MECH_28_NO_TARGET "No replayable buff"
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"

@@ -31,3 +31,4 @@
 #!include "mech/mirror_inversion.opy"
 #!include "mech/prophet.opy"
 #!include "mech/equivalent_exchange.opy"
+#!include "mech/cycle_replay.opy"

@@ -245,6 +245,10 @@
 #!define STR_EVT_MECH_27_OFFER_SPEED_TO_REDUCTION "移速-{0}% → 减伤+{0}%"
 #!define STR_EVT_MECH_27_OFFER_REDUCTION_TO_HEALING "减伤-{0}% → 治疗强度+{0}%"
 #!define STR_EVT_MECH_27_OFFER_HEALING_TO_STACKS "治疗强度-{0}% → 心之钢+{1}层"
+#!define STR_EVT_MECH_28_TITLE "作弊：循环往复"
+#!define STR_EVT_MECH_28_DESC "长按{0}消耗{1}层心之钢（约{2}%最大生命值）\n下个事件将重演最近一次可重现的增益"
+#!define STR_EVT_MECH_28_TARGET "重演目标：{0}"
+#!define STR_EVT_MECH_28_NO_TARGET "无可重演的增益"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
