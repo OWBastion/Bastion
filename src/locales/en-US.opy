@@ -167,6 +167,8 @@
 #!define STR_EVT_BUFF_33_DESC "Fatal damage knocks you down. An ally within {0}m can hold {1} for {2}s to revive you at {3}% HP. You stay down until the event ends; if no one rescues you, you die."
 #!define STR_EVT_BUFF_33_DOWNED "{0} is down! Hold {2} for {3}s within {1}m to rescue them."
 #!define STR_EVT_BUFF_33_RESCUED "Rescued! Restored to {0}% HP."
+#!define STR_EVT_BUFF_34_TITLE "Shared Blessing"
+#!define STR_EVT_BUFF_34_DESC "Bound to a random ally; both of you must pass the finish line in time.\nReward: {0} Heartsteel stacks each."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
