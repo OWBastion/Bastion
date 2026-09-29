@@ -196,6 +196,9 @@
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
 #!define STR_EVT_DEBUFF_23_DESC "每有{0}点生命值，使受到的伤害提高{1}%"
+#!define STR_EVT_DEBUFF_25_TITLE "静电力场"
+#!define STR_EVT_DEBUFF_25_DESC "{0}米内存在友方时\n双方朝相反方向弹开并击晕{1}秒"
+
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
@@ -231,7 +234,6 @@
 #!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：\n减伤/移速/治疗强度/心之钢"
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
 #!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数\n{2}%概率清空奖池并获得其中所有心之钢层数"
-
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
@@ -357,7 +359,6 @@
 # 玩家属性面板
 # {0}=心之钢层数, {1}=永久移速加成, {2}=永久减伤, {3}=治疗强度
 #!define STR_HUD_ATTR_PANEL "心之钢/移速/减伤/治疗%\r\n{0}/{1}/{2}/{3}%"
-
 
 # ------------------------------------------------
 # World Text (In-World)

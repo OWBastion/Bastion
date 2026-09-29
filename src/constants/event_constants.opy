@@ -597,6 +597,22 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT 10
 #!define EVT_DEBUFF_23_REFRESH_INTERVAL 0.25
 
+# --- ID 25 (Debuff): 静电力场 ---
+# Duration（秒）
+#!define EVT_DEBUFF_25_DURATION 30
+# Weight（权重）
+#!define EVT_DEBUFF_25_WEIGHT 1.0
+# 触发距离 (米)
+#!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
+# 击退冲量
+#!define EVT_DEBUFF_25_IMPULSE 25
+# 击晕时长 (秒)
+#!define EVT_DEBUFF_25_STUN 0.75
+# 触发保护 (秒，触发后该窗口内不再判定)
+#!define EVT_DEBUFF_25_TRIGGER_PROTECTION 2.5
+# 近身扫描间隔 (秒)
+#!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------

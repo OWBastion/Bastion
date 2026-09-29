@@ -16,7 +16,6 @@ rule "initialize event array":
     eventCatalogType = []
     eventCatalogEffectId = []
 
-
     # Pack 0 - Special
     eventName[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
     eventDesc[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_DESC
@@ -252,9 +251,6 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE] = MechEventId.BRAKE_FAILURE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BRAKE_FAILURE)
 
-
-
-
     # ================================================
     # Pack 3: Buffs
     # ================================================
@@ -346,9 +342,6 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE] = MechEventId.GAMBLER_SPEED_CHALLENGE
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE)
-
-
-    
 
     # ================================================
     # Pack 4: Buffs
@@ -594,6 +587,14 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
+
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_DESC.format(EVT_DEBUFF_25_TRIGGER_RADIUS, EVT_DEBUFF_25_STUN)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EVT_DEBUFF_25_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = DebuffEventId.STATIC_FIELD
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD)
 
     # ================================================
     # Pack 5: Mechanics
