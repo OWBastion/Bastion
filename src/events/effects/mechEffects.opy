@@ -30,3 +30,4 @@
 #!include "mech/cheat_backroom_deal.opy"
 #!include "mech/mirror_inversion.opy"
 #!include "mech/prophet.opy"
+#!include "mech/equivalent_exchange.opy"

@@ -52,6 +52,8 @@ enum MechEventId:
     GAMBLER_WINNER_TAKE_ALL
     # legacy numeric id: 25
     PROPHET
+    # legacy numeric id: 27
+    EQUIVALENT_EXCHANGE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
