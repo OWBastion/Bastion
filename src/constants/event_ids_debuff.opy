@@ -42,6 +42,10 @@ enum DebuffEventId:
     WAYWARD_NAVIGATION
     # legacy numeric id: 22
     OVERWEIGHT_PACK
+    # legacy numeric id: 24
+    # legacy numeric id: 25
+    STATIC_FIELD
+
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
