@@ -7,7 +7,7 @@ rule "initialize event array":
     @Condition vishkarEventActivated == true
 
     eventWeight = EVT_INIT_EVENT_WEIGHT
-    
+
     eventCatalogId = []
     eventName = []
     eventDesc = []
@@ -15,7 +15,7 @@ rule "initialize event array":
     eventCatalogWeight = []
     eventCatalogType = []
     eventCatalogEffectId = []
-    
+
     # Pack 0 - Special
     eventName[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
     eventDesc[BuffEventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_DESC
@@ -24,7 +24,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.OLIVIA_GIFT] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.OLIVIA_GIFT] = BuffEventId.OLIVIA_GIFT
     eventCatalogId.append(BuffEventId.OLIVIA_GIFT)
-    
+
     # ================================================
     # Pack 1: Buffs
     # ================================================
@@ -153,7 +153,7 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.ULT_MOMENTUM] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.ULT_MOMENTUM] = BuffEventId.ULT_MOMENTUM
     eventCatalogId.append(BuffEventId.ULT_MOMENTUM)
-    
+
     # ================================================
     # Pack 4: Buffs
     # ================================================
@@ -237,7 +237,16 @@ rule "initialize event array":
     eventCatalogEffectId[BuffEventId.WHERE_YOU_FALL] = BuffEventId.WHERE_YOU_FALL
     eventCatalogId.append(BuffEventId.WHERE_YOU_FALL)
 
-    
+
+    eventName[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
+    eventDesc[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_STACKS)
+    eventDuration[BuffEventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
+    eventCatalogWeight[BuffEventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
+    eventCatalogType[BuffEventId.SHARED_BLESSING] = EventType.BUFF
+    eventCatalogEffectId[BuffEventId.SHARED_BLESSING] = BuffEventId.SHARED_BLESSING
+    eventCatalogId.append(BuffEventId.SHARED_BLESSING)
+
+
     # ================================================
     # Pack 1: Debuffs
     # ================================================
@@ -359,7 +368,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY] = DebuffEventId.SELFLESS_GIVEAWAY
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY)
-    
+
     # ================================================
     # Pack 4: Debuffs
     # ================================================
@@ -405,7 +414,7 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
-    
+
     
     # ================================================
     # Pack 3: Mechanics

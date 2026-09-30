@@ -37,3 +37,4 @@
 #!include "buff/temper_heart.opy"
 #!include "buff/battlefield_medic.opy"
 #!include "buff/where_you_fall.opy"
+#!include "buff/shared_blessing.opy"

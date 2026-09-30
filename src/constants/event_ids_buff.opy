@@ -56,6 +56,8 @@ enum BuffEventId:
     BATTLEFIELD_MEDIC
     # legacy numeric id: 33
     WHERE_YOU_FALL
+    # legacy numeric id: 34
+    SHARED_BLESSING
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
