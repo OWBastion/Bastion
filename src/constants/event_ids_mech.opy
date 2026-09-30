@@ -56,6 +56,8 @@ enum MechEventId:
     EQUIVALENT_EXCHANGE
     # legacy numeric id: 28
     CYCLE_REPLAY
+    # legacy numeric id: 29
+    LIFE_PULSE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
