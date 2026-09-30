@@ -7,8 +7,9 @@ subroutine setPlayerEvent
 subroutine commitPlayerEventCategory
 subroutine rerollNextEvent
 
-# 承诺预取模型：每次分配结束时把“下一个事件”预取进 eventNextIndex，
-# 由下一次 setPlayerEvent 直接消费；先知展示的就是这份承诺，展示与实发恒等。
+# 承诺槽模型：eventNextIndex 记录“已确定的下一个事件”，由先知观测坍缩或
+# 待掷旗标变更路径（窃贼/赌徒等 rerollNextEvent 调用点）按需写入，不做常态预取；
+# 下一次 setPlayerEvent 直接消费该承诺——预览与实发恒等。无承诺时正常走候选池掷骰。
 # 资格门槛只在掷骰当时判定；承诺一旦作出，即使门槛随后失效（如心之钢层数
 # 被花掉）也不再重验——以这种可接受的滞后换取“权威真实 next event”。
 # eventNextIndex 必须跨 clearPlayerEvent 存活到下一次分配，因此不能在那里清零；
@@ -94,14 +95,13 @@ def setPlayerEvent():
     lbl_2:
     setEventDuration()
     lbl_1:
-    # 在事件落账（eventLastId）之后预取下一个事件：去重窗口已包含本次结果
-    rerollNextEvent()
 
 def rerollNextEvent():
     @Name "[VishkarEvent]: reroll committed next event"
 
-    # 供事件效果在改写 eventForceRoll / thiefBuffStolen 等待掷旗标后调用：
+    # 供先知观测坍缩及事件效果在改写 eventForceRoll / thiefBuffStolen 等待掷旗标后调用：
     # 已承诺的 eventNextIndex 立刻按最新旗标重取，保证预览与实发一致。
+    # 旗标变更路径的调用约定：仅当 eventNextIndex != null 时才调用（无承诺不浪费掷骰）。
     buildCandidatePool()
     wait(getAverageServerLoad() / 100 * 0.032)
     rejecSampling()

@@ -22,6 +22,7 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
     eventPlayer.eventForceRoll = EVT_MECH_12_FORCE_ROLL
     eventPlayer.eventForceCount = EVT_MECH_12_FORCE_COUNT
     # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
-    rerollNextEvent()
+    if eventPlayer.eventNextIndex != null:
+        rerollNextEvent()
     smallMessage(eventPlayer, "  {0}  合约已生效：未来 5 个事件为 减益".format(iconString(Icon.DIAMOND)))
     clearPlayerEvent()

@@ -27,7 +27,8 @@ rule "[VishkarEvent]: 窃贼":
             if eventCatalogType[eventPlayer.target.eventNextIndex] == EventType.BUFF:
                 eventPlayer.target.eventNextIndex = null
         # 自身的已承诺事件也需按强制增益旗标重取，保证先知预览与实发一致
-        rerollNextEvent()
+        if eventPlayer.eventNextIndex != null:
+            rerollNextEvent()
         eventPlayer.dlcTimeChallenge[8]++
         smallMessage(eventPlayer, "  {0}  已窃取一名友方的下一个增益事件".format(iconString(Icon.DIAMOND)))
         smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
