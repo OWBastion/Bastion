@@ -225,6 +225,10 @@
 #!define STR_EVT_MECH_23_DESC "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
 #!define STR_EVT_MECH_24_TITLE "Gambler: Winner Takes All"
 #!define STR_EVT_MECH_24_DESC "Hold {0} to spend {1}% of your Heartsteel stacks.\n{2}% chance to empty the jackpot and claim all Heartsteel inside."
+#!define STR_EVT_MECH_25_TITLE "Prophet"
+#!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
+#!define STR_EVT_MECH_25_NEXT "→ {0}"
+#!define STR_EVT_MECH_25_UNKNOWN "Unknown"
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"

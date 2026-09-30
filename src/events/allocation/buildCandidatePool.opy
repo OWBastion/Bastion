@@ -48,6 +48,9 @@ def buildCandidatePool():
         eventPlayer.eventTempIndex.remove(EventId.GAMBLER_WINNER_TAKE_ALL)
     if eventPlayer.mod_dmg_perma >= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(EventId.MIRROR_INVERSION)
+    # Unique 事件：先知同一时间最多一名。他人已生效或已预取锁定的都算占位。
+    if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and ((other.eventType == EventType.MECH and other.eventId == EventId.PROPHET) or other.eventNextIndex == EventId.PROPHET))) > 0:
+        eventPlayer.eventTempIndex.remove(EventId.PROPHET)
 
     if eventPlayer.eventLastId != null:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)

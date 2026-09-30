@@ -553,3 +553,10 @@ rule "initialize event array":
     eventCatalogWeight[EventId.MIRROR_INVERSION] = EVT_MECH_23_WEIGHT
     eventCatalogType[EventId.MIRROR_INVERSION] = EventType.MECH
     eventCatalogId.append(EventId.MIRROR_INVERSION)
+
+    eventName[EventId.PROPHET] = STR_EVT_MECH_25_TITLE
+    eventDesc[EventId.PROPHET] = STR_EVT_MECH_25_DESC
+    eventDuration[EventId.PROPHET] = EVT_MECH_25_DURATION
+    eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
+    eventCatalogType[EventId.PROPHET] = EventType.MECH
+    eventCatalogId.append(EventId.PROPHET)

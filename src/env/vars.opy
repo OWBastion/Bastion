@@ -58,6 +58,8 @@ globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
 globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
+# 先知栏位文本创建闩锁：true = 8 条 slot 世界文本已建，永不重复创建
+globalvar prophetSlotTextsCreated
 
 #Player variables
 
@@ -147,3 +149,5 @@ playervar menuHeroIndex
 playervar mod_heal_perma
 playervar thiefBuffStolen
 playervar eventMatchCounters
+# 事件系统承诺的下一个事件（目录索引；null = 未承诺）。先知展示的唯一权威来源。
+playervar eventNextIndex

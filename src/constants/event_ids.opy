@@ -146,5 +146,7 @@ enum EventId:
     WHERE_YOU_FALL
     # legacy numeric id: debuff 25
     STATIC_FIELD
+    # legacy numeric id: mech 25
+    PROPHET
     # sentinel only for integrity checks (do not register as an event)
     COUNT

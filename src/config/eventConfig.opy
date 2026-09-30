@@ -552,3 +552,10 @@ rule "initialize event array":
     eventCatalogWeight[EventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
     eventCatalogType[EventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
     eventCatalogId.append(EventId.GAMBLER_ALL_IN_ART_5)
+
+    eventName[EventId.PROPHET] = STR_EVT_MECH_25_TITLE
+    eventDesc[EventId.PROPHET] = STR_EVT_MECH_25_DESC
+    eventDuration[EventId.PROPHET] = EVT_MECH_25_DURATION
+    eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
+    eventCatalogType[EventId.PROPHET] = EventType.MECH
+    eventCatalogId.append(EventId.PROPHET)
