@@ -979,10 +979,12 @@ enum EquivalentExchangeOffer:
     BuffEventId.BLACK_FANS_ASSAULT, \
     BuffEventId.SPEED_STACK, \
     BuffEventId.FLESH_REGEN, \
+    BuffEventId.HEART_OF_STEEL, \
     BuffEventId.DEATH_DELAY, \
     BuffEventId.KONAMI_CODE, \
     BuffEventId.REGROUP_CALL, \
     BuffEventId.WILL_TO_WIN, \
+    BuffEventId.HEART_OF_STEEL_PRO, \
     BuffEventId.ULT_MOMENTUM, \
     BuffEventId.PHASE_SURGE, \
     BuffEventId.BODYGUARD, \
