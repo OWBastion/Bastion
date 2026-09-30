@@ -58,6 +58,8 @@ globalvar devEventIndex
 globalvar challengeTitleIds
 globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
+# 先知栏位文本创建闩锁：true = 8 条 slot 世界文本已建，永不重复创建
+globalvar prophetSlotTextsCreated
 
 #Player variables
 
@@ -148,5 +150,3 @@ playervar thiefBuffStolen
 playervar eventMatchCounters
 # 事件系统承诺的下一个事件（目录索引；null = 未承诺）。先知展示的唯一权威来源。
 playervar eventNextIndex
-# 先知生效期间、他人头顶“下一个事件”世界文本的句柄（挂在被观察者身上）。
-playervar prophetNextTextID
