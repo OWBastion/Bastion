@@ -177,7 +177,7 @@
 #!define STR_EVT_BUFF_33_DOWNED "{0} 倒地了！在{1}米内按住{2}{3}秒即可救援。"
 #!define STR_EVT_BUFF_33_RESCUED "已获救，恢复{0}%生命值"
 #!define STR_EVT_BUFF_34_TITLE "有福同享"
-#!define STR_EVT_BUFF_34_DESC "最近的友方按住{0}与你绑定\n时限内双双通过终点\n奖励：双方各获得 {1} 层心之钢"
+#!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1} 层心之钢"
 #!define STR_EVT_BUFF_34_BIND "{0}的友方在{1}米内按住{2} {3}秒即可完成绑定"
 
 # ------------------------------------------------
