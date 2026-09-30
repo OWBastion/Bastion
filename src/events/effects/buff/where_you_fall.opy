@@ -10,6 +10,12 @@ rule "[VishkarEvent]: 在哪里跌倒（预备态）":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL, eventPlayer.eventDuration)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+    if eventPlayer.eventMission == 1:
+        eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
+        eventPlayer.eventMission = 0
+        kill(eventPlayer, eventPlayer)
 
 rule "[VishkarEvent]: 在哪里跌倒":
     @Event playerTookDamage
@@ -18,6 +24,8 @@ rule "[VishkarEvent]: 在哪里跌倒":
     @Condition eventDamage >= eventPlayer.getHealth()
 
     wait(1)
+    if eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL:
+        return
     # eventMission marks a pending rescue so unrelated knockdowns are not treated as this event's state.
     eventPlayer.eventMission = 1
     eventPlayer.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, eventPlayer.eventDurationHud)
