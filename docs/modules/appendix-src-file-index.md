@@ -1,5 +1,8 @@
 # 附录：`src/` 文件索引
 
+## src/anniversary2026
+- `src/anniversary2026/minefield.opy`
+
 ## src/bastion
 - `src/bastion/init.opy`
 

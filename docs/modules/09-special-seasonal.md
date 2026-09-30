@@ -27,3 +27,9 @@
 - 主线不长期保留季节逻辑；按 AGENTS 约定使用独立分支维护。
 - 活动迁回主线前，先抽离可复用基础能力（如事件框架、HUD 组件）。
 - 活动结束后关注：是否需要回收文本 key、事件常量、地图临时点位。
+
+## 周年庆分支（`special/anniversary-2026`）
+
+- 入口为 `src/anniversary2026.opy`，在共享 `core.opy` 之后追加 `src/anniversary2026/` 下的周年庆专用模块。
+- `src/anniversary2026/minefield.opy`（Issue #273 地雷禁区）：在受支持地图上维持一只隐藏破坏球 Bot（隐身 + 相移 + 无法杀死），每 60 秒传送至该图预配置点位（`minefieldPosition`，由各 `src/map/*.opy` 规则基于 `bastionPosition`/`endPosition` 赋值）施放地雷禁区；Team 1 破坏球大招持续 500%（`TEAM1_WRECKINGBALL_ULT_DURATION_PCT`）。施放期间短暂清除相移状态，随后恢复并回传出生点待命；点位选择避免连续重复。
+- 共享规则按英雄过滤 Team 1 单位（命名、击杀归属、斥退、引力异常、狂欢盛宴、Bot 创建与事件分配计数），保证非堡垒的机制 Bot 不影响堡垒编队与事件逻辑；对主线（Team 1 全为堡垒）无行为差异。
