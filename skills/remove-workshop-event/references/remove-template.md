@@ -5,7 +5,7 @@
 ## 1) 删除清单模板（Hard-Delete）
 
 1. 枚举
-- 从 `src/constants/event_ids_*.opy` 删除 `<TYPE_ENUM>.<KEY>`。
+- 从 `src/constants/event_ids.opy` 删除 `EventId.<KEY>`（连同其 `# legacy numeric id:` 注释行）。
 
 2. 常量
 - 从 `src/constants/event_constants.opy` 删除 `<EVT_PREFIX>_<ID>*` 相关常量。
@@ -28,9 +28,9 @@
 ## 2) 固定检索命令模板
 
 ```bash
-rg -n '<KEY>|<TYPE_ENUM>\.|<STR_PREFIX>_<ID>|<EVT_PREFIX>_<ID>' src data web tools
+rg -n '<KEY>|EventId\.|<STR_PREFIX>_<ID>|<EVT_PREFIX>_<ID>' src data web tools
 rg -n '<EFFECT_FILE>|append\(|createWorkshopSettingBool' src/config src/events/effects
-rg -n 'enum BuffEventId|enum DebuffEventId|enum MechEventId|COUNT' src/constants/event_ids_*.opy
+rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
 ```
 
 ## 3) 完成定义（DoD）

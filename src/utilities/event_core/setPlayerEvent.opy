@@ -12,7 +12,7 @@ def commitPlayerEventCategory():
     if eventPlayer.eventCategoryCommitted == true or eventPlayer.eventIsSelected == false:
         return
     if eventPlayer.eventType == EventType.BUFF:
-        if eventPlayer.eventId == BuffEventId.OLIVIA_GIFT:
+        if eventPlayer.eventId == EventId.OLIVIA_GIFT:
             goto lbl_0
         eventPlayer.eventCount[EventType.BUFF]++
         lbl_0:
@@ -36,7 +36,7 @@ def setPlayerEvent():
         eventPlayer.thiefBuffStolen = false
     eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventType = eventCatalogType[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventId = eventCatalogEffectId[eventPlayer.eventCandidateIndex]
+    eventPlayer.eventId = eventPlayer.eventCandidateIndex
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
@@ -54,8 +54,6 @@ def setPlayerEvent():
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
     if eventPlayer.eventDesc == null:
         goto lbl_1
-    if eventPlayer.eventId == 666:
-        goto lbl_2
     smallMessage(
     eventPlayer, 
         STR_MSG_EVENT_TRIGGER.format(
@@ -72,6 +70,5 @@ def setPlayerEvent():
             eventPlayer.eventDesc.replace("\n", "，")
         )
     )
-    lbl_2:
     setEventDuration()
     lbl_1:

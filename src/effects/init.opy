@@ -8,7 +8,6 @@
 
 rule "initialize effects":
     hashTag = false if hashTag == false else true
-    eventId = -1
     wait(random.uniform(1, 2))
     setDifficulty()
     

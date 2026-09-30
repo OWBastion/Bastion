@@ -42,11 +42,11 @@
 
 建议：新增/调优事件优先在该文件做参数化，避免硬编码散落在 `events/effects/*.opy`。
 
-### `constants/event_ids_*.opy`
+### `constants/event_ids.opy`
 
-- 使用 `BuffEventId` / `DebuffEventId` / `MechEventId` 枚举定义事件 ID
-- 每个枚举末尾包含哨兵项 `COUNT`（仅用于计数，不参与事件注册）
-- 同文件提供 `BUFF_EVENT_ID_COUNT` / `DEBUFF_EVENT_ID_COUNT` / `MECH_EVENT_ID_COUNT`（映射到各自 `*.COUNT`），用于按枚举总数动态校验事件池完整性（例如 `utilities/system/hashtag.opy`）
+- 使用单一 `EventId` 枚举定义事件 ID，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位
+- 枚举末尾包含哨兵项 `COUNT`（仅用于完整性校验，不参与事件注册）
+- 事件类别由注册方写入 `eventCatalogType`，不按枚举分组派生
 
 ## `locales/` 模块
 

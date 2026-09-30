@@ -9,8 +9,7 @@ rule "Enable phase trigger":
     @Team 1
     @Condition vishkarEventActivated == true
     @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.eventType == EventType.BUFF
-    @Condition eventPlayer.eventId == BuffEventId.PHASE_SURGE or eventPlayer.eventId == BuffEventId.BODYGUARD
+    @Condition eventPlayer.eventId == EventId.PHASE_SURGE or eventPlayer.eventId == EventId.BODYGUARD
     # 只有当它是 False 时才触发，避免重复触发
     @Condition eventPlayer.phaseState == false
     @Condition eventPlayer.usesPhaseTrigger() == true

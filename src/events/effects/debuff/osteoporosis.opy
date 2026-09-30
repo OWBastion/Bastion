@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: DebuffEventId.OSTEOPOROSIS
+# Event: EventId.OSTEOPOROSIS
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 骨质疏松 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OSTEOPOROSIS, eventPlayer.eventEffect == null]) == true
 
     createEffect(getAllPlayers(), Effect.MEI_FROZEN, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -19,7 +19,7 @@ rule "[VishkarEvent]: 骨质疏松 Effect":
 rule "[VishkarEvent]: 骨质疏松":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.OSTEOPOROSIS]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OSTEOPOROSIS]) == true
     
     while eventPlayer.mod_speed_event != EVT_DEBUFF_6_MAX_SPEED_DEC:
         eventPlayer.mod_speed_event -= EVT_DEBUFF_6_SPEED_DEC_PER_SEC

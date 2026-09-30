@@ -29,7 +29,6 @@ globalvar controlRespawnAxis 39
 globalvar controlRespawnAxisThreshold 40
 globalvar turnSpeedMultiplier 55
 globalvar berserkerTime 56
-globalvar eventId 57
 globalvar eventDuration 58
 globalvar eventName 59
 globalvar eventDesc 60
@@ -42,7 +41,6 @@ globalvar gamblerHeartsteelJackpot 70
 globalvar vishkarEventActivated 72
 globalvar eventCatalogId 82
 globalvar eventCatalogType
-globalvar eventCatalogEffectId
 globalvar eventCatalogWeight
 globalvar obstrucVis 89
 globalvar heroColor 90

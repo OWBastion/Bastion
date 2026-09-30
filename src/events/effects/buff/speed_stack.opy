@@ -4,21 +4,21 @@
 #!optimizeStrict
 #!rulePrefix "Event/足力健"
 
-# Event: BuffEventId.SPEED_STACK
+# Event: EventId.SPEED_STACK
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Create effect":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SPEED_STACK, eventPlayer.eventEffect == null]) == true
     
     createEffect(getAllPlayers() if (eventPlayer.isMoving() and eventPlayer.getSpeed() != 0) else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != BuffEventId.SPEED_STACK or eventPlayer.eventType != EventType.BUFF, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.SPEED_STACK, eventPlayer.eventDuration)
 
 
 rule "Stack movement speed":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.SPEED_STACK, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SPEED_STACK, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.mod_speed_event += EVT_6_SPEED_INC_PER_SEC

@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: DebuffEventId.FEAST_FRENZY
+# Event: EventId.FEAST_FRENZY
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 狂欢盛宴":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.FEAST_FRENZY, attacker.getHero() == Hero.BASTION]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FEAST_FRENZY, attacker.getHero() == Hero.BASTION]) == true
     
     bigMessage(getAllPlayers(), "盛宴！")
     smallMessage(getPlayers(Team.1), "  {0} {1} 阵亡触发了狂欢盛宴".format(iconString(Icon.WARNING), eventPlayer))
@@ -25,4 +25,3 @@ rule "[VishkarEvent]: 狂欢盛宴计时器":
     if ruleCondition:
         loop()
     getPlayers(Team.2).hasNano = false
-    eventId = -1

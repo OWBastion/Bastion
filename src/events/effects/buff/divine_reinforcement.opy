@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.DIVINE_REINFORCEMENT
+# Event: EventId.DIVINE_REINFORCEMENT
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 天降神兵":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT, eventPlayer.altFormActive != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.DIVINE_REINFORCEMENT, eventPlayer.altFormActive != true, getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormActive = true
@@ -28,7 +28,7 @@ rule "[VishkarEvent]: 天降神兵":
 rule "[VishkarEvent]: 天降神兵 (收尾)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DIVINE_REINFORCEMENT]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.DIVINE_REINFORCEMENT]) == true
 
     wait(eventPlayer.eventDuration)
     eventPlayer.altFormActive = false

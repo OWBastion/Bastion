@@ -3,14 +3,14 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.BLACK_FANS_ASSAULT
+# Event: EventId.BLACK_FANS_ASSAULT
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 #!define BLACK_FANS_SCAN_DT 0.032
 
 rule "[VishkarEvent]: 黑粉来袭":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BLACK_FANS_ASSAULT]) == true
    
     # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
     wait(BLACK_FANS_SCAN_DT)

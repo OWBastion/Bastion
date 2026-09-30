@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: MechEventId.TRINITY_SSR
+# Event: EventId.TRINITY_SSR
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 三位一体 (SSR)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.TRINITY_SSR]) == true
     
     if eventPlayer.isAlive():
         eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_14_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_14_DMG_REDUCE_DIVISOR))

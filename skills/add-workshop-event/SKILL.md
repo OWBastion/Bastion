@@ -19,7 +19,7 @@ description: 为 Bastion Overwatch Workshop 项目新增或调整随机事件（
 
 按固定顺序修改，禁止跳步：
 
-1. `src/constants/event_ids_*.opy`：先加枚举，必须插入 `COUNT` 之前。
+1. `src/constants/event_ids.opy`：先加枚举，插入对应 `# ---- <Buff|Debuff|Mech> ----` 分节末尾、`COUNT` 之前。
 2. `src/constants/event_constants.opy`：新增时长、权重与行为参数常量。
 3. `src/locales/zh-CN.opy` 与 `src/locales/en-US.opy`：新增 TITLE/DESC 键。
 4. `src/config/eventConfig.opy` 与 `src/config/eventConfigDev.opy`：注册事件并 append 对应 ID。
@@ -40,11 +40,11 @@ Stop-rule：任一步校验失败，先修当前层，再进入下一层。
 
 执行 [references/event-template.md](references/event-template.md) 中的检查命令，至少确认：
 
-1. 枚举项位于 `COUNT` 之前，且使用枚举名而非裸数字 ID。
+1. 枚举项位于 `COUNT` 之前、对应类型分节内，且使用 `EventId.X` 枚举名而非裸数字 ID。
 2. 两套 locale 均存在 title/desc 键，`format(...)` 占位符顺序匹配。
-3. `eventConfig` 与 `eventConfigDev` 均已注册。
+3. `eventConfig` 与 `eventConfigDev` 均已注册（含 `eventCatalogType` 类别写入与 `eventCatalogId.append`）。
 4. 规则条件可检查项齐全：
-- 包含 `eventType` 与 `eventId` 双条件。
+- 派发仅含 `eventId == EventId.X` 单条件，不含 `eventType`。
 - 默认条件区门控；动作区判断仅用于例外。
 - 使用动作区判断时含显式 `wait(...)`。
 - 收尾清理状态与效果实体。
