@@ -150,5 +150,7 @@ enum EventId:
     PROPHET
     # legacy numeric id: debuff 26
     BLACK_HOLE
+    # legacy numeric id: mech 27
+    EQUIVALENT_EXCHANGE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
