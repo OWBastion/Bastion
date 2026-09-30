@@ -152,5 +152,7 @@ enum EventId:
     BLACK_HOLE
     # legacy numeric id: mech 27
     EQUIVALENT_EXCHANGE
+    # legacy numeric id: mech 28
+    CYCLE_REPLAY
     # sentinel only for integrity checks (do not register as an event)
     COUNT

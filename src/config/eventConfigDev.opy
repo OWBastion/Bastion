@@ -574,3 +574,10 @@ rule "initialize event array":
     eventCatalogWeight[EventId.EQUIVALENT_EXCHANGE] = EVT_MECH_27_WEIGHT
     eventCatalogType[EventId.EQUIVALENT_EXCHANGE] = EventType.MECH
     eventCatalogId.append(EventId.EQUIVALENT_EXCHANGE)
+
+    eventName[EventId.CYCLE_REPLAY] = STR_EVT_MECH_28_TITLE
+    eventDesc[EventId.CYCLE_REPLAY] = STR_EVT_MECH_28_DESC.format(Button.RELOAD, EVT_MECH_28_STEEL_COST, EVT_MECH_28_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
+    eventDuration[EventId.CYCLE_REPLAY] = EVT_MECH_28_DURATION
+    eventCatalogWeight[EventId.CYCLE_REPLAY] = EVT_MECH_28_WEIGHT
+    eventCatalogType[EventId.CYCLE_REPLAY] = EventType.MECH
+    eventCatalogId.append(EventId.CYCLE_REPLAY)
