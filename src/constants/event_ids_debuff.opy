@@ -45,7 +45,8 @@ enum DebuffEventId:
     # legacy numeric id: 24
     # legacy numeric id: 25
     STATIC_FIELD
-
+    # legacy numeric id: 26
+    BLACK_HOLE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

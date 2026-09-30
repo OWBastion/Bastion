@@ -4,7 +4,7 @@
 #!optimizeStrict
 #!rulePrefix "Event/黑洞"
 
-# Event: MechEventId.BLACK_HOLE
+# Event: DebuffEventId.BLACK_HOLE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 #
 # 强度校准：引力异常（EVT_DEBUFF_5_PULL_GROUND 0.85 / PULL_AIR 0.6）是本仓库既有的持续牵引量纲——
@@ -16,22 +16,22 @@
 rule "Black hole marker":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BLACK_HOLE, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.BLACK_HOLE, eventPlayer.eventEffect == null]) == true
 
     createEffect(getAllPlayers() if eventPlayer.isAlive() else null, Effect.ORB, Color.BLACK, eventPlayer, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != MechEventId.BLACK_HOLE or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != DebuffEventId.BLACK_HOLE or eventPlayer.eventType != EventType.DEBUFF, eventPlayer.eventDuration)
 
 
 rule "Pull allies toward black hole":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BLACK_HOLE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.BLACK_HOLE]) == true
 
     # 每 tick 先快照有界友方集合（≤11）再施加脉冲，不依赖 wait 之后的事件上下文
-    eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer and player.hasSpawned() and not player.hasStatus(Status.PHASED_OUT) and distance(eventPlayer, player) > EVT_MECH_26_STOP_RADIUS]
+    eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer and player.hasSpawned() and not player.hasStatus(Status.PHASED_OUT) and distance(eventPlayer, player) > EVT_DEBUFF_26_STOP_RADIUS]
     for eventPlayer.temp in range(len(eventPlayer.target)):
-        eventPlayer.target[eventPlayer.temp].applyImpulse(directionTowards(eventPlayer.target[eventPlayer.temp], eventPlayer), EVT_MECH_26_PULL_STRENGTH, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+        eventPlayer.target[eventPlayer.temp].applyImpulse(directionTowards(eventPlayer.target[eventPlayer.temp], eventPlayer), EVT_DEBUFF_26_PULL_STRENGTH, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait()
     if ruleCondition:
         loop()

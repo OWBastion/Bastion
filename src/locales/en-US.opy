@@ -189,7 +189,8 @@
 #!define STR_EVT_DEBUFF_23_DESC "For every {0} max HP, damage taken increases by {1}%."
 #!define STR_EVT_DEBUFF_25_TITLE "Static Field"
 #!define STR_EVT_DEBUFF_25_DESC "When an ally is within {0}m, you and that ally\nrepel apart and are stunned for {1}s."
-
+#!define STR_EVT_DEBUFF_26_TITLE "Black Hole"
+#!define STR_EVT_DEBUFF_26_DESC "For the duration, all allies are pulled toward you.\nAllies within {0}m are unaffected."
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------
@@ -229,8 +230,6 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
-#!define STR_EVT_MECH_26_TITLE "Black Hole"
-#!define STR_EVT_MECH_26_DESC "For the duration, all allies are pulled toward you.\nAllies within {0}m are unaffected."
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"

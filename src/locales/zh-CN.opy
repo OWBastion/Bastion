@@ -198,7 +198,8 @@
 #!define STR_EVT_DEBUFF_23_DESC "每有{0}点生命值，使受到的伤害提高{1}%"
 #!define STR_EVT_DEBUFF_25_TITLE "静电力场"
 #!define STR_EVT_DEBUFF_25_DESC "{0}米内存在友方时\n双方朝相反方向弹开并击晕{1}秒"
-
+#!define STR_EVT_DEBUFF_26_TITLE "黑洞"
+#!define STR_EVT_DEBUFF_26_DESC "持续期间所有友方被你牵引\n{0}米内停止牵引"
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
@@ -238,8 +239,6 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
-#!define STR_EVT_MECH_26_TITLE "黑洞"
-#!define STR_EVT_MECH_26_DESC "持续期间所有友方被你牵引\n{0}米内停止牵引"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"

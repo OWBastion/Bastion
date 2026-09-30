@@ -596,6 +596,14 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = DebuffEventId.STATIC_FIELD
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD)
 
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_DESC.format(EVT_DEBUFF_26_STOP_RADIUS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EVT_DEBUFF_26_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EVT_DEBUFF_26_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = DebuffEventId.BLACK_HOLE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE)
+
     # ================================================
     # Pack 5: Mechanics
     # ================================================
@@ -630,11 +638,3 @@ rule "initialize event array":
     eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET] = EventType.MECH
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET] = MechEventId.PROPHET
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET)
-
-    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = STR_EVT_MECH_26_TITLE
-    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = STR_EVT_MECH_26_DESC.format(EVT_MECH_26_STOP_RADIUS)
-    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = EVT_MECH_26_DURATION
-    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = EVT_MECH_26_WEIGHT
-    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = EventType.MECH
-    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE] = MechEventId.BLACK_HOLE
-    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.BLACK_HOLE)

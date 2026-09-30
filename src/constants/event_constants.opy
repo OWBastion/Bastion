@@ -613,6 +613,17 @@ enum HeartSteelData:
 # 近身扫描间隔 (秒)
 #!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
 
+# --- ID 26 (Debuff): 黑洞 ---
+# Duration（秒）
+#!define EVT_DEBUFF_26_DURATION 20
+# Weight（权重）
+#!define EVT_DEBUFF_26_WEIGHT 0.8
+# 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
+#!define EVT_DEBUFF_26_STOP_RADIUS 4
+# 牵引强度（唯一可调参数）：每 tick（wait() ≈ 0.016s）向被牵引友方施加的脉冲速度（m/s），
+# 等效持续加速度 ≈ PULL_STRENGTH / 0.016；0.13 ≈ 8 m/s²，远弱于引力异常（0.85 ≈ 53 m/s²）
+#!define EVT_DEBUFF_26_PULL_STRENGTH 0.13
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------
@@ -933,16 +944,5 @@ enum MirrorInversionStat:
 #!define EVT_MECH_25_DURATION 60
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.6
-
-# --- ID 26 (Mech): 黑洞 ---
-# Duration（秒）
-#!define EVT_MECH_26_DURATION 20
-# Weight（权重）
-#!define EVT_MECH_26_WEIGHT 0.8
-# 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
-#!define EVT_MECH_26_STOP_RADIUS 4
-# 牵引强度（唯一可调参数）：每 tick（wait() ≈ 0.016s）向被牵引友方施加的脉冲速度（m/s），
-# 等效持续加速度 ≈ PULL_STRENGTH / 0.016；0.13 ≈ 8 m/s²，远弱于引力异常（0.85 ≈ 53 m/s²）
-#!define EVT_MECH_26_PULL_STRENGTH 0.13
 
 # -----------------------------------------------------------------------------
