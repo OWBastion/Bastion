@@ -67,7 +67,7 @@ rule "Update targetPlayer when player left":
     @Event playerLeft
     @Team 1
 
-    if eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL:
+    if eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL:
         eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
         eventPlayer.clearStatusEffect(Status.UNKILLABLE)
         eventPlayer.eventMission = 0

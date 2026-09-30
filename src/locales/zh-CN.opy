@@ -173,7 +173,7 @@
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
 #!define STR_EVT_BUFF_33_TITLE "在哪里跌倒"
-#!define STR_EVT_BUFF_33_DESC "受到致命伤害时进入倒地状态。队友在{0}米内按住{1}{2}秒可救援，起身恢复{3}%生命值。倒地持续至事件结束；若结束前无人救援，则正常阵亡。"
+#!define STR_EVT_BUFF_33_DESC "受到致命伤害时进入倒地状态\n队友在{0}米内按住{1}{2}秒可救援，起身恢复{3}%生命值\n倒地持续至事件结束；若结束前无人救援，则正常阵亡。"
 #!define STR_EVT_BUFF_33_DOWNED "{0} 倒地了！在{1}米内按住{2}{3}秒即可救援。"
 #!define STR_EVT_BUFF_33_RESCUED "已获救，恢复{0}%生命值"
 
