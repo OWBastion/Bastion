@@ -239,7 +239,7 @@ rule "initialize event array":
 
 
     eventName[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
-    eventDesc[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(EVT_34_REWARD_STACKS)
+    eventDesc[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_STACKS)
     eventDuration[BuffEventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
     eventCatalogWeight[BuffEventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
     eventCatalogType[BuffEventId.SHARED_BLESSING] = EventType.BUFF
