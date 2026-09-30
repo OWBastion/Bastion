@@ -13,17 +13,16 @@
 # 释放后 RELEASE_COOLDOWN 秒内不可再次蓄力。
 #
 # 变量分工（均由 clearPlayerEvent 统一清零，本事件仅需处理定身/恢复阻断）：
-#   eventMission     — 蓄力闩锁（0=可蓄力，1=蓄力中；兼作蓄力球可见性门控）
+#   eventMission     — 蓄力闩锁（0=可蓄力，1=蓄力中）
 #   eventMissionGoal — 下次可蓄力时间戳（getTotalTimeElapsed；与 divine_reinforcement 同构）
 #   eventTargetHP    — 已蓄力秒数（复用浮点暂存，非 HP 语义）
 #   hudText          — 蓄力进度展示
 #   target           — 释放瞬间的受疗友方快照
-#   eventEffect[0]   — 蓄力球（半径=蓄力秒数×0.5m；clearEventEffect 统一销毁）
 #
 # 定身选型：Status.ROOTED 语义即“无法移动、可行动”，精确对应“只锁移动”；
 # 不占用 mod_speed_event（与 updatePlayerStats 集中管速无冲突），也不像 STUNNED
 # 连带封技能。每 tick 续期 2×TICK——正常出口显式 clearStatusEffect 立即解除，
-# 任何漏过收尾的中断路径也会在 ≤0.5s 内自然过期兜底。
+# 任何漏过收尾的中断路径也会在 ≤2s 内自然过期兜底。
 #
 # 消耗语义：按 tick 等比扣血（HP_COST_PER_SEC × TICK），damage() 无下限保护，
 # 与 sacrifice / stealth_crouch / adlersbrunn_wraith 的致死语义一致——蓄力过度可致死。
@@ -36,17 +35,7 @@
 #   施法者死亡      → isAlive 检查退出 → 仅清理（蓄力作废，不掉治疗）
 #   被眩晕/打断     → 按键读为松开 → 按提前释放结算并清理
 
-#!define LIFE_PULSE_TICK 0.25
-
-rule "Charge marker":
-    @Event eachPlayer
-    @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.LIFE_PULSE, eventPlayer.eventEffect == null]) == true
-
-    createEffect(getAllPlayers() if eventPlayer.eventMission == 1 else null, Effect.ORB, Color.YELLOW, eventPlayer, eventPlayer.eventTargetHP * 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.eventEffect[0] = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != MechEventId.LIFE_PULSE or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
-
+#!define LIFE_PULSE_TICK 1
 
 rule "Charge and release":
     @Event eachPlayer
