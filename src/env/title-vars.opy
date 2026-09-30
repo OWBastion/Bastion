@@ -7,9 +7,10 @@ globalvar playerTitleRelation 47
 globalvar rgbList 48
 globalvar __currentPioneerText___ 106
 globalvar __currentMapPioneerText___ 107
+# 称号栏位文本创建闩锁：true = 8 条 slot 世界文本已建，永不重复创建
+globalvar titleSlotTextsCreated
 
 playervar playerTitleAndColor 37
-playervar titleTextID 38
 playervar rgb_vect 39
 playervar info_pvar 40
 playervar rgb_activated 41
