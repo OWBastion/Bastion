@@ -26,3 +26,4 @@
 #!include "debuff/overweight_pack.opy"
 #!include "debuff/adlersbrunn_wraith.opy"
 #!include "debuff/static_field.opy"
+#!include "debuff/black_hole.opy"

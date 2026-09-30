@@ -375,6 +375,13 @@ rule "initialize event array":
     eventCatalogWeight[EventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
     eventCatalogType[EventId.STATIC_FIELD] = EventType.DEBUFF
     eventCatalogId.append(EventId.STATIC_FIELD)
+
+    eventName[EventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_TITLE
+    eventDesc[EventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_DESC.format(EVT_DEBUFF_26_STOP_RADIUS)
+    eventDuration[EventId.BLACK_HOLE] = EVT_DEBUFF_26_DURATION
+    eventCatalogWeight[EventId.BLACK_HOLE] = EVT_DEBUFF_26_WEIGHT
+    eventCatalogType[EventId.BLACK_HOLE] = EventType.DEBUFF
+    eventCatalogId.append(EventId.BLACK_HOLE)
     # ================================================
     # Pack 3: Mechanics
     # ================================================

@@ -148,5 +148,7 @@ enum EventId:
     STATIC_FIELD
     # legacy numeric id: mech 25
     PROPHET
+    # legacy numeric id: debuff 26
+    BLACK_HOLE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
