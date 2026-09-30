@@ -54,6 +54,8 @@ enum MechEventId:
     PROPHET
     # legacy numeric id: 27
     EQUIVALENT_EXCHANGE
+    # legacy numeric id: 28
+    CYCLE_REPLAY
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 

@@ -963,4 +963,35 @@ enum EquivalentExchangeOffer:
     REDUCTION_TO_HEALING
     HEALING_TO_STACKS
 
+# --- ID 28 (Mech/Special): 作弊：循环往复 ---
+# Duration（秒）
+#!define EVT_MECH_28_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_28_WEIGHT 0.6
+# 心之钢消耗（层）
+#!define EVT_MECH_28_STEEL_COST 6
+# 可重现增益白名单（BuffEventId；eventLastId 中增益的扁平目录索引即其枚举值）。
+# 准入标准与逐项排除理由见 src/events/effects/mech/cycle_replay.opy 头部。
+#!define EVT_MECH_28_REPLAYABLE_BUFFS [ \
+    BuffEventId.GALE_BLESSING, \
+    BuffEventId.IRON_BULWARK, \
+    BuffEventId.LIFE_SPRING, \
+    BuffEventId.BLACK_FANS_ASSAULT, \
+    BuffEventId.SPEED_STACK, \
+    BuffEventId.FLESH_REGEN, \
+    BuffEventId.HEART_OF_STEEL, \
+    BuffEventId.DEATH_DELAY, \
+    BuffEventId.KONAMI_CODE, \
+    BuffEventId.REGROUP_CALL, \
+    BuffEventId.WILL_TO_WIN, \
+    BuffEventId.HEART_OF_STEEL_PRO, \
+    BuffEventId.ULT_MOMENTUM, \
+    BuffEventId.PHASE_SURGE, \
+    BuffEventId.BODYGUARD, \
+    BuffEventId.F5_REFRESH, \
+    BuffEventId.HEALING_TOWER_PROMAX, \
+    BuffEventId.MAGIC_MASTER, \
+    BuffEventId.DIVINE_REINFORCEMENT \
+]
+
 # -----------------------------------------------------------------------------
