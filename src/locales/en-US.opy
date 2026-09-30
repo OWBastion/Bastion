@@ -169,7 +169,6 @@
 #!define STR_EVT_BUFF_33_RESCUED "Rescued! Restored to {0}% HP."
 #!define STR_EVT_BUFF_34_TITLE "Shared Blessing"
 #!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} Heartsteel stacks each."
-#!define STR_EVT_BUFF_34_BIND "{0}: an ally within {1}m can hold {2} for {3}s to bind"
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
