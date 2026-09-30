@@ -7,14 +7,15 @@
 # Event: MechEventId.LIFE_PULSE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 #
-# 长按 RELOAD 定身蓄力：每秒消耗自身最大生命值；松开（或蓄满自动释放）为
+# 长按 RELOAD 定身蓄力：每秒消耗自身最大生命值；松开为
 # EVT_MECH_29_HEAL_RADIUS 米内其他友方恢复生命，量 = 蓄力秒数 × HEAL_PER_SEC ×
-# 施法者最大生命值。释放后 RELEASE_COOLDOWN 秒内不可再次蓄力。
+# 施法者最大生命值。蓄力无上限，唯一天然边界是消耗致死（约 10s）；
+# 释放后 RELEASE_COOLDOWN 秒内不可再次蓄力。
 #
 # 变量分工（均由 clearPlayerEvent 统一清零，本事件仅需处理定身/恢复阻断）：
 #   eventMission     — 蓄力闩锁（0=可蓄力，1=蓄力中；兼作蓄力球可见性门控）
 #   eventMissionGoal — 下次可蓄力时间戳（getTotalTimeElapsed；与 divine_reinforcement 同构）
-#   eventTargetHP    — 已蓄力秒数（0..MAX_CHARGE；复用浮点暂存，非 HP 语义）
+#   eventTargetHP    — 已蓄力秒数（复用浮点暂存，非 HP 语义）
 #   hudText          — 蓄力进度展示
 #   target           — 释放瞬间的受疗友方快照
 #   eventEffect[0]   — 蓄力球（半径=蓄力秒数×0.5m；clearEventEffect 统一销毁）
@@ -30,7 +31,7 @@
 # 对所有受疗友方等量；自身被 target 快照排除，不受治疗。
 #
 # 出口审计（详见收尾段与 Teardown rule）：
-#   松开按键 / 蓄满  → while 退出 → 结算治疗 + 清理（提前松开=部分治疗，不吞蓄力）
+#   松开按键        → while 退出 → 结算治疗 + 清理（提前松开=部分治疗，不吞蓄力）
 #   事件结束        → eventId 检查退出 → 仅清理（Teardown rule 兜底）
 #   施法者死亡      → isAlive 检查退出 → 仅清理（蓄力作废，不掉治疗）
 #   被眩晕/打断     → 按键读为松开 → 按提前释放结算并清理
@@ -55,11 +56,11 @@ rule "Charge and release":
     eventPlayer.eventMission = 1
     eventPlayer.eventTargetHP = 0
     eventPlayer.passiveRegenBlocked = true
-    while all([eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.eventTargetHP < EVT_MECH_29_MAX_CHARGE, eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.LIFE_PULSE]):
+    while all([eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.LIFE_PULSE]):
         eventPlayer.setStatusEffect(null, Status.ROOTED, LIFE_PULSE_TICK * 2)
         damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_MECH_29_HP_COST_PER_SEC * 100 * LIFE_PULSE_TICK))
         eventPlayer.eventTargetHP += LIFE_PULSE_TICK
-        eventPlayer.hudText = STR_EVT_MECH_29_CHARGING.format(round(eventPlayer.eventTargetHP / EVT_MECH_29_MAX_CHARGE * 100), round(eventPlayer.eventTargetHP * EVT_MECH_29_HEAL_PER_SEC * 100))
+        eventPlayer.hudText = STR_EVT_MECH_29_CHARGING.format(round(eventPlayer.eventTargetHP * 10) / 10, round(eventPlayer.eventTargetHP * EVT_MECH_29_HEAL_PER_SEC * 100))
         wait(LIFE_PULSE_TICK)
     # 收尾：所有出口都先解除定身与恢复阻断；仅“存活且事件仍有效”的释放才结算治疗
     eventPlayer.clearStatusEffect(Status.ROOTED)

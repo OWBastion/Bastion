@@ -250,8 +250,8 @@
 #!define STR_EVT_MECH_28_TARGET "循环往复：{0}"
 #!define STR_EVT_MECH_28_NO_TARGET "没有可循环的增益"
 #!define STR_EVT_MECH_29_TITLE "生命脉冲"
-#!define STR_EVT_MECH_29_DESC "长按{0}定身蓄力，每秒消耗{1}%最大生命值\n松开为{2}米内其他友方恢复生命：量=蓄力秒数×{3}%自身最大生命值（至多{4}秒）\n释放后{5}秒内无法再次蓄力"
-#!define STR_EVT_MECH_29_CHARGING "蓄力 {0}%（治疗 {1}%）"
+#!define STR_EVT_MECH_29_DESC "长按{0}定身蓄力，每秒消耗{1}%最大生命值\n松开为{2}米内其他友方恢复生命：量=蓄力秒数×{3}%自身最大生命值\n释放后{4}秒内无法再次蓄力"
+#!define STR_EVT_MECH_29_CHARGING "蓄力 {0}秒（治疗 {1}%）"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"

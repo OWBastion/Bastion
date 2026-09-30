@@ -999,8 +999,6 @@ enum EquivalentExchangeOffer:
 #!define EVT_MECH_29_DURATION 30
 # Weight（权重）
 #!define EVT_MECH_29_WEIGHT 0.8
-# 最大蓄力时长（秒）：蓄满自动释放
-#!define EVT_MECH_29_MAX_CHARGE 4
 # 蓄力消耗：每秒消耗自身最大生命值比例（按 tick 等比扣除）
 #!define EVT_MECH_29_HP_COST_PER_SEC 0.1
 # 蓄力治疗：每蓄力 1 秒转化的治疗量（占施法者最大生命值比例）
