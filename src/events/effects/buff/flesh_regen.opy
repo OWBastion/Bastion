@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.FLESH_REGEN
+# Event: EventId.FLESH_REGEN
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 血肉再生":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.FLESH_REGEN]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FLESH_REGEN]) == true
     
     wait(0.032)
     removeHealthPool(eventPlayer.healthId[0])

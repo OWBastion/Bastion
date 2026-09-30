@@ -32,11 +32,7 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const PATHS = {
-  ids: {
-    buff: path.resolve(ROOT, 'src/constants/event_ids_buff.opy'),
-    debuff: path.resolve(ROOT, 'src/constants/event_ids_debuff.opy'),
-    mech: path.resolve(ROOT, 'src/constants/event_ids_mech.opy')
-  },
+  ids: path.resolve(ROOT, 'src/constants/event_ids.opy'),
   constants: path.resolve(ROOT, 'src/constants/event_constants.opy'),
   localeZh: path.resolve(ROOT, 'src/locales/zh-CN.opy'),
   localeEn: path.resolve(ROOT, 'src/locales/en-US.opy'),
@@ -44,16 +40,18 @@ const PATHS = {
   configDev: path.resolve(ROOT, 'src/config/eventConfigDev.opy')
 } as const;
 
-const ENUM_NAMES: Record<EventType, string> = {
-  buff: 'BuffEventId',
-  debuff: 'DebuffEventId',
-  mech: 'MechEventId'
+const ENUM_NAME = 'EventId';
+
+const ENUM_SECTION_END: Record<EventType, string> = {
+  buff: '    # ---- Debuff ----',
+  debuff: '    # ---- Mech ----',
+  mech: '    # sentinel only for integrity checks'
 };
 
-const CONFIG_CONTAINER: Record<EventType, { event: string; idList: string; enumName: string; prefix: string }> = {
-  buff: { event: 'buffEvent', idList: 'buffEventId', enumName: 'BuffEventId', prefix: 'BUFF' },
-  debuff: { event: 'debuffEvent', idList: 'debuffEventId', enumName: 'DebuffEventId', prefix: 'DEBUFF' },
-  mech: { event: 'mechEvent', idList: 'mechEventId', enumName: 'MechEventId', prefix: 'MECH' }
+const CONFIG_CONTAINER: Record<EventType, { prefix: string }> = {
+  buff: { prefix: 'BUFF' },
+  debuff: { prefix: 'DEBUFF' },
+  mech: { prefix: 'MECH' }
 };
 
 function ensureString(value: unknown, label: string): string {
@@ -82,31 +80,28 @@ function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function addEnumEntry(source: string, type: EventType, key: string): string {
-  const enumName = ENUM_NAMES[type];
-  const marker = `enum ${enumName}:`;
+function addEnumEntry(source: string, type: EventType, key: string, id: number): string {
+  const marker = `enum ${ENUM_NAME}:`;
   const start = source.indexOf(marker);
   if (start < 0) {
     throw new Error(`Unable to find ${marker}`);
   }
   if (source.includes(`\n    ${key}\n`) || source.includes(`\n    ${key} =`)) {
-    throw new Error(`${enumName}.${key} already exists`);
+    throw new Error(`${ENUM_NAME}.${key} already exists`);
   }
-  const countLine = '    COUNT';
-  const countPos = source.indexOf(countLine, start);
-  if (countPos < 0) {
-    throw new Error(`Unable to find COUNT sentinel in ${enumName}`);
+  const sectionEnd = source.indexOf(ENUM_SECTION_END[type], start);
+  if (sectionEnd < 0) {
+    throw new Error(`Unable to find ${type} section end in ${ENUM_NAME}`);
   }
-  const insert = `    ${key}\n`;
-  return `${source.slice(0, countPos)}${insert}${source.slice(countPos)}`;
+  const insert = `    # legacy numeric id: ${id}\n    ${key}\n`;
+  return `${source.slice(0, sectionEnd)}${insert}${source.slice(sectionEnd)}`;
 }
 
-function removeEnumEntry(source: string, type: EventType, key: string): string {
-  const enumName = ENUM_NAMES[type];
+function removeEnumEntry(source: string, key: string): string {
   const regex = new RegExp(`^\\s{4}${escapeRegExp(key)}(?:\\s*=\\s*\\d+)?\\s*$`, 'm');
   const match = source.match(regex);
   if (!match || match.index == null) {
-    throw new Error(`${enumName}.${key} not found`);
+    throw new Error(`${ENUM_NAME}.${key} not found`);
   }
 
   const lineStart = source.lastIndexOf('\n', match.index) + 1;
@@ -188,24 +183,28 @@ function addConfigRegistration(source: string, spec: AddSpec): string {
   const cfg = CONFIG_CONTAINER[spec.type];
   const titleToken = `STR_EVT_${cfg.prefix}_${spec.id}_TITLE`;
   const descToken = spec.configDescExpr?.trim() || `STR_EVT_${cfg.prefix}_${spec.id}_DESC`;
-  const assign = `    ${cfg.event}[${cfg.enumName}.${spec.key}] = [${titleToken}, ${descToken}, EVT_${cfg.prefix}_${spec.id}_DURATION, EVT_${cfg.prefix}_${spec.id}_WEIGHT]`;
-  const append = `    ${cfg.idList}.append(${cfg.enumName}.${spec.key})`;
+  const block =
+    `    eventName[${ENUM_NAME}.${spec.key}] = ${titleToken}\n` +
+    `    eventDesc[${ENUM_NAME}.${spec.key}] = ${descToken}\n` +
+    `    eventDuration[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_DURATION\n` +
+    `    eventCatalogWeight[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_WEIGHT\n` +
+    `    eventCatalogType[${ENUM_NAME}.${spec.key}] = EventType.${cfg.prefix}\n` +
+    `    eventCatalogId.append(${ENUM_NAME}.${spec.key})`;
 
-  if (source.includes(`${cfg.enumName}.${spec.key}]`) || source.includes(`${cfg.enumName}.${spec.key})`)) {
-    throw new Error(`${cfg.enumName}.${spec.key} already registered in config`);
+  if (source.includes(`${ENUM_NAME}.${spec.key}]`) || source.includes(`${ENUM_NAME}.${spec.key})`)) {
+    throw new Error(`${ENUM_NAME}.${spec.key} already registered in config`);
   }
 
-  return `${source.trimEnd()}\n\n${assign}\n${append}\n`;
+  return `${source.trimEnd()}\n\n${block}\n`;
 }
 
 function removeConfigRegistration(source: string, spec: RemoveSpec): string {
-  const cfg = CONFIG_CONTAINER[spec.type];
-  const escapedEnum = escapeRegExp(`${cfg.enumName}.${spec.key}`);
+  const escapedEnum = escapeRegExp(`${ENUM_NAME}.${spec.key}`);
   const lines = source.split('\n');
   let removed = 0;
   const filtered = lines.filter((line) => {
-    const matchAssign = new RegExp(`^\\s*${cfg.event}\\[\\s*${escapedEnum}\\s*\\]\\s*=`).test(line);
-    const matchAppend = new RegExp(`^\\s*${cfg.idList}\\.append\\(\\s*${escapedEnum}\\s*\\)`).test(line);
+    const matchAssign = new RegExp(`^\\s*\\w+\\[\\s*${escapedEnum}\\s*\\]\\s*=`).test(line);
+    const matchAppend = new RegExp(`^\\s*eventCatalogId\\.append\\(\\s*${escapedEnum}\\s*\\)`).test(line);
     if (matchAssign || matchAppend) {
       removed += 1;
       return false;
@@ -214,7 +213,7 @@ function removeConfigRegistration(source: string, spec: RemoveSpec): string {
   });
 
   if (removed === 0) {
-    throw new Error(`${cfg.enumName}.${spec.key} registration not found`);
+    throw new Error(`${ENUM_NAME}.${spec.key} registration not found`);
   }
 
   return `${filtered.join('\n')}\n`;
@@ -222,7 +221,7 @@ function removeConfigRegistration(source: string, spec: RemoveSpec): string {
 
 async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
   const files = {
-    ids: PATHS.ids[spec.type],
+    ids: PATHS.ids,
     constants: PATHS.constants,
     localeZh: PATHS.localeZh,
     localeEn: PATHS.localeEn,
@@ -243,7 +242,7 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
 
   if (spec.action === 'add') {
     next = {
-      ids: addEnumEntry(next.ids, spec.type, spec.key),
+      ids: addEnumEntry(next.ids, spec.type, spec.key, spec.id),
       constants: addConstantsBlock(next.constants, spec.type, spec.id, spec.duration, spec.weight),
       localeZh: addLocaleEntries(next.localeZh, spec.type, spec.id, spec.titleZh, spec.descZh),
       localeEn: addLocaleEntries(next.localeEn, spec.type, spec.id, spec.titleEn, spec.descEn),
@@ -252,7 +251,7 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
     };
   } else {
     next = {
-      ids: removeEnumEntry(next.ids, spec.type, spec.key),
+      ids: removeEnumEntry(next.ids, spec.key),
       constants: removeConstantsBlock(next.constants, spec.type, spec.id),
       localeZh: removeLocaleEntries(next.localeZh, spec.type, spec.id),
       localeEn: removeLocaleEntries(next.localeEn, spec.type, spec.id),

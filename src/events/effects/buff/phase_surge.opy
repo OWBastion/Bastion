@@ -3,7 +3,7 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.PHASE_SURGE
+# Event: EventId.PHASE_SURGE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 4.0":
@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 4.0":
 rule "[VishkarEvent]: 相位猛冲 (智能检测版)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHASE_SURGE, eventPlayer.phaseState == true, eventPlayer.mod_speed_event == 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHASE_SURGE, eventPlayer.phaseState == true, eventPlayer.mod_speed_event == 0]) == true
     
     eventPlayer.eventMatchCounters[EventMatchCounterSlot.PHASE_SURGE]++
     if eventPlayer.eventEffect == null:

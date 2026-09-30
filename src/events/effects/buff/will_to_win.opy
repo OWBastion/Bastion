@@ -3,20 +3,20 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.WILL_TO_WIN
+# Event: EventId.WILL_TO_WIN
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 胜利意志（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
 
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null]) == true
     @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
 
     # Exception: multi-phase revive/invincible flow keeps explicit phase waits.

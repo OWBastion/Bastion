@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: DebuffEventId.KEEP_DISTANCE_AURA
+# Event: EventId.KEEP_DISTANCE_AURA
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.KEEP_DISTANCE_AURA]) == true
     
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_15_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     if len(eventPlayer.target) > 1:

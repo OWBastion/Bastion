@@ -104,7 +104,7 @@ rule "Sync ult progress":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
-    @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
+    @Condition eventPlayer.eventId != EventId.ULT_MOMENTUM
     @Condition eventPlayer.progressionDeathCount < maxDeath
     @Condition eventPlayer.isWinner == false
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
@@ -120,7 +120,7 @@ rule "Display skip ready":
     @Event eachPlayer
     @Team 1
     @Condition difficulty != 5
-    @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
+    @Condition eventPlayer.eventId != EventId.ULT_MOMENTUM
     @Condition eventPlayer.progressionDeathCount == maxDeath
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false

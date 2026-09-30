@@ -4,13 +4,13 @@
 #!optimizeStrict
 #!rulePrefix "Event/刹车失灵"
 
-# Event: MechEventId.BRAKE_FAILURE
+# Event: EventId.BRAKE_FAILURE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Force forward throttle":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.BRAKE_FAILURE]) == true
     
     eventPlayer.startThrottleInDirection(Vector.FORWARD, 1, Relativity.TO_PLAYER, Throttle.REPLACE_EXISTING, ThrottleReeval.NONE)
     wait(eventPlayer.eventDuration)
@@ -20,7 +20,7 @@ rule "Force forward throttle":
 rule "Stack speed":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.BRAKE_FAILURE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.BRAKE_FAILURE]) == true
     
     while eventPlayer.mod_speed_event < EVT_MECH_4_MAX_SPEED:
         eventPlayer.mod_speed_event += 5
