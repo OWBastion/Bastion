@@ -239,6 +239,12 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
+#!define STR_EVT_MECH_27_TITLE "等价交换"
+#!define STR_EVT_MECH_27_DESC "长按{0}成交随机单向兑换（限一次）：\n{1}层心之钢→移速+{2}%→减伤+{2}%→治疗强度+{2}%→心之钢+{1}层"
+#!define STR_EVT_MECH_27_OFFER_STACKS_TO_SPEED "{0}层心之钢 → 移速+{1}%"
+#!define STR_EVT_MECH_27_OFFER_SPEED_TO_REDUCTION "移速-{0}% → 减伤+{0}%"
+#!define STR_EVT_MECH_27_OFFER_REDUCTION_TO_HEALING "减伤-{0}% → 治疗强度+{0}%"
+#!define STR_EVT_MECH_27_OFFER_HEALING_TO_STACKS "治疗强度-{0}% → 心之钢+{1}层"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"

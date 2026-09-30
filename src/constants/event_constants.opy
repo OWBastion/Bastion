@@ -946,4 +946,21 @@ enum MirrorInversionStat:
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.6
 
+# --- ID 27 (Mech/Composite): 等价交换 ---
+# Duration（秒）
+#!define EVT_MECH_27_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_27_WEIGHT 0.6
+# 交换量：心之钢层数（支付/获得）
+#!define EVT_MECH_27_EXCHANGE_STACKS 10
+# 交换量：属性百分比（移速/伤害减免/治疗强度）
+#!define EVT_MECH_27_EXCHANGE_PERCENT 4
+# 首版固定兑换表（单向，事件开始时随机提供一条；NONE 为未掷骰哨兵）
+enum EquivalentExchangeOffer:
+    NONE = 0
+    STACKS_TO_SPEED
+    SPEED_TO_REDUCTION
+    REDUCTION_TO_HEALING
+    HEALING_TO_STACKS
+
 # -----------------------------------------------------------------------------
