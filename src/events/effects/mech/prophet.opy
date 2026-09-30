@@ -10,28 +10,28 @@
 # 观测者效应：被先知观测的玩家若尚无已承诺的下一个事件（eventNextIndex == null），
 # 立即按当前旗标实掷一次使其坍缩——预览即实发，两者恒等；已承诺的绝不重掷。
 #
-# 显示机制（栏位驱动）：为 Team.1 的 8 个玩家栏位各创建一条世界文本，单局恒定
-# 8 次 createInWorldText，与具体玩家解耦——任何数量玩家进出都只影响 reeval 结果，
-# 不产生新的创建/销毁。每条文本的玩家数据全部经 WorldTextReeval 实时重估：
-#   - 位置：当前栏位玩家实体（换人自动跟随）
-#   - 可见性：先知集合减去栏位玩家本人（先知看不到自己的下一个事件）
-#   - 内容：栏位玩家已有称号时以 \n 起行使箭头行渲染在称号正下方，无称号时
-#     直接占用称号槽位；事件名经 eventName[eventNextIndex] 按 ID 查询
-#   - 颜色：沿用栏位玩家称号色，无称号时使用默认紫
-# 称号状态（playerTitleAndColor / playerTitles）与称号文本句柄（titleTextID）
-# 一律不读写，不影响称号、赌徒等任何其他系统的判定。
+# 显示机制：复用称号系统的栏位文本能力（见 src/title/init.opy）。
+# 称号是独立的公开显示层，对所有人可见；先知的揭示信息按 issue 边界
+# 仅对先知本人可见，而单个文本对象只有一个 visibleTo，因此先知持有
+# 与称号平行的一套栏位文本——同样按 Team.1 的 8 个栏位各建一条，
+# 单局恒定 8 次 createInWorldText，玩家进出只改变 reeval 结果。
+#   - 位置：与称号文本同一锚点（当前栏位占用者实体，换人自动跟随）
+#   - 可见性：栏位占用者的先知集合（不含其本人——先知看不到自己的下一个事件）
+#   - 内容：占用者有称号时以 \n 起行使揭示行落在称号行下方，无称号时
+#     揭示行直接占据称号槽位；事件名经 eventName[eventNextIndex] 按 ID 查询
+#   - 颜色：沿用占用者的称号色 rgb_vect；无称号（rgb_vect 未初始化）时给默认紫
+# 称号状态（playerTitleAndColor / playerTitles）与称号文本一律不读写，
+# 不影响称号本身及赌徒、资格判定等任何其他系统。
 
-# 除栏位玩家本人以外当前持有“先知”事件的玩家集合（Unique 约束下最多一人）
+# 除栏位占用者本人以外当前持有“先知”事件的玩家集合（Unique 约束下最多一人）
 # eventId 仅存枚举值，mech/debuff 编号可撞号，必须带 eventType 过滤
 macro Player.prophets():
     getPlayers(Team.1).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
 
-# 栏位玩家查询：getPlayers 只含在线玩家，需按 getSlot 过滤定位栏位
-#!define PROPHET_SLOT_PLAYER(i) (getPlayers(Team.1).filter(lambda p: p.getSlot() == i)[0] if len(getPlayers(Team.1).filter(lambda p: p.getSlot() == i)) > 0 else null)
-#!define PROPHET_SLOT_WATCHERS(i) (PROPHET_SLOT_PLAYER(i).prophets() if PROPHET_SLOT_PLAYER(i) != null else [])
-#!define PROPHET_SLOT_STRING(i) "{0}{1}".format("\n" if PROPHET_SLOT_PLAYER(i) != null and PROPHET_SLOT_PLAYER(i).playerTitleAndColor != null else "", STR_EVT_MECH_25_NEXT.format(eventName[PROPHET_SLOT_PLAYER(i).eventNextIndex] if PROPHET_SLOT_PLAYER(i) != null and PROPHET_SLOT_PLAYER(i).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN))
-#!define PROPHET_SLOT_COLOR(i) (rgb(PROPHET_SLOT_PLAYER(i).rgb_vect.x, PROPHET_SLOT_PLAYER(i).rgb_vect.y, PROPHET_SLOT_PLAYER(i).rgb_vect.z) if PROPHET_SLOT_PLAYER(i) != null and PROPHET_SLOT_PLAYER(i).playerTitleAndColor != null else rgb(186, 120, 255))
-#!define PROPHET_SLOT_TEXT(i) createInWorldText(PROPHET_SLOT_WATCHERS(i), PROPHET_SLOT_STRING(i), PROPHET_SLOT_PLAYER(i), 0.7, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, PROPHET_SLOT_COLOR(i))
+#!define PROPHET_SLOT_WATCHERS(i) (TEAM1_SLOT_PLAYER(i).prophets() if TEAM1_SLOT_PLAYER(i) != null else [])
+#!define PROPHET_SLOT_STRING(i) "{0}{1}".format("\n" if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).playerTitleAndColor != null else "", STR_EVT_MECH_25_NEXT.format(eventName[TEAM1_SLOT_PLAYER(i).eventNextIndex] if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN))
+#!define PROPHET_SLOT_COLOR(i) (rgb(TEAM1_SLOT_PLAYER(i).rgb_vect.x, TEAM1_SLOT_PLAYER(i).rgb_vect.y, TEAM1_SLOT_PLAYER(i).rgb_vect.z) if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).playerTitleAndColor != null else rgb(186, 120, 255))
+#!define PROPHET_SLOT_TEXT(i) createInWorldText(PROPHET_SLOT_WATCHERS(i), PROPHET_SLOT_STRING(i), TEAM1_SLOT_PLAYER(i), 0.7, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, PROPHET_SLOT_COLOR(i))
 
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
