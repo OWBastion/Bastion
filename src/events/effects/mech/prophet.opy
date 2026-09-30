@@ -28,12 +28,6 @@
 macro Player.prophets():
     getPlayers(Team.1).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
 
-#!define PROPHET_SLOT_WATCHERS(i) (TEAM1_SLOT_PLAYER(i).prophets() if TEAM1_SLOT_PLAYER(i) != null else [])
-#!define PROPHET_SLOT_STRING(i) STR_EVT_MECH_25_NEXT.format(eventName[TEAM1_SLOT_PLAYER(i).eventNextIndex] if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN)
-#!define PROPHET_SLOT_POSITION(i) (TEAM1_SLOT_PLAYER(i).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(i) != null else vect(0, -1000, 0))
-#!define PROPHET_SLOT_COLOR(i) (rgb(TEAM1_SLOT_PLAYER(i).rgb_vect.x, TEAM1_SLOT_PLAYER(i).rgb_vect.y, TEAM1_SLOT_PLAYER(i).rgb_vect.z) if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).playerTitleAndColor != null else rgb(186, 120, 255))
-#!define PROPHET_SLOT_TEXT(i) createInWorldText(PROPHET_SLOT_WATCHERS(i), PROPHET_SLOT_STRING(i), PROPHET_SLOT_POSITION(i), 0.7, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, PROPHET_SLOT_COLOR(i))
-
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
     @Team 1
@@ -49,12 +43,100 @@ rule "Create per-slot prophet next-event texts":
     @Condition prophetSlotTextsCreated == false
     @Condition len(getPlayers(Team.1)) > 0
 
-    PROPHET_SLOT_TEXT(0)
-    PROPHET_SLOT_TEXT(1)
-    PROPHET_SLOT_TEXT(2)
-    PROPHET_SLOT_TEXT(3)
-    PROPHET_SLOT_TEXT(4)
-    PROPHET_SLOT_TEXT(5)
-    PROPHET_SLOT_TEXT(6)
-    PROPHET_SLOT_TEXT(7)
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(0).prophets() if TEAM1_SLOT_PLAYER(0) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(0).eventNextIndex] if TEAM1_SLOT_PLAYER(0).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(0) != null else "",
+        TEAM1_SLOT_PLAYER(0).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(0) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(0).rgb_vect.x, TEAM1_SLOT_PLAYER(0).rgb_vect.y, TEAM1_SLOT_PLAYER(0).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(0) != null and TEAM1_SLOT_PLAYER(0).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(1).prophets() if TEAM1_SLOT_PLAYER(1) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(1).eventNextIndex] if TEAM1_SLOT_PLAYER(1).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(1) != null else "",
+        TEAM1_SLOT_PLAYER(1).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(1) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(1).rgb_vect.x, TEAM1_SLOT_PLAYER(1).rgb_vect.y, TEAM1_SLOT_PLAYER(1).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(1) != null and TEAM1_SLOT_PLAYER(1).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(2).prophets() if TEAM1_SLOT_PLAYER(2) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(2).eventNextIndex] if TEAM1_SLOT_PLAYER(2).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(2) != null else "",
+        TEAM1_SLOT_PLAYER(2).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(2) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(2).rgb_vect.x, TEAM1_SLOT_PLAYER(2).rgb_vect.y, TEAM1_SLOT_PLAYER(2).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(2) != null and TEAM1_SLOT_PLAYER(2).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(3).prophets() if TEAM1_SLOT_PLAYER(3) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(3).eventNextIndex] if TEAM1_SLOT_PLAYER(3).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(3) != null else "",
+        TEAM1_SLOT_PLAYER(3).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(3) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(3).rgb_vect.x, TEAM1_SLOT_PLAYER(3).rgb_vect.y, TEAM1_SLOT_PLAYER(3).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(3) != null and TEAM1_SLOT_PLAYER(3).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(4).prophets() if TEAM1_SLOT_PLAYER(4) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(4).eventNextIndex] if TEAM1_SLOT_PLAYER(4).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(4) != null else "",
+        TEAM1_SLOT_PLAYER(4).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(4) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(4).rgb_vect.x, TEAM1_SLOT_PLAYER(4).rgb_vect.y, TEAM1_SLOT_PLAYER(4).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(4) != null and TEAM1_SLOT_PLAYER(4).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(5).prophets() if TEAM1_SLOT_PLAYER(5) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(5).eventNextIndex] if TEAM1_SLOT_PLAYER(5).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(5) != null else "",
+        TEAM1_SLOT_PLAYER(5).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(5) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(5).rgb_vect.x, TEAM1_SLOT_PLAYER(5).rgb_vect.y, TEAM1_SLOT_PLAYER(5).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(5) != null and TEAM1_SLOT_PLAYER(5).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(6).prophets() if TEAM1_SLOT_PLAYER(6) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(6).eventNextIndex] if TEAM1_SLOT_PLAYER(6).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(6) != null else "",
+        TEAM1_SLOT_PLAYER(6).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(6) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(6).rgb_vect.x, TEAM1_SLOT_PLAYER(6).rgb_vect.y, TEAM1_SLOT_PLAYER(6).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(6) != null and TEAM1_SLOT_PLAYER(6).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
+    createInWorldText(
+        TEAM1_SLOT_PLAYER(7).prophets() if TEAM1_SLOT_PLAYER(7) != null else [],
+        STR_EVT_MECH_25_NEXT.format(
+            eventName[TEAM1_SLOT_PLAYER(7).eventNextIndex] if TEAM1_SLOT_PLAYER(7).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if TEAM1_SLOT_PLAYER(7) != null else "",
+        TEAM1_SLOT_PLAYER(7).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(7) != null else vect(0, -1000, 0),
+        0.7,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+        rgb(TEAM1_SLOT_PLAYER(7).rgb_vect.x, TEAM1_SLOT_PLAYER(7).rgb_vect.y, TEAM1_SLOT_PLAYER(7).rgb_vect.z)
+            if TEAM1_SLOT_PLAYER(7) != null and TEAM1_SLOT_PLAYER(7).playerTitleAndColor != null else rgb(186, 120, 255)
+    )
     prophetSlotTextsCreated = true
