@@ -68,5 +68,6 @@
   "GAMBLER_HELPFUL_SOUL": "event.eb63c60b-8767-4dbd-b213-3fa50ceca80a",
   "CHEAT_BACKROOM_DEAL": "event.103df74d-0ac9-4b3e-a82e-46af280a3be0",
   "MIRROR_INVERSION": "event.5123208b-f4b7-4e51-bab2-62d6fea2560f",
-  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df"
+  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df",
+  "PROPHET": "event.71af36de-7295-4b36-9581-22025c69ff49"
 }

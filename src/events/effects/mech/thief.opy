@@ -22,7 +22,14 @@ rule "[VishkarEvent]: 窃贼":
         eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true
-        eventPlayer.dlcTimeChallenge[0]++
+        # 窃取影响的是“下一个增益”：目标已承诺的增益事件作废，下一次分配按新旗标重掷
+        if eventPlayer.target.eventNextIndex != null:
+            if eventCatalogType[eventPlayer.target.eventNextIndex] == EventType.BUFF:
+                eventPlayer.target.eventNextIndex = null
+        # 自身的已承诺事件也需按强制增益旗标重取，保证先知预览与实发一致
+        if eventPlayer.eventNextIndex != null:
+            rerollNextEvent()
+        eventPlayer.dlcTimeChallenge[8]++
         smallMessage(eventPlayer, "  {0}  已窃取一名友方的下一个增益事件".format(iconString(Icon.DIAMOND)))
         smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
         eventPlayer.eventDuration = 0
