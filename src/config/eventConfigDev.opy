@@ -7,7 +7,7 @@ rule "initialize event array":
     @Condition vishkarEventActivated == true
 
     eventWeight = EVT_INIT_EVENT_WEIGHT
-    
+
     eventCatalogId = []
     eventName = []
     eventDesc = []
@@ -210,7 +210,15 @@ rule "initialize event array":
     eventCatalogType[EventId.WHERE_YOU_FALL] = EventType.BUFF
     eventCatalogId.append(EventId.WHERE_YOU_FALL)
 
-    
+
+    eventName[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
+    eventDesc[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_STACKS)
+    eventDuration[EventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
+    eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
+    eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
+    eventCatalogId.append(EventId.SHARED_BLESSING)
+
+
     # ================================================
     # Pack 1: Debuffs
     # ================================================

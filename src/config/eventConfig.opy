@@ -7,7 +7,7 @@ rule "initialize event array":
     @Condition vishkarEventActivated == true
 
     eventWeight = EVT_INIT_EVENT_WEIGHT
-    
+
     eventCatalogId = []
     eventName = []
     eventDesc = []
@@ -15,7 +15,7 @@ rule "initialize event array":
     eventCatalogWeight = []
     eventCatalogType = []
 
-    
+
     # Pack 0 - Special
     eventName[EventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
     eventDesc[EventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_DESC
@@ -224,9 +224,9 @@ rule "initialize event array":
     eventCatalogType[EventId.BRAKE_FAILURE] = EventType.MECH
     eventCatalogId.append(EventId.BRAKE_FAILURE)
 
-    
 
-    
+
+
     # ================================================
     # Pack 3: Buffs
     # ================================================
@@ -309,7 +309,7 @@ rule "initialize event array":
     eventCatalogType[EventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
     eventCatalogId.append(EventId.GAMBLER_SPEED_CHALLENGE)
 
-    
+
     
 
     # ================================================
@@ -498,6 +498,13 @@ rule "initialize event array":
     eventCatalogWeight[EventId.WHERE_YOU_FALL] = EVT_BUFF_33_WEIGHT
     eventCatalogType[EventId.WHERE_YOU_FALL] = EventType.BUFF
     eventCatalogId.append(EventId.WHERE_YOU_FALL)
+
+    eventName[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
+    eventDesc[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_STACKS)
+    eventDuration[EventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
+    eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
+    eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
+    eventCatalogId.append(EventId.SHARED_BLESSING)
     # ================================================
     # Pack 5: Debuffs
     # ================================================

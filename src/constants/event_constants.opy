@@ -346,6 +346,15 @@ enum HeartSteelData:
 #!define EVT_33_RESCUE_RADIUS 3
 #!define EVT_33_RESCUE_TIME 1.5
 #!define EVT_33_REVIVE_HEALTH_RATIO 0.4
+# --- ID 34: 有福同享 ---
+# Duration（秒）
+#!define EVT_BUFF_34_DURATION 120
+# Weight（权重）
+#!define EVT_BUFF_34_WEIGHT 0.4
+# 任务完成时双方各获得的心之钢层数
+#!define EVT_34_REWARD_STACKS 16
+# 绑定判定半径（米）：该范围内最近的友方按住互动即完成绑定
+#!define EVT_34_BIND_RADIUS 5
 
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
