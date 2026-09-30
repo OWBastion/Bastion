@@ -25,3 +25,4 @@
 #!include "debuff/wayward_navigation.opy"
 #!include "debuff/overweight_pack.opy"
 #!include "debuff/adlersbrunn_wraith.opy"
+#!include "debuff/static_field.opy"

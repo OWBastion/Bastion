@@ -218,7 +218,6 @@ rule "initialize event array":
     eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
     eventCatalogId.append(EventId.SHARED_BLESSING)
 
-
     # ================================================
     # Pack 1: Debuffs
     # ================================================
@@ -369,6 +368,13 @@ rule "initialize event array":
     eventCatalogId.append(EventId.ADLERSBRUNN_WRAITH)
     
     
+
+    eventName[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_TITLE
+    eventDesc[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_DESC.format(EVT_DEBUFF_25_TRIGGER_RADIUS, EVT_DEBUFF_25_STUN)
+    eventDuration[EventId.STATIC_FIELD] = EVT_DEBUFF_25_DURATION
+    eventCatalogWeight[EventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
+    eventCatalogType[EventId.STATIC_FIELD] = EventType.DEBUFF
+    eventCatalogId.append(EventId.STATIC_FIELD)
     # ================================================
     # Pack 3: Mechanics
     # ================================================

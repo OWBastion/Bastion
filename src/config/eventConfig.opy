@@ -15,7 +15,6 @@ rule "initialize event array":
     eventCatalogWeight = []
     eventCatalogType = []
 
-
     # Pack 0 - Special
     eventName[EventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_TITLE
     eventDesc[EventId.OLIVIA_GIFT] = STR_EVT_BUFF_0_DESC
@@ -224,9 +223,6 @@ rule "initialize event array":
     eventCatalogType[EventId.BRAKE_FAILURE] = EventType.MECH
     eventCatalogId.append(EventId.BRAKE_FAILURE)
 
-
-
-
     # ================================================
     # Pack 3: Buffs
     # ================================================
@@ -308,9 +304,6 @@ rule "initialize event array":
     eventCatalogWeight[EventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_WEIGHT
     eventCatalogType[EventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
     eventCatalogId.append(EventId.GAMBLER_SPEED_CHALLENGE)
-
-
-    
 
     # ================================================
     # Pack 4: Buffs
@@ -528,6 +521,13 @@ rule "initialize event array":
     eventCatalogWeight[EventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_WEIGHT
     eventCatalogType[EventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
     eventCatalogId.append(EventId.ADLERSBRUNN_WRAITH)
+
+    eventName[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_TITLE
+    eventDesc[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_DESC.format(EVT_DEBUFF_25_TRIGGER_RADIUS, EVT_DEBUFF_25_STUN)
+    eventDuration[EventId.STATIC_FIELD] = EVT_DEBUFF_25_DURATION
+    eventCatalogWeight[EventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
+    eventCatalogType[EventId.STATIC_FIELD] = EventType.DEBUFF
+    eventCatalogId.append(EventId.STATIC_FIELD)
 
     # ================================================
     # Pack 5: Mechanics

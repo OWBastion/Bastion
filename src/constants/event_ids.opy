@@ -144,5 +144,7 @@ enum EventId:
     # ---- Anniversary 2026 ----
     # legacy numeric id: buff 33
     WHERE_YOU_FALL
+    # legacy numeric id: debuff 25
+    STATIC_FIELD
     # sentinel only for integrity checks (do not register as an event)
     COUNT
