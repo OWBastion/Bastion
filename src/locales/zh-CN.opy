@@ -234,6 +234,10 @@
 #!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：\n减伤/移速/治疗强度/心之钢"
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
 #!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数\n{2}%概率清空奖池并获得其中所有心之钢层数"
+#!define STR_EVT_MECH_25_TITLE "先知"
+#!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
+#!define STR_EVT_MECH_25_NEXT "→ {0}"
+#!define STR_EVT_MECH_25_UNKNOWN "未知"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
