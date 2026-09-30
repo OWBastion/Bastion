@@ -187,6 +187,9 @@
 #!define STR_EVT_DEBUFF_22_DESC "Every {0}s, launch yourself at high speed in a random direction."
 #!define STR_EVT_DEBUFF_23_TITLE "Overweight Backpack"
 #!define STR_EVT_DEBUFF_23_DESC "For every {0} max HP, damage taken increases by {1}%."
+#!define STR_EVT_DEBUFF_25_TITLE "Static Field"
+#!define STR_EVT_DEBUFF_25_DESC "When an ally is within {0}m, you and that ally\nrepel apart and are stunned for {1}s."
+
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------
@@ -222,7 +225,6 @@
 #!define STR_EVT_MECH_23_DESC "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
 #!define STR_EVT_MECH_24_TITLE "Gambler: Winner Takes All"
 #!define STR_EVT_MECH_24_DESC "Hold {0} to spend {1}% of your Heartsteel stacks.\n{2}% chance to empty the jackpot and claim all Heartsteel inside."
-
 
 # Event Categories
 #!define STR_CAT_BUFF "Buff"
@@ -349,7 +351,6 @@
 # Attribute panel
 # {0}=Heartsteel stacks, {1}=Permanent movement speed bonus, {2}=Permanent damage reduction, {3}=Healing power
 #!define STR_HUD_ATTR_PANEL "Heartsteel/Speed/DR/Heal%\r\n{0}/{1}/{2}/{3}%"
-
 
 # ------------------------------------------------
 # World Text (In-World)

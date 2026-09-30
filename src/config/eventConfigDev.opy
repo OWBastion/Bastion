@@ -237,7 +237,6 @@ rule "initialize event array":
     eventCatalogEffectId[BuffEventId.WHERE_YOU_FALL] = BuffEventId.WHERE_YOU_FALL
     eventCatalogId.append(BuffEventId.WHERE_YOU_FALL)
 
-
     eventName[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
     eventDesc[BuffEventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_STACKS)
     eventDuration[BuffEventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
@@ -245,7 +244,6 @@ rule "initialize event array":
     eventCatalogType[BuffEventId.SHARED_BLESSING] = EventType.BUFF
     eventCatalogEffectId[BuffEventId.SHARED_BLESSING] = BuffEventId.SHARED_BLESSING
     eventCatalogId.append(BuffEventId.SHARED_BLESSING)
-
 
     # ================================================
     # Pack 1: Debuffs
@@ -415,7 +413,14 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH] = DebuffEventId.ADLERSBRUNN_WRAITH
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.ADLERSBRUNN_WRAITH)
 
-    
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_DESC.format(EVT_DEBUFF_25_TRIGGER_RADIUS, EVT_DEBUFF_25_STUN)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EVT_DEBUFF_25_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = DebuffEventId.STATIC_FIELD
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD)
+
     # ================================================
     # Pack 3: Mechanics
     # ================================================
