@@ -340,6 +340,13 @@ enum HeartSteelData:
 #!define EVT_32_REWARD_HEAL_PERMA 100
 #!define EVT_32_HUD_INTERVAL 5
 
+# --- ID 33: 在哪里跌倒 ---
+#!define EVT_BUFF_33_DURATION 60
+#!define EVT_BUFF_33_WEIGHT 0.4
+#!define EVT_33_RESCUE_RADIUS 3
+#!define EVT_33_RESCUE_TIME 1.5
+#!define EVT_33_REVIVE_HEALTH_RATIO 0.4
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10

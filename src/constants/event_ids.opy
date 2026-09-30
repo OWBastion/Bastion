@@ -141,5 +141,8 @@ enum EventId:
     MIRROR_INVERSION
     # legacy numeric id: 24
     GAMBLER_WINNER_TAKE_ALL
+    # ---- Anniversary 2026 ----
+    # legacy numeric id: buff 33
+    WHERE_YOU_FALL
     # sentinel only for integrity checks (do not register as an event)
     COUNT

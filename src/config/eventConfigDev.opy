@@ -203,6 +203,13 @@ rule "initialize event array":
     eventCatalogType[EventId.BATTLEFIELD_MEDIC] = EventType.BUFF
     eventCatalogId.append(EventId.BATTLEFIELD_MEDIC)
 
+    eventName[EventId.WHERE_YOU_FALL] = STR_EVT_BUFF_33_TITLE
+    eventDesc[EventId.WHERE_YOU_FALL] = STR_EVT_BUFF_33_DESC.format(EVT_33_RESCUE_RADIUS, Button.INTERACT, EVT_33_RESCUE_TIME, percent(EVT_33_REVIVE_HEALTH_RATIO))
+    eventDuration[EventId.WHERE_YOU_FALL] = EVT_BUFF_33_DURATION
+    eventCatalogWeight[EventId.WHERE_YOU_FALL] = EVT_BUFF_33_WEIGHT
+    eventCatalogType[EventId.WHERE_YOU_FALL] = EventType.BUFF
+    eventCatalogId.append(EventId.WHERE_YOU_FALL)
+
     
     # ================================================
     # Pack 1: Debuffs
