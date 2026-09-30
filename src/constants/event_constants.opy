@@ -613,6 +613,18 @@ enum HeartSteelData:
 # 近身扫描间隔 (秒)
 #!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
 
+# --- ID 26 (Debuff): 黑洞 ---
+# Duration（秒）
+#!define EVT_DEBUFF_26_DURATION 20
+# Weight（权重）
+#!define EVT_DEBUFF_26_WEIGHT 0.8
+# 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
+#!define EVT_DEBUFF_26_STOP_RADIUS 4
+# 牵引加速度（m/s²，startAcceleration rate）：8 m/s²，远弱于引力异常（≈53 m/s²），可被正常移动挣脱
+#!define EVT_DEBUFF_26_PULL_ACCEL 8
+# 牵引最大速度（m/s）：限制持续加速叠出的失控速度
+#!define EVT_DEBUFF_26_PULL_MAX_SPEED 8
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------

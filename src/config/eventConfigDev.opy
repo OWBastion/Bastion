@@ -421,6 +421,14 @@ rule "initialize event array":
     eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD] = DebuffEventId.STATIC_FIELD
     eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.STATIC_FIELD)
 
+    eventName[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = STR_EVT_DEBUFF_26_DESC.format(EVT_DEBUFF_26_STOP_RADIUS)
+    eventDuration[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EVT_DEBUFF_26_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EVT_DEBUFF_26_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = EventType.DEBUFF
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE] = DebuffEventId.BLACK_HOLE
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DebuffEventId.BLACK_HOLE)
+
     # ================================================
     # Pack 3: Mechanics
     # ================================================
