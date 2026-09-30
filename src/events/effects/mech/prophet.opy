@@ -15,10 +15,10 @@
 # 仅对先知本人可见，而单个文本对象只有一个 visibleTo，因此先知持有
 # 与称号平行的一套栏位文本——同样按 Team.1 的 8 个栏位各建一条，
 # 单局恒定 8 次 createInWorldText，玩家进出只改变 reeval 结果。
-#   - 位置：与称号文本同一锚点（当前栏位占用者实体，换人自动跟随）
+#   - 位置：占用者眼位上方 0.3m，落在称号行（引擎置顶）与头顶之间，
+#     有/无称号时版式一致；栏位换人自动跟随
 #   - 可见性：栏位占用者的先知集合（不含其本人——先知看不到自己的下一个事件）
-#   - 内容：占用者有称号时以 \n 起行使揭示行落在称号行下方，无称号时
-#     揭示行直接占据称号槽位；事件名经 eventName[eventNextIndex] 按 ID 查询
+#   - 内容：事件名经 eventName[eventNextIndex] 按 ID 查询
 #   - 颜色：沿用占用者的称号色 rgb_vect；无称号（rgb_vect 未初始化）时给默认紫
 # 称号状态（playerTitleAndColor / playerTitles）与称号文本一律不读写，
 # 不影响称号本身及赌徒、资格判定等任何其他系统。
@@ -29,9 +29,10 @@ macro Player.prophets():
     getPlayers(Team.1).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
 
 #!define PROPHET_SLOT_WATCHERS(i) (TEAM1_SLOT_PLAYER(i).prophets() if TEAM1_SLOT_PLAYER(i) != null else [])
-#!define PROPHET_SLOT_STRING(i) "{0}{1}".format("\n" if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).playerTitleAndColor != null else "", STR_EVT_MECH_25_NEXT.format(eventName[TEAM1_SLOT_PLAYER(i).eventNextIndex] if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN))
+#!define PROPHET_SLOT_STRING(i) STR_EVT_MECH_25_NEXT.format(eventName[TEAM1_SLOT_PLAYER(i).eventNextIndex] if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN)
+#!define PROPHET_SLOT_POSITION(i) (TEAM1_SLOT_PLAYER(i).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(i) != null else vect(0, -1000, 0))
 #!define PROPHET_SLOT_COLOR(i) (rgb(TEAM1_SLOT_PLAYER(i).rgb_vect.x, TEAM1_SLOT_PLAYER(i).rgb_vect.y, TEAM1_SLOT_PLAYER(i).rgb_vect.z) if TEAM1_SLOT_PLAYER(i) != null and TEAM1_SLOT_PLAYER(i).playerTitleAndColor != null else rgb(186, 120, 255))
-#!define PROPHET_SLOT_TEXT(i) createInWorldText(PROPHET_SLOT_WATCHERS(i), PROPHET_SLOT_STRING(i), TEAM1_SLOT_PLAYER(i), 0.7, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, PROPHET_SLOT_COLOR(i))
+#!define PROPHET_SLOT_TEXT(i) createInWorldText(PROPHET_SLOT_WATCHERS(i), PROPHET_SLOT_STRING(i), PROPHET_SLOT_POSITION(i), 0.7, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, PROPHET_SLOT_COLOR(i))
 
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
