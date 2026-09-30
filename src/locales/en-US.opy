@@ -163,6 +163,10 @@
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nFuture Heartsteel stack gain x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
+#!define STR_EVT_BUFF_33_TITLE "Where You Fall"
+#!define STR_EVT_BUFF_33_DESC "Fatal damage knocks you down. An ally within {0}m can hold {1} for {2}s to revive you at {3}% HP. You stay down until the event ends; if no one rescues you, you die."
+#!define STR_EVT_BUFF_33_DOWNED "{0} is down! Hold {2} for {3}s within {1}m to rescue them."
+#!define STR_EVT_BUFF_33_RESCUED "Rescued! Restored to {0}% HP."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
