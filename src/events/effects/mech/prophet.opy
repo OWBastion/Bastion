@@ -10,11 +10,12 @@
 # 观测者效应：被先知观测的玩家若尚无已承诺的下一个事件（eventNextIndex == null），
 # 立即按当前旗标实掷一次使其坍缩——预览即实发，两者恒等；已承诺的绝不重掷。
 #
-# 显示机制：复用称号系统的栏位文本能力（见 src/title/init.opy）。
-# 称号是独立的公开显示层，对所有人可见；先知的揭示信息按 issue 边界
-# 仅对先知本人可见，而单个文本对象只有一个 visibleTo，因此先知持有
-# 与称号平行的一套栏位文本——同样按 Team.1 的 8 个栏位各建一条，
-# 单局恒定 8 次 createInWorldText，玩家进出只改变 reeval 结果。
+# 显示机制：与称号同一套栏位绑定思路（称号本身的栏位化见独立 PR，
+# 本文件自包含不依赖它）。称号是独立的公开显示层，对所有人可见；
+# 先知的揭示信息按 issue 边界仅对先知本人可见，而单个文本对象只有
+# 一个 visibleTo，因此先知持有与称号平行的一套栏位文本——
+# 按 Team.1 的 8 个栏位各建一条，单局恒定 8 次 createInWorldText，
+# 玩家进出只改变 reeval 结果。
 #   - 位置：占用者眼位上方 0.3m，落在称号行（引擎置顶）与头顶之间，
 #     有/无称号时版式一致；栏位换人自动跟随
 #   - 可见性：栏位占用者的先知集合（不含其本人——先知看不到自己的下一个事件）
@@ -27,6 +28,9 @@
 # eventId 仅存枚举值，mech/debuff 编号可撞号，必须带 eventType 过滤
 macro Player.prophets():
     getPlayers(Team.1).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
+
+# 栏位占用者查询：getPlayers 只含在线玩家，按 getSlot 过滤定位栏位；空栏位返回 null
+#!define PROPHET_SLOT_PLAYER(i) (getPlayers(Team.1).filter(lambda p: p.getSlot() == i)[0] if len(getPlayers(Team.1).filter(lambda p: p.getSlot() == i)) > 0 else null)
 
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
@@ -44,99 +48,99 @@ rule "Create per-slot prophet next-event texts":
     @Condition len(getPlayers(Team.1)) > 0
 
     createInWorldText(
-        TEAM1_SLOT_PLAYER(0).prophets() if TEAM1_SLOT_PLAYER(0) != null else [],
+        PROPHET_SLOT_PLAYER(0).prophets() if PROPHET_SLOT_PLAYER(0) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(0).eventNextIndex] if TEAM1_SLOT_PLAYER(0).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(0) != null else "",
-        TEAM1_SLOT_PLAYER(0).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(0) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(0).eventNextIndex] if PROPHET_SLOT_PLAYER(0).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(0) != null else "",
+        PROPHET_SLOT_PLAYER(0).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(0) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(0).rgb_vect.x, TEAM1_SLOT_PLAYER(0).rgb_vect.y, TEAM1_SLOT_PLAYER(0).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(0) != null and TEAM1_SLOT_PLAYER(0).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(0).rgb_vect.x, PROPHET_SLOT_PLAYER(0).rgb_vect.y, PROPHET_SLOT_PLAYER(0).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(0) != null and PROPHET_SLOT_PLAYER(0).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(1).prophets() if TEAM1_SLOT_PLAYER(1) != null else [],
+        PROPHET_SLOT_PLAYER(1).prophets() if PROPHET_SLOT_PLAYER(1) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(1).eventNextIndex] if TEAM1_SLOT_PLAYER(1).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(1) != null else "",
-        TEAM1_SLOT_PLAYER(1).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(1) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(1).eventNextIndex] if PROPHET_SLOT_PLAYER(1).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(1) != null else "",
+        PROPHET_SLOT_PLAYER(1).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(1) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(1).rgb_vect.x, TEAM1_SLOT_PLAYER(1).rgb_vect.y, TEAM1_SLOT_PLAYER(1).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(1) != null and TEAM1_SLOT_PLAYER(1).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(1).rgb_vect.x, PROPHET_SLOT_PLAYER(1).rgb_vect.y, PROPHET_SLOT_PLAYER(1).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(1) != null and PROPHET_SLOT_PLAYER(1).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(2).prophets() if TEAM1_SLOT_PLAYER(2) != null else [],
+        PROPHET_SLOT_PLAYER(2).prophets() if PROPHET_SLOT_PLAYER(2) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(2).eventNextIndex] if TEAM1_SLOT_PLAYER(2).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(2) != null else "",
-        TEAM1_SLOT_PLAYER(2).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(2) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(2).eventNextIndex] if PROPHET_SLOT_PLAYER(2).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(2) != null else "",
+        PROPHET_SLOT_PLAYER(2).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(2) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(2).rgb_vect.x, TEAM1_SLOT_PLAYER(2).rgb_vect.y, TEAM1_SLOT_PLAYER(2).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(2) != null and TEAM1_SLOT_PLAYER(2).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(2).rgb_vect.x, PROPHET_SLOT_PLAYER(2).rgb_vect.y, PROPHET_SLOT_PLAYER(2).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(2) != null and PROPHET_SLOT_PLAYER(2).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(3).prophets() if TEAM1_SLOT_PLAYER(3) != null else [],
+        PROPHET_SLOT_PLAYER(3).prophets() if PROPHET_SLOT_PLAYER(3) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(3).eventNextIndex] if TEAM1_SLOT_PLAYER(3).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(3) != null else "",
-        TEAM1_SLOT_PLAYER(3).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(3) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(3).eventNextIndex] if PROPHET_SLOT_PLAYER(3).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(3) != null else "",
+        PROPHET_SLOT_PLAYER(3).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(3) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(3).rgb_vect.x, TEAM1_SLOT_PLAYER(3).rgb_vect.y, TEAM1_SLOT_PLAYER(3).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(3) != null and TEAM1_SLOT_PLAYER(3).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(3).rgb_vect.x, PROPHET_SLOT_PLAYER(3).rgb_vect.y, PROPHET_SLOT_PLAYER(3).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(3) != null and PROPHET_SLOT_PLAYER(3).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(4).prophets() if TEAM1_SLOT_PLAYER(4) != null else [],
+        PROPHET_SLOT_PLAYER(4).prophets() if PROPHET_SLOT_PLAYER(4) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(4).eventNextIndex] if TEAM1_SLOT_PLAYER(4).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(4) != null else "",
-        TEAM1_SLOT_PLAYER(4).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(4) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(4).eventNextIndex] if PROPHET_SLOT_PLAYER(4).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(4) != null else "",
+        PROPHET_SLOT_PLAYER(4).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(4) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(4).rgb_vect.x, TEAM1_SLOT_PLAYER(4).rgb_vect.y, TEAM1_SLOT_PLAYER(4).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(4) != null and TEAM1_SLOT_PLAYER(4).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(4).rgb_vect.x, PROPHET_SLOT_PLAYER(4).rgb_vect.y, PROPHET_SLOT_PLAYER(4).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(4) != null and PROPHET_SLOT_PLAYER(4).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(5).prophets() if TEAM1_SLOT_PLAYER(5) != null else [],
+        PROPHET_SLOT_PLAYER(5).prophets() if PROPHET_SLOT_PLAYER(5) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(5).eventNextIndex] if TEAM1_SLOT_PLAYER(5).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(5) != null else "",
-        TEAM1_SLOT_PLAYER(5).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(5) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(5).eventNextIndex] if PROPHET_SLOT_PLAYER(5).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(5) != null else "",
+        PROPHET_SLOT_PLAYER(5).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(5) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(5).rgb_vect.x, TEAM1_SLOT_PLAYER(5).rgb_vect.y, TEAM1_SLOT_PLAYER(5).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(5) != null and TEAM1_SLOT_PLAYER(5).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(5).rgb_vect.x, PROPHET_SLOT_PLAYER(5).rgb_vect.y, PROPHET_SLOT_PLAYER(5).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(5) != null and PROPHET_SLOT_PLAYER(5).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(6).prophets() if TEAM1_SLOT_PLAYER(6) != null else [],
+        PROPHET_SLOT_PLAYER(6).prophets() if PROPHET_SLOT_PLAYER(6) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(6).eventNextIndex] if TEAM1_SLOT_PLAYER(6).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(6) != null else "",
-        TEAM1_SLOT_PLAYER(6).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(6) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(6).eventNextIndex] if PROPHET_SLOT_PLAYER(6).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(6) != null else "",
+        PROPHET_SLOT_PLAYER(6).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(6) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(6).rgb_vect.x, TEAM1_SLOT_PLAYER(6).rgb_vect.y, TEAM1_SLOT_PLAYER(6).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(6) != null and TEAM1_SLOT_PLAYER(6).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(6).rgb_vect.x, PROPHET_SLOT_PLAYER(6).rgb_vect.y, PROPHET_SLOT_PLAYER(6).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(6) != null and PROPHET_SLOT_PLAYER(6).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     createInWorldText(
-        TEAM1_SLOT_PLAYER(7).prophets() if TEAM1_SLOT_PLAYER(7) != null else [],
+        PROPHET_SLOT_PLAYER(7).prophets() if PROPHET_SLOT_PLAYER(7) != null else [],
         STR_EVT_MECH_25_NEXT.format(
-            eventName[TEAM1_SLOT_PLAYER(7).eventNextIndex] if TEAM1_SLOT_PLAYER(7).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
-        ) if TEAM1_SLOT_PLAYER(7) != null else "",
-        TEAM1_SLOT_PLAYER(7).getEyePosition() + Vector.UP * 0.3 if TEAM1_SLOT_PLAYER(7) != null else vect(0, -1000, 0),
+            eventName[PROPHET_SLOT_PLAYER(7).eventNextIndex] if PROPHET_SLOT_PLAYER(7).eventNextIndex != null else STR_EVT_MECH_25_UNKNOWN
+        ) if PROPHET_SLOT_PLAYER(7) != null else "",
+        PROPHET_SLOT_PLAYER(7).getEyePosition() + Vector.UP * 0.3 if PROPHET_SLOT_PLAYER(7) != null else vect(0, -1000, 0),
         0.7,
         Clip.NONE,
         WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-        rgb(TEAM1_SLOT_PLAYER(7).rgb_vect.x, TEAM1_SLOT_PLAYER(7).rgb_vect.y, TEAM1_SLOT_PLAYER(7).rgb_vect.z)
-            if TEAM1_SLOT_PLAYER(7) != null and TEAM1_SLOT_PLAYER(7).playerTitleAndColor != null else rgb(186, 120, 255)
+        rgb(PROPHET_SLOT_PLAYER(7).rgb_vect.x, PROPHET_SLOT_PLAYER(7).rgb_vect.y, PROPHET_SLOT_PLAYER(7).rgb_vect.z)
+            if PROPHET_SLOT_PLAYER(7) != null and PROPHET_SLOT_PLAYER(7).playerTitleAndColor != null else rgb(186, 120, 255)
     )
     prophetSlotTextsCreated = true
