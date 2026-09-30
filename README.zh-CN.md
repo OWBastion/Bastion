@@ -96,7 +96,7 @@ pnpm install
 pnpm run build
 ```
 
-构建脚本使用 Wright CLI（`wright compile ...`）及其 OverPy provider。请从 <https://wrightkit.dev> 安装 Wright，并执行一次 `wright provider update opy`；CI 的固定版本见 `.github/workflows/ci-build.yml` 和 `release.yml`。
+构建脚本使用 Wright CLI（`wright compile ...`）及其 OverPy provider。请从 <https://wrightkit.dev> 安装 Wright，并执行一次 `wright update provider opy`；CI 与 release 使用最新 provider，`.github/workflows/release.yml` 仅固定 Wright CLI 版本。
 
 分别构建双入口：
 
