@@ -605,7 +605,7 @@ enum HeartSteelData:
 # 触发距离 (米)
 #!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
 # 击退冲量
-#!define EVT_DEBUFF_25_IMPULSE 25
+#!define EVT_DEBUFF_25_IMPULSE 100
 # 击晕时长 (秒)
 #!define EVT_DEBUFF_25_STUN 0.75
 # 触发保护 (秒，触发后该窗口内不再判定)

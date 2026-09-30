@@ -14,11 +14,10 @@
 rule "Proximity repel":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), not eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.STATIC_FIELD, getTotalTimeElapsed() >= eventPlayer.eventMission]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), not eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.eventId == DebuffEventId.STATIC_FIELD, getTotalTimeElapsed() >= eventPlayer.eventMission]) == true
 
-    eventPlayer.temp = [player for player in getLivingPlayers(Team.1) if player != eventPlayer and not player.hasStatus(Status.PHASED_OUT) and distance(eventPlayer, player) <= EVT_DEBUFF_25_TRIGGER_RADIUS]
-    if len(eventPlayer.temp) > 0:
-        eventPlayer.target = sorted(eventPlayer.temp, lambda player: distance(eventPlayer, player))[0]
+    eventPlayer.target = getRealClosestPlayer(eventPlayer, Team.1)
+    if eventPlayer.target != eventPlayer and distance(eventPlayer, eventPlayer.target) <= EVT_DEBUFF_25_TRIGGER_RADIUS:
         # 仅作用于触发双方：沿两者连线向相反方向弹开，并同时击晕
         eventPlayer.applyImpulse(directionTowards(eventPlayer.target, eventPlayer), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
         eventPlayer.target.applyImpulse(directionTowards(eventPlayer, eventPlayer.target), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
@@ -31,4 +30,3 @@ rule "Proximity repel":
         loop()
     # 兜底收尾（中途 abort 时由 clearPlayerEvent 复位 eventMission）
     eventPlayer.target = null
-    eventPlayer.temp = null
