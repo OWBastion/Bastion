@@ -54,6 +54,27 @@ macro platformMapRevision_EICHENWALDE_CLASSIC():
 rule "map - eichenwalde":
     @Condition (__currentMap___ == Map.EICHENWALDE) == true
 
-    platformMapRevision_EICHENWALDE_DEFAULT()
+    __currentMapText___ = "艾兴瓦尔德"
     __currentMapPioneerText___ = "十字军之王"
-    startForcingSpawn(Team.1, 2)
+    bastionPosition = [
+        vect(-6.063, 7.205, -22.764),
+        vect(20.971, 5.470, -67.047),
+        vect(5.458, 11.271, -85.199),
+        vect(70.312, 12.812, -70.142),
+        vect(49.286, 6.987, -79.333),
+        vect(11.803, 9.814, -38.032),
+        vect(38.242, 14.378, -95.285),
+        vect(90.889, 13.645, -96.644),
+        vect(81.945, 15.723, -36.631),
+        vect(109.665, 9.609, -45.579),
+        vect(113.579, 14.723, -35.492)
+    ]
+    endPosition = vect(126.62, 14.76, -15)
+    thirdPersonPosition = vect(-14.17, 1, -1.02)
+    resetPosition = vect(-11.01, 1, -0.74)
+    minefieldPosition = [
+        vect(20.94, 6, -77.51),
+        vect(28.66, 6.4, -47.61),
+        vect(71.29, 13.34, -72.97)
+    ]
+    startForcingSpawn(Team.2, 2)

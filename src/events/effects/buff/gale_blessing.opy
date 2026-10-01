@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 疾风祝福":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.GALE_BLESSING]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)
-    createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.SOLDIER_SPRINTING, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     eventPlayer.mod_speed_event = EVT_1_SPEED_BOOST
     updatePlayerStats()

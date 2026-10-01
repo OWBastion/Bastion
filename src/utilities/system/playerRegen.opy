@@ -9,7 +9,7 @@ playervar passiveRegenBlocked
 
 rule "Run passive regen":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.passiveRegenBlocked != true
     @Condition eventPlayer.combatRegen == true
 
@@ -43,7 +43,7 @@ rule "Run passive regen":
 
 rule "Arm passive regen":
     @Event playerTookDamage
-    @Team 1
+    @Team 2
     # @Condition attacker.getHero() == Hero.BASTION and attacker != eventPlayer
 
     eventPlayer.combatRegen = false

@@ -4,7 +4,7 @@
 
 rule "Initialize CN player title state":
     @Event playerJoined
-    @Team 1
+    @Team 2
 
     eventPlayer.playerTitleRelationIndex = null
     eventPlayer.tempUnlockId = null

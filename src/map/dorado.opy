@@ -30,5 +30,26 @@ macro platformMapRevision_DORADO_DEFAULT():
 rule "map - dorado":
     @Condition __currentMap___ == Map.DORADO
     
-    platformMapRevision_DORADO_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    __currentMapText___ = "多拉多"
+    bastionPosition = [
+        vect(26.169, 10.636, 21.274),
+        vect(5.052, 2.990, 6.116),
+        vect(70.229, 17.391, 44.750),
+        vect(81.050, 17.626, -9.782),
+        vect(87.635, 18.233, 14.470),
+        vect(125.039, 12.653, -19.477),
+        vect(127.749, 16.001, 15.107),
+        vect(162.342, 11, 26.637),
+        vect(175.257, 19.100, 50.621),
+        vect(170.187, 19.100, 44.979),
+        vect(182.129, 12.793, 66.128)
+    ]
+    endPosition = vect(176.64, 11.01, 24.68)
+    thirdPersonPosition = vect(-15.02, -0.3, -12.99)
+    resetPosition = vect(-22.04, -0.3, -4.21)
+    minefieldPosition = [
+        vect(188.52, 15, 27.43),
+        vect(176.64, 11.01, 24.68),
+        vect(21.69, -1.98, 21.76)
+    ]
+    startForcingSpawn(Team.2, 1)

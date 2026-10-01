@@ -8,11 +8,11 @@
 
 rule "[VishkarEvent]: 电磁脉冲":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.EMP]) == true
     
     stopChasingVariable(eventPlayer.hack_timer)
-    eventPlayer.setStatusEffect(getPlayersOnHero(Hero.BASTION, Team.2)[0], Status.HACKED, EVT_DEBUFF_1_HACK_DURATION)
-    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_HACKED_STARTING, Color.TEAM_2, eventPlayer, 200)
+    eventPlayer.setStatusEffect(getPlayersOnHero(Hero.BASTION, Team.1)[0], Status.HACKED, EVT_DEBUFF_1_HACK_DURATION)
+    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_HACKED_STARTING, Color.TEAM_1, eventPlayer, 200)
     eventPlayer.hack_timer = EVT_DEBUFF_1_HACK_DURATION
     chaseAtRate(eventPlayer.hack_timer, 0, 1, ChaseRateReeval.NONE)

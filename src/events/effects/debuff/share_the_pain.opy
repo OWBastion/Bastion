@@ -8,21 +8,21 @@
 
 rule "[VishkarEvent]: 有难同当 Effect":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     
     eventPlayer.dlcTimeChallenge[5]++
     wait(getAverageServerLoad() / 100 * 0.032)
-    createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     wait(eventPlayer.eventDuration)
 
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SHARE_THE_PAIN]) == true
     @Condition attacker.getHero() == Hero.BASTION
     @Condition eventAbility != null
     
-    damage([player for player in getLivingPlayers(Team.1) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and distance(eventPlayer, player) <= EVT_DEBUFF_9_RADIUS and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
+    damage([player for player in getLivingPlayers(Team.2) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and distance(eventPlayer, player) <= EVT_DEBUFF_9_RADIUS and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
     wait()

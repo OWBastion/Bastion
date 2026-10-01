@@ -8,11 +8,11 @@
 
 rule "[VishkarEvent]: 赌徒：乐于助人":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_HELPFUL_SOUL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.target = getLivingPlayers(Team.1)
+    eventPlayer.target = getLivingPlayers(Team.2)
     if random.randint(1, 100) <= EVT_MECH_20_WIN_RATE:
         eventPlayer.temp = 0
         for eventPlayer.temp in range(len(eventPlayer.target)):

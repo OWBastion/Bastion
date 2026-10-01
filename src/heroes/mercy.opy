@@ -5,8 +5,8 @@
 
 rule "when a mercy might rez, respawn time is increased":
     @Event playerDied
-    @Team 1
-    @Condition isHeroBeingPlayed(Hero.MERCY, Team.1) == true
+    @Team 2
+    @Condition isHeroBeingPlayed(Hero.MERCY, Team.2) == true
     @Condition eventPlayer.controlPlayerRespawnPosition == null
 
     if eventPlayer.eventType == EventType.MECH and eventPlayer.eventId == MechEventId.NESTING_DOLL:
@@ -14,7 +14,7 @@ rule "when a mercy might rez, respawn time is increased":
     
     if eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.HEART_OF_STEEL:
         return
-    if getPlayersOnHero(Hero.MERCY, Team.1).any(lambda player:
+    if getPlayersOnHero(Hero.MERCY, Team.2).any(lambda player:
         distance(eventPlayer.getPosition(), player.getPosition()) < 40 and player.isAlive() and player.getAbilityCooldown(Button.ABILITY_2) < 8
     ):
         bigMessage(eventPlayer, STR_MSG_MERCY_NEARBY)

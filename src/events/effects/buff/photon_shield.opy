@@ -9,19 +9,19 @@
 
 rule "Bind shield source":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHOTON_SHIELD]) == true
     
     wait()
-    getPlayers(Team.1).target = eventPlayer
+    getPlayers(Team.2).target = eventPlayer
     # Exception: shield ownership syncs to death/event end boundary.
     waitUntil(eventPlayer.isDead(), eventPlayer.eventDuration)
     eventPlayer.eventDuration = 0
-    getPlayers(Team.1).target = null
+    getPlayers(Team.2).target = null
 
 rule "Grant shields":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
     
     wait()

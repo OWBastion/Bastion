@@ -6,7 +6,7 @@
 
 rule "Track sleep lockout":
     @Event playerDealtDamage
-    @Team 1
+    @Team 2
     @Hero ana
     @Condition eventAbility == Button.ABILITY_1
     @Condition victim.hasNano != true
@@ -25,7 +25,7 @@ rule "Track sleep lockout":
 
 rule "Reset sleep lockout":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero ana
     @Condition eventPlayer.isAlive() == true
     
@@ -33,7 +33,7 @@ rule "Reset sleep lockout":
     eventPlayer.anaSleepLimit = [-30 for player in bastionPosition]
 
 rule "Display sleep HUD":
-    @Condition isHeroBeingPlayed(Hero.ANA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.ANA, Team.2) == true
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ANA and localPlayer.isInSpawnRoom() else null, STR_ANA_SLEEP_LIMIT_HINT.format(abilityIconString(Hero.ANA, Button.ABILITY_1), 30), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)
     wait()
@@ -42,7 +42,7 @@ rule "Display sleep HUD":
     for I in range(len(bastionPosition)):
         createProgressBarInWorldText(localPlayer if localPlayer.getHero() == Hero.ANA and getTotalTimeElapsed() - localPlayer.anaSleepLimit[evalOnce(I)] < 30 and distance(distance(localPlayer.getEyePosition(), bastionPosition[evalOnce(I)]) * localPlayer.getFacingDirection() + localPlayer.getEyePosition(), bastionPosition[evalOnce(I)]) <= 4 else null, ((30 - (getTotalTimeElapsed() - localPlayer.anaSleepLimit[evalOnce(I)])) / 30) * 100, STR_ANA_SLEEP_LIMIT_BAR.format(min(30, 30 - (floor(getTotalTimeElapsed() - localPlayer.anaSleepLimit[evalOnce(I)])))), bastionPosition[evalOnce(I)], 1, Clip.NONE, Color.BLUE, Color.WHITE, ProgressWorldTextReeval.VISIBILITY_AND_VALUES)
         textIDs[3] = [getLastCreatedText() if idx == I else i for i, idx in textIDs[3]]
-    waitUntil(not isHeroBeingPlayed(Hero.ANA, Team.1), Math.INFINITY)
+    waitUntil(not isHeroBeingPlayed(Hero.ANA, Team.2), Math.INFINITY)
     for I in range(len(textIDs[3])):
         destroyProgressBarInWorldText(textIDs[3][I])
     destroyHudText(textIDs[4])
