@@ -75,7 +75,7 @@
 pnpm run sync:platform-data
 ```
 
-普通 Agents 响应不会返回数字玩家 ID。同步称号授予或地图称号持有者时，请在仓库 Secret 或本地构建环境配置 `BASTION_BUILD_TOKEN`；同步客户端只会将其作为 Bearer token 发送。
+普通 Agents 响应不会返回数字玩家 ID，同步也不消费该字段。`BASTION_BUILD_TOKEN` 已配置时会作为 Bearer token 发送，但并非必需。
 
 同步工具会校验稳定 ID、支持的枚举值和跨资源引用，更新生成数据，然后编译 OverPy 入口。Bastion 继续负责稳定 ID、OverPy 实现和编译；该流程不使用 Release API、Candidate 或 Draft 生命周期、数据锁、一致性快照，也不创建平台构建任务。
 
