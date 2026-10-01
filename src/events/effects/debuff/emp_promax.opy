@@ -9,24 +9,25 @@
 
 rule "Broadcast EMP":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.EMP_PROMAX]) == true
     
-    ([player for player in getPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
-    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_EMP_EXPLOSION_EFFECT, Color.TEAM_2, eventPlayer, 200)
+    eventPlayer.dlcTimeChallenge[7]++
+    ([player for player in getPlayers(Team.2) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
+    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_EMP_EXPLOSION_EFFECT, Color.TEAM_1, eventPlayer, 200)
     wait(eventPlayer.eventDuration - 1)
-    getPlayers(Team.1).empProMax = null
+    getPlayers(Team.2).empProMax = null
 
 rule "Apply hack":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.hasStatus(Status.HACKED) != true, eventPlayer.empProMax != null]) == true
     
     stopChasingVariable(eventPlayer.hack_timer)
     eventPlayer.hack_timer = max(0, EVT_DEBUFF_7_HACK_BASE_DURATION if eventPlayer.empProMax == eventPlayer else EVT_DEBUFF_7_HACK_BASE_DURATION - distance(eventPlayer, eventPlayer.empProMax) * EVT_DEBUFF_7_DIST_FACTOR)
     if eventPlayer.hack_timer <= EVT_DEBUFF_7_MIN_HACK_THRESHOLD:
         goto lbl_0
-    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_HACKED_STARTING, Color.TEAM_2, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.SOMBRA_HACKED_STARTING, Color.TEAM_1, eventPlayer, 200)
     lbl_0:
     eventPlayer.setStatusEffect(eventPlayer.empProMax, Status.HACKED, eventPlayer.hack_timer)
     eventPlayer.empProMax = null

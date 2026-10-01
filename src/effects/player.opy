@@ -6,7 +6,7 @@
 
 rule "Toggle dev rainbow":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
@@ -19,12 +19,12 @@ rule "Toggle dev rainbow":
 
 rule "Refresh winner outlines":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isWinner != false
     @Condition eventPlayer.isAlive() == true
     
     wait(getAverageServerLoad() / 100)
-    eventPlayer.startForcingOutlineFor(getPlayers(Team.1), true, Color.GREEN, OutlineVisibility.ALWAYS)
+    eventPlayer.startForcingOutlineFor(getPlayers(Team.2), true, Color.GREEN, OutlineVisibility.ALWAYS)
     wait(30, Wait.RESTART_WHEN_TRUE)
     if ruleCondition:
         loop()
@@ -32,17 +32,17 @@ rule "Refresh winner outlines":
 
 rule "Outline winners for joiners":
     @Event playerJoined
-    @Team 1
-    @Condition getPlayers(Team.1).any(lambda player: player.isWinner) == true
+    @Team 2
+    @Condition getPlayers(Team.2).any(lambda player: player.isWinner) == true
     
     wait(getAverageServerLoad() / 100)
-    getPlayers(Team.1).filter(lambda player: player.isWinner).startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
+    getPlayers(Team.2).filter(lambda player: player.isWinner).startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
 
 
 rule "Clear non-winner outlines":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isWinner == false
     
     wait(getAverageServerLoad() / 100)
-    eventPlayer.stopForcingOutlineFor(getPlayers(Team.1))
+    eventPlayer.stopForcingOutlineFor(getPlayers(Team.2))

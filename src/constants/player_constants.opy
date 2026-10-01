@@ -11,8 +11,8 @@
     STR_DESC_ORIGINAL_CREDIT
 
 # ========= lobby（房间容量/常改项）=========
-#!define LOBBY_TEAM1_SLOTS 8
-#!define LOBBY_TEAM2_SLOTS 0
+#!define LOBBY_TEAM2_SLOTS 8
+#!define LOBBY_TEAM1_SLOTS 0
 #!define LOBBY_SPECTATOR_SLOTS_MAIN 2
 #!define LOBBY_SPECTATOR_SLOTS_DEV 2
 #!define LOBBY_SPECTATOR_SLOTS LOBBY_SPECTATOR_SLOTS_DEV
@@ -32,18 +32,18 @@
 #!define HEALTHPACK_RESPAWN_TIME_PCT 75
 
 # =========================
-# Team 1（通用英雄参数）
+# Team 2（通用英雄参数）
 # =========================
-#!define TEAM1_ABILITY_COOLDOWN_PCT 40
+#!define TEAM2_ABILITY_COOLDOWN_PCT 40
 
 # =========================
-# Team 2 - General（阵营基调，常会调）
+# Team 1 - General（阵营基调，常会调）
 # =========================
-#!define TEAM2_DAMAGE_RECEIVED_PCT 25
-#!define TEAM2_ABILITY_COOLDOWN_PCT 0
-#!define TEAM2_HEALTH_PCT 500
+#!define TEAM1_DAMAGE_RECEIVED_PCT 25
+#!define TEAM1_ABILITY_COOLDOWN_PCT 0
+#!define TEAM1_HEALTH_PCT 500
 
-# Team 2 - Bastion（核心Boss向配置，建议抽）
+# Team 1 - Bastion（核心Boss向配置，建议抽）
 #!define BOSS_BASTION_SEC_FIRE_COOLDOWN_PCT 0
 #!define BOSS_BASTION_SEC_FIRE_KB_PCT 200
 #!define BOSS_BASTION_PROJECTILE_SPEED_PCT 175

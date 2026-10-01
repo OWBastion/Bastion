@@ -8,13 +8,13 @@
 
 rule "[VishkarEvent]: 心之钢 Effect":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
     
     wait()
     if eventPlayer.eventEffect != null:
         goto lbl_0
-    createEffect(getAllPlayers(), Effect.WINSTON_PRIMAL_RAGE, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.WINSTON_PRIMAL_RAGE, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     lbl_0:
     # Exception: one-shot effect owner, ends strictly on event lifecycle.
@@ -22,7 +22,7 @@ rule "[VishkarEvent]: 心之钢 Effect":
 
 rule "[VishkarEvent]: 心之钢":
     @Event playerDied
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
     @Condition (attacker.getHero() == Hero.BASTION or eventPlayer.isWinner) == true
     

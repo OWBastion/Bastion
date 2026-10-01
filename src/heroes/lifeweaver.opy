@@ -6,7 +6,7 @@
 
 rule "Disable Life Grip":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero lifeweaver
     @Condition PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer) == true
     
@@ -16,7 +16,7 @@ rule "Disable Life Grip":
 
 rule "Break Petal Platform":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero lifeweaver
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
     

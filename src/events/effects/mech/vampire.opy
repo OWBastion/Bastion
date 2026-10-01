@@ -8,11 +8,11 @@
 
 rule "[VishkarEvent]: 吸血鬼":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VAMPIRE]) == true
 
     eventPlayer.passiveRegenBlocked = true
-    eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer]
+    eventPlayer.target = [player for player in getLivingPlayers(Team.2) if player != eventPlayer]
     if len(eventPlayer.target) > 0:
         eventPlayer.eventMissionGoal = EVT_MECH_18_DRAIN_FLAT + eventPlayer.maxHealthPercent(EVT_MECH_18_DRAIN_MAXHP_FACTOR * 100)
         damage(eventPlayer.target, eventPlayer, eventPlayer.eventMissionGoal)
@@ -28,8 +28,8 @@ rule "[VishkarEvent]: 吸血鬼":
 
 rule "[VishkarEvent]: 吸血鬼击杀增益":
     @Event playerDied
-    @Team 1
-    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventType == EventType.MECH, attacker.eventId == MechEventId.VAMPIRE]) == true
+    @Team 2
+    @Condition all([attacker.getTeam() == Team.2, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventType == EventType.MECH, attacker.eventId == MechEventId.VAMPIRE]) == true
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)

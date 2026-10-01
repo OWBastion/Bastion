@@ -9,13 +9,13 @@
 
 rule "Apply challenge":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     
     waitUntil(eventPlayer.isAlive(), Math.INFINITY)
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
     eventPlayer.heal_recv = EVT_MECH_0_HEAL_BAN
-    createEffect(getAllPlayers(), Effect.ANA_BIOTIC_GRENADE_NO_HEALING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.ANA_BIOTIC_GRENADE_NO_HEALING, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND, Color.WHITE, eventPlayer, 200)
     eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_MECH_0_HP_PERCENT * 100))
@@ -31,7 +31,7 @@ rule "Apply challenge":
 
 rule "Clamp health":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
     @Condition eventPlayer.healthAbovePercent(EVT_MECH_0_HP_PERCENT * 100) == true
     

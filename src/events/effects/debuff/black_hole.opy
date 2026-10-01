@@ -17,13 +17,13 @@
 # 当前对本玩家生效的黑洞持有者（存活、已生成、本人在其停止圈之外），按距离升序；空列表 = 不受牵引
 macro Player.blackHoles():
     sorted(
-        getPlayers(Team.1).filter(lambda h: h != self and h.eventType == EventType.DEBUFF and h.eventId == DebuffEventId.BLACK_HOLE and h.hasSpawned() and h.isAlive() and distance(self, h) > EVT_DEBUFF_26_STOP_RADIUS),
+        getPlayers(Team.2).filter(lambda h: h != self and h.eventType == EventType.DEBUFF and h.eventId == DebuffEventId.BLACK_HOLE and h.hasSpawned() and h.isAlive() and distance(self, h) > EVT_DEBUFF_26_STOP_RADIUS),
         lambda h: distance(self, h)
     )
 
 rule "Black hole marker":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.BLACK_HOLE, eventPlayer.eventEffect == null]) == true
 
     createEffect(getAllPlayers() if eventPlayer.isAlive() else null, Effect.ORB, Color.BLACK, eventPlayer, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
@@ -33,7 +33,7 @@ rule "Black hole marker":
 
 rule "Pulled toward black hole":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.hasStatus(Status.PHASED_OUT) == false

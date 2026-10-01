@@ -8,20 +8,20 @@
 
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DEATH_DELAY, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
 
 rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
     @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_9_TRIGGER_HP_PERCENT * 100), eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
 
-    createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] = getLastCreatedEntity()
-    createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     smallMessage(eventPlayer, "  {0}  已触发死亡延迟，致命伤害已延后".format(abilityIconString(Hero.BAPTISTE, Button.ABILITY_2)))
     waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead()]), eventPlayer.eventDuration)

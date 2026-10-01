@@ -12,7 +12,7 @@
 
 rule "Clean expired health pools":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition len(eventPlayer.hp_data) > 0
 
     eventPlayer.hp_data = [player for player in eventPlayer.hp_data if player != null]

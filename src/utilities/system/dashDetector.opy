@@ -6,7 +6,7 @@
 
 rule "Enable phase trigger":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition vishkarEventActivated == true
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.eventType == EventType.BUFF
@@ -22,7 +22,7 @@ rule "Enable phase trigger":
 
 rule "Disable phase trigger":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.phaseState == true
     # 当所有条件都不满足时
     @Condition eventPlayer.usesPhaseTrigger() == false

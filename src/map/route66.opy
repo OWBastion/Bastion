@@ -29,5 +29,24 @@ macro platformMapRevision_ROUTE66_DEFAULT():
 rule "map - route 66":
     @Condition __currentMap___ == Map.ROUTE66
     
-    platformMapRevision_ROUTE66_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    __currentMapText___ = "66号公路"
+    bastionPosition = [
+        vect(42.910, 12.468, 57.186),
+        vect(46.957, 10.348, 23.420),
+        vect(13.375, 7.628, 2.053),
+        vect(-7.499, 8.146, -9.483),
+        vect(-37.229, 10.592, 5.707),
+        vect(-39.299, 12.762, -22.170),
+        vect(-57.958, 11.751, 22.969),
+        vect(-80.025, 12.557, -1.539),
+        vect(-83.831, 12.891, -28.936)
+    ]
+    endPosition = vect(-92.4, 6.53, -23.45)
+    minefieldPosition = [
+        vect(23.25, 3.31, -36.88),
+        vect(-44.98, 3.39, 9.38),
+        vect(75.41, 6.5, 21.77)
+    ]
+    resetPosition = null
+    thirdPersonPosition = null
+    startForcingSpawn(Team.2, 1)

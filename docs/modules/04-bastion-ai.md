@@ -2,7 +2,7 @@
 
 ## 职责范围
 
-`src/bastion/init.opy` 负责敌方堡垒（Team 2）的完整行为控制：
+`src/bastion/init.opy` 负责敌方堡垒（Team 1）的完整行为控制；周年模式玩家位于 Team 2：
 
 - 生成后定位与姿态维持
 - 目标搜索与开火

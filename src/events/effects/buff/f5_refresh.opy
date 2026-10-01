@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: F5 (循环刷新)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.F5_REFRESH]) == true
     
     resetPlayerCD()

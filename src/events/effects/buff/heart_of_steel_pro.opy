@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 心之钢 Pro":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true
     
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]

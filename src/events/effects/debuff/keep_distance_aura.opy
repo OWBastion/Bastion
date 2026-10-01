@@ -6,12 +6,19 @@
 # Event: DebuffEventId.KEEP_DISTANCE_AURA
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
+rule "[VishkarEvent]: 保持距离 Track":
+    @Event eachPlayer
+    @Team 2
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
+
+    eventPlayer.dlcTimeChallenge[6]++
+
 rule "[VishkarEvent]: 保持距离 (易伤光环)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.KEEP_DISTANCE_AURA]) == true
     
-    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_15_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
+    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_15_RADIUS, Team.2, LosCheck.SURFACES).exclude(eventPlayer)
     if len(eventPlayer.target) > 1:
         eventPlayer.target = sorted(eventPlayer.target, lambda i: distance(eventPlayer, i))[0]
     elif eventPlayer.target[0] != null:

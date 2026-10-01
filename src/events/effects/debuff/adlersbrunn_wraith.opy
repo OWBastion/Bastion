@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH]) == true
 
     eventPlayer.eventMission = EVT_DEBUFF_21_TOTAL_STACK
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
 
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (抵消层数)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.ADLERSBRUNN_WRAITH,  eventPlayer.eventMission > 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)

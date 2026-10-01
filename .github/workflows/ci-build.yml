@@ -43,7 +43,7 @@ jobs:
         run: |
           set -euo pipefail
           curl -fsSL https://install.wrightkit.dev/wright/install.sh \
-            | bash -s -- --dir "${RUNNER_TEMP}/wright/bin"
+            | bash -s -- --version 0.6.2 --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
 
       - name: Install OverPy provider

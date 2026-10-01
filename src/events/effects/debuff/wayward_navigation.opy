@@ -8,7 +8,7 @@
 
 rule "Random launch":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.WAYWARD_NAVIGATION]) == true
 
     wait(EVT_DEBUFF_22_INTERVAL, Wait.ABORT_WHEN_FALSE)

@@ -95,7 +95,7 @@ def finishResetProgress():
 
 rule "Track progression death":
     @Event playerDied
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.getHero() == heroList[eventPlayer.heroNumber], eventPlayer.progressionDeathCount < maxDeath, eventPlayer.heroNumber + 1 < len(heroList), attacker != null, attacker != eventPlayer]) == true
     
     eventPlayer.progressionDeathCount++
@@ -103,7 +103,7 @@ rule "Track progression death":
 
 rule "Sync ult progress":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition difficulty != 5
     @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
     @Condition eventPlayer.progressionDeathCount < maxDeath
@@ -119,7 +119,7 @@ rule "Sync ult progress":
 
 rule "Display skip ready":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition difficulty != 5
     @Condition not (eventPlayer.eventType == EventType.BUFF and eventPlayer.eventId == BuffEventId.ULT_MOMENTUM)
     @Condition eventPlayer.progressionDeathCount == maxDeath
@@ -143,7 +143,7 @@ rule "Display skip ready":
 
 rule "Skip hero with ultimate":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition difficulty != 5
     @Condition eventPlayer.progressionDeathCount >= maxDeath
     @Condition (eventPlayer.isUsingUltimate() or eventPlayer.isDuplicatingAHero()) == true
@@ -160,9 +160,9 @@ rule "Skip hero with ultimate":
 
 rule "Display reset hint":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition (eventPlayer.heroNumber > 0 or eventPlayer.runDeathCount > 0) == true
-    @Condition eventPlayer in getPlayersInRadius(resetPosition, 20, Team.1) == true
+    @Condition eventPlayer in getPlayersInRadius(resetPosition, 20, Team.2) == true
     @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), resetPosition * vect(1, 0, 1)) <= 1.2
     
     bigMessage(eventPlayer, STR_MSG_HOLD_RELOAD_RESET)
@@ -170,7 +170,7 @@ rule "Display reset hint":
 
 rule "Reset progress":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     @Condition (eventPlayer.runDeathCount > 0 or eventPlayer.heroNumber > 0) == true
     @Condition distance(eventPlayer * vect(1, 0, 1), resetPosition * vect(1, 0, 1)) <= 1.2

@@ -14,7 +14,7 @@
 # 本文件自包含不依赖它）。称号是独立的公开显示层，对所有人可见；
 # 先知的揭示信息按 issue 边界仅对先知本人可见，而单个文本对象只有
 # 一个 visibleTo，因此先知持有与称号平行的一套栏位文本——
-# 按 Team.1 的 8 个栏位各建一条，单局恒定 8 次 createInWorldText，
+# 按 Team.2 的 8 个栏位各建一条，单局恒定 8 次 createInWorldText，
 # 玩家进出只改变 reeval 结果。
 #   - 位置：占用者眼位上方 0.3m，落在称号行（引擎置顶）与头顶之间，
 #     有/无称号时版式一致；栏位换人自动跟随
@@ -27,14 +27,14 @@
 # 除栏位占用者本人以外当前持有“先知”事件的玩家集合（Unique 约束下最多一人）
 # eventId 仅存枚举值，mech/debuff 编号可撞号，必须带 eventType 过滤
 macro Player.prophets():
-    getPlayers(Team.1).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
+    getPlayers(Team.2).filter(lambda other: other != self and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)
 
 # 栏位占用者查询：getPlayers 只含在线玩家，按 getSlot 过滤定位栏位；空栏位返回 null
-#!define PROPHET_SLOT_PLAYER(i) (getPlayers(Team.1).filter(lambda p: p.getSlot() == i)[0] if len(getPlayers(Team.1).filter(lambda p: p.getSlot() == i)) > 0 else null)
+#!define PROPHET_SLOT_PLAYER(i) (getPlayers(Team.2).filter(lambda p: p.getSlot() == i)[0] if len(getPlayers(Team.2).filter(lambda p: p.getSlot() == i)) > 0 else null)
 
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.hasSpawned() == true
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer) == true
     @Condition len(eventPlayer.prophets()) > 0
@@ -45,7 +45,7 @@ rule "Collapse undecided next event under observation":
 rule "Create per-slot prophet next-event texts":
     @Event global
     @Condition prophetSlotTextsCreated == false
-    @Condition len(getPlayers(Team.1)) > 0
+    @Condition len(getPlayers(Team.2)) > 0
 
     createInWorldText(
         PROPHET_SLOT_PLAYER(0).prophets() if PROPHET_SLOT_PLAYER(0) != null else [],

@@ -71,7 +71,7 @@ def buildCandidatePool():
     if eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_28_STEEL_COST or eventPlayer.eventLastId == null or len(eventPlayer.eventLastId.filter(lambda i: i < BUFF_EVENT_ID_COUNT and i in EVT_MECH_28_REPLAYABLE_BUFFS)) == 0:
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CYCLE_REPLAY)
     # Unique 事件：先知同一时间最多一名。他人已生效或已预取锁定的都算占位。
-    if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and ((other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET) or other.eventNextIndex == BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET))) > 0:
+    if len(getPlayers(Team.2).filter(lambda other: other != eventPlayer and ((other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET) or other.eventNextIndex == BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET))) > 0:
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET)
 
     if eventPlayer.eventLastId != null:
