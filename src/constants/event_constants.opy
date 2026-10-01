@@ -1016,4 +1016,16 @@ enum EquivalentExchangeOffer:
 # 释放后再次蓄力的间隔（秒）
 #!define EVT_MECH_29_RELEASE_COOLDOWN 6
 
+# --- ID 30 (Mech): 有点松弛 ---
+# Duration（秒）
+#!define EVT_MECH_30_DURATION 45
+# Weight（权重）
+#!define EVT_MECH_30_WEIGHT 1.6
+# 迷雾半径（米）：跟随持有者的毒雾范围，也是伤害判定范围
+#!define EVT_MECH_30_FOG_RADIUS 12
+# 雾中其他友方每跳损失的最大生命值比例
+#!define EVT_MECH_30_DAMAGE_PERCENT_PER_TICK 0.03
+# 伤害判定间隔（秒）
+#!define EVT_MECH_30_TICK_INTERVAL 1
+
 # -----------------------------------------------------------------------------
