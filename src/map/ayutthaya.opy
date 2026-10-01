@@ -31,4 +31,4 @@ rule "map - 阿育陀耶":
     
     rebootTime = 5400
     platformMapRevision_AYUTTHAYA_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 0)

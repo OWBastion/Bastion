@@ -61,4 +61,4 @@ rule "map - rialto":
     ]
     controlJumpPosition = null
     controlRespawnPosition = null
-    startForcingSpawn(Team.2, 2)
+    startForcingSpawn(Team.2, 0)

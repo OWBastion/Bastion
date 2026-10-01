@@ -959,7 +959,7 @@ enum MirrorInversionStat:
 # Duration（秒）
 #!define EVT_MECH_25_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_25_WEIGHT 0.6
+#!define EVT_MECH_25_WEIGHT 0
 
 # --- ID 27 (Mech/Composite): 等价交换 ---
 # Duration（秒）

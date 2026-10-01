@@ -110,6 +110,6 @@ rule "map - 南极半岛":
     @Condition (getCurrentMap() == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177) == true
 
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE()

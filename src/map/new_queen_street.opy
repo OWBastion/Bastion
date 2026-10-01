@@ -32,4 +32,4 @@ rule "map - 新皇后街":
     @Condition __currentMap___ == Map.NEW_QUEEN_STREET
     
     platformMapRevision_NEW_QUEEN_STREET_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)

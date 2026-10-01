@@ -30,4 +30,4 @@ rule "map - junkertown":
     @Condition __currentMap___ == Map.JUNKERTOWN
     
     platformMapRevision_JUNKERTOWN_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)

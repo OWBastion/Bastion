@@ -32,4 +32,4 @@ rule "map - blizzworld":
     
     platformMapRevision_BLIZZARD_WORLD_DEFAULT()
     __currentMapText___ = "暴雪世界"
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)
