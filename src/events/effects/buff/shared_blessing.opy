@@ -11,16 +11,20 @@
 # 判定同钢化你心：绑定时记录双方 heroNumber 基准（eventMission=自己，eventLoopCount=友方），双方各推进一格即双双过线。
 # eventMissionGoal>0 兼作"已绑定"标记，防止条件残留导致重复触发；未绑定到期由事件自然到期处理。
 
+# 绑定候选：半径内未通关、按住互动键的存活友方（排除自己）
+macro Player.bindCandidates():
+    getLivingPlayers(Team.2).filter(lambda p: p != self and p.hasSpawned() and not p.isWinner and distance(p, self) <= EVT_34_BIND_RADIUS and p.isHoldingButton(Button.INTERACT))
+
 rule "[VishkarEvent]: 有福同享（绑定）":
     @Event eachPlayer
     @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.eventDuration > 0]) == true
-    @Condition all([getRealClosestPlayer(eventPlayer, Team.2) != eventPlayer, not getRealClosestPlayer(eventPlayer, Team.2).isWinner, distance(getRealClosestPlayer(eventPlayer, Team.2), eventPlayer) <= EVT_34_BIND_RADIUS, getRealClosestPlayer(eventPlayer, Team.2).isHoldingButton(Button.INTERACT)]) == true
+    @Condition len(eventPlayer.bindCandidates()) > 0
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
         eventPlayer.eventMissionGoal = 1
-        eventPlayer.target = getRealClosestPlayer(eventPlayer, Team.2)
+        eventPlayer.target = sorted(eventPlayer.bindCandidates(), lambda p: distance(p, eventPlayer)).first()
         eventPlayer.eventMission = eventPlayer.heroNumber
         eventPlayer.eventLoopCount = eventPlayer.target.heroNumber
         smallMessage(eventPlayer, "  {0}  与 {1}（{2}）绑定：双双通过终点即完成".format(iconString(Icon.FLAG), eventPlayer.target, eventPlayer.target.getHero()))
