@@ -9,7 +9,7 @@
 
 rule "Create effect":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([
         eventPlayer.hasSpawned(),
         eventPlayer.eventType == EventType.MECH,
@@ -17,14 +17,14 @@ rule "Create effect":
         eventPlayer.eventEffect == null
     ]) == true
     
-    createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != MechEventId.STEALTH_CROUCH or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
 
 
 rule "Apply stealth crouch":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.STEALTH_CROUCH]) == true
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
     
@@ -40,7 +40,7 @@ rule "Apply stealth crouch":
 
 rule "Drain health":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([
         eventPlayer.hasSpawned(),
         eventPlayer.eventType == EventType.MECH,

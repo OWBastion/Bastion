@@ -8,13 +8,13 @@
 
 rule "[VishkarEvent]: 作弊：我要验牌 (触发)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.CHEAT_CARD_COUNTING, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_7_HEART_STEEL_COST
     setPlayerHP()
-    playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
+    playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_2, eventPlayer, 100)
     eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
     # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
     if eventPlayer.eventNextIndex != null:

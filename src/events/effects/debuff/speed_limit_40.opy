@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 限速40":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SPEED_LIMIT_40, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     eventPlayer.passiveRegenBlocked = true

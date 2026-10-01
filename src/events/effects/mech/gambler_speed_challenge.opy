@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 赌徒：竞速挑战":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.GAMBLER_SPEED_CHALLENGE, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)

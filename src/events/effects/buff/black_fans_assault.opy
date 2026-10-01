@@ -12,12 +12,12 @@ rule "[VishkarEvent]: 黑粉来袭":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.BLACK_FANS_ASSAULT]) == true
    
-    # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]), len(bastionPosition))
+    # eventPlayer.hudText = "{0}/{1}".format(len([player for player in getPlayers(Team.1) if player.target == eventPlayer]), len(bastionPosition))
     wait(BLACK_FANS_SCAN_DT)
     if eventPlayer.eventEffect == null:
-        createEffect(getAllPlayers() if eventPlayer.mod_speed_event == EVT_5_SPEED_BOOST else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        createEffect(getAllPlayers() if eventPlayer.mod_speed_event == EVT_5_SPEED_BOOST else null, Effect.SOLDIER_SPRINTING, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.eventEffect = getLastCreatedEntity()
-    if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) == 0:
+    if len([player for player in getPlayers(Team.1) if player.target == eventPlayer]) == 0:
         if eventPlayer.mod_speed_event != 0:
             eventPlayer.mod_speed_event = 0
             updatePlayerStats()
@@ -32,8 +32,8 @@ rule "[VishkarEvent]: 黑粉来袭":
     lbl_0:
     eventPlayer.addHealthPool(EVT_5_HEALTH_TYPE, EVT_5_BASE_HEALTH + round(eventPlayer.maxHealthPercent(EVT_5_HEALTH_MAXHP_PERCENT * 100)), false, false)
     eventPlayer.hp_data.append([[getTotalTimeElapsed() + 2, getLastCreatedHealthPool(), eventPlayer.eventId]])
-    waitUntil(len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) == 0, 1.96)
-    if len([player for player in getPlayers(Team.2) if player.target == eventPlayer]) > 0 and ruleCondition:
+    waitUntil(len([player for player in getPlayers(Team.1) if player.target == eventPlayer]) == 0, 1.96)
+    if len([player for player in getPlayers(Team.1) if player.target == eventPlayer]) > 0 and ruleCondition:
         loop()
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()

@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 迷你形态":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.MINI_FORM]) == true
     
     wait(getAverageServerLoad() / 100 * 0.032)

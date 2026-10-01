@@ -8,18 +8,18 @@
 
 rule "[VishkarEvent]: 减半":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.HALVED, eventPlayer.getHealth() != 0]) == true
     
     eventPlayer.passiveRegenBlocked = true
     
     if eventPlayer.healthAtMostPercent(EVT_DEBUFF_13_EXECUTE_THRESHOLD * 100):
         kill(eventPlayer, eventPlayer)
-        playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Color.TEAM_2, eventPlayer, 200)
+        playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Color.TEAM_1, eventPlayer, 200)
     else:
         wait(EVT_DEBUFF_13_INTERVAL)
         eventPlayer.startDamageOverTime(null, 1, eventPlayer.getHealth() * EVT_DEBUFF_13_DAMAGE_PERCENT)
-        playEffect(getAllPlayers(), DynamicEffect.ZARYA_PARTICLE_CANNON_EXPLOSION, Color.TEAM_2, eventPlayer, 3)
+        playEffect(getAllPlayers(), DynamicEffect.ZARYA_PARTICLE_CANNON_EXPLOSION, Color.TEAM_1, eventPlayer, 3)
     if ruleCondition:
         loop()
     eventPlayer.passiveRegenBlocked = false

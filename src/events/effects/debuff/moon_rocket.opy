@@ -8,12 +8,12 @@
 
 rule "[VishkarEvent]: 登月火箭":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.MOON_ROCKET]) == true
 
     eventPlayer.dlcTimeChallenge[2]++
-    playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Team.2, eventPlayer, 200)
-    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Team.1, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.DVA_SELF_DESTRUCT_EXPLOSION, Team.1, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Team.2, eventPlayer, 200)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     eventPlayer.setGravity(EVT_DEBUFF_20_GRAVITY)
     wait(EVT_DEBUFF_20_LAUNCH_DELAY)

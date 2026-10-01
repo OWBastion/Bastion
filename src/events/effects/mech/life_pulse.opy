@@ -39,7 +39,7 @@
 
 rule "Charge and release":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.LIFE_PULSE, eventPlayer.eventMission == 0, eventPlayer.isAlive(), getTotalTimeElapsed() >= eventPlayer.eventMissionGoal, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     eventPlayer.eventMission = 1
@@ -57,7 +57,7 @@ rule "Charge and release":
     if eventPlayer.isAlive() and eventPlayer.eventType == EventType.MECH and eventPlayer.eventId == MechEventId.LIFE_PULSE:
         startCombatRegen()
         if eventPlayer.eventTargetHP > 0:
-            eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer and distance(eventPlayer, player) <= EVT_MECH_29_HEAL_RADIUS]
+            eventPlayer.target = [player for player in getLivingPlayers(Team.2) if player != eventPlayer and distance(eventPlayer, player) <= EVT_MECH_29_HEAL_RADIUS]
             if len(eventPlayer.target) > 0:
                 heal(eventPlayer.target, eventPlayer, eventPlayer.maxHealthPercent(eventPlayer.eventTargetHP * EVT_MECH_29_HEAL_PER_SEC * 100))
                 playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.YELLOW, eventPlayer, 200)
@@ -71,7 +71,7 @@ rule "Charge and release":
 
 rule "Teardown":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.LIFE_PULSE]) == true
 
     wait(eventPlayer.eventDuration)

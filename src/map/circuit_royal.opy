@@ -72,4 +72,4 @@ rule "map - 皇家赛道":
         vect(57.44, 13.96, 0.73),
         vect(95.71, 16.96, 48.26)
     ]
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 2)

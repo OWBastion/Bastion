@@ -21,7 +21,7 @@
 
 rule "[VishkarEvent]: 等价交换 (报价)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EQUIVALENT_EXCHANGE, eventPlayer.eventMissionGoal == EquivalentExchangeOffer.NONE]) == true
 
     # 每次事件只从固定四臂表中随机提供一条兑换方向
@@ -38,7 +38,7 @@ rule "[VishkarEvent]: 等价交换 (报价)":
 
 rule "[VishkarEvent]: 等价交换 (成交)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EQUIVALENT_EXCHANGE, eventPlayer.eventMission == 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)

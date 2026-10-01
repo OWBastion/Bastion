@@ -13,14 +13,14 @@
 
 rule "[VishkarEvent]: 有福同享（绑定）":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.eventDuration > 0]) == true
-    @Condition all([getRealClosestPlayer(eventPlayer, Team.1) != eventPlayer, not getRealClosestPlayer(eventPlayer, Team.1).isWinner, distance(getRealClosestPlayer(eventPlayer, Team.1), eventPlayer) <= EVT_34_BIND_RADIUS, getRealClosestPlayer(eventPlayer, Team.1).isHoldingButton(Button.INTERACT)]) == true
+    @Condition all([getRealClosestPlayer(eventPlayer, Team.2) != eventPlayer, not getRealClosestPlayer(eventPlayer, Team.2).isWinner, distance(getRealClosestPlayer(eventPlayer, Team.2), eventPlayer) <= EVT_34_BIND_RADIUS, getRealClosestPlayer(eventPlayer, Team.2).isHoldingButton(Button.INTERACT)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
         eventPlayer.eventMissionGoal = 1
-        eventPlayer.target = getRealClosestPlayer(eventPlayer, Team.1)
+        eventPlayer.target = getRealClosestPlayer(eventPlayer, Team.2)
         eventPlayer.eventMission = eventPlayer.heroNumber
         eventPlayer.eventLoopCount = eventPlayer.target.heroNumber
         smallMessage(eventPlayer, "  {0}  与 {1}（{2}）绑定：双双通过终点即完成".format(iconString(Icon.FLAG), eventPlayer.target, eventPlayer.target.getHero()))
@@ -28,10 +28,10 @@ rule "[VishkarEvent]: 有福同享（绑定）":
 
 rule "[VishkarEvent]: 有福同享（结算）":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal > 0, eventPlayer.target != null, eventPlayer.eventDuration > 0]) == true
 
-    waitUntil(eventPlayer.eventId != BuffEventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.1) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]), eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != BuffEventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.2) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]), eventPlayer.eventDuration)
     if eventPlayer.eventId == BuffEventId.SHARED_BLESSING and eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]):
         bigMessage(eventPlayer, "有福同享 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS))

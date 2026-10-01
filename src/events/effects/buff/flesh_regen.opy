@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 血肉再生":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.FLESH_REGEN]) == true
     
     wait(0.032)

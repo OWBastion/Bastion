@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 三位一体 (SSR)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.TRINITY_SSR]) == true
     
     if eventPlayer.isAlive():

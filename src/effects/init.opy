@@ -95,18 +95,18 @@ rule "initialize effects":
     # Goal Effects
     # --------------------------------------------------------------------------------------------------------------------------------
     wait(0.5)
-    createEffect(getPlayers(Team.1), Effect.RING, Color.TEAM_1, endPosition, 4, EffectReeval.VISIBILITY)
-    createEffect(getPlayers(Team.1), Effect.LIGHT_SHAFT, Color.TEAM_1, endPosition, 4, EffectReeval.VISIBILITY)
-    createIcon(getPlayers(Team.1) if controlJumpPosition == null else [player for player in getPlayers(Team.1) if player.controlJumpIndex == evalOnce(len(controlRespawnPosition)) - 1], endPosition + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.BLUE)
+    createEffect(getPlayers(Team.2), Effect.RING, Color.TEAM_2, endPosition, 4, EffectReeval.VISIBILITY)
+    createEffect(getPlayers(Team.2), Effect.LIGHT_SHAFT, Color.TEAM_2, endPosition, 4, EffectReeval.VISIBILITY)
+    createIcon(getPlayers(Team.2) if controlJumpPosition == null else [player for player in getPlayers(Team.2) if player.controlJumpIndex == evalOnce(len(controlRespawnPosition)) - 1], endPosition + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.BLUE)
     if controlJumpPosition != null:
-        createEffect(getPlayers(Team.1), Effect.RING, Color.YELLOW, controlJumpPosition[0], 4, EffectReeval.VISIBILITY)
-        createEffect(getPlayers(Team.1), Effect.LIGHT_SHAFT, Color.YELLOW, controlJumpPosition[0], 4, EffectReeval.VISIBILITY)
-        createIcon([player for player in getPlayers(Team.1) if player.controlJumpIndex == 0], controlJumpPosition[0] + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.YELLOW)
+        createEffect(getPlayers(Team.2), Effect.RING, Color.YELLOW, controlJumpPosition[0], 4, EffectReeval.VISIBILITY)
+        createEffect(getPlayers(Team.2), Effect.LIGHT_SHAFT, Color.YELLOW, controlJumpPosition[0], 4, EffectReeval.VISIBILITY)
+        createIcon([player for player in getPlayers(Team.2) if player.controlJumpIndex == 0], controlJumpPosition[0] + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.YELLOW)
         if controlJumpPosition[1] == null:
             goto lbl_0
-        createEffect(getPlayers(Team.1), Effect.RING, Color.GREEN, controlJumpPosition[1], 4, EffectReeval.VISIBILITY)
-        createEffect(getPlayers(Team.1), Effect.LIGHT_SHAFT, Color.GREEN, controlJumpPosition[1], 4, EffectReeval.VISIBILITY)
-        createIcon([player for player in getPlayers(Team.1) if player.controlJumpIndex == 1], controlJumpPosition[1] + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.GREEN)
+        createEffect(getPlayers(Team.2), Effect.RING, Color.GREEN, controlJumpPosition[1], 4, EffectReeval.VISIBILITY)
+        createEffect(getPlayers(Team.2), Effect.LIGHT_SHAFT, Color.GREEN, controlJumpPosition[1], 4, EffectReeval.VISIBILITY)
+        createIcon([player for player in getPlayers(Team.2) if player.controlJumpIndex == 1], controlJumpPosition[1] + vect(0, 5, 0), Icon.FLAG, IconReeval.VISIBILITY_AND_POSITION, Color.GREEN)
         lbl_0:
         
     # --------------------------------------------------------------------------------------------------------------------------------

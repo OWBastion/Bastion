@@ -33,7 +33,7 @@ rule "map - watchpoint gibraltar":
     
     __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("直布罗陀")
     __currentMapText___ = "直布罗陀"
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 2)
     bastionPosition = [
         vect(34.044, 10.343, -152.744),
         vect(57.063, 9.010, -119.331),

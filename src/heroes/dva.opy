@@ -10,7 +10,7 @@
 
 rule "Enable remech":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.getHero() == Hero.DVA
     @Condition eventPlayer.isInAlternateForm() == true
     @Condition eventPlayer.isUsingUltimate() == false
@@ -25,7 +25,7 @@ rule "Enable remech":
 
 rule "Sync remech charge":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero dva
     @Condition eventPlayer.isInAlternateForm() == true
     @Condition eventPlayer.isAlive() == true
@@ -40,7 +40,7 @@ rule "Sync remech charge":
 
 rule "Complete remech goal":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero dva
     @Condition eventPlayer.isInAlternateForm() == true
     @Condition eventPlayer.dvaStart != 0
@@ -52,10 +52,10 @@ rule "Complete remech goal":
     eventPlayer.setUltCharge(100)
 
 rule "Display goal HUD":
-    @Condition isHeroBeingPlayed(Hero.DVA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.DVA, Team.2) == true
     
     wait(2, Wait.ABORT_WHEN_FALSE)
     hudHeader(localPlayer if localPlayer.getHero() == Hero.DVA and localPlayer.isInAlternateForm() and localPlayer.isAlive() and localPlayer.dvaStart != 0 else null, STR_DVA_DISTANCE_GOAL.format(max(0, 30 - distance(localPlayer.getPosition() * vect(1, 0, 1), localPlayer.dvaStart * vect(1, 0, 1)))), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     textIDs[1] = getLastCreatedText()
-    waitUntil(not isHeroBeingPlayed(Hero.DVA, Team.1), Math.INFINITY)
+    waitUntil(not isHeroBeingPlayed(Hero.DVA, Team.2), Math.INFINITY)
     destroyHudText(textIDs[1])

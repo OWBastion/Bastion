@@ -21,7 +21,7 @@ rule "Init Achievement Data":
 
 rule "[VishkarEvent]: Challenge 53 Track (GREAT_BENEFACTOR)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition difficulty == 5
@@ -32,7 +32,7 @@ rule "[VishkarEvent]: Challenge 53 Track (GREAT_BENEFACTOR)":
 
 rule "[VishkarEvent]: Challenge 54 Track (BREAK_ATMOSPHERE)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition difficulty == 5
@@ -43,7 +43,7 @@ rule "[VishkarEvent]: Challenge 54 Track (BREAK_ATMOSPHERE)":
 
 rule "[VishkarEvent]: Challenge 41 Track (V50)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[0] >= 10000
@@ -53,7 +53,7 @@ rule "[VishkarEvent]: Challenge 41 Track (V50)":
 
 rule "[VishkarEvent]: Challenge 55 Track (LIST_THEM)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[3] >= 3
@@ -65,7 +65,7 @@ rule "[VishkarEvent]: Challenge 55 Track (LIST_THEM)":
 
 rule "[VishkarEvent]: Challenge 56 Track (LIFE_GUARDS_LIFE)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[5] >= 2
@@ -77,7 +77,7 @@ rule "[VishkarEvent]: Challenge 56 Track (LIFE_GUARDS_LIFE)":
 
 rule "[VishkarEvent]: Challenge 57 Track (PHANTOM_THIEF)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[8] >= 10

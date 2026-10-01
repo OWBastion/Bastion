@@ -54,4 +54,4 @@ rule "map - dorado":
         vect(176.64, 11.01, 24.68),
         vect(21.69, -1.98, 21.76)
     ]
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 1)

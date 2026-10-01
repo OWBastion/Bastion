@@ -44,7 +44,7 @@ def setPlayerEvent():
         eventPlayer.eventIsSelected = true
         # Unique 兜底：承诺先知在先，他人在此期间先一步成为先知。
         # 唯一性优先于承诺——按候选池（Unique 门控已剔除先知）重掷。
-        if eventPlayer.eventCandidateIndex == BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET and len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)) > 0:
+        if eventPlayer.eventCandidateIndex == BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.PROPHET and len(getPlayers(Team.2).filter(lambda other: other != eventPlayer and other.eventType == EventType.MECH and other.eventId == MechEventId.PROPHET)) > 0:
             buildCandidatePool()
             wait(getAverageServerLoad() / 100 * 0.032)
             rejecSampling()

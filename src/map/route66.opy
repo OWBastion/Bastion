@@ -50,4 +50,4 @@ rule "map - route 66":
     ]
     resetPosition = null
     thirdPersonPosition = null
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 1)

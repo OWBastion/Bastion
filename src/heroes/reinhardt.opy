@@ -6,11 +6,11 @@
 
 rule "reinhardt cannot charge bastions":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero reinhardt
     @Condition eventPlayer.isUsingAbility1() == true
     
-    waitUntil(getPlayersInRadius(eventPlayer, 2, Team.2)[0] or not eventPlayer.isUsingAbility1(), 5)
+    waitUntil(getPlayersInRadius(eventPlayer, 2, Team.1)[0] or not eventPlayer.isUsingAbility1(), 5)
     if not eventPlayer.isUsingAbility1() or eventPlayer.isFiringSecondaryFire():
         return
     wait()

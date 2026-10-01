@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition  eventPlayer.getHero() != Hero.BASTION
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.CHEAT_SKIP_HERO, eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.getHero() == heroList[eventPlayer.heroNumber]]) == true
     

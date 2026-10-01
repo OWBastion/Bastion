@@ -6,8 +6,8 @@
 
 rule "[VishkarEvent]: get player event":
     @Event eachPlayer
-    @Team 1
-    @Condition getNumberOfPlayers(Team.2) == len(bastionPosition)
+    @Team 2
+    @Condition getNumberOfPlayers(Team.1) == len(bastionPosition)
     @Condition all([vishkarEventActivated, eventPlayer.hasSpawned(), eventPlayer.eventId == -1]) == true
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer) == true
 

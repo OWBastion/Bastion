@@ -52,4 +52,4 @@ rule "map - shambali monastery":
     resetPosition = vect(-4.68, 8, -19.56)
     anniversarySpawnPosition = vect(-4.19, 8.5, -28.97)
     minefieldPosition = []
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 2)
