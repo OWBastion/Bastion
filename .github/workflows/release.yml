@@ -186,7 +186,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL https://wrightkit.dev/install.sh \
+          curl -fsSL https://install.wrightkit.dev/wright/install.sh \
             | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
           "${RUNNER_TEMP}/wright/bin/wright" provider update opy
