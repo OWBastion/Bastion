@@ -12,9 +12,9 @@ rule "Create effect":
     @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL, eventPlayer.eventEffect == null]) == true
     
-    createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.1)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayersOnHero(Hero.BASTION, Team.1)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
-    createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.1)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayersOnHero(Hero.BASTION, Team.1)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != DebuffEventId.GRAVITY_PULL or eventPlayer.eventType != EventType.DEBUFF, eventPlayer.eventDuration)
 
@@ -23,14 +23,14 @@ rule "Pull toward bastion":
     @Event eachPlayer
     @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL]) == true
-    @Condition getPlayers(Team.1)[0] != null
+    @Condition getPlayersOnHero(Hero.BASTION, Team.1)[0] != null
     
     if eventPlayer.mod_speed_event != 0:
         goto lbl_0
     eventPlayer.mod_speed_event -= EVT_DEBUFF_5_SPEED_REDUCTION
     updatePlayerStats()
     lbl_0:
-    eventPlayer.temp = getPlayers(Team.1)
+    eventPlayer.temp = getPlayersOnHero(Hero.BASTION, Team.1)
     if eventPlayer.temp[1] == null:
         eventPlayer.target = eventPlayer.temp[0]
     else:

@@ -11,3 +11,4 @@
 #!include "../config/eventConfig.opy"
 #!include "../core.opy"
 #!include "../composition/profile-cn-features.opy"
+#!include "../anniversary2026/minefield.opy"

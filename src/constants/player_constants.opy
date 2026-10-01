@@ -50,6 +50,9 @@
 #!define BOSS_BASTION_INFINITE_AMMO true
 #!define BOSS_BASTION_HEALTH_PCT 500
 
+# Team 1 - Wrecking Ball（周年庆地雷禁区专用隐藏 Bot：延长地雷持续时间）
+#!define TEAM1_WRECKINGBALL_ULT_DURATION_PCT 500
+
 # =========================
 # All Teams（跨阵营英雄参数）
 # =========================
