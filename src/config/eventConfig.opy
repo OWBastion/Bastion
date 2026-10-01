@@ -154,6 +154,13 @@ rule "initialize event array":
     eventCatalogType[EventId.KONAMI_CODE] = EventType.BUFF
     eventCatalogId.append(EventId.KONAMI_CODE)
 
+    eventName[EventId.SYMBIOSIS] = STR_EVT_BUFF_10_TITLE
+    eventDesc[EventId.SYMBIOSIS] = STR_EVT_BUFF_10_DESC.format(Button.CROUCH)
+    eventDuration[EventId.SYMBIOSIS] = EVT_BUFF_10_DURATION
+    eventCatalogWeight[EventId.SYMBIOSIS] = EVT_BUFF_10_WEIGHT
+    eventCatalogType[EventId.SYMBIOSIS] = EventType.BUFF
+    eventCatalogId.append(EventId.SYMBIOSIS)
+
     eventName[EventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_TITLE
     eventDesc[EventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_BASE_SHIELD, percent(EVT_12_SHIELD_PERCENT))
     eventDuration[EventId.PHOTON_SHIELD] = EVT_BUFF_12_DURATION

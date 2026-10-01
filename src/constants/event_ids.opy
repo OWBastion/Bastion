@@ -156,5 +156,7 @@ enum EventId:
     CYCLE_REPLAY
     # legacy numeric id: mech 29
     LIFE_PULSE
+    # legacy numeric id: buff 10 (retired event reintroduced)
+    SYMBIOSIS
     # sentinel only for integrity checks (do not register as an event)
     COUNT
