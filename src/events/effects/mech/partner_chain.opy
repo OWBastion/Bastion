@@ -23,21 +23,10 @@
 #   eventMission 闩锁区分"事件首绑"与"死亡重生后规则重触发"：重生重进跳过首绑判空，
 #   仅靠途中重选——只有真正的事件开局才允许无友方即结束。
 #
-# 变量分工（target/eventMission/eventEffect 由 clearPlayerEvent/clearEventEffect 兜底，temp 本地清理）：
+# 变量分工（target/eventMission 由 clearPlayerEvent 兜底，temp 本地清理）：
 #   eventMission   — 首绑闩锁（0=未首绑，1=已首绑；跨死亡存活至事件结束）
-#   target         — 当前连接伙伴（null=暂无有效伙伴，兼作标记球可见性门控）
+#   target         — 当前连接伙伴（null=暂无有效伙伴）
 #   temp           — 候选列表 / 牵引系数暂存
-#   eventEffect[0] — 伙伴标记球（clearEventEffect 统一销毁）
-
-rule "Partner marker":
-    @Event eachPlayer
-    @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.PARTNER_CHAIN, eventPlayer.eventEffect == null]) == true
-
-    createEffect(getAllPlayers() if eventPlayer.target != null else null, Effect.ORB, Color.YELLOW, eventPlayer.target if eventPlayer.target != null else eventPlayer, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.eventEffect[0] = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != MechEventId.PARTNER_CHAIN or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
-
 
 rule "Chain pull":
     @Event eachPlayer
