@@ -80,6 +80,8 @@
 #!define STR_EVT_BUFF_8_DESC "Gain {0} stacks on death.\nEach stack permanently grants {1}% max HP."
 #!define STR_EVT_BUFF_9_TITLE "Death Delay"
 #!define STR_EVT_BUFF_9_DESC "Fatal damage is delayed until the event ends."
+#!define STR_EVT_BUFF_10_TITLE "I Am With You"
+#!define STR_EVT_BUFF_10_DESC "Touch a teammate to possess and follow them.\nYou are phased out while possessing.\nHold {0} to detach."
 #!define STR_EVT_BUFF_11_TITLE "Konami Code"
 #!define STR_EVT_BUFF_11_DESC "Respawn at your death location when you die."
 #!define STR_EVT_BUFF_12_TITLE "Vishkar Photon Shield"

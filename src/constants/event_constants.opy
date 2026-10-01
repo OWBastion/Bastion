@@ -141,6 +141,14 @@ enum HeartSteelData:
 #!define EVT_9_EFFECT Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED
 #!define EVT_9_SOUND Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND
 
+# --- ID 10: 有我有你 ---
+# Duration（秒）
+#!define EVT_BUFF_10_DURATION 120
+# Weight（权重）
+#!define EVT_BUFF_10_WEIGHT 1.2
+# 附身判定半径（米）：与该范围内的合法友方发生实际接触即建立附身
+#!define EVT_10_CONTACT_RADIUS 2
+
 # --- ID 11: ↑↑↓↓←→←→BABA (魂斗罗/动态存档) ---
 # Duration（秒）
 #!define EVT_BUFF_11_DURATION 120

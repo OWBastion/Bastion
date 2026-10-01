@@ -20,6 +20,7 @@
 #!include "buff/flesh_regen.opy"
 #!include "buff/heart_of_steel.opy"
 #!include "buff/death_delay.opy"
+#!include "buff/symbiosis.opy"
 #!include "buff/konami_code.opy"
 #!include "buff/photon_shield.opy"
 #!include "buff/regroup_call.opy"
