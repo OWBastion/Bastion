@@ -62,6 +62,9 @@ globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
 # 先知栏位文本创建闩锁：true = 8 条 slot 世界文本已建，永不重复创建
 globalvar prophetSlotTextsCreated
+# 先知观测者集合缓存：文本可见性与观测坍缩条件每帧求值，只读变量；
+# 由先知文件内 1Hz 全局循环刷新（见 events/effects/mech/prophet.opy）
+globalvar prophetViewers
 globalvar minefieldPosition
 globalvar minefieldBot
 globalvar minefieldPick
@@ -156,3 +159,5 @@ playervar thiefBuffStolen
 playervar eventMatchCounters
 # 事件系统承诺的下一个事件（目录索引；null = 未承诺）。先知展示的唯一权威来源。
 playervar eventNextIndex
+# 先知“下一个事件”头顶世界文本句柄；null = 未创建，playerLeft 销毁
+playervar prophetTextId
