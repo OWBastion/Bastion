@@ -41,4 +41,4 @@ rule "map - 阿特利斯":
     @Condition (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true
     
     platformMapRevision_AATLIS_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 0)

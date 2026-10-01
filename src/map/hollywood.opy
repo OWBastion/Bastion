@@ -32,4 +32,4 @@ rule "map - hollywood":
     
     platformMapRevision_HOLLYWOOD_DEFAULT()
     __currentMapText___ = "好莱坞"
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)

@@ -4,7 +4,7 @@
 #!define ENTRY_ALLOW_PLAYERS_IN_QUEUE false
 #!define ENTRY_AUTOREBOOT_HOURS 2
 #!define ENTRY_CLASSIC_MAP_VARIANT CLASSIC_MAP_VARIANT_OFF
-#!define ENTRY_DIFFICULTY 4
+#!define ENTRY_DIFFICULTY 5
 #!include "composition/bootstrap.opy"
 #!include "../env/game.opy"
 #!include "../composition/profile-cn.opy"

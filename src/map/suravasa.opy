@@ -38,4 +38,4 @@ rule "map - 苏拉瓦萨":
     @Condition __currentMap___ == Map.SURAVASA
     
     platformMapRevision_SURAVASA_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 0)

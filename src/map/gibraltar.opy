@@ -32,7 +32,7 @@ rule "map - watchpoint gibraltar":
     @Condition __currentMap___ == Map.WATCHPOINT_GIBRALTAR
     
     __currentMapText___ = "直布罗陀"
-    startForcingSpawn(Team.2, 2)
+    startForcingSpawn(Team.2, 0)
     bastionPosition = [
         vect(34.044, 10.343, -152.744),
         vect(57.063, 9.010, -119.331),
