@@ -666,6 +666,9 @@ enum HeartSteelData:
 # 单次赌注 (心之钢层数 / HP百分比)
 #!define EVT_MECH_1_STAKE 8
 
+# 胜利奖励：心之钢层数（失败仍损失 STAKE）
+#!define EVT_MECH_1_REWARD_STACKS 16
+
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
 
@@ -752,18 +755,20 @@ enum HeartSteelData:
 #!define EVT_MECH_6_PROB_WIN_RARE 99
 # (剩余 99 < roll <= 100 就是稀有失败，约 1%)
 
-# 普通奖励/惩罚数值 (移速 %)
-#!define EVT_MECH_6_VAL_NORMAL 5
+# 普通获胜奖励 / 失败惩罚 (移速 %)
+#!define EVT_MECH_6_VAL_NORMAL 10
+#!define EVT_MECH_6_VAL_NORMAL_LOSS 5
 
-# 稀有奖励/惩罚数值 (移速 %)
-#!define EVT_MECH_6_VAL_RARE 12
+# 稀有获胜奖励 / 失败惩罚 (移速 %)
+#!define EVT_MECH_6_VAL_RARE 24
+#!define EVT_MECH_6_VAL_RARE_LOSS 12
 
 # --- ID 7 (Mech/Special): 作弊：我要验牌 ---
 # Duration（秒）
 #!define EVT_MECH_7_DURATION 15
 # Weight（权重）
 #!define EVT_MECH_7_WEIGHT 1.4
-#!define EVT_MECH_7_HEART_STEEL_COST 2
+#!define EVT_MECH_7_HEART_STEEL_COST 1
 #!define EVT_MECH_7_FORCE_ROLL 20
 
 # --- ID 8 (Mech/Special): 赌徒：短期投资 (交易) ---
@@ -776,7 +781,7 @@ enum HeartSteelData:
 #!define EVT_MECH_8_WIN_CHANCE 75
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_8_REWARD_STACKS 4
+#!define EVT_MECH_8_REWARD_STACKS 8
 
 # 强制下次投掷/强制次数
 #!define EVT_MECH_8_FORCE_ROLL 50
@@ -821,7 +826,7 @@ enum HeartSteelData:
 #!define EVT_MECH_12_WIN_CHANCE 33
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_12_REWARD_STACKS 24
+#!define EVT_MECH_12_REWARD_STACKS 48
 
 # 强制下次投掷/强制次数
 #!define EVT_MECH_12_FORCE_ROLL 50
@@ -884,19 +889,21 @@ enum HeartSteelData:
 #!define EVT_MECH_15_WEIGHT 0.6
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 1.5
-# 永久移速变更值（%）
-#!define EVT_MECH_15_SPEED_DELTA 2
-# 心之钢层数变更值
-#!define EVT_MECH_15_HEART_STEEL_DELTA 5
+# 永久移速变更值（%）：获得 / 损失
+#!define EVT_MECH_15_SPEED_DELTA 4
+#!define EVT_MECH_15_SPEED_DELTA_LOSS 2
+# 心之钢层数变更值：获得 / 损失
+#!define EVT_MECH_15_HEART_STEEL_DELTA 10
 #!define EVT_MECH_15_HEART_STEEL_DELTA_LOSS 5
-# 永久减伤/治疗强度变更值（%）
-#!define EVT_MECH_15_DMG_HEAL_DELTA 2
+# 永久减伤/治疗强度变更值（%）：获得 / 损失
+#!define EVT_MECH_15_DMG_HEAL_DELTA 4
+#!define EVT_MECH_15_DMG_HEAL_DELTA_LOSS 2
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
 #!define EVT_MECH_16_WEIGHT 0.4
 #!define EVT_MECH_16_WIN_RATE 40
-#!define EVT_MECH_16_WIN_MULTIPLIER 1.5
+#!define EVT_MECH_16_WIN_MULTIPLIER 2
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
@@ -905,7 +912,7 @@ enum HeartSteelData:
 #!define EVT_MECH_17_WIN_RATE 8
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
-#!define EVT_MECH_17_WIN_MULTIPLIER 5
+#!define EVT_MECH_17_WIN_MULTIPLIER 10
 
 # --- ID 18 (Mech): 吸血鬼 ---
 #!define EVT_MECH_18_DURATION 45
@@ -928,7 +935,7 @@ enum HeartSteelData:
 # --- ID 22 (Mech/Special): 作弊：暗箱操作 ---
 #!define EVT_MECH_22_DURATION 15
 #!define EVT_MECH_22_WEIGHT 0.8
-#!define EVT_MECH_22_HEART_STEEL_COST 4
+#!define EVT_MECH_22_HEART_STEEL_COST 2
 #!define EVT_MECH_22_FORCE_ROLL 80
 
 # --- ID 23 (Mech/Special): 镜像反转 ---
@@ -977,7 +984,7 @@ enum EquivalentExchangeOffer:
 # Weight（权重）
 #!define EVT_MECH_28_WEIGHT 0.6
 # 心之钢消耗（层）
-#!define EVT_MECH_28_STEEL_COST 6
+#!define EVT_MECH_28_STEEL_COST 3
 # 可重现增益白名单（BuffEventId；eventLastId 中增益的扁平目录索引即其枚举值）。
 # 准入标准与逐项排除理由见 src/events/effects/mech/cycle_replay.opy 头部。
 #!define EVT_MECH_28_REPLAYABLE_BUFFS [ \
