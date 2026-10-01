@@ -18,7 +18,7 @@
 
 ### `player/achievement.opy`
 
-- 主线成就追踪（如 Lucky/Unlucky/V50/Steel/Hacking）
+- 主线成就挑战追踪（当前为 PHANTOM_THIEF 怪盗）
 - 解锁统一调用 `unlockAchievement()`
 
 ## `effects/`：HUD 与视觉反馈
