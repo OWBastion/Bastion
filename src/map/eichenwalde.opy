@@ -71,7 +71,6 @@ rule "map - eichenwalde":
         vect(113.579, 14.723, -35.492)
     ]
     endPosition = vect(126.62, 14.76, -15)
-    anniversarySpawnPosition = vect(-18.12, 1.13, 18.63)
     thirdPersonPosition = vect(-14.17, 1, -1.02)
     resetPosition = vect(-11.01, 1, -0.74)
     minefieldPosition = [

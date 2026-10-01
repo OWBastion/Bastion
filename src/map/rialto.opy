@@ -53,7 +53,6 @@ rule "map - rialto":
         vect(-57.053, 11.698, -138.997)
     ]
     endPosition = vect(-56.88, 2.8, -131.49)
-    anniversarySpawnPosition = vect(139.8, -1.08, -16.24)
     thirdPersonPosition = vect(131.4, -1.24, -15.46)
     resetPosition = vect(131.17, -1.24, -26.41)
     minefieldPosition = [

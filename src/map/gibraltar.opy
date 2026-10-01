@@ -47,7 +47,6 @@ rule "map - watchpoint gibraltar":
         vect(60.198, 1, 44.104)
     ]
     endPosition = vect(82.17, -0.48, 39.83)
-    anniversarySpawnPosition = vect(-7.49, -0.07, -158.11)
     thirdPersonPosition = vect(5.21, -0.1, -156)
     resetPosition = vect(9.47, -1.07, -152.43)
     minefieldPosition = [

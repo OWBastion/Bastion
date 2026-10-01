@@ -46,7 +46,6 @@ rule "map - havana":
     endPosition = vect(141.96, 4.99, -16.79)
     thirdPersonPosition = vect(-92.94, 4, -72.19)
     resetPosition = vect(-100.18, 4, -65.78)
-    anniversarySpawnPosition = vect(-108.74, 4, -79.66)
     minefieldPosition = [
         vect(-12.62, 7.96, -70.82),
         vect(55.36, 8.06, -94.88),

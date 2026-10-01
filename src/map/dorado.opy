@@ -46,7 +46,6 @@ rule "map - dorado":
         vect(182.129, 12.793, 66.128)
     ]
     endPosition = vect(176.64, 11.01, 24.68)
-    anniversarySpawnPosition = vect(-37.14, -0.03, 21.76)
     thirdPersonPosition = vect(-15.02, -0.3, -12.99)
     resetPosition = vect(-22.04, -0.3, -4.21)
     minefieldPosition = [
