@@ -40,7 +40,6 @@ rule "map - rialto":
     @Condition __currentMap___ == Map.RIALTO
 
     __currentMapText___ = "里阿尔托"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("里阿尔托")
     bastionPosition = [
         vect(86.462, 3.750, -24.675),
         vect(59.071, 0.033, -7.725),

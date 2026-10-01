@@ -33,7 +33,6 @@ macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
 rule "map - shambali monastery":
     @Condition __currentMap___ == Map.SHAMBALI_MONASTERY
     
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("香巴里寺院")
     __currentMapText___ = "香巴佬寺院"
     bastionPosition = [
         vect(26.059, 9.096, 1.444),

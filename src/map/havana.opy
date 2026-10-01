@@ -31,7 +31,6 @@ rule "map - havana":
     @Condition __currentMap___ == Map.HAVANA
     
     __currentMapText___ = "哈瓦那"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("哈瓦那")
     bastionPosition = [
         vect(-63.395, 6.193, -56.447),
         vect(-29.994, 12.010, -61.347),

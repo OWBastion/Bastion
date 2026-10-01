@@ -31,7 +31,6 @@ macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
 rule "map - watchpoint gibraltar":
     @Condition __currentMap___ == Map.WATCHPOINT_GIBRALTAR
     
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("直布罗陀")
     __currentMapText___ = "直布罗陀"
     startForcingSpawn(Team.2, 2)
     bastionPosition = [

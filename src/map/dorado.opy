@@ -31,7 +31,6 @@ rule "map - dorado":
     @Condition __currentMap___ == Map.DORADO
     
     __currentMapText___ = "多拉多"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("多拉多")
     bastionPosition = [
         vect(26.169, 10.636, 21.274),
         vect(5.052, 2.990, 6.116),

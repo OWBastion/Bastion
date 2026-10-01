@@ -4,7 +4,6 @@
 
 rule "Load CN map title holders":
     @Condition __currentMapText___ != null
-    @Condition __currentMapClassicText___ != null
 
     if __currentMapPioneerText___ == null:
         __currentMapPioneerText___ = __currentMapText___
