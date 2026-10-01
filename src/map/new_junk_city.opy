@@ -47,4 +47,4 @@ rule "map - 新渣客城":
     @Condition (__currentMap___ == Map.NEW_JUNK_CITY or __currentMap___ == 3099) == true
 
     platformMapRevision_NEW_JUNK_CITY_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 0)

@@ -77,4 +77,4 @@ rule "map - eichenwalde":
         vect(28.66, 6.4, -47.61),
         vect(71.29, 13.34, -72.97)
     ]
-    startForcingSpawn(Team.2, 2)
+    startForcingSpawn(Team.2, 0)

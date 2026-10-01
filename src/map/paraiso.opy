@@ -33,4 +33,4 @@ rule "map - paraiso":
 
     platformMapRevision_PARAISO_DEFAULT()
 
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)
