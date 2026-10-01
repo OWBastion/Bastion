@@ -609,7 +609,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_25_DURATION 30
 # Weight（权重）
-#!define EVT_DEBUFF_25_WEIGHT 1.0
+#!define EVT_DEBUFF_25_WEIGHT 1
 # 触发距离 (米)
 #!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
 # 击退冲量
@@ -959,7 +959,7 @@ enum MirrorInversionStat:
 # Duration（秒）
 #!define EVT_MECH_25_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_25_WEIGHT 0
+#!define EVT_MECH_25_WEIGHT 0.6
 
 # --- ID 27 (Mech/Composite): 等价交换 ---
 # Duration（秒）
