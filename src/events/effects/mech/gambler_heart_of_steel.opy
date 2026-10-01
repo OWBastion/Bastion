@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 赌徒：心之钢":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_HEART_OF_STEEL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_16_WIN_RATE:

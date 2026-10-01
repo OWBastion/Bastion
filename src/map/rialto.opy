@@ -39,5 +39,26 @@ macro platformMapRevision_RIALTO_DEFAULT():
 rule "map - rialto":
     @Condition __currentMap___ == Map.RIALTO
 
-    platformMapRevision_RIALTO_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    __currentMapText___ = "里阿尔托"
+    bastionPosition = [
+        vect(86.462, 3.750, -24.675),
+        vect(59.071, 0.033, -7.725),
+        vect(15.521, 4.768, -36.975),
+        vect(62.498, 1.760, -61.589),
+        vect(-36.781, 2.259, -30.124),
+        vect(-53.760, -2.133, -54.656),
+        vect(-33.886, 2.978, -112.114),
+        vect(-83.864, 1.750, -94.886),
+        vect(-57.053, 11.698, -138.997)
+    ]
+    endPosition = vect(-56.88, 2.8, -131.49)
+    thirdPersonPosition = vect(131.4, -1.24, -15.46)
+    resetPosition = vect(131.17, -1.24, -26.41)
+    minefieldPosition = [
+        vect(45.93, 0.65, -36.49),
+        vect(-51.39, 2.75, -130.46),
+        vect(-63.02, 2.75, -130.61)
+    ]
+    controlJumpPosition = null
+    controlRespawnPosition = null
+    startForcingSpawn(Team.2, 2)

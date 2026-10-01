@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 赌徒：赢家通吃":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_WINNER_TAKE_ALL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     eventPlayer.hudText = "当前奖池：{0}层".format(round(gamblerHeartsteelJackpot))
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)

@@ -6,7 +6,7 @@
 
 rule "Juno disable Ability 1 if possess":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Disabled
 
     wait(0.032)

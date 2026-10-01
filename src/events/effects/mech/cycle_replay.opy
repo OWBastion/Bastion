@@ -30,8 +30,9 @@
 
 rule "Resolve replay target":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.CYCLE_REPLAY, eventPlayer.eventMissionGoal == 0]) == true
+
 
     # eventMissionGoal==0 兼作初始化标记，防止 clearPlayerEvent 前条件残留导致重复触发。
     # eventLastId 末尾为最近事件；过滤白名单后取尾即“最近一次可循环增益”。
@@ -44,15 +45,16 @@ rule "Resolve replay target":
 
 rule "Replay committed buff":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.CYCLE_REPLAY, eventPlayer.eventMission == 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if eventPlayer.eventMissionGoal > 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_28_STEEL_COST:
         eventPlayer.eventMission = 1
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_28_STEEL_COST
         setPlayerHP()
-        playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
+        playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_2, eventPlayer, 100)
         # 承诺槽改写：已承诺的 eventNextIndex 被循环目标替换，先知预览随承诺同步更新
         eventPlayer.eventNextIndex = eventPlayer.eventMissionGoal
         smallMessage(eventPlayer, "  {0}  已扣除 {1} 层心之钢（{2}% 最大生命值）".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_MECH_28_STEEL_COST, EVT_MECH_28_STEEL_COST * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))

@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 屁动力":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.JUMP_THRUST, eventPlayer.isHoldingButton(Button.JUMP)]) == true
+
     
     if eventPlayer.mod_dmg_taken != 0:
         goto lb_1
@@ -26,10 +27,11 @@ rule "[VishkarEvent]: 屁动力":
 
 rule "[VishkarEvent]: 屁动力 eff":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_SHORT_INVESTMENT, eventPlayer.nanoEffect == null]) == true
+
     
-    createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.JUMP) else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.JUMP) else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.nanoEffect = getLastCreatedEntity()
     
     wait(eventPlayer.eventDuration)

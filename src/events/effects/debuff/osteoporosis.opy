@@ -8,18 +8,20 @@
 
 rule "[VishkarEvent]: 骨质疏松 Effect":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OSTEOPOROSIS, eventPlayer.eventEffect == null]) == true
 
-    createEffect(getAllPlayers(), Effect.MEI_FROZEN, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
+
+    createEffect(getAllPlayers(), Effect.MEI_FROZEN, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     wait(eventPlayer.eventDuration, Wait.IGNORE_CONDITION)
     eventPlayer.hudText = ""
 
 rule "[VishkarEvent]: 骨质疏松":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OSTEOPOROSIS]) == true
+
     
     while eventPlayer.mod_speed_event != EVT_DEBUFF_6_MAX_SPEED_DEC:
         eventPlayer.mod_speed_event -= EVT_DEBUFF_6_SPEED_DEC_PER_SEC

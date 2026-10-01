@@ -10,13 +10,14 @@
 
 rule "[VishkarEvent]: 献祭":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SACRIFICE]) == true
 
-    eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player.isUsingAbility1() or player.isUsingAbility2()]
+
+    eventPlayer.target = [player for player in getLivingPlayers(Team.2) if player.isUsingAbility1() or player.isUsingAbility2()]
     if len(eventPlayer.target) > 0:
         eventPlayer.passiveRegenBlocked = true
-        playEffect(getAllPlayers(), DynamicEffect.MOIRA_FADE_REAPPEAR, Color.TEAM_2, eventPlayer, 200)
+        playEffect(getAllPlayers(), DynamicEffect.MOIRA_FADE_REAPPEAR, Color.TEAM_1, eventPlayer, 200)
         if len(eventPlayer.target) > 1:
             eventPlayer.target = sorted(eventPlayer.target, lambda i: distance(eventPlayer, i))[0]
         elif eventPlayer.target[0] != null:

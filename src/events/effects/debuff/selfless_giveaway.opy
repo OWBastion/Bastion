@@ -9,27 +9,28 @@
 
 rule "Resolve giveaway":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SELFLESS_GIVEAWAY]) == true
+
     
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
     else:
         # 每名接收者按自己的获得倍率结算，不能统一固定值
-        eventPlayer.target = getPlayers(Team.1).exclude(eventPlayer)
+        eventPlayer.target = getPlayers(Team.2).exclude(eventPlayer)
         for eventPlayer.temp in range(len(eventPlayer.target)):
             eventPlayer.target[eventPlayer.temp].heart_steel[HeartSteelData.STACKS] += EVT_DEBUFF_14_STACKS_GIVE * eventPlayer.target[eventPlayer.temp].heart_steel[HeartSteelData.GAIN_MULTIPLIER]
             eventPlayer.target[eventPlayer.temp].setPlayerHP = true
         eventPlayer.target = null
-        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_DEBUFF_14_STACKS_TAKE * len(getPlayers(Team.1).exclude(eventPlayer))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_DEBUFF_14_STACKS_TAKE * len(getPlayers(Team.2).exclude(eventPlayer))
         setPlayerHP()
-    playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_1, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_2, eventPlayer, 200)
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 100)
     wait(eventPlayer.eventDuration)
 
 rule "Rebuild max health":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
     
     if eventPlayer.eventId == EventId.HEART_OF_STEEL_PRO:

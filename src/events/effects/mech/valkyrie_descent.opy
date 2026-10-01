@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 瓦尔基里降临":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
+
     
     eventPlayer.sizeHealth = EVT_MECH_13_SIZE_HEALTH
     setPlayerHP()
@@ -26,8 +27,9 @@ rule "[VishkarEvent]: 瓦尔基里降临":
 
 rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Event playerTookDamage
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
+
     @Condition attacker != eventPlayer
     @Condition eventPlayer.getUltCharge() < 100
 
@@ -36,8 +38,9 @@ rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
 
 rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
+
     
     if eventPlayer.eventTargetHP == 0:
         eventPlayer.eventTargetHP = eventPlayer.getMaxHealth()

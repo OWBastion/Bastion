@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 三位一体 (SSR)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.TRINITY_SSR]) == true
+
     
     if eventPlayer.isAlive():
         eventPlayer.mod_dmg_taken = negToPos(min(EVT_MECH_14_DMG_REDUCE_CAP, eventPlayer.getMaxHealth() / EVT_MECH_14_DMG_REDUCE_DIVISOR))

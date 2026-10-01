@@ -60,6 +60,7 @@ globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
 # 先知栏位文本创建闩锁：true = 8 条 slot 世界文本已建，永不重复创建
 globalvar prophetSlotTextsCreated
+globalvar minefieldPosition
 
 #Player variables
 

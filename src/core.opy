@@ -66,7 +66,7 @@
 
 rule "Reset to control respawn":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition controlRespawnPosition != null
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
@@ -81,7 +81,7 @@ rule "Reset to control respawn":
 
 rule "Advance control jump":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition controlRespawnPosition != null
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
@@ -110,7 +110,7 @@ rule "Advance control jump":
 
 rule "Resolve finish":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.anchorPos(eventPlayer.possess).y >= endPosition.y
@@ -135,7 +135,7 @@ rule "Resolve finish":
         if any([eventPlayer.dmgReduc, eventPlayer.invincible, eventPlayer.isPortalEnabled, eventPlayer.isAirWalkEnabled]):
             goto lbl_1
         bigMessage(
-            getPlayers(Team.1),
+            getPlayers(Team.2),
             STR_MSG_WIN_ANNOUNCE.format(
                 eventPlayer,
                 # 统计部分
@@ -161,7 +161,7 @@ rule "Resolve finish":
 
 rule "Charge winner ult":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isWinner != false
     @Condition eventPlayer.getUltCharge() < 100
     @Condition eventPlayer.isUsingUltimate() == false

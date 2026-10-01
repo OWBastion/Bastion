@@ -45,7 +45,7 @@ def savePlayerData():
 
 rule "player deaths are counted manually rather than relying on in-game statistics":
     @Event playerDied
-    @Team 1
+    @Team 2
     @Condition eventPlayer.isWinner == false
     
     wait(0.5 * getServerLoad() / 100)

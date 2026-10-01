@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (下 注)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventDuration > 0, eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormActive != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     eventPlayer.altFormActive = true
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
@@ -24,8 +25,9 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 (下 注)":
 
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (结算)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5]) == true
+
 
     # wait(eventDuration, Wait.IGNORE_CONDITION)
     waitUntil(false, eventPlayer.eventDuration - 1)

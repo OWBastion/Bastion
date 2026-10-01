@@ -17,13 +17,14 @@
 
 rule "Toxic fog aura":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.TOXIC_FOG]) == true
 
+
     if eventPlayer.eventEffect == null:
-        createEffect(getPlayers(Team.1), Effect.CLOUD, random.choice([Color.YELLOW, Color.GREEN, Color.ORANGE, Color.LIME_GREEN, Color.VIOLET]), eventPlayer, EVT_MECH_30_FOG_RADIUS, EffectReeval.POSITION_AND_RADIUS)
+        createEffect(getPlayers(Team.2), Effect.CLOUD, random.choice([Color.YELLOW, Color.GREEN, Color.ORANGE, Color.LIME_GREEN, Color.VIOLET]), eventPlayer, EVT_MECH_30_FOG_RADIUS, EffectReeval.POSITION_AND_RADIUS)
         eventPlayer.eventEffect = getLastCreatedEntity()
-    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_MECH_30_FOG_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
+    eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_MECH_30_FOG_RADIUS, Team.2, LosCheck.SURFACES).exclude(eventPlayer)
     for eventPlayer.temp in range(len(eventPlayer.target)):
         damage(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK * 100))
     eventPlayer.target = null

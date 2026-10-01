@@ -8,20 +8,21 @@
 
 rule "[VishkarEvent]: ↑↑↓↓←→←→BABA":
     @Event playerDied
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.KONAMI_CODE]) == true
+
     @Condition eventPlayer.isWinner != true
 
     eventPlayer.controlPlayerRespawnPosition = [eventPlayer.getPosition(), eventPlayer.getFacingDirection(), eventPlayer.getHero()]
     bigMessage(eventPlayer, "↑↑↓↓←→←→BABA")
-    playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_DISAPPEAR, Color.TEAM_1, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_DISAPPEAR, Color.TEAM_2, eventPlayer, 200)
     eventPlayer.disableRespawn()
     wait(EVT_11_RESPAWN_DELAY)
     eventPlayer.enableRespawn()
     eventPlayer.resurrect()
     eventPlayer.teleport(eventPlayer.controlPlayerRespawnPosition[0])
     eventPlayer.setFacing(eventPlayer.controlPlayerRespawnPosition[1], Relativity.TO_WORLD)
-    playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_REAPPEAR, Color.TEAM_1, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_REAPPEAR, Color.TEAM_2, eventPlayer, 200)
     wait(0.5)
     eventPlayer.controlPlayerRespawnPosition = null
     eventPlayer.eventDuration = 0

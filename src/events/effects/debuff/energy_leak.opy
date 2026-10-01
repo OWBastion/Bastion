@@ -8,14 +8,15 @@
 
 rule "[VishkarEvent]: 能量泄漏":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.ENERGY_LEAK]) == true
+
     @Condition any([eventPlayer.isUsingAbility1(), eventPlayer.isUsingAbility2()]) == true
     
     eventPlayer.passiveRegenBlocked = true
     
     wait()
-    playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Color.TEAM_2, eventPlayer, 200)
+    playEffect(getAllPlayers(), DynamicEffect.ECHO_STICKY_BOMB_EXPLOSION, Color.TEAM_1, eventPlayer, 200)
     damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_DEBUFF_8_DMG_PERCENT * 100))
     wait(EVT_DEBUFF_8_COOLDOWN)
     if ruleCondition:

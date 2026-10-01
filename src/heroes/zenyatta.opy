@@ -8,7 +8,7 @@ playervar zenSnapKick
 
 rule "Use snap kick from ground":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero zenyatta
     @Condition eventPlayer.isMeleeing() == true
     @Condition eventPlayer.getVerticalFacingAngle() >= 45
@@ -36,7 +36,7 @@ rule "Use snap kick from wall":
 
 rule "Use legacy snap kick":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero zenyatta
     @Condition eventPlayer.isMeleeing() == true
     @Condition eventPlayer.getVerticalFacingAngle() >= 45
@@ -50,7 +50,7 @@ rule "Use legacy snap kick":
 
 rule "Clear snap kick trigger":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Hero zenyatta
     @Condition eventPlayer.zenSnapKick == true
     @Condition eventPlayer.phaseState == true
@@ -61,7 +61,7 @@ rule "Clear snap kick trigger":
 
 rule "Hold levitation":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.getHero() == Hero.ZENYATTA
     @Condition eventPlayer.isJumping() == true
     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
@@ -77,10 +77,10 @@ rule "Hold levitation":
     waitUntil(eventPlayer.isOnGround(), 10)
 
 rule "Display kick HUD":
-    @Condition isHeroBeingPlayed(Hero.ZENYATTA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.ZENYATTA, Team.2) == true
     @Disabled
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ZENYATTA and localPlayer.isInSpawnRoom() else null, STR_ZEN_KICK_HINT.format(abilityIconString(Hero.ZENYATTA, Button.MELEE), iconString(Icon.ARROW_UP)), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)
     textIDs[2] = getLastCreatedText()
-    waitUntil(not isHeroBeingPlayed(Hero.ZENYATTA, Team.1), Math.INFINITY)
+    waitUntil(not isHeroBeingPlayed(Hero.ZENYATTA, Team.2), Math.INFINITY)
     destroyHudText(textIDs[2])

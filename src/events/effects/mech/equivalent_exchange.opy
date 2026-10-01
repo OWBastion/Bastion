@@ -21,8 +21,9 @@
 
 rule "[VishkarEvent]: 等价交换 (报价)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EQUIVALENT_EXCHANGE, eventPlayer.eventMissionGoal == EquivalentExchangeOffer.NONE]) == true
+
 
     # 每次事件只从固定四臂表中随机提供一条兑换方向
     eventPlayer.eventMissionGoal = random.randint(EquivalentExchangeOffer.STACKS_TO_SPEED, EquivalentExchangeOffer.HEALING_TO_STACKS)
@@ -38,8 +39,9 @@ rule "[VishkarEvent]: 等价交换 (报价)":
 
 rule "[VishkarEvent]: 等价交换 (成交)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EQUIVALENT_EXCHANGE, eventPlayer.eventMission == 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if eventPlayer.eventMissionGoal == EquivalentExchangeOffer.STACKS_TO_SPEED and eventPlayer.heart_steel[HeartSteelData.STACKS] >= EVT_MECH_27_EXCHANGE_STACKS:

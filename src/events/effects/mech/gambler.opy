@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 赌徒":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_1_WIN_RATE:

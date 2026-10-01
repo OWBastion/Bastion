@@ -8,17 +8,18 @@
 
 rule "[VishkarEvent]: 窃贼":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.THIEF, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     wait(0.25)
-    if len(getPlayers(Team.1).exclude(eventPlayer)) == 0:
+    if len(getPlayers(Team.2).exclude(eventPlayer)) == 0:
         smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
         eventPlayer.eventDuration = 0
         clearPlayerEvent()
     else:
-        eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer))
+        eventPlayer.target = random.choice(getPlayers(Team.2).exclude(eventPlayer))
         eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true

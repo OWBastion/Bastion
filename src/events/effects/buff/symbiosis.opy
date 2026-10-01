@@ -13,13 +13,14 @@
 
 rule "[VishkarEvent]: 有我有你（附身）":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.SYMBIOSIS, eventPlayer.possess == null, eventPlayer.eventDuration > 0, eventPlayer.hasStatus(Status.PHASED_OUT) != true]) == true
-    @Condition len(getLivingPlayers(Team.1).filter(lambda p: p != eventPlayer and p.isWinner != true and p.possess == null and (len(p.possessed) == 0 or not entityExists(p.possessed[0])) and distance(p, eventPlayer) <= EVT_10_CONTACT_RADIUS)) > 0
+    @Condition len(getLivingPlayers(Team.2).filter(lambda p: p != eventPlayer and p.isWinner != true and p.possess == null and (len(p.possessed) == 0 or not entityExists(p.possessed[0])) and distance(p, eventPlayer) <= EVT_10_CONTACT_RADIUS)) > 0
+
 
     # Exception: 附身建立后由 waitUntil 同步生命周期，非节奏循环。
     # 选取最近的合法接触目标；possessed[0] 存放附身者引用，兼作宿主占用标记
-    eventPlayer.possess = sorted(getLivingPlayers(Team.1).filter(lambda p: p != eventPlayer and p.isWinner != true and p.possess == null and (len(p.possessed) == 0 or not entityExists(p.possessed[0])) and distance(p, eventPlayer) <= EVT_10_CONTACT_RADIUS), lambda i: distance(eventPlayer, i))
+    eventPlayer.possess = sorted(getLivingPlayers(Team.2).filter(lambda p: p != eventPlayer and p.isWinner != true and p.possess == null and (len(p.possessed) == 0 or not entityExists(p.possessed[0])) and distance(p, eventPlayer) <= EVT_10_CONTACT_RADIUS), lambda i: distance(eventPlayer, i))
     if len(eventPlayer.possess) == 0:
         eventPlayer.possess = null
         wait(2)
@@ -100,7 +101,7 @@ rule "[VishkarEvent]: 有我有你（附身）":
 
 rule "[VishkarEvent]: 有我有你（宿主标记自清）":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition len(eventPlayer.possessed) > 0
     @Condition not entityExists(eventPlayer.possessed[0]) or eventPlayer.possessed[0].possess == null or eventPlayer.possessed[0].possess[0] != eventPlayer
 

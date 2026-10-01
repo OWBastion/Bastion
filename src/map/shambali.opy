@@ -33,6 +33,21 @@ macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
 rule "map - shambali monastery":
     @Condition __currentMap___ == Map.SHAMBALI_MONASTERY
     
-    platformMapRevision_SHAMBALI_MONASTERY_DEFAULT()
     __currentMapText___ = "香巴佬寺院"
-    startForcingSpawn(Team.1, 2)
+    bastionPosition = [
+        vect(26.059, 9.096, 1.444),
+        vect(-5.438, 13.974, 61.279),
+        vect(-26.551, 15.039, 64.200),
+        vect(-16.222, 23.250, 87.574),
+        vect(18.432, 31.830, 112.015),
+        vect(-52.010, 15.880, 69.600),
+        vect(-58.153, 22.998, 124.358),
+        vect(-4.813, 30.509, 132.552),
+        vect(-51.736, 31.330, 179.529),
+        vect(-38.844, 31.330, 169.245)
+    ]
+    endPosition = vect(-57.88, 29, 197.81)
+    thirdPersonPosition = vect(4.94, 8, -19.88)
+    resetPosition = vect(-4.68, 8, -19.56)
+    minefieldPosition = []
+    startForcingSpawn(Team.2, 2)

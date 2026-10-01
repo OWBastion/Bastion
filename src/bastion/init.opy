@@ -8,7 +8,7 @@
 
 rule "Init spawn state":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.hasSpawned() == true
@@ -48,29 +48,29 @@ rule "Restart active match":
     destroyAllInWorldTexts()
     destroyAllProgressBarHuds()
     wait()
-    getPlayers(Team.1).disableMessages()
-    getPlayers(Team.1).disableGamemodeHud()
-    getPlayers(Team.1).disableGamemodeInWorldUi()
-    getPlayers(Team.1).disableRespawn()
+    getPlayers(Team.2).disableMessages()
+    getPlayers(Team.2).disableGamemodeHud()
+    getPlayers(Team.2).disableGamemodeInWorldUi()
+    getPlayers(Team.2).disableRespawn()
     unpauseMatchTime()
     while not isGameInProgress():
         setMatchTime(0)
         wait()
-    createIcon(getPlayers(Team.1), vect(0, 101, -0.25), Icon.WARNING, IconReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), false)
-    createInWorldText(getPlayers(Team.1), STR_TEXT_HOST_RESTARTING, vect(0, 101, 0), 3, Clip.NONE, WorldTextReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), SpecVisibility.ALWAYS)
+    createIcon(getPlayers(Team.2), vect(0, 101, -0.25), Icon.WARNING, IconReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), false)
+    createInWorldText(getPlayers(Team.2), STR_TEXT_HOST_RESTARTING, vect(0, 101, 0), 3, Clip.NONE, WorldTextReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), SpecVisibility.ALWAYS)
     for I in range(5):
-        createEffect(getPlayers(Team.1), Effect.ORB, Color.BLACK, vect(0, 100 + ((0.5 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
-        createEffect(getPlayers(Team.1), Effect.SPHERE, Color.BLACK, vect(0, 100, 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
-        createEffect(getPlayers(Team.1), Effect.BAD_AURA, Color.BLACK, vect(0, 100 + ((3 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
+        createEffect(getPlayers(Team.2), Effect.ORB, Color.BLACK, vect(0, 100 + ((0.5 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
+        createEffect(getPlayers(Team.2), Effect.SPHERE, Color.BLACK, vect(0, 100, 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
+        createEffect(getPlayers(Team.2), Effect.BAD_AURA, Color.BLACK, vect(0, 100 + ((3 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
         wait()
-    getPlayers(Team.1).startForcingHero(Hero.SOMBRA)
+    getPlayers(Team.2).startForcingHero(Hero.SOMBRA)
     wait()
-    kill(getPlayers(Team.1), hostPlayer)
-    getPlayers(Team.1).disableHeroHud()
-    getPlayers(Team.1).startCamera(vect(0, 100, 0), vect(0, 101, 0.01))
+    kill(getPlayers(Team.2), hostPlayer)
+    getPlayers(Team.2).disableHeroHud()
+    getPlayers(Team.2).startCamera(vect(0, 100, 0), vect(0, 101, 0.01))
     wait(5)
     enableMusic()
-    declareTeamVictory(Team.2)
+    declareTeamVictory(Team.1)
     destroyAllInWorldTexts()
     destroyAllIcons()
     wait(2)
@@ -79,7 +79,7 @@ rule "Restart active match":
 
 rule "Label bot names":
     @Event playerJoined
-    @Team 2
+    @Team 1
     
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
 
@@ -88,12 +88,12 @@ rule "Apply player damage reduction":
     @Condition difficulty != 5
     @Condition dmgReduction == false
     
-    startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not player.isDev], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
+    startDamageModification(getPlayers(Team.1), [player for player in getPlayers(Team.2) if not player.isDev], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
 
 
 rule "Disable player HUD":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.hasSpawned() == true
     
     eventPlayer.disableGamemodeHud()
@@ -119,7 +119,7 @@ macro isThreat(target):
 
 rule "Maintain assault form":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition getTotalTimeElapsed() > 10
     # 必须技能冷却完成才会触发本规则
@@ -143,12 +143,12 @@ rule "Maintain assault form":
 
 rule "Refresh assault form":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition getTotalTimeElapsed() > 10
     @Condition eventPlayer.isInAlternateForm() == false
     @Condition eventPlayer.target == false
-    @Condition getPlayersInRadius(eventPlayer.getPosition(), 110, Team.1)[0] != false
+    @Condition getPlayersInRadius(eventPlayer.getPosition(), 110, Team.2)[0] != false
     
     wait(random.uniform(0.2, 1), Wait.ABORT_WHEN_FALSE)
     eventPlayer.forceButtonPress(Button.ABILITY_1)
@@ -173,7 +173,7 @@ macro hasBastionTargetLoS(target):
 
 rule "Acquire target":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.hasSpawned() == true
@@ -187,12 +187,12 @@ rule "Acquire target":
     if isBastionTargetEligible(eventPlayer.target) and hasBastionTargetLoS(eventPlayer.target):
         goto lbl_1
 
-    if getPlayersInRadius(eventPlayer.getEyePosition(), 105, Team.1, LosCheck.SURFACES)[0] == false:
+    if getPlayersInRadius(eventPlayer.getEyePosition(), 105, Team.2, LosCheck.SURFACES)[0] == false:
         eventPlayer.target = null
         wait(random.uniform(SCAN_DT_NO_TARGET_MIN, SCAN_DT_NO_TARGET_MAX), Wait.ABORT_WHEN_FALSE)
         loop()
 
-    eventPlayer.temp = [player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not player.isWinner and not player.hasStatus(Status.PHASED_OUT) and not player.targetSilence and distance(eventPlayer, player) < 100]
+    eventPlayer.temp = [player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not player.isWinner and not player.hasStatus(Status.PHASED_OUT) and not player.targetSilence and distance(eventPlayer, player) < 100]
     wait()
     eventPlayer.temp = [player for player in eventPlayer.temp if hasBastionTargetLoS(player)]
     wait()
@@ -219,7 +219,7 @@ rule "Acquire target":
 
 rule "Force primary fire":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
@@ -235,7 +235,7 @@ rule "Force primary fire":
 
 rule "Stop primary fire":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.target == false
@@ -249,7 +249,7 @@ rule "Stop primary fire":
 
 rule "Pulse secondary fire":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition any([difficulty == 5, bastionBotSeconFire]) == true
     @Condition eventPlayer.hasNano == false
@@ -268,7 +268,7 @@ rule "Pulse secondary fire":
 
 rule "Sustain nano secondary fire":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.hasNano == true
@@ -286,7 +286,7 @@ rule "Sustain nano secondary fire":
 
 rule "Update aim point":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
@@ -306,15 +306,16 @@ rule "Update aim point":
 
 rule "Pre-aim nearest target":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target == false
     
     wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
-    #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
-    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
+    #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
+    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not eventPlayer.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
+
     if eventPlayer.nearestTargetOutOfLoS == null:
         goto lbl_0
     eventPlayer.aimPosition = eventPlayer.nearestTargetOutOfLoS.getEyePosition() + vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
@@ -326,7 +327,7 @@ rule "Pre-aim nearest target":
 
 rule "Update turn speed":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
@@ -341,7 +342,7 @@ rule "Update turn speed":
 
 rule "Boost turn speed":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
@@ -357,7 +358,7 @@ rule "Boost turn speed":
 
 rule "Start facing aim point":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.isAlive() == true
@@ -369,7 +370,7 @@ rule "Start facing aim point":
 
 rule "Clear kill target":
     @Event playerDealtFinalBlow
-    @Team 2
+    @Team 1
     
     eventPlayer.target = null
     eventPlayer.nearestTargetOutOfLoS = null
@@ -377,7 +378,7 @@ rule "Clear kill target":
 
 rule "Break early railings":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition getTotalTimeElapsed() < 10
     @Condition getTotalTimeElapsed() > 5
@@ -390,7 +391,7 @@ rule "Break early railings":
 
 rule "Regenerate health":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.getNormalizedHealth() < 1
@@ -403,7 +404,7 @@ rule "Regenerate health":
 
 rule "Respawn instantly":
     @Event playerDied
-    @Team 2
+    @Team 1
     @Hero bastion
     
     wait()
@@ -412,7 +413,7 @@ rule "Respawn instantly":
 
 rule "Reset displaced bot":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition distance(eventPlayer.getPosition(), bastionPosition[eventPlayer.getSlot()]) > 2
     
@@ -432,7 +433,7 @@ rule "Reset displaced bot":
 
 rule "Lock landing position":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition getTotalTimeElapsed() > 10
     @Condition eventPlayer.isInPosition == false
@@ -448,7 +449,7 @@ rule "Lock landing position":
 
 rule "Lock elevated position":
     @Event eachPlayer
-    @Team 2
+    @Team 1
     @Hero bastion
     @Condition eventPlayer.isInPosition == false
     @Condition eventPlayer.hasSpawned() == true
@@ -462,7 +463,7 @@ rule "Lock elevated position":
 
 rule "Handle grenade impact":
     @Event playerTookDamage
-    @Team 1
+    @Team 2
     @Condition attacker.getHero() == Hero.BASTION
     @Condition attacker != eventPlayer
     @Condition eventAbility == Button.SECONDARY_FIRE
@@ -477,15 +478,16 @@ rule "Handle grenade impact":
 
 rule "Repel nearby players":
     @Event eachPlayer
-    @Team 1
-    @Condition getPlayersInRadius(eventPlayer, 2, Team.2)[0] != false
+    @Team 2
+    @Condition getPlayersInRadius(eventPlayer, 2, Team.1)[0] != false
     
-    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.1).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
 rule "Track kills and attacker":
     @Event playerDealtFinalBlow
-    @Team 2
+    @Team 1
     
     kills[eventPlayer.getSlot()]++
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))

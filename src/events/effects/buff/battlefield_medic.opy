@@ -8,11 +8,12 @@
 
 rule "[VishkarEvent]: 战地医生 (记录基准)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal == 0]) == true
 
+
     eventPlayer.eventMission = eventPlayer.getStatistic(Stat.HEALING_DEALT)
-    eventPlayer.eventMissionGoal = eventPlayer.eventMission + (EVT_32_HEAL_BASE + EVT_32_HEAL_PER_PLAYER * len(getPlayers(Team.1).exclude(eventPlayer)))
+    eventPlayer.eventMissionGoal = eventPlayer.eventMission + (EVT_32_HEAL_BASE + EVT_32_HEAL_PER_PLAYER * len(getPlayers(Team.2).exclude(eventPlayer)))
     eventPlayer.hudText = "{0}/{1}".format(
         max(0, eventPlayer.getStatistic(Stat.HEALING_DEALT) - eventPlayer.eventMission),
         eventPlayer.eventMissionGoal - eventPlayer.eventMission
@@ -20,8 +21,9 @@ rule "[VishkarEvent]: 战地医生 (记录基准)":
 
 rule "[VishkarEvent]: 战地医生 (更新 HUD)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
+
 
     wait(EVT_32_HUD_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.hudText = "{0}/{1}".format(
@@ -33,8 +35,9 @@ rule "[VishkarEvent]: 战地医生 (更新 HUD)":
 
 rule "[VishkarEvent]: 战地医生 (结束判定)":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
+
 
     waitUntil(eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true, eventPlayer.eventDuration)
     wait(getAverageServerLoad() / 100 * 0.032)

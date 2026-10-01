@@ -6,7 +6,7 @@
 
 rule "Enable phase trigger":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition vishkarEventActivated == true
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.eventId == EventId.PHASE_SURGE or eventPlayer.eventId == EventId.BODYGUARD
@@ -21,7 +21,7 @@ rule "Enable phase trigger":
 
 rule "Disable phase trigger":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition eventPlayer.phaseState == true
     # 当所有条件都不满足时
     @Condition eventPlayer.usesPhaseTrigger() == false

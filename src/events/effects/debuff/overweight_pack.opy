@@ -8,8 +8,9 @@
 
 rule "Refresh damage taken":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OVERWEIGHT_PACK]) == true
+
 
     eventPlayer.temp = floor(eventPlayer.getMaxHealth() / EVT_DEBUFF_23_HP_UNIT) * EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT
     if eventPlayer.mod_dmg_taken != eventPlayer.temp:

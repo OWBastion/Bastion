@@ -8,8 +8,9 @@
 
 rule "[VishkarEvent]: 镜像反转":
     @Event eachPlayer
-    @Team 1
+    @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MIRROR_INVERSION, eventPlayer.eventMission == 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = []

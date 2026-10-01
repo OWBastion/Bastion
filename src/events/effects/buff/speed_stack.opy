@@ -11,7 +11,7 @@ rule "Create effect":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SPEED_STACK, eventPlayer.eventEffect == null]) == true
     
-    createEffect(getAllPlayers() if (eventPlayer.isMoving() and eventPlayer.getSpeed() != 0) else null, Effect.SOLDIER_SPRINTING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if (eventPlayer.isMoving() and eventPlayer.getSpeed() != 0) else null, Effect.SOLDIER_SPRINTING, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != EventId.SPEED_STACK, eventPlayer.eventDuration)
 

@@ -30,6 +30,6 @@ def refreshCompatibleEventPool():
 
 rule "initialize player compatible event pool":
     @Event playerJoined
-    @Team 1
+    @Team 2
 
     refreshCompatibleEventPool()

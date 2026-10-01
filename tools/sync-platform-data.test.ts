@@ -242,7 +242,8 @@ test('initializes title text only after map presentation overrides are ready', a
   ]);
 
   assert.match(titleSource, /@Condition mapTitlePlayersByKey != null[\s\S]*?titleText = \[/);
-  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n    @Condition __currentMapClassicText___ != null[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.match(mapTitleSource, /@Condition __currentMapText___ != null[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.doesNotMatch(mapTitleSource, /@Condition __currentMapClassicText___/);
   assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('mapTitlePlayersByKey = ['));
   assert.ok(mapTitleSource.indexOf('if mapTitlePlayersByKey == null:') > mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"'));
 
