@@ -67,6 +67,9 @@ def buildCandidatePool():
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL)
     if eventPlayer.mod_dmg_perma >= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION)
+    # 等价交换：四臂来源均需真实持有（钢≥EXCHANGE_STACKS/移速/减伤/治疗≥EXCHANGE_PERCENT），全不可支付时不入候选
+    if eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_27_EXCHANGE_STACKS and eventPlayer.mod_speed_perma < EVT_MECH_27_EXCHANGE_PERCENT and eventPlayer.mod_dmg_perma > -EVT_MECH_27_EXCHANGE_PERCENT and eventPlayer.mod_heal_perma < EVT_MECH_27_EXCHANGE_PERCENT:
+        eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.EQUIVALENT_EXCHANGE)
     # 循环往复：无可循环增益历史或心之钢不足以支付时不入候选（循环目标在 eventLastId 中按白名单回扫）
     if eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_28_STEEL_COST or eventPlayer.eventLastId == null or len(eventPlayer.eventLastId.filter(lambda i: i < BUFF_EVENT_ID_COUNT and i in EVT_MECH_28_REPLAYABLE_BUFFS)) == 0:
         eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.CYCLE_REPLAY)
