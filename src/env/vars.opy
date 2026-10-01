@@ -161,3 +161,5 @@ playervar eventMatchCounters
 playervar eventNextIndex
 # 先知“下一个事件”头顶世界文本句柄；null = 未创建，playerLeft 销毁
 playervar prophetTextId
+# 等价交换上一次提供的兑换臂（EquivalentExchangeOffer；NONE = 无记录）。跨事件存续，随 run 重置
+playervar eventLastExchangeOffer
