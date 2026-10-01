@@ -54,7 +54,8 @@ macro platformMapRevision_EICHENWALDE_CLASSIC():
 rule "map - eichenwalde":
     @Condition (__currentMap___ == Map.EICHENWALDE) == true
 
-    platformMapRevision_EICHENWALDE_DEFAULT()
+    __currentMapText___ = "艾兴瓦尔德"
+    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("艾兴瓦尔德")
     __currentMapPioneerText___ = "十字军之王"
     bastionPosition = [
         vect(-6.063, 7.205, -22.764),

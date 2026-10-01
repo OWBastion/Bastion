@@ -29,7 +29,8 @@ macro platformMapRevision_ROUTE66_DEFAULT():
 rule "map - route 66":
     @Condition __currentMap___ == Map.ROUTE66
     
-    platformMapRevision_ROUTE66_DEFAULT()
+    __currentMapText___ = "66号公路"
+    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("66号公路")
     bastionPosition = [
         vect(42.910, 12.468, 57.186),
         vect(46.957, 10.348, 23.420),

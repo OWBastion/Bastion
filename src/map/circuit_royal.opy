@@ -51,10 +51,7 @@ macro platformMapRevision_CIRCUIT_ROYAL_CLASSIC():
 rule "map - 皇家赛道":
     @Condition __currentMap___ == Map.CIRCUIT_ROYAL
 
-    if classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL:
-        platformMapRevision_CIRCUIT_ROYAL_CLASSIC()
-    else:
-        platformMapRevision_CIRCUIT_ROYAL_DEFAULT()
+    __currentMapText___ = "皇家赛道"
     __currentMapClassicText___ = "賽檤の盡頭灬只剩莪"
     bastionPosition = [
         vect(-22.984, 12.877, -9.943),
