@@ -95,6 +95,14 @@ rule "initialize event array":
     eventCatalogEffectId[BuffEventId.DEATH_DELAY] = BuffEventId.DEATH_DELAY
     eventCatalogId.append(BuffEventId.DEATH_DELAY)
 
+    eventName[BuffEventId.SYMBIOSIS] = STR_EVT_BUFF_10_TITLE
+    eventDesc[BuffEventId.SYMBIOSIS] = STR_EVT_BUFF_10_DESC.format(Button.CROUCH)
+    eventDuration[BuffEventId.SYMBIOSIS] = EVT_BUFF_10_DURATION
+    eventCatalogWeight[BuffEventId.SYMBIOSIS] = EVT_BUFF_10_WEIGHT
+    eventCatalogType[BuffEventId.SYMBIOSIS] = EventType.BUFF
+    eventCatalogEffectId[BuffEventId.SYMBIOSIS] = BuffEventId.SYMBIOSIS
+    eventCatalogId.append(BuffEventId.SYMBIOSIS)
+
     eventName[BuffEventId.KONAMI_CODE] = STR_EVT_BUFF_11_TITLE
     eventDesc[BuffEventId.KONAMI_CODE] = STR_EVT_BUFF_11_DESC
     eventDuration[BuffEventId.KONAMI_CODE] = EVT_BUFF_11_DURATION

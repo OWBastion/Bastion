@@ -85,6 +85,8 @@
 #!define STR_EVT_BUFF_8_DESC "阵亡后获得{0}层\n每层永久提供{1}%最大生命值"
 #!define STR_EVT_BUFF_9_TITLE "死亡延迟"
 #!define STR_EVT_BUFF_9_DESC "受到致命伤害时\n该伤害将被延迟到事件结束后"
+#!define STR_EVT_BUFF_10_TITLE "有我有你"
+#!define STR_EVT_BUFF_10_DESC "接触一名队友即可附身并跟随其移动\n附身期间处于消散状态\n按住{0}解除附身"
 #!define STR_EVT_BUFF_11_TITLE "↑↑↓↓←→←→BABA"
 #!define STR_EVT_BUFF_11_DESC "阵亡后在阵亡地点复活"
 #!define STR_EVT_BUFF_12_TITLE "费斯卡光子护盾"
