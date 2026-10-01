@@ -254,6 +254,8 @@
 #!define STR_EVT_MECH_29_TITLE "生命脉冲"
 #!define STR_EVT_MECH_29_DESC "长按{0}消耗生命蓄力，每秒消耗{1}%最大生命值\n松开治疗{2}米内友方，治疗量随蓄力时间增长（每蓄力1秒恢复{3}%最大生命值）\n释放后{4}秒内无法再次蓄力"
 #!define STR_EVT_MECH_29_CHARGING "蓄力 {0}秒（治疗 {1}%）"
+#!define STR_EVT_MECH_30_TITLE "有点松弛"
+#!define STR_EVT_MECH_30_DESC "产生跟随自身的迷雾，遮挡友方视野\n雾中其他友方每秒受到{0}%最大生命值伤害"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"

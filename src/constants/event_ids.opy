@@ -158,5 +158,7 @@ enum EventId:
     LIFE_PULSE
     # legacy numeric id: buff 10 (retired event reintroduced)
     SYMBIOSIS
+    # legacy numeric id: mech 30 (retired event reintroduced)
+    TOXIC_FOG
     # sentinel only for integrity checks (do not register as an event)
     COUNT

@@ -595,3 +595,10 @@ rule "initialize event array":
     eventCatalogWeight[EventId.LIFE_PULSE] = EVT_MECH_29_WEIGHT
     eventCatalogType[EventId.LIFE_PULSE] = EventType.MECH
     eventCatalogId.append(EventId.LIFE_PULSE)
+
+    eventName[EventId.TOXIC_FOG] = STR_EVT_MECH_30_TITLE
+    eventDesc[EventId.TOXIC_FOG] = STR_EVT_MECH_30_DESC.format(percent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK))
+    eventDuration[EventId.TOXIC_FOG] = EVT_MECH_30_DURATION
+    eventCatalogWeight[EventId.TOXIC_FOG] = EVT_MECH_30_WEIGHT
+    eventCatalogType[EventId.TOXIC_FOG] = EventType.MECH
+    eventCatalogId.append(EventId.TOXIC_FOG)
