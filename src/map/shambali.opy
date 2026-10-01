@@ -50,4 +50,4 @@ rule "map - shambali monastery":
     thirdPersonPosition = vect(4.94, 8, -19.88)
     resetPosition = vect(-4.68, 8, -19.56)
     minefieldPosition = []
-    startForcingSpawn(Team.2, 2)
+    startForcingSpawn(Team.2, 0)

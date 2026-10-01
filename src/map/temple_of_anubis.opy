@@ -31,4 +31,4 @@ rule "map - temple of anubis":
     @Condition __currentMap___ == Map.TEMPLE_OF_ANUBIS
     
     platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT()
-    startForcingSpawn(Team.1, 1)
+    startForcingSpawn(Team.2, 0)

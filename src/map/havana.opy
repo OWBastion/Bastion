@@ -50,4 +50,4 @@ rule "map - havana":
         vect(55.36, 8.06, -94.88),
         vect(127, 6, -30.56)
     ]
-    startForcingSpawn(Team.2, 2)
+    startForcingSpawn(Team.2, 0)

@@ -36,4 +36,4 @@ rule "map - 埃斯佩兰萨":
     @Condition (__currentMap___ == Map.ESPERANCA or __currentMap___ == 276) == true
     
     platformMapRevision_ESPERANCA_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.2, 0)
