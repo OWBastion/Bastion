@@ -35,7 +35,7 @@ rule "[VishkarEvent]: 在哪里跌倒（救援）":
     @Event eachPlayer
     @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.eventMission == 1, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.KNOCKED_DOWN)]) == true
-    @Condition all([getRealClosestPlayer(eventPlayer, Team.2) != eventPlayer, distance(getRealClosestPlayer(eventPlayer, Team.2), eventPlayer) <= EVT_33_RESCUE_RADIUS, getRealClosestPlayer(eventPlayer, Team.2).isHoldingButton(Button.INTERACT)]) == true
+    @Condition len(getLivingPlayers(Team.2).filter(lambda p: p != eventPlayer and p.hasSpawned() and distance(p, eventPlayer) <= EVT_33_RESCUE_RADIUS and p.isHoldingButton(Button.INTERACT))) > 0
 
     wait(EVT_33_RESCUE_TIME, Wait.ABORT_WHEN_FALSE)
     if ruleCondition:
