@@ -117,17 +117,6 @@ jobs:
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Verify platform sync credentials
-        if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ -z "${BASTION_BUILD_TOKEN:-}" ]]; then
-            echo "::error::BASTION_BUILD_TOKEN repository secret is missing; platform sync cannot run from GitHub Actions."
-            exit 1
-          fi
-          echo "Platform sync credential: configured"
-
       - name: Sync platform data
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
         run: pnpm run sync:platform-data --no-build
