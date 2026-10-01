@@ -12,6 +12,9 @@ macro HERO_SETTINGS_TEAM1 = {
         "enableInfiniteAmmo": BOSS_BASTION_INFINITE_AMMO,
         "health%": BOSS_BASTION_HEALTH_PCT
     },
+    "wreckingBall": {
+        "ultDuration%": TEAM1_WRECKINGBALL_ULT_DURATION_PCT
+    },
     "general": {
         "damageReceived%": TEAM1_DAMAGE_RECEIVED_PCT,
         "abilityCooldown%": TEAM1_ABILITY_COOLDOWN_PCT,
