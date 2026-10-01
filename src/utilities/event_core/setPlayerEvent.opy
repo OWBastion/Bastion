@@ -58,6 +58,9 @@ def setPlayerEvent():
     eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventType = eventCatalogType[eventPlayer.eventCandidateIndex]
     eventPlayer.eventId = eventPlayer.eventCandidateIndex
+    # 逐事件哨兵在分配时强制归零：上一事件的规则可能有越过 clearPlayerEvent 的迟到写入
+    eventPlayer.eventMission = 0
+    eventPlayer.eventMissionGoal = 0
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]

@@ -24,6 +24,7 @@ def resetPlayerEventState():
     eventPlayer.nanoEffect = null
     eventPlayer.hasNano = false
     eventPlayer.eventLastId = []
+    eventPlayer.eventLastExchangeOffer = EquivalentExchangeOffer.NONE
     eventPlayer.eventCount = [0, 0, 0]
     eventPlayer.eventLucky = 0
     eventPlayer.eventDurationHud = 0
