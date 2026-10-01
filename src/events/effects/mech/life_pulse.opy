@@ -63,7 +63,9 @@ rule "Charge and release":
                 playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.YELLOW, eventPlayer, 200)
                 playEffect(getAllPlayers(), DynamicEffect.MOIRA_FADE_REAPPEAR, Color.YELLOW, eventPlayer.target, 200)
             eventPlayer.target = null
-    eventPlayer.eventMissionGoal = getTotalTimeElapsed() + EVT_MECH_29_RELEASE_COOLDOWN
+    # 冷却时间戳只在事件仍有效时有意义；事件已结束时再写会越过 clearPlayerEvent 的清零而残留
+    if eventPlayer.eventType == EventType.MECH and eventPlayer.eventId == MechEventId.LIFE_PULSE:
+        eventPlayer.eventMissionGoal = getTotalTimeElapsed() + EVT_MECH_29_RELEASE_COOLDOWN
     eventPlayer.eventTargetHP = 0
     eventPlayer.hudText = ""
     eventPlayer.eventMission = 0
