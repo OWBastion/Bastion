@@ -14,7 +14,7 @@ rule "[VishkarEvent]: 狂欢盛宴":
     
     bigMessage(getAllPlayers(), "盛宴！")
     smallMessage(getPlayers(Team.2), "  {0} {1} 阵亡触发了狂欢盛宴".format(iconString(Icon.WARNING), eventPlayer))
-    getPlayers(Team.1).hasNano = true
+    getPlayersOnHero(Hero.BASTION, Team.1).hasNano = true
     berserkerTime += EVT_DEBUFF_10_BERSERK_ADD
     wait(EVT_DEBUFF_10_COOLDOWN)
 
@@ -25,4 +25,4 @@ rule "[VishkarEvent]: 狂欢盛宴计时器":
     berserkerTime -= 2
     if ruleCondition:
         loop()
-    getPlayers(Team.1).hasNano = false
+    getPlayersOnHero(Hero.BASTION, Team.1).hasNano = false

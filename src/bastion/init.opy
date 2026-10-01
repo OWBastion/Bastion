@@ -80,6 +80,7 @@ rule "Restart active match":
 rule "Label bot names":
     @Event playerJoined
     @Team 1
+    @Hero bastion
     
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
 
@@ -371,6 +372,7 @@ rule "Start facing aim point":
 rule "Clear kill target":
     @Event playerDealtFinalBlow
     @Team 1
+    @Hero bastion
     
     eventPlayer.target = null
     eventPlayer.nearestTargetOutOfLoS = null
@@ -481,13 +483,16 @@ rule "Repel nearby players":
     @Team 2
     @Condition getPlayersInRadius(eventPlayer, 2, Team.1)[0] != false
     
-    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.1).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.temp = [player for player in getPlayersInRadius(eventPlayer, 2, Team.1) if player.getHero() == Hero.BASTION]
+    if eventPlayer.temp[0] != null:
+        eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - sorted(eventPlayer.temp, lambda player: distance(eventPlayer, player))[0].getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
 rule "Track kills and attacker":
     @Event playerDealtFinalBlow
     @Team 1
+    @Hero bastion
     
     kills[eventPlayer.getSlot()]++
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
