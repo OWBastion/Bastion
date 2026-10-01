@@ -47,10 +47,10 @@ async function runNodeTest(testFile: string) {
   await runNode(['--import', 'tsx', '--test', testFile]);
 }
 
-function wrapAction(action: () => Promise<void>) {
-  return async () => {
+function wrapAction<A extends unknown[]>(action: (...args: A) => Promise<void>) {
+  return async (...args: A) => {
     try {
-      await action();
+      await action(...args);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.error(message);
