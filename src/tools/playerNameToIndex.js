@@ -16,7 +16,8 @@ const TITLE_PLAYER_NAMES = [
   "豆本豆豆奶",
   "銀狼",
   "锄禾日当午",
-  "别感冒"
+  "别感冒",
+  "雨鸢"
 ];
 
 const titleIndexByName = Object.fromEntries(
