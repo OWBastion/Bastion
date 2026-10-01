@@ -56,4 +56,23 @@ rule "map - 皇家赛道":
     else:
         platformMapRevision_CIRCUIT_ROYAL_DEFAULT()
     __currentMapClassicText___ = "賽檤の盡頭灬只剩莪"
+    bastionPosition = [
+        vect(-22.984, 12.877, -9.943),
+        vect(-9.396, 8.236, 16.741),
+        vect(25.523, 9.417, -8.165),
+        vect(23.866, 15, -38.634),
+        vect(53.745, 17.982, -25.200),
+        vect(-44.719, 10, -36.397),
+        vect(50.479, 18.958, 15.982),
+        vect(82.230, 16.878, 34.886),
+        vect(102.613, 9.958, 28.502)
+    ]
+    endPosition = vect(100.57, 7.96, 18.09)
+    thirdPersonPosition = vect(-84.61, 8.03, -38.09)
+    resetPosition = vect(-84.39, 8.03, -45.31)
+    minefieldPosition = [
+        vect(-18.12, 5.82, 1.52),
+        vect(57.44, 13.96, 0.73),
+        vect(95.71, 16.96, 48.26)
+    ]
     startForcingSpawn(Team.1, 2)
