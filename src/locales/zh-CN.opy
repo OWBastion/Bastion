@@ -140,7 +140,7 @@
 #!define STR_EVT_MECH_0_TITLE "极限挑战"
 #!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免\n生命值被锁定在{1}%\n获得禁疗"
 #!define STR_EVT_MECH_1_TITLE "赌徒"
-#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率永久损失/获得{2}层心之钢"
+#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率永久获得{2}层心之钢，否则损失{3}层"
 #!define STR_EVT_MECH_2_TITLE "迷你形态"
 #!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
@@ -150,7 +150,7 @@
 #!define STR_EVT_MECH_5_TITLE "屁动力"
 #!define STR_EVT_MECH_5_DESC "长按{0}朝你的前方飞行\n飞行时获得{1}%伤害减免"
 #!define STR_EVT_MECH_6_TITLE "赌徒：竞速挑战"
-#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}层心之钢\n{2}%概率永久获得/损失{3}%移速加成\n{4}%概率永久获得/损失{5}%移速加成"
+#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}层心之钢\n{2}%概率永久获得{3}%或损失{4}%移速加成\n{5}%概率永久获得{6}%或损失{7}%移速加成"
 
 # ------------------------------------------------
 # 随机事件包 4：增益 (Buff Events Pack 4)

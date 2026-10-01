@@ -133,7 +133,7 @@
 #!define STR_EVT_MECH_0_TITLE "Extreme Challenge"
 #!define STR_EVT_MECH_0_DESC "Gain {0}% damage reduction.\nHP is locked at {1}%.\nHealing is disabled."
 #!define STR_EVT_MECH_1_TITLE "Gambler"
-#!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to permanently lose/gain {2} Heartsteel stacks."
+#!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to permanently gain {2} Heartsteel stacks; otherwise lose {3}."
 #!define STR_EVT_MECH_2_TITLE "Mini Form"
 #!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"
@@ -143,7 +143,7 @@
 #!define STR_EVT_MECH_5_TITLE "Fart Power"
 #!define STR_EVT_MECH_5_DESC "Hold {0} to fly forward.\nGain {1}% damage reduction while flying."
 #!define STR_EVT_MECH_6_TITLE "Gambler: Speedrun"
-#!define STR_EVT_MECH_6_DESC "Hold {0} to spend {1} Heartsteel stacks.\n{2}% chance to permanently gain/lose {3}% movement speed.\n{4}% chance to permanently gain/lose {5}% movement speed."
+#!define STR_EVT_MECH_6_DESC "Hold {0} to spend {1} Heartsteel stacks.\n{2}% chance to permanently gain {3}% or lose {4}% movement speed.\n{5}% chance to permanently gain {6}% or lose {7}% movement speed."
 # ------------------------------------------------
 # Random Pack 4: Buffs
 # ------------------------------------------------

@@ -117,7 +117,7 @@ rule "initialize event array":
     # Pack 1: Mechanics
     # ================================================
     eventName[EventId.GAMBLER] = STR_EVT_MECH_1_TITLE
-    eventDesc[EventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
+    eventDesc[EventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_REWARD_STACKS, EVT_MECH_1_STAKE)
     eventDuration[EventId.GAMBLER] = EVT_MECH_1_DURATION
     eventCatalogWeight[EventId.GAMBLER] = EVT_MECH_1_WEIGHT
     eventCatalogType[EventId.GAMBLER] = EventType.MECH
@@ -306,7 +306,7 @@ rule "initialize event array":
     eventCatalogId.append(EventId.JUMP_THRUST)
 
     eventName[EventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_TITLE
-    eventDesc[EventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_DESC.format(Button.RELOAD, EVT_MECH_6_HEARTSTEEL_COST, EVT_MECH_6_PROB_LOSE_NORMAL - EVT_MECH_6_PROB_WIN_NORMAL, EVT_MECH_6_VAL_NORMAL, 100 - EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_RARE)
+    eventDesc[EventId.GAMBLER_SPEED_CHALLENGE] = STR_EVT_MECH_6_DESC.format(Button.RELOAD, EVT_MECH_6_HEARTSTEEL_COST, EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_NORMAL, EVT_MECH_6_VAL_NORMAL_LOSS, 100 - EVT_MECH_6_PROB_LOSE_NORMAL, EVT_MECH_6_VAL_RARE, EVT_MECH_6_VAL_RARE_LOSS)
     eventDuration[EventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_DURATION
     eventCatalogWeight[EventId.GAMBLER_SPEED_CHALLENGE] = EVT_MECH_6_WEIGHT
     eventCatalogType[EventId.GAMBLER_SPEED_CHALLENGE] = EventType.MECH
