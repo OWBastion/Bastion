@@ -18,14 +18,8 @@ settings {
         "allowPlayersInQueue": ENTRY_ALLOW_PLAYERS_IN_QUEUE
     },
     "gamemodes": {
-        "ctf": {
-            "enabledMaps": ["ayutthaya"],
-            "flagScoreRespawnTime": 15,
-            "flagReturnTime": 4,
-            "flagDroppedLockTime": 5
-        },
         "skirmish": {
-            "disabledMaps": ["kingsRow", "workshopChamber", "workshopIsland", "workshopIslandNight", "workshopExpanse", "workshopExpanseNight", "workshopGreenScreen", "blizzWorld"]
+            "enabledMaps": ["route66", "circuitRoyal", "shambaliMonastery", "havana", "dorado", "watchpointGibraltar", "rialto", "eichenwalde"]
         },
         "general": {
             "enablePerks": true,
