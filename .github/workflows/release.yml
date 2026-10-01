@@ -26,7 +26,6 @@ jobs:
       BASTION_BUILD_TOKEN: ${{ secrets.BASTION_BUILD_TOKEN }}
       CN_RELEASE_ARTIFACT: build/cn-zh-CN.ow
       EXTERNAL_RELEASE_ARTIFACT: build/external-en-US.ow
-      WRIGHT_VERSION: 0.2.39
 
     steps:
       - name: Checkout
@@ -187,9 +186,9 @@ jobs:
         run: |
           set -euo pipefail
           curl -fsSL https://install.wrightkit.dev/wright/install.sh \
-            | bash -s -- --version "${WRIGHT_VERSION}" --dir "${RUNNER_TEMP}/wright/bin"
+            | bash -s -- --dir "${RUNNER_TEMP}/wright/bin"
           echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
-          "${RUNNER_TEMP}/wright/bin/wright" provider update opy
+          "${RUNNER_TEMP}/wright/bin/wright" update provider opy
 
       - name: Build workshop outputs
         if: steps.release_gate.outputs.should_release == 'true'
