@@ -44,6 +44,7 @@ def clearPlayerEvent():
     eventPlayer.eventMissionGoal = 0
     eventPlayer.hudText = ""
     eventPlayer.target = null
+    eventPlayer.detach()
     eventPlayer.possess = null
     eventPlayer.stopScalingSize()
     eventPlayer.stopScalingBarriers()

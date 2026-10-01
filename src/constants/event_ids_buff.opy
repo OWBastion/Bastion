@@ -58,6 +58,8 @@ enum BuffEventId:
     WHERE_YOU_FALL
     # legacy numeric id: 34
     SHARED_BLESSING
+    # legacy numeric id: 10
+    SYMBIOSIS
     # sentinel only for integrity checks (do not register as an event)
     COUNT
 
