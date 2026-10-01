@@ -428,8 +428,8 @@ test('preserves existing title and player IDs while appending new entries', () =
   assert.deepEqual(ordered.players.map((player) => player.name), ['他又', '新玩家']);
 });
 
-test('rejects map holders that reference a player without an active grant', () => {
-  assert.throws(() => buildPlatformTitleSource({
+test('accepts map holders without playerId from the public Agents view', () => {
+  const source = buildPlatformTitleSource({
     platformData: {
       ...platformData,
       maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
@@ -438,7 +438,9 @@ test('rejects map holders that reference a player without an active grant', () =
       mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]
     },
     mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  }), /playerId/);
+  });
+  assert.deepEqual(source.mapTitles[0]?.holders.PIONEER, ['玩家']);
+  assert.deepEqual(source.players, [{ name: '玩家', titleKeys: [] }]);
 });
 
 test('generates deterministic map-local macros for default and classic revisions', () => {
@@ -469,6 +471,29 @@ test('generates deterministic map-local macros for default and classic revisions
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
+
+test('accepts revision holders without playerId and still dedupes by name', () => {
+  const mapTitle = { ...platformData.titles[0], scope: 'map' as const, displayKind: 'map_pioneer' as const, mapId: 'map.test_map', slot: 'pioneer' as const, pioneerPrefixes: [] };
+  const anonymousHolder = (playerName: string) => ({ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer' as const, slotSemantics: 'named' as const, playerName });
+  const source = buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      titles: [mapTitle],
+      mapTitleHolders: [anonymousHolder('玩家一'), anonymousHolder('玩家二')]
+    }
+  });
+  const holders = source.maps[0]?.revisions[0]?.titleHolders ?? [];
+  assert.deepEqual(holders.map((holder) => holder.playerName).sort(), ['玩家一', '玩家二']);
+  assert.ok(holders.every((holder) => holder.playerId === null));
+  assert.throws(() => buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      titles: [mapTitle],
+      mapTitleHolders: [anonymousHolder('玩家一'), anonymousHolder('玩家一')]
+    }
+  }), /Duplicate map holder/);
+});
+
 test('rejects an empty revision projection before generated source is accepted', () => {
   const incompleteData = { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] };
   assert.throws(() => merge({ maps: incompleteData.maps }), /exactly one default revision/);

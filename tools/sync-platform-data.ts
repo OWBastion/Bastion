@@ -137,7 +137,7 @@ export type PlatformMapRevisionSource = {
         titleKey: string;
         slot: 'pioneer' | 'conqueror' | 'dominator' | null;
         slotSemantics: 'named' | 'none';
-        playerId: string;
+        playerId: string | null;
         playerName: string;
       }>;
     }>;
@@ -179,13 +179,12 @@ function assertUnique(values: string[], label: string) {
   }
 }
 
-function assertExactKeys(value: unknown, label: string, expectedKeys: string[]) {
+function assertExactKeys(value: unknown, label: string, expectedKeys: string[], optionalKeys: string[] = []) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
-  const actualKeys = Object.keys(value).sort();
-  const expected = [...expectedKeys].sort();
-  if (actualKeys.length !== expected.length || actualKeys.some((key, index) => key !== expected[index])) {
-    throw new Error(`${label} has an invalid shape; expected keys ${expected.join(', ')}`);
-  }
+  const actualKeys = Object.keys(value);
+  const allowed = new Set([...expectedKeys, ...optionalKeys]);
+  const valid = expectedKeys.every((key) => actualKeys.includes(key)) && actualKeys.every((key) => allowed.has(key));
+  if (!valid) throw new Error(`${label} has an invalid shape; expected keys ${[...allowed].sort().join(', ')}`);
 }
 
 function validateSpatialPosition(value: unknown, label: string): SpatialPosition {
@@ -714,7 +713,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
   }
   const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
-    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`); const playerName = requireString(item.playerName, `${prefix}.playerName`); requireString(item.playerId, `${prefix}.playerId`); const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`); const playerName = requireString(item.playerName, `${prefix}.playerName`); const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
     const revision = revisionsById.get(gameplayRevisionId);
     const slot = item.slotSemantics === 'named'
       ? requireString(item.slot, `${prefix}.slot`)
@@ -753,12 +752,12 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
   const holderIdentitiesByRevision = new Map<string, Set<string>>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
     const prefix = `mapTitleHolders[${index}]`;
-    assertExactKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerId', 'playerName']);
+    assertExactKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerName'], ['playerId']);
     const mapId = requireString(item.mapId, `${prefix}.mapId`);
     const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`);
     const revision = catalog.revisions.get(gameplayRevisionId);
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
-    const playerId = requireString(item.playerId, `${prefix}.playerId`);
+    const playerId = item.playerId == null ? null : requireString(item.playerId, `${prefix}.playerId`);
     const playerName = requireString(item.playerName, `${prefix}.playerName`);
     if (!revision || revision.mapId !== mapId) throw new Error(`${prefix} references unknown map revision ${mapId}/${gameplayRevisionId}`);
     if (item.slotSemantics !== 'named' && item.slotSemantics !== 'none') throw new Error(`${prefix}.slotSemantics has an unsupported value`);
@@ -773,7 +772,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
     identities.add(identity);
     holderIdentitiesByRevision.set(gameplayRevisionId, identities);
     const current = holdersByRevision.get(gameplayRevisionId) ?? [];
-    const duplicate = current.some((candidate) => candidate.titleKey === holder.titleKey && candidate.slot === holder.slot && candidate.playerId === holder.playerId);
+    const duplicate = current.some((candidate) => candidate.titleKey === holder.titleKey && candidate.slot === holder.slot && holder.playerId !== null && candidate.playerId === holder.playerId);
     if (duplicate) throw new Error(`Duplicate map holder: ${mapId}/${gameplayRevisionId}/${titleKey}/${playerId}`);
     current.push(holder);
     holdersByRevision.set(gameplayRevisionId, current);
@@ -790,7 +789,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
           ...revision,
           spatialConfig: revision.spatialConfig,
           challengeRefs: revision.challengeRefs.slice().sort((left, right) => left.challengeId.localeCompare(right.challengeId)),
-          titleHolders: (holdersByRevision.get(revision.gameplayRevisionId) ?? []).slice().sort((left, right) => left.titleKey.localeCompare(right.titleKey) || String(left.slot).localeCompare(String(right.slot)) || left.playerId.localeCompare(right.playerId) || left.playerName.localeCompare(right.playerName))
+          titleHolders: (holdersByRevision.get(revision.gameplayRevisionId) ?? []).slice().sort((left, right) => left.titleKey.localeCompare(right.titleKey) || String(left.slot).localeCompare(String(right.slot)) || String(left.playerId ?? '').localeCompare(String(right.playerId ?? '')) || left.playerName.localeCompare(right.playerName))
         }))
     }))
   };

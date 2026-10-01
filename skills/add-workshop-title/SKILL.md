@@ -21,7 +21,7 @@ description: 为 Bastion Overwatch Workshop 项目复核平台称号同步生成
 唯一数据源是平台称号定义、玩家 active 授予和地图持有者 Agents API。
 
 1. 称号顺序由平台 `sortOrder` 管理。
-2. 玩家和地图持有者按稳定 `playerId` 关联，禁止按名称匹配。
+2. 玩家和地图持有者按公开 `playerName` 关联；`playerId` 在匿名 Agents 响应中缺省，不得依赖其存在。
 3. 禁止手改生成产物：`src/title/title-cn.opy`。
 
 关键约束：
