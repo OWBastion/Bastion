@@ -21,14 +21,14 @@ rule "[VishkarEvent]: 赌徒：竞速挑战":
             eventPlayer.mod_speed_perma += EVT_MECH_6_VAL_NORMAL
             smallMessage(eventPlayer, "  {0}  赢！永久获得 {1}% 移动速度加成".format(iconString(Icon.CLUB), EVT_MECH_6_VAL_NORMAL))
         elif eventPlayer.temp <= EVT_MECH_6_PROB_LOSE_NORMAL:
-            eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_NORMAL
-            smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_NORMAL))
+            eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_NORMAL_LOSS
+            smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_NORMAL_LOSS))
         elif eventPlayer.temp <= EVT_MECH_6_PROB_WIN_RARE:
             eventPlayer.mod_speed_perma += EVT_MECH_6_VAL_RARE
             smallMessage(eventPlayer, "  {0}  赢！永久获得 {1}% 移动速度加成".format(iconString(Icon.CLUB), EVT_MECH_6_VAL_RARE))
         else:
-            eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_RARE
-            smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_RARE))
+            eventPlayer.mod_speed_perma -= EVT_MECH_6_VAL_RARE_LOSS
+            smallMessage(eventPlayer, "  {0}  输！永久失去 {1}% 移动速度加成".format(iconString(Icon.DIAMOND), EVT_MECH_6_VAL_RARE_LOSS))
     wait()
     updatePlayerStats()
     eventPlayer.eventDuration = 0

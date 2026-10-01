@@ -13,8 +13,8 @@ rule "[VishkarEvent]: 赌徒":
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if random.randint(0, 99) < EVT_MECH_1_WIN_RATE:
-        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
-        smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢层数（{2}%）".format(iconString(Icon.CLUB), EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_MECH_1_STAKE * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_MECH_1_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
+        smallMessage(eventPlayer, "  {0}  赢！获得 {1} 层心之钢层数（{2}%）".format(iconString(Icon.CLUB), EVT_MECH_1_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_MECH_1_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     else:
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_1_STAKE
         gamblerHeartsteelJackpot += EVT_MECH_1_STAKE
