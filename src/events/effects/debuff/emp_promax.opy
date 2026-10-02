@@ -12,7 +12,6 @@ rule "Broadcast EMP":
     @Team 2
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.EMP_PROMAX]) == true
     
-    eventPlayer.dlcTimeChallenge[7]++
     ([player for player in getPlayers(Team.2) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
     playEffect(getAllPlayers(), DynamicEffect.SOMBRA_EMP_EXPLOSION_EFFECT, Color.TEAM_1, eventPlayer, 200)
     wait(eventPlayer.eventDuration - 1)
