@@ -8,3 +8,5 @@ macro DEBUG = false
 
 #!define VERSION "26.1002.1"
 #!define HUD_PAD_BOTTOM "\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r"
+# Team.1 栏位占用者查询：getPlayers 只含在线玩家，按 getSlot 过滤定位栏位；空栏位返回 null
+#!define TEAM1_SLOT_PLAYER(i) (getPlayers(Team.1).filter(lambda p: p.getSlot() == i)[0] if len(getPlayers(Team.1).filter(lambda p: p.getSlot() == i)) > 0 else null)
