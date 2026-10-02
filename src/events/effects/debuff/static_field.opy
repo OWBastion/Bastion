@@ -20,8 +20,8 @@ rule "Proximity repel":
     if len(eventPlayer.target) > 0 and distance(eventPlayer, eventPlayer.target[0]) <= EVT_DEBUFF_25_TRIGGER_RADIUS:
         eventPlayer.target = eventPlayer.target[0]
         # 仅作用于触发双方：沿两者连线向相反方向弹开，并同时击晕
-        eventPlayer.applyImpulse(directionTowards(eventPlayer.target, eventPlayer), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-        eventPlayer.target.applyImpulse(directionTowards(eventPlayer, eventPlayer.target), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(directionTowards(eventPlayer.target, eventPlayer), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+        eventPlayer.target.applyImpulse(directionTowards(eventPlayer, eventPlayer.target), EVT_DEBUFF_25_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
         eventPlayer.setStatusEffect(eventPlayer, Status.STUNNED, EVT_DEBUFF_25_STUN)
         eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, EVT_DEBUFF_25_STUN)
         eventPlayer.eventMission = getTotalTimeElapsed() + EVT_DEBUFF_25_TRIGGER_PROTECTION

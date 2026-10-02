@@ -16,8 +16,8 @@ rule "Use snap kick from ground":
     if distance(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 2.51, getAllPlayers(), eventPlayer, true).getHitPosition(), eventPlayer.getEyePosition()) <= 2.5:
         eventPlayer.zenSnapKick = true
         wait()
-        eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-        eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+        eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
 
 rule "Use snap kick from wall":
@@ -30,8 +30,8 @@ rule "Use snap kick from wall":
         if raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 5, getAllPlayers(), eventPlayer, true).getPlayerHit() == null:
             eventPlayer.zenSnapKick = true
             wait()
-            eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-            eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+            eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+            eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
 
 rule "Use legacy snap kick":
@@ -45,8 +45,8 @@ rule "Use legacy snap kick":
     if distance(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 2.51, getAllPlayers(), eventPlayer, true).getHitPosition(), eventPlayer.getEyePosition()) <= 2.5:
         eventPlayer.zenSnapKick = true
         wait()
-        eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-        eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(negToPos(eventPlayer.getFacingDirection()), 15.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+        eventPlayer.applyImpulse(Vector.UP, 15.5 * 0.3, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
 rule "Clear snap kick trigger":
     @Event eachPlayer
