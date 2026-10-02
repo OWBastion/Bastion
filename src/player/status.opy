@@ -55,8 +55,8 @@ def resetPlayerProgressState():
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
     eventPlayer.possess = null
     eventPlayer.possessed = []
-    # dlcTimeChallenge: [0:窃贼]
-    eventPlayer.dlcTimeChallenge = [0]
+    # dlcTimeChallenge: [0:先知触发, 1:观测后减益抽取]
+    eventPlayer.dlcTimeChallenge = [0, 0]
     eventPlayer.eventForceRoll = null
     eventPlayer.eventForceCount = 0
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)

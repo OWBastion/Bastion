@@ -65,6 +65,9 @@ globalvar prophetSlotTextsCreated
 # 先知观测者集合缓存：文本可见性与观测坍缩条件每帧求值，只读变量；
 # 由先知文件内 1Hz 全局循环刷新（见 events/effects/mech/prophet.opy）
 globalvar prophetViewers
+# 对局级观测闩：本局出现先知后置真且不再复位（见 events/effects/mech/prophet.opy）；
+# 周年挑战「哪里有完美的时间线」只统计闩后抽取的减益事件
+globalvar prophetObserved
 globalvar minefieldPosition
 globalvar minefieldBot
 globalvar minefieldPick
