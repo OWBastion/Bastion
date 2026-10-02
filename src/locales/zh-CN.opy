@@ -124,7 +124,7 @@
 #!define STR_EVT_DEBUFF_8_TITLE "能量泄漏"
 #!define STR_EVT_DEBUFF_8_DESC "使用技能会消耗{0}%生命值"
 #!define STR_EVT_DEBUFF_9_TITLE "有难同当"
-#!define STR_EVT_DEBUFF_9_DESC "受到的{0}%伤害扩散给{1}米内的友方"
+#!define STR_EVT_DEBUFF_9_DESC "受到的{0}%伤害扩散给全体友方"
 #!define STR_EVT_DEBUFF_10_TITLE "狂欢盛宴"
 #!define STR_EVT_DEBUFF_10_DESC "当你在盛宴期间内阵亡\n堡垒将进入{0}秒狂暴状态"
 #!define STR_EVT_DEBUFF_11_TITLE "归于大地"

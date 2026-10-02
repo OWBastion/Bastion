@@ -118,7 +118,7 @@
 #!define STR_EVT_DEBUFF_8_TITLE "Energy Leak"
 #!define STR_EVT_DEBUFF_8_DESC "Using abilities costs {0}% HP."
 #!define STR_EVT_DEBUFF_9_TITLE "Shared Pain"
-#!define STR_EVT_DEBUFF_9_DESC "{0}% of damage taken is shared with allies within {1}m."
+#!define STR_EVT_DEBUFF_9_DESC "{0}% of damage taken is shared with all allies."
 #!define STR_EVT_DEBUFF_10_TITLE "Carnival Feast"
 #!define STR_EVT_DEBUFF_10_DESC "If you die during the Feast,\nBastion enters Berserk for {0}s."
 #!define STR_EVT_DEBUFF_11_TITLE "Return to Earth"
