@@ -46,7 +46,7 @@ rule "SAFE create bastion bots when the game start and there are no bastion bots
     wait(2)
     if len(getPlayersOnHero(Hero.BASTION, Team.1)) == 0:
         destroyAllDummies()
-        wait(0.496)
+        wait(0.5)
         createBastionBot()
     wait(max(1, getAverageServerLoad() / 100 * 3.2))
     if ruleCondition:
