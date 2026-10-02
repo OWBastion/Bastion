@@ -4,7 +4,7 @@
 
 - 初始化：`src/events/init/detectFlag.opy`
 - 配置：`src/config/eventConfig.opy`, `src/config/eventConfigDev.opy`
-- 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCandidatePool.opy`
+- 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
 - 玩家态子程序：`utilities/event_core/setPlayerEvent.opy`, `clearPlayerEvent.opy`, `setEventDuration.opy`
@@ -13,12 +13,13 @@
 
 1. `detectFlag` 在开局一段时间后激活事件系统（debug 与正式阈值不同）
 2. `initialize event array` 构建事件池数组与可抽取 ID 列表
-3. `assignPlayerEvent` 对符合条件玩家按周期触发抽取
-4. `buildCandidatePool` 从全局事件目录构建硬资格候选集，并按事件身份应用最近事件去重
-5. `rejectSampling` 在全局候选集内按目录配置权重抽样（最多 8 轮）
-6. `setPlayerEvent` 接收选中的事件，然后回填类别并填充当前玩家事件数据
-7. 事件效果规则在 `events/effects/*` 中执行
-8. 到期后 `clearPlayerEvent` 清理状态与特效
+3. 玩家加入、英雄切换或进度重置完成后，`refreshCompatibleEventPool` 从全局事件目录构建玩家结构兼容基础池
+4. `assignPlayerEvent` 对兼容池就绪的玩家按周期触发抽取
+5. `buildCandidatePool` 从玩家基础池构建当前硬资格候选集，并按事件身份应用最近事件去重
+6. `rejectSampling` 在当前候选集内按目录配置权重抽样（最多 8 轮）
+7. `setPlayerEvent` 接收选中的事件，然后回填类别并填充当前玩家事件数据
+8. 事件效果规则在 `events/effects/*` 中执行
+9. 到期后 `clearPlayerEvent` 清理状态与特效
 
 ## 事件数据结构
 
@@ -33,6 +34,7 @@
 - `eventLucky`（幸运倾向累计）
 - `eventForceRoll/eventForceCount`（仅作为现有作弊链的类别资格约束）
 - `eventCandidateIndex`, `eventTempIndex`（本次抽样的目录索引与候选池）
+- `eventCompatibleBasePool`（按当前英雄结构能力预过滤的统一目录索引；只在生命周期变化时重建）
 
 ## 机制事件 ID（Enum 管理）
 
@@ -65,7 +67,7 @@
 
 ## 全局候选与抽样
 
-`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`buildCandidatePool` 从 `eventCatalogId` 筛选所有可用事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 会将受害者的下一次候选池限制为非 Buff，并在该次分配后消耗标记。
+`setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`refreshCompatibleEventPool` 从 `eventCatalogId` 复制启用事件的统一 ID，并按结构兼容性过滤预定义 ID 组；不支持相位触发的英雄不会在基础池中包含 `PHASE_SURGE` / `BODYGUARD`。该池在加入、英雄切换及进度重置完成后刷新。`buildCandidatePool` 从玩家基础池筛选当前有效权重的事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 会将受害者的下一次候选池限制为非 Buff，并在该次分配后消耗标记。
 
 现有 `eventForceRoll` 只为赌徒/作弊链保留类别资格约束，不参与正常抽样路径。未来复合事件可以在自己的效果生命周期内覆盖或建立运行时效果类别，而不需要被拆成多个类别候选池。
 
@@ -74,7 +76,7 @@
 去重与候选池门控策略：
 
 - `eventLastId` 现为最近事件历史全局目录索引数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），不再依赖类别编码，避免不同类别同数值 ID 相互误排除。
-- 候选池构建在全局目录上执行现有硬门控。共享资格由 `buildCandidatePool.opy` 中的数值事件组表示：`EVENT_GROUP_PHASE_TRIGGER` 包含 `PHASE_SURGE` / `BODYGUARD`，`EVENT_GROUP_HEART_STEEL` 包含需要正向心之钢层数的三个赌徒事件；不满足组条件时，组内所有事件在加权抽样前被排除。事件组只表达资格，不携带概率、稀有度或独立抽样步骤。处于强制减益连抽时不重复抽入 `SELFLESS_GIVEAWAY`；赢家通吃的奖池门槛、Temper Heart 一次性状态和 Mirror Inversion 仍保留为事件特例。
+- 结构兼容组由 `buildCompatibleEventPool.opy` 表示；`EVENT_GROUP_PHASE_TRIGGER` 包含 `PHASE_SURGE` / `BODYGUARD`，并在英雄生命周期变化时过滤。动态硬资格仍在 `buildCandidatePool.opy` 中执行：`EVENT_GROUP_HEART_STEEL` 包含依赖当前正向心之钢层数的三个赌徒事件；强制减益连抽排除 `SELFLESS_GIVEAWAY`；赢家通吃的奖池门槛、Temper Heart 一次性状态和 Mirror Inversion 仍保留为事件特例。事件组只表达资格，不携带概率、稀有度或独立抽样步骤。
 - 若最近事件去重后为空，兜底路径只移除去重条件，仍执行所有硬资格门控，避免把不兼容事件恢复进候选集。
 - 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
 - 当最近事件去重导致候选池为空时，会降级到保留硬资格门控、仅移除去重条件，避免抽样中断。

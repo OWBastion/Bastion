@@ -149,6 +149,7 @@ rule "Apply hero selection":
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     @Condition (eventPlayer.isInSpawnRoom() and eventPlayer.isMoving() != true) == true
 
+    eventPlayer.eventCompatibleBasePool = null
     eventPlayer.menuHeroIndex = eventPlayer.menuHeroIndex % (
         (
             (len(heroList) - 1) if (eventPlayer.heroNumber) > (len(heroList) - 1)
@@ -160,6 +161,7 @@ rule "Apply hero selection":
     eventPlayer.stopForcingCurrentHero()
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
+    refreshCompatibleEventPool()
     waitUntil(eventPlayer.isHoldingButton(Button.RELOAD) == false, 99999)
 
 rule "Display admin page":
