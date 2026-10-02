@@ -55,7 +55,7 @@ rule "initialize effects":
         )) if localPlayer.isWinner else "",
 
         # 4. 房间级通关代码 (首个玩家通关后对所有参与者可见)
-        "\n{0}".format(masteryRunCode) if localPlayer.isWinner else ""
+        "\n{0}\n{1}".format(masteryRunCode, localPlayer) if localPlayer.isWinner else ""
 
     ), HudPosition.LEFT, 7, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
@@ -131,7 +131,7 @@ rule "initialize effects":
     hudSubheader(getAllPlayers(), STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # 版本号
-    hudSubheader(getAllPlayers(), "{0}{1}".format("{0} {1}".format(STR_HUD_VERSION, VERSION), "\n{0}".format(masteryRunCode) if localPlayer.isWinner else ""), HudPosition.RIGHT, -3, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader(getAllPlayers(), "{0}{1}".format("{0} {1}".format(STR_HUD_VERSION, VERSION), "\n{0}\n{1}".format(masteryRunCode, localPlayer) if localPlayer.isWinner else ""), HudPosition.RIGHT, -3, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # World Effects
