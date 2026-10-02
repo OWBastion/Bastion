@@ -13,6 +13,13 @@ def createBastionBot():
         wait(0.25)
         if len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition) or getTotalTimeElapsed() > 120:
             return
+    if entityExists(minefieldBot) != true:
+        createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
+        wait(0.25)
+        minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
+        minefieldBot.setInvisibility(Invis.ALL)
+        minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)
+        minefieldBot.setStatusEffect(null, Status.UNKILLABLE, 99999)
     if kills == 0 or len(kills) == 0:
         kills = [0, 0, 0, 0, 0, 0]
 
