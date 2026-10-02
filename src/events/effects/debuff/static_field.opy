@@ -14,7 +14,7 @@
 rule "Proximity repel":
     @Event eachPlayer
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), not eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.eventId == DebuffEventId.STATIC_FIELD, getTotalTimeElapsed() >= eventPlayer.eventMission]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), not eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.STATIC_FIELD, getTotalTimeElapsed() >= eventPlayer.eventMission]) == true
 
     eventPlayer.target = sorted(getLivingPlayers(Team.2).filter(lambda p: p != eventPlayer and p.hasSpawned()), lambda p: distance(p, eventPlayer))
     if len(eventPlayer.target) > 0 and distance(eventPlayer, eventPlayer.target[0]) <= EVT_DEBUFF_25_TRIGGER_RADIUS:
