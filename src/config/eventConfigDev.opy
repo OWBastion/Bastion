@@ -596,9 +596,19 @@ rule "initialize event array":
     eventCatalogType[EventId.LIFE_PULSE] = EventType.MECH
     eventCatalogId.append(EventId.LIFE_PULSE)
 
+<<<<<<< HEAD
     eventName[EventId.TOXIC_FOG] = STR_EVT_MECH_30_TITLE
     eventDesc[EventId.TOXIC_FOG] = STR_EVT_MECH_30_DESC.format(percent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK))
     eventDuration[EventId.TOXIC_FOG] = EVT_MECH_30_DURATION
     eventCatalogWeight[EventId.TOXIC_FOG] = EVT_MECH_30_WEIGHT
     eventCatalogType[EventId.TOXIC_FOG] = EventType.MECH
     eventCatalogId.append(EventId.TOXIC_FOG)
+=======
+    eventName[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = STR_EVT_MECH_30_TITLE
+    eventDesc[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = STR_EVT_MECH_30_DESC.format(percent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK), EVT_MECH_30_DAMAGE_FLAT)
+    eventDuration[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = EVT_MECH_30_DURATION
+    eventCatalogWeight[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = EVT_MECH_30_WEIGHT
+    eventCatalogType[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = EventType.MECH
+    eventCatalogEffectId[BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG] = MechEventId.TOXIC_FOG
+    eventCatalogId.append(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.TOXIC_FOG)
+>>>>>>> 0941d19 (feat(events): scale toxic fog tick damage by holder max HP (#298))
