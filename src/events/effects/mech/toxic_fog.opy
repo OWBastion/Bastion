@@ -9,8 +9,8 @@
 #
 # 周年返场重做版：原版"移动时沿途生成迷雾"会随位移持续累积效果实体，已退役。
 # 现版全程仅一个迷雾实体，位置经 POSITION_AND_RADIUS 重评估跟随持有者，
-# 不再产生移动轨迹。雾内其他友方每 TICK_INTERVAL 按各自最大生命值比例受伤；
-# 持有者由 exclude 剔除，离开雾区即停止判定。
+# 不再产生移动轨迹。雾内其他友方每 TICK_INTERVAL 按持有者最大生命值比例
+# 加固定值受伤；持有者由 exclude 剔除，离开雾区即停止判定。
 #
 # 清理归属：事件正常结束时 eventEffect 由 clearPlayerEvent 统一回收，本规则
 # 只在事件仍生效的中途退出（持有者死亡等）主动销毁；重生后条件重新命中即重建。
@@ -25,7 +25,7 @@ rule "Toxic fog aura":
         eventPlayer.eventEffect = getLastCreatedEntity()
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_MECH_30_FOG_RADIUS, Team.2, LosCheck.SURFACES).exclude(eventPlayer)
     for eventPlayer.temp in range(len(eventPlayer.target)):
-        damage(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK * 100))
+        damage(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.maxHealthPercent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK * 100) + EVT_MECH_30_DAMAGE_FLAT)
     eventPlayer.target = null
     wait(EVT_MECH_30_TICK_INTERVAL)
     if ruleCondition:
