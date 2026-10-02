@@ -24,5 +24,5 @@ rule "[VishkarEvent]: 有难同当":
     @Condition attacker.getHero() == Hero.BASTION
     @Condition eventAbility != null
     
-    damage([player for player in getLivingPlayers(Team.2) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and distance(eventPlayer, player) <= EVT_DEBUFF_9_RADIUS and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
+    damage([player for player in getLivingPlayers(Team.2) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
     wait()

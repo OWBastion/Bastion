@@ -486,9 +486,6 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_9_DURATION 30
 # Weight（权重）
 #!define EVT_DEBUFF_9_WEIGHT 1.4
-# 伤害扩散半径 (米)
-#!define EVT_DEBUFF_9_RADIUS 20
-
 # 扩散伤害系数 (承受原始伤害的百分比)
 #!define EVT_DEBUFF_9_DMG_FACTOR 0.75
 
