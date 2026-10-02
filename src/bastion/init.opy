@@ -487,7 +487,7 @@ rule "Repel nearby players":
     
     eventPlayer.temp = [player for player in getPlayersInRadius(eventPlayer, 2, Team.1) if player.getHero() == Hero.BASTION]
     if eventPlayer.temp[0] != null:
-        eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - sorted(eventPlayer.temp, lambda player: distance(eventPlayer, player))[0].getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - sorted(eventPlayer.temp, lambda player: distance(eventPlayer, player))[0].getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
 rule "Track kills and attacker":
