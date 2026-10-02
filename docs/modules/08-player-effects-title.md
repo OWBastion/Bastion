@@ -18,7 +18,8 @@
 
 ### `player/achievement.opy`
 
-- 主线成就追踪（如 Lucky/Unlucky/V50/Steel/Hacking）
+- 周年限定挑战追踪：麦迪文（先知实发 10 次，`dlcTimeChallenge[0]`）、哪里有完美的时间线（对局被先知观测后抽 45 个减益，`dlcTimeChallenge[1]`，观测闩为 `prophetObserved`）
+- 「到此一游」为跨局八图聚合，不在局内判定，由平台结算
 - 解锁统一调用 `unlockAchievement()`
 
 ## `effects/`：HUD 与视觉反馈
