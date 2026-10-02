@@ -4,6 +4,7 @@
 #!optimizeStrict
 
 subroutine createBastionBot
+subroutine createBallBot
 
 def createBastionBot():
     @Name "create bastion bots"
@@ -13,16 +14,16 @@ def createBastionBot():
         wait(0.25)
         if len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition) or getTotalTimeElapsed() > 120:
             return
-    if entityExists(minefieldBot) != true:
-        createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
-        wait(0.25)
-        minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
-        minefieldBot.setInvisibility(Invis.ALL)
-        minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)
-        minefieldBot.setStatusEffect(null, Status.UNKILLABLE, 99999)
+    
     if kills == 0 or len(kills) == 0:
         kills = [0, 0, 0, 0, 0, 0]
 
+def createBallBot():
+    @Name "create ball bots"
+
+    createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
+    wait(0.25)
+    minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
 
 rule "create bastion bots when the game starts and there are not enough":
     @Condition len(getPlayersOnHero(Hero.BASTION, Team.1)) < len(bastionPosition)
@@ -52,3 +53,17 @@ rule "SAFE create bastion bots when the game start and there are no bastion bots
         loop()
 
 
+rule "SAFE create ball bots when the game start and there are no ball bots - emergency backup":
+    @Condition len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0
+    @Condition getTotalTimeElapsed() > 15
+    @Condition getNumberOfPlayers(Team.2) > 0
+
+    wait(2)
+    if len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
+        createBallBot()
+        wait(0.496)
+        minefieldBot.setInvisibility(Invis.ALL)
+        minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)
+        minefieldBot.setStatusEffect(null, Status.UNKILLABLE, 99999)
+    if ruleCondition:
+        loop()

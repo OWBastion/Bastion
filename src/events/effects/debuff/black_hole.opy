@@ -28,7 +28,7 @@ rule "Black hole marker":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BLACK_HOLE, eventPlayer.eventEffect == null]) == true
 
 
-    createEffect(getAllPlayers() if eventPlayer.isAlive() else null, Effect.ORB, Color.BLACK, eventPlayer, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers() if eventPlayer.isAlive() else null, Effect.ORB, Color.BLACK, eventPlayer, 2, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != EventId.BLACK_HOLE, eventPlayer.eventDuration)
 

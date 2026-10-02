@@ -622,13 +622,13 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_26_DURATION 20
 # Weight（权重）
-#!define EVT_DEBUFF_26_WEIGHT 0.8
+#!define EVT_DEBUFF_26_WEIGHT 0
 # 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
 #!define EVT_DEBUFF_26_STOP_RADIUS 4
 # 牵引加速度（m/s²，startAcceleration rate）：8 m/s²，远弱于引力异常（≈53 m/s²），可被正常移动挣脱
-#!define EVT_DEBUFF_26_PULL_ACCEL 8
+#!define EVT_DEBUFF_26_PULL_ACCEL 25
 # 牵引最大速度（m/s）：限制持续加速叠出的失控速度
-#!define EVT_DEBUFF_26_PULL_MAX_SPEED 8
+#!define EVT_DEBUFF_26_PULL_MAX_SPEED 50
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -954,7 +954,7 @@ enum MirrorInversionStat:
 
 # --- ID 25 (Mech/Unique): 先知 ---
 # Duration（秒）
-#!define EVT_MECH_25_DURATION 60
+#!define EVT_MECH_25_DURATION 90
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.6
 
