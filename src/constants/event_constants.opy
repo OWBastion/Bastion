@@ -1030,8 +1030,10 @@ enum EquivalentExchangeOffer:
 #!define EVT_MECH_30_WEIGHT 1.6
 # 迷雾半径（米）：跟随持有者的毒雾范围，也是伤害判定范围
 #!define EVT_MECH_30_FOG_RADIUS 12
-# 雾中其他友方每跳损失的最大生命值比例
-#!define EVT_MECH_30_DAMAGE_PERCENT_PER_TICK 0.03
+# 雾中其他友方每跳受到的持有者最大生命值比例伤害
+#!define EVT_MECH_30_DAMAGE_PERCENT_PER_TICK 0.1
+# 雾中其他友方每跳基础伤害
+#!define EVT_MECH_30_DAMAGE_FLAT 25
 # 伤害判定间隔（秒）
 #!define EVT_MECH_30_TICK_INTERVAL 1
 
