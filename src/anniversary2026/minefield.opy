@@ -9,8 +9,6 @@
 #!define MINEFIELD_SUPPORTED_MAPS [Map.ROUTE66, Map.CIRCUIT_ROYAL, Map.SHAMBALI_MONASTERY, Map.HAVANA, Map.DORADO, Map.WATCHPOINT_GIBRALTAR, Map.RIALTO, Map.EICHENWALDE]
 
 rule "Maintain hidden casting bot":
-    @Condition isGameInProgress() == true
-    @Condition __currentMap___ in MINEFIELD_SUPPORTED_MAPS
     @Condition len(minefieldPosition) > 0
     @Condition len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition)
     @Condition entityExists(minefieldBot) != true
@@ -24,8 +22,6 @@ rule "Maintain hidden casting bot":
 
 
 rule "Cast minefield on configured positions":
-    @Condition isGameInProgress() == true
-    @Condition __currentMap___ in MINEFIELD_SUPPORTED_MAPS
     @Condition len(minefieldPosition) > 0
     @Condition entityExists(minefieldBot) == true
 
