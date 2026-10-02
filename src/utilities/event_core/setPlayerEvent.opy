@@ -29,8 +29,14 @@ def commitPlayerEventCategory():
     elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventCount[EventType.DEBUFF]++
         eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
+        # 周年挑战 66：对局已被先知观测后才累计减益抽取
+        if prophetObserved == true:
+            eventPlayer.dlcTimeChallenge[1]++
     elif eventPlayer.eventType == EventType.MECH:
         eventPlayer.eventCount[EventType.MECH]++
+        # 周年挑战 65：先知实发计数
+        if eventPlayer.eventId == EventId.PROPHET:
+            eventPlayer.dlcTimeChallenge[0]++
     else:
         return
     eventPlayer.eventCategoryCommitted = true

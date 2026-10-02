@@ -63,9 +63,12 @@ rule "Destroy prophet next-event text when player leaves":
     eventPlayer.prophetTextId = null
 
 # 先知集合低频缓存：文本可见性与坍缩条件每帧求值，只读该变量。
+# 顺手维护 prophetObserved 对局闩：先知一旦出现即锁存，供周年挑战统计闩后抽到的减益。
 rule "Refresh prophet viewer cache":
     @Event global
 
     while true:
         prophetViewers = getPlayers(Team.2).filter(lambda p: p.eventId == EventId.PROPHET)
+        if len(prophetViewers) > 0:
+            prophetObserved = true
         wait(1)
