@@ -8,6 +8,10 @@ Bastion owns gameplay implementation, Workshop / OverPy source, game-side UI, bu
 
 Platform-owned metadata is consumed through the platform contract. Do not duplicate platform business truth here or move platform-owned behavior into game code for implementation convenience.
 
+## Contribution to the organization goal
+
+Is the product the [organization product goal](https://github.com/OWBastion/.github/blob/main/docs/product-goal.md) protects: a maintained Bastion Escape 3 that keeps fixed-route runs, event-driven change, and map knowledge, with new and reworked events judged by decision space, replayability, and Workshop stability and performance. Build and Agents API sync exist to ship that content reliably, not as independent systems.
+
 ## Repository delivery constraints
 
 Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/main/docs/pr-delivery.md), [issue readiness and preflight](https://github.com/OWBastion/.github/blob/main/docs/issue-readiness.md), and `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
