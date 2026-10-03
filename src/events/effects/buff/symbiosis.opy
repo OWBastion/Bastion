@@ -90,12 +90,12 @@ rule "[VishkarEvent]: 有我有你（附身）":
 
     eventPlayer.clearStatusEffect(Status.PHASED_OUT)
 
-    if eventPlayer.getHero() in phaseHero[0]:
-        eventPlayer.allowButton(Button.ABILITY_1)
-        eventPlayer.setAbility1Enabled(true)
-    if eventPlayer.getHero() in phaseHero[1]:
-        eventPlayer.allowButton(Button.ABILITY_2)
-        eventPlayer.setAbility2Enabled(true)
+    # 附身期间可能已换英雄：禁用/按钮标志是玩家级粘性覆盖，会残留在当前英雄上，
+    # 因此按当前英雄的大厅配置恢复（禁用技能保持关），而不是按 phaseHero 猜恢复范围
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.setAbility1Enabled(eventPlayer.getHero() not in [Hero.TORBJORN, Hero.SYMMETRA])
+    eventPlayer.setAbility2Enabled(eventPlayer.getHero() != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
     eventPlayer.possess = null
     wait(2)
 
