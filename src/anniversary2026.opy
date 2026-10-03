@@ -12,3 +12,4 @@
 #!include "../core.opy"
 #!include "../composition/profile-cn-features.opy"
 #!include "../anniversary2026/minefield.opy"
+#!include "../anniversary2026/berserker_heart.opy"
