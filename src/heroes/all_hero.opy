@@ -15,3 +15,5 @@
 #!include "./lifeweaver.opy"
 
 #!include "./juno.opy"
+
+#!include "./torbjorn.opy"
