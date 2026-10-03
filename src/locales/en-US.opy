@@ -352,8 +352,8 @@
 #!define STR_HUD_PANEL_BOTTOM "└───────────┘"
 
 # Stats Panel Content
-# {0}=Deaths/Skips, {1}=Event Stats, {2}=Player Attributes, {3}=Total Time, {4}=Completion Code
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
+# {0}=Deaths/Skips, {1}=Event Stats, {2}=Total Time, {3}=Completion Code
+#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}"
 
 # Deaths/Skips
 # {0}=Deaths, {1}=Skips

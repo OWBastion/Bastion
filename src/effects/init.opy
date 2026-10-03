@@ -40,22 +40,14 @@ rule "initialize effects":
 
         STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]),
         
-        # 2. 玩家属性
-        STR_HUD_ATTR_PANEL.format(
-            round(localPlayer.heart_steel[HeartSteelData.STACKS]),
-            localPlayer.mod_speed_perma,
-            negToPos(localPlayer.mod_dmg_perma),
-            localPlayer.mod_heal_perma + localPlayer.mod_heal_event
-        ),
-
-        # 3. 总耗时 (仅在通关后显示)
+        # 2. 总耗时 (仅在通关后显示)
         STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(
             STR_TIME_UNIT_HOUR.format(floor(localPlayer.winnerTime / 3600)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 3600 else "", 
             STR_TIME_UNIT_MIN.format(floor(localPlayer.winnerTime % 3600 / 60)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 60 else "", 
             STR_TIME_UNIT_SEC.format(floor(localPlayer.winnerTime % 60)) if localPlayer.winnerTime != null else STR_TIME_UNIT_ZERO_SEC
         )) if localPlayer.isWinner else "",
 
-        # 4. 房间级通关代码 (首个玩家通关后对所有参与者可见)
+        # 3. 房间级通关代码 (首个玩家通关后对所有参与者可见)
         "\n{0}\n{1}".format(masteryRunCode, localPlayer) if localPlayer.isWinner else ""
 
     ), HudPosition.LEFT, 7, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
@@ -63,6 +55,28 @@ rule "initialize effects":
     
     # 边框 Bottom
     hudSubheader(localPlayer, STR_HUD_PANEL_BOTTOM, HudPosition.LEFT, 8, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+
+    # 第一人称属性 HUD：全局只创建一次，位置由各客户端的 localPlayer 重估。
+    createInWorldText(
+        localPlayer if localPlayer.isAlive() and not localPlayer.third else null,
+        STR_HUD_ATTR_PANEL.format(
+            round(localPlayer.heart_steel[HeartSteelData.STACKS]),
+            localPlayer.mod_speed_perma,
+            negToPos(localPlayer.mod_dmg_perma),
+            localPlayer.mod_heal_perma + localPlayer.mod_heal_event
+        ),
+        updateEveryFrame(localPlayer.getEyePosition() + 100 * (
+            (-0.8 - 0.2) * directionFromAngles(
+                horizontalAngleOfDirection(localPlayer.getFacingDirection()),
+                verticalAngleOfDirection(localPlayer.getFacingDirection()) - 90
+            ) + 3 * localPlayer.getFacingDirection()
+        )),
+        2,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
+        Color.WHITE,
+        SpecVisibility.NEVER
+    )
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # Random Events 4.0 HUD
