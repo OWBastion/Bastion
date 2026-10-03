@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: MechEventId.VALKYRIE_DESCENT
+# Event: EventId.VALKYRIE_DESCENT
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 瓦尔基里降临":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
     
     eventPlayer.sizeHealth = EVT_MECH_13_SIZE_HEALTH
     setPlayerHP()
@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 瓦尔基里降临":
 rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
     @Condition attacker != eventPlayer
     @Condition eventPlayer.getUltCharge() < 100
 
@@ -37,7 +37,7 @@ rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
 rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
     
     if eventPlayer.eventTargetHP == 0:
         eventPlayer.eventTargetHP = eventPlayer.getMaxHealth()

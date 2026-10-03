@@ -4,13 +4,13 @@
 #!optimizeStrict
 #!rulePrefix "Event/任务：菲迪皮德斯之力"
 
-# Event: BuffEventId.PHEIDIPPIDES_TRIAL
+# Event: EventId.PHEIDIPPIDES_TRIAL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Track distance":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHEIDIPPIDES_TRIAL, eventPlayer.getSpeed() != 0, eventPlayer.eventMission <= EVT_15_DISTANCE_GOAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL, eventPlayer.getSpeed() != 0, eventPlayer.eventMission <= EVT_15_DISTANCE_GOAL]) == true
     
     wait(EVT_15_DISTANCE_INC, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventMission += 0.5
@@ -21,9 +21,9 @@ rule "Track distance":
 rule "Resolve mission":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.PHEIDIPPIDES_TRIAL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL]) == true
     
-    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId == null, eventPlayer.eventDuration + 1.5)
+    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId == -1, eventPlayer.eventDuration + 1.5)
     wait()
     if eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 成功！")

@@ -4,13 +4,13 @@
 #!optimizeStrict
 #!rulePrefix "Event/向我 靠拢"
 
-# Event: BuffEventId.REGROUP_CALL
+# Event: EventId.REGROUP_CALL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Mark protected allies":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.REGROUP_CALL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.REGROUP_CALL]) == true
     
     wait(EVT_13_CHECK_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventEffectPlayers = [player for player in getLivingPlayers(Team.1) if distance(eventPlayer, player) <= EVT_13_RADIUS and isInLoS(eventPlayer, player) == true and not player.hasStatus(Status.INVINCIBLE)]

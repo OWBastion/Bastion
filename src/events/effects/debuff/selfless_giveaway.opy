@@ -4,13 +4,13 @@
 #!optimizeStrict
 #!rulePrefix "Event/舍己为人"
 
-# Event: DebuffEventId.SELFLESS_GIVEAWAY
+# Event: EventId.SELFLESS_GIVEAWAY
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Resolve giveaway":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.SELFLESS_GIVEAWAY]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SELFLESS_GIVEAWAY]) == true
     
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
@@ -28,7 +28,7 @@ rule "Rebuild max health":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
     
-    if all([eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL_PRO]) == true:
+    if eventPlayer.eventId == EventId.HEART_OF_STEEL_PRO:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_16_HP_MULTIPLIER)
         wait(getAverageServerLoad() / 100 * 0.032)

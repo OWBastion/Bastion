@@ -22,32 +22,28 @@
 
 ## 事件数据结构
 
-事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight`、`eventCatalogType` 和 `eventCatalogEffectId`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
+事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight` 和 `eventCatalogType`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
+
+统一目录槽位是唯一事件身份：`eventPlayer.eventId` 直接存放选中的目录槽位，效果/英雄/系统规则只比较槽位本身，不再与 `eventType` 组成复合键。槽位统一拼写为 `EventId.X`（`src/constants/event_ids.opy` 单一枚举，成员按 Buff → Debuff → Mech 顺序声明，声明顺序即槽位号）；`-1` 保留为“无事件”哨兵。事件类别在 `eventConfig*.opy` 注册时写入 `eventCatalogType[EventId.X]`；`eventPlayer.eventType` 是 `setPlayerEvent()` 回填的派生类别状态，仅供类别计数/幸运值与 HUD 图标等分类消费，不得出现在派发条件中。
 
 若 `eventCatalogType[id]` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
 
 玩家态：
 
-- `eventId`, `eventLastId`（最近 N 次全局目录索引）, `eventType`, `eventDuration`, `eventDurationHud`
+- `eventId`（当前事件的统一目录槽位；`-1` 表示无事件）, `eventLastId`（最近 N 次全局目录索引）, `eventType`（派生类别状态）, `eventDuration`, `eventDurationHud`
 - `eventCount[3]`（各类别计数；由 `commitPlayerEventCategory()` 在类别确定后更新）
 - `eventLucky`（幸运倾向累计）
 - `eventForceRoll/eventForceCount`（仅作为现有作弊链的类别资格约束）
 - `eventCandidateIndex`, `eventTempIndex`（本次抽样的目录索引与候选池）
 
-## 机制事件 ID（Enum 管理）
+## 事件 ID（统一 Enum 管理）
 
-- 机制事件使用 `src/constants/event_ids_mech.opy` 的 `MechEventId` enum 管理。
-- `config/eventConfig*.opy` 与 `events/effects/mechEffects.opy` 只引用 `MechEventId.<MEMBER>`，不直接写裸数字 ID。
+- 全部事件使用 `src/constants/event_ids.opy` 的单一 `EventId` enum 管理，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位号。
+- `config/eventConfig*.opy` 与 `events/effects/*` 只引用 `EventId.<MEMBER>`，不直接写裸数字 ID，也不再按类别做偏移拼写。
+- 事件类别不在 enum 中体现：注册时由 `eventCatalogType[EventId.X] = EventType.<类别>` 写入，分类消费读取 `eventCatalogType`。
 - 当前策略为“源码版本内自洽”：删除中间 enum 成员时，后续成员自动前移，相关规则引用会随编译同步。
-- 若新增机制事件，优先在 enum 末尾追加成员，再补配置与效果规则。
+- 若新增事件，在对应类别分节末尾追加成员，再补配置与效果规则。
 - 代码注释需独立成行，避免 `代码 # 注释` 的行尾注释写法，以免触发 OverPy 语法兼容问题。
-
-## 增益与减益事件 ID（Enum 管理）
-
-- 增益事件使用 `src/constants/event_ids_buff.opy` 的 `BuffEventId` enum 管理。
-- 减益事件使用 `src/constants/event_ids_debuff.opy` 的 `DebuffEventId` enum 管理。
-- `config/eventConfig*.opy`、`events/effects/buffEffects.opy`、`events/effects/debuffEffects.opy` 只引用 enum 成员，不直接写裸数字 ID。
-- 与机制组一致，当前策略为“源码版本内自洽”：删除中间 enum 成员时，后续成员自动前移。
 
 ## 配置文件差异
 

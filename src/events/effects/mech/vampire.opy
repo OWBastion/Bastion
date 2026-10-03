@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: MechEventId.VAMPIRE
+# Event: EventId.VAMPIRE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 吸血鬼":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.VAMPIRE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VAMPIRE]) == true
 
     eventPlayer.passiveRegenBlocked = true
     eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer]
@@ -29,7 +29,7 @@ rule "[VishkarEvent]: 吸血鬼":
 rule "[VishkarEvent]: 吸血鬼击杀增益":
     @Event playerDied
     @Team 1
-    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventType == EventType.MECH, attacker.eventId == MechEventId.VAMPIRE]) == true
+    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventId == EventId.VAMPIRE]) == true
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)

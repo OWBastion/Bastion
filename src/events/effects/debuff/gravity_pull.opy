@@ -4,25 +4,25 @@
 #!optimizeStrict
 #!rulePrefix "Event/引力异常"
 
-# Event: DebuffEventId.GRAVITY_PULL
+# Event: EventId.GRAVITY_PULL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Create effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL, eventPlayer.eventEffect == null]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GRAVITY_PULL, eventPlayer.eventEffect == null]) == true
     
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != DebuffEventId.GRAVITY_PULL or eventPlayer.eventType != EventType.DEBUFF, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.GRAVITY_PULL, eventPlayer.eventDuration)
 
 
 rule "Pull toward bastion":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.DEBUFF, eventPlayer.eventId == DebuffEventId.GRAVITY_PULL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.GRAVITY_PULL]) == true
     @Condition getPlayers(Team.2)[0] != null
     
     if eventPlayer.mod_speed_event != 0:
