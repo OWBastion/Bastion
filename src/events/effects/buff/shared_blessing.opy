@@ -7,18 +7,19 @@
 # Event: BuffEventId.SHARED_BLESSING
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 #
-# 绑定：EVT_34_BIND_RADIUS 内最近的未通关友方按住 INTERACT 满 EVT_INTERACT_HOLD_TIME 即绑定（同"在哪里跌倒"的交互判定）。
+# 绑定：持有者按住 INTERACT 满 EVT_INTERACT_HOLD_TIME、EVT_34_BIND_RADIUS 内存在未通关友方即绑定最近者
+#（描述文案为持有者"长按互动与最近的队友绑定"，按键主体是持有者而非队友）。
 # 判定同钢化你心：绑定时记录双方 heroNumber 基准（eventMission=自己，eventLoopCount=友方），双方各推进一格即双双过线。
 # eventMissionGoal>0 兼作"已绑定"标记，防止条件残留导致重复触发；未绑定到期由事件自然到期处理。
 
-# 绑定候选：半径内未通关、按住互动键的存活友方（排除自己）
+# 绑定候选：半径内未通关的存活友方（排除自己）
 macro Player.bindCandidates():
-    getLivingPlayers(Team.2).filter(lambda p: p != self and p.hasSpawned() and not p.isWinner and distance(p, self) <= EVT_34_BIND_RADIUS and p.isHoldingButton(Button.INTERACT))
+    getLivingPlayers(Team.2).filter(lambda p: p != self and p.hasSpawned() and not p.isWinner and distance(p, self) <= EVT_34_BIND_RADIUS)
 
 rule "[VishkarEvent]: 有福同享（绑定）":
     @Event eachPlayer
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.eventDuration > 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.eventDuration > 0, eventPlayer.isHoldingButton(Button.INTERACT)]) == true
     @Condition len(eventPlayer.bindCandidates()) > 0
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
