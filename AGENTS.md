@@ -10,7 +10,7 @@ Platform-owned metadata is consumed through the platform contract. Do not duplic
 
 ## Contribution to the organization goal
 
-Is the product the [organization product goal](https://github.com/OWBastion/.github/blob/main/docs/product-goal.md) protects: a maintained Bastion Escape 3 that keeps fixed-route runs, event-driven change, and map knowledge, with new and reworked events judged by decision space, replayability, and Workshop stability and performance. Build and Agents API sync exist to ship that content reliably, not as independent systems.
+Is the product the [organization product goal](../.github/docs/product-goal.md) protects: a maintained Bastion Escape 3 that keeps fixed-route runs, event-driven change, and map knowledge, with new and reworked events judged by decision space, replayability, and Workshop stability and performance. Build and Agents API sync exist to ship that content reliably, not as independent systems.
 
 ## Repository delivery constraints
 
