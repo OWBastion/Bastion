@@ -13,8 +13,10 @@ rule "Maintain hidden casting bot":
     @Condition len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition)
     @Condition entityExists(minefieldBot) != true
 
-    createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
-    wait(0.25)
+    # 场上已有未被追踪的球时重绑而非再造（与 createBastionBot.opy 紧急兜底一致）
+    if len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
+        createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
+        wait(0.25)
     minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1)[0]
     minefieldBot.setInvisibility(Invis.ALL)
     minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)

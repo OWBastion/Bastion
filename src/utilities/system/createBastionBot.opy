@@ -54,13 +54,17 @@ rule "SAFE create bastion bots when the game start and there are no bastion bots
 
 
 rule "SAFE create ball bots when the game start and there are no ball bots - emergency backup":
-    @Condition len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0
+    @Condition entityExists(minefieldBot) != true
     @Condition getTotalTimeElapsed() > 15
     @Condition getNumberOfPlayers(Team.2) > 0
 
     wait(2)
-    if len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
-        createBallBot()
+    if entityExists(minefieldBot) != true:
+        # 场上可能残留未被追踪的球（双路径并发创建等）：优先重绑现有球而非再造一只
+        if len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
+            createBallBot()
+        else:
+            minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
         wait(0.496)
         minefieldBot.setInvisibility(Invis.ALL)
         minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)
