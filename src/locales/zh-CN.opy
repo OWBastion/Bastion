@@ -251,6 +251,8 @@
 #!define STR_EVT_MECH_28_DESC "长按{0}消耗{1}层心之钢（约{2}%最大生命值）\n下一个事件将为最近一次可循环的增益"
 #!define STR_EVT_MECH_28_TARGET "循环往复：{0}"
 #!define STR_EVT_MECH_28_NO_TARGET "没有可循环的增益"
+#!define STR_EVT_MECH_29_TITLE "赌徒：唯手熟尔"
+#!define STR_EVT_MECH_29_DESC "按下{0}{1}%概率：\n永久获得/损失{2}层心之钢"
 #!define STR_EVT_MECH_30_TITLE "有点松弛"
 #!define STR_EVT_MECH_30_DESC "产生跟随自身的迷雾，遮挡友方视野\n雾中其他友方每秒受到{0}%持有者最大生命值+{1}点伤害"
 
