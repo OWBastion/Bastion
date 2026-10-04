@@ -52,7 +52,7 @@
 
 # Team 1 - Wrecking Ball（周年庆地雷禁区专用隐藏 Bot：延长地雷持续时间；承伤比例独立于 Team.1 通用档便于扫雷）
 #!define TEAM1_WRECKINGBALL_ULT_DURATION_PCT 500
-#!define TEAM1_WRECKINGBALL_DAMAGE_RECEIVED_PCT 100
+#!define TEAM1_WRECKINGBALL_DAMAGE_RECEIVED_PCT 75
 
 # =========================
 # All Teams（跨阵营英雄参数）
