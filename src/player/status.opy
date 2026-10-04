@@ -15,6 +15,7 @@ subroutine finishResetProgress
 def resetPlayerEventState():
     @Name "[VishkarEvent]: reset player event state"
 
+    eventPlayer.eventCompatibleBasePool = null
     clearPlayerEvent()
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.REGROUP_CALL])
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL])
@@ -90,6 +91,7 @@ def finishResetProgress():
     eventPlayer.stopForcingCurrentHero()
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, 1))
+    refreshCompatibleEventPool()
 
 
 rule "Track progression death":
