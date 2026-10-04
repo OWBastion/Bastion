@@ -46,6 +46,7 @@ rule "[VishkarEvent]: 战地医生 (结束判定)":
         smallMessage(eventPlayer, "  {0}  奖励：永久获得 {1}% 治疗强度".format(abilityIconString(Hero.MERCY, Button.ULTIMATE), EVT_32_REWARD_HEAL_PERMA))
         eventPlayer.mod_heal_perma += EVT_32_REWARD_HEAL_PERMA
         updatePlayerStats()
+        eventPlayer.dlcTimeChallenge[5] = 1
         eventPlayer.eventDuration = 0
     else:
         bigMessage(eventPlayer, "任务：战地医生 失败")

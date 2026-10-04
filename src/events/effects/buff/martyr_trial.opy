@@ -49,6 +49,7 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
         smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))
         eventPlayer.mod_dmg_perma += EVT_21_REWARD_DMG_PERMA
         updatePlayerStats()
+        eventPlayer.dlcTimeChallenge[3] = 1
         eventPlayer.eventDuration = 0
 
 rule "[VishkarEvent]: 任务：殉道者 (通关结算)":
@@ -61,4 +62,5 @@ rule "[VishkarEvent]: 任务：殉道者 (通关结算)":
     smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))
     eventPlayer.mod_dmg_perma += EVT_21_REWARD_DMG_PERMA
     updatePlayerStats()
+    eventPlayer.dlcTimeChallenge[3] = 1
     eventPlayer.eventDuration = 0

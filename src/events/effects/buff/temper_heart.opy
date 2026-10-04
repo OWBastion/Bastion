@@ -36,6 +36,7 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
         eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] = EVT_31_STACK_MULTIPLIER
         eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK] = EVT_8_HP_PERCENT_PER_STACK + EVT_31_PERCENT_PER_STACK_BONUS
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.COMPLETED
+        eventPlayer.dlcTimeChallenge[4] = 1
         setPlayerHP()
         eventPlayer.eventDuration = 0
     else:

@@ -51,6 +51,7 @@ rule "[VishkarEvent]: 有福同享（结算）":
             eventPlayer.target.setPlayerHP = true
         eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
         setPlayerHP()
+        eventPlayer.dlcTimeChallenge[6] = 1
         eventPlayer.eventDuration = 0
     elif eventPlayer.eventId == EventId.SHARED_BLESSING:
         bigMessage(eventPlayer, "有福同享 失败")
@@ -63,11 +64,12 @@ rule "[VishkarEvent]: 有福同享（结算）":
 rule "[VishkarEvent]: 有福同享（通关结算·未绑定）":
     @Event eachPlayer
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.isWinner == true, eventPlayer.eventDuration > 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.isWinner == true, eventPlayer.eventDuration > 0]) == true
 
     # 未绑定时不产生队友奖励，仅结算持有者本人任务
     bigMessage(eventPlayer, "有福同享 成功！")
     smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
     setPlayerHP()
+    eventPlayer.dlcTimeChallenge[6] = 1
     eventPlayer.eventDuration = 0
