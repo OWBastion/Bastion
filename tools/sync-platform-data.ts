@@ -1136,10 +1136,10 @@ export function renderPlatformMapRevisionMapSources({
 
 function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
   const entries = new Map<string, { key: string; type: EventType }>();
+  const pattern = /eventCatalogType\[\s*EventId\.([A-Z0-9_]+)\s*\]\s*=\s*EventType\.(BUFF|DEBUFF|MECH)/g;
   for (const source of configSources) {
-    for (const [type, enumType] of [['buff', 'BuffEventId'], ['debuff', 'DebuffEventId'], ['mech', 'MechEventId']] as const) {
-      const pattern = new RegExp(`eventCatalogEffectId\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.([A-Z0-9_]+)\\s*\\]\\s*=`, 'g');
-      for (const match of source.matchAll(pattern)) entries.set(match[1], { key: match[1], type });
+    for (const match of source.matchAll(pattern)) {
+      entries.set(match[1], { key: match[1], type: match[2].toLowerCase() as EventType });
     }
   }
   return [...entries.values()];
@@ -1203,16 +1203,15 @@ function replaceOverPyDefine(source: string, name: string, value: string | numbe
 
 function resolveEventMacros(eventKey: string, eventType: string, configSources: string[]) {
   const type = eventType.toUpperCase();
-  const enumType = type === 'BUFF' ? 'BuffEventId' : type === 'DEBUFF' ? 'DebuffEventId' : 'MechEventId';
   const escapedKey = eventKey.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
   const titlePattern = new RegExp(
-    `eventName\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
+    `eventName\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
   );
   const durationPattern = new RegExp(
-    `eventDuration\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+    `eventDuration\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
   );
   const weightPattern = new RegExp(
-    `eventCatalogWeight\\[\\s*(?:(?:EVENT_[A-Z]+_OFFSET|BUFF_EVENT_ID_COUNT|DEBUFF_EVENT_ID_COUNT|\\d+)\\s*\\+\\s*)*${enumType}\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
+    `eventCatalogWeight\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
   );
   let id: string | undefined;
   let duration: string | undefined;

@@ -4,13 +4,13 @@
 #!optimizeStrict
 #!rulePrefix "Event/极限挑战"
 
-# Event: MechEventId.EXTREME_CHALLENGE
+# Event: EventId.EXTREME_CHALLENGE
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Apply challenge":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EXTREME_CHALLENGE]) == true
     
     waitUntil(eventPlayer.isAlive(), Math.INFINITY)
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
@@ -32,7 +32,7 @@ rule "Apply challenge":
 rule "Clamp health":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.EXTREME_CHALLENGE]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EXTREME_CHALLENGE]) == true
     @Condition eventPlayer.healthAbovePercent(EVT_MECH_0_HP_PERCENT * 100) == true
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)

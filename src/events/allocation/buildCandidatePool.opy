@@ -8,14 +8,14 @@ subroutine buildCandidatePool
 # Event IDs in these groups share a hard eligibility gate. Groups only control
 # candidate inclusion; weights and selection remain attached to each event.
 macro EVENT_GROUP_PHASE_TRIGGER = [
-    BuffEventId.PHASE_SURGE,
-    BuffEventId.BODYGUARD
+    EventId.PHASE_SURGE,
+    EventId.BODYGUARD
 ]
 
 macro EVENT_GROUP_HEART_STEEL = [
-    BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_SPEED_CHALLENGE,
-    BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_HEART_OF_STEEL,
-    BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_ALL_IN_ART_5
+    EventId.GAMBLER_SPEED_CHALLENGE,
+    EventId.GAMBLER_HEART_OF_STEEL,
+    EventId.GAMBLER_ALL_IN_ART_5
 ]
 
 # Whether this hero has any supported input that can activate a phase trigger.
@@ -60,13 +60,13 @@ def buildCandidatePool():
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
         eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in EVENT_GROUP_HEART_STEEL)
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
-        eventPlayer.eventTempIndex.remove(BuffEventId.TEMPER_HEART)
+        eventPlayer.eventTempIndex.remove(EventId.TEMPER_HEART)
     if eventPlayer.eventForceRoll == EVT_MECH_8_FORCE_ROLL:
-        eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DebuffEventId.SELFLESS_GIVEAWAY)
+        eventPlayer.eventTempIndex.remove(EventId.SELFLESS_GIVEAWAY)
     if gamblerHeartsteelJackpot < EVT_MECH_24_POOL_MIN or eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_24_PLAYER_STACKS_MIN:
-        eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.GAMBLER_WINNER_TAKE_ALL)
+        eventPlayer.eventTempIndex.remove(EventId.GAMBLER_WINNER_TAKE_ALL)
     if eventPlayer.mod_dmg_perma >= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
-        eventPlayer.eventTempIndex.remove(BUFF_EVENT_ID_COUNT + DEBUFF_EVENT_ID_COUNT + MechEventId.MIRROR_INVERSION)
+        eventPlayer.eventTempIndex.remove(EventId.MIRROR_INVERSION)
 
     if eventPlayer.eventLastId != null:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)

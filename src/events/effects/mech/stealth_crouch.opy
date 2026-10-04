@@ -4,7 +4,7 @@
 #!optimizeStrict
 #!rulePrefix "Event/悄悄地进村"
 
-# Event: MechEventId.STEALTH_CROUCH
+# Event: EventId.STEALTH_CROUCH
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "Create effect":
@@ -12,20 +12,19 @@ rule "Create effect":
     @Team 1
     @Condition all([
         eventPlayer.hasSpawned(),
-        eventPlayer.eventType == EventType.MECH,
-        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.eventId == EventId.STEALTH_CROUCH,
         eventPlayer.eventEffect == null
     ]) == true
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) == true else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId != MechEventId.STEALTH_CROUCH or eventPlayer.eventType != EventType.MECH, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.STEALTH_CROUCH, eventPlayer.eventDuration)
 
 
 rule "Apply stealth crouch":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.MECH, eventPlayer.eventId == MechEventId.STEALTH_CROUCH]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.STEALTH_CROUCH]) == true
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
     
     eventPlayer.targetSilence = true
@@ -43,8 +42,7 @@ rule "Drain health":
     @Team 1
     @Condition all([
         eventPlayer.hasSpawned(),
-        eventPlayer.eventType == EventType.MECH,
-        eventPlayer.eventId == MechEventId.STEALTH_CROUCH,
+        eventPlayer.eventId == EventId.STEALTH_CROUCH,
         eventPlayer.isHoldingButton(Button.CROUCH) == true,
         eventPlayer.isMoving(),
         eventPlayer.getSpeed() != 0

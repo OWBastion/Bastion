@@ -3,13 +3,13 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-# Event: BuffEventId.HEART_OF_STEEL
+# Event: EventId.HEART_OF_STEEL
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
 
 rule "[VishkarEvent]: 心之钢 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.HEART_OF_STEEL]) == true
     
     wait()
     if eventPlayer.eventEffect != null:
@@ -23,7 +23,7 @@ rule "[VishkarEvent]: 心之钢 Effect":
 rule "[VishkarEvent]: 心之钢":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.HEART_OF_STEEL]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.HEART_OF_STEEL]) == true
     @Condition (attacker.getHero() == Hero.BASTION or eventPlayer.isWinner) == true
     
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_8_HP_LAYER_PER_DEATH * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]

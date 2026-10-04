@@ -20,7 +20,7 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 
 按固定顺序删除，禁止跳步：
 
-1. 枚举：从 `src/constants/event_ids_*.opy` 删除目标枚举项（其余顺序保持不变，不重排）。
+1. 枚举：从 `src/constants/event_ids.opy` 删除目标 `EventId` 枚举项及其 `# legacy numeric id:` 注释行（其余顺序保持不变，不重排）。
 2. 常量：从 `src/constants/event_constants.opy` 删除目标 `EVT_*` 常量块。
 3. 本地化：从 `src/locales/zh-CN.opy` 与 `src/locales/en-US.opy` 删除目标 `STR_EVT_*` 键。
 4. 配置：从 `src/config/eventConfig.opy` 与 `src/config/eventConfigDev.opy` 删除目标事件注册、append、dev setting。
