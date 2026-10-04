@@ -23,7 +23,7 @@ The current settlement HUD is composed of a left progress/completion area, a lef
 | Game version | `Ver <VERSION>` / `版本 <VERSION>` | Shown to all players in the right-side version line. The value is the released Bastion `VERSION`. |
 | Elapsed time | `Total Time: <hours/minutes/seconds>` / `通关总计耗时 <hours/分/秒>` | Shown in the statistics panel for a winning player and included in the completion announcement. Zero-hour/minute units are omitted according to the locale format. |
 | Deaths and skips | `Deaths/Skips <deaths>/<skips>` / `总计阵亡/跳过 <deaths>/<skips>` | Shown in the statistics panel. Values are the current player's run counters. |
-| Run code | Three numeric groups in `NNNN-NNNN-NNNN` format | Generated once during game initialization and kept as the room-level `masteryRunCode`. The current HUD appends it to the settlement statistics/version display only when the local player is a winner. Older screenshots produced before `settlement-hud-v1` do not contain this field. |
+| Run code | Three numeric groups in `NNNN-NNNN-NNNN` format | Generated once when the first player completes the run and kept unchanged as the room-level `masteryRunCode`. Each group's leading digit is a non-zero random digit; the four digits of `round(total event-catalog weight * 100)` are embedded at fixed positions (group 1 digits 2-3, group 2 digit 3, group 3 digit 4) so the room's effective event-weight total can be recovered from the code; all remaining digits are random. The current HUD appends it to the settlement statistics/version display only when the local player is a winner. Older screenshots produced before `settlement-hud-v1` do not contain this field. |
 | Event statistics | `Buff/Debuff/Total <buff>/<debuff>/<total>` / localized equivalent | Shown in the statistics panel for the current player. |
 | Player attributes | `Heartsteel/Speed/DR/Heal% <stacks>/<speed>/<damage reduction>/<healing>` / localized equivalent | Shown in the statistics panel for the current player. |
 | Achievement/title evidence | Earned title text followed by a completion checkmark | Shown in the left achievement area when achievements are enabled and the player has earned achievements. When disabled, the HUD shows the localized disabled warning instead. |
@@ -52,5 +52,5 @@ Use the second form for changes to field grouping, localized labels, value forma
 
 - `src/effects/init.opy`: persistent completion, statistics, achievement, map/difficulty, and version HUD emission
 - `src/main.opy` and `src/en-US.main.opy`: completion state, announcement, and elapsed-time emission
-- `src/env/game.opy`: room-level `masteryRunCode` initialization
+- `src/env/game.opy`: room-level `masteryRunCode` reset; `src/core.opy`: generation on first completion
 - `src/locales/en-US.opy` and `src/locales/zh-CN.opy`: localized visible labels and formats
