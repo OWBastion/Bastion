@@ -15,6 +15,7 @@ rule "[VishkarEvent]: 在哪里跌倒（预备态）":
     if eventPlayer.eventMission == 1:
         eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
         eventPlayer.eventMission = 0
+        eventPlayer.targetSilence = false
         kill(eventPlayer, eventPlayer)
 
 rule "[VishkarEvent]: 在哪里跌倒":
@@ -28,6 +29,8 @@ rule "[VishkarEvent]: 在哪里跌倒":
         return
     # eventMission marks a pending rescue so unrelated knockdowns are not treated as this event's state.
     eventPlayer.eventMission = 1
+    # 倒地期间不参与堡垒索敌；复用 targetSilence（救起或事件清理时复位）
+    eventPlayer.targetSilence = true
     eventPlayer.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, eventPlayer.eventDurationHud)
     smallMessage(getPlayers(Team.2), STR_EVT_BUFF_33_DOWNED.format(eventPlayer, EVT_33_RESCUE_RADIUS, Button.INTERACT, EVT_33_RESCUE_TIME))
 
@@ -42,4 +45,5 @@ rule "[VishkarEvent]: 在哪里跌倒（救援）":
         eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
         eventPlayer.setHealth(eventPlayer.maxHealthPercent(EVT_33_REVIVE_HEALTH_RATIO * 100))
         eventPlayer.eventMission = 0
+        eventPlayer.targetSilence = false
         smallMessage(eventPlayer, STR_EVT_BUFF_33_RESCUED.format(percent(EVT_33_REVIVE_HEALTH_RATIO)))
