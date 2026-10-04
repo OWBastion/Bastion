@@ -41,7 +41,11 @@ rule "Cycle dev rainbow":
     wait(0.016, Wait.ABORT_WHEN_FALSE)
     eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(rgbList)
     chaseOverTime(eventPlayer.rgb_vect, rgbList[eventPlayer.info_pvar], 2.5, ChaseTimeReeval.NONE)
-    waitUntil(eventPlayer.rgb_vect == rgbList[eventPlayer.info_pvar], Math.INFINITY)
+    waitUntil(
+        eventPlayer.rgb_vect == rgbList[eventPlayer.info_pvar]
+        or not eventPlayer.rgb_activated,
+        Math.INFINITY
+    )
     if ruleCondition:
         loop()
     stopChasingVariable(eventPlayer.rgb_vect)
@@ -72,4 +76,3 @@ rule "Cycle palette":
     wait()
     stopChasingVariable(eventPlayer.rgb_vect)
     eventPlayer.info_pvar = 0
-    eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
