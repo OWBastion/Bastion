@@ -40,13 +40,17 @@ rule "[VishkarEvent]: Challenge 66 Track (QUANTUM_UNLUCKY)":
     eventPlayer.unlockAchievement(66)
 
 # 周年挑战 67「我滴任务完成辣」：单局内全部启用任务类事件均至少成功结算一次
-# 集合以真实成功结算为准（含通关自动成功）；绘制失败/超时/未抽取不计入
+# 槽位以真实成功结算为准（含通关自动成功）；抽取失败/超时/未抽取不计入
 rule "[VishkarEvent]: Challenge 67 Track (ALL_TASKS_DONE)":
     @Event eachPlayer
     @Team 2
     @Condition hashTag == true
     @Condition len(challengeTitleIds) != 0
-    @Condition all([BuffEventId.PHEIDIPPIDES_TRIAL in eventPlayer.taskSuccessEvents, BuffEventId.MARTYR_TRIAL in eventPlayer.taskSuccessEvents, BuffEventId.TEMPER_HEART in eventPlayer.taskSuccessEvents, BuffEventId.BATTLEFIELD_MEDIC in eventPlayer.taskSuccessEvents, BuffEventId.SHARED_BLESSING in eventPlayer.taskSuccessEvents]) == true
+    @Condition eventPlayer.dlcTimeChallenge[2] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[3] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[4] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[5] >= 1
+    @Condition eventPlayer.dlcTimeChallenge[6] >= 1
     @Condition 67 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(67)

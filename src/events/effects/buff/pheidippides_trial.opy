@@ -30,8 +30,7 @@ rule "Resolve mission":
         smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 移动速度加成".format(abilityIconString(Hero.SOLDIER, Button.ABILITY_1), EVT_15_REWARD_SPEED))
         eventPlayer.mod_speed_perma += EVT_15_REWARD_SPEED
         updatePlayerStats()
-        if BuffEventId.PHEIDIPPIDES_TRIAL not in eventPlayer.taskSuccessEvents:
-            eventPlayer.taskSuccessEvents.append(BuffEventId.PHEIDIPPIDES_TRIAL)
+        eventPlayer.dlcTimeChallenge[2] = 1
     else:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 失败")
     eventPlayer.eventMission = 0
