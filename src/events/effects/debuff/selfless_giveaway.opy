@@ -15,8 +15,12 @@ rule "Resolve giveaway":
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         eventPlayer.eventDuration = 0
     else:
-        getPlayers(Team.2).exclude(eventPlayer).heart_steel[HeartSteelData.STACKS] += EVT_DEBUFF_14_STACKS_GIVE
-        getPlayers(Team.2).exclude(eventPlayer).setPlayerHP = true
+        # 每名接收者按自己的获得倍率结算，不能统一固定值
+        eventPlayer.target = getPlayers(Team.2).exclude(eventPlayer)
+        for eventPlayer.temp in range(len(eventPlayer.target)):
+            eventPlayer.target[eventPlayer.temp].heart_steel[HeartSteelData.STACKS] += EVT_DEBUFF_14_STACKS_GIVE * eventPlayer.target[eventPlayer.temp].heart_steel[HeartSteelData.GAIN_MULTIPLIER]
+            eventPlayer.target[eventPlayer.temp].setPlayerHP = true
+        eventPlayer.target = null
         eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_DEBUFF_14_STACKS_TAKE * len(getPlayers(Team.2).exclude(eventPlayer))
         setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_2, eventPlayer, 200)
