@@ -12,6 +12,6 @@ rule "Random launch":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WAYWARD_NAVIGATION]) == true
 
     wait(EVT_DEBUFF_22_INTERVAL, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.applyImpulse(directionFromAngles(random.randint(0, 359), 0), EVT_DEBUFF_22_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    eventPlayer.applyImpulse(directionFromAngles(random.randint(0, 359), 0), EVT_DEBUFF_22_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     if ruleCondition:
         loop()

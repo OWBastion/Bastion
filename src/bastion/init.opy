@@ -483,7 +483,7 @@ rule "Repel nearby players":
     @Team 1
     @Condition getPlayersInRadius(eventPlayer, 2, Team.2)[0] != false
     
-    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    eventPlayer.applyImpulse(directionFromAngles(horizontalAngleOfDirection(eventPlayer.getPosition() - getRealClosestPlayer(eventPlayer, Team.2).getPosition()), -20), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(0.5, Wait.RESTART_WHEN_TRUE)
 
 rule "Track kills and attacker":

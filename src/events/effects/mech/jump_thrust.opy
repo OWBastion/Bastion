@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 屁动力":
     updatePlayerStats()
 
     lb_1:
-    eventPlayer.applyImpulse(eventPlayer.getFacingDirection(), EVT_MECH_5_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    eventPlayer.applyImpulse(eventPlayer.getFacingDirection(), EVT_MECH_5_IMPULSE, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait()
     if ruleCondition:
         loop()
