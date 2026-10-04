@@ -588,13 +588,6 @@ rule "initialize event array":
     eventCatalogType[EventId.CYCLE_REPLAY] = EventType.MECH
     eventCatalogId.append(EventId.CYCLE_REPLAY)
 
-    eventName[EventId.LIFE_PULSE] = STR_EVT_MECH_29_TITLE
-    eventDesc[EventId.LIFE_PULSE] = STR_EVT_MECH_29_DESC.format(Button.RELOAD, percent(EVT_MECH_29_HP_COST_PER_SEC), EVT_MECH_29_HEAL_RADIUS, percent(EVT_MECH_29_HEAL_PER_SEC), EVT_MECH_29_RELEASE_COOLDOWN)
-    eventDuration[EventId.LIFE_PULSE] = EVT_MECH_29_DURATION
-    eventCatalogWeight[EventId.LIFE_PULSE] = EVT_MECH_29_WEIGHT
-    eventCatalogType[EventId.LIFE_PULSE] = EventType.MECH
-    eventCatalogId.append(EventId.LIFE_PULSE)
-
     eventName[EventId.TOXIC_FOG] = STR_EVT_MECH_30_TITLE
     eventDesc[EventId.TOXIC_FOG] = STR_EVT_MECH_30_DESC.format(percent(EVT_MECH_30_DAMAGE_PERCENT_PER_TICK), EVT_MECH_30_DAMAGE_FLAT)
     eventDuration[EventId.TOXIC_FOG] = EVT_MECH_30_DURATION

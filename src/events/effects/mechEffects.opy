@@ -32,5 +32,4 @@
 #!include "mech/prophet.opy"
 #!include "mech/equivalent_exchange.opy"
 #!include "mech/cycle_replay.opy"
-#!include "mech/life_pulse.opy"
 #!include "mech/toxic_fog.opy"

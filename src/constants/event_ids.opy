@@ -154,8 +154,6 @@ enum EventId:
     EQUIVALENT_EXCHANGE
     # legacy numeric id: mech 28
     CYCLE_REPLAY
-    # legacy numeric id: mech 29
-    LIFE_PULSE
     # legacy numeric id: buff 10 (retired event reintroduced)
     SYMBIOSIS
     # legacy numeric id: mech 30 (retired event reintroduced)
