@@ -1017,11 +1017,8 @@ enum EquivalentExchangeOffer:
 # 单次赌注 (心之钢层数 / HP百分比)
 #!define EVT_MECH_29_STAKE 8
 
-# 胜利基础奖励：心之钢层数（周年契约 #290 下按 WIN_MULTIPLIER 翻倍；失败仍损失 STAKE 不乘倍率）
+# 胜利奖励：心之钢层数（失败仍损失 STAKE）
 #!define EVT_MECH_29_REWARD_STACKS 8
-
-# 周年获胜奖励倍率（#290 获胜翻倍，仅应用一次）
-#!define EVT_MECH_29_WIN_MULTIPLIER 2
 
 # 单次结算冷却（秒）：按键时间戳门控，不依赖技能自身冷却
 #!define EVT_MECH_29_ROLL_COOLDOWN 0.5
