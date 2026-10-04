@@ -31,6 +31,27 @@ macro platformMapRevision_MIDTOWN_DEFAULT():
 
 rule "map - 中城":
     @Condition __currentMap___ == Map.MIDTOWN
-    
-    platformMapRevision_MIDTOWN_DEFAULT()
+
+    __currentMapText___ = "中城"
+    bastionPosition = [
+        vect(11.159, 9.676, 96.511),
+        vect(-11.167, 7.676, 50.035),
+        vect(41.012, 10.858, 23.733),
+        vect(55.398, 8.805, 11.518),
+        vect(93.034, 3.895, -10.495),
+        vect(76.469, 13.220, -21.704),
+        vect(74.566, 3.837, -18.930),
+        vect(88.150, 9.020, -55.622),
+        vect(123.697, 5.791, -34.686),
+        vect(139.517, 10.846, -29.034),
+        vect(128.522, 1.844, -93.758)
+    ]
+    endPosition = vect(143.25, 2.85, -34.87)
+    thirdPersonPosition = vect(26.5, 3.47, 108.76)
+    resetPosition = vect(19.38, 3.47, 115.61)
+    minefieldPosition = [
+        vect(109.94, 2.84, -58.09),
+        vect(55.14, 3.62, 38.15),
+        vect(38.29, 3.75, 99.83)
+    ]
     startForcingSpawn(Team.2, 0)

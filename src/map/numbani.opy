@@ -31,6 +31,27 @@ macro platformMapRevision_NUMBANI_DEFAULT():
 
 rule "map - numbani":
     @Condition __currentMap___ == Map.NUMBANI
-    
-    platformMapRevision_NUMBANI_DEFAULT()
+
+    __currentMapText___ = "努巴尼"
+    bastionPosition = [
+        vect(78.559, 5.250, -21),
+        vect(39.048, 5.505, 9.138),
+        vect(27.073, 0.073, 10.578),
+        vect(67.304, 0.994, 6.553),
+        vect(127.331, -4.796, -8.442),
+        vect(162.479, 4.250, -3.873),
+        vect(161.207, -3.927, 7.055),
+        vect(147.639, -1.686, 36.638),
+        vect(191.210, 4.388, 33.519),
+        vect(224.667, 0.199, 22.715),
+        vect(194.448, 2.065, 40.147)
+    ]
+    endPosition = vect(201.98, 4.2, 38.77)
+    thirdPersonPosition = vect(-5.17, 3.24, 16.69)
+    resetPosition = vect(-5.12, 3.24, 19.74)
+    minefieldPosition = [
+        vect(207.47, 0.2, 38.61),
+        vect(92.64, 0.25, -9.18),
+        vect(54.87, -1.92, 19.53)
+    ]
     startForcingSpawn(Team.2, 0)
