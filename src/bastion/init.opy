@@ -275,13 +275,10 @@ rule "Sustain nano secondary fire":
     @Condition eventPlayer.hasNano == true
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
-    @Condition getPlayersInRadius(eventPlayer.getEyePosition(), 150, Team.2)[0] != false
+    @Condition eventPlayer.target != false
     
     wait(random.uniform(0.016, 0.032), Wait.ABORT_WHEN_FALSE)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
-    if eventPlayer.target == null:
-        goto lbl_0
-    lbl_0:
     wait(NANO_SECONDARY_FIRE_DT)
     if ruleCondition:
         loop()
@@ -318,7 +315,7 @@ rule "Pre-aim nearest target":
     
     wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
     #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
-    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not eventPlayer.isWinner], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
+    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.2) if player.hasSpawned() and not eventPlayer.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
     if eventPlayer.nearestTargetOutOfLoS == null:
         goto lbl_0
     eventPlayer.aimPosition = eventPlayer.nearestTargetOutOfLoS.getEyePosition() + vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
