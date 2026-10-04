@@ -19,7 +19,7 @@ rule "Next title":
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     wait()
 
-     if titleColor[eventPlayer.playerTitleAndColor] == null:
+    if titleColor[eventPlayer.playerTitleAndColor] == null:
         stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.info_pvar = 0
         eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
@@ -30,6 +30,7 @@ rule "Next title":
         eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
         eventPlayer.rgb_activated = true
     else:
+        stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
         eventPlayer.rgb_activated = false
 
@@ -75,6 +76,7 @@ rule "Previous title":
 
     else:
         # 单色向量(或其它非数组形式)
+        stopChasingVariable(eventPlayer.rgb_vect)
         eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
         eventPlayer.rgb_activated = false
 
