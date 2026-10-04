@@ -52,7 +52,7 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
 rule "[VishkarEvent]: 任务：殉道者 (通关结算)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventDuration != 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL, eventPlayer.isWinner == true, eventPlayer.eventDuration != 0, len(eventPlayer.eventMission) < eventPlayer.eventMissionGoal]) == true
 
     bigMessage(eventPlayer, "任务：殉道者 完成！")
     smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))

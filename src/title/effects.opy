@@ -73,6 +73,6 @@ rule "Initialize CN title effects":
         ),
         HudPosition.LEFT,
         100,
-        rgb(heroColor[5].x, heroColor[5].y, heroColor[5].z),
+        Color.WHITE,
         HudReeval.VISIBILITY_AND_STRING
     )

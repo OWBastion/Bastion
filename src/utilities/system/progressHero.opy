@@ -19,6 +19,14 @@ def progressHero():
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
     eventPlayer.stopForcingCurrentHero()
+
+    # Set Ability Enabled 是玩家级覆盖标志，跨英雄切换保留且压过大厅设置；
+    # 残留的 enable/disable 标志必须在这里按大厅配置重新断言，
+    # 否则大厅禁用的技能（托比昂炮台/秩序之光哨戒炮/生命之梭生命之握）会被泄漏打开。
+    # 附身中的技能锁由附身效果收尾时自行恢复，不在此重置。
+    if eventPlayer.possess == null:
+        eventPlayer.setAbility1Enabled(heroList[eventPlayer.heroNumber] not in [Hero.TORBJORN, Hero.SYMMETRA])
+        eventPlayer.setAbility2Enabled(heroList[eventPlayer.heroNumber] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     refreshCompatibleEventPool()

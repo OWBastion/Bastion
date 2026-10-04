@@ -462,9 +462,6 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_9_DURATION 30
 # Weight（权重）
 #!define EVT_DEBUFF_9_WEIGHT 1.4
-# 伤害扩散半径 (米)
-#!define EVT_DEBUFF_9_RADIUS 20
-
 # 扩散伤害系数 (承受原始伤害的百分比)
 #!define EVT_DEBUFF_9_DMG_FACTOR 0.75
 
@@ -861,7 +858,7 @@ enum HeartSteelData:
 #!define EVT_MECH_18_DRAIN_FLAT 10
 #!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.02
 #!define EVT_MECH_18_INTERVAL 1
-#!define EVT_MECH_18_KILL_HEAL_PERMA 2.5
+#!define EVT_MECH_18_KILL_HEAL_PERMA 5
 
 #!define EVT_MECH_19_DURATION 15
 #!define EVT_MECH_19_WEIGHT 1.6
