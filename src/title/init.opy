@@ -18,7 +18,7 @@ rule "Create in-world title":
     eventPlayer.info_pvar = 0
 
     createInWorldText(
-        [player for player in getAllPlayers() if isInLoS(eventPlayer, player)], 
+        getAllPlayers(),
         "{0} {1}".format(
                 abilityIconString(Hero.TORBJORN, Button.ABILITY_2) if eventPlayer.isDev else "", 
                 titleText[eventPlayer.playerTitleAndColor]
