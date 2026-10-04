@@ -610,7 +610,7 @@ enum HeartSteelData:
 # 触发距离 (米)
 #!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
 # 击退冲量
-#!define EVT_DEBUFF_25_IMPULSE 100
+#!define EVT_DEBUFF_25_IMPULSE 150
 # 击晕时长 (秒)
 #!define EVT_DEBUFF_25_STUN 0.75
 # 触发保护 (秒，触发后该窗口内不再判定)
@@ -917,7 +917,7 @@ enum HeartSteelData:
 #!define EVT_MECH_18_DRAIN_FLAT 10
 #!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.02
 #!define EVT_MECH_18_INTERVAL 1
-#!define EVT_MECH_18_KILL_HEAL_PERMA 2.5
+#!define EVT_MECH_18_KILL_HEAL_PERMA 5
 
 #!define EVT_MECH_19_DURATION 15
 #!define EVT_MECH_19_WEIGHT 1.6
