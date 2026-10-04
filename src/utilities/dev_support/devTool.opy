@@ -597,7 +597,9 @@ rule "Increase event weight":
         if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] == null:
             eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] = 1.0
         eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] += 0.1
-            
+        # 置空触发对局码重算，使码内嵌权重与 hashTag 总账反映修改后数值
+        masteryRunCode = ""
+
     wait(0.1)
 
 rule "Decrease event weight":
@@ -613,5 +615,7 @@ rule "Decrease event weight":
             eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] -= 0.1
         else:
             eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] = 0
-                
+        # 置空触发对局码重算，使码内嵌权重与 hashTag 总账反映修改后数值
+        masteryRunCode = ""
+
     wait(0.1)

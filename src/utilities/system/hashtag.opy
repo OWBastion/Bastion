@@ -22,6 +22,16 @@ rule "hashTag | Event Weight Sum Verify":
     hashTagWeightVerifyState[0] = true
     logToInspector("[hashTag]: {0},{1}".format(round(hashTagWeightVerifyState[1] * 1000), round(EVENT_MANIFEST_ACTIVE_WEIGHT_SUM * 1000)))
 
+# eventCatalogWeightTotal 由对局码生成规则维护（devTool 改权重会置空 masteryRunCode 触发重算）；
+# 0.05 为半个 devTool 步长，任意有效加权即判负，同时容忍浮点噪声
+rule "hashTag | Event Weight Over-Limit":
+    @Event global
+    @Condition hashTag == true
+    @Condition vishkarEventActivated == true
+    @Condition eventCatalogWeightTotal > EVENT_MANIFEST_ACTIVE_WEIGHT_SUM + 0.05
+
+    hashTag = false
+
 rule "Hashtag":
     @Condition hashTag == true
     @Condition vishkarEventActivated == true

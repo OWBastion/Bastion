@@ -67,3 +67,4 @@
 - `hp_data` 相关功能必须维护过期清理，否则元素数会累积
 - `playerRegen.opy` 的脱战回复由受伤信号控制：受伤会立即停止 HOT，并通过 `wait(3, Wait.RESTART_WHEN_TRUE)` 保证“满 3 秒未再受伤”后才重新允许启动回复
 - `hashtag.opy` 现改为 init 阶段主机 `titlePlayer` 白名单校验：等待称号数组初始化并确认 `hostPlayer` 存在后，若主机名不在白名单中则关闭 `hashTag`
+- `hashtag.opy` 权重校验分两路：对局 125s 后做一次权重总和等值校验（与 `EVENT_MANIFEST_ACTIVE_WEIGHT_SUM` 不一致即判负）；另有持续生效的超限校验，`eventCatalogWeightTotal`（由对局码生成规则维护的实际权重总账）超过清单值 +0.05 即判负，覆盖 125s 检查点之后的 devTool 加权
