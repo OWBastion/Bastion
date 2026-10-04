@@ -610,7 +610,7 @@ enum HeartSteelData:
 # 触发距离 (米)
 #!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
 # 击退冲量
-#!define EVT_DEBUFF_25_IMPULSE 100
+#!define EVT_DEBUFF_25_IMPULSE 150
 # 击晕时长 (秒)
 #!define EVT_DEBUFF_25_STUN 0.75
 # 触发保护 (秒，触发后该窗口内不再判定)
@@ -622,7 +622,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_26_DURATION 20
 # Weight（权重）
-#!define EVT_DEBUFF_26_WEIGHT 0
+#!define EVT_DEBUFF_26_WEIGHT 0.8
 # 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
 #!define EVT_DEBUFF_26_STOP_RADIUS 4
 # 牵引加速度（m/s²，startAcceleration rate）：8 m/s²，远弱于引力异常（≈53 m/s²），可被正常移动挣脱
@@ -917,7 +917,7 @@ enum HeartSteelData:
 #!define EVT_MECH_18_DRAIN_FLAT 10
 #!define EVT_MECH_18_DRAIN_MAXHP_FACTOR 0.02
 #!define EVT_MECH_18_INTERVAL 1
-#!define EVT_MECH_18_KILL_HEAL_PERMA 2.5
+#!define EVT_MECH_18_KILL_HEAL_PERMA 5
 
 #!define EVT_MECH_19_DURATION 15
 #!define EVT_MECH_19_WEIGHT 1.6
