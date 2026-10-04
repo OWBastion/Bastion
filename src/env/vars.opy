@@ -166,3 +166,5 @@ playervar eventNextIndex
 playervar prophetTextId
 # 等价交换上一次提供的兑换臂（EquivalentExchangeOffer；NONE = 无记录）。跨事件存续，随 run 重置
 playervar eventLastExchangeOffer
+# 本局已成功结算的任务类事件集合（BuffEventId 列表；只记首次成功）。新局/手动重置清空，重连不恢复（与 dlcTimeChallenge 同契约）
+playervar taskSuccessEvents

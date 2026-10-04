@@ -13,6 +13,7 @@ rule "Init Achievement Data":
     challengeTitleIds = [
         65, # PROPHET 麦迪文 触发 10 次「先知」
         66, # QUANTUM_UNLUCKY 哪里有完美的时间线 对局被「先知」观测后累计抽取 45 个减益事件
+        67, # 我滴任务完成辣 单局成功完成全部任务类事件（称号身份由 owbastion.com#304 配发后核对）
     ]
 
     if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
@@ -37,3 +38,15 @@ rule "[VishkarEvent]: Challenge 66 Track (QUANTUM_UNLUCKY)":
     @Condition 66 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(66)
+
+# 周年挑战 67「我滴任务完成辣」：单局内全部启用任务类事件均至少成功结算一次
+# 集合以真实成功结算为准（含通关自动成功）；绘制失败/超时/未抽取不计入
+rule "[VishkarEvent]: Challenge 67 Track (ALL_TASKS_DONE)":
+    @Event eachPlayer
+    @Team 2
+    @Condition hashTag == true
+    @Condition len(challengeTitleIds) != 0
+    @Condition all([BuffEventId.PHEIDIPPIDES_TRIAL in eventPlayer.taskSuccessEvents, BuffEventId.MARTYR_TRIAL in eventPlayer.taskSuccessEvents, BuffEventId.TEMPER_HEART in eventPlayer.taskSuccessEvents, BuffEventId.BATTLEFIELD_MEDIC in eventPlayer.taskSuccessEvents, BuffEventId.SHARED_BLESSING in eventPlayer.taskSuccessEvents]) == true
+    @Condition 67 not in eventPlayer.earnedAchievements
+
+    eventPlayer.unlockAchievement(67)
