@@ -19,20 +19,7 @@ rule "Next title":
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     wait()
 
-    if titleColor[eventPlayer.playerTitleAndColor] == null:
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
-        eventPlayer.rgb_activated = true
-    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-        eventPlayer.rgb_activated = true
-    else:
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-        eventPlayer.rgb_activated = false
+    applyTitleColor()
 
     smallMessage(
         eventPlayer,
@@ -58,27 +45,7 @@ rule "Previous title":
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     wait()
 
-    # 取出全局表里该称号的颜色数据
-    # titleColor[eventPlayer.playerTitleAndColor] 可能是: null / [vect, vect, ...] / vect
-    if titleColor[eventPlayer.playerTitleAndColor] == null:
-        # 无自带颜色 → 用 rgbList 做彩虹
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = rgbList[eventPlayer.info_pvar]
-        eventPlayer.rgb_activated = true
-
-    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-        # 多段 RGB 数组
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.info_pvar = 0
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-        eventPlayer.rgb_activated = true
-
-    else:
-        # 单色向量(或其它非数组形式)
-        stopChasingVariable(eventPlayer.rgb_vect)
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-        eventPlayer.rgb_activated = false
+    applyTitleColor()
 
     # 提示文本: 从 titleText 按ID取标题字符串
     smallMessage(
