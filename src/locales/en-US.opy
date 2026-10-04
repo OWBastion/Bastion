@@ -242,9 +242,7 @@
 #!define STR_EVT_MECH_28_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable buff."
 #!define STR_EVT_MECH_28_TARGET "Cycle Replay: {0}"
 #!define STR_EVT_MECH_28_NO_TARGET "No replayable buff"
-#!define STR_EVT_MECH_29_TITLE "Life Pulse"
-#!define STR_EVT_MECH_29_DESC "Hold {0} to channel, draining {1}% of your max HP per second.\nRelease to heal allies within {2}m — healing grows with channel time ({3}% of your max HP per second channeled).\n{4}s cooldown after release."
-#!define STR_EVT_MECH_29_CHARGING "Channeling {0}s (heal {1}%)"
+
 #!define STR_EVT_MECH_30_TITLE "Loose Screws"
 #!define STR_EVT_MECH_30_DESC "Emit a toxic fog that follows you and blocks allied vision.\nOther allies inside take {0}% of the holder's max HP plus {1} damage per second."
 

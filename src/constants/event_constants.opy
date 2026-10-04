@@ -1006,20 +1006,6 @@ enum EquivalentExchangeOffer:
     BuffEventId.DIVINE_REINFORCEMENT \
 ]
 
-# --- ID 29 (Mech): 生命脉冲 ---
-# Duration（秒）
-#!define EVT_MECH_29_DURATION 30
-# Weight（权重）
-#!define EVT_MECH_29_WEIGHT 0.8
-# 蓄力消耗：每秒消耗自身最大生命值比例（按 tick 等比扣除）
-#!define EVT_MECH_29_HP_COST_PER_SEC 0.1
-# 蓄力治疗：每蓄力 1 秒转化的治疗量（占施法者最大生命值比例）
-#!define EVT_MECH_29_HEAL_PER_SEC 0.18
-# 治疗半径（米）：只治疗范围内其他友方，不治疗自己
-#!define EVT_MECH_29_HEAL_RADIUS 75
-# 释放后再次蓄力的间隔（秒）
-#!define EVT_MECH_29_RELEASE_COOLDOWN 6
-
 # --- ID 30 (Mech): 有点松弛 ---
 # Duration（秒）
 #!define EVT_MECH_30_DURATION 45
