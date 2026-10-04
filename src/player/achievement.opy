@@ -13,7 +13,7 @@ rule "Init Achievement Data":
     challengeTitleIds = [
         65, # PROPHET 麦迪文 触发 10 次「先知」
         66, # QUANTUM_UNLUCKY 哪里有完美的时间线 对局被「先知」观测后累计抽取 45 个减益事件
-        67, # 我滴任务完成辣 单局成功完成全部任务类事件（称号身份由 owbastion.com#304 配发后核对）
+        67, # TASKS_COMPLETED 我滴任务完成辣 单局成功完成全部任务类事件
     ]
 
     if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
