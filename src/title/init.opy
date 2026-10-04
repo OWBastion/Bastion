@@ -32,42 +32,19 @@ rule "Create in-world title":
     eventPlayer.titleTextID = getLastCreatedText()
 
 
-rule "Cycle dev rainbow":
-    @Event eachPlayer
-    @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.playerTitleAndColor != null
-    @Condition titleColor[eventPlayer.playerTitleAndColor] == null
-    
-    wait(0.016, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(rgbList)
-    chaseOverTime(eventPlayer.rgb_vect, rgbList[eventPlayer.info_pvar], 2.5, ChaseTimeReeval.NONE)
-    waitUntil(
-        eventPlayer.rgb_vect == rgbList[eventPlayer.info_pvar]
-        or not eventPlayer.rgb_activated,
-        Math.INFINITY
-    )
-    if ruleCondition:
-        loop()
-    stopChasingVariable(eventPlayer.rgb_vect)
-    eventPlayer.info_pvar = 0
+# 称号调色板：无自带颜色的称号用开发者彩虹表，其余用自身色板
+macro Player.titlePalette = (rgbList if titleColor[self.playerTitleAndColor] == null else titleColor[self.playerTitleAndColor])
 
-
-rule "Cycle palette":
+rule "Cycle title color":
     @Event eachPlayer
     @Condition eventPlayer.playerTitleAndColor != null
-    @Condition titleColor[eventPlayer.playerTitleAndColor] != null
-    @Condition len(titleColor[eventPlayer.playerTitleAndColor]) > 1
-    
+    @Condition (titleColor[eventPlayer.playerTitleAndColor] == null and eventPlayer.isDev == true) or (titleColor[eventPlayer.playerTitleAndColor] != null and len(titleColor[eventPlayer.playerTitleAndColor]) > 1)
+
     wait(0.016, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(titleColor[eventPlayer.playerTitleAndColor])
-    chaseOverTime(
-        eventPlayer.rgb_vect,
-        titleColor[eventPlayer.playerTitleAndColor][eventPlayer.info_pvar],
-        2.5,
-        ChaseTimeReeval.NONE
-    )
+    eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(eventPlayer.titlePalette)
+    chaseOverTime(eventPlayer.rgb_vect, eventPlayer.titlePalette[eventPlayer.info_pvar], 2.5, ChaseTimeReeval.NONE)
     waitUntil(
-        eventPlayer.rgb_vect == titleColor[eventPlayer.playerTitleAndColor][eventPlayer.info_pvar]
+        eventPlayer.rgb_vect == eventPlayer.titlePalette[eventPlayer.info_pvar]
         or not eventPlayer.rgb_activated,
         Math.INFINITY
     )

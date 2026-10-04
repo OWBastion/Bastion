@@ -1,5 +1,6 @@
 #!include "../title/map-title-data.opy"
 #!include "../utilities/system/setPlayerTitle.opy"
+#!include "../utilities/system/applyTitleColor.opy"
 #!include "../utilities/system/unlockAchievement.opy"
 #!include "../title/init.opy"
 #!include "../title/hashtag.opy"
