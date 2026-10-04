@@ -194,7 +194,7 @@ rule "initialize event array":
     eventCatalogId.append(EventId.ENERGY_LEAK)
 
     eventName[EventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_TITLE
-    eventDesc[EventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_FACTOR), EVT_DEBUFF_9_RADIUS)
+    eventDesc[EventId.SHARE_THE_PAIN] = STR_EVT_DEBUFF_9_DESC.format(percent(EVT_DEBUFF_9_DMG_FACTOR))
     eventDuration[EventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_DURATION
     eventCatalogWeight[EventId.SHARE_THE_PAIN] = EVT_DEBUFF_9_WEIGHT
     eventCatalogType[EventId.SHARE_THE_PAIN] = EventType.DEBUFF
