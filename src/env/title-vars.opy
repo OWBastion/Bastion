@@ -12,7 +12,6 @@ playervar playerTitleAndColor 37
 playervar titleTextID 38
 playervar rgb_vect 39
 playervar info_pvar 40
-playervar rgb_activated 41
 playervar playerTitles 43
 playervar playerTitleIndex 44
 playervar playerTitleRelationIndex 45

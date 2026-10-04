@@ -573,10 +573,10 @@ function titleColorExpr(value: unknown, prefix: string): string | null {
   if (value == null) return null;
   if (!value || typeof value !== 'object') throw new Error(`${prefix}.color must be an object or null`);
   const color = value as Record<string, unknown>;
-  if (color.kind === 'heroColor') return `heroColor[${requireNumber(color.index, `${prefix}.color.index`)}]`;
+  if (color.kind === 'heroColor') return `[heroColor[${requireNumber(color.index, `${prefix}.color.index`)}]]`;
   if (color.kind === 'rgb') {
     if (!Array.isArray(color.value) || color.value.length !== 3 || color.value.some((part) => !Number.isInteger(part) || Number(part) < 0 || Number(part) > 255)) throw new Error(`${prefix}.color.value must be an RGB tuple`);
-    return `vect(${color.value.join(', ')})`;
+    return `[vect(${color.value.join(', ')})]`;
   }
   if (color.kind === 'palette' && ['orange', 'red', 'purple', 'gold', 'blue'].includes(String(color.name))) return `breathPalette.${color.name}`;
   throw new Error(`${prefix}.color has an unsupported value`);

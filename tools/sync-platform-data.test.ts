@@ -231,7 +231,7 @@ test('builds player and map title generation input from public player names', ()
   assert.deepEqual(source.players, [{ name: '玩家改名', titleKeys: [] }]);
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
-  assert.equal(source.titles[0].colorExpr, 'heroColor[12]');
+  assert.equal(source.titles[0].colorExpr, '[heroColor[12]]');
 });
 
 test('initializes title text only after map presentation overrides are ready', async () => {
@@ -401,15 +401,15 @@ test('falls back to the existing generated title color when the platform omits i
     titles: [{ ...titleSource.titles[0], colorExpr: null }]
   };
   const result = applyTitleColorFallback(source, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
-  assert.equal(result.titles[0].colorExpr, 'heroColor[12]');
+  assert.equal(result.titles[0].colorExpr, '[heroColor[12]]');
 });
 
 test('uses the platform title color when it is present', () => {
   const result = applyTitleColorFallback({
     ...titleSource,
-    titles: [{ ...titleSource.titles[0], colorExpr: 'vect(1, 2, 3)' }]
+    titles: [{ ...titleSource.titles[0], colorExpr: '[vect(1, 2, 3)]' }]
   }, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
-  assert.equal(result.titles[0].colorExpr, 'vect(1, 2, 3)');
+  assert.equal(result.titles[0].colorExpr, '[vect(1, 2, 3)]');
 });
 
 test('preserves existing title and player IDs while appending new entries', () => {

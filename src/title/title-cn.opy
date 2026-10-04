@@ -667,7 +667,7 @@ rule "initialize title array":
     ]
     titleColor = [
         # 0: PIONEER
-        heroColor[12],
+        [heroColor[12]],
         # 1: TEST_LONG
         null,
         # 2: NOT_MY_MAP
@@ -685,63 +685,63 @@ rule "initialize title array":
         # 8: PURE_HARM
         null,
         # 9: CONQUEROR
-        heroColor[43],
+        [heroColor[43]],
         # 10: DOMINATOR
-        heroColor[44],
+        [heroColor[44]],
         # 11: SURVIVOR_EXPERT
-        vect(236, 153, 0),
+        [vect(236, 153, 0)],
         # 12: CHALLENGER_LEGEND
-        vect(200, 0, 19),
+        [vect(200, 0, 19)],
         # 13: TRAVELER_HELL
-        vect(161, 73, 197),
+        [vect(161, 73, 197)],
         # 14: DODGE_ULTIMATE
-        heroColor[1],
+        [heroColor[1]],
         # 15: LIGHT_PACK
-        heroColor[2],
+        [heroColor[2]],
         # 16: FLAWLESS
-        vect(0, 230, 151),
+        [vect(0, 230, 151)],
         # 17: NEVER_GIVE_UP
-        vect(0, 230, 151),
+        [vect(0, 230, 151)],
         # 18: PERSEVERANCE
-        vect(255, 255, 255),
+        [vect(255, 255, 255)],
         # 19: SPEEDRUN
-        vect(0, 230, 151),
+        [vect(0, 230, 151)],
         # 20: DODGE_GOD
-        heroColor[28],
+        [heroColor[28]],
         # 21: ZENYATTA
-        heroColor[12],
+        [heroColor[12]],
         # 22: HARD_TO_KILL
-        heroColor[45],
+        [heroColor[45]],
         # 23: WIN_HEAVEN
         breathPalette.orange,
         # 24: IDOL
-        vect(200, 0, 19),
+        [vect(200, 0, 19)],
         # 25: EGG_FIRST
-        vect(200, 0, 19),
+        [vect(200, 0, 19)],
         # 26: EAT_MORE
-        vect(238, 75, 43),
+        [vect(238, 75, 43)],
         # 27: ALL_IN_ONE
         breathPalette.red,
         # 28: TRAVELER
-        heroColor[33],
+        [heroColor[33]],
         # 29: SKY
         breathPalette.purple,
         # 30: FLAME
-        heroColor[28],
+        [heroColor[28]],
         # 31: PASS_EGGS
-        heroColor[28],
+        [heroColor[28]],
         # 32: CHOSEN
-        heroColor[11],
+        [heroColor[11]],
         # 33: LUCKY_STAR
-        heroColor[3],
+        [heroColor[3]],
         # 34: GAMBLE_KING
         breathPalette.gold,
         # 35: LUCKY_SHINE
-        heroColor[32],
+        [heroColor[32]],
         # 36: UNLUCKY
-        heroColor[22],
+        [heroColor[22]],
         # 37: MANBA
-        heroColor[11],
+        [heroColor[11]],
         # 38: MY_FATE
         breathPalette.blue,
         # 39: GOD_GAMBLER
@@ -749,51 +749,51 @@ rule "initialize title array":
         # 40: LAO_DA
         null,
         # 41: V_50
-        heroColor[37],
+        [heroColor[37]],
         # 42: STEEL
-        heroColor[11],
+        [heroColor[11]],
         # 43: HACKING
-        heroColor[20],
+        [heroColor[20]],
         # 44: RED_PACKET
-        heroColor[43],
+        [heroColor[43]],
         # 45: GOOD_LUCK
         breathPalette.gold,
         # 46: LONE_WALKER
-        heroColor[33],
+        [heroColor[33]],
         # 47: GREEN_MOUNTAIN
-        vect(0, 200, 50),
+        [vect(0, 200, 50)],
         # 48: SUAN_BU_LA
-        heroColor[18],
+        [heroColor[18]],
         # 49: EVENT5_GAMBLE_SAINT
         breathPalette.gold,
         # 50: EVENT5_BLACK_SHEEP
-        heroColor[3],
+        [heroColor[3]],
         # 51: EVENT5_I_WANT_TO_CHECK_CARDS
-        heroColor[3],
+        [heroColor[3]],
         # 52: EVENT5_CARDS_ARE_FINE
-        heroColor[3],
+        [heroColor[3]],
         # 53: GREAT_BENEFACTOR
-        vect(0, 200, 50),
+        [vect(0, 200, 50)],
         # 54: BREAK_ATMOSPHERE
-        vect(192, 192, 192),
+        [vect(192, 192, 192)],
         # 55: LIST_THEM
         breathPalette.gold,
         # 56: LIFE_GUARDS_LIFE
-        heroColor[11],
+        [heroColor[11]],
         # 57: PHANTOM_THIEF
-        heroColor[22],
+        [heroColor[22]],
         # 58: CLASSIC
-        heroColor[43],
+        [heroColor[43]],
         # 59: EMOTICON_CONFUSED
-        heroColor[11],
+        [heroColor[11]],
         # 60: EMOTICON_GRIMACE
-        heroColor[11],
+        [heroColor[11]],
         # 61: EMOTICON_SURPRISED
-        heroColor[11],
+        [heroColor[11]],
         # 62: I_THINK_NO
-        heroColor[11],
+        [heroColor[11]],
         # 63: I_THINK_YES
-        heroColor[11],
+        [heroColor[11]],
         # 64: ANNIVERSARY_2026
         null,
         # 65: PROPHET
