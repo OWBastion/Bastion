@@ -6,5 +6,5 @@ macro DEBUG = false
 #!optimizeStrict
 #!optimizeForSize
 
-#!define VERSION "26.1004.6"
+#!define VERSION "26.1004.7"
 #!define HUD_PAD_BOTTOM "\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r"
