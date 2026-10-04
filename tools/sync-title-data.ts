@@ -76,13 +76,18 @@ export function readGeneratedTitleColors(source) {
   return colors;
 }
 
+export function normalizeTitleColorExpr(expr) {
+  if (expr == null || expr === 'null' || expr.startsWith('[') || expr.startsWith('breathPalette.')) return expr;
+  return `[${expr}]`;
+}
+
 export function applyTitleColorFallback(sourceData, titleFileSource) {
   const fallbackColors = readGeneratedTitleColors(titleFileSource);
   return {
     ...sourceData,
     titles: sourceData.titles.map((title) => ({
       ...title,
-      colorExpr: title.colorExpr ?? fallbackColors.get(title.key) ?? null
+      colorExpr: normalizeTitleColorExpr(title.colorExpr ?? fallbackColors.get(title.key))
     }))
   };
 }

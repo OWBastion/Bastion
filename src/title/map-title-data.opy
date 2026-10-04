@@ -326,13 +326,13 @@ rule "Load CN map title holders":
 
     if __currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860:
         waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-        titleColor[TITLE.PIONEER] = vect(250, 120, 115)
+        titleColor[TITLE.PIONEER] = [vect(250, 120, 115)]
     elif getCurrentMap() == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177:
         waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
-        titleColor[TITLE.PIONEER] = vect(109, 171, 235)
+        titleColor[TITLE.PIONEER] = [vect(109, 171, 235)]
     elif __currentMap___ == Map.WATCHPOINT_GIBRALTAR:
         waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
         if __currentMapPioneerText___ == "守望先锋":
-            titleColor[TITLE.PIONEER] = vect(240, 101, 20)
+            titleColor[TITLE.PIONEER] = [vect(240, 101, 20)]
         else:
-            titleColor[TITLE.PIONEER] = vect(227, 3, 3)
+            titleColor[TITLE.PIONEER] = [vect(227, 3, 3)]

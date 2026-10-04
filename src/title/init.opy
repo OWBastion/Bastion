@@ -44,8 +44,7 @@ rule "Cycle title color":
     eventPlayer.info_pvar = (eventPlayer.info_pvar + 1) % len(eventPlayer.titlePalette)
     chaseOverTime(eventPlayer.rgb_vect, eventPlayer.titlePalette[eventPlayer.info_pvar], 2.5, ChaseTimeReeval.NONE)
     waitUntil(
-        eventPlayer.rgb_vect == eventPlayer.titlePalette[eventPlayer.info_pvar]
-        or not eventPlayer.rgb_activated,
+        eventPlayer.rgb_vect == eventPlayer.titlePalette[eventPlayer.info_pvar],
         Math.INFINITY
     )
     if ruleCondition:

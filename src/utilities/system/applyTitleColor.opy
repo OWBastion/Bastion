@@ -12,10 +12,5 @@ def applyTitleColor():
     eventPlayer.info_pvar = 0
     if titleColor[eventPlayer.playerTitleAndColor] == null:
         eventPlayer.rgb_vect = rgbList[0]
-        eventPlayer.rgb_activated = true
-    elif len(titleColor[eventPlayer.playerTitleAndColor]) >= 1:
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
-        eventPlayer.rgb_activated = true
     else:
-        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor]
-        eventPlayer.rgb_activated = false
+        eventPlayer.rgb_vect = titleColor[eventPlayer.playerTitleAndColor][0]
