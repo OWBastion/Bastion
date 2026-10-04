@@ -15,7 +15,7 @@ rule "[VishkarEvent]: 心之钢 Pro":
     smallMessage(eventPlayer, "  {0}  已获得 {1} 层（{2}%）心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_16_HP_GAIN_FLAT * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     if eventPlayer.heart_steel[HeartSteelData.STACKS] > 0:
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_16_HP_MULTIPLIER)
-        wait(eventPlayer.eventDuration)
+        waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
         setPlayerHP()
     else:
-        eventPlayer.eventDuration = 0
+        requestPlayerEventEnd()

@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 骨质疏松 Effect":
 
     createEffect(getAllPlayers(), Effect.MEI_FROZEN, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    wait(eventPlayer.eventDuration, Wait.IGNORE_CONDITION)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.hudText = ""
 
 rule "[VishkarEvent]: 骨质疏松":

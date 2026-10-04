@@ -18,6 +18,6 @@ rule "[VishkarEvent]: 易损":
     eventPlayer.mod_dmg_taken = EVT_DEBUFF_3_DMG_TAKEN
     wait(getAverageServerLoad() / 100 * 0.032)
     updatePlayerStats()
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()

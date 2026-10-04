@@ -40,6 +40,7 @@ def setPlayerEvent():
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
+    setEventDuration()
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
@@ -70,5 +71,4 @@ def setPlayerEvent():
             eventPlayer.eventDesc.replace("\n", "，")
         )
     )
-    setEventDuration()
     lbl_1:
