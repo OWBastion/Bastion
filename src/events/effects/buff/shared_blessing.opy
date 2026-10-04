@@ -37,6 +37,7 @@ rule "[VishkarEvent]: 有福同享（结算）":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.SHARED_BLESSING, eventPlayer.eventMissionGoal > 0, eventPlayer.target != null, eventPlayer.eventDuration > 0]) == true
 
     waitUntil(eventPlayer.eventId != BuffEventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.2) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]) or eventPlayer.isWinner == true, eventPlayer.eventDuration)
+    wait()
     if eventPlayer.eventId == BuffEventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]))):
         bigMessage(eventPlayer, "有福同享 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS))
