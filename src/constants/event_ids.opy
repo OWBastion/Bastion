@@ -144,6 +144,8 @@ enum EventId:
     # ---- Anniversary 2026 ----
     # legacy numeric id: buff 33
     WHERE_YOU_FALL
+    # legacy numeric id: buff 34
+    SHARED_BLESSING
     # legacy numeric id: debuff 25
     STATIC_FIELD
     # legacy numeric id: mech 25
