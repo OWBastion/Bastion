@@ -59,6 +59,7 @@ globalvar challengeTitleIds
 globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
 globalvar runCodeWeightTotal
+globalvar eventCatalogWeightTotal
 
 #Player variables
 

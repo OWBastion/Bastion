@@ -178,6 +178,8 @@ rule "Generate mastery run code":
     I = 0
     for I in range(len(eventCatalogId)):
         runCodeWeightTotal += eventCatalogWeight[eventCatalogId[I]]
+    # 保留未取整的实际总权重供 hashTag 超限校验使用
+    eventCatalogWeightTotal = runCodeWeightTotal
     runCodeWeightTotal = round(runCodeWeightTotal * 100)
     masteryRunCode = "{0}-{1}-{2}".format(
         random.randint(1, 9) * 1000 + (floor(runCodeWeightTotal / 1000) % 10) * 100 + (floor(runCodeWeightTotal / 100) % 10) * 10 + random.randint(0, 9),
