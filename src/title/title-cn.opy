@@ -99,7 +99,7 @@ enum MapTITLEKey:
     [TITLE.TRAVELER_HELL], \
     [TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.HACKING], \
     TP_ALL, \
-    [TITLE.SKY, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50, TITLE.STEEL, TITLE.EVENT5_GAMBLE_SAINT, TITLE.EVENT5_CARDS_ARE_FINE], \
+    [TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50, TITLE.STEEL, TITLE.EVENT5_GAMBLE_SAINT, TITLE.EVENT5_CARDS_ARE_FINE, TITLE.LIST_THEM, TITLE.LIFE_GUARDS_LIFE, TITLE.QUANTUM_UNLUCKY], \
     [TITLE.FLAWLESS, TITLE.HARD_TO_KILL, TITLE.PASS_EGGS, TITLE.CHOSEN, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50], \
     [TITLE.TRAVELER, TITLE.SKY, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50, TITLE.GOOD_LUCK, TITLE.GREEN_MOUNTAIN, TITLE.LIST_THEM, TITLE.LIFE_GUARDS_LIFE], \
     [TITLE.TRAVELER, TITLE.CHOSEN, TITLE.LUCKY_STAR, TITLE.LUCKY_SHINE, TITLE.UNLUCKY, TITLE.MANBA, TITLE.EVENT5_GAMBLE_SAINT], \
@@ -110,9 +110,10 @@ enum MapTITLEKey:
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.GOOD_LUCK], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.V_50], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.HARD_TO_KILL, TITLE.ALL_IN_ONE, TITLE.SKY, TITLE.V_50], \
-    [TITLE.NOT_MY_MAP, TITLE.PURE_HARM, TITLE.V_50, TITLE.EMOTICON_CONFUSED, TITLE.EMOTICON_GRIMACE, TITLE.EMOTICON_SURPRISED], \
+    [TITLE.BLACK_SHEEP, TITLE.PURE_HARM, TITLE.GOD_GAMBLER, TITLE.V_50, TITLE.EMOTICON_CONFUSED, TITLE.EMOTICON_GRIMACE, TITLE.EMOTICON_SURPRISED], \
     [TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA], \
-    [TITLE.MANBA, TITLE.HACKING] \
+    [TITLE.MANBA, TITLE.HACKING], \
+    [] \
 ]
 # END AUTO-GENERATED PLAYER_TITLE_SET_POOL
 # BEGIN AUTO-GENERATED TITLE PLAYER DATABASE
@@ -196,6 +197,10 @@ enum MapTITLEKey:
     { \
         name: "雨鸢", \
         titleSetIndex: 18 \
+    }, \
+    { \
+        name: "东子云梦", \
+        titleSetIndex: 19 \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -246,8 +251,8 @@ enum MapTITLEKey:
 # 釜山
 #!define DATA_BUSAN [ \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "Fajacy", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["云雀", "初一"], "-"), \
-   playerNameToIndexDelimited(["云雀", "初一"], "-"), \
+   playerNameToIndexDelimited(["云雀", "八月八月八", "初一"], "-"), \
+   playerNameToIndexDelimited(["云雀", "八月八月八", "初一"], "-"), \
    []\
 ]
 
@@ -270,24 +275,24 @@ enum MapTITLEKey:
 # 多拉多
 #!define DATA_DORADO [ \
    [], \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
 
 # 艾兴瓦尔德
 #!define DATA_EICHENWALDE [ \
    playerNameToIndexDelimited(["卖核弹的小女孩", "云雀", "八月八月八", "训犬大师"], "-"), \
-   playerNameToIndexDelimited(["Fajacy"], "-"), \
-   playerNameToIndexDelimited(["Fajacy"], "-"), \
+   playerNameToIndexDelimited(["八月八月八", "Fajacy", "初一", "东子云梦"], "-"), \
+   playerNameToIndexDelimited(["八月八月八", "Fajacy", "初一", "东子云梦"], "-"), \
    []\
 ]
 
 # 埃斯佩兰萨
 #!define DATA_ESPERANCA [ \
    playerNameToIndexDelimited(["豆本豆豆奶", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -318,8 +323,8 @@ enum MapTITLEKey:
 # 好莱坞
 #!define DATA_HOLLYWOOD [ \
    [], \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -374,8 +379,8 @@ enum MapTITLEKey:
 # 霓虹枢纽
 #!define DATA_NEON_JUNCTION [ \
    playerNameToIndexDelimited(["他又", "别感冒"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "训犬大师"], "-"), \
-   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "训犬大师"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "Fajacy", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -494,8 +499,8 @@ enum MapTITLEKey:
 # 阿努比斯王座
 #!define DATA_THRONE_OF_ANUBIS [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "初一", "豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "Fajacy", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -510,8 +515,8 @@ enum MapTITLEKey:
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "初一", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
 # END AUTO-GENERATED MAP_TITLE_DATA
