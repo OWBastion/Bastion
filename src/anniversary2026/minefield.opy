@@ -4,8 +4,9 @@
 #!optimizeStrict
 #!rulePrefix "Minefield"
 
-## 地雷禁区：隐藏破坏球按低频节奏传送到预配置点位施放大招
-#!define MINEFIELD_CAST_INTERVAL 60
+## 地雷禁区：隐藏破坏球按低频节奏传送到预配置点位施放大招；每轮重新随机间隔
+#!define MINEFIELD_CAST_INTERVAL_MIN 60
+#!define MINEFIELD_CAST_INTERVAL_MAX 75
 #!define MINEFIELD_SUPPORTED_MAPS [Map.ROUTE66, Map.CIRCUIT_ROYAL, Map.SHAMBALI_MONASTERY, Map.HAVANA, Map.DORADO, Map.WATCHPOINT_GIBRALTAR, Map.RIALTO, Map.EICHENWALDE]
 
 rule "Maintain hidden casting bot":
@@ -27,7 +28,7 @@ rule "Cast minefield on configured positions":
     @Condition len(minefieldPosition) > 0
     @Condition entityExists(minefieldBot) == true
 
-    wait(MINEFIELD_CAST_INTERVAL, Wait.ABORT_WHEN_FALSE)
+    wait(random.uniform(MINEFIELD_CAST_INTERVAL_MIN, MINEFIELD_CAST_INTERVAL_MAX), Wait.ABORT_WHEN_FALSE)
     if len(minefieldPosition) > 1:
         minefieldPick = random.randint(1, len(minefieldPosition))
         if minefieldPick == minefieldLastCastIndex:

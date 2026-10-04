@@ -14,7 +14,8 @@ macro HERO_SETTINGS_TEAM1 = {
     },
     "wreckingBall": {
         "ultDuration%": TEAM1_WRECKINGBALL_ULT_DURATION_PCT,
-        "ultKb%": BOSS_BASTION_SEC_FIRE_KB_PCT
+        "ultKb%": BOSS_BASTION_SEC_FIRE_KB_PCT,
+        "damageReceived%": TEAM1_WRECKINGBALL_DAMAGE_RECEIVED_PCT
     },
     "general": {
         "damageReceived%": TEAM1_DAMAGE_RECEIVED_PCT,
