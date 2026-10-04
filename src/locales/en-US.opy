@@ -243,6 +243,9 @@
 #!define STR_EVT_MECH_28_TARGET "Cycle Replay: {0}"
 #!define STR_EVT_MECH_28_NO_TARGET "No replayable buff"
 
+#!define STR_EVT_MECH_29_TITLE "Gambler: Practice Makes Perfect"
+#!define STR_EVT_MECH_29_DESC "Press {0}: {1}% chance to permanently gain or lose {2} Heartsteel stacks."
+
 #!define STR_EVT_MECH_30_TITLE "Loose Screws"
 #!define STR_EVT_MECH_30_DESC "Emit a toxic fog that follows you and blocks allied vision.\nOther allies inside take {0}% of the holder's max HP plus {1} damage per second."
 

@@ -595,3 +595,10 @@ rule "initialize event array":
     eventCatalogWeight[EventId.TOXIC_FOG] = EVT_MECH_30_WEIGHT
     eventCatalogType[EventId.TOXIC_FOG] = EventType.MECH
     eventCatalogId.append(EventId.TOXIC_FOG)
+
+    eventName[EventId.GAMBLER_PRACTICE_MAKES_PERFECT] = STR_EVT_MECH_29_TITLE
+    eventDesc[EventId.GAMBLER_PRACTICE_MAKES_PERFECT] = STR_EVT_MECH_29_DESC.format(Button.ABILITY_1, EVT_MECH_29_WIN_RATE, EVT_MECH_29_REWARD_STACKS)
+    eventDuration[EventId.GAMBLER_PRACTICE_MAKES_PERFECT] = EVT_MECH_29_DURATION
+    eventCatalogWeight[EventId.GAMBLER_PRACTICE_MAKES_PERFECT] = EVT_MECH_29_WEIGHT
+    eventCatalogType[EventId.GAMBLER_PRACTICE_MAKES_PERFECT] = EventType.MECH
+    eventCatalogId.append(EventId.GAMBLER_PRACTICE_MAKES_PERFECT)

@@ -1006,6 +1006,23 @@ enum EquivalentExchangeOffer:
     EventId.DIVINE_REINFORCEMENT \
 ]
 
+# --- ID 29 (Mech): 赌徒：唯手熟尔 ---
+# Duration（秒）
+#!define EVT_MECH_29_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_29_WEIGHT 1.2
+# 获胜概率 (%)
+#!define EVT_MECH_29_WIN_RATE 50
+
+# 单次赌注 (心之钢层数 / HP百分比)
+#!define EVT_MECH_29_STAKE 8
+
+# 胜利奖励：心之钢层数（失败仍损失 STAKE）
+#!define EVT_MECH_29_REWARD_STACKS 8
+
+# 单次结算冷却（秒）：按键时间戳门控，不依赖技能自身冷却
+#!define EVT_MECH_29_ROLL_COOLDOWN 0.5
+
 # --- ID 30 (Mech): 有点松弛 ---
 # Duration（秒）
 #!define EVT_MECH_30_DURATION 45
