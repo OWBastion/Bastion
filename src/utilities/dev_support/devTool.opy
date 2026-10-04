@@ -527,6 +527,7 @@ rule "Unlock all heroes":
 rule "Display event weights":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.key == "他又"
     @Condition eventPlayer.menu == 4
     
     destroyHudText(eventPlayer.menuTextID[0])
