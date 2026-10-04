@@ -652,25 +652,19 @@ enum HeartSteelData:
 #!define EVT_MECH_0_EFFECT Effect.ANA_BIOTIC_GRENADE_NO_HEALING
 #!define EVT_MECH_0_SOUND DynamicEffect.ANA_BIOTIC_GRENAGE_NO_HEALING_SOUND
 
-# --- ID 1 (Mech): 赌徒：唯手熟尔 ---
+# --- ID 1 (Mech): 赌徒 ---
 # Duration（秒）
 #!define EVT_MECH_1_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_1_WEIGHT 1.2
+#!define EVT_MECH_1_WEIGHT 1.4
 # 获胜概率 (%)
 #!define EVT_MECH_1_WIN_RATE 50
 
 # 单次赌注 (心之钢层数 / HP百分比)
 #!define EVT_MECH_1_STAKE 8
 
-# 胜利基础奖励：心之钢层数（周年契约 #290 下按 WIN_MULTIPLIER 翻倍；失败仍损失 STAKE 不乘倍率）
-#!define EVT_MECH_1_REWARD_STACKS 8
-
-# 周年获胜奖励倍率（#290 获胜翻倍，仅应用一次）
-#!define EVT_MECH_1_WIN_MULTIPLIER 2
-
-# 单次结算冷却（秒）：按键时间戳门控，不依赖技能自身冷却
-#!define EVT_MECH_1_ROLL_COOLDOWN 0.5
+# 胜利奖励：心之钢层数（失败仍损失 STAKE）
+#!define EVT_MECH_1_REWARD_STACKS 16
 
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
@@ -1011,6 +1005,26 @@ enum EquivalentExchangeOffer:
     BuffEventId.MAGIC_MASTER, \
     BuffEventId.DIVINE_REINFORCEMENT \
 ]
+
+# --- ID 29 (Mech): 赌徒：唯手熟尔 ---
+# Duration（秒）
+#!define EVT_MECH_29_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_29_WEIGHT 1.2
+# 获胜概率 (%)
+#!define EVT_MECH_29_WIN_RATE 50
+
+# 单次赌注 (心之钢层数 / HP百分比)
+#!define EVT_MECH_29_STAKE 8
+
+# 胜利基础奖励：心之钢层数（周年契约 #290 下按 WIN_MULTIPLIER 翻倍；失败仍损失 STAKE 不乘倍率）
+#!define EVT_MECH_29_REWARD_STACKS 8
+
+# 周年获胜奖励倍率（#290 获胜翻倍，仅应用一次）
+#!define EVT_MECH_29_WIN_MULTIPLIER 2
+
+# 单次结算冷却（秒）：按键时间戳门控，不依赖技能自身冷却
+#!define EVT_MECH_29_ROLL_COOLDOWN 0.5
 
 # --- ID 30 (Mech): 有点松弛 ---
 # Duration（秒）

@@ -132,8 +132,8 @@
 # ------------------------------------------------
 #!define STR_EVT_MECH_0_TITLE "Extreme Challenge"
 #!define STR_EVT_MECH_0_DESC "Gain {0}% damage reduction.\nHP is locked at {1}%.\nHealing is disabled."
-#!define STR_EVT_MECH_1_TITLE "Gambler: Practice Makes Perfect"
-#!define STR_EVT_MECH_1_DESC "Press {0} to place a bet.\n{1}% chance to permanently gain {2} Heartsteel stacks; otherwise lose {3}.\n{4}s cooldown between bets."
+#!define STR_EVT_MECH_1_TITLE "Gambler"
+#!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to permanently gain {2} Heartsteel stacks; otherwise lose {3}."
 #!define STR_EVT_MECH_2_TITLE "Mini Form"
 #!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"
@@ -242,6 +242,9 @@
 #!define STR_EVT_MECH_28_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable buff."
 #!define STR_EVT_MECH_28_TARGET "Cycle Replay: {0}"
 #!define STR_EVT_MECH_28_NO_TARGET "No replayable buff"
+
+#!define STR_EVT_MECH_29_TITLE "Gambler: Practice Makes Perfect"
+#!define STR_EVT_MECH_29_DESC "Press {0} to place a bet.\n{1}% chance to permanently gain {2} Heartsteel stacks; otherwise lose {3}.\n{4}s cooldown between bets."
 
 #!define STR_EVT_MECH_30_TITLE "Loose Screws"
 #!define STR_EVT_MECH_30_DESC "Emit a toxic fog that follows you and blocks allied vision.\nOther allies inside take {0}% of the holder's max HP plus {1} damage per second."

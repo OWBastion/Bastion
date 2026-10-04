@@ -139,8 +139,8 @@
 # ------------------------------------------------
 #!define STR_EVT_MECH_0_TITLE "极限挑战"
 #!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免\n生命值被锁定在{1}%\n获得禁疗"
-#!define STR_EVT_MECH_1_TITLE "赌徒：唯手熟尔"
-#!define STR_EVT_MECH_1_DESC "按{0}下注一次\n{1}%概率永久获得{2}层心之钢，否则损失{3}层\n结算冷却{4}秒"
+#!define STR_EVT_MECH_1_TITLE "赌徒"
+#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率永久获得{2}层心之钢，否则损失{3}层"
 #!define STR_EVT_MECH_2_TITLE "迷你形态"
 #!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
@@ -251,6 +251,8 @@
 #!define STR_EVT_MECH_28_DESC "长按{0}消耗{1}层心之钢（约{2}%最大生命值）\n下一个事件将为最近一次可循环的增益"
 #!define STR_EVT_MECH_28_TARGET "循环往复：{0}"
 #!define STR_EVT_MECH_28_NO_TARGET "没有可循环的增益"
+#!define STR_EVT_MECH_29_TITLE "赌徒：唯手熟尔"
+#!define STR_EVT_MECH_29_DESC "按{0}下注一次\n{1}%概率永久获得{2}层心之钢，否则损失{3}层\n结算冷却{4}秒"
 #!define STR_EVT_MECH_30_TITLE "有点松弛"
 #!define STR_EVT_MECH_30_DESC "产生跟随自身的迷雾，遮挡友方视野\n雾中其他友方每秒受到{0}%持有者最大生命值+{1}点伤害"
 
