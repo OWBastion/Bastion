@@ -40,12 +40,12 @@ rule "[VishkarEvent]: 有福同享（结算）":
     wait()
     if eventPlayer.eventId == BuffEventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]))):
         bigMessage(eventPlayer, "有福同享 成功！")
-        smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS))
+        smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
         if eventPlayer.target != null and eventPlayer.target in getPlayers(Team.2):
-            smallMessage(eventPlayer.target, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS))
-            eventPlayer.target.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS
+            smallMessage(eventPlayer.target, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
+            eventPlayer.target.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
             eventPlayer.target.setPlayerHP = true
-        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS
+        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
         setPlayerHP()
         eventPlayer.eventDuration = 0
     elif eventPlayer.eventId == BuffEventId.SHARED_BLESSING:
@@ -63,7 +63,7 @@ rule "[VishkarEvent]: 有福同享（通关结算·未绑定）":
 
     # 未绑定时不产生队友奖励，仅结算持有者本人任务
     bigMessage(eventPlayer, "有福同享 成功！")
-    smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS))
-    eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS
+    smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
+    eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_34_REWARD_STACKS * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
     setPlayerHP()
     eventPlayer.eventDuration = 0
