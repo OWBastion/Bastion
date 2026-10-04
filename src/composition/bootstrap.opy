@@ -19,7 +19,7 @@ settings {
     },
     "gamemodes": {
         "skirmish": {
-            "enabledMaps": ["route66", "circuitRoyal", "shambaliMonastery", "havana", "dorado", "watchpointGibraltar", "rialto", "eichenwalde"]
+            "enabledMaps": ["route66", "circuitRoyal", "shambaliMonastery", "havana", "dorado", "watchpointGibraltar", "rialto", "eichenwalde", "kingsRow", "numbani", "midtown"]
         },
         "general": {
             "enablePerks": true,

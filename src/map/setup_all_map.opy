@@ -13,3 +13,6 @@
 #!include "route66.opy"
 #!include "shambali.opy"
 #!include "circuit_royal.opy"
+#!include "kings_row.opy"
+#!include "numbani.opy"
+#!include "midtown.opy"
