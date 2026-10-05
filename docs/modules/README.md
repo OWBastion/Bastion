@@ -28,11 +28,11 @@
 - `heroes/`：英雄定制规则
 - `locales/`：中英文本地化宏
 - `map/`：地图点位与多图切换流程
-- `player/`：玩家初始化、进度、成就
+- `player/`：玩家初始化、进度/存档、属性计算与成就
 - `special/`：春节/活动分支（Lunar）
 - `title/`：称号系统（真源为平台 Agents API，由脚本同步到运行文件）
 - `tools/`：构建期名称映射脚本
-- `utilities/`：复用子程序与系统工具规则
+- `utilities/`：无业务属主的系统机制与开发辅助（devTool）
 
 ## 文件规模（便于定位核心）
 
@@ -52,7 +52,7 @@
 
 - 新功能优先补充对应模块文档，避免只改代码不改说明。
 - 事件类改动需同时核对：`config` + `events/effects` + `locales`。
-- 地图类改动需同时核对：对应地图文件 + `map/setup_all_map.opy` +（必要时）`utilities/system/mapDetection.opy`。
+- 地图类改动需同时核对：对应地图文件 + `map/setup_all_map.opy` +（必要时）`map/mapDetection.opy`。
 - 若仅改 `main.opy` 或仅改 `devMain.opy`，必须在变更说明中写明原因。
 
 ## 近期 Session 纪要（2026-02-27 ~ 2026-02-28）

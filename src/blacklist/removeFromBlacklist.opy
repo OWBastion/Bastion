@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../main.opy"
 
 rule "Remove Player from Blacklist":
     @Event playerJoined

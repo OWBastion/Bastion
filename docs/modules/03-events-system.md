@@ -7,7 +7,9 @@
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
+- 事件域支撑：`src/events/effects/healthPool.opy`（生命池清理）, `dashDetector.opy`（相位触发）
 - 生命周期：`src/events/lifecycle/`（`setPlayerEvent.opy` 含 `commitPlayerEventCategory`、`setEventDuration.opy`、`clearEventEffect.opy`、`clearPlayerEvent.opy`、`resetPlayerEventState.opy`、`resetPlayerCD.opy`）
+- 完整性：`src/events/integrity/`（`hashtag.opy` 目录权重校验、`masteryRunCode.opy` 对局码生成）
 
 ## 生命周期
 

@@ -56,9 +56,10 @@
 
 ## 关联模块
 
-- `utilities/system/mapDetection.opy`：地图识别
+- `map/mapDetection.opy`：地图识别
+- `map/controlJump.opy`：控制点检查点推进与回位
+- `player/finishSettlement.opy`：终点结算与胜者规则
 - `effects/init.opy`：终点/跳点可视化
-- 入口主规则：切图传送与终点晋级
 
 ## 开发注意
 
