@@ -4,7 +4,7 @@ This document is the canonical rule source for build commands and validation wor
 
 ## Canonical Commands
 
-1. `pnpm run build` (sync current platform metadata, then build every canonical profile, locale, and environment combination)
+1. `pnpm run build` (sync current platform metadata, then build `build:cn:zh`, `build:dev:cn:zh`, `build:external:en`, `build:external:zh`)
 2. `pnpm run build:cn:zh`
 3. `pnpm run build:external:en`
 4. `pnpm run build:external:zh`

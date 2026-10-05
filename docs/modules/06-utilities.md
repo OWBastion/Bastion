@@ -17,7 +17,7 @@
 
 - `macros.opy`
 
-## 入口约定（main/devMain）
+## 入口约定
 
 - 顶部宏：`utilities/dev_support/macros.opy`
 - 中段服务分组：`core.opy` 按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`env/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排

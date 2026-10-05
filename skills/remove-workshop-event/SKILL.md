@@ -45,11 +45,12 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 
 至少执行并通过：
 
-1. `pnpm run build:main`
-2. `pnpm run build:dev`
-3. `./tools/check_locale_keys.sh`
-4. `pnpm run sync:platform-data -- --build=false`（需要平台 API 时）
-5. `pnpm run test:platform-data-sync`
+1. `pnpm run build:cn:zh`
+2. `pnpm run build:dev:cn:zh`
+3. `pnpm run build:external:en`
+4. `./tools/check_locale_keys.sh`
+5. `pnpm run sync:platform-data --no-build`（需要平台 API 时）
+6. `pnpm run test:platform-data-sync`
 
 ## 6) 结果自检
 

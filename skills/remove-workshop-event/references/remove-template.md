@@ -36,8 +36,8 @@ rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
 ## 3) 完成定义（DoD）
 
 1. 目标事件残留引用为 0（按上面 `rg` 检查）。
-2. `pnpm run build:main` 通过。
-3. `pnpm run build:dev` 通过。
+2. `pnpm run build:cn:zh` 通过。
+3. `pnpm run build:dev:cn:zh` 与 `pnpm run build:external:en` 通过。
 4. `./tools/check_locale_keys.sh` 通过。
 5. `pnpm run test:platform-data-sync` 通过。
 6. `data/platform-event-ids.json` 不再含目标事件映射。

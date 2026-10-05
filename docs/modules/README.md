@@ -20,8 +20,8 @@
 
 - `bastion/`：敌方堡垒 AI 与战斗行为
 - `blacklist/`：黑名单初始化
-- `config/`：正式/开发事件池初始化
-- `constants/`：事件、玩家相关核心常量
+- `composition/`：入口共享组装件（bootstrap、profile 差异宏、CN 专属功能尾部）
+- `config/`：事件注册目录（`eventCatalog.opy`）+ MAIN/DEV 顺序文件
 - `effects/`：HUD、世界特效、摄像机触发点
 - `env/`：环境开关、版本号、全局初始化
 - `events/`：事件抽取、生命周期与事件效果实现
@@ -43,7 +43,7 @@
 - `src/events/effects/buffEffects.opy`
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
-- `src/main.opy` / `src/devMain.opy`
+- `src/main.opy` / `src/devMain.opy` / `src/externalMain.opy`
 - `src/config/eventCatalog.opy` / `src/config/eventCatalogMain.opy` / `src/config/eventCatalogDev.opy`
 - `src/bastion/init.opy`
 - `src/title/title-cn.opy`
@@ -53,23 +53,4 @@
 - 新功能优先补充对应模块文档，避免只改代码不改说明。
 - 事件类改动需同时核对：`config` + `events/effects` + `locales`。
 - 地图类改动需同时核对：对应地图文件 + `map/setup_all_map.opy` +（必要时）`map/mapDetection.opy`。
-- 若仅改 `main.opy` 或仅改 `devMain.opy`，必须在变更说明中写明原因。
-
-## 近期 Session 纪要（2026-02-27 ~ 2026-02-28）
-
-以下为最近一轮提交窗口（最近 10 条 commit）的高频主题，便于回溯与协作同步。
-
-- 入口与英雄设置解耦
-  - `main/devMain` 的 `settings.heroes` 已提取为共享宏 + 入口覆盖结构（`src/heroes/settings/`），降低双入口重复维护成本。
-  - `docs/modules/01-entry-architecture.md` 与 `docs/modules/07-heroes.md` 已同步说明新的 include 与覆盖策略。
-- 事件系统调参与可控性增强
-  - 事件配置不再暴露包级或单事件 Workshop 开关；主/开发入口按构建输入注册事件目录。
-  - Buff 34（坚韧）描述改为基于常量格式化注入，减少文案与数值漂移。
-  - Mech 20（三位一体）减伤/移速换算参数上调，并同步中英文文案描述。
-  - Buff 19（胜利意志）增加存活前置条件，避免死亡后误触发。
-- 系统稳定性修复
-  - `playerRegen` 脱战回复改为受伤信号驱动 + 显式 HOT 生命周期收敛，减少重复启动/残留。
-  - `hashtag` 哨兵校验新增雾子基础生命值（225）校验，哈希判定更严格。
-- 版本与工程流
-  - 版本号更新至 `26.0227.3`。
-  - CI 工作流新增去重触发控制，避免重复构建。
+- 若仅改部分入口（`main.opy` / `devMain.opy` / `externalMain.opy`），必须在变更说明中写明原因。

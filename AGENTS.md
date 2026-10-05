@@ -94,3 +94,5 @@ Player title grants remain platform-owned; Bastion has no local grant helper.
 Workspace governance skills in `.agents/skills/` apply organization policy when the task shape matches: `owbastion-reclaim-entropy` (cleanup and load-bearing investigations), `owbastion-verify-change` (independent verification of another author's material change), and `owbastion-test-design-review` (test necessity and stability).
 
 Skill metadata is an activation surface. Relevant task shapes, changed artifacts, or failure signals should trigger the skill without the user having to name it. Skills are procedures, not policy owners, and must not enlarge task scope or override this file and its canonical routed contracts.
+
+`skills/` in this repository is the owner for Bastion workflow procedures (`add-workshop-event`, `add-workshop-title`, `remove-workshop-event`, `session-skill-maintainer`). Same-name directories under workspace `.agents/skills/` are governed by the `.agents` repository and may lag; treat this repository's copies as canonical for Bastion tasks.

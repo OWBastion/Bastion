@@ -38,12 +38,12 @@ description: 为 Bastion Overwatch Workshop 项目复核平台称号同步生成
 pnpm run sync:platform-data
 ```
 
-仅检查双入口 include，不重排顺序：
+仅检查 CN profile 组装 include，不重排顺序：
 
-1. `src/main.opy`
-2. `src/devMain.opy`
+1. `src/composition/profile-cn.opy` 需保留 `title/title-cn.opy`
+2. `src/composition/profile-cn-features.opy` 需保留 `title/init.opy`
 
-两者均需保留 `title/title-cn.opy` 与 `title/init.opy`。
+`main.opy` 与 `devMain.opy` 均通过 profile-cn 组装引入称号系统；`externalMain.opy` 不引入。
 
 ## 4) 验证
 
