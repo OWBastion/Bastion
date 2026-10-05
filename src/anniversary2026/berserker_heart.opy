@@ -4,13 +4,14 @@
 #!optimizeStrict
 #!rulePrefix "BerserkerHeart"
 
-## 狂暴之心：周年模式堡垒全程狂暴
-## 复用盛宴狂暴状态机（hasNano / berserkerTime）；nano.opy 每 60 秒自清一次、
-## 狂欢盛宴计时器持续衰减 berserkerTime，本闩锁在条件侧侦测掉态后补回。
-#!define BERSERKER_HEART_DURATION 9999
+#!define BERSERKER_HEART_INTERVAL 60
+#!define BERSERKER_HEART_DURATION 30
 
-rule "Latch berserk on Bastion bots":
-    @Condition false in getPlayersOnHero(Hero.BASTION, Team.1).hasNano
+rule "Periodically berserk one Bastion bot":
+    @Condition len([player for player in getPlayersOnHero(Hero.BASTION, Team.1) if player.isDummy() and player.isAlive()]) > 0
 
-    getPlayersOnHero(Hero.BASTION, Team.1).hasNano = true
+    wait(BERSERKER_HEART_INTERVAL, Wait.ABORT_WHEN_FALSE)
+    random.choice([player for player in getPlayersOnHero(Hero.BASTION, Team.1) if player.isDummy() and player.isAlive()]).hasNano = true
     berserkerTime = BERSERKER_HEART_DURATION
+    if ruleCondition:
+        loop()
