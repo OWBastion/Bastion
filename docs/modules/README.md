@@ -27,12 +27,13 @@
 - `events/`：事件抽取、生命周期与事件效果实现
 - `heroes/`：英雄定制规则
 - `locales/`：中英文本地化宏
-- `map/`：地图点位与多图切换流程
+- `map/`：地图点位、多图切换流程与点位交互
+- `menu/`：玩家/房主/开发者菜单（按职责拆分子目录）
 - `player/`：玩家初始化、进度/存档、属性计算与成就
 - `special/`：春节/活动分支（Lunar）
 - `title/`：称号系统（真源为平台 Agents API，由脚本同步到运行文件）
 - `tools/`：构建期名称映射脚本
-- `utilities/`：无业务属主的系统机制与开发辅助（devTool）
+- `utilities/`：无业务属主的系统机制与开发宏
 
 ## 文件规模（便于定位核心）
 
@@ -42,7 +43,6 @@
 - `src/events/effects/buffEffects.opy`
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
-- `src/utilities/dev_support/devTool.opy`
 - `src/main.opy` / `src/devMain.opy`
 - `src/config/eventConfig.opy` / `src/config/eventConfigDev.opy`
 - `src/bastion/init.opy`

@@ -59,7 +59,7 @@
 ### `eventConfigDev.opy`（开发）
 
 - 与生产配置保持相同的构建决定性注册边界，不暴露包级或单事件 Workshop 开关
-- 事件调试使用 `devTool`、强制事件入口或临时局部改动，不改变运行时事件目录
+- 事件调试使用开发者菜单（`menu/dev/`）、强制事件入口或临时局部改动，不改变运行时事件目录
 
 两份配置中的事件注册都在事件系统初始化时无条件执行。房主设置不会再改变 `eventCatalogId`，而平台/构建输入仍可通过构建时投影决定哪些事件进入当前脚本。
 
@@ -115,4 +115,4 @@
 3. 在 `config/eventConfig*.opy` 注入条目
 4. 在 `events/effects/*` 增加规则实现
 5. 在 `clearPlayerEvent` 核对是否有新状态需回收
-6. 在 `devMain.opy` 使用 `devTool` 或强制事件入口做回归验证，不增加事件 Workshop 开关
+6. 在 `devMain.opy` 使用开发者菜单（`menu/dev/`）或强制事件入口做回归验证，不增加事件 Workshop 开关
