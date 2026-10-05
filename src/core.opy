@@ -30,20 +30,20 @@
 
 #!include "utilities/system/hashtag.opy"
 
-## Utilities: event_core
+## Utilities: event_core / Events: lifecycle（include 槽位保持原位以维持展开顺序）
 #!include "utilities/event_core/updatePlayerStats.opy"
 
-#!include "utilities/event_core/setEventDuration.opy"
+#!include "events/lifecycle/setEventDuration.opy"
 
-#!include "utilities/event_core/resetPlayerCD.opy"
+#!include "events/lifecycle/resetPlayerCD.opy"
 
 #!include "utilities/event_core/setPlayerSize.opy"
 
-#!include "utilities/event_core/clearEventEffect.opy"
+#!include "events/lifecycle/clearEventEffect.opy"
 
-#!include "utilities/event_core/setPlayerEvent.opy"
+#!include "events/lifecycle/setPlayerEvent.opy"
 
-#!include "utilities/event_core/clearPlayerEvent.opy"
+#!include "events/lifecycle/clearPlayerEvent.opy"
 
 #!include "utilities/event_core/setPlayerHP.opy"
 
@@ -195,6 +195,8 @@ rule "Generate mastery run code":
 #!include "effects/nano.opy"
 #!include "effects/player.opy"
 
+# 事件完整重置入口；保持在 status.opy 前以维持子程序索引与规则顺序
+#!include "events/lifecycle/resetPlayerEventState.opy"
 #!include "player/status.opy"
 #!include "player/init.opy"
 

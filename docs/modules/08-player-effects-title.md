@@ -11,6 +11,7 @@
 
 ### `player/status.opy`
 
+- 进度/存档重置仍由本文件协调；事件完整重置实现位于 `src/events/lifecycle/resetPlayerEventState.opy`
 - 记录进度死亡数 `progressionDeathCount`
 - 用终极充能展示“可跳过进度”
 - 达阈值后可用大招推进英雄

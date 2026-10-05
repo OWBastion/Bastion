@@ -7,31 +7,9 @@
 #!define ULT_SYNC_DT_MIN 0.1
 #!define ULT_SYNC_DT_MAX 0.5
 
-subroutine resetPlayerEventState
 subroutine resetPlayerProgressState
 subroutine resetPlayerSavedState
 subroutine finishResetProgress
-
-def resetPlayerEventState():
-    @Name "[VishkarEvent]: reset player event state"
-
-    eventPlayer.eventCompatibleBasePool = null
-    clearPlayerEvent()
-    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.REGROUP_CALL])
-    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL])
-    destroyEffect(eventPlayer.nanoEffect)
-    eventPlayer.invincibleEffect = DEFAULT_INVINCIBLE_EFFECTS.slice(0, InvincibleEffectSlot.COUNT)
-    eventPlayer.nanoEffect = null
-    eventPlayer.hasNano = false
-    eventPlayer.eventLastId = []
-    eventPlayer.eventCount = [0, 0, 0]
-    eventPlayer.eventLucky = 0
-    eventPlayer.eventDurationHud = 0
-    eventPlayer.eventLoopCount = 0
-    eventPlayer.eventIsSelected = false
-    eventPlayer.eventCandidateIndex = null
-    eventPlayer.eventTempIndex = []
-    wait(getAverageServerLoad() / 100 * 0.032)
 
 def resetPlayerProgressState():
     @Name "[VishkarEvent]: reset player progress state"

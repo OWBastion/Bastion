@@ -6,15 +6,10 @@
 
 ### A. `utilities/event_core/`
 
-事件生命周期核心动作：
+玩家属性/状态计算（事件生命周期已归位 `src/events/lifecycle/`）：
 
-- `setPlayerEvent.opy`
-- `clearPlayerEvent.opy`
-- `setEventDuration.opy`
-- `clearEventEffect.opy`
 - `updatePlayerStats.opy`
 - `setPlayerHP.opy`
-- `resetPlayerCD.opy`
 - `startCombatRegen.opy`
 - `setPlayerSize.opy`
 
@@ -47,7 +42,7 @@
 ## 入口约定（main/devMain）
 
 - 顶部宏：`utilities/dev_support/macros.opy`
-- 中段工具分组顺序：`utilities/system/*` -> `utilities/event_core/*`
+- 中段工具分组顺序：`utilities/system/*` -> `utilities/event_core/*` 与 `events/lifecycle/*`（交错 include 槽位固定，维持展开顺序）
 - 末尾开发工具：`utilities/dev_support/devTool.opy`
 
 ## 关键实现模式

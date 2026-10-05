@@ -31,6 +31,12 @@
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
 - `src/events/init/detectFlag.opy`
+- `src/events/lifecycle/clearEventEffect.opy`
+- `src/events/lifecycle/clearPlayerEvent.opy`
+- `src/events/lifecycle/resetPlayerCD.opy`
+- `src/events/lifecycle/resetPlayerEventState.opy`
+- `src/events/lifecycle/setEventDuration.opy`
+- `src/events/lifecycle/setPlayerEvent.opy`
 
 ## src/heroes
 - `src/heroes/mercy.opy`
@@ -92,7 +98,6 @@
 - `src/player/init.opy`
 
 ## src/special
-- `src/special/setPlayerEvent.opy`
 - `src/special/packet.opy`
 - `src/special/getRedPacket.opy`
 - `src/special/achievement.opy`
@@ -113,11 +118,6 @@
 ## src/utilities
 - `src/utilities/dev_support/devTool.opy`
 - `src/utilities/dev_support/macros.opy`
-- `src/utilities/event_core/clearEventEffect.opy`
-- `src/utilities/event_core/clearPlayerEvent.opy`
-- `src/utilities/event_core/resetPlayerCD.opy`
-- `src/utilities/event_core/setEventDuration.opy`
-- `src/utilities/event_core/setPlayerEvent.opy`
 - `src/utilities/event_core/setPlayerHP.opy`
 - `src/utilities/event_core/setPlayerSize.opy`
 - `src/utilities/event_core/startCombatRegen.opy`
