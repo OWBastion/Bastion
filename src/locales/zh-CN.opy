@@ -254,7 +254,7 @@
 #!define STR_EVT_MECH_29_TITLE "赌徒：唯手熟尔"
 #!define STR_EVT_MECH_29_DESC "按下{0}触发\n{1}%概率永久获得{2}层心之钢，否则损失{3}层"
 #!define STR_EVT_MECH_30_TITLE "有点松弛"
-#!define STR_EVT_MECH_30_DESC "产生跟随自身的迷雾，遮挡友方视野\n雾中其他友方每秒受到{0}%持有者最大生命值+{1}点伤害"
+#!define STR_EVT_MECH_30_DESC "产生遮挡视野的迷雾\n雾中其他友方受到{0}%最大生命值+{1}伤害"
 
 # 事件类别
 #!define STR_CAT_BUFF "增益"
