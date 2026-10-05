@@ -9,8 +9,9 @@
 - `src/blacklist/removeFromBlacklist.opy`
 
 ## src/config
-- `src/config/eventConfigDev.opy`
-- `src/config/eventConfig.opy`
+- `src/config/eventCatalog.opy`
+- `src/config/eventCatalogMain.opy`
+- `src/config/eventCatalogDev.opy`
 
 ## src/constants
 - `src/constants/event_constants.opy`

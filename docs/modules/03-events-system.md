@@ -3,7 +3,7 @@
 ## 模块组成
 
 - 初始化：`src/events/init/detectFlag.opy`
-- 配置：`src/config/eventConfig.opy`, `src/config/eventConfigDev.opy`
+- 配置：`src/config/eventCatalog.opy`, `src/config/eventCatalogMain.opy`, `src/config/eventCatalogDev.opy`
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
@@ -27,7 +27,7 @@
 
 事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight` 和 `eventCatalogType`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
 
-统一目录槽位是唯一事件身份：`eventPlayer.eventId` 直接存放选中的目录槽位，效果/英雄/系统规则只比较槽位本身，不再与 `eventType` 组成复合键。槽位统一拼写为 `EventId.X`（`src/constants/event_ids.opy` 单一枚举，成员按 Buff → Debuff → Mech 顺序声明，声明顺序即槽位号）；`-1` 保留为“无事件”哨兵。事件类别在 `eventConfig*.opy` 注册时写入 `eventCatalogType[EventId.X]`；`eventPlayer.eventType` 是 `setPlayerEvent()` 回填的派生类别状态，仅供类别计数/幸运值与 HUD 图标等分类消费，不得出现在派发条件中。
+统一目录槽位是唯一事件身份：`eventPlayer.eventId` 直接存放选中的目录槽位，效果/英雄/系统规则只比较槽位本身，不再与 `eventType` 组成复合键。槽位统一拼写为 `EventId.X`（`src/constants/event_ids.opy` 单一枚举，成员按 Buff → Debuff → Mech 顺序声明，声明顺序即槽位号）；`-1` 保留为“无事件”哨兵。事件类别在 `eventCatalog.opy` 注册时写入 `eventCatalogType[EventId.X]`；`eventPlayer.eventType` 是 `setPlayerEvent()` 回填的派生类别状态，仅供类别计数/幸运值与 HUD 图标等分类消费，不得出现在派发条件中。
 
 若 `eventCatalogType[id]` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
 
@@ -43,7 +43,7 @@
 ## 事件 ID（统一 Enum 管理）
 
 - 全部事件使用 `src/constants/event_ids.opy` 的单一 `EventId` enum 管理，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位号。
-- `config/eventConfig*.opy` 与 `events/effects/*` 只引用 `EventId.<MEMBER>`，不直接写裸数字 ID，也不再按类别做偏移拼写。
+- `config/eventCatalog*.opy` 与 `events/effects/*` 只引用 `EventId.<MEMBER>`，不直接写裸数字 ID，也不再按类别做偏移拼写。
 - 事件类别不在 enum 中体现：注册时由 `eventCatalogType[EventId.X] = EventType.<类别>` 写入，分类消费读取 `eventCatalogType`。
 - 当前策略为“源码版本内自洽”：删除中间 enum 成员时，后续成员自动前移，相关规则引用会随编译同步。
 - 若新增事件，在对应类别分节末尾追加成员，再补配置与效果规则。
@@ -51,17 +51,19 @@
 
 ## 配置文件差异
 
-### `eventConfig.opy`（生产）
+### `eventCatalog.opy`（共用注册定义）
 
-- 按构建输入注册当前构建包含的全部事件，不读取房主 Workshop 事件设置
+- 按构建输入注册当前构建包含的全部事件字段（名称/描述/时长/权重/类别），不读取房主 Workshop 事件设置
 - `Pack` 标题仅用于保持源码分组，不代表运行时可切换的事件池
+- 目录顺序由入口各自的 `EVENT_CATALOG_ORDER` 定义提交，不随字段注册耦合
 
-### `eventConfigDev.opy`（开发）
+### `eventCatalogMain.opy` / `eventCatalogDev.opy`（入口顺序）
 
-- 与生产配置保持相同的构建决定性注册边界，不暴露包级或单事件 Workshop 开关
+- `eventCatalogMain.opy`（`main.opy`/`externalMain.opy`）与 `eventCatalogDev.opy`（`devMain.opy`）各自定义 `EVENT_CATALOG_ORDER`，成员集合必须与共用注册完全一致，仅顺序可不同
+- 开发与生产配置保持相同的构建决定性注册边界，不暴露包级或单事件 Workshop 开关
 - 事件调试使用开发者菜单（`menu/dev/`）、强制事件入口或临时局部改动，不改变运行时事件目录
 
-两份配置中的事件注册都在事件系统初始化时无条件执行。房主设置不会再改变 `eventCatalogId`，而平台/构建输入仍可通过构建时投影决定哪些事件进入当前脚本。
+事件注册在各入口初始化时无条件执行。房主设置不会再改变 `eventCatalogId`，而平台/构建输入仍可通过构建时投影决定哪些事件进入当前脚本。
 
 ## 全局候选与抽样
 
@@ -112,7 +114,7 @@
 
 1. 在 `event_constants.opy` 新增参数
 2. 在 `locales/*.opy` 增加标题/描述（不写持续时间，持续时间只放在 `event_constants.opy`）
-3. 在 `config/eventConfig*.opy` 注入条目
+3. 在 `config/eventCatalog.opy` 注入条目，并在 `eventCatalogMain.opy`/`eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 追加 ID
 4. 在 `events/effects/*` 增加规则实现
 5. 在 `clearPlayerEvent` 核对是否有新状态需回收
 6. 在 `devMain.opy` 使用开发者菜单（`menu/dev/`）或强制事件入口做回归验证，不增加事件 Workshop 开关

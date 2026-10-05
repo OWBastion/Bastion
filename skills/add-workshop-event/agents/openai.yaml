@@ -2,4 +2,4 @@ version: 1
 interface:
   display_name: Add Workshop Event
   short_description: Add Buff/Debuff/Mech events with ordered enum-to-rule registration and safety checks.
-  default_prompt: Use $add-workshop-event to update event IDs, constants, locales, eventConfig/eventConfigDev, and effect rules in order, enforcing COUNT-before insertion and wait/cleanup safety checks.
+  default_prompt: Use $add-workshop-event to update event IDs, constants, locales, eventCatalog registration and MAIN/DEV catalog order, and effect rules in order, enforcing COUNT-before insertion and wait/cleanup safety checks.

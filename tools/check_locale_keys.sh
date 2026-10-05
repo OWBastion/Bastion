@@ -5,8 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ZH_FILE="$ROOT_DIR/src/locales/zh-CN.opy"
 EN_FILE="$ROOT_DIR/src/locales/en-US.opy"
 CONFIG_FILES=(
-  "$ROOT_DIR/src/config/eventConfig.opy"
-  "$ROOT_DIR/src/config/eventConfigDev.opy"
+  "$ROOT_DIR/src/config/eventCatalog.opy"
 )
 
 if ! command -v rg >/dev/null 2>&1; then

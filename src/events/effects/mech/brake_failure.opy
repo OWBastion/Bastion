@@ -5,7 +5,7 @@
 #!rulePrefix "Event/刹车失灵"
 
 # Event: EventId.BRAKE_FAILURE
-# 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventConfig 注册与聚合 include。
+# 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventCatalog 注册、EVENT_CATALOG_ORDER 顺序项与聚合 include。
 
 rule "Force forward throttle":
     @Event eachPlayer

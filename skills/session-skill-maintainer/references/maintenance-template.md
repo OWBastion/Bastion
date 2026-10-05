@@ -62,6 +62,6 @@ rg -n 'data/title-source.json|sync:title-data|test:title-data-sync|title/init.op
 Event 类演练：
 
 ```bash
-rg -n 'COUNT|eventConfigDev|eventId == EventId|wait\(' skills/add-workshop-event/SKILL.md
+rg -n 'COUNT|eventCatalogDev|eventId == EventId|wait\(' skills/add-workshop-event/SKILL.md
 rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
 ```
