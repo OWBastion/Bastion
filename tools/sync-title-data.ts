@@ -1,6 +1,19 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  assertExactKeys,
+  assertUnique,
+  requireNumber,
+  requireString,
+  type JsonObject,
+  type PlatformData,
+  type TitleSource,
+  TITLE_SCOPES,
+  TITLE_DISPLAY_KINDS,
+  TITLE_SLOTS
+} from './platform-data-client.ts';
+import { hasMapSource, mapKeyFromPlatformId, platformMapId, validateGameplayRevision } from './sync-map-data.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -587,4 +600,186 @@ export async function syncTitleData({
       { path: playerNameToIndexDelimitedFile, content: nextPlayerNameToIndexDelimitedFile },
     ],
   };
+}
+
+export function validateAndMergeTitles(platformData: PlatformData, titleSource: TitleSource, mapIds: Set<string>) {
+  const titles = titleSource.titles.map((item) => ({ ...item }));
+  const titleByKey = new Map(titles.map((item) => [requireString(item.key, 'title.key'), item]));
+  const seenDefinitions = new Map<string, string>();
+
+  for (const [index, item] of platformData.titles.entries()) {
+    const prefix = `titles[${index}]`;
+    const key = requireString(item.titleKey, `${prefix}.titleKey`);
+    const local = titleByKey.get(key);
+    if (!local) throw new Error(`${prefix} references unknown Bastion title ${key}`);
+    if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) {
+      throw new Error(`${prefix} has an unsupported scope or displayKind`);
+    }
+    if (item.scope === 'map' && (!item.mapId || !mapIds.has(item.mapId))) {
+      throw new Error(`${prefix} references unknown map ${String(item.mapId)}`);
+    }
+    if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
+    const label = requireString(item.label, `${prefix}.label`);
+    const category = requireString(item.category, `${prefix}.category`);
+    const condition = requireString(item.condition, `${prefix}.condition`);
+    const definition = JSON.stringify({ label, category, condition, availability: item.availability, displayKind: item.displayKind, color: item.color });
+    const previousDefinition = seenDefinitions.get(key);
+    if (previousDefinition !== undefined && previousDefinition !== definition) throw new Error(`Inconsistent platform title definition: ${key}`);
+    seenDefinitions.set(key, definition);
+    const previousLabel = requireString(local.label, `${key}.label`);
+    local.label = label;
+    if (item.displayKind === 'fixed' && local.displayExpr === JSON.stringify(previousLabel)) {
+      local.displayExpr = JSON.stringify(label);
+    }
+    local.category = category;
+    local.condition = condition;
+    local.availability = item.availability;
+    if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
+  }
+  return titles;
+}
+
+export function validateAndMergeMaps(platformData: PlatformData, titleSource: TitleSource) {
+  const mapLabels = new Map<string, string>();
+  for (const item of platformData.maps) mapLabels.set(requireString(item.mapId, 'mapId'), requireString(item.mapName, 'mapName'));
+  return titleSource.mapTitles.map((item) => ({
+    ...item,
+    mapLabel: mapLabels.get(platformMapId(requireString(item.mapKey, 'mapKey'))) ?? item.mapLabel
+  }));
+}
+
+export function titleColorExpr(value: unknown, prefix: string): string | null {
+  if (value == null) return null;
+  if (!value || typeof value !== 'object') throw new Error(`${prefix}.color must be an object or null`);
+  const color = value as Record<string, unknown>;
+  if (color.kind === 'heroColor') return `[heroColor[${requireNumber(color.index, `${prefix}.color.index`)}]]`;
+  if (color.kind === 'rgb') {
+    if (!Array.isArray(color.value) || color.value.length !== 3 || color.value.some((part) => !Number.isInteger(part) || Number(part) < 0 || Number(part) > 255)) throw new Error(`${prefix}.color.value must be an RGB tuple`);
+    return `[vect(${color.value.join(', ')})]`;
+  }
+  if (color.kind === 'palette' && ['orange', 'red', 'purple', 'gold', 'blue'].includes(String(color.name))) return `breathPalette.${color.name}`;
+  throw new Error(`${prefix}.color has an unsupported value`);
+}
+
+export function titleDisplayExpr(item: JsonObject, prefix: string): string {
+  if (item.displayExpr) return item.displayExpr;
+  const label = requireString(item.label, `${prefix}.label`);
+  if (item.displayKind === 'fixed') return JSON.stringify(label);
+  if (item.displayKind === 'map_pioneer') return `"{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else ${JSON.stringify(label)})`;
+  if (item.displayKind === 'map_name_suffix') return `"{0}${label}".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())`;
+  throw new Error(`${prefix}.displayKind has an unsupported value`);
+}
+
+export function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
+  const definitions = new Map<string, string>();
+  for (const [index, item] of platformData.achievements.entries()) {
+    if (item.family !== 'map' || item.type !== 'map_completion' || item.kind !== 'map_title_achievement') continue;
+    if (item.mapVariant === 'classic') continue;
+    const prefix = `achievements[${index}]`;
+    const mapId = requireString(item.mapId, `${prefix}.mapId`);
+    const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const rule = item.mapTitleRule;
+    if (!mapIds.has(mapId) || !rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+      throw new Error(`${prefix} has an invalid dynamic map title rule`);
+    }
+    const key = `${mapId}:${titleKey}`;
+    const previous = definitions.get(key);
+    if (previous !== undefined && previous !== rule.slot) throw new Error(`Inconsistent dynamic map title definition: ${key}`);
+    definitions.set(key, rule.slot);
+  }
+  return definitions;
+}
+
+export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { platformData: PlatformData; mapSourceFiles: Array<{ file: string; content: string }> }): TitleSource {
+  const mapIds = new Set(platformData.maps.map((item) => requireString(item.mapId, 'mapId')));
+  const mapLabels = new Map(platformData.maps.map((item) => [requireString(item.mapId, 'mapId'), requireString(item.mapName, 'mapName')]));
+  for (const mapId of mapIds) {
+    if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
+  }
+
+  const dynamicMapTitleDefinitions = collectDynamicMapTitleDefinitions(platformData, mapIds);
+  const titleRecords = new Map<string, JsonObject>();
+  const mapTitleDefinitions = new Set<string>();
+  const mapTitleMetadata = new Set<string>();
+  for (const [index, item] of platformData.titles.entries()) {
+    const prefix = `titles[${index}]`;
+    const key = requireString(item.titleKey, `${prefix}.titleKey`);
+    if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) throw new Error(`${prefix} has an unsupported scope or displayKind`);
+    requireString(item.category, `${prefix}.category`); requireString(item.condition, `${prefix}.condition`);
+    if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
+    if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
+    if (item.scope === 'map') {
+      const mapId = requireString(item.mapId, `${prefix}.mapId`);
+      const dynamicSlot = dynamicMapTitleDefinitions.get(`${mapId}:${key}`);
+      const slot = dynamicSlot ?? (key === 'CLASSIC' && item.slot == null ? 'classic' : item.slot);
+      if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
+      if (dynamicSlot && item.slot !== undefined && item.slot !== dynamicSlot) throw new Error(`${prefix}.slot disagrees with the dynamic map title rule`);
+      if (slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
+      mapTitleDefinitions.add(`${mapId}:${slot}`);
+      mapTitleMetadata.add(`${mapId}:${key}`);
+    }
+    const previous = titleRecords.get(key);
+    if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
+    titleRecords.set(key, previous ?? item);
+  }
+  if (!titleRecords.has("CLASSIC")) {
+    titleRecords.set("CLASSIC", {
+      titleKey: "CLASSIC",
+      label: "賽檤の盡頭灬只剩莪",
+      category: "经典版地图系列",
+      condition: "通关对应地图经典版。",
+      availability: "active",
+      scope: "map",
+      displayKind: "fixed",
+      displayExpr: "__currentMapClassicText___",
+      color: { kind: "heroColor", index: 43 }
+    });
+  }
+  for (const key of dynamicMapTitleDefinitions.keys()) {
+    if (!mapTitleMetadata.has(key)) throw new Error(`Missing title metadata for dynamic map title definition: ${key}`);
+  }
+
+  const players = new Map<string, JsonObject>();
+  for (const [index, item] of platformData.playerTitleGrants.entries()) {
+    const prefix = `playerTitleGrants[${index}]`;
+    const playerName = requireString(item.playerName, `${prefix}.playerName`);
+    if (players.has(playerName)) throw new Error(`Duplicate player name: ${playerName}`);
+    players.set(playerName, { name: playerName, titleKeys: item.titleKeys, allTitles: item.allTitles === true });
+  }
+  const revisionsById = new Map<string, ValidatedGameplayRevision>();
+  for (const map of platformData.maps) {
+    const mapId = requireString(map.mapId, 'mapId');
+    if (!Array.isArray(map.gameplayRevisions)) throw new Error(`maps.${mapId}.gameplayRevisions must be an array`);
+    const revisions = map.gameplayRevisions.map((revision, index) => validateGameplayRevision(revision, mapId, `maps.${mapId}.gameplayRevisions[${index}]`));
+    if (revisions.filter((revision) => revision.isDefault).length !== 1) throw new Error(`maps.${mapId}.gameplayRevisions must contain exactly one default revision`);
+    for (const revision of revisions) {
+      if (revisionsById.has(revision.gameplayRevisionId)) throw new Error(`Duplicate gameplay revision ID: ${revision.gameplayRevisionId}`);
+      revisionsById.set(revision.gameplayRevisionId, revision);
+    }
+  }
+  const holdersByMap = new Map<string, { PIONEER: string[]; CONQUEROR: string[]; DOMINATOR: string[]; CLASSIC: string[] }>();
+  for (const [index, item] of platformData.mapTitleHolders.entries()) {
+    const prefix = `mapTitleHolders[${index}]`; const mapId = requireString(item.mapId, `${prefix}.mapId`); const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`); const playerName = requireString(item.playerName, `${prefix}.playerName`); const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
+    const revision = revisionsById.get(gameplayRevisionId);
+    const slot = item.slotSemantics === 'named'
+      ? requireString(item.slot, `${prefix}.slot`)
+      : item.slotSemantics === 'none' && item.slot === null && titleKey === 'CLASSIC'
+        ? 'classic'
+        : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
+    if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !mapTitleMetadata.has(`${mapId}:${titleKey}`)) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
+    const player = players.get(playerName);
+    if (!player) players.set(playerName, { name: playerName, titleKeys: [], allTitles: false });
+    if (slot !== 'classic' && !revision.isDefault) continue;
+    const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
+    const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);
+  }
+  const titleIds = new Map([...titleRecords.keys()].map((key, index) => [key, index]));
+  const normalizedPlayers = [...players.values()].sort((left, right) => String(left.name).localeCompare(String(right.name))).map((player) => {
+    if (!Array.isArray(player.titleKeys) || player.titleKeys.some((key: unknown) => typeof key !== 'string' || !titleRecords.has(key))) throw new Error(`Invalid titleKeys for player ${player.name}`);
+    return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
+  });
+  const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
+  for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
+  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }

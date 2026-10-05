@@ -2,8 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, buildPlatformTitleSource, mergePlatformData, mergePlatformEventOverPyData, prepareGeneratedPlatformFiles, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources, syncPlatformData, validateRevisionAwareMapSources } from './sync-platform-data.ts';
-import { applyTitleColorFallback, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources, validateRevisionAwareMapSources } from './sync-map-data.ts';
+import { mergePlatformEventOverPyData } from './sync-event-data.ts';
+import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
+import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './sync-platform-data.ts';
 import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {

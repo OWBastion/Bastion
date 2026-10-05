@@ -16,10 +16,6 @@ function runNode(args: string[]) {
   });
 }
 
-async function runSyncTitleData(options = {}) {
-  return runSyncPlatformData(options);
-}
-
 async function runSyncPlatformData(options = {}) {
   const { syncPlatformData } = await import('./sync-platform-data.ts');
   await syncPlatformData({ baseUrl: options.url, build: options.build });
@@ -67,7 +63,6 @@ program
   .showHelpAfterError('(Use --help for usage)');
 
 program.command('sync').description('Sync all source data and workflow options').action(wrapAction(runSyncAll));
-program.command('sync:title-data').description('Sync platform title data and generate OverPy title artifacts').action(wrapAction(runSyncTitleData));
 program
   .command('sync:platform-data')
   .description('Pull current platform metadata, sync generated data, and compile OverPy entries')
@@ -87,7 +82,6 @@ program
   .description('Remove event scaffold via spec JSON (single implementation entry)')
   .allowUnknownOption(true);
 program.command('bump:env-version').description('Bump env version in src/env/env.opy').action(wrapAction(runBumpEnvVersion));
-program.command('test:title-data-sync').description('Run platform title generation tests').action(wrapAction(() => runNodeTest('tools/sync-platform-data.test.ts')));
 program
   .command('test:platform-data-sync')
   .description('Run platform data sync and merge tests')
