@@ -472,7 +472,7 @@ rule "Handle grenade impact":
     if not attacker.hasNano:
         goto lbl_0
     eventPlayer.setStatusEffect(attacker, Status.BURNING, 3)
-    eventPlayer.startDamageOverTime(attacker, 3, ceil(ceil(victim.getMaxHealth() * 0.5 / 3) / 4))
+    eventPlayer.startDamageOverTime(attacker, 3, ceil(ceil(victim.getMaxHealth() * 1 / 3) / 4))
     lbl_0:
     wait()
 

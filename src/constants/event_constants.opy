@@ -496,7 +496,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_10_DURATION 30
 # Weight（权重）
-#!define EVT_DEBUFF_10_WEIGHT 0.8
+#!define EVT_DEBUFF_10_WEIGHT 0
 # 增加的狂暴时间 (秒)
 #!define EVT_DEBUFF_10_BERSERK_ADD 10
 
