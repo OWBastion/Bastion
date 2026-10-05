@@ -275,7 +275,6 @@ rule "Sustain nano secondary fire":
     @Condition eventPlayer.hasNano == true
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
-    @Condition eventPlayer.target != false
     
     wait(random.uniform(0.016, 0.032), Wait.ABORT_WHEN_FALSE)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
