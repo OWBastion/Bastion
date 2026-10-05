@@ -7,10 +7,10 @@
 rule "[VishkarEvent]: 在哪里跌倒（预备态）":
     @Event eachPlayer
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
-    waitUntil(eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventType != EventType.BUFF or eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL, eventPlayer.eventDuration)
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     if eventPlayer.eventMission == 1:
         eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
@@ -21,11 +21,11 @@ rule "[VishkarEvent]: 在哪里跌倒（预备态）":
 rule "[VishkarEvent]: 在哪里跌倒":
     @Event playerTookDamage
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.eventMission == 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.eventMission == 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
     @Condition eventDamage >= eventPlayer.getHealth()
 
     wait(1)
-    if eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL:
+    if eventPlayer.eventType != EventType.BUFF or eventPlayer.eventId != BuffEventId.WHERE_YOU_FALL:
         return
     # eventMission marks a pending rescue so unrelated knockdowns are not treated as this event's state.
     eventPlayer.eventMission = 1
@@ -37,7 +37,7 @@ rule "[VishkarEvent]: 在哪里跌倒":
 rule "[VishkarEvent]: 在哪里跌倒（救援）":
     @Event eachPlayer
     @Team 2
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.eventMission == 1, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.KNOCKED_DOWN)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventType == EventType.BUFF, eventPlayer.eventId == BuffEventId.WHERE_YOU_FALL, eventPlayer.eventMission == 1, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.KNOCKED_DOWN)]) == true
     @Condition len(getLivingPlayers(Team.2).filter(lambda p: p != eventPlayer and p.hasSpawned() and distance(p, eventPlayer) <= EVT_33_RESCUE_RADIUS and p.isHoldingButton(Button.INTERACT))) > 0
 
     wait(EVT_33_RESCUE_TIME, Wait.ABORT_WHEN_FALSE)
