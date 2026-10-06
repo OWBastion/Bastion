@@ -19,7 +19,7 @@ This document is the canonical rule source for server-load and loop safety.
 For detailed rationale and examples, read:
 
 1. `docs/improve-server-stability.md`
-2. `docs/Loops.md`
+2. `docs/references/Loops.md`
 
 ## Operational Scan Command
 
