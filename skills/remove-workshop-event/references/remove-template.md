@@ -5,18 +5,18 @@
 ## 1) 删除清单模板（Hard-Delete）
 
 1. 枚举
-- 从 `src/constants/event_ids.opy` 删除 `EventId.<KEY>`（连同其 `# legacy numeric id:` 注释行）。
+- 从 `src/events/event_ids.opy` 删除 `EventId.<KEY>`（连同其 `# legacy numeric id:` 注释行）。
 
 2. 常量
-- 从 `src/constants/event_constants.opy` 删除 `<EVT_PREFIX>_<ID>*` 相关常量。
+- 从 `src/events/event_constants.opy` 删除 `<EVT_PREFIX>_<ID>*` 相关常量。
 
 3. 本地化
 - 从 `src/locales/zh-CN.opy` 删除 `<STR_PREFIX>_<ID>_TITLE` / `<STR_PREFIX>_<ID>_DESC`。
 - 从 `src/locales/en-US.opy` 删除 `<STR_PREFIX>_<ID>_TITLE` / `<STR_PREFIX>_<ID>_DESC`。
 
 4. 配置
-- 从 `src/config/eventCatalog.opy` 删除字段注册。
-- 从 `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 移除对应 ID。
+- 从 `src/events/catalog/eventCatalog.opy` 删除字段注册。
+- 从 `src/events/catalog/eventCatalogMain.opy` 与 `src/events/catalog/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 移除对应 ID。
 
 5. 效果
 - 从 `src/events/effects/*Effects.opy` 删除 `#!include "<EFFECT_FILE>"`。
@@ -30,7 +30,7 @@
 ```bash
 rg -n '<KEY>|EventId\.|<STR_PREFIX>_<ID>|<EVT_PREFIX>_<ID>' src data web tools
 rg -n '<EFFECT_FILE>|append\(|createWorkshopSettingBool' src/config src/events/effects
-rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
+rg -n 'enum EventId|COUNT' src/events/event_ids.opy
 ```
 
 ## 3) 完成定义（DoD）

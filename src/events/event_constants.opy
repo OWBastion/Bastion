@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../devMain.opy"
 
 # ==============================================================================
 # 事件效果参数配置 (Event Effect Configuration)

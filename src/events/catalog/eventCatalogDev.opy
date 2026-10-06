@@ -1,4 +1,4 @@
-#!mainFile "../devMain.opy"
+#!mainFile "../../devMain.opy"
 
 #!optimizeStrict
 

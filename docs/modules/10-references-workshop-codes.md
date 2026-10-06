@@ -33,7 +33,7 @@
 对应到项目：
 
 - 本仓库使用 OverPy 宏、subroutine、数组推导与表达式风格
-- `constants/event_constants.opy` 与 `title/title-cn.opy` 体现配置化 DSL 的写法
+- `events/event_constants.opy` 与 `title/title-cn.opy` 体现配置化 DSL 的写法
 
 ## 4) OW2 Workshop 差异
 

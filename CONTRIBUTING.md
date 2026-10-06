@@ -83,8 +83,8 @@ Find the owning module before editing:
    各入口应尽量结构对齐；如果只改其中部分，需在提交说明中解释原因。
 3. Any event change must check the shared catalog and both order files:  
    涉及事件增删改时，必须同时检查：
-   - `src/config/eventCatalog.opy`（字段注册）
-   - `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy`（`EVENT_CATALOG_ORDER`）
+   - `src/events/catalog/eventCatalog.opy`（字段注册）
+   - `src/events/catalog/eventCatalogMain.opy` 与 `src/events/catalog/eventCatalogDev.opy`（`EVENT_CATALOG_ORDER`）
 4. Seasonal/special-event logic should live in dedicated branches, not in the mainline general logic.  
    季节/活动特化逻辑应放到专用分支，不直接进入主线通用逻辑。
 5. Do not use `shared` in project-owned names to describe common configuration or behavior. Use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.  
@@ -138,8 +138,8 @@ This project follows OverPy/Python-like style with repository-specific constrain
 
 When adding/changing events, at minimum:  
 新增或调整事件时，至少完成：
-1. Sync definitions, weights, durations in `config/eventCatalog.opy` and order in `eventCatalogMain/Dev.opy`.  
-   在 `config/eventCatalog.opy` 同步字段注册，在两个 `eventCatalog*.opy` 顺序文件同步目录顺序。
+1. Sync definitions, weights, durations in `events/catalog/eventCatalog.opy` and order in `eventCatalogMain/Dev.opy`.  
+   在 `events/catalog/eventCatalog.opy` 同步字段注册，在两个 `eventCatalog*.opy` 顺序文件同步目录顺序。
 2. Implement or update behavior in `events/effects/`.  
    在 `events/effects/` 实现或更新具体行为。
 3. Sync localization and display formatting in `locales/`.  
@@ -255,7 +255,7 @@ For first-time contributors / 首次贡献者建议按以下顺序阅读：
 1. `README.md`
 2. `src/main.opy`
 3. `src/devMain.opy`
-4. `src/config/eventCatalog.opy`
+4. `src/events/catalog/eventCatalog.opy`
 5. `src/events/` and `src/utilities/`
 6. `docs/improve-server-stability.md`
 

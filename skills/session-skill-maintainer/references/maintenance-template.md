@@ -63,5 +63,5 @@ Event 类演练：
 
 ```bash
 rg -n 'COUNT|eventCatalogDev|eventId == EventId|wait\(' skills/add-workshop-event/SKILL.md
-rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
+rg -n 'enum EventId|COUNT' src/events/event_ids.opy
 ```

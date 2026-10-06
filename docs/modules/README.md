@@ -21,10 +21,9 @@
 - `bastion/`：敌方堡垒 AI 与战斗行为
 - `blacklist/`：黑名单初始化
 - `composition/`：入口共享组装件（bootstrap、profile 差异宏、CN 专属功能尾部）
-- `config/`：事件注册目录（`eventCatalog.opy`）+ MAIN/DEV 顺序文件
 - `effects/`：HUD、世界特效、摄像机触发点
 - `env/`：环境开关、版本号、全局初始化
-- `events/`：事件抽取、生命周期与事件效果实现
+- `events/`：事件身份/参数常量、注册目录（`catalog/`）、抽取、生命周期与事件效果实现
 - `heroes/`：英雄定制规则
 - `locales/`：中英文本地化宏
 - `map/`：地图点位、多图切换流程与点位交互
@@ -39,12 +38,12 @@
 
 按行数统计的高优先文件：
 
-- `src/constants/event_constants.opy`（事件参数总表）
+- `src/events/event_constants.opy`（事件参数总表）
 - `src/events/effects/buffEffects.opy`
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
 - `src/main.opy` / `src/devMain.opy` / `src/externalMain.opy`
-- `src/config/eventCatalog.opy` / `src/config/eventCatalogMain.opy` / `src/config/eventCatalogDev.opy`
+- `src/events/catalog/eventCatalog.opy` / `src/events/catalog/eventCatalogMain.opy` / `src/events/catalog/eventCatalogDev.opy`
 - `src/bastion/init.opy`
 - `src/title/title-cn.opy`
 

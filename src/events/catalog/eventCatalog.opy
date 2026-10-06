@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../../main.opy"
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
@@ -472,5 +472,5 @@ rule "initialize event array":
     eventCatalogWeight[EventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
     eventCatalogType[EventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
 
-    # 目录顺序由入口各自的 config/eventCatalog{Main,Dev}.opy 提供
+    # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER

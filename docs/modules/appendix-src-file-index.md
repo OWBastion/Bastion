@@ -20,15 +20,7 @@
 - `src/composition/profile-cn.opy`
 - `src/composition/profile-external.opy`
 
-## src/config
-- `src/config/eventCatalog.opy`
-- `src/config/eventCatalogDev.opy`
-- `src/config/eventCatalogMain.opy`
-
 ## src/constants
-- `src/constants/event_constants.opy`
-- `src/constants/event_ids.opy`
-- `src/constants/event_manifest.opy`
 - `src/constants/player_constants.opy`
 
 ## src/effects
@@ -50,6 +42,12 @@
 - `src/events/allocation/buildCandidatePool.opy`
 - `src/events/allocation/buildCompatibleEventPool.opy`
 - `src/events/allocation/rejectSampling.opy`
+- `src/events/catalog/eventCatalog.opy`
+- `src/events/catalog/eventCatalogDev.opy`
+- `src/events/catalog/eventCatalogMain.opy`
+- `src/events/event_constants.opy`
+- `src/events/event_ids.opy`
+- `src/events/event_manifest.opy`
 - `src/events/effects/buff/battlefield_medic.opy`
 - `src/events/effects/buff/black_fans_assault.opy`
 - `src/events/effects/buff/bodyguard.opy`

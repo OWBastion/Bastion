@@ -56,7 +56,7 @@ function catalogOrder(source: string, file: string): string[] {
 }
 
 test('every registered event assigns all catalog fields', async () => {
-  const catalog = await read('src/config/eventCatalog.opy');
+  const catalog = await read('src/events/catalog/eventCatalog.opy');
   const ids = registeredEvents(catalog);
   assert.ok(ids.length > 0, 'event catalog must register at least one event');
   for (const id of ids) {
@@ -72,9 +72,9 @@ test('every registered event assigns all catalog fields', async () => {
 
 test('each profile catalog order covers the registered set exactly', async () => {
   const [catalog, mainOrderFile, devOrderFile] = await Promise.all([
-    read('src/config/eventCatalog.opy'),
-    read('src/config/eventCatalogMain.opy'),
-    read('src/config/eventCatalogDev.opy')
+    read('src/events/catalog/eventCatalog.opy'),
+    read('src/events/catalog/eventCatalogMain.opy'),
+    read('src/events/catalog/eventCatalogDev.opy')
   ]);
   const registered = new Set(registeredEvents(catalog));
   for (const [label, source] of [['MAIN', mainOrderFile], ['DEV', devOrderFile]] as const) {
@@ -91,8 +91,8 @@ test('each profile catalog order covers the registered set exactly', async () =>
 
 test('profile catalog orders preserve the contracted sequences', async () => {
   const [mainOrderFile, devOrderFile] = await Promise.all([
-    read('src/config/eventCatalogMain.opy'),
-    read('src/config/eventCatalogDev.opy')
+    read('src/events/catalog/eventCatalogMain.opy'),
+    read('src/events/catalog/eventCatalogDev.opy')
   ]);
   assert.deepEqual(catalogOrder(mainOrderFile, 'eventCatalogMain.opy'), MAIN_ORDER);
   assert.deepEqual(catalogOrder(devOrderFile, 'eventCatalogDev.opy'), DEV_ORDER);

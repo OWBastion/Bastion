@@ -7,7 +7,7 @@ const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 
 test('Temper Heart completion upgrades future Heartsteel gains without multiplying existing stacks', async () => {
   const [effect, catalog, en, zh] = await Promise.all([
     read('src/events/effects/buff/temper_heart.opy'),
-    read('src/config/eventCatalog.opy'),
+    read('src/events/catalog/eventCatalog.opy'),
     read('src/locales/en-US.opy'),
     read('src/locales/zh-CN.opy')
   ]);
