@@ -32,25 +32,6 @@
 #!define HEALTHPACK_RESPAWN_TIME_PCT 75
 
 # =========================
-# Team 1（通用英雄参数）
-# =========================
-#!define TEAM1_ABILITY_COOLDOWN_PCT 40
-
-# =========================
-# Team 2 - General（阵营基调，常会调）
-# =========================
-#!define TEAM2_DAMAGE_RECEIVED_PCT 25
-#!define TEAM2_ABILITY_COOLDOWN_PCT 0
-#!define TEAM2_HEALTH_PCT 500
-
-# Team 2 - Bastion（核心Boss向配置，建议抽）
-#!define BOSS_BASTION_SEC_FIRE_COOLDOWN_PCT 0
-#!define BOSS_BASTION_SEC_FIRE_KB_PCT 200
-#!define BOSS_BASTION_PROJECTILE_SPEED_PCT 175
-#!define BOSS_BASTION_INFINITE_AMMO true
-#!define BOSS_BASTION_HEALTH_PCT 500
-
-# =========================
 # All Teams（跨阵营英雄参数）
 # =========================
 
@@ -177,7 +158,3 @@
 # =========================
 #!define SETTING_AUTOREBOOT_HOURS 2
 #!define SETTING_DIFFICULTY_DEFAULT 4
-#!define CLASSIC_MAP_VARIANT_OFF 0
-#!define CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL 1
-#!define CLASSIC_MAP_VARIANT_PARIS 2
-#!define CLASSIC_MAP_VARIANT_HANAMURA 3
