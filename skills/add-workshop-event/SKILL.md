@@ -33,8 +33,9 @@ Stop-rule：任一步校验失败，先修当前层，再进入下一层。
 
 仅检查入口一致性，不重排 include：
 
-1. `src/main.opy`
-2. `src/devMain.opy`
+1. `src/main.opy`（`eventCatalogMain.opy` + `eventCatalog.opy`）
+2. `src/devMain.opy`（`eventCatalogDev.opy` + `eventCatalog.opy`）
+3. `src/externalMain.opy`（`eventCatalogMain.opy` + `eventCatalog.opy`）
 
 ## 4) 验证
 

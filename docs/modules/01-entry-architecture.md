@@ -1,16 +1,27 @@
 # 01. 入口与主架构
 
-## 双入口模型
+## 三入口模型
 
-- 生产入口：`src/main.opy`
-- 开发入口：`src/devMain.opy`
+- 生产入口：`src/main.opy`（CN）
+- 开发入口：`src/devMain.opy`（CN，开发调试）
+- 外部入口：`src/externalMain.opy`（external，不含 CN 专属功能）
 
-两者结构高度一致，差异主要集中在：
+三者共享同一套组装骨架，差异由头部 `ENTRY_*` 定义与 `composition/` profile 文件表达：
 
 - 头部环境文件：`env/env.opy` vs `env/env_dev.opy`
-- 事件目录顺序入口：`config/eventCatalogMain.opy` vs `config/eventCatalogDev.opy`（注册定义共用 `config/eventCatalog.opy`）
-- 英雄设置入口：`heroes/settings/team_rules.opy` + `heroes/settings/all_teams.opy`
+- Profile 差异宏：`composition/profile-cn.opy` vs `composition/profile-external.opy`
+- 事件目录顺序入口：`config/eventCatalogMain.opy`（main + externalMain）vs `config/eventCatalogDev.opy`（devMain），注册定义共用 `config/eventCatalog.opy`
+- CN 专属功能尾部：仅 `main`/`devMain` include `composition/profile-cn-features.opy`（称号系统、`menu/title.opy`、成就）
+- 开发入口额外 include `env/vars_dev_extra.opy`
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
+
+## Composition 层（`src/composition/`）
+
+入口不直接展开公共头部，而是按固定顺序 include 组装件：
+
+- `bootstrap.opy`：共享头部——`constants/`、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`env/vars.opy` 全局变量、extension、license delimiter
+- `profile-cn.opy` / `profile-external.opy`：`PROFILE_*` 差异宏（称号资格、菜单项、成就重置），external 版本为不含称号的最小实现
+- `profile-cn-features.opy`：CN 专属功能 include 尾部（`title/` 实现与 `menu/title.opy`、`player/achievement.opy`），external 入口不引入
 
 ## 入口执行分层（按 include 顺序）
 
@@ -24,9 +35,9 @@
 8. 玩家层：初始化、进度、成就
 9. 菜单层：`menu/`（公共框架 + 玩家/房主/开发职责拆分）
 
-## 服务 include 约定（main/devMain 同步）
+## 服务 include 约定（三入口同步）
 
-- 入口顶部宏 include 固定为：`utilities/dev_support/macros.opy`
+- 入口顶部宏 include 位于 `composition/bootstrap.opy`：`utilities/dev_support/macros.opy`
 - `core.opy` 为纯有序组装表，不含内联规则；中段服务按固定槽位交错 include 各属主模块，槽位顺序不可重排
 - `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
 - 菜单 include 固定在末尾位置：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排
@@ -62,6 +73,6 @@
 ## 关键注意点
 
 - include 顺序敏感，不能随意重排。
-- `settings.heroes` 已从入口内联块拆分到 `heroes/settings/`，新增英雄设置优先改职责明确的基础配置文件；main、dev 与 en-US 入口直接使用同一组英雄设置。
+- `settings.heroes` 位于 `composition/bootstrap.opy`，宏真源在 `heroes/settings/`（`team_rules.opy`、`all_teams.opy`），三入口共用同一组英雄设置。
 - 新增全局变量时需谨慎维护索引稳定性，避免覆盖既有槽位。
 - 修改业务逻辑时改职责属主目录下的真实文件；`utilities/system/` 只承载无单一属主的系统机制，不再新增业务实现。

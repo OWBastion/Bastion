@@ -14,7 +14,7 @@ Do not default-load all files under `docs/agents/`.
 
 ## Route Index
 
-- Entry architecture and `main/devMain` consistency:
+- Entry architecture and `main`/`devMain`/`externalMain` consistency:
   - `architecture-rules.md`
 - Build commands, CI, and validation checks:
   - `build-validation.md`

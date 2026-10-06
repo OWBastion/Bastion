@@ -6,7 +6,7 @@ Thank you for contributing to Bastion Escape 3.
 This repository is an Overwatch Workshop project powered by [OverPy]. Our core goals are:  
 本仓库是基于 [OverPy] 的守望先锋地图工坊项目，核心目标是：
 - Make low-risk gameplay changes / 以低风险方式迭代玩法
-- Keep `main/devMain` dual-entry consistency / 保持 `main/devMain` 双入口一致性
+- Keep entry consistency across `main`/`devMain`/`externalMain` / 保持 `main`/`devMain`/`externalMain` 入口一致性
 - Avoid server-load regressions / 避免引入服务器负载回归
 
 Please read these first before contributing:  
@@ -62,25 +62,29 @@ Find the owning module before editing:
 先定位改动归属模块：
 - `src/bastion/`: Bastion AI and behavior / Bastion AI 与行为
 - `src/events/`: event trigger/allocation/effects / 随机事件触发、分配与效果
-- `src/config/`: event config (weights, durations, toggles) / 事件配置（权重、时长、开关）
+- `src/composition/`: entry bootstrap and profile composition / 入口共享组装与 profile 差异层
+- `src/config/`: event catalog registration and MAIN/DEV order / 事件注册目录与 MAIN/DEV 顺序文件
 - `src/map/`: map points and flow / 地图点位与流程
 - `src/heroes/`: hero abilities and restrictions / 英雄能力与限制
-- `src/utilities/`: common utilities / 通用工具逻辑
+- `src/utilities/`: ownerless system mechanisms and dev macros / 无业务属主的系统机制与开发宏
 - `src/player/`: player state/init/achievements / 玩家状态、初始化、成就
+- `src/menu/`: player/host/dev menus / 玩家、房主、开发者菜单
+- `src/title/`: title system (synced from platform Agents API) / 称号系统（由平台 Agents API 同步生成）
+- `src/blacklist/`: blacklist initialization / 黑名单初始化
 - `src/effects/`: gameplay and visual effects / 玩法与视觉效果
 - `src/env/`: env and version macros / 环境与版本宏
 - `src/locales/`: localization text / 本地化文本
 
 ## 4. Architecture Constraints / 架构约束（必须遵守）
 
-1. Include order in `src/main.opy` and `src/devMain.opy` is meaningful; do not reorder casually.  
-   `src/main.opy` 与 `src/devMain.opy` 的 include 顺序有意义，不要随意重排。
-2. Keep both entries structurally aligned whenever practical. If only one is changed, explain why in commit/PR notes.  
-   双入口应尽量结构对齐；如果只改其中一个，需在提交说明中解释原因。
-3. Any event change must check both configs:  
+1. Include order in `src/main.opy`, `src/devMain.opy`, and `src/externalMain.opy` is meaningful; do not reorder casually.  
+   `src/main.opy`、`src/devMain.opy` 与 `src/externalMain.opy` 的 include 顺序有意义，不要随意重排。
+2. Keep entries structurally aligned whenever practical. If only some are changed, explain why in commit/PR notes.  
+   各入口应尽量结构对齐；如果只改其中部分，需在提交说明中解释原因。
+3. Any event change must check the shared catalog and both order files:  
    涉及事件增删改时，必须同时检查：
-   - `src/config/eventConfig.opy`
-   - `src/config/eventConfigDev.opy`
+   - `src/config/eventCatalog.opy`（字段注册）
+   - `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy`（`EVENT_CATALOG_ORDER`）
 4. Seasonal/special-event logic should live in dedicated branches, not in the mainline general logic.  
    季节/活动特化逻辑应放到专用分支，不直接进入主线通用逻辑。
 5. Do not use `shared` in project-owned names to describe common configuration or behavior. Use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.  
@@ -134,8 +138,8 @@ This project follows OverPy/Python-like style with repository-specific constrain
 
 When adding/changing events, at minimum:  
 新增或调整事件时，至少完成：
-1. Sync definitions, weights, durations, toggles in `config/eventConfig*.opy`.  
-   在 `config/eventConfig*.opy` 同步定义、权重、时长、开关。
+1. Sync definitions, weights, durations in `config/eventCatalog.opy` and order in `eventCatalogMain/Dev.opy`.  
+   在 `config/eventCatalog.opy` 同步字段注册，在两个 `eventCatalog*.opy` 顺序文件同步目录顺序。
 2. Implement or update behavior in `events/effects/`.  
    在 `events/effects/` 实现或更新具体行为。
 3. Sync localization and display formatting in `locales/`.  
@@ -160,17 +164,20 @@ Install dependencies / 安装依赖：
 pnpm install
 ```
 
-Build both entries / 构建双入口：
+Sync platform metadata then build release entries / 同步平台数据后构建发布入口：
 
 ```bash
 pnpm run build
 ```
 
-Build separately / 分别构建：
+Build entries separately / 分别构建各入口：
 
 ```bash
-pnpm run build:main
-pnpm run build:dev
+pnpm run build:cn:zh
+pnpm run build:cn:en
+pnpm run build:dev:cn:zh
+pnpm run build:external:en
+pnpm run build:external:zh
 ```
 
 Release build (EN + ZH) / 发布构建（中英双语）：
@@ -187,8 +194,8 @@ Locale key consistency check (required before commit) / 本地化键一致性检
 
 ## 11. Pre-commit Checklist / 提交前检查
 
-1. Confirm whether both `main.opy` and `devMain.opy` need updates.  
-   是否需要同步更新 `main.opy` 与 `devMain.opy`。
+1. Confirm which of `main.opy` / `devMain.opy` / `externalMain.opy` need updates.  
+   是否需要同步更新 `main.opy` / `devMain.opy` / `externalMain.opy`。
 2. Ensure no waitless loops were introduced.  
    是否引入了无 `wait` 循环。
 3. Ensure condition ordering is cost-aware.  
@@ -212,7 +219,7 @@ Recommended commit subjects / 建议提交信息：
 
 PR description should include / PR 描述建议包含：
 1. What changed and why / 改动内容与动机
-2. Affected entries (`main.opy` / `devMain.opy`) / 影响入口
+2. Affected entries (`main.opy` / `devMain.opy` / `externalMain.opy`) / 影响入口
 3. Event/map linkage points / 事件或地图联动点
 4. Performance risk assessment / 性能风险评估
 5. Local validation results / 本地验证结果
@@ -248,7 +255,7 @@ For first-time contributors / 首次贡献者建议按以下顺序阅读：
 1. `README.md`
 2. `src/main.opy`
 3. `src/devMain.opy`
-4. `src/config/eventConfig.opy`
+4. `src/config/eventCatalog.opy`
 5. `src/events/` and `src/utilities/`
 6. `docs/improve-server-stability.md`
 
