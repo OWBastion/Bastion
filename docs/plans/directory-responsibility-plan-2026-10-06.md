@@ -7,7 +7,7 @@
 任何目录调整都受以下约束，重排不等于行为保持：
 
 1. **include 展开顺序**：规则发射顺序 = 文件在 `core.opy`/`composition/*` 中的 include 槽位顺序；跨域交错槽位（menu host/dev、player/lifecycle 交错）是真实顺序约束，不能按目录边界重排。
-2. **变量槽位**：`env/vars.opy`（槽位 0–42）、`env/title-vars.opy`（43–45+）、`env/vars_dev_extra.opy`（dev 增量）构成全局 `globalvar`/`playervar` 索引表，带显式编号的槽位（如 `savedIndex 17`、`savedData 18`、`mapTitlePlayersByKey 43`）是持久化/跨文件契约，文件搬家不改变槽位语义，但拆分 vars 文件会拆散这张注册表。
+2. **变量槽位**：`env/vars.opy` + `env/title-vars.opy` 构成一张**跨文件交错**的显式槽位注册表——global 侧 vars.opy 显式编号至 108（含 `classicMapVariant 108`）、title-vars.opy 插占 43–48 与 106–107；player 侧 vars.opy 显式编号至 111、title-vars.opy 插占 37–45；两文件均另有无编号自动分配声明。`env/vars_dev_extra.opy` 当前为声明扩展点（仅注释，无声明体）。显式编号槽位（如 `mapTitlePlayersByKey 43`、`titleText 44`）是持久化/跨文件契约，文件搬家不改变槽位语义，但拆分 vars 文件会拆散这张注册表——U6 把它们作为整体迁入 `session/` 正是为此。
 3. **子程序索引**：子程序按声明顺序登记（`resetPlayerEventState` = 固定索引），include 槽位决定索引值。
 4. **`#!mainFile`/`#!rulePrefix`/`#!define` 作用域**：`#!define` 按展开位置生效（必须早于使用点）；`#!mainFile` 是相对 IDE 提示路径，文件移动必须同步改写，否则漂移（现状已有 2 处指向不存在的 `dev_main.opy`）；`#!rulePrefix` 文件作用域。
 5. **目录级 `#!include "constants/"`**：`bootstrap.opy` 隐式引入整个目录——向 `constants/` 增删文件即改变编译输入，比文件级 include 更不透明。
@@ -19,11 +19,11 @@
 | `src/`（根） | 3 个 entry（`main`/`devMain`/`externalMain`）+ `core.opy` 有序组装表 | 业务规则、宏库 | entry：wright 编译入口、CI `wright check`；core：仅 entry include | **保留（成本结论，非契约）**。`--kind opy` 不强制 entry 在 src 根，package scripts/CI 路径可迁移更新；但约 190 个 `#!mainFile` 相对路径提示 + 全部构建/发布脚本的 entry 引用使迁出成本高于收益，故按真实迁移成本保留 |
 | `src/composition/` | `bootstrap.opy`（settings/vars/extension/license 共享头部）、`profile-cn`/`profile-external`（`PROFILE_*` 差异宏）、`profile-cn-features`（CN 功能尾部 include 表） | 业务规则实现 | entry 文件 | **保留**。职责=编译前序组装；与 core 的分工：composition 管"入口与 profile 差异的静态输入"，core 管"运行时规则的展开顺序" |
 | `src/config/` → `src/events/catalog/` | `eventCatalog.opy`（字段注册）、`eventCatalogMain/Dev.opy`（`EVENT_CATALOG_ORDER`） | 非事件内容 | `tools/event.ts`、`tools/sync-event-data.ts`、3 个 entry | **合并**：config/ 的全部内容都是事件域，`tools/event.ts` 与 sync 是唯一写入方；并入 events/ 消除"配置横向分离"，事件变更不再跨无关目录 |
-| `src/constants/` → 删除 | `event_ids.opy`/`event_constants.opy`/`event_manifest.opy` → `src/events/`；`player_constants.opy` 的活定义 → `src/composition/mode_constants.opy` | — | bootstrap（目录级 include，当前一次引入全部四文件）；活定义由 bootstrap settings 块与 entry `ENTRY_*` 引用消费 | **删除**：事件常量三文件随事件域；`player_constants` 实测为混合体——活定义（`FULL_DESCRIPTION`/`LOBBY_*`/`PERK_*`/`RESPAWN_*`/`HEALTHPACK_*`/`SETTING_*`/`CLASSIC_MAP_VARIANT_*`）随组装输入定位到 composition，死定义（`ALL_*` 英雄参数、`CTF_*`——`all_teams.opy` 与 bootstrap settings 均用字面量，零引用）剔除作为独立评审单元。目录删除前先处理死配置 |
+| `src/constants/` → 删除 | `event_ids.opy`/`event_constants.opy`/`event_manifest.opy` → `src/events/`；`player_constants.opy` 按消费者三分 | — | bootstrap（目录级 include，当前一次引入全部四文件） | **删除**：事件常量三文件随事件域；`player_constants` 实测三分——组装输入（`FULL_DESCRIPTION`/`LOBBY_*`/`PERK_*`/`RESPAWN_*`/`HEALTHPACK_*`/`SETTING_*`/`CLASSIC_MAP_VARIANT_*`，由 bootstrap settings 块与 entry `ENTRY_*` 消费）→ `composition/mode_constants.opy`；队伍参数（`TEAM1_*`/`TEAM2_*`/`BOSS_BASTION_*` 共 9 项，唯一消费者 `heroes/settings/team_rules.opy`）→ 随 `heroes/settings/`（owner 归属而非常量层）；死定义（`ALL_*` 英雄参数、`CTF_*`——`all_teams.opy` 用字面量，零引用）剔除作为独立评审单元。目录删除前先处理死配置 |
 | `src/env/` | `env.opy`/`env_dev.opy`（VERSION/DEBUG/编译开关，release.yml 读 VERSION） | 运行时规则、变量声明 | bootstrap/entries；`sync-platform-data.ts`（VERSION 解析）、`release.yml`、`bump-env-version.ts` | **收缩为 build profile**：只保留构建配置两文件；运行时内容移交 `session/` |
 | `src/session/`（新） | `vars.opy`/`title-vars.opy`/`vars_dev_extra.opy`（全局槽位注册表）、`game.opy`（会话初始化 + player-left 清理 + 颜色/英雄数组运行规则）、`setDifficulty.opy`（运行时 subroutine） | 业务域实现 | bootstrap（vars）、profile（title-vars）、devMain（vars_dev_extra）、entry（game）、core（setDifficulty） | **新建**：回答 build config vs runtime state 边界——槽位注册表（显式编号需同目录集中防碰撞）与对局会话运行时归同一 owner；整文件移动保持原 include 槽位 |
 | `src/events/` | allocation（候选池/兼容池/分配/拒绝采样）、effects/{buff,debuff,mech}+索引文件、integrity（hashtag/masteryRunCode）、lifecycle（6 文件）、`init/detectFlag.opy` | 非事件内容 | `core.opy`、`tools/event.ts`、测试 | **调整**：`init/` 仅一个 13 行文件 → 并入 `lifecycle/`（事件会话初态）并删除该子目录；`catalog/` 与常量移入（见上）。其余子目录是真实职责划分，保留 |
-| `src/heroes/` | 英雄规则 + `settings/`（`HERO_SETTINGS_*` 宏，被 bootstrap settings 块消费） | — | `core.opy`、`bootstrap.opy` | **保留** |
+| `src/heroes/` | 英雄规则 + `settings/`（`HERO_SETTINGS_*` 宏，被 bootstrap settings 块消费；`team_rules` 消费 `TEAM_*`/`BOSS_*` defines） | — | `core.opy`、`bootstrap.opy` | **保留**，并承接 `player_constants` 队伍参数 defines（owner 归属） |
 | `src/locales/` | zh-CN/en-US 文案宏 | 事件定义 | `check_locale_keys.sh`、`tools/event.ts`、`tools/sync-event-data.ts` | **保留**。文案按语言轴切分是平台契约，事件文案在此不算漂移 |
 | `src/map/` | 34 个地图文件（生成 revision 区块 + 地图规则）+ `mapDetection`/`setup_all_map`/`controlJump`/`interactions` | 非地图内容 | `sync-map-data.ts`（`src/map/*.opy` 扫描）、`core.opy`、`release.yml` | **保留**。地图文件本身是"生成区块+运行规则"同体，不再分 routes 子目录：扫描/生成/校验都按 `map/*.opy` 平坦模型工作，分层无净收益 |
 | `src/menu/` | frame/hero/player/title + `dev/`、`host/` | — | `core.opy`（交错槽位）、`profile-cn-features`（title.opy） | **保留** |
@@ -48,7 +48,9 @@
 | `src/constants/event_ids.opy` | events | `src/events/event_ids.opy` | 定义与写入方均事件域 | event.ts、bootstrap 目录 include → 改 bootstrap 内显式 include，保持原展开次序（须仍在 `game.opy` 消费前） |
 | `src/constants/event_constants.opy` | events | `src/events/event_constants.opy` | 主体事件域；但含跨域槽位定义（`InvincibleEffectSlot`/`DEFAULT_INVINCIBLE_EFFECTS`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE`/`GLOBAL_ONCE_EVENT_SLOT_COUNT`） | 非事件消费者：`env/game.opy`（bootstrap 之后、core 之前展开）、`menu/dev/admin.opy`、`player/init.opy`、`events/lifecycle/*`——迁移后 include 槽位必须保持在 `game.opy` 之前；event.ts、`EVENT_CONSTANTS_FILE`、release.yml git add、目录 include |
 | `src/constants/event_manifest.opy` | events（生成） | `src/events/event_manifest.opy` | 事件域生成产物 | sync-platform-data `EVENT_MANIFEST_FILE`、sync-event-data 渲染器、release.yml git add + skip-release 排除规则、目录 include |
-| `src/constants/player_constants.opy` | 组装输入 | `src/composition/mode_constants.opy`（改名同步） | 活定义是 bootstrap settings 块与 entry `ENTRY_*` 的编译期输入；死定义（`ALL_*`/`CTF_*`）剔除见 §5 | bootstrap 目录 include → 显式 include；消费方：bootstrap settings、entries、game.opy（`CLASSIC_MAP_VARIANT_*`） |
+| `src/constants/player_constants.opy`（组装输入部分） | 组装输入 | `src/composition/mode_constants.opy`（改名同步） | `FULL_DESCRIPTION`/`LOBBY_*`/`PERK_*`/`RESPAWN_*`/`HEALTHPACK_*`/`SETTING_*`/`CLASSIC_MAP_VARIANT_*` 是 bootstrap settings 块与 entry `ENTRY_*` 的编译期输入 | bootstrap 目录 include → 显式 include；消费方：bootstrap settings、entries、devMain（`SETTING_*`）、game.opy/map/（`CLASSIC_MAP_VARIANT_*`）、locale/title 文案（`FULL_DESCRIPTION`） |
+| `src/constants/player_constants.opy`（队伍参数部分） | heroes/settings | 并入 `heroes/settings/team_rules.opy`（定义与其唯一消费者同文件）或同目录新文件 | `TEAM1_*`/`TEAM2_*`/`BOSS_BASTION_*` 共 9 项，唯一消费者 `team_rules.opy` 的 `HERO_SETTINGS_TEAM1/TEAM2` 宏 | bootstrap 中 `team_rules` 的 include 槽位不变；无需独立常量层 |
+| `src/constants/player_constants.opy`（死定义部分） | — | 剔除 | `ALL_*` 英雄参数、`CTF_*`：全仓零消费者，`all_teams.opy` 用字面量 | 独立评审单元（§5-1），剔除后 constants/ 方可删除 |
 | `src/env/game.opy`、`setDifficulty.opy`、`vars*.opy` | session | `src/session/` | build profile（env）vs runtime state（session）边界 | bootstrap（vars）、profile（title-vars）、devMain（vars_dev_extra）、entry（game）、core（setDifficulty）——仅 include 路径更新，槽位不变 |
 | `src/events/init/detectFlag.opy` | events/lifecycle | `src/events/lifecycle/detectFlag.opy` | 事件会话初态标记，init/ 单层目录无独立职责 | `core.opy` 1 行 include |
 | `src/tools/playerNameToIndex{,Delimited}.js` | title（生成） | `src/title/playerNameToIndex{,Delimited}.js` | title-cn.opy 的 `__script__` 编译输入 + sync 生成输出 + release 提交项 | title-cn.opy `__script__` 相对路径、sync-title-data `PLAYER_NAME_TO_INDEX*_FILE`、release.yml git add、appendix 索引、add-workshop-title skill |
@@ -66,8 +68,8 @@
 - 规划后：`events/`（ids、constants、catalog/、effects/）+ `locales/` + `data/`。跨域只剩 locales（语言轴契约）与 data（平台稳定 ID 契约），6 个技术目录收敛为 1 个业务域 + 2 个跨域契约
 
 ### 英雄设置变更
-- 现状事实：`heroes/settings/{team_rules,all_teams}.opy` 用字面量表达数值，`bootstrap` settings 块只消费 `HERO_SETTINGS_*` 宏；`player_constants.opy` 的 `ALL_*` 参数是死定义，不参与英雄设置链路
-- 规划后：`heroes/settings/`（宏结构）+ bootstrap（settings 块）——定位不变；`ALL_*` 死定义剔除是独立清理单元，不属于本路径
+- 现状事实：`heroes/settings/` 内部分两层——`team_rules.opy`（`HERO_SETTINGS_TEAM1/TEAM2` 宏，消费 `TEAM1_*`/`TEAM2_*`/`BOSS_BASTION_*` defines）与 `all_teams.opy`（字面量表达数值）；`bootstrap` settings 块只消费 `HERO_SETTINGS_*` 宏。`player_constants.opy` 的 `ALL_*` 参数是死定义，不参与英雄设置链路
+- 规划后：`TEAM_*`/`BOSS_*` defines 随 `heroes/settings/`（并入 `team_rules.opy` 或同目录新文件），`ALL_*` 死定义剔除是独立清理单元；定位路径保持 `heroes/settings/` 单点
 
 ### 地图 revision 同步
 - `sync-map-data.ts` → `src/map/*.opy` 生成区块 + `src/title/map-title-data.opy` 投影（CN）。不变
@@ -82,7 +84,7 @@
 |---|---|---|---|---|
 | `title-cn.opy` 生成区块 | sync-title-data | 提交 | bootstrap→profile-cn | `git add` 清单 |
 | `src/title/playerNameToIndex*.js`（迁入后） | sync-title-data | **提交**（是编译输入，不是 build 输出） | title-cn.opy `__script__` | `git add` 清单 |
-| `event_manifest.opy` | sync-event-data | 提交 | bootstrap 目录 include（迁移后：core/entry include） | `git add` 清单 + skip-release diff 排除 |
+| `event_manifest.opy` | sync-event-data | 提交 | bootstrap include（当前目录级，迁移后 bootstrap 内显式文件 include——唯一展开位置，见 U1） | `git add` 清单 + skip-release diff 排除 |
 | `event_constants.opy`/`zh-CN.opy`（部分区块） | sync-event-data | 提交 | 事件域 include | `git add` 清单 |
 | `map/*.opy` revision 区块 | sync-map-data | 提交 | 地图文件本体 | `git add` 清单 |
 | `env/env.opy` VERSION | release.yml bump | 提交 | 全 entry | release 自举 |
@@ -108,7 +110,7 @@
 | U3 | events/init/ → lifecycle/ | 编译产物逐字节一致 | 仅 core.opy 一行；可与任何单元并行 |
 | U4 | utilities/dev_support 层消除（macros → utilities/macros.opy） | 编译产物逐字节一致 | 触及 bootstrap include 行；与 U1 串行 |
 | U5 | docs 分类 + docs/README.md | 死链扫描零新增；AGENTS/CONTRIBUTING 引用可解析 | 纯文档，可并行 |
-| U6 | env/ 收缩 + session/ 新建（game/vars*/setDifficulty 迁移）+ player_constants → composition/mode_constants（死定义剔除经 §5-1 批准后并入） | 编译产物逐字节一致；死定义剔除前后分别验证 | 与 U1 串行（同改 bootstrap/entry include 行）；死定义剔除为独立内容变更评审点 |
+| U6 | env/ 收缩 + session/ 新建（game/vars*/setDifficulty 迁移，vars+title-vars 作为整体移动以保交错槽位注册表完整）+ player_constants 三分：组装输入 → composition/mode_constants、队伍参数 → heroes/settings/（并入 team_rules.opy 或同目录新文件）、死定义剔除（经 §5-1 批准后并入） | 编译产物逐字节一致；死定义剔除前后分别验证 | 与 U1 串行（同改 bootstrap/entry include 行）；死定义剔除为独立内容变更评审点 |
 | U7 | 调查候选核实（player.json、scenarios、anticrash）→ 另行处置 Issue；src/tools/ 目录删除在 player.json 去向明确后执行 | — | 独立；U2 可先完成 |
 
 每个代码迁移单元的验证合同：固定 wright 版本下 5 个 entry 编译产物与迁移前基线逐字节对照（覆盖规则、条件、动作、变量/子程序映射、发射顺序）；`tools:test`、locale 检查、旧路径零活消费者。文档迁移单元只验证活引用。
