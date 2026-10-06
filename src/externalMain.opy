@@ -8,6 +8,6 @@
 #!include "composition/bootstrap.opy"
 #!include "../env/game.opy"
 #!include "../composition/profile-external.opy"
-#!include "../config/eventCatalogMain.opy"
-#!include "../config/eventCatalog.opy"
+#!include "../events/catalog/eventCatalogMain.opy"
+#!include "../events/catalog/eventCatalog.opy"
 #!include "../core.opy"

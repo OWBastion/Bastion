@@ -10,7 +10,7 @@
 
 - 头部环境文件：`env/env.opy` vs `env/env_dev.opy`
 - Profile 差异宏：`composition/profile-cn.opy` vs `composition/profile-external.opy`
-- 事件目录顺序入口：`config/eventCatalogMain.opy`（main + externalMain）vs `config/eventCatalogDev.opy`（devMain），注册定义共用 `config/eventCatalog.opy`
+- 事件目录顺序入口：`events/catalog/eventCatalogMain.opy`（main + externalMain）vs `events/catalog/eventCatalogDev.opy`（devMain），注册定义共用 `events/catalog/eventCatalog.opy`
 - CN 专属功能尾部：仅 `main`/`devMain` include `composition/profile-cn-features.opy`（称号系统、`menu/title.opy`、成就）
 - 开发入口额外 include `env/vars_dev_extra.opy`
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
@@ -19,7 +19,7 @@
 
 入口不直接展开公共头部，而是按固定顺序 include 组装件：
 
-- `bootstrap.opy`：共享头部——`constants/`、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`env/vars.opy` 全局变量、extension、license delimiter
+- `bootstrap.opy`：共享头部——显式 include 的事件/模式常量（`events/event_*` + `constants/player_constants`，原 constants/ 目录级引入）、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`env/vars.opy` 全局变量、extension、license delimiter
 - `profile-cn.opy` / `profile-external.opy`：`PROFILE_*` 差异宏（称号资格、菜单项、成就重置），external 版本为不含称号的最小实现
 - `profile-cn-features.opy`：CN 专属功能 include 尾部（`title/` 实现与 `menu/title.opy`、`player/achievement.opy`），external 入口不引入
 

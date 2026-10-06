@@ -50,11 +50,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
-const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
+const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/events/event_manifest.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
-const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
+const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/events/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
-const EVENT_CATALOG_FILE = path.join(ROOT, 'src/config/eventCatalog.opy');
+const EVENT_CATALOG_FILE = path.join(ROOT, 'src/events/catalog/eventCatalog.opy');
 const execFileAsync = promisify(execFile);
 
 export type PlatformSyncOptions = PlatformDataClientOptions & {

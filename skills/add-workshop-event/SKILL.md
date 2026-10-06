@@ -19,10 +19,10 @@ description: 为 Bastion Overwatch Workshop 项目新增或调整随机事件（
 
 按固定顺序修改，禁止跳步：
 
-1. `src/constants/event_ids.opy`：先加枚举，插入对应 `# ---- <Buff|Debuff|Mech> ----` 分节末尾、`COUNT` 之前。
-2. `src/constants/event_constants.opy`：新增时长、权重与行为参数常量。
+1. `src/events/event_ids.opy`：先加枚举，插入对应 `# ---- <Buff|Debuff|Mech> ----` 分节末尾、`COUNT` 之前。
+2. `src/events/event_constants.opy`：新增时长、权重与行为参数常量。
 3. `src/locales/zh-CN.opy` 与 `src/locales/en-US.opy`：新增 TITLE/DESC 键。
-4. `src/config/eventCatalog.opy`：注册事件字段；并在 `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 追加对应 ID。
+4. `src/events/catalog/eventCatalog.opy`：注册事件字段；并在 `src/events/catalog/eventCatalogMain.opy` 与 `src/events/catalog/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 追加对应 ID。
 5. `src/events/effects/*.opy`：实现或更新效果规则。
 
 Stop-rule：任一步校验失败，先修当前层，再进入下一层。

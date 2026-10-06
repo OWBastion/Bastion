@@ -32,13 +32,13 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const PATHS = {
-  ids: path.resolve(ROOT, 'src/constants/event_ids.opy'),
-  constants: path.resolve(ROOT, 'src/constants/event_constants.opy'),
+  ids: path.resolve(ROOT, 'src/events/event_ids.opy'),
+  constants: path.resolve(ROOT, 'src/events/event_constants.opy'),
   localeZh: path.resolve(ROOT, 'src/locales/zh-CN.opy'),
   localeEn: path.resolve(ROOT, 'src/locales/en-US.opy'),
-  catalog: path.resolve(ROOT, 'src/config/eventCatalog.opy'),
-  catalogMain: path.resolve(ROOT, 'src/config/eventCatalogMain.opy'),
-  catalogDev: path.resolve(ROOT, 'src/config/eventCatalogDev.opy')
+  catalog: path.resolve(ROOT, 'src/events/catalog/eventCatalog.opy'),
+  catalogMain: path.resolve(ROOT, 'src/events/catalog/eventCatalogMain.opy'),
+  catalogDev: path.resolve(ROOT, 'src/events/catalog/eventCatalogDev.opy')
 } as const;
 
 const ENUM_NAME = 'EventId';

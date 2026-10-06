@@ -30,23 +30,7 @@
 - 聚合大厅、模式、英雄比例类配置
 - `devMain.opy` 已大量引用该层宏（如 `LOBBY_TEAM1_SLOTS`）
 
-### `constants/event_constants.opy`
-
-- 事件系统参数主表（千行级）
-- 统一管理：持续时间、权重、阈值、半径、触发间隔、治疗/伤害系数
-- 近期调优示例：`EVT_MECH_20_DMG_REDUCE_DIVISOR` 从 `40` 调整为 `25`，`EVT_MECH_20_SPEED_FACTOR` 从 `2` 调整为 `2.5`
-- 命名模式：
-  - `EVT_BUFF_x_*`
-  - `EVT_DEBUFF_x_*`
-  - `EVT_MECH_x_*`
-
-建议：新增/调优事件优先在该文件做参数化，避免硬编码散落在 `events/effects/*.opy`。
-
-### `constants/event_ids.opy`
-
-- 使用单一 `EventId` 枚举定义事件 ID，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位
-- 枚举末尾包含哨兵项 `COUNT`（仅用于完整性校验，不参与事件注册）
-- 事件类别由注册方写入 `eventCatalogType`，不按枚举分组派生
+事件域常量（`events/event_constants.opy`、`events/event_ids.opy`、`events/event_manifest.opy`）见 [03-events-system.md](./03-events-system.md)。
 
 ## `locales/` 模块
 
@@ -83,7 +67,7 @@
 
 - 参数改动优先改常量，不直接改效果规则体。
 - 本地化 key 与配置/事件逻辑必须同名联动。
-- 事件持续时间不写入 `locales` 文案；持续时间统一由 `constants/event_constants.opy` 管理。
+- 事件持续时间不写入 `locales` 文案；持续时间统一由 `events/event_constants.opy` 管理。
 - 事件文案中涉及动态数值时，优先使用占位符并由 `EVT_*` 常量通过 `.format()` 注入，避免把数值硬编码在文案里。
 - 提交前运行 `tools/check_locale_keys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。

@@ -3,7 +3,8 @@
 ## 模块组成
 
 - 初始化：`src/events/init/detectFlag.opy`
-- 配置：`src/config/eventCatalog.opy`, `src/config/eventCatalogMain.opy`, `src/config/eventCatalogDev.opy`
+- 身份与参数：`src/events/event_ids.opy`（`EventId` 枚举）、`src/events/event_constants.opy`（`EVT_*` 事件参数总表，及 `InvincibleEffectSlot`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE` 等跨域槽位定义——被 `env/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 消费）、`src/events/event_manifest.opy`（平台同步生成的域元数据）
+- 配置：`src/events/catalog/eventCatalog.opy`, `src/events/catalog/eventCatalogMain.opy`, `src/events/catalog/eventCatalogDev.opy`
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
@@ -27,7 +28,7 @@
 
 事件按统一 ID（Buff、Debuff、Mech 顺序）直接注册到一维数组：`eventName`、`eventDesc`、`eventDuration`、`eventCatalogWeight` 和 `eventCatalogType`。`eventCatalogId` 只保存已启用的标量 ID；不存在分类元数据目录、合并循环或二维事件行。
 
-统一目录槽位是唯一事件身份：`eventPlayer.eventId` 直接存放选中的目录槽位，效果/英雄/系统规则只比较槽位本身，不再与 `eventType` 组成复合键。槽位统一拼写为 `EventId.X`（`src/constants/event_ids.opy` 单一枚举，成员按 Buff → Debuff → Mech 顺序声明，声明顺序即槽位号）；`-1` 保留为“无事件”哨兵。事件类别在 `eventCatalog.opy` 注册时写入 `eventCatalogType[EventId.X]`；`eventPlayer.eventType` 是 `setPlayerEvent()` 回填的派生类别状态，仅供类别计数/幸运值与 HUD 图标等分类消费，不得出现在派发条件中。
+统一目录槽位是唯一事件身份：`eventPlayer.eventId` 直接存放选中的目录槽位，效果/英雄/系统规则只比较槽位本身，不再与 `eventType` 组成复合键。槽位统一拼写为 `EventId.X`（`src/events/event_ids.opy` 单一枚举，成员按 Buff → Debuff → Mech 顺序声明，声明顺序即槽位号）；`-1` 保留为“无事件”哨兵。事件类别在 `eventCatalog.opy` 注册时写入 `eventCatalogType[EventId.X]`；`eventPlayer.eventType` 是 `setPlayerEvent()` 回填的派生类别状态，仅供类别计数/幸运值与 HUD 图标等分类消费，不得出现在派发条件中。
 
 若 `eventCatalogType[id]` 为 `null`，`setPlayerEvent()` 会保留 `eventType == null` 并延迟类别计数与幸运值更新。该事件效果在确定运行时类别后调用 `commitPlayerEventCategory()`，提交一次类别相关状态；当前事件仍全部在目录阶段提供固定类别。
 
@@ -40,10 +41,16 @@
 - `eventCandidateIndex`, `eventTempIndex`（本次抽样的目录索引与候选池）
 - `eventCompatibleBasePool`（按当前英雄结构能力预过滤的统一目录索引；只在生命周期变化时重建）
 
+## 事件参数（`event_constants.opy`）
+
+- 事件系统参数主表：持续时间、权重、阈值、半径、触发间隔、治疗/伤害系数；命名模式 `EVT_BUFF_x_*` / `EVT_DEBUFF_x_*` / `EVT_MECH_x_*`
+- 新增/调优事件优先在该文件做参数化，避免硬编码散落在 `events/effects/*.opy`
+- 跨域定义（`InvincibleEffectSlot`/`DEFAULT_INVINCIBLE_EFFECTS`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE`/`GLOBAL_ONCE_EVENT_SLOT_COUNT`）被 `env/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 等非事件消费者使用，其 include 槽位必须保持在 `game.opy` 之前
+
 ## 事件 ID（统一 Enum 管理）
 
-- 全部事件使用 `src/constants/event_ids.opy` 的单一 `EventId` enum 管理，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位号。
-- `config/eventCatalog*.opy` 与 `events/effects/*` 只引用 `EventId.<MEMBER>`，不直接写裸数字 ID，也不再按类别做偏移拼写。
+- 全部事件使用 `src/events/event_ids.opy` 的单一 `EventId` enum 管理，成员按 Buff → Debuff → Mech 分节顺序声明，声明位置即统一目录槽位号。
+- `events/catalog/eventCatalog*.opy` 与 `events/effects/*` 只引用 `EventId.<MEMBER>`，不直接写裸数字 ID，也不再按类别做偏移拼写。
 - 事件类别不在 enum 中体现：注册时由 `eventCatalogType[EventId.X] = EventType.<类别>` 写入，分类消费读取 `eventCatalogType`。
 - 当前策略为“源码版本内自洽”：删除中间 enum 成员时，后续成员自动前移，相关规则引用会随编译同步。
 - 若新增事件，在对应类别分节末尾追加成员，再补配置与效果规则。
@@ -114,7 +121,7 @@
 
 1. 在 `event_constants.opy` 新增参数
 2. 在 `locales/*.opy` 增加标题/描述（不写持续时间，持续时间只放在 `event_constants.opy`）
-3. 在 `config/eventCatalog.opy` 注入条目，并在 `eventCatalogMain.opy`/`eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 追加 ID
+3. 在 `events/catalog/eventCatalog.opy` 注入条目，并在 `eventCatalogMain.opy`/`eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 追加 ID
 4. 在 `events/effects/*` 增加规则实现
 5. 在 `clearPlayerEvent` 核对是否有新状态需回收
 6. 在 `devMain.opy` 使用开发者菜单（`menu/dev/`）或强制事件入口做回归验证，不增加事件 Workshop 开关
