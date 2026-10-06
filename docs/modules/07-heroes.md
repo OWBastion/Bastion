@@ -40,7 +40,7 @@
 
 ## 与其他模块的耦合
 
-- `phaseHero`（`env/game.opy`）定义哪些技能会触发位移检测
+- `phaseHero`（`session/game.opy`）定义哪些技能会触发位移检测
 - `dashDetector.opy` 依赖英雄分组与状态位
 - `effects/init.opy` 中部分 HUD 按英雄显示
 

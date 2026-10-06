@@ -52,5 +52,5 @@ Use the second form for changes to field grouping, localized labels, value forma
 
 - `src/effects/init.opy`: persistent completion, statistics, achievement, map/difficulty, and version HUD emission
 - `src/main.opy` / `src/devMain.opy` / `src/externalMain.opy`: completion state, announcement, and elapsed-time emission
-- `src/env/game.opy`: room-level `masteryRunCode` reset; `src/events/integrity/masteryRunCode.opy`: generation once the event catalog is populated
+- `src/session/game.opy`: room-level `masteryRunCode` reset; `src/events/integrity/masteryRunCode.opy`: generation once the event catalog is populated
 - `src/locales/en-US.opy` and `src/locales/zh-CN.opy`: localized visible labels and formats
