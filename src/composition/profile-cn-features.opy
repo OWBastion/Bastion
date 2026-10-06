@@ -6,5 +6,5 @@
 #!include "../title/hashtag.opy"
 #!include "../title/effects.opy"
 #!include "../title/player-init.opy"
-#!include "../title/dev-tool.opy"
+#!include "../menu/title.opy"
 #!include "../player/achievement.opy"

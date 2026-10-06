@@ -24,7 +24,7 @@
 
 #!include "env/setDifficulty.opy"
 
-#!include "utilities/system/setThirdPerson.opy"
+#!include "player/thirdPerson.opy"
 
 #!include "bastion/createBastionBot.opy"
 
@@ -67,6 +67,7 @@
 #!include "events/integrity/masteryRunCode.opy"
 
 #!include "effects/init.opy"
+#!include "map/interactions.opy"
 #!include "effects/nano.opy"
 #!include "effects/player.opy"
 
@@ -78,4 +79,16 @@
 
 #!include "utilities/system/autoReboot.opy"
 
-#!include "utilities/dev_support/devTool.opy"
+## 菜单：公共框架 / 玩家 / 房主 / 开发（include 槽位保持规则发射顺序，跨角色交错不可重排）
+#!include "menu/frame.opy"
+#!include "menu/hero.opy"
+#!include "menu/dev/pages.opy"
+#!include "menu/player.opy"
+#!include "menu/dev/difficulty.opy"
+#!include "menu/host/reboot.opy"
+#!include "menu/dev/restart.opy"
+#!include "menu/host/moderation.opy"
+#!include "menu/dev/admin.opy"
+#!include "menu/dev/movement.opy"
+#!include "menu/dev/actions.opy"
+#!include "menu/dev/weights.opy"

@@ -59,6 +59,7 @@
 - `map/mapDetection.opy`：地图识别
 - `map/controlJump.opy`：控制点检查点推进与回位
 - `player/finishSettlement.opy`：终点结算与胜者规则
+- `map/interactions.opy`：弹跳板/传送门/第三人称点位交互
 - `effects/init.opy`：终点/跳点可视化
 
 ## 开发注意

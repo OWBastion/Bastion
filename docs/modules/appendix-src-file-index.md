@@ -77,6 +77,7 @@
 - `src/map/havana.opy`
 - `src/map/suravasa.opy`
 - `src/map/controlJump.opy`
+- `src/map/interactions.opy`
 - `src/map/mapDetection.opy`
 - `src/map/setup_all_map.opy`
 - `src/map/throne_of_anubis.opy`
@@ -101,6 +102,21 @@
 - `src/map/nepal.opy`
 - `src/map/gibraltar.opy`
 
+## src/menu
+- `src/menu/dev/actions.opy`
+- `src/menu/dev/admin.opy`
+- `src/menu/dev/difficulty.opy`
+- `src/menu/dev/movement.opy`
+- `src/menu/dev/pages.opy`
+- `src/menu/dev/restart.opy`
+- `src/menu/dev/weights.opy`
+- `src/menu/frame.opy`
+- `src/menu/hero.opy`
+- `src/menu/host/moderation.opy`
+- `src/menu/host/reboot.opy`
+- `src/menu/player.opy`
+- `src/menu/title.opy`
+
 ## src/player
 - `src/player/status.opy`
 - `src/player/achievement.opy`
@@ -112,6 +128,7 @@
 - `src/player/setPlayerHP.opy`
 - `src/player/setPlayerSize.opy`
 - `src/player/startCombatRegen.opy`
+- `src/player/thirdPerson.opy`
 - `src/player/unlockAchievement.opy`
 - `src/player/updatePlayerStats.opy`
 
@@ -136,8 +153,6 @@
 - `src/tools/playerNameToIndexDelimited.js`
 
 ## src/utilities
-- `src/utilities/dev_support/devTool.opy`
 - `src/utilities/dev_support/macros.opy`
 - `src/utilities/system/anticrash.opy`
 - `src/utilities/system/autoReboot.opy`
-- `src/utilities/system/setThirdPerson.opy`

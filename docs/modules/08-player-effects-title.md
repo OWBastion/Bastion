@@ -46,7 +46,7 @@
 
 ### 通关截图 / OCR 契约
 
-`masteryRunCode` 在 `env/game.opy` 的全局新局初始化中置空；`events/integrity/masteryRunCode.opy` 的 "Generate mastery run code" 规则在 `len(eventCatalogId) > 0` 且 `masteryRunCode == ""` 时生成，格式为三个 `1000..9999` 数字组。生成时遍历 `eventCatalogId` 累加 `eventCatalogWeight` 得到对局实际总权重，其 `round(总权重 * 100)` 的 4 位数字按固定位序分散在三段（第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位），其余位随机、每段首位为非零随机数；平台可按位反推对局实际权重并与期望值校验。该规则同时将未取整总权重写入 `eventCatalogWeightTotal` 供 hashTag 超限校验。它不随玩家重生、换英雄、重新连接式初始化或玩家进度重置而变化；正常新局启动会重置为空并重新生成，devTool 修改目录权重时也会置空触发重算，使码始终携带当前有效总权重。
+`masteryRunCode` 在 `env/game.opy` 的全局新局初始化中置空；`events/integrity/masteryRunCode.opy` 的 "Generate mastery run code" 规则在 `len(eventCatalogId) > 0` 且 `masteryRunCode == ""` 时生成，格式为三个 `1000..9999` 数字组。生成时遍历 `eventCatalogId` 累加 `eventCatalogWeight` 得到对局实际总权重，其 `round(总权重 * 100)` 的 4 位数字按固定位序分散在三段（第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位），其余位随机、每段首位为非零随机数；平台可按位反推对局实际权重并与期望值校验。该规则同时将未取整总权重写入 `eventCatalogWeightTotal` 供 hashTag 超限校验。它不随玩家重生、换英雄、重新连接式初始化或玩家进度重置而变化；正常新局启动会重置为空并重新生成，开发菜单权重页修改目录权重时也会置空触发重算，使码始终携带当前有效总权重。
 
 HUD 在既有左侧结算统计区域直接显示该数字代码（无标签前缀），不调用平台或改变游戏逻辑。`OWBastion/ocrkit` 应把这个字段作为结构化证据处理，并在 Bastion 实际发布后再记录最小兼容游戏/布局版本；本仓库不会预先声明发布版本。
 
@@ -82,6 +82,7 @@ HUD 在既有左侧结算统计区域直接显示该数字代码（无标签前�
 ## 协作关系
 
 - `setPlayerTitle()` 汇总个人称号 + 地图称号
+- `menu/title.opy` 实现菜单第 1 页的称号翻页（仅 CN profile 引入）
 - `player/init` 负责称号恢复与显示初始化
 - `effects/init` 与 `title/init` 一起构成完整 UI 体验
 
