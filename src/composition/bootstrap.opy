@@ -2,7 +2,7 @@
 #!include "../events/event_ids.opy"
 #!include "../events/event_manifest.opy"
 #!include "../constants/player_constants.opy"
-#!include "../utilities/dev_support/macros.opy"
+#!include "../utilities/macros.opy"
 #!include "../heroes/settings/team_rules.opy"
 #!include "../heroes/settings/all_teams.opy"
 
