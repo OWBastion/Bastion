@@ -8,7 +8,6 @@
 
 无单一业务属主的全局机制：
 
-- `anticrash.opy`：防崩溃慢动作保护（历史遗留孤立文件，未接入任何入口）
 - `autoReboot.opy`：整局自动重开计时
 
 ### B. `utilities/macros.opy`
