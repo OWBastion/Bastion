@@ -9,7 +9,7 @@
 
 对应到项目：
 
-- `utilities/system/healthPool.opy` 的 while 清理循环
+- `events/effects/healthPool.opy` 的 while 清理循环
 - `events/allocation/rejectSampling.opy` 的有限轮采样循环
 - `bastion/init.opy`、`effects/init.opy` 中大量循环心跳规则
 
@@ -23,7 +23,7 @@
 
 对应到项目：
 
-- `map/setup_all_map.opy` 与 `utilities/system/mapDetection.opy`
+- `map/setup_all_map.opy` 与 `map/mapDetection.opy`
 - 入口文件启用的 `#!extension`（状态效果、音效、dummy 等）
 
 ## 3) C-Style / OverPy 风格参考

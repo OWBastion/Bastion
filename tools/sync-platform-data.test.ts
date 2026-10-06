@@ -305,7 +305,7 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
 });
 
 test('selects map titles from the active map revision rather than the global classic setting', async () => {
-  const source = await readFile(new URL('../src/utilities/system/setPlayerTitle.opy', import.meta.url), 'utf8');
+  const source = await readFile(new URL('../src/title/setPlayerTitle.opy', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /classicMapVariant/);
   assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.PIONEER\]/);
   assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.CONQUEROR\]/);
@@ -864,7 +864,7 @@ test('composes supported scalar controls and clears detected default centers bef
   const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeConfig }] }] }
   }));
-  const mapDetectionSource = await readFile(new URL('../src/utilities/system/mapDetection.opy', import.meta.url), 'utf8');
+  const mapDetectionSource = await readFile(new URL('../src/map/mapDetection.opy', import.meta.url), 'utf8');
 
   assert.match(mapDetectionSource, /controlCenterPosition = \[getObjectivePosition\(0\), getObjectivePosition\(1\), getObjectivePosition\(2\)\]/);
   assert.match(output, /COMPOSITE_CENTER_POSITIONS_INITIALIZED = false/);

@@ -45,6 +45,6 @@
 
 ## 相关联模块
 
-- `utilities/system/createBastionBot.opy`：补齐 dummy 数量
+- `bastion/createBastionBot.opy`：补齐 dummy 数量
 - `events/effects/*`：部分事件会影响堡垒状态
 - `effects/nano.opy`：狂暴/纳米状态可视化

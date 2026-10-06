@@ -1,10 +1,12 @@
 # 附录：`src/` 文件索引
 
 ## src/bastion
+- `src/bastion/createBastionBot.opy`
 - `src/bastion/init.opy`
 
 ## src/blacklist
 - `src/blacklist/init.opy`
+- `src/blacklist/removeFromBlacklist.opy`
 
 ## src/config
 - `src/config/eventConfigDev.opy`
@@ -23,14 +25,19 @@
 - `src/env/game.opy`
 - `src/env/env_dev.opy`
 - `src/env/env.opy`
+- `src/env/setDifficulty.opy`
 
 ## src/events
 - `src/events/allocation/rejectSampling.opy`
 - `src/events/allocation/assignPlayerEvent.opy`
 - `src/events/effects/buffEffects.opy`
+- `src/events/effects/dashDetector.opy`
 - `src/events/effects/debuffEffects.opy`
+- `src/events/effects/healthPool.opy`
 - `src/events/effects/mechEffects.opy`
 - `src/events/init/detectFlag.opy`
+- `src/events/integrity/hashtag.opy`
+- `src/events/integrity/masteryRunCode.opy`
 - `src/events/lifecycle/clearEventEffect.opy`
 - `src/events/lifecycle/clearPlayerEvent.opy`
 - `src/events/lifecycle/resetPlayerCD.opy`
@@ -69,6 +76,8 @@
 - `src/map/blizzworld.opy`
 - `src/map/havana.opy`
 - `src/map/suravasa.opy`
+- `src/map/controlJump.opy`
+- `src/map/mapDetection.opy`
 - `src/map/setup_all_map.opy`
 - `src/map/throne_of_anubis.opy`
 - `src/map/runasapi.opy`
@@ -95,7 +104,16 @@
 ## src/player
 - `src/player/status.opy`
 - `src/player/achievement.opy`
+- `src/player/finishSettlement.opy`
 - `src/player/init.opy`
+- `src/player/playerRegen.opy`
+- `src/player/progressHero.opy`
+- `src/player/savePlayerData.opy`
+- `src/player/setPlayerHP.opy`
+- `src/player/setPlayerSize.opy`
+- `src/player/startCombatRegen.opy`
+- `src/player/unlockAchievement.opy`
+- `src/player/updatePlayerStats.opy`
 
 ## src/special
 - `src/special/packet.opy`
@@ -109,7 +127,9 @@
 
 ## src/title
 - `src/title/title-cn.opy`
+- `src/title/applyTitleColor.opy`
 - `src/title/init.opy`
+- `src/title/setPlayerTitle.opy`
 
 ## src/tools
 - `src/tools/playerNameToIndex.js`
@@ -118,21 +138,6 @@
 ## src/utilities
 - `src/utilities/dev_support/devTool.opy`
 - `src/utilities/dev_support/macros.opy`
-- `src/utilities/event_core/setPlayerHP.opy`
-- `src/utilities/event_core/setPlayerSize.opy`
-- `src/utilities/event_core/startCombatRegen.opy`
-- `src/utilities/event_core/updatePlayerStats.opy`
 - `src/utilities/system/anticrash.opy`
-- `src/utilities/system/createBastionBot.opy`
-- `src/utilities/system/dashDetector.opy`
-- `src/utilities/system/hashtag.opy`
-- `src/utilities/system/healthPool.opy`
-- `src/utilities/system/mapDetection.opy`
-- `src/utilities/system/playerRegen.opy`
-- `src/utilities/system/progressHero.opy`
-- `src/utilities/system/removeFromBlacklist.opy`
-- `src/utilities/system/savePlayerData.opy`
-- `src/utilities/system/setDifficulty.opy`
-- `src/utilities/system/setPlayerTitle.opy`
+- `src/utilities/system/autoReboot.opy`
 - `src/utilities/system/setThirdPerson.opy`
-- `src/utilities/system/unlockAchievement.opy`

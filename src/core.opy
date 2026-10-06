@@ -1,6 +1,6 @@
-#!include "utilities/system/mapDetection.opy"
+#!include "map/mapDetection.opy"
 #!include "blacklist/init.opy"
-#!include "utilities/system/removeFromBlacklist.opy"
+#!include "blacklist/removeFromBlacklist.opy"
 #!include "events/init/detectFlag.opy"
 
 #!include "heroes/all_hero.opy"
@@ -11,33 +11,33 @@
 
 #!include "events/allocation/rejectSampling.opy"
 
-## Utilities: system
-#!include "utilities/system/healthPool.opy"
+## Utilities / business services（include 槽位保持原位以维持展开顺序）
+#!include "events/effects/healthPool.opy"
 
-#!include "utilities/system/dashDetector.opy"
+#!include "events/effects/dashDetector.opy"
 
-#!include "utilities/system/savePlayerData.opy"
+#!include "player/savePlayerData.opy"
 
-#!include "utilities/system/progressHero.opy"
+#!include "player/progressHero.opy"
 
-#!include "utilities/system/playerRegen.opy"
+#!include "player/playerRegen.opy"
 
-#!include "utilities/system/setDifficulty.opy"
+#!include "env/setDifficulty.opy"
 
 #!include "utilities/system/setThirdPerson.opy"
 
-#!include "utilities/system/createBastionBot.opy"
+#!include "bastion/createBastionBot.opy"
 
-#!include "utilities/system/hashtag.opy"
+#!include "events/integrity/hashtag.opy"
 
-## Utilities: event_core / Events: lifecycle（include 槽位保持原位以维持展开顺序）
-#!include "utilities/event_core/updatePlayerStats.opy"
+## Player stats / Events: lifecycle（include 槽位保持原位以维持展开顺序）
+#!include "player/updatePlayerStats.opy"
 
 #!include "events/lifecycle/setEventDuration.opy"
 
 #!include "events/lifecycle/resetPlayerCD.opy"
 
-#!include "utilities/event_core/setPlayerSize.opy"
+#!include "player/setPlayerSize.opy"
 
 #!include "events/lifecycle/clearEventEffect.opy"
 
@@ -45,9 +45,9 @@
 
 #!include "events/lifecycle/clearPlayerEvent.opy"
 
-#!include "utilities/event_core/setPlayerHP.opy"
+#!include "player/setPlayerHP.opy"
 
-#!include "utilities/event_core/startCombatRegen.opy"
+#!include "player/startCombatRegen.opy"
 
 #!include "events/allocation/assignPlayerEvent.opy"
 
@@ -62,134 +62,9 @@
 
 #!include "bastion/init.opy"
 
-#!rulePrefix "Core"
-
-rule "Reset to control respawn":
-    @Event eachPlayer
-    @Team 1
-    @Condition controlRespawnPosition != null
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isInSpawnRoom() == true
-    @Condition controlRespawnPosition[eventPlayer.controlJumpIndex] != null
-    @Condition (any([controlRespawnAxis == 0 and distance(vect(eventPlayer.getPosition().x, 0, 0), vect(controlRespawnPosition[eventPlayer.controlJumpIndex].x, 0, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 1 and distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[eventPlayer.controlJumpIndex].y, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 2 and distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[eventPlayer.controlJumpIndex].z)) >= controlRespawnAxisThreshold])) == true
-    
-    eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
-    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
-    wait(0.032)
-
-
-rule "Advance control jump":
-    @Event eachPlayer
-    @Team 1
-    @Condition controlRespawnPosition != null
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isInSpawnRoom() != true
-    @Condition eventPlayer.isMoving() == true
-    @Condition controlJumpPosition[eventPlayer.controlJumpIndex] != null
-    #@Condition eventPlayer.getPosition().y >= controlJumpPosition[eventPlayer.controlJumpIndex].y
-    #@Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4
-    
-    wait(0.032, Wait.ABORT_WHEN_FALSE)
-    wait(0.2)
-    if (eventPlayer.anchorPos(eventPlayer.possess).y >= controlJumpPosition[eventPlayer.controlJumpIndex].y):
-        if distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4:
-            eventPlayer.controlJumpIndex++
-            wait()
-            if any([eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.hasStatus(Status.INVINCIBLE)]):
-                goto lbl_1
-            eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 0.5)
-            eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 0.5)
-            lbl_1:
-            eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
-            eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
-            wait(2.16)
-    lbl_0:
-    loop()
-
-rule "Resolve finish":
-    @Event eachPlayer
-    @Team 1
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.anchorPos(eventPlayer.possess).y >= endPosition.y
-    @Condition distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
-    
-    if len(eventPlayer.possessed) > 0:
-        eventPlayer.possessed = []
-    eventPlayer.respawn()
-    wait(0.032)
-    if controlRespawnPosition == null:
-        goto lbl_0
-    eventPlayer.controlJumpIndex = 0
-    eventPlayer.teleport(controlRespawnPosition[0])
-    wait(0.032)
-    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
-    lbl_0:
-    if eventPlayer.heroNumber + 1 < len(heroList) and eventPlayer.getHero() == heroList[eventPlayer.heroNumber]:
-        progressHero()
-    elif eventPlayer.getHero() == heroList.last() and not eventPlayer.isWinner:
-        eventPlayer.isWinner = true
-        eventPlayer.winnerTime = evalOnce(getTotalTimeElapsed()) - eventPlayer.joinTime
-        if any([eventPlayer.dmgReduc, eventPlayer.invincible, eventPlayer.isPortalEnabled, eventPlayer.isAirWalkEnabled]):
-            goto lbl_1
-        bigMessage(
-            getPlayers(Team.1),
-            STR_MSG_WIN_ANNOUNCE.format(
-                eventPlayer,
-                # 统计部分
-                STR_MSG_WIN_STATS.format(eventPlayer.runDeathCount, eventPlayer.skipCount),
-                # 时间部分
-                "{0}{1}{2}".format(
-                    # 小时部分
-                    STR_TIME_UNIT_HOUR.format(floor(eventPlayer.winnerTime / 3600)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 3600) else "",
-                    
-                    # 分钟部分
-                    STR_TIME_UNIT_MIN.format(floor((eventPlayer.winnerTime % 3600) / 60)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 60) else "",
-                    
-                    # 秒部分
-                    STR_TIME_UNIT_SEC.format(floor(eventPlayer.winnerTime % 60)) if (eventPlayer.winnerTime != null) else STR_TIME_UNIT_ZERO_SEC
-                )
-            )
-        )
-        lbl_1:
-        if hashTag == true:
-            smallMessage(eventPlayer, STR_MSG_WIN_HINT.format(iconString(Icon.CHECKMARK)))
-        savePlayerData()
-
-
-rule "Charge winner ult":
-    @Event eachPlayer
-    @Team 1
-    @Condition eventPlayer.isWinner != false
-    @Condition eventPlayer.getUltCharge() < 100
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    wait(15, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.setUltCharge(min(100, eventPlayer.getUltCharge() + 25))
-    if ruleCondition:
-        loop()
-
-# 对局码固定承载 round(事件目录总权重 * 100) 的 4 位数字：第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位，其余位随机
-rule "Generate mastery run code":
-    @Condition len(eventCatalogId) > 0
-    @Condition masteryRunCode == ""
-
-    runCodeWeightTotal = 0
-    I = 0
-    for I in range(len(eventCatalogId)):
-        runCodeWeightTotal += eventCatalogWeight[eventCatalogId[I]]
-    # 保留未取整的实际总权重供 hashTag 超限校验使用
-    eventCatalogWeightTotal = runCodeWeightTotal
-    runCodeWeightTotal = round(runCodeWeightTotal * 100)
-    masteryRunCode = "{0}-{1}-{2}".format(
-        random.randint(1, 9) * 1000 + (floor(runCodeWeightTotal / 1000) % 10) * 100 + (floor(runCodeWeightTotal / 100) % 10) * 10 + random.randint(0, 9),
-        random.randint(1, 9) * 1000 + random.randint(0, 9) * 100 + (floor(runCodeWeightTotal / 10) % 10) * 10 + random.randint(0, 9),
-        random.randint(1, 9) * 1000 + random.randint(0, 9) * 100 + random.randint(0, 9) * 10 + runCodeWeightTotal % 10
-    )
-
-#!rulePrefix ""
+#!include "map/controlJump.opy"
+#!include "player/finishSettlement.opy"
+#!include "events/integrity/masteryRunCode.opy"
 
 #!include "effects/init.opy"
 #!include "effects/nano.opy"
