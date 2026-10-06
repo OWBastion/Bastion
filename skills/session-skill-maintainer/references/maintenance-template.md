@@ -47,7 +47,7 @@
 
 ```bash
 rg --files skills | rg 'SKILL.md|references|agents/openai.yaml'
-rg -n 'sync:title-data|test:title-data-sync|sync:platform-data|build:release' skills AGENTS.md package.json
+rg -n 'sync:platform-data|test:platform-data-sync|build:release' skills AGENTS.md package.json
 rg -n '禁止重排|DOMINATOR|COUNT 之前|生成产物|不可手改' skills/*/SKILL.md
 ```
 
@@ -56,7 +56,7 @@ rg -n '禁止重排|DOMINATOR|COUNT 之前|生成产物|不可手改' skills/*/S
 Title 类演练：
 
 ```bash
-rg -n 'data/title-source.json|sync:title-data|test:title-data-sync|title/init.opy|MAP_TITLE_DATA' skills/add-workshop-title/SKILL.md skills/grant-player-title/SKILL.md
+rg -n 'data/title-source.json|sync:platform-data|test:platform-data-sync|title/init.opy|MAP_TITLE_DATA' skills/add-workshop-title/SKILL.md skills/grant-player-title/SKILL.md
 ```
 
 Event 类演练：

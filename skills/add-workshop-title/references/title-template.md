@@ -46,8 +46,8 @@
 ## 4) 验证命令
 
 ```bash
-pnpm run sync:title-data
-pnpm run test:title-data-sync
+pnpm run sync:platform-data
+pnpm run test:platform-data-sync
 rg -n 'AUTO-GENERATED TITLE ENUM|AUTO-GENERATED TITLE PLAYER DATABASE|AUTO-GENERATED MAP_TITLE_DATA|AUTO-GENERATED ALL_TITLE|DATA_' src/title/title-cn.opy
 rg -n 'sortOrder|player-title-grants|map-title-holders|MAP_TITLE_DATA' tools src
 ```

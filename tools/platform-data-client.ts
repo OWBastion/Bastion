@@ -368,3 +368,59 @@ export class PlatformDataClient {
 export async function fetchPlatformData(options: PlatformDataClientOptions = {}): Promise<PlatformData> {
   return new PlatformDataClient(options).fetchAll();
 }
+
+export type JsonObject = Record<string, any>;
+
+export type TitleSource = JsonObject & {
+  titles: JsonObject[];
+  players: JsonObject[];
+  mapTitles: JsonObject[];
+};
+
+export function requireString(value: unknown, label: string): string {
+  if (typeof value !== 'string' || value.trim() === '') throw new Error(`${label} must be a non-empty string`);
+  return value.trim();
+}
+
+export function requireNumber(value: unknown, label: string): number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error(`${label} must be a finite number`);
+  return value;
+}
+
+export function assertUnique(values: string[], label: string) {
+  const seen = new Set<string>();
+  for (const value of values) {
+    if (seen.has(value)) throw new Error(`Duplicate ${label}: ${value}`);
+    seen.add(value);
+  }
+}
+
+export function assertExactKeys(value: unknown, label: string, expectedKeys: string[], optionalKeys: string[] = []) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
+  const actualKeys = Object.keys(value);
+  const allowed = new Set([...expectedKeys, ...optionalKeys]);
+  const valid = expectedKeys.every((key) => actualKeys.includes(key)) && actualKeys.every((key) => allowed.has(key));
+  if (!valid) throw new Error(`${label} has an invalid shape; expected keys ${[...allowed].sort().join(', ')}`);
+}
+
+export const TITLE_SCOPES = new Set(['global', 'map']);
+
+export const TITLE_DISPLAY_KINDS = new Set(['fixed', 'map_pioneer', 'map_name_suffix']);
+
+export const TITLE_SLOTS = new Set(['pioneer', 'conqueror', 'dominator', 'classic']);
+
+export const MAP_DIFFICULTIES = new Set(['T0', 'T1', 'T2', 'T3', 'T4', 'T5']);
+
+export const CHALLENGE_STATUSES = new Set(['scheduled', 'active', 'sunsetting']);
+
+export const SUBMISSION_MODES = new Set(['manual', 'automatic']);
+
+export const EVENT_CATEGORIES = new Map([
+  ['增益', 'buff'],
+  ['减益', 'debuff'],
+  ['机制', 'mech']
+] as const);
+
+export const PLATFORM_EVENT_CATEGORIES = new Set(['增益', '减益', '机制', '全局']);
+
+export const EVENT_STATUSES = new Set(['implemented', 'removed']);
