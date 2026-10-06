@@ -7,7 +7,7 @@
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
 - 效果：`src/events/effects/buffEffects.opy`, `debuffEffects.opy`, `mechEffects.opy`
-- 玩家态子程序：`utilities/event_core/setPlayerEvent.opy`, `clearPlayerEvent.opy`, `setEventDuration.opy`
+- 生命周期：`src/events/lifecycle/`（`setPlayerEvent.opy` 含 `commitPlayerEventCategory`、`setEventDuration.opy`、`clearEventEffect.opy`、`clearPlayerEvent.opy`、`resetPlayerEventState.opy`、`resetPlayerCD.opy`）
 
 ## 生命周期
 

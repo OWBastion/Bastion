@@ -17,7 +17,7 @@
 1. 环境/本地化/宏
 2. 全局变量与玩家变量声明
 3. 基础系统：地图检测、黑名单、游戏设置初始化、称号库（由平台 Agents API 同步生成）、事件开关
-4. 功能系统：英雄规则、事件配置、抽样器、工具层（`utilities/system` -> `utilities/event_core`）
+4. 功能系统：英雄规则、事件配置、抽样器、工具层（`utilities/system` -> `utilities/event_core` 与 `events/lifecycle`）
 5. 事件执行层：分配器 + buff/debuff/mech 规则
 6. 地图层 + 堡垒 AI
 7. 效果层：HUD、特效、玩家状态可视化
@@ -27,9 +27,8 @@
 ## Utilities include 约定（main/devMain 同步）
 
 - 入口顶部宏 include 固定为：`utilities/dev_support/macros.opy`
-- 中段 utilities include 分两组，顺序固定：
-  - `utilities/system/*`
-  - `utilities/event_core/*`
+- 中段 utilities include 分组顺序固定：`utilities/system/*` 在前；事件生命周期 `events/lifecycle/*` 与剩余的 `utilities/event_core/*` 按既有槽位交错 include，槽位顺序不可重排
+- `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
 - 开发工具 include 固定在靠后位置：`utilities/dev_support/devTool.opy`
 - 旧路径 `utilities/*.opy` 为兼容 shim，过渡期可被外部分支引用，但入口文件应优先使用新路径
 
