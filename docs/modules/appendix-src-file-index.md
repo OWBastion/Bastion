@@ -227,13 +227,14 @@
 - `src/title/hashtag.opy`
 - `src/title/init.opy`
 - `src/title/map-title-data.opy`
+- `src/title/playerNameToIndex.js`
+- `src/title/playerNameToIndexDelimited.js`
 - `src/title/player-init.opy`
 - `src/title/setPlayerTitle.opy`
 - `src/title/title-cn.opy`
 
 ## src/tools
-- `src/tools/playerNameToIndex.js`
-- `src/tools/playerNameToIndexDelimited.js`
+- `src/tools/player.json`（调查候选，暂无消费者）
 
 ## src/utilities
 - `src/utilities/macros.opy`

@@ -3,8 +3,8 @@
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
 #!optimizeStrict
 
-#!define playerNameToIndex(names) __script__("../tools/playerNameToIndex.js")
-#!define playerNameToIndexDelimited(names, sep) __script__("../tools/playerNameToIndexDelimited.js")
+#!define playerNameToIndex(names) __script__("playerNameToIndex.js")
+#!define playerNameToIndexDelimited(names, sep) __script__("playerNameToIndexDelimited.js")
 
 # ------------------------------
 # 1. 定义称号枚举 (Enums)
