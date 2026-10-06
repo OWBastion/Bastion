@@ -2,7 +2,7 @@
 
 ## 模块组成
 
-- 初始化：`src/events/init/detectFlag.opy`
+- 初始化：`src/events/lifecycle/detectFlag.opy`
 - 身份与参数：`src/events/event_ids.opy`（`EventId` 枚举）、`src/events/event_constants.opy`（`EVT_*` 事件参数总表，及 `InvincibleEffectSlot`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE` 等跨域槽位定义——被 `session/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 消费）、`src/events/event_manifest.opy`（平台同步生成的域元数据）
 - 配置：`src/events/catalog/eventCatalog.opy`, `src/events/catalog/eventCatalogMain.opy`, `src/events/catalog/eventCatalogDev.opy`
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`

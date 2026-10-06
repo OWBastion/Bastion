@@ -112,11 +112,11 @@
 - `src/events/effects/mech/valkyrie_descent.opy`
 - `src/events/effects/mech/vampire.opy`
 - `src/events/effects/mechEffects.opy`
-- `src/events/init/detectFlag.opy`
 - `src/events/integrity/hashtag.opy`
 - `src/events/integrity/masteryRunCode.opy`
 - `src/events/lifecycle/clearEventEffect.opy`
 - `src/events/lifecycle/clearPlayerEvent.opy`
+- `src/events/lifecycle/detectFlag.opy`
 - `src/events/lifecycle/resetPlayerCD.opy`
 - `src/events/lifecycle/resetPlayerEventState.opy`
 - `src/events/lifecycle/setEventDuration.opy`

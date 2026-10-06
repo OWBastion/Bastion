@@ -1,7 +1,7 @@
 #!include "map/mapDetection.opy"
 #!include "blacklist/init.opy"
 #!include "blacklist/removeFromBlacklist.opy"
-#!include "events/init/detectFlag.opy"
+#!include "events/lifecycle/detectFlag.opy"
 
 #!include "heroes/all_hero.opy"
 
