@@ -8,7 +8,7 @@
 两者结构高度一致，差异主要集中在：
 
 - 头部环境文件：`env/env.opy` vs `env/env_dev.opy`
-- 事件配置入口：`config/eventConfig.opy` vs `config/eventConfigDev.opy`
+- 事件目录顺序入口：`config/eventCatalogMain.opy` vs `config/eventCatalogDev.opy`（注册定义共用 `config/eventCatalog.opy`）
 - 英雄设置入口：`heroes/settings/team_rules.opy` + `heroes/settings/all_teams.opy`
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
 

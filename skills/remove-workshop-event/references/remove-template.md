@@ -15,8 +15,8 @@
 - 从 `src/locales/en-US.opy` 删除 `<STR_PREFIX>_<ID>_TITLE` / `<STR_PREFIX>_<ID>_DESC`。
 
 4. 配置
-- 从 `src/config/eventConfig.opy` 删除注册与 `append(...)`。
-- 从 `src/config/eventConfigDev.opy` 删除 setting 注册、事件注册与 `append(...)`。
+- 从 `src/config/eventCatalog.opy` 删除字段注册。
+- 从 `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 移除对应 ID。
 
 5. 效果
 - 从 `src/events/effects/*Effects.opy` 删除 `#!include "<EFFECT_FILE>"`。

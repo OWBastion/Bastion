@@ -10,7 +10,7 @@
 # lifecycle synchronization is required.
 
 # Event effect index (generated): keep include order stable.
-# 下线流程：1) 事件文件内 @Disabled + 注释；2) 移除 eventConfig/eventConfigDev 注册；3) 从此处移除 include。
+# 下线流程：1) 事件文件内 @Disabled + 注释；2) 移除 eventCatalog 注册与 EVENT_CATALOG_ORDER 顺序项；3) 从此处移除 include。
 
 #!include "buff/gale_blessing.opy"
 #!include "buff/iron_bulwark.opy"

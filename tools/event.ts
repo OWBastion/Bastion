@@ -36,8 +36,9 @@ const PATHS = {
   constants: path.resolve(ROOT, 'src/constants/event_constants.opy'),
   localeZh: path.resolve(ROOT, 'src/locales/zh-CN.opy'),
   localeEn: path.resolve(ROOT, 'src/locales/en-US.opy'),
-  config: path.resolve(ROOT, 'src/config/eventConfig.opy'),
-  configDev: path.resolve(ROOT, 'src/config/eventConfigDev.opy')
+  catalog: path.resolve(ROOT, 'src/config/eventCatalog.opy'),
+  catalogMain: path.resolve(ROOT, 'src/config/eventCatalogMain.opy'),
+  catalogDev: path.resolve(ROOT, 'src/config/eventCatalogDev.opy')
 } as const;
 
 const ENUM_NAME = 'EventId';
@@ -188,8 +189,7 @@ function addConfigRegistration(source: string, spec: AddSpec): string {
     `    eventDesc[${ENUM_NAME}.${spec.key}] = ${descToken}\n` +
     `    eventDuration[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_DURATION\n` +
     `    eventCatalogWeight[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_WEIGHT\n` +
-    `    eventCatalogType[${ENUM_NAME}.${spec.key}] = EventType.${cfg.prefix}\n` +
-    `    eventCatalogId.append(${ENUM_NAME}.${spec.key})`;
+    `    eventCatalogType[${ENUM_NAME}.${spec.key}] = EventType.${cfg.prefix}`;
 
   if (source.includes(`${ENUM_NAME}.${spec.key}]`) || source.includes(`${ENUM_NAME}.${spec.key})`)) {
     throw new Error(`${ENUM_NAME}.${spec.key} already registered in config`);
@@ -198,14 +198,33 @@ function addConfigRegistration(source: string, spec: AddSpec): string {
   return `${source.trimEnd()}\n\n${block}\n`;
 }
 
+function addCatalogOrderEntry(source: string, key: string): string {
+  const pattern = /(#!define\s+EVENT_CATALOG_ORDER\s+\[[^\]]*)\]/;
+  if (!pattern.test(source)) {
+    throw new Error('EVENT_CATALOG_ORDER define not found');
+  }
+  if (source.includes(`${ENUM_NAME}.${key}`)) {
+    throw new Error(`${ENUM_NAME}.${key} already present in EVENT_CATALOG_ORDER`);
+  }
+  return source.replace(pattern, `$1, ${ENUM_NAME}.${key}]`);
+}
+
+function removeCatalogOrderEntry(source: string, key: string): string {
+  const escaped = escapeRegExp(`${ENUM_NAME}.${key}`);
+  const pattern = new RegExp(`${escaped},\\s*|,\\s*${escaped}`);
+  if (!pattern.test(source)) {
+    throw new Error(`${ENUM_NAME}.${key} not found in EVENT_CATALOG_ORDER`);
+  }
+  return source.replace(pattern, '');
+}
+
 function removeConfigRegistration(source: string, spec: RemoveSpec): string {
   const escapedEnum = escapeRegExp(`${ENUM_NAME}.${spec.key}`);
   const lines = source.split('\n');
   let removed = 0;
   const filtered = lines.filter((line) => {
     const matchAssign = new RegExp(`^\\s*\\w+\\[\\s*${escapedEnum}\\s*\\]\\s*=`).test(line);
-    const matchAppend = new RegExp(`^\\s*eventCatalogId\\.append\\(\\s*${escapedEnum}\\s*\\)`).test(line);
-    if (matchAssign || matchAppend) {
+    if (matchAssign) {
       removed += 1;
       return false;
     }
@@ -225,20 +244,22 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
     constants: PATHS.constants,
     localeZh: PATHS.localeZh,
     localeEn: PATHS.localeEn,
-    config: PATHS.config,
-    configDev: PATHS.configDev
+    catalog: PATHS.catalog,
+    catalogMain: PATHS.catalogMain,
+    catalogDev: PATHS.catalogDev
   };
 
-  const [ids, constants, localeZh, localeEn, config, configDev] = await Promise.all([
+  const [ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev] = await Promise.all([
     fs.readFile(files.ids, 'utf8'),
     fs.readFile(files.constants, 'utf8'),
     fs.readFile(files.localeZh, 'utf8'),
     fs.readFile(files.localeEn, 'utf8'),
-    fs.readFile(files.config, 'utf8'),
-    fs.readFile(files.configDev, 'utf8')
+    fs.readFile(files.catalog, 'utf8'),
+    fs.readFile(files.catalogMain, 'utf8'),
+    fs.readFile(files.catalogDev, 'utf8')
   ]);
 
-  let next = { ids, constants, localeZh, localeEn, config, configDev };
+  let next = { ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev };
 
   if (spec.action === 'add') {
     next = {
@@ -246,8 +267,9 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
       constants: addConstantsBlock(next.constants, spec.type, spec.id, spec.duration, spec.weight),
       localeZh: addLocaleEntries(next.localeZh, spec.type, spec.id, spec.titleZh, spec.descZh),
       localeEn: addLocaleEntries(next.localeEn, spec.type, spec.id, spec.titleEn, spec.descEn),
-      config: addConfigRegistration(next.config, spec),
-      configDev: addConfigRegistration(next.configDev, spec)
+      catalog: addConfigRegistration(next.catalog, spec),
+      catalogMain: addCatalogOrderEntry(next.catalogMain, spec.key),
+      catalogDev: addCatalogOrderEntry(next.catalogDev, spec.key)
     };
   } else {
     next = {
@@ -255,8 +277,9 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
       constants: removeConstantsBlock(next.constants, spec.type, spec.id),
       localeZh: removeLocaleEntries(next.localeZh, spec.type, spec.id),
       localeEn: removeLocaleEntries(next.localeEn, spec.type, spec.id),
-      config: removeConfigRegistration(next.config, spec),
-      configDev: removeConfigRegistration(next.configDev, spec)
+      catalog: removeConfigRegistration(next.catalog, spec),
+      catalogMain: removeCatalogOrderEntry(next.catalogMain, spec.key),
+      catalogDev: removeCatalogOrderEntry(next.catalogDev, spec.key)
     };
   }
 
@@ -265,8 +288,9 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
     [files.constants, next.constants],
     [files.localeZh, next.localeZh],
     [files.localeEn, next.localeEn],
-    [files.config, next.config],
-    [files.configDev, next.configDev]
+    [files.catalog, next.catalog],
+    [files.catalogMain, next.catalogMain],
+    [files.catalogDev, next.catalogDev]
   ] as const;
 
   if (!dryRun) {

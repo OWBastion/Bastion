@@ -23,7 +23,7 @@ description: 为 Bastion Overwatch Workshop 项目执行随机事件移除/下�
 1. 枚举：从 `src/constants/event_ids.opy` 删除目标 `EventId` 枚举项及其 `# legacy numeric id:` 注释行（其余顺序保持不变，不重排）。
 2. 常量：从 `src/constants/event_constants.opy` 删除目标 `EVT_*` 常量块。
 3. 本地化：从 `src/locales/zh-CN.opy` 与 `src/locales/en-US.opy` 删除目标 `STR_EVT_*` 键。
-4. 配置：从 `src/config/eventConfig.opy` 与 `src/config/eventConfigDev.opy` 删除目标事件注册、append、dev setting。
+4. 配置：从 `src/config/eventCatalog.opy` 删除目标事件字段注册，并从 `src/config/eventCatalogMain.opy` 与 `src/config/eventCatalogDev.opy` 的 `EVENT_CATALOG_ORDER` 移除对应 ID。
 5. 效果：从 `src/events/effects/*Effects.opy` 删除目标 include；默认删除对应 effect 文件（若用户明确要求保留文件，再改为清空并标注停用原因）。
 6. 数据：从 `data/platform-event-ids.json` 删除目标事件的稳定 ID 映射。
 

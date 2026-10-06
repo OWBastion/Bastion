@@ -44,7 +44,7 @@
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
 - `src/main.opy` / `src/devMain.opy`
-- `src/config/eventConfig.opy` / `src/config/eventConfigDev.opy`
+- `src/config/eventCatalog.opy` / `src/config/eventCatalogMain.opy` / `src/config/eventCatalogDev.opy`
 - `src/bastion/init.opy`
 - `src/title/title-cn.opy`
 

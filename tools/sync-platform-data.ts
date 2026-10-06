@@ -22,8 +22,7 @@ const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/constants/event_manifest.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
 const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/constants/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
-const EVENT_CONFIG_FILE = path.join(ROOT, 'src/config/eventConfig.opy');
-const EVENT_CONFIG_DEV_FILE = path.join(ROOT, 'src/config/eventConfigDev.opy');
+const EVENT_CATALOG_FILE = path.join(ROOT, 'src/config/eventCatalog.opy');
 const execFileAsync = promisify(execFile);
 
 const EVENT_CATEGORIES = new Map([
@@ -1134,13 +1133,11 @@ export function renderPlatformMapRevisionMapSources({
   });
 }
 
-function collectEventEntries(configSources: string[]): Array<{ key: string; type: EventType }> {
+function collectEventEntries(catalogSource: string): Array<{ key: string; type: EventType }> {
   const entries = new Map<string, { key: string; type: EventType }>();
   const pattern = /eventCatalogType\[\s*EventId\.([A-Z0-9_]+)\s*\]\s*=\s*EventType\.(BUFF|DEBUFF|MECH)/g;
-  for (const source of configSources) {
-    for (const match of source.matchAll(pattern)) {
-      entries.set(match[1], { key: match[1], type: match[2].toLowerCase() as EventType });
-    }
+  for (const match of catalogSource.matchAll(pattern)) {
+    entries.set(match[1], { key: match[1], type: match[2].toLowerCase() as EventType });
   }
   return [...entries.values()];
 }
@@ -1201,7 +1198,7 @@ function replaceOverPyDefine(source: string, name: string, value: string | numbe
   return source.replace(pattern, `#!define ${name} ${typeof value === 'number' ? value : JSON.stringify(value)}`);
 }
 
-function resolveEventMacros(eventKey: string, eventType: string, configSources: string[]) {
+function resolveEventMacros(eventKey: string, eventType: string, catalogSource: string) {
   const type = eventType.toUpperCase();
   const escapedKey = eventKey.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
   const titlePattern = new RegExp(
@@ -1213,14 +1210,9 @@ function resolveEventMacros(eventKey: string, eventType: string, configSources: 
   const weightPattern = new RegExp(
     `eventCatalogWeight\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
   );
-  let id: string | undefined;
-  let duration: string | undefined;
-  let weight: string | undefined;
-  for (const source of configSources) {
-    id ??= source.match(titlePattern)?.[1];
-    duration ??= source.match(durationPattern)?.[1];
-    weight ??= source.match(weightPattern)?.[1];
-  }
+  const id = catalogSource.match(titlePattern)?.[1];
+  const duration = catalogSource.match(durationPattern)?.[1];
+  const weight = catalogSource.match(weightPattern)?.[1];
   if (!id || !duration || !weight) throw new Error(`Unable to resolve OverPy macros for ${eventType}:${eventKey}`);
   return { id, duration, weight };
 }
@@ -1371,19 +1363,18 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const baseUrl = options.baseUrl ?? process.env.BASTION_PLATFORM_API_URL ?? DEFAULT_PLATFORM_DATA_BASE_URL;
   const accessToken = options.accessToken ?? process.env[PLATFORM_DATA_TOKEN_ENV];
   console.log(`Platform sync: endpoint=${baseUrl}, build token=${accessToken ? 'configured' : 'missing'}`);
-  const [platformEventIds, mapSourceFiles, constantsSource, localeSource, eventConfigSource, eventConfigDevSource, envSource] = await Promise.all([
+  const [platformEventIds, mapSourceFiles, constantsSource, localeSource, eventCatalogSource, envSource] = await Promise.all([
     fs.readFile(EVENT_PLATFORM_IDS_FILE, 'utf8').then((text) => JSON.parse(text) as Record<string, string>),
     fs.readdir(MAP_SOURCE_DIR).then(async (files) => Promise.all(files.filter((file) => file.endsWith('.opy')).map(async (file) => ({ file, content: await fs.readFile(path.join(MAP_SOURCE_DIR, file), 'utf8') })))),
     fs.readFile(EVENT_CONSTANTS_FILE, 'utf8'),
     fs.readFile(ZH_LOCALE_FILE, 'utf8'),
-    fs.readFile(EVENT_CONFIG_FILE, 'utf8'),
-    fs.readFile(EVENT_CONFIG_DEV_FILE, 'utf8'),
+    fs.readFile(EVENT_CATALOG_FILE, 'utf8'),
     fs.readFile(ENV_FILE, 'utf8')
   ]);
-  const eventEntries = collectEventEntries([eventConfigSource, eventConfigDevSource]).map((entry) => ({
+  const eventEntries = collectEventEntries(eventCatalogSource).map((entry) => ({
     ...entry,
     platformId: platformEventIds[entry.key] ?? '',
-    macros: resolveEventMacros(entry.key, entry.type, [eventConfigSource, eventConfigDevSource])
+    macros: resolveEventMacros(entry.key, entry.type, eventCatalogSource)
   }));
 
   const client = new PlatformDataClient({ ...options, baseUrl, accessToken });

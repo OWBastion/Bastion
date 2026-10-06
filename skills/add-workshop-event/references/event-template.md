@@ -7,7 +7,7 @@
 1. 枚举：`src/constants/event_ids.opy`（新增项插入对应 `# ---- <Buff|Debuff|Mech> ----` 分节末尾，必须在 `COUNT` 之前）
 2. 常量：`src/constants/event_constants.opy`
 3. 本地化：`src/locales/zh-CN.opy` + `src/locales/en-US.opy`
-4. 配置：`src/config/eventConfig.opy` + `src/config/eventConfigDev.opy`
+4. 配置：`src/config/eventCatalog.opy`（字段注册）+ `src/config/eventCatalogMain.opy` / `src/config/eventCatalogDev.opy`（入口顺序追加）
 5. 规则：`src/events/effects/*.opy`
 
 ## 2) 核心片段
@@ -46,7 +46,7 @@ enum EventId:
 ```bash
 rg -n 'EventId\.<ENUM_NAME>|STR_EVT_(BUFF|DEBUFF|MECH)_<ID>|EVT_(BUFF|DEBUFF|MECH)_<ID>|eventType ==' src/config src/events src/locales src/constants
 rg -n 'enum EventId|COUNT' src/constants/event_ids.opy
-rg -n 'eventConfigDev|eventConfig\.|append\(' src/config/eventConfig*.opy
+rg -n 'EventId\.<KEY>' src/config/eventCatalog*.opy
 ```
 
 ## 4) 可检查收尾清单

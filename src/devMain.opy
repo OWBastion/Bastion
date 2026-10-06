@@ -9,6 +9,7 @@
 #!include "../env/game.opy"
 #!include "../composition/profile-cn.opy"
 #!include "../env/vars_dev_extra.opy"
-#!include "../config/eventConfigDev.opy"
+#!include "../config/eventCatalogDev.opy"
+#!include "../config/eventCatalog.opy"
 #!include "../core.opy"
 #!include "../composition/profile-cn-features.opy"
