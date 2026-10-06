@@ -22,7 +22,7 @@
 
 #!include "player/playerRegen.opy"
 
-#!include "env/setDifficulty.opy"
+#!include "session/setDifficulty.opy"
 
 #!include "player/thirdPerson.opy"
 

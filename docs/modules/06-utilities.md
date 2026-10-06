@@ -1,6 +1,6 @@
 # 06. 通用工具层（`utilities/`）
 
-`utilities/` 仅保留无单一业务属主的系统机制与共享生产宏。业务实现已按职责归位：地图检测、控制点推进与点位交互 `src/map/`、玩家进度/存档/属性/回复/摄像机 `src/player/`、称号操作 `src/title/`、菜单 `src/menu/`、堡垒 bot `src/bastion/`、难度展示 `src/env/`、黑名单解除 `src/blacklist/`、事件域支撑 `src/events/effects/`、目录权重校验 `src/events/integrity/`（文件级索引见附录）。
+`utilities/` 仅保留无单一业务属主的系统机制与共享生产宏。业务实现已按职责归位：地图检测、控制点推进与点位交互 `src/map/`、玩家进度/存档/属性/回复/摄像机 `src/player/`、称号操作 `src/title/`、菜单 `src/menu/`、堡垒 bot `src/bastion/`、难度设置 `src/session/`、黑名单解除 `src/blacklist/`、事件域支撑 `src/events/effects/`、目录权重校验 `src/events/integrity/`（文件级索引见附录）。
 
 ## 目录结构
 
@@ -18,7 +18,7 @@
 ## 入口约定
 
 - 顶部宏：`utilities/macros.opy`
-- 中段服务分组：`core.opy` 按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`env/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
+- 中段服务分组：`core.opy` 按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
 - 末尾菜单分组：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等固定槽位交错展开
 
 ## 关键实现模式

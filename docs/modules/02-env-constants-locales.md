@@ -1,6 +1,6 @@
 # 02. 环境、常量与本地化
 
-## `env/` 模块
+## `env/` 模块（构建 profile）
 
 ### `env/env.opy`
 
@@ -12,7 +12,9 @@
 - `DEBUG = true`
 - 版本号示例：`VERSION = "26.dev"`
 
-### `env/game.opy`
+## `session/` 模块（对局会话运行时 + 槽位注册表）
+
+### `session/game.opy`
 
 负责运行时初始化：
 
@@ -21,14 +23,17 @@
 - `heroList` 动态校验（与 `getAllHeroes()` 对齐）
 - `phaseHero`（相位/位移技能检测分组）初始化
 - 开发者名单、颜色表初始化
+### `session/vars.opy` + `session/title-vars.opy`
+
+跨文件交错的显式 `globalvar`/`playervar` 槽位注册表：vars 显式 global 至 108 / player 至 111，title-vars 插占 global 43–48 与 106–107、player 37–45，另有无编号自动分配声明；`vars_dev_extra.opy` 为 dev 声明扩展点（当前仅注释）。槽位编号是持久化/跨文件契约。
+
 - 房间级 `masteryRunCode`：新局初始化为空；事件目录初始化完成时生成 `NNNN-NNNN-NNNN` 数字代码，其中 `round(事件目录总权重 * 100)` 的 4 位数字按固定位序分散在三段（第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位），其余位随机、每段首位非零；玩家重生、换英雄和进度重置不会改写它；目录权重被开发菜单权重页修改时会置空并重新生成，生成同时维护未取整总账 `eventCatalogWeightTotal` 供 hashTag 超限校验
 
-## `constants/` 模块
+## `composition/mode_constants.opy`
 
-### `constants/player_constants.opy`
-
-- 聚合大厅、模式、英雄比例类配置
+- 组装期模式/大厅参数：`FULL_DESCRIPTION`、`LOBBY_*`、`PERK_*`、`RESPAWN_*`、`HEALTHPACK_*`、`SETTING_*`
 - `devMain.opy` 已大量引用该层宏（如 `LOBBY_TEAM1_SLOTS`）
+- `CLASSIC_MAP_VARIANT_*` 枚举属地图域，见 `map/classic_variants.opy`；`TEAM_*`/`BOSS_*` 参数随 `heroes/settings/team_rules.opy`
 
 事件域常量（`events/event_constants.opy`、`events/event_ids.opy`、`events/event_manifest.opy`）见 [03-events-system.md](./03-events-system.md)。
 

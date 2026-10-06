@@ -1,0 +1,7 @@
+#!mainFile "../main.opy"
+
+# 经典版地图变体枚举值，与 locales 的 STR_ENUM_CLASSIC_MAP_VARIANT_OPTIONS 顺序对应
+#!define CLASSIC_MAP_VARIANT_OFF 0
+#!define CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL 1
+#!define CLASSIC_MAP_VARIANT_PARIS 2
+#!define CLASSIC_MAP_VARIANT_HANAMURA 3

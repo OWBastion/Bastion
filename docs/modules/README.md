@@ -22,7 +22,8 @@
 - `blacklist/`：黑名单初始化
 - `composition/`：入口共享组装件（bootstrap、profile 差异宏、CN 专属功能尾部）
 - `effects/`：HUD、世界特效、摄像机触发点
-- `env/`：环境开关、版本号、全局初始化
+- `env/`：构建 profile（版本号、DEBUG、编译开关）
+- `session/`：对局会话运行时（初始化/清理规则、难度 subroutine）+ 全局槽位注册表
 - `events/`：事件身份/参数常量、注册目录（`catalog/`）、抽取、生命周期与事件效果实现
 - `heroes/`：英雄定制规则
 - `locales/`：中英文本地化宏

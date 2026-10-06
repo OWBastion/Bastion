@@ -12,14 +12,14 @@
 - Profile 差异宏：`composition/profile-cn.opy` vs `composition/profile-external.opy`
 - 事件目录顺序入口：`events/catalog/eventCatalogMain.opy`（main + externalMain）vs `events/catalog/eventCatalogDev.opy`（devMain），注册定义共用 `events/catalog/eventCatalog.opy`
 - CN 专属功能尾部：仅 `main`/`devMain` include `composition/profile-cn-features.opy`（称号系统、`menu/title.opy`、成就）
-- 开发入口额外 include `env/vars_dev_extra.opy`
+- 开发入口额外 include `session/vars_dev_extra.opy`
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
 
 ## Composition 层（`src/composition/`）
 
 入口不直接展开公共头部，而是按固定顺序 include 组装件：
 
-- `bootstrap.opy`：共享头部——显式 include 的事件/模式常量（`events/event_*` + `constants/player_constants`，原 constants/ 目录级引入）、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`env/vars.opy` 全局变量、extension、license delimiter
+- `bootstrap.opy`：共享头部——显式 include 的事件/模式常量（`events/event_*` + `composition/mode_constants` + `map/classic_variants`，原 constants/ 目录级引入已显式化）、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`session/vars.opy` 全局变量、extension、license delimiter
 - `profile-cn.opy` / `profile-external.opy`：`PROFILE_*` 差异宏（称号资格、菜单项、成就重置），external 版本为不含称号的最小实现
 - `profile-cn-features.opy`：CN 专属功能 include 尾部（`title/` 实现与 `menu/title.opy`、`player/achievement.opy`），external 入口不引入
 
@@ -28,7 +28,7 @@
 1. 环境/本地化/宏
 2. 全局变量与玩家变量声明
 3. 基础系统：地图检测、黑名单、游戏设置初始化、称号库（由平台 Agents API 同步生成）、事件开关
-4. 功能系统：英雄规则、事件配置、抽样器、业务服务（`map/`、`blacklist/`、`player/`、`env/`、`bastion/`、`events/effects`、`events/integrity`、`events/lifecycle` 与 `utilities/system` 遗留项按固定槽位交错 include）
+4. 功能系统：英雄规则、事件配置、抽样器、业务服务（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/effects`、`events/integrity`、`events/lifecycle` 与 `utilities/system` 遗留项按固定槽位交错 include）
 5. 事件执行层：分配器 + buff/debuff/mech 规则
 6. 地图层 + 堡垒 AI
 7. 效果层：HUD、特效、玩家状态可视化

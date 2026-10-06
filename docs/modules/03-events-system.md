@@ -3,7 +3,7 @@
 ## 模块组成
 
 - 初始化：`src/events/init/detectFlag.opy`
-- 身份与参数：`src/events/event_ids.opy`（`EventId` 枚举）、`src/events/event_constants.opy`（`EVT_*` 事件参数总表，及 `InvincibleEffectSlot`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE` 等跨域槽位定义——被 `env/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 消费）、`src/events/event_manifest.opy`（平台同步生成的域元数据）
+- 身份与参数：`src/events/event_ids.opy`（`EventId` 枚举）、`src/events/event_constants.opy`（`EVT_*` 事件参数总表，及 `InvincibleEffectSlot`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE` 等跨域槽位定义——被 `session/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 消费）、`src/events/event_manifest.opy`（平台同步生成的域元数据）
 - 配置：`src/events/catalog/eventCatalog.opy`, `src/events/catalog/eventCatalogMain.opy`, `src/events/catalog/eventCatalogDev.opy`
 - 分配：`src/events/allocation/assignPlayerEvent.opy`, `buildCompatibleEventPool.opy`, `buildCandidatePool.opy`
 - 抽样：`src/events/allocation/rejectSampling.opy`
@@ -45,7 +45,7 @@
 
 - 事件系统参数主表：持续时间、权重、阈值、半径、触发间隔、治疗/伤害系数；命名模式 `EVT_BUFF_x_*` / `EVT_DEBUFF_x_*` / `EVT_MECH_x_*`
 - 新增/调优事件优先在该文件做参数化，避免硬编码散落在 `events/effects/*.opy`
-- 跨域定义（`InvincibleEffectSlot`/`DEFAULT_INVINCIBLE_EFFECTS`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE`/`GLOBAL_ONCE_EVENT_SLOT_COUNT`）被 `env/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 等非事件消费者使用，其 include 槽位必须保持在 `game.opy` 之前
+- 跨域定义（`InvincibleEffectSlot`/`DEFAULT_INVINCIBLE_EFFECTS`/`DEFAULT_GLOBAL_ONCE_EVENT_STATE`/`GLOBAL_ONCE_EVENT_SLOT_COUNT`）被 `session/game.opy`、`menu/dev/admin.opy`、`player/init.opy` 等非事件消费者使用，其 include 槽位必须保持在 `game.opy` 之前
 
 ## 事件 ID（统一 Enum 管理）
 

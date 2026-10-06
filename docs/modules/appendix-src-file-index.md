@@ -17,11 +17,9 @@
 ## src/composition
 - `src/composition/bootstrap.opy`
 - `src/composition/profile-cn-features.opy`
+- `src/composition/mode_constants.opy`
 - `src/composition/profile-cn.opy`
 - `src/composition/profile-external.opy`
-
-## src/constants
-- `src/constants/player_constants.opy`
 
 ## src/effects
 - `src/effects/init.opy`
@@ -31,11 +29,6 @@
 ## src/env
 - `src/env/env.opy`
 - `src/env/env_dev.opy`
-- `src/env/game.opy`
-- `src/env/setDifficulty.opy`
-- `src/env/title-vars.opy`
-- `src/env/vars.opy`
-- `src/env/vars_dev_extra.opy`
 
 ## src/events
 - `src/events/allocation/assignPlayerEvent.opy`
@@ -153,6 +146,7 @@
 - `src/map/blizzworld.opy`
 - `src/map/busan.opy`
 - `src/map/circuit_royal.opy`
+- `src/map/classic_variants.opy`
 - `src/map/colosseo.opy`
 - `src/map/controlJump.opy`
 - `src/map/dorado.opy`
@@ -204,6 +198,13 @@
 - `src/menu/host/reboot.opy`
 - `src/menu/player.opy`
 - `src/menu/title.opy`
+
+## src/session
+- `src/session/game.opy`
+- `src/session/setDifficulty.opy`
+- `src/session/title-vars.opy`
+- `src/session/vars.opy`
+- `src/session/vars_dev_extra.opy`
 
 ## src/player
 - `src/player/achievement.opy`
