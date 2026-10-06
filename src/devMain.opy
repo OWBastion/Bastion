@@ -6,9 +6,9 @@
 #!define ENTRY_CLASSIC_MAP_VARIANT CLASSIC_MAP_VARIANT_OFF
 #!define ENTRY_DIFFICULTY SETTING_DIFFICULTY_DEFAULT
 #!include "composition/bootstrap.opy"
-#!include "../env/game.opy"
+#!include "../session/game.opy"
 #!include "../composition/profile-cn.opy"
-#!include "../env/vars_dev_extra.opy"
+#!include "../session/vars_dev_extra.opy"
 #!include "../events/catalog/eventCatalogDev.opy"
 #!include "../events/catalog/eventCatalog.opy"
 #!include "../core.opy"

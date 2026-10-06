@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
 #!define FULL_DESCRIPTION \
     STR_DESC_EVENT_STATUS "\n" \
