@@ -233,12 +233,9 @@
 - `src/title/setPlayerTitle.opy`
 - `src/title/title-cn.opy`
 
-## src/tools
-- `src/tools/player.json`（调查候选，暂无消费者）
 
 ## src/utilities
 - `src/utilities/macros.opy`
-- `src/utilities/system/anticrash.opy`
 - `src/utilities/system/autoReboot.opy`
 
 ## 分支专属目录
