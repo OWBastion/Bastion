@@ -26,6 +26,3 @@ For detailed rationale and examples, read:
 Use `pnpm run tools -- perf:scan` for repeatable static loop/performance hotspot reporting.
 Use `pnpm run tools -- perf:scan --strict` when you need non-zero exit on high-risk findings.
 
-## Historical Closure
-
-Performance-loop cleanup history is archived in `docs/plans/performance-loop-closure.md`.
