@@ -37,7 +37,7 @@
 
 ## 服务 include 约定（三入口同步）
 
-- 入口顶部宏 include 位于 `composition/bootstrap.opy`：`utilities/dev_support/macros.opy`
+- 入口顶部宏 include 位于 `composition/bootstrap.opy`：`utilities/macros.opy`
 - `core.opy` 为纯有序组装表，不含内联规则；中段服务按固定槽位交错 include 各属主模块，槽位顺序不可重排
 - `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
 - 菜单 include 固定在末尾位置：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排

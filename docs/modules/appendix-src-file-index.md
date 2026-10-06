@@ -235,7 +235,7 @@
 - `src/tools/playerNameToIndexDelimited.js`
 
 ## src/utilities
-- `src/utilities/dev_support/macros.opy`
+- `src/utilities/macros.opy`
 - `src/utilities/system/anticrash.opy`
 - `src/utilities/system/autoReboot.opy`
 
