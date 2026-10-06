@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 镜像反转":
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = []
-    if eventPlayer.mod_dmg_perma < 0:
+    if eventPlayer.mod_dmg_perma > 0:
         eventPlayer.temp.append(MirrorInversionStat.DAMAGE)
     if eventPlayer.mod_speed_perma < 0:
         eventPlayer.temp.append(MirrorInversionStat.SPEED)
