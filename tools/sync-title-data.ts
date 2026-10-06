@@ -19,8 +19,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const TITLE_FILE = path.resolve(__dirname, '../src/title/title-cn.opy');
-const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndex.js');
-const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../src/tools/playerNameToIndexDelimited.js');
+const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../src/title/playerNameToIndex.js');
+const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../src/title/playerNameToIndexDelimited.js');
 
 const ENUM_BEGIN = '# BEGIN AUTO-GENERATED TITLE ENUM';
 const ENUM_END = '# END AUTO-GENERATED TITLE ENUM';
