@@ -46,7 +46,7 @@ def buildCandidatePool():
         eventPlayer.eventTempIndex.remove(EventId.SELFLESS_GIVEAWAY)
     if gamblerHeartsteelJackpot < EVT_MECH_24_POOL_MIN or eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_24_PLAYER_STACKS_MIN:
         eventPlayer.eventTempIndex.remove(EventId.GAMBLER_WINNER_TAKE_ALL)
-    if eventPlayer.mod_dmg_perma >= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
+    if eventPlayer.mod_dmg_perma <= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(EventId.MIRROR_INVERSION)
 
     if eventPlayer.eventLastId != null:
