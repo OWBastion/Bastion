@@ -23,4 +23,4 @@ If docs are intentionally not updated in the same change, record the reason in c
 
 ## TODO Closure Gate
 
-When a doc tracker TODO is fully completed, remove the active TODO tracker file and keep a concise closure artifact under `docs/plans/` (for example `*-closure.md`) as the historical record.
+When a doc tracker TODO is fully completed, remove the active TODO tracker file; the PR and issue record serve as the closure history—no separate archive file.
