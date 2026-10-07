@@ -13,6 +13,7 @@ macro HERO_SETTINGS_TEAM1 = {
         "health%": BOSS_BASTION_HEALTH_PCT
     },
     "wreckingBall": {
+        "health%": 150,
         "ultDuration%": TEAM1_WRECKINGBALL_ULT_DURATION_PCT,
         "ultKb%": BOSS_BASTION_SEC_FIRE_KB_PCT,
         "damageReceived%": TEAM1_WRECKINGBALL_DAMAGE_RECEIVED_PCT
