@@ -15,7 +15,12 @@ rule "Init spawn state":
     
     wait(0.25)
     eventPlayer.setDamageDealt(100 + 50 * difficulty)
-    eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
+    if eventPlayer.getSlot() < len(bastionPosition) and bastionPosition[eventPlayer.getSlot()] != vect(0, 0, 0):
+        eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
+    else:
+        # 槽位越界或点位无效时不传送到 (0,0,0)：隐藏待命，避免原点多一只堡垒
+        eventPlayer.setInvisibility(Invis.ALL)
+        eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 99999)
     if not eventPlayer.hasStatus(Status.UNKILLABLE):
         eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 99999)
         eventPlayer.setKnockbackReceived(1)
@@ -176,6 +181,7 @@ rule "Acquire target":
     @Event eachPlayer
     @Team 1
     @Hero bastion
+    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
@@ -415,6 +421,7 @@ rule "Reset displaced bot":
     @Event eachPlayer
     @Team 1
     @Hero bastion
+    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition distance(eventPlayer.getPosition(), bastionPosition[eventPlayer.getSlot()]) > 2
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
@@ -454,6 +461,7 @@ rule "Lock elevated position":
     @Condition eventPlayer.isInPosition == false
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition distance(raycast(bastionPosition[eventPlayer.getSlot()] + Vector.UP, bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5, null, null, false).getHitPosition(), bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5) == 0
     
     eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
