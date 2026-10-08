@@ -152,7 +152,7 @@ macro HERO_SETTINGS_ALL_TEAMS = {
         "ability2Cooldown%": 0
     },
     "shion": {
-        "ability2Duration": "500%"
+        "ability2Duration%": 500
     }, 
     "widowmaker": {
         "enableInfiniteUlt": true

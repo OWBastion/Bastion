@@ -11,17 +11,18 @@
 - 头部环境文件：`env/env.opy` vs `env/env_dev.opy`
 - Profile 差异宏：`composition/profile-cn.opy` vs `composition/profile-external.opy`
 - 事件目录顺序入口：`events/catalog/eventCatalogMain.opy`（main + externalMain）vs `events/catalog/eventCatalogDev.opy`（devMain），注册定义共用 `events/catalog/eventCatalog.opy`
-- CN 专属功能尾部：仅 `main`/`devMain` include `composition/profile-cn-features.opy`（称号系统、`menu/title.opy`、成就）
-- 开发入口额外 include `session/vars_dev_extra.opy`
+- CN 专属功能尾部：仅 `main`/`devMain` 直接 include 称号实现、`menu/title.opy` 和成就模块
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
 
-## Composition 层（`src/composition/`）
+## 显式入口组装
 
-入口不直接展开公共头部，而是按固定顺序 include 组装件：
+三个入口直接列出编译定义、`settings {}`、变量声明、初始化、运行模块和菜单的引入顺序。include 路径以入口所在的 `src/` 为基准，顶层不依赖某个已引入 settings 文件留下的目录上下文。
 
-- `bootstrap.opy`：共享头部——显式 include 的事件/模式常量（`events/event_*` + `composition/mode_constants` + `map/classic_variants`，原 constants/ 目录级引入已显式化）、开发宏、英雄设置、`settings {}` 块（大厅/模式/Workshop 默认值取自 `ENTRY_*` 与 profile 常量）、`session/vars.opy` 全局变量、extension、license delimiter
-- `profile-cn.opy` / `profile-external.opy`：`PROFILE_*` 差异宏（称号资格、菜单项、成就重置），external 版本为不含称号的最小实现
-- `profile-cn-features.opy`：CN 专属功能 include 尾部（`title/` 实现与 `menu/title.opy`、`player/achievement.opy`），external 入口不引入
+`composition/` 保留实际定义：`mode_constants.opy` 和 CN/external 的 `PROFILE_*` 差异宏。profile 文件只定义策略宏，不再隐式引入称号数据或功能模块。
+
+事件效果、地图和英雄聚合仍分别维护自己的有序列表。不要将这些有实际职责的聚合替换成通用装配框架。
+
+三个入口中的公共段按同一顺序维护；修改公共引入、settings、extensions 或声明时同步检查三个入口，保留各自的 `ENTRY_*`、事件目录顺序、profile 和编译钩子差异。入口允许适度重复，以便直接追踪编译输入。
 
 ## 入口执行分层（按 include 顺序）
 
@@ -37,8 +38,8 @@
 
 ## 服务 include 约定（三入口同步）
 
-- 入口顶部宏 include 位于 `composition/bootstrap.opy`：`utilities/macros.opy`
-- `core.opy` 为纯有序组装表，不含内联规则；中段服务按固定槽位交错 include 各属主模块，槽位顺序不可重排
+- 三个入口直接 include `utilities/macros.opy` 和编译所需的事件/模式/地图定义
+- 三个入口直接列出中段服务，按固定槽位交错 include 各属主模块；不要按目录重新分组排序
 - `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
 - 菜单 include 固定在末尾位置：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排
 
@@ -54,7 +55,7 @@
 
 ## 主循环机制
 
-玩法循环规则已归位职责模块，`core.opy` 仅保留有序组装：
+玩法循环规则归属职责模块，由三个入口按原顺序直接引入：
 
 - 控制点检查点推进与回位：`map/controlJump.opy`
 - 终点结算与胜者充能：`player/finishSettlement.opy`
@@ -73,6 +74,6 @@
 ## 关键注意点
 
 - include 顺序敏感，不能随意重排。
-- `settings.heroes` 位于 `composition/bootstrap.opy`，宏真源在 `heroes/settings/`（`team_rules.opy`、`all_teams.opy`），三入口共用同一组英雄设置。
+- `settings.heroes` 位于三个入口的 settings 块，宏真源在 `heroes/settings/`（`team_rules.opy`、`all_teams.opy`），三入口共用同一组英雄设置。
 - 新增全局变量时需谨慎维护索引稳定性，避免覆盖既有槽位。
 - 修改业务逻辑时改职责属主目录下的真实文件；`utilities/system/` 只承载无单一属主的系统机制，不再新增业务实现。

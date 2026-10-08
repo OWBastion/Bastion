@@ -12,12 +12,12 @@
 
 ### B. `utilities/macros.opy`
 
-共享生产宏（英雄判定、存档索引、定位、`percent` 等），由 `bootstrap.opy` 显式 include；原 `dev_support/` 层为误标，已消除。
+共享生产宏（英雄判定、存档索引、定位、`percent` 等），由三个入口显式 include；原 `dev_support/` 层为误标，已消除。
 
 ## 入口约定
 
 - 顶部宏：`utilities/macros.opy`
-- 中段服务分组：`core.opy` 按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
+- 中段服务分组：三个入口按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
 - 末尾菜单分组：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等固定槽位交错展开
 
 ## 关键实现模式
