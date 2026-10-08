@@ -15,10 +15,11 @@ rule "Init spawn state":
     
     wait(0.25)
     eventPlayer.setDamageDealt(100 + 50 * difficulty)
-    if eventPlayer.getSlot() < len(bastionPosition) and bastionPosition[eventPlayer.getSlot()] != vect(0, 0, 0):
-        eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
-    else:
-        # 槽位越界或点位无效时不传送到 (0,0,0)：隐藏待命，避免原点多一只堡垒
+    eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
+    wait()
+    # 就位校验：槽位越界或落在 (0,0,0) 附近的 Bot 没有合法点位，停回出生点隐藏待命
+    if eventPlayer.getSlot() >= len(bastionPosition) or distance(eventPlayer.getPosition(), vect(0, 0, 0)) < 2:
+        eventPlayer.teleport(random.choice(getSpawnPoints(Team.1)))
         eventPlayer.setInvisibility(Invis.ALL)
         eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 99999)
     if not eventPlayer.hasStatus(Status.UNKILLABLE):

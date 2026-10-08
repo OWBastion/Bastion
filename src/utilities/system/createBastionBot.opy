@@ -10,8 +10,6 @@ def createBastionBot():
     @Name "create bastion bots"
     
     while len(getPlayersOnHero(Hero.BASTION, Team.1)) < len(bastionPosition):
-        if len(getSpawnPoints(Team.1)) == 0:
-            return
         createDummy(Hero.BASTION, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
         wait(0.25)
         if len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition) or getTotalTimeElapsed() > 120:
@@ -23,8 +21,6 @@ def createBastionBot():
 def createBallBot():
     @Name "create ball bots"
 
-    if len(getSpawnPoints(Team.1)) == 0:
-        return
     createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
     wait(0.25)
     minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
