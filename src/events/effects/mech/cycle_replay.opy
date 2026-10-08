@@ -35,7 +35,9 @@ rule "Resolve replay target":
 
     # eventMissionGoal==0 兼作初始化标记，防止 clearPlayerEvent 前条件残留导致重复触发。
     # eventLastId 末尾为最近事件；过滤白名单后取尾即“最近一次可循环增益”。
-    if eventPlayer.eventLastId != null and len(eventPlayer.eventLastId.filter(lambda i: i < BUFF_EVENT_ID_COUNT and i in EVT_MECH_28_REPLAYABLE_BUFFS)) > 0:
+    # 判空必须落在解析值上：filtered.last() 空集返回 null（=0），若改用 len>0 守卫，
+    # eventName[null] 会落到索引 0（奥利维娅的礼物），且 missionGoal 残留 null 令本条件恒真反复触发。
+    if eventPlayer.eventLastId != null and eventPlayer.eventLastId.filter(lambda i: i < BUFF_EVENT_ID_COUNT and i in EVT_MECH_28_REPLAYABLE_BUFFS).last() != null:
         eventPlayer.eventMissionGoal = eventPlayer.eventLastId.filter(lambda i: i < BUFF_EVENT_ID_COUNT and i in EVT_MECH_28_REPLAYABLE_BUFFS).last()
         eventPlayer.hudText = STR_EVT_MECH_28_TARGET.format(eventName[eventPlayer.eventMissionGoal])
     else:
