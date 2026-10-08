@@ -1,3 +1,8 @@
+# Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
+#!optimizeStrict
+
+#!postCompileHook "post-compile-hook.js"
+
 #!include "env/env.opy"
 #!include "locales/zh-CN.opy"
 #!define ENTRY_SPECTATOR_SLOTS LOBBY_SPECTATOR_SLOTS_MAIN
