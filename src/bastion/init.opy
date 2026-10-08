@@ -16,10 +16,6 @@ rule "Init spawn state":
     wait(0.25)
     eventPlayer.setDamageDealt(100 + 50 * difficulty)
     eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
-    wait()
-    # 就位校验：槽位越界或落在 (0,0,0) 附近说明编队槽位被挤占，全量销毁触发有序重建
-    if eventPlayer.getSlot() >= len(bastionPosition) or distance(eventPlayer.getPosition(), vect(0, 0, 0)) < 2:
-        destroyAllDummies()
     if not eventPlayer.hasStatus(Status.UNKILLABLE):
         eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 99999)
         eventPlayer.setKnockbackReceived(1)
@@ -180,7 +176,6 @@ rule "Acquire target":
     @Event eachPlayer
     @Team 1
     @Hero bastion
-    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition eventPlayer.isDummy() != false
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
@@ -420,7 +415,6 @@ rule "Reset displaced bot":
     @Event eachPlayer
     @Team 1
     @Hero bastion
-    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition distance(eventPlayer.getPosition(), bastionPosition[eventPlayer.getSlot()]) > 2
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
@@ -460,7 +454,6 @@ rule "Lock elevated position":
     @Condition eventPlayer.isInPosition == false
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.getSlot() < len(bastionPosition)
     @Condition distance(raycast(bastionPosition[eventPlayer.getSlot()] + Vector.UP, bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5, null, null, false).getHitPosition(), bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5) == 0
     
     eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])

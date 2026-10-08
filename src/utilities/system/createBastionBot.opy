@@ -12,11 +12,14 @@ def createBastionBot():
     while len(getPlayersOnHero(Hero.BASTION, Team.1)) < len(bastionPosition):
         createDummy(Hero.BASTION, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
         wait(0.25)
-        if len(getPlayersOnHero(Hero.BASTION, Team.1)) >= len(bastionPosition) or getTotalTimeElapsed() > 120:
+        if getTotalTimeElapsed() > 120:
             return
     
     if kills == 0 or len(kills) == 0:
         kills = [0, 0, 0, 0, 0, 0]
+    # 球必须在堡垒填满后于本流程内串行生成：中途生成会抢占低槽位，使堡垒点位索引越界
+    if len(minefieldPosition) > 0 and len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
+        createBallBot()
 
 def createBallBot():
     @Name "create ball bots"
@@ -24,6 +27,9 @@ def createBallBot():
     createDummy(Hero.WRECKING_BALL, Team.1, -1, random.choice(getSpawnPoints(Team.1)))
     wait(0.25)
     minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
+    minefieldBot.setInvisibility(Invis.ALL)
+    minefieldBot.setStatusEffect(null, Status.PHASED_OUT, 99999)
+    minefieldBot.setStatusEffect(null, Status.UNKILLABLE, 99999)
 
 rule "create bastion bots when the game starts and there are not enough":
     @Condition len(getPlayersOnHero(Hero.BASTION, Team.1)) < len(bastionPosition)
@@ -64,7 +70,7 @@ rule "SAFE create ball bots when the game start and there are no ball bots - eme
     if entityExists(minefieldBot) != true:
         # 场上可能残留未被追踪的球（双路径并发创建等）：优先重绑现有球而非再造一只
         if len(getPlayersOnHero(Hero.WRECKING_BALL, Team.1)) == 0:
-            createBallBot()
+            createBastionBot()
         else:
             minefieldBot = getPlayersOnHero(Hero.WRECKING_BALL, Team.1).first()
         wait(0.496)
