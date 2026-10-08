@@ -17,11 +17,9 @@ rule "Init spawn state":
     eventPlayer.setDamageDealt(100 + 50 * difficulty)
     eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])
     wait()
-    # 就位校验：槽位越界或落在 (0,0,0) 附近的 Bot 没有合法点位，停回出生点隐藏待命
+    # 就位校验：槽位越界或落在 (0,0,0) 附近说明编队槽位被挤占，全量销毁触发有序重建
     if eventPlayer.getSlot() >= len(bastionPosition) or distance(eventPlayer.getPosition(), vect(0, 0, 0)) < 2:
-        eventPlayer.teleport(random.choice(getSpawnPoints(Team.1)))
-        eventPlayer.setInvisibility(Invis.ALL)
-        eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 99999)
+        destroyAllDummies()
     if not eventPlayer.hasStatus(Status.UNKILLABLE):
         eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 99999)
         eventPlayer.setKnockbackReceived(1)
