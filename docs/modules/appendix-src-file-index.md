@@ -1,7 +1,6 @@
 # 附录：`src/` 文件索引
 
 ## 入口与组装
-- `src/core.opy`
 - `src/devMain.opy`
 - `src/externalMain.opy`
 - `src/main.opy`
@@ -15,8 +14,6 @@
 - `src/blacklist/removeFromBlacklist.opy`
 
 ## src/composition
-- `src/composition/bootstrap.opy`
-- `src/composition/profile-cn-features.opy`
 - `src/composition/mode_constants.opy`
 - `src/composition/profile-cn.opy`
 - `src/composition/profile-external.opy`
@@ -204,7 +201,6 @@
 - `src/session/setDifficulty.opy`
 - `src/session/title-vars.opy`
 - `src/session/vars.opy`
-- `src/session/vars_dev_extra.opy`
 
 ## src/player
 - `src/player/achievement.opy`
