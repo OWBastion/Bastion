@@ -496,7 +496,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_10_DURATION 30
 # Weight（权重）
-#!define EVT_DEBUFF_10_WEIGHT 0
+#!define EVT_DEBUFF_10_WEIGHT 0.8
 # 增加的狂暴时间 (秒)
 #!define EVT_DEBUFF_10_BERSERK_ADD 10
 
@@ -622,7 +622,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_DEBUFF_26_DURATION 20
 # Weight（权重）
-#!define EVT_DEBUFF_26_WEIGHT 0
+#!define EVT_DEBUFF_26_WEIGHT 0.8
 # 近距离停止牵引半径（米）：距事件玩家 4m 内的友方不再被牵引
 #!define EVT_DEBUFF_26_STOP_RADIUS 4
 # 牵引加速度（m/s²，startAcceleration rate）：8 m/s²，远弱于引力异常（≈53 m/s²），可被正常移动挣脱
