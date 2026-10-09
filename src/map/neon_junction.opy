@@ -31,5 +31,26 @@ macro platformMapRevision_NEON_JUNCTION_DEFAULT():
 rule "map - 霓虹枢纽":
     @Condition (__currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860) == true
 
-    platformMapRevision_NEON_JUNCTION_DEFAULT()
+    __currentMapText___ = "霓虹枢纽"
+    bastionPosition = [
+        vect(0.837, 6.226, 330.332),
+        vect(10.077, 12.750, 263.095),
+        vect(-6.268, 10.367, 275.865),
+        vect(42.236, 6.250, 278.574),
+        vect(2.688, 8.378, 320.437),
+        vect(-26.845, 4.480, 231.626),
+        vect(19.715, 2.249, 322.765),
+        vect(3.933, 8.209, 362.802),
+        vect(0.578, 4.061, 386.823),
+        vect(1.261, 8.835, 372.479),
+        vect(-6.256, 10.683, 352.281)
+    ]
+    thirdPersonPosition = vect(-50.36, 3.25, 234.29)
+    resetPosition = vect(-49.65, 3.25, 240.25)
+    endPosition = vect(-20.02, 6.75, 358.53)
+    minefieldPosition = [
+        vect(24.7, 2.79, 338.64),
+        vect(42.43, 0.25, 290.29),
+        vect(-13.26, 2.23, 232.84)
+    ]
     startForcingSpawn(Team.2, 0)

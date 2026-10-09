@@ -16,3 +16,5 @@
 #!include "kings_row.opy"
 #!include "numbani.opy"
 #!include "midtown.opy"
+#!include "grimsvotn.opy"
+#!include "neon_junction.opy"
