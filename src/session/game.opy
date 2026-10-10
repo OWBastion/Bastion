@@ -77,38 +77,16 @@ rule "Update targetPlayer when player left":
     if eventPlayer.hudTextId != null:
         destroyHudText(eventPlayer.hudTextId)
 
-subroutine expandTitleCycleStops
-
-# 7 档循环色板展开为 140 档稠密色板：每段 2.5s 内插 20 档（8Hz 步进）
-# 输入 titlePaletteSrc（7 档源表），输出 titlePaletteDest，索引 paletteStopIndex
-def expandTitleCycleStops():
-    @Name "expand title cycle stops"
-
-    titlePaletteDest = []
-    for paletteStopIndex in range(140):
-        titlePaletteDest.append(
-            titlePaletteSrc[floor(paletteStopIndex / 20)]
-            + (titlePaletteSrc[(floor(paletteStopIndex / 20) + 1) % len(titlePaletteSrc)]
-               - titlePaletteSrc[floor(paletteStopIndex / 20)])
-            * ((paletteStopIndex % 20) / 20))
-
 rule "initialize color array":
     wait(getAverageServerLoad() / 100 * 0.032)
     breathPalette = [[], [], [], [], []]
-    breathPalette.red = [vect(238, 75, 43), vect(233, 116, 81), vect(210, 43, 43), vect(220, 20, 60), vect(255, 36, 0), vect(255, 50, 50), vect(255, 0, 0)]
-    breathPalette.purple = [vect(161, 73, 197), vect(93, 63, 211), vect(218, 112, 214), vect(112, 41, 99), vect(191, 64, 191), vect(204, 204, 255), vect(128, 0, 128)]
-    breathPalette.blue = [vect(85, 178, 204), vect(120, 200, 225), vect(160, 220, 240), vect(25, 80, 120), vect(45, 125, 165), vect(200, 235, 245), vect(230, 245, 250)]
-    breathPalette.orange = [vect(250, 121, 0), vect(255, 140, 0), vect(255, 220, 180), vect(255, 160, 50), vect(255, 200, 150), vect(255, 180, 100), vect(230, 105, 0)]
-    breathPalette.gold = [vect(255, 215, 0), vect(238, 201, 0), vect(255, 223, 70), vect(255, 239, 128), vect(218, 165, 32), vect(250, 250, 210), vect(184, 134, 11)]
-
-    # 循环色板原地展开：7 档 → 140 档，称号按已运行时间直接查表取色，
-    # 替代每帧 chaseOverTime（展开逻辑见 expandTitleCycleStops）。
-    # 必须同步完成：initialize title array 会把 breathPalette/heroColor 按值拷进
-    # titleColor，跨帧展开会让拷到的是半截 7 档色板
-    for I in range(len(breathPalette)):
-        titlePaletteSrc = breathPalette[I]
-        expandTitleCycleStops()
-        breathPalette[I] = titlePaletteDest
+    # 呼吸色板为 [起点色, 往返端点色]：称号色按已运行时间在两端点间三角波插值，
+    # 替代每帧 chaseOverTime；端点取原 7 档中亮度差最大的一对
+    breathPalette.red = [vect(238, 75, 43), vect(255, 0, 0)]
+    breathPalette.purple = [vect(161, 73, 197), vect(204, 204, 255)]
+    breathPalette.blue = [vect(85, 178, 204), vect(25, 80, 120)]
+    breathPalette.orange = [vect(250, 121, 0), vect(255, 220, 180)]
+    breathPalette.gold = [vect(255, 215, 0), vect(184, 134, 11)]
     heroColor = [vect(124, 62, 82), vect(214, 145, 65), vect(236, 233, 189), vect(185, 179, 137), vect(191, 115, 110), vect(148, 161, 165), vect(60, 126, 204), vect(160, 169, 186), vect(157, 105, 166), vect(124, 143, 122), vect(45, 187, 209), vect(236, 229, 128), vect(149, 239, 66), vect(179, 139, 80), vect(173, 90, 95), vect(236, 190, 82), vect(231, 130, 184), vect(109, 121, 149), vect(132, 201, 81), vect(237, 147, 199), vect(9, 171, 235), vect(118, 93, 189), vect(131, 83, 76), vect(110, 137, 177), vect(69, 139, 66), vect(139, 98, 94), vect(151, 113, 228), vect(219, 147, 66), vect(198, 28, 65), vect(105, 105, 104), vect(154, 202, 243), vect(85, 178, 204), vect(212, 135, 143), vect(142, 181, 215), vect(148, 160, 165), vect(157, 140, 208), vect(224, 182, 198), vect(220, 132, 125), vect(183, 168, 142), vect(121, 97, 78), vect(173, 143, 203), vect(114, 31, 163), vect(54, 127, 221), vect(238, 75, 43), vect(93, 63, 211), vect(196, 30, 58)]
 
 rule "initialize phase hero arrays":

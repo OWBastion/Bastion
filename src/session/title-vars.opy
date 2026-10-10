@@ -10,7 +10,7 @@ globalvar __currentMapPioneerText___ 107
 
 playervar playerTitleAndColor 37
 playervar titleTextID 38
-playervar titleCycleStops 39
+playervar titleCycleAB 39
 playervar titleCycleT0 40
 playervar playerTitles 43
 playervar playerTitleIndex 44

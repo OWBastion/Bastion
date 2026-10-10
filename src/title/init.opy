@@ -6,17 +6,14 @@
 
 rule "Initialize title colors":
     rgbList = [vect(255, 0, 0), vect(255, 165, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 0, 255), vect(75, 0, 130), vect(238, 130, 238)]
-    # 与 breathPalette 同一机制原地展开为 140 档，供称号时间查表取色
-    titlePaletteSrc = rgbList
-    expandTitleCycleStops()
-    rgbList = titlePaletteDest
 
-# 称号当前颜色：按 (已运行时间 - 换色起点) 在稠密色板中查表。
-# len=1 的单色称号经 % len 退化为静态色；140 档 = 2.5s/段 × 20 档 = 8Hz 步进
+# 称号当前颜色：titleCycleAB = [起点 A, 位移 B−A]，按三角波在两端点间往返，
+# 单程 2.5s 与原 chaseOverTime 段速一致；delta=0 的单色称号退化为静态色
+macro Player.titleCyclePhase = 1 - abs(((getTotalTimeElapsed() - self.titleCycleT0) / 2.5) % 2 - 1)
 macro Player.titleColorNow = rgb(
-    self.titleCycleStops[floor((getTotalTimeElapsed() - self.titleCycleT0) * 8) % len(self.titleCycleStops)].x,
-    self.titleCycleStops[floor((getTotalTimeElapsed() - self.titleCycleT0) * 8) % len(self.titleCycleStops)].y,
-    self.titleCycleStops[floor((getTotalTimeElapsed() - self.titleCycleT0) * 8) % len(self.titleCycleStops)].z)
+    self.titleCycleAB[0].x + self.titleCycleAB[1].x * self.titleCyclePhase,
+    self.titleCycleAB[0].y + self.titleCycleAB[1].y * self.titleCyclePhase,
+    self.titleCycleAB[0].z + self.titleCycleAB[1].z * self.titleCyclePhase)
 
 rule "Create in-world title":
     @Event eachPlayer
