@@ -72,6 +72,10 @@ globalvar minefieldPosition
 globalvar minefieldBot
 globalvar minefieldPick
 globalvar minefieldLastCastIndex
+# 有难同当最近一次扩散结算时间戳：每帧至多结算一次。
+# AoE/多持有者同帧命中只扩散一份（旁观者承伤不超过单个承伤者），
+# 同时是友伤来源放开后的同帧递归保护（扩散伤害不会再次触发扩散）。
+globalvar sharePainSpreadTick
 
 #Player variables
 
