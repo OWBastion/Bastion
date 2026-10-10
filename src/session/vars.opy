@@ -58,6 +58,10 @@ globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
 globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
+# 称号变色查表：色板展开临时变量（expandTitleCycleStops 的输入/输出/循环索引）
+globalvar titlePaletteSrc 109
+globalvar titlePaletteDest 110
+globalvar paletteStopIndex 111
 
 #Player variables
 
