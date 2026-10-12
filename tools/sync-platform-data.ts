@@ -165,16 +165,23 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const emptyData = (): PlatformData => ({ events: [], maps: [], achievements: [], titles: [], playerTitleGrants: [], mapTitleHolders: [] });
 
   console.log('Platform sync: fetching maps');
-  const maps = await client.fetchResource('maps');
-  console.log(`Platform sync: fetched ${maps.length} maps`);
+  const platformMaps = await client.fetchResource('maps');
+  console.log(`Platform sync: fetched ${platformMaps.length} maps`);
+  const ignoredMapIds = new Set<string>();
+  const maps = platformMaps.filter((map) => {
+    const mapId = requireString(map.mapId, 'mapId');
+    if (hasMapSource(mapId, mapSourceFiles)) return true;
+    ignoredMapIds.add(mapId);
+    console.log(`Platform sync: skipping unsupported map ${String(map.mapName)} (${mapId})`);
+    return false;
+  });
   const mapIds = new Set(maps.map((item) => requireString(item.mapId, 'mapId')));
   const orderedMapIds = [...mapIds].sort();
-  for (const mapId of mapIds) {
-    if (!hasMapSource(mapId, mapSourceFiles)) throw new Error(`Unable to find map source for ${mapKeyFromPlatformId(mapId)}`);
-  }
   validateRevisionAwareMapSources({ mapIds: orderedMapIds, mapSourceFiles });
   console.log('Platform sync: fetching achievements');
-  const achievements = await client.fetchResource('achievements');
+  const achievements = (await client.fetchResource('achievements')).filter((item) =>
+    item.family !== 'map' || !ignoredMapIds.has(requireString(item.mapId, 'achievement.mapId'))
+  );
   console.log('Platform sync: fetching global and map titles');
   const globalTitles = await client.fetchTitles();
   const mapTitlePages: PlatformData['titles'][] = [];
