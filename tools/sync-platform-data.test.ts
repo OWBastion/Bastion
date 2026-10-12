@@ -397,6 +397,64 @@ test('does not build after an unavailable holder projection', async () => {
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
+test('sync skips unsupported maps and their challenges without requesting their titles or holders', async () => {
+  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const before = await readFile(titleFile, 'utf8');
+  const requestedMapIds: string[] = [];
+  let eventsReached = false;
+  let buildReached = false;
+  const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }));
+  const fakeFetch: typeof globalThis.fetch = async (input) => {
+    const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
+    const mapId = url.searchParams.get('mapId');
+    if (mapId) requestedMapIds.push(mapId);
+    if (url.pathname.endsWith('/maps')) return page([
+      { ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.aatlis', gameplayRevisionId: 'revision:map.aatlis:default' }] },
+      { ...platformData.maps[0], mapId: 'map.not_implemented', mapName: '未接入地图', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.not_implemented', spatialConfig: null }] }
+    ]);
+    if (url.pathname.endsWith('/achievements')) return page([
+      { challengeId: 'title.UNSUPPORTED', family: 'map', mapId: 'map.not_implemented', titleKey: 'UNSUPPORTED', mapTitleRule: { dynamic: true } }
+    ]);
+    if (url.pathname.endsWith('/titles')) return page(mapId ? [] : platformData.titles);
+    if (url.pathname.endsWith('/player-title-grants')) return page([{ playerName: '测试玩家', titleKeys: ['TITLE_ONE'] }]);
+    if (url.pathname.endsWith('/map-title-holders')) return page([]);
+    if (url.pathname.endsWith('/events')) {
+      eventsReached = true;
+      return new Response('Unavailable', { status: 503, statusText: 'Unavailable' });
+    }
+    throw new Error(`Unexpected fake platform request: ${url.pathname}`);
+  };
+
+  await assert.rejects(() => syncPlatformData({
+    fetch: fakeFetch,
+    buildRunner: async () => { buildReached = true; }
+  }), /HTTP 503/);
+  assert.equal(eventsReached, true, 'supported map data and global title grants must pass generation validation');
+  assert.deepEqual(new Set(requestedMapIds), new Set(['map.aatlis']));
+  assert.equal(buildReached, false);
+  assert.equal(await readFile(titleFile, 'utf8'), before);
+});
+
+test('sync still rejects missing spatial configuration for a supported map', async () => {
+  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const before = await readFile(titleFile, 'utf8');
+  let buildReached = false;
+  const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }));
+  const fakeFetch: typeof globalThis.fetch = async (input) => {
+    const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
+    if (url.pathname.endsWith('/maps')) return page([
+      { ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.aatlis', spatialConfig: null }] }
+    ]);
+    return page([]);
+  };
+  await assert.rejects(() => syncPlatformData({
+    fetch: fakeFetch,
+    buildRunner: async () => { buildReached = true; }
+  }), /spatialConfig/);
+  assert.equal(buildReached, false);
+  assert.equal(await readFile(titleFile, 'utf8'), before);
+});
+
 test('falls back to the existing generated title color when the platform omits it', () => {
   const source = {
     ...titleSource,

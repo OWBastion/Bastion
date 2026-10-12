@@ -89,6 +89,9 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 `sync:platform-data` must:
 
 - fetch all pages and validate the response contract;
+- sync only platform maps with a matching Bastion revision-aware map source;
+  log skipped map names and IDs, omit their map challenges, and fetch map titles
+  and holders only for supported maps; global titles and grants remain included;
 - require `contractVersion` `1`, exactly one default revision per map, and only
   default/selectable revisions;
 - validate finite spatial coordinates, map-specific control-role cardinality,
