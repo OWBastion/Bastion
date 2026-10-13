@@ -9,9 +9,11 @@
 rule "[VishkarEvent]: 胜利意志（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null, eventPlayer.eventDuration > 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.WILL_TO_WIN, eventPlayer.eventDuration)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage

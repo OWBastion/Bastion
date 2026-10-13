@@ -9,9 +9,11 @@
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] == null, eventPlayer.eventDuration > 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId != EventId.DEATH_DELAY, eventPlayer.eventDuration)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
 rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
