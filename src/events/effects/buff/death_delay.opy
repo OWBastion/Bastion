@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] == null, eventPlayer.eventDuration > 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.eventMission == 0, eventPlayer.eventDuration > 0, eventPlayer.eventDurationHud > 0, eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, eventPlayer.eventDuration)
     waitUntil(eventPlayer.eventId != EventId.DEATH_DELAY, eventPlayer.eventDuration)
@@ -21,6 +21,8 @@ rule "[VishkarEvent]: 死亡延迟":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
     @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_9_TRIGGER_HP_PERCENT * 100), eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
 
+    # eventMission 哨兵标记本事件已消耗：预备态据此不再重复武装
+    eventPlayer.eventMission = 1
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
