@@ -25,5 +25,6 @@ def resetPlayerEventState():
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false
     eventPlayer.eventCandidateIndex = null
+    eventPlayer.eventForceIndex = null
     eventPlayer.eventTempIndex = []
     wait(getAverageServerLoad() / 100 * 0.032)

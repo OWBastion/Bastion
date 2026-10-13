@@ -15,7 +15,8 @@ rule "[VishkarEvent]: 作弊：暗箱操作 (触发)":
     eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_22_HEART_STEEL_COST
     setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
-    eventPlayer.eventForceRoll = EVT_MECH_22_FORCE_ROLL
+    eventPlayer.eventForceType = EventType.MECH
+    eventPlayer.eventForceCount = 0
     smallMessage(eventPlayer, "  {0}  已扣除 {1} 层心之钢（{2}% 最大生命值）".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     wait(0.2)
     smallMessage(eventPlayer, "  {0}  下一个事件必然是机制，祝你好运".format(iconString(Icon.DIAMOND)))

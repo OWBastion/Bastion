@@ -134,8 +134,11 @@ playervar dlcTimeChallenge 97
 playervar knockback 99
 playervar phaseState 100
 playervar hp_data 101
-playervar eventForceRoll 102
+# 强制下一个事件类型契约（EventType；-1 = 无契约，因 0==null 会与 BUFF 混淆）。由作弊/赌徒事件写入，drawForcedEvent 消费
+playervar eventForceType 102
 playervar eventForceCount 103
+# 强制类型抽样中正在校验的标量候选（drawForcedEvent 内部暂存）
+playervar eventForceIndex
 playervar eventSize 104
 playervar eventTargetHP 105
 playervar lastThreatTime 108
