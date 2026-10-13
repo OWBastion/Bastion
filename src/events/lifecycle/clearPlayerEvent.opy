@@ -36,6 +36,8 @@ def clearPlayerEvent():
     eventPlayer.eventSize = 0
     eventPlayer.eventTargetHP = 0
     eventPlayer.altFormActive = false
+    # UNKILLABLE 仅由事件预备态施加且无事件外来源，事件结束统一清除以防残留
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY])
     eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] = null
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
