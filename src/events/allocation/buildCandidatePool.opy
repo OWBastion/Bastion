@@ -49,6 +49,10 @@ def buildCandidatePool():
     if eventPlayer.mod_dmg_perma <= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(EventId.MIRROR_INVERSION)
 
+    # 有难同当同一时间全队至多一名持有者：他人已生效或已预取锁定（eventCandidateIndex）的都算占位；多人同持会让旁观者承伤叠加超过单个承伤者
+    if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.SHARE_THE_PAIN or other.eventCandidateIndex == EventId.SHARE_THE_PAIN))) > 0:
+        eventPlayer.eventTempIndex.remove(EventId.SHARE_THE_PAIN)
+
     if eventPlayer.eventLastId != null:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
         if len(eventPlayer.eventCandidateIndex) > 0:
