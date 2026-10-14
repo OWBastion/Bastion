@@ -26,5 +26,4 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
         eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
         if controlJumpPosition != null and controlJumpPosition[eventPlayer.controlJumpIndex] != null:
             eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
-    eventPlayer.eventDuration = 0
-    clearPlayerEvent()
+    requestPlayerEventEnd()

@@ -5,6 +5,15 @@
 
 subroutine setPlayerEvent
 subroutine commitPlayerEventCategory
+subroutine rerollNextEvent
+
+# 承诺槽模型：eventNextIndex 记录“已确定的下一个事件”，由先知观测坍缩或
+# 待掷旗标变更路径（窃贼/赌徒等 rerollNextEvent 调用点）按需写入，不做常态预取；
+# 下一次 setPlayerEvent 直接消费该承诺——预览与实发恒等。无承诺时正常走候选池掷骰。
+# 资格门槛只在掷骰当时判定；承诺一旦作出，即使门槛随后失效（如心之钢层数
+# 被花掉）也不再重验——以这种可接受的滞后换取“权威真实 next event”。
+# eventNextIndex 必须跨 clearPlayerEvent 存活到下一次分配，因此不能在那里清零；
+# 生命周期终点 = 消费、玩家重置、离开/重进。
 
 def commitPlayerEventCategory():
     @Name "[VishkarEvent]: commit player event category"
@@ -33,8 +42,18 @@ def setPlayerEvent():
     # 抽样（drawForcedEvent），窃贼窃取等普通候选修饰不生效。强制类型暂无可满足
     # 候选时回落统一池，旗标保留待后续兑现。eventCandidateIndex 用 -1 表示无候选，
     # 因为 0 是合法事件 ID 且 Workshop 中 0==null。
+    # 已承诺的下一个事件（eventNextIndex，先知观测坍缩/旗标变更重取产生）优先于
+    # 一切掷骰路径——预览与实发恒等；承诺在作出时已带全部旗标与门控。
     eventPlayer.eventCandidateIndex = -1
-    if eventPlayer.eventForceType != -1:
+    if eventPlayer.eventNextIndex != -1:
+        eventPlayer.eventCandidateIndex = eventPlayer.eventNextIndex
+        eventPlayer.eventNextIndex = -1
+        eventPlayer.eventIsSelected = true
+        # Unique 兜底：承诺先知在先，他人在此期间先一步成为先知。
+        # 唯一性优先于承诺——作废承诺，改走正常契约/候选池路径（Unique 门控已剔除先知）。
+        if eventPlayer.eventCandidateIndex == EventId.PROPHET and len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and other.eventId == EventId.PROPHET)) > 0:
+            eventPlayer.eventCandidateIndex = -1
+    if eventPlayer.eventCandidateIndex == -1 and eventPlayer.eventForceType != -1:
         drawForcedEvent()
         wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventCandidateIndex == -1:
@@ -53,6 +72,7 @@ def setPlayerEvent():
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
+    setEventDuration()
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
@@ -84,5 +104,21 @@ def setPlayerEvent():
             eventPlayer.eventDesc.replace("\n", "，")
         )
     )
-    setEventDuration()
     lbl_1:
+
+def rerollNextEvent():
+    @Name "[VishkarEvent]: reroll committed next event"
+
+    # 供先知观测坍缩及事件效果在改写 eventForceType / thiefBuffStolen 等待掷旗标后调用：
+    # 已承诺的 eventNextIndex 立刻按最新旗标重取，保证预览与实发一致。
+    # 旗标变更路径的调用约定：仅当 eventNextIndex != -1 时才调用（无承诺不浪费掷骰）。
+    # 掷骰顺序与 setPlayerEvent 一致：强制类型契约优先，无契约或契约暂不可兑现时回落候选池。
+    eventPlayer.eventCandidateIndex = -1
+    if eventPlayer.eventForceType != -1:
+        drawForcedEvent()
+        wait(getAverageServerLoad() / 100 * 0.032)
+    if eventPlayer.eventCandidateIndex == -1:
+        buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
+        rejecSampling()
+    eventPlayer.eventNextIndex = eventPlayer.eventCandidateIndex

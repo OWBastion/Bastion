@@ -24,6 +24,8 @@
   "DIVINE_REINFORCEMENT": "event.b06e0095-6d5b-485f-8f6d-ab8e11261d9c",
   "TEMPER_HEART": "event.b112cc82-ffc5-4342-8201-181da9c20302",
   "BATTLEFIELD_MEDIC": "event.7336c213-efbe-4703-a456-9ab9df0459f5",
+  "SHARED_BLESSING": "event.1b35dd8d-f760-4106-ae6f-05f0a6d88f78",
+  "SOLO_RUN": "event.268c41fa-496f-43aa-9db4-b9befa2e721f",
   "GRAVITY_ANOMALY": "event.9791fe58-95c5-4b3c-9a4a-fc940b0f9e35",
   "EMP": "event.6b1d97f7-5539-4250-956d-88c3977ccbe6",
   "SACRIFICE": "event.f17fe237-a5c7-4c7e-bad5-97eb89a70fcc",
@@ -43,6 +45,7 @@
   "ADLERSBRUNN_WRAITH": "event.a7226262-9e55-408c-9273-b9e052a6bb7e",
   "WAYWARD_NAVIGATION": "event.fa56dfb7-0d3c-4fd0-bbeb-be909d8d84fb",
   "OVERWEIGHT_PACK": "event.8c9b3ee4-ed4c-486a-8e1c-042de30834ce",
+  "STATIC_FIELD": "event.3abd8380-a221-44c7-b64d-f704b944955e",
   "EXTREME_CHALLENGE": "event.c2402624-70dc-47f6-b7b7-5cdc0b5991b5",
   "GAMBLER": "event.628f6424-6998-48bc-9ab1-c0e615e02cd1",
   "MINI_FORM": "event.fbcabaed-6790-4068-90b4-f57eaede2d1e",
@@ -65,5 +68,6 @@
   "GAMBLER_HELPFUL_SOUL": "event.eb63c60b-8767-4dbd-b213-3fa50ceca80a",
   "CHEAT_BACKROOM_DEAL": "event.103df74d-0ac9-4b3e-a82e-46af280a3be0",
   "MIRROR_INVERSION": "event.5123208b-f4b7-4e51-bab2-62d6fea2560f",
+  "PROPHET": "event.71af36de-7295-4b36-9581-22025c69ff49",
   "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df"
 }

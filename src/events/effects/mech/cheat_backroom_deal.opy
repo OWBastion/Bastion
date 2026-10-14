@@ -17,8 +17,10 @@ rule "[VishkarEvent]: 作弊：暗箱操作 (触发)":
     playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
     eventPlayer.eventForceType = EventType.MECH
     eventPlayer.eventForceCount = 0
+    # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
+    if eventPlayer.eventNextIndex != -1:
+        rerollNextEvent()
     smallMessage(eventPlayer, "  {0}  已扣除 {1} 层心之钢（{2}% 最大生命值）".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_MECH_22_HEART_STEEL_COST, EVT_MECH_22_HEART_STEEL_COST * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
     wait(0.2)
     smallMessage(eventPlayer, "  {0}  下一个事件必然是机制，祝你好运".format(iconString(Icon.DIAMOND)))
-    eventPlayer.eventDuration = 0
-    clearPlayerEvent()
+    requestPlayerEventEnd()

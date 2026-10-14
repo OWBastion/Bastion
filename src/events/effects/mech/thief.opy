@@ -15,15 +15,20 @@ rule "[VishkarEvent]: 窃贼":
     wait(0.25)
     if len(getPlayers(Team.1).exclude(eventPlayer)) == 0:
         smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
-        eventPlayer.eventDuration = 0
-        clearPlayerEvent()
+        requestPlayerEventEnd()
     else:
         eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer))
         eventPlayer.eventForceType = EventType.BUFF
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true
+        # 窃取影响的是“下一个增益”：目标已承诺的增益事件作废，下一次分配按新旗标重掷
+        if eventPlayer.target.eventNextIndex != -1:
+            if eventCatalogType[eventPlayer.target.eventNextIndex] == EventType.BUFF:
+                eventPlayer.target.eventNextIndex = -1
+        # 自身的已承诺事件也需按强制增益旗标重取，保证先知预览与实发一致
+        if eventPlayer.eventNextIndex != -1:
+            rerollNextEvent()
         eventPlayer.dlcTimeChallenge[0]++
         smallMessage(eventPlayer, "  {0}  已窃取一名友方的下一个增益事件".format(iconString(Icon.DIAMOND)))
         smallMessage(eventPlayer.target, "  {0}  你的下一个增益事件已被窃取".format(iconString(Icon.WARNING)))
-        eventPlayer.eventDuration = 0
-        clearPlayerEvent()
+        requestPlayerEventEnd()

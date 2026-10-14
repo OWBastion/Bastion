@@ -8,14 +8,16 @@ subroutine setEventDuration
 def setEventDuration():
     @Name "[VishkarEvent]: set Event Duration"
 
+    eventPlayer.eventEndTime = getTotalTimeElapsed() + eventPlayer.eventDuration
     eventPlayer.eventDurationHud = eventPlayer.eventDuration
 
 rule "[VishkarEvent]: tick event duration hud":
     @Event eachPlayer
     @Condition eventPlayer.eventId != -1
-    @Condition eventPlayer.eventDurationHud > 0
+    @Condition eventPlayer.eventDuration > 0
+    @Condition eventPlayer.eventEndTime > getTotalTimeElapsed()
 
     wait(1, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.eventDurationHud -= 1
+    eventPlayer.eventDurationHud = ceil(max(0, eventPlayer.eventEndTime - getTotalTimeElapsed()))
     if ruleCondition:
         loop()
