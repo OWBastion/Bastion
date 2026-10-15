@@ -150,3 +150,4 @@ playervar menuHeroIndex
 playervar mod_heal_perma
 playervar thiefBuffStolen
 playervar eventMatchCounters
+playervar eventEndTime
