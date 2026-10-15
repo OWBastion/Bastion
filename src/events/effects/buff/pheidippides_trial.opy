@@ -25,6 +25,8 @@ rule "Resolve mission":
     
     waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()
+    if eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL:
+        return
     if eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 移动速度加成".format(abilityIconString(Hero.SOLDIER, Button.ABILITY_1), EVT_15_REWARD_SPEED))
@@ -33,4 +35,5 @@ rule "Resolve mission":
     else:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 失败")
     eventPlayer.eventMission = 0
-    requestPlayerEventEnd()
+    if eventPlayer.eventId != -1:
+        requestPlayerEventEnd()
