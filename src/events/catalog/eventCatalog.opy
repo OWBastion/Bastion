@@ -430,6 +430,12 @@ rule "initialize event array":
     eventDuration[EventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_DURATION
     eventCatalogWeight[EventId.BATTLEFIELD_MEDIC] = EVT_BUFF_32_WEIGHT
     eventCatalogType[EventId.BATTLEFIELD_MEDIC] = EventType.BUFF
+
+    eventName[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_TITLE
+    eventDesc[EventId.SHARED_BLESSING] = STR_EVT_BUFF_34_DESC.format(Button.INTERACT, EVT_34_REWARD_BASE, EVT_34_REWARD_PER_BASTION)
+    eventDuration[EventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
+    eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
+    eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
     # ================================================
     # Pack 5: Debuffs
     # ================================================
@@ -451,6 +457,12 @@ rule "initialize event array":
     eventCatalogWeight[EventId.ADLERSBRUNN_WRAITH] = EVT_DEBUFF_21_WEIGHT
     eventCatalogType[EventId.ADLERSBRUNN_WRAITH] = EventType.DEBUFF
 
+    eventName[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_TITLE
+    eventDesc[EventId.STATIC_FIELD] = STR_EVT_DEBUFF_25_DESC.format(EVT_DEBUFF_25_TRIGGER_RADIUS, EVT_DEBUFF_25_STUN)
+    eventDuration[EventId.STATIC_FIELD] = EVT_DEBUFF_25_DURATION
+    eventCatalogWeight[EventId.STATIC_FIELD] = EVT_DEBUFF_25_WEIGHT
+    eventCatalogType[EventId.STATIC_FIELD] = EventType.DEBUFF
+
     # ================================================
     # Pack 5: Mechanics
     # ================================================
@@ -471,6 +483,12 @@ rule "initialize event array":
     eventDuration[EventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_DURATION
     eventCatalogWeight[EventId.GAMBLER_ALL_IN_ART_5] = EVT_MECH_17_WEIGHT
     eventCatalogType[EventId.GAMBLER_ALL_IN_ART_5] = EventType.MECH
+
+    eventName[EventId.PROPHET] = STR_EVT_MECH_25_TITLE
+    eventDesc[EventId.PROPHET] = STR_EVT_MECH_25_DESC
+    eventDuration[EventId.PROPHET] = EVT_MECH_25_DURATION
+    eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
+    eventCatalogType[EventId.PROPHET] = EventType.MECH
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER

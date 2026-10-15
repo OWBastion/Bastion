@@ -163,6 +163,8 @@
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nFuture Heartsteel stack gain x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
+#!define STR_EVT_BUFF_34_TITLE "Mission: Shared Blessing"
+#!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} + {2} x bastion count Heartsteel stacks each."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
@@ -181,6 +183,8 @@
 #!define STR_EVT_DEBUFF_22_DESC "Every {0}s, launch yourself at high speed in a random direction."
 #!define STR_EVT_DEBUFF_23_TITLE "Overweight Backpack"
 #!define STR_EVT_DEBUFF_23_DESC "For every {0} max HP, damage taken increases by {1}%."
+#!define STR_EVT_DEBUFF_25_TITLE "Static Field"
+#!define STR_EVT_DEBUFF_25_DESC "When an ally is within {0}m, you repel apart\nand you are stunned for {1}s."
 # ------------------------------------------------
 # Random Pack 4: Mechanics
 # ------------------------------------------------
@@ -216,6 +220,10 @@
 #!define STR_EVT_MECH_23_DESC "Hold {0} to permanently invert your current permanent stats: damage reduction / movement speed / healing power / Heartsteel."
 #!define STR_EVT_MECH_24_TITLE "Gambler: Winner Takes All"
 #!define STR_EVT_MECH_24_DESC "Hold {0} to spend {1}% of your Heartsteel stacks.\n{2}% chance to empty the jackpot and claim all Heartsteel inside."
+#!define STR_EVT_MECH_25_TITLE "Prophet"
+#!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
+#!define STR_EVT_MECH_25_NEXT "→ {0}"
+#!define STR_EVT_MECH_25_UNKNOWN "Unknown"
 
 
 # Event Categories

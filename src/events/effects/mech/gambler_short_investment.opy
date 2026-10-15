@@ -22,5 +22,8 @@ rule "[VishkarEvent]: 赌徒：短期投资 (交易)":
         smallMessage(eventPlayer, "  {0}  输！祝你好运".format(iconString(Icon.DIAMOND)))
     eventPlayer.eventForceType = EventType.DEBUFF
     eventPlayer.eventForceCount = EVT_MECH_8_FORCE_COUNT
+    # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
+    if eventPlayer.eventNextIndex != -1:
+        rerollNextEvent()
     smallMessage(eventPlayer, "  {0}  合约已生效：未来 3 个事件为 减益".format(iconString(Icon.DIAMOND)))   
     requestPlayerEventEnd()

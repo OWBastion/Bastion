@@ -55,6 +55,8 @@ enum EventId:
     TEMPER_HEART
     # legacy numeric id: 32
     BATTLEFIELD_MEDIC
+    # legacy numeric id: 34
+    SHARED_BLESSING
     # ---- Debuff ----
     # legacy numeric id: 0
     GRAVITY_ANOMALY
@@ -94,6 +96,8 @@ enum EventId:
     WAYWARD_NAVIGATION
     # legacy numeric id: 22
     OVERWEIGHT_PACK
+    # legacy numeric id: 25
+    STATIC_FIELD
     # ---- Mech ----
     # legacy numeric id: 0
     EXTREME_CHALLENGE
@@ -141,5 +145,7 @@ enum EventId:
     MIRROR_INVERSION
     # legacy numeric id: 24
     GAMBLER_WINNER_TAKE_ALL
+    # legacy numeric id: 25
+    PROPHET
     # sentinel only for integrity checks (do not register as an event)
     COUNT
