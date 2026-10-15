@@ -37,3 +37,5 @@
 #!include "buff/temper_heart.opy"
 #!include "buff/battlefield_medic.opy"
 #!include "buff/shared_blessing.opy"
+#!include "buff/solo_run.opy"
+#!include "buff/solo_level_up.opy"

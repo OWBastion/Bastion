@@ -92,6 +92,8 @@
 #!define STR_EVT_BUFF_15_DESC "Move continuously for {0}s to permanently gain {1}% speed."
 #!define STR_EVT_BUFF_16_TITLE "Heartsteel Pro"
 #!define STR_EVT_BUFF_16_DESC "Gain {0} Heartsteel stacks.\nTemporarily increases max HP based on stacks.\nValue = Heartsteel stacks x {1}."
+#!define STR_EVT_BUFF_17_TITLE "Solo Run"
+#!define STR_EVT_BUFF_17_DESC "Active while no teammate is within {0}m.\nGain {1}% damage reduction, {2}% healing dealt,\n{3}% movement speed, and {4}% knockback resistance."
 #!define STR_EVT_BUFF_18_TITLE "Q to Win"
 #!define STR_EVT_BUFF_18_DESC "Continuous movement charges Ultimate.\nDuring Ultimate, gain {0}% damage reduction."
 # ------------------------------------------------
@@ -163,6 +165,8 @@
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nFuture Heartsteel stack gain x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
+#!define STR_EVT_BUFF_33_TITLE "Mission: Solo Leveling"
+#!define STR_EVT_BUFF_33_DESC "Each hero that crosses the finish line for the first time\ngrants {0} Heartsteel stacks, {1}% damage reduction,\n{2}% movement speed, {3}% healing dealt,\nand extends the current event by {4}s."
 #!define STR_EVT_BUFF_34_TITLE "Mission: Shared Blessing"
 #!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} + {2} x bastion count Heartsteel stacks each."
 
@@ -224,6 +228,8 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
+#!define STR_EVT_MECH_26_TITLE "Solo Decision"
+#!define STR_EVT_MECH_26_DESC "Hold {0} to extend every player's current event by {1}s.\nHold {2} to immediately end every player's current event."
 
 
 # Event Categories

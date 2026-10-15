@@ -97,6 +97,8 @@
 #!define STR_EVT_BUFF_15_DESC "持续移动{0}秒后永久获得{1}%移速加成"
 #!define STR_EVT_BUFF_16_TITLE "心之钢 Pro"
 #!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢\n基于层数临时提升最大生命值\n数值为心之钢层数×{1}"
+#!define STR_EVT_BUFF_17_TITLE "我独自闯关"
+#!define STR_EVT_BUFF_17_DESC "当{0}米内没有队友时生效\n获得{1}%伤害减免、{2}%治疗强度\n{3}%移动速度与{4}%击退抵抗"
 #!define STR_EVT_BUFF_18_TITLE "我按Q辣"
 #!define STR_EVT_BUFF_18_DESC "持续移动获得终极技能充能\n终极技能持续期间获得{0}%伤害减免"
 
@@ -172,6 +174,8 @@
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：后续心之钢层数获取×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
+#!define STR_EVT_BUFF_33_TITLE "任务：我独自升级"
+#!define STR_EVT_BUFF_33_DESC "每用一名英雄首次通过终点\n奖励：{0}层心之钢、{1}%伤害减免\n{2}%移速、{3}%治疗强度\n并延长当前事件{4}秒"
 #!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
 #!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
 
@@ -233,6 +237,8 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
+#!define STR_EVT_MECH_26_TITLE "我独自决定"
+#!define STR_EVT_MECH_26_DESC "长按{0}为所有玩家的当前事件延长{1}秒\n长按{2}立即结束所有玩家的当前事件"
 
 
 # 事件类别

@@ -31,6 +31,8 @@ enum EventId:
     REGROUP_CALL
     # legacy numeric id: 14
     WILL_TO_WIN
+    # legacy numeric id: 17
+    SOLO_RUN
     # legacy numeric id: 15
     PHEIDIPPIDES_TRIAL
     # legacy numeric id: 16
@@ -55,6 +57,8 @@ enum EventId:
     TEMPER_HEART
     # legacy numeric id: 32
     BATTLEFIELD_MEDIC
+    # legacy numeric id: 33
+    SOLO_LEVEL_UP
     # legacy numeric id: 34
     SHARED_BLESSING
     # ---- Debuff ----
@@ -147,5 +151,7 @@ enum EventId:
     GAMBLER_WINNER_TAKE_ALL
     # legacy numeric id: 25
     PROPHET
+    # legacy numeric id: 26
+    SOLO_DECIDE
     # sentinel only for integrity checks (do not register as an event)
     COUNT
