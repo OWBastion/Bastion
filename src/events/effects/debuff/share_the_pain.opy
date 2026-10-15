@@ -20,8 +20,9 @@ rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARE_THE_PAIN]) == true
-    @Condition attacker.getHero() == Hero.BASTION
-    @Condition eventAbility != null
+    @Condition attacker != null
+    @Condition any([eventAbility != null, attacker.getTeam() == Team.1])
     
+    # 扩散不会二次触发：本事件全队唯一持有（见 buildCandidatePool 唯一持有门控），
+    # 受扩散者必不持有此 debuff，其 eventId 条件必然不满足。
     damage([player for player in getLivingPlayers(Team.1) if not player.hasStatus(Status.PHASED_OUT) and not player.hasStatus(Status.INVINCIBLE) and eventPlayer != player], attacker, eventDamage * EVT_DEBUFF_9_DMG_FACTOR)
-    wait()
