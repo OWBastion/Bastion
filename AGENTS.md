@@ -24,6 +24,7 @@ Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/
 4. Do not implement seasonal/event-specific content on the current mainline unless the Issue explicitly targets it.
 5. Do not use `shared` in project-owned names for common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
 6. Do not turn gameplay code into a generic interpreter or extension framework without a current approved requirement.
+7. Do not write `tools/` tests that assert on Workshop `.opy` source or gameplay behavior; `tools/` tests cover the tooling itself, not game logic.
 
 ## Risk routing
 
