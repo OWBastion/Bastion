@@ -19,7 +19,7 @@ rule "[VishkarEvent]: 窃贼":
         clearPlayerEvent()
     else:
         eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer))
-        eventPlayer.eventForceRoll = EVT_MECH_7_FORCE_ROLL
+        eventPlayer.eventForceType = EventType.BUFF
         eventPlayer.eventForceCount = 0
         eventPlayer.target.thiefBuffStolen = true
         eventPlayer.dlcTimeChallenge[0]++

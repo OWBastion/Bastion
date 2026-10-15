@@ -34,7 +34,7 @@ def resetPlayerProgressState():
     eventPlayer.possessed = []
     # dlcTimeChallenge: [0:窃贼]
     eventPlayer.dlcTimeChallenge = [0]
-    eventPlayer.eventForceRoll = null
+    eventPlayer.eventForceType = -1
     eventPlayer.eventForceCount = 0
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     PROFILE_RESET_ACHIEVEMENT_STATE()

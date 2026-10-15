@@ -29,11 +29,21 @@ def commitPlayerEventCategory():
 def setPlayerEvent():
     @Name "[VishkarEvent]: set player event"
 
-    buildCandidatePool()
-    wait(getAverageServerLoad() / 100 * 0.032)
-    rejecSampling()
-    if eventPlayer.thiefBuffStolen == true:
-        eventPlayer.thiefBuffStolen = false
+    # 强制类型契约优先于候选池：付费/契约声明的下一个事件类型在自身 ID 区间内直接
+    # 抽样（drawForcedEvent），窃贼窃取等普通候选修饰不生效。强制类型暂无可满足
+    # 候选时回落统一池，旗标保留待后续兑现。eventCandidateIndex 用 -1 表示无候选，
+    # 因为 0 是合法事件 ID 且 Workshop 中 0==null。
+    eventPlayer.eventCandidateIndex = -1
+    if eventPlayer.eventForceType != -1:
+        drawForcedEvent()
+        wait(getAverageServerLoad() / 100 * 0.032)
+    if eventPlayer.eventCandidateIndex == -1:
+        buildCandidatePool()
+        wait(getAverageServerLoad() / 100 * 0.032)
+        rejecSampling()
+        # 窃贼标记只在其实际过滤了候选池的分配上消耗；强制非增益分配不消耗挂起状态
+        if eventPlayer.thiefBuffStolen == true:
+            eventPlayer.thiefBuffStolen = false
     eventPlayer.eventCategoryCommitted = false
     eventPlayer.eventType = eventCatalogType[eventPlayer.eventCandidateIndex]
     eventPlayer.eventId = eventPlayer.eventCandidateIndex
@@ -47,11 +57,12 @@ def setPlayerEvent():
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
-    if eventPlayer.eventForceRoll != null:
+    # 强制契约按实际兑现消费：分配未落在声明类型上（区间暂不可得而回落）不扣次数
+    if eventPlayer.eventForceType != -1 and eventPlayer.eventType == eventPlayer.eventForceType:
         if eventPlayer.eventForceCount > 0:
             eventPlayer.eventForceCount--
         else:
-            eventPlayer.eventForceRoll = null
+            eventPlayer.eventForceType = -1
     eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)

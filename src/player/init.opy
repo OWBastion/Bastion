@@ -11,6 +11,9 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.invincibleEffect = DEFAULT_INVINCIBLE_EFFECTS.slice(0, InvincibleEffectSlot.COUNT)
     eventPlayer.isDev = eventPlayer.key in devList
     eventPlayer.eventId = -1
+    # -1 哨兵：Workshop 中 0 与 null 比较相等，EventType.BUFF=0 必须用 -1 表示无契约
+    eventPlayer.eventForceType = -1
+    eventPlayer.eventForceCount = 0
     eventPlayer.eventLastId = []
     eventPlayer.eventCompatibleBasePool = null
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)

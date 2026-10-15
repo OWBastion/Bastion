@@ -104,6 +104,8 @@ rule STR_LICENSE_PERMIT:
 
 #!include "events/allocation/rejectSampling.opy"
 
+#!include "events/allocation/drawForcedEvent.opy"
+
 # Player progression and event services
 #!include "events/effects/healthPool.opy"
 

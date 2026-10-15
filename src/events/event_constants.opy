@@ -709,7 +709,6 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_MECH_7_WEIGHT 1.4
 #!define EVT_MECH_7_HEART_STEEL_COST 2
-#!define EVT_MECH_7_FORCE_ROLL 20
 
 # --- ID 8 (Mech/Special): 赌徒：短期投资 (交易) ---
 # Duration（秒）
@@ -723,8 +722,7 @@ enum HeartSteelData:
 # 胜利奖励：心之钢层数
 #!define EVT_MECH_8_REWARD_STACKS 4
 
-# 强制下次投掷/强制次数
-#!define EVT_MECH_8_FORCE_ROLL 50
+# 强制减益契约剩余抵扣次数：每次兑现强制类型分配扣 1，扣完清除旗标
 #!define EVT_MECH_8_FORCE_COUNT 2
 
 # 提示文本：合约生效的“未来 N 个事件”
@@ -768,8 +766,7 @@ enum HeartSteelData:
 # 胜利奖励：心之钢层数
 #!define EVT_MECH_12_REWARD_STACKS 24
 
-# 强制下次投掷/强制次数
-#!define EVT_MECH_12_FORCE_ROLL 50
+# 强制减益契约剩余抵扣次数：每次兑现强制类型分配扣 1，扣完清除旗标
 #!define EVT_MECH_12_FORCE_COUNT 4
 
 # 提示文本：合约生效的“未来 N 个事件”
@@ -874,7 +871,6 @@ enum HeartSteelData:
 #!define EVT_MECH_22_DURATION 15
 #!define EVT_MECH_22_WEIGHT 0.8
 #!define EVT_MECH_22_HEART_STEEL_COST 4
-#!define EVT_MECH_22_FORCE_ROLL 80
 
 # --- ID 23 (Mech/Special): 镜像反转 ---
 #!define EVT_MECH_23_DURATION 15
