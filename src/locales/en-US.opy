@@ -165,7 +165,7 @@
 #!define STR_EVT_BUFF_31_DESC "Pass the finish line with {0} heroes during the duration.\nFuture Heartsteel stack gain x {1}.\nMax HP per stack permanently raised from {2}% to {3}%"
 #!define STR_EVT_BUFF_32_TITLE "Battlefield Medic"
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
-#!define STR_EVT_BUFF_33_TITLE "Mission: Solo Leveling"
+#!define STR_EVT_BUFF_33_TITLE "Solo Leveling"
 #!define STR_EVT_BUFF_33_DESC "Each hero that crosses the finish line for the first time\ngrants {0} Heartsteel stacks, {1}% damage reduction,\n{2}% movement speed, {3}% healing dealt,\nand extends the current event by {4}s."
 #!define STR_EVT_BUFF_34_TITLE "Mission: Shared Blessing"
 #!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} + {2} x bastion count Heartsteel stacks each."

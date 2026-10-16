@@ -174,7 +174,7 @@
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：后续心之钢层数获取×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
-#!define STR_EVT_BUFF_33_TITLE "任务：我独自升级"
+#!define STR_EVT_BUFF_33_TITLE "我独自升级"
 #!define STR_EVT_BUFF_33_DESC "每用一名英雄首次通过终点\n奖励：{0}层心之钢、{1}%伤害减免\n{2}%移速、{3}%治疗强度\n并延长当前事件{4}秒"
 #!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
 #!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
