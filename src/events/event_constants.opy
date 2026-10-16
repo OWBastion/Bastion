@@ -368,7 +368,7 @@ enum HeartSteelData:
 #!define EVT_36_SPEED_BONUS 50
 #!define EVT_36_KNOCKBACK_RESIST 95
 # 检测间隔（秒）
-#!define EVT_36_CHECK_INTERVAL 0.5
+#!define EVT_36_CHECK_INTERVAL 4
 
 # --- ID 37: 我独自升级 ---
 # Duration（秒）
