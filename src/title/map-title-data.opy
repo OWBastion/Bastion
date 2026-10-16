@@ -31,6 +31,9 @@ rule "Load CN map title holders":
     elif __currentMap___ == Map.SURAVASA:
         __currentMapPioneerText___ = "瓦拉纳西"
         __currentPioneerText___ = "守护者"
+    elif __currentMap___ == Map.GRIMSVOTN:
+        __currentMapPioneerText___ = ""
+        __currentPioneerText___ = "永别了牢笼"
     if (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true:
         mapTitlePlayersByKey = [
             DATA_AATLIS[0].split("-"),
