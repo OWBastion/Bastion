@@ -165,6 +165,10 @@
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
 #!define STR_EVT_BUFF_34_TITLE "Mission: Shared Blessing"
 #!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} + {2} x bastion count Heartsteel stacks each."
+#!define STR_EVT_BUFF_36_TITLE "Solo Run"
+#!define STR_EVT_BUFF_36_DESC "While no teammates are nearby, gain {0}% damage\nreduction, {1}% healing dealt, {2}% movement speed,\nand {3}% knockback resistance."
+#!define STR_EVT_BUFF_37_TITLE "Solo Leveling"
+#!define STR_EVT_BUFF_37_DESC "Each new hero that reaches the finish line permanently\ngrants {0} Heartsteel stacks, {1}% damage reduction,\n{2}% movement speed, and {3}% healing dealt,\nand extends the current event by {4}s."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
@@ -224,6 +228,8 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
+#!define STR_EVT_MECH_26_TITLE "Solo Decision"
+#!define STR_EVT_MECH_26_DESC "Hold {0}: extend all teammates' current events by {1}s.\nHold {2}: immediately end all teammates' current events."
 
 
 # Event Categories

@@ -25,7 +25,8 @@
   "TEMPER_HEART": "event.b112cc82-ffc5-4342-8201-181da9c20302",
   "BATTLEFIELD_MEDIC": "event.7336c213-efbe-4703-a456-9ab9df0459f5",
   "SHARED_BLESSING": "event.1b35dd8d-f760-4106-ae6f-05f0a6d88f78",
-  
+  "SOLO_RUN": "event.3dd2ae48-b9a7-4c47-8e1a-caa2c6f2d80d",
+  "SOLO_LEVEL_UP": "event.859b0b11-bd2b-4679-832e-dd4f09d1d3e5",
   "GRAVITY_ANOMALY": "event.9791fe58-95c5-4b3c-9a4a-fc940b0f9e35",
   "EMP": "event.6b1d97f7-5539-4250-956d-88c3977ccbe6",
   "SACRIFICE": "event.f17fe237-a5c7-4c7e-bad5-97eb89a70fcc",
@@ -69,5 +70,6 @@
   "CHEAT_BACKROOM_DEAL": "event.103df74d-0ac9-4b3e-a82e-46af280a3be0",
   "MIRROR_INVERSION": "event.5123208b-f4b7-4e51-bab2-62d6fea2560f",
   "PROPHET": "event.71af36de-7295-4b36-9581-22025c69ff49",
-  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df"
+  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df",
+  "SOLO_DECIDE": "event.42c07be9-ce0f-44aa-b6aa-518c7af46598"
 }

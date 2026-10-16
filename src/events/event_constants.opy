@@ -355,6 +355,34 @@ enum HeartSteelData:
 #!define EVT_35_SPEED_DELTA 20
 #!define EVT_35_HP_LAYER 6
 
+# --- ID 36: 我独自闯关 ---
+# Duration（秒）
+#!define EVT_BUFF_36_DURATION 120
+# Weight（权重）
+#!define EVT_BUFF_36_WEIGHT 1.2
+# 独行判定半径（米）：范围内无存活队友时效果生效
+#!define EVT_36_TEAMMATE_RADIUS 8
+# 生效时的加成：伤害减免 / 治疗增益 / 移动速度 / 击退抵抗
+#!define EVT_36_DMG_REDUCTION 50
+#!define EVT_36_HEAL_BONUS 100
+#!define EVT_36_SPEED_BONUS 50
+#!define EVT_36_KNOCKBACK_RESIST 95
+# 检测间隔（秒）
+#!define EVT_36_CHECK_INTERVAL 4
+
+# --- ID 37: 我独自升级 ---
+# Duration（秒）
+#!define EVT_BUFF_37_DURATION 120
+# Weight（权重）
+#!define EVT_BUFF_37_WEIGHT 0.8
+# 每用一名新英雄通关获得的永久加成
+#!define EVT_37_REWARD_HEARTSTEEL 25
+#!define EVT_37_REWARD_DMG_REDUCTION 2
+#!define EVT_37_REWARD_SPEED 2
+#!define EVT_37_REWARD_HEAL 10
+# 每次通关延长当前事件的秒数
+#!define EVT_37_EXTEND_SECONDS 45
+
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
 # -----------------------------------------------------------------------------
@@ -919,5 +947,13 @@ enum MirrorInversionStat:
 #!define EVT_MECH_25_DURATION 90
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.8
+
+# --- ID 26 (Mech): 我独自决定 ---
+# Duration（秒）
+#!define EVT_MECH_26_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_26_WEIGHT 0.6
+# 长按换弹为所有玩家当前事件延长的秒数
+#!define EVT_26_EXTEND_SECONDS 30
 
 # -----------------------------------------------------------------------------
