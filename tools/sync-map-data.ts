@@ -474,7 +474,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
     if (!revision || revision.mapId !== mapId) throw new Error(`${prefix} references unknown map revision ${mapId}/${gameplayRevisionId}`);
     if (item.slotSemantics !== 'named' && item.slotSemantics !== 'none') throw new Error(`${prefix}.slotSemantics has an unsupported value`);
     if (item.slotSemantics === 'named' && !['pioneer', 'conqueror', 'dominator'].includes(String(item.slot))) throw new Error(`${prefix} has an invalid named slot`);
-    if (item.slotSemantics === 'none' && (item.slot !== null || titleKey !== 'CLASSIC')) throw new Error(`${prefix} has an invalid none slot reference`);
+    if (item.slotSemantics === 'none' && item.slot !== null) throw new Error(`${prefix} has an invalid none slot reference`);
     const title = platformData.titles.find((candidate) => candidate.titleKey === titleKey && candidate.scope === 'map' && candidate.mapId === mapId);
     if (!title) throw new Error(`${prefix} references unknown map title ${mapId}/${titleKey}`);
     const holder = { titleKey, slot: item.slotSemantics === 'none' ? null : item.slot as 'pioneer' | 'conqueror' | 'dominator', slotSemantics: item.slotSemantics, playerId, playerName };
@@ -871,7 +871,7 @@ export function validatePlatformAchievements(platformData: PlatformData, titleKe
       const rule = item.mapTitleRule;
       if (item.mapVariant === 'classic') {
         if (titleKey !== 'CLASSIC') throw new Error(`${prefix}.mapVariant classic must reference CLASSIC`);
-      } else if (!rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+      } else if (rule != null && (typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !(rule.slot === null || TITLE_SLOTS.has(rule.slot)))) {
         throw new Error(`${prefix} has an invalid dynamic map title rule`);
       }
       const challengeIdentity = `${challengeId}:${mapId}:${gameplayRevisionId}`;

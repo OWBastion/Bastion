@@ -671,7 +671,7 @@ export function titleDisplayExpr(item: JsonObject, prefix: string): string {
 }
 
 export function collectDynamicMapTitleDefinitions(platformData: PlatformData, mapIds: Set<string>) {
-  const definitions = new Map<string, string>();
+  const definitions = new Map<string, string | null>();
   for (const [index, item] of platformData.achievements.entries()) {
     if (item.family !== 'map' || item.type !== 'map_completion' || item.kind !== 'map_title_achievement') continue;
     if (item.mapVariant === 'classic') continue;
@@ -679,13 +679,15 @@ export function collectDynamicMapTitleDefinitions(platformData: PlatformData, ma
     const mapId = requireString(item.mapId, `${prefix}.mapId`);
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
     const rule = item.mapTitleRule;
-    if (!mapIds.has(mapId) || !rule || typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !TITLE_SLOTS.has(rule.slot)) {
+    if (!mapIds.has(mapId)) throw new Error(`${prefix} has an invalid dynamic map title rule`);
+    if (rule != null && (typeof rule !== 'object' || Array.isArray(rule) || rule.dynamic !== true || typeof rule.ruleId !== 'string' || !TITLE_DISPLAY_KINDS.has(rule.displayKind) || !(rule.slot === null || TITLE_SLOTS.has(rule.slot)))) {
       throw new Error(`${prefix} has an invalid dynamic map title rule`);
     }
+    const slot = rule == null ? null : rule.slot ?? null;
     const key = `${mapId}:${titleKey}`;
     const previous = definitions.get(key);
-    if (previous !== undefined && previous !== rule.slot) throw new Error(`Inconsistent dynamic map title definition: ${key}`);
-    definitions.set(key, rule.slot);
+    if (previous !== undefined && previous !== slot) throw new Error(`Inconsistent dynamic map title definition: ${key}`);
+    definitions.set(key, slot);
   }
   return definitions;
 }
@@ -710,12 +712,13 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
-      const dynamicSlot = dynamicMapTitleDefinitions.get(`${mapId}:${key}`);
-      const slot = dynamicSlot ?? (key === 'CLASSIC' && item.slot == null ? 'classic' : item.slot);
-      if (!mapIds.has(mapId) || !TITLE_SLOTS.has(slot)) throw new Error(`${prefix} has an invalid map or slot reference`);
-      if (dynamicSlot && item.slot !== undefined && item.slot !== dynamicSlot) throw new Error(`${prefix}.slot disagrees with the dynamic map title rule`);
-      if (slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
-      mapTitleDefinitions.add(`${mapId}:${slot}`);
+      const dynamicKey = `${mapId}:${key}`;
+      const dynamicSlot = dynamicMapTitleDefinitions.has(dynamicKey) ? dynamicMapTitleDefinitions.get(dynamicKey) : undefined;
+      const slot = dynamicSlot !== undefined ? dynamicSlot : (key === 'CLASSIC' && item.slot == null ? 'classic' : item.slot ?? null);
+      if (!mapIds.has(mapId) || (slot != null && !TITLE_SLOTS.has(slot))) throw new Error(`${prefix} has an invalid map or slot reference`);
+      if (dynamicSlot !== undefined && item.slot != null && item.slot !== dynamicSlot) throw new Error(`${prefix}.slot disagrees with the dynamic map title rule`);
+      if (slot != null && slot !== 'classic' && (!Array.isArray(item.pioneerPrefixes) || item.pioneerPrefixes.some((value: unknown) => typeof value !== 'string' || value.trim() === ''))) throw new Error(`${prefix}.pioneerPrefixes must be an array of strings`);
+      if (slot != null) mapTitleDefinitions.add(`${mapId}:${slot}`);
       mapTitleMetadata.add(`${mapId}:${key}`);
     }
     const previous = titleRecords.get(key);
@@ -740,7 +743,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const separator = key.indexOf(':');
     const titleKey = key.slice(separator + 1);
     if (!titleRecords.has(titleKey)) throw new Error(`Missing title metadata for dynamic map title definition: ${key}`);
-    mapTitleDefinitions.add(`${key.slice(0, separator)}:${slot}`);
+    if (slot != null) mapTitleDefinitions.add(`${key.slice(0, separator)}:${slot}`);
     mapTitleMetadata.add(key);
   }
 
@@ -768,12 +771,19 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const revision = revisionsById.get(gameplayRevisionId);
     const slot = item.slotSemantics === 'named'
       ? requireString(item.slot, `${prefix}.slot`)
-      : item.slotSemantics === 'none' && item.slot === null && titleKey === 'CLASSIC'
-        ? 'classic'
+      : item.slotSemantics === 'none' && item.slot === null
+        ? (titleKey === 'CLASSIC' ? 'classic' : null)
         : (() => { throw new Error(`${prefix} has an invalid slot semantics`); })();
-    if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`) || !mapTitleMetadata.has(`${mapId}:${titleKey}`)) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
-    const player = players.get(playerName);
-    if (!player) players.set(playerName, { name: playerName, titleKeys: [], allTitles: false });
+    if (!mapIds.has(mapId) || !revision || revision.mapId !== mapId || !mapTitleMetadata.has(`${mapId}:${titleKey}`) || (slot !== null && (!TITLE_SLOTS.has(slot) || !mapTitleDefinitions.has(`${mapId}:${slot}`)))) throw new Error(`${prefix} has an invalid map, revision, slot or title reference`);
+    let player = players.get(playerName);
+    if (!player) {
+      player = { name: playerName, titleKeys: [], allTitles: false };
+      players.set(playerName, player);
+    }
+    if (slot === null) {
+      if (Array.isArray(player.titleKeys) && !player.titleKeys.includes(titleKey)) player.titleKeys = [...player.titleKeys, titleKey];
+      continue;
+    }
     if (slot !== 'classic' && !revision.isDefault) continue;
     const mapKey = mapKeyFromPlatformId(mapId); const holders = holdersByMap.get(mapKey) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] };
     const target = holders[slot.toUpperCase() as 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC']; if (target.includes(playerName)) throw new Error(`Duplicate map holder: ${mapId}/${slot}/${playerName}`); target.push(playerName); holdersByMap.set(mapKey, holders);

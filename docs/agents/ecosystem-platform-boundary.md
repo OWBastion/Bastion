@@ -121,8 +121,8 @@ map title holders carry the same revision ID and an explicit slot discriminator.
 - generate player and map holder data from public player names; reject duplicate
   names or holders without a valid active map-grant projection;
 - retain Bastion-owned OverPy implementations while taking title presentation semantics from the platform;
-- treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only;
-- require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot;
+- treat `map_title_achievement.mapTitleRule` as the authority for dynamic map-title map/slot projections; `/titles` supplies presentation metadata only. A dynamic rule with `slot: null`, or a map title challenge with no rule at all, denotes a limited custom map title outside the named slots;
+- require the map-holder `slotSemantics` discriminator instead of inferring meaning from a null slot; `"none"` with a null slot maps CLASSIC to the map classic slot and routes other titles into the player's personal title pool;
 - update the existing generated title data and the managed revision macro block
   in each matching `src/map/*.opy` source;
 - render and validate every generated output in a dry-run plan before replacing

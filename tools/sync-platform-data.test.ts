@@ -372,6 +372,88 @@ test('rejects map holders that omit the explicit slot semantics', () => {
   }), /invalid slot semantics/);
 });
 
+const slotlessMapTitle = {
+  titleKey: 'FAREWELL_CAGE', label: '永别了牢笼', icon: 'trophy', category: '活动限定',
+  condition: '以地狱难度通关并在挑战期限内提交截图', availability: 'active',
+  scope: 'map', displayKind: 'fixed', mapId: 'map.test_map', gameVersion: '2026.10.16'
+};
+
+test('accepts a slotless map-limited title and routes its holders into the personal title pool', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      titles: [platformData.titles[0], slotlessMapTitle],
+      playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'FAREWELL_CAGE', slot: null, slotSemantics: 'none', playerName: '玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  });
+  assert.equal(source.titles[1]?.key, 'FAREWELL_CAGE');
+  assert.equal(source.titles[1]?.displayExpr, '"永别了牢笼"');
+  assert.deepEqual(source.players.find((player) => player.name === '玩家')?.titleKeys, ['FAREWELL_CAGE']);
+  assert.deepEqual(source.mapTitles[0]?.holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
+});
+
+test('accepts a slotless dynamic map title rule and a rule-free map title challenge', () => {
+  const data = {
+    ...platformData,
+    achievements: [
+      { challengeId: 'map.test_map.farewell', family: 'map', gameplayRevisionId: 'revision:map.test_map:default', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'FAREWELL_CAGE', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15', mapTitleRule: { ruleId: 'rule.farewell', kind: 'hell_screenshot', displayKind: 'fixed', slot: null, dynamic: true } },
+      { challengeId: 'title.SECOND_LIMITED', family: 'map', gameplayRevisionId: 'revision:map.test_map:default', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'SECOND_LIMITED', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }
+    ],
+    titles: [platformData.titles[0], slotlessMapTitle, { ...slotlessMapTitle, titleKey: 'SECOND_LIMITED', label: '第二限定' }],
+    playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
+    mapTitleHolders: [
+      { mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'FAREWELL_CAGE', slot: null, slotSemantics: 'none', playerName: '玩家' },
+      { mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'SECOND_LIMITED', slot: null, slotSemantics: 'none', playerName: '限定玩家' }
+    ]
+  };
+  const source = buildPlatformTitleSource({
+    platformData: data,
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  });
+  assert.deepEqual(source.players.find((player) => player.name === '玩家')?.titleKeys, ['FAREWELL_CAGE']);
+  assert.deepEqual(source.players.find((player) => player.name === '限定玩家')?.titleKeys, ['SECOND_LIMITED']);
+  assert.deepEqual(source.mapTitles[0]?.holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
+  assert.doesNotThrow(() => buildPlatformMapRevisionSource({ platformData: data }));
+});
+
+test('keeps slotless map title grants across revision boundaries', () => {
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, selectableGameplayRevision] }],
+      titles: [platformData.titles[0], slotlessMapTitle],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: selectableGameplayRevision.gameplayRevisionId, titleKey: 'FAREWELL_CAGE', slot: null, slotSemantics: 'none', playerName: '玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  });
+  assert.deepEqual(source.players.find((player) => player.name === '玩家')?.titleKeys, ['FAREWELL_CAGE']);
+});
+
+test('rejects a slotless holder for a title that is not bound to the map', () => {
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      titles: [platformData.titles[0], { ...slotlessMapTitle, scope: 'global', mapId: undefined }],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'FAREWELL_CAGE', slot: null, slotSemantics: 'none', playerName: '玩家' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  }), /invalid map, revision, slot or title reference/);
+});
+
+test('rejects a named slot on a title record that disagrees with a slotless dynamic rule', () => {
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      achievements: [{ challengeId: 'map.test_map.farewell', family: 'map', gameplayRevisionId: 'revision:map.test_map:default', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'FAREWELL_CAGE', mapId: 'map.test_map', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15', mapTitleRule: { ruleId: 'rule.farewell', kind: 'hell_screenshot', displayKind: 'fixed', slot: null, dynamic: true } }],
+      titles: [platformData.titles[0], { ...slotlessMapTitle, slot: 'pioneer', pioneerPrefixes: [] }],
+      mapTitleHolders: []
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  }), /slot disagrees with the dynamic map title rule/);
+});
+
 test('generates the all-titles player entry without title keys', async () => {
   const source = buildPlatformTitleSource({
     platformData: {
