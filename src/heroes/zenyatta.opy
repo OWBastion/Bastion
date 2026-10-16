@@ -71,7 +71,8 @@ rule "Hold levitation":
     eventPlayer.setGravity(0)
     eventPlayer.startAcceleration(Vector.UP if eventPlayer.getVelocity().y < 2 else Vector.DOWN, 5 if eventPlayer.getVelocity().y < 2.05 else 17.5 if eventPlayer.getVelocity().y > 1.95 else 0, 100, Relativity.TO_WORLD)
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 1.5)
-    eventPlayer.setGravity(100)
+    # 重力异常生效期间归还其记录的重力基线，避免悬浮解除覆盖事件重力
+    eventPlayer.setGravity(eventPlayer.eventTempIndex if (eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission != 0) else 100)
     eventPlayer.stopAcceleration()
     #ability is only available again once you touch the ground
     waitUntil(eventPlayer.isOnGround(), 10)

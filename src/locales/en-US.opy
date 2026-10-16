@@ -98,7 +98,7 @@
 # Debuff Events
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_0_TITLE "Gravity Anomaly"
-#!define STR_EVT_DEBUFF_0_DESC "Jump height reduced by {0}%."
+#!define STR_EVT_DEBUFF_0_DESC "Randomly applies zero gravity, low gravity, high gravity, or disables jumping."
 #!define STR_EVT_DEBUFF_1_TITLE "EMP"
 #!define STR_EVT_DEBUFF_1_DESC "Hacked. Abilities disabled."
 #!define STR_EVT_DEBUFF_2_TITLE "Sacrifice"

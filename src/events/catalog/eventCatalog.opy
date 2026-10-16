@@ -72,7 +72,7 @@ rule "initialize event array":
     # Pack 1: Debuffs
     # ================================================
     eventName[EventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_TITLE
-    eventDesc[EventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_DESC.format(EVT_DEBUFF_0_GRAVITY)
+    eventDesc[EventId.GRAVITY_ANOMALY] = STR_EVT_DEBUFF_0_DESC
     eventDuration[EventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_DURATION
     eventCatalogWeight[EventId.GRAVITY_ANOMALY] = EVT_DEBUFF_0_WEIGHT
     eventCatalogType[EventId.GRAVITY_ANOMALY] = EventType.DEBUFF
