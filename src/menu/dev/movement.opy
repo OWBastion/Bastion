@@ -18,7 +18,7 @@ rule "Toggle air walk":
     smallMessage(eventPlayer, "  {0}  开发者模式： 已开启浮空".format(iconString(Icon.BOLT)))
     return
     lbl_0:
-    eventPlayer.setGravity(eventPlayer.eventTempIndex[0] if (eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission != 0) else 100)
+    eventPlayer.setGravity(eventPlayer.eventGravityBaseline if (eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission != 0) else 100)
     eventPlayer.isAirWalkEnabled = false
     smallMessage(eventPlayer, "  {0}  开发者模式： 已关闭浮空".format(iconString(Icon.BOLT)))
 
@@ -74,7 +74,7 @@ rule "Step noclip":
         loop()
     if eventPlayer.isAirWalkEnabled == true:
         return
-    eventPlayer.setGravity(abs(eventPlayer.eventTempIndex[0] if (eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission != 0) else 100))
+    eventPlayer.setGravity(abs(eventPlayer.eventGravityBaseline if (eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission != 0) else 100))
 
 
 rule "Cycle control point":

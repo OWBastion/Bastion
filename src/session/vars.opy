@@ -154,3 +154,4 @@ playervar eventMatchCounters
 playervar eventNextIndex
 playervar eventEndTime
 playervar prophetTextId
+playervar eventGravityBaseline
