@@ -829,13 +829,13 @@ rule "initialize title array":
         # 63: I_THINK_YES
         [heroColor[11]],
         # 64: ANNIVERSARY_2026
-        null,
+        breathPalette.gold,
         # 65: PROPHET
-        null,
+        breathPalette.purple,
         # 66: QUANTUM_UNLUCKY
-        null,
+        breathPalette.blue,
         # 67: TASKS_COMPLETED
-        breathPalette.blue
+        breathPalette.orange
     ]
     # END AUTO-GENERATED ALL_TITLE
     playerTitleRelation = player_title_set_pool
