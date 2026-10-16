@@ -22,5 +22,4 @@ rule "[VishkarEvent]: 赌徒：乐于助人":
         eventPlayer.target.setHealth(1)
         smallMessage(eventPlayer.target, "  {0}  赌输了！所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
     eventPlayer.target = null
-    eventPlayer.eventDuration = 0
-    clearPlayerEvent()
+    requestPlayerEventEnd()

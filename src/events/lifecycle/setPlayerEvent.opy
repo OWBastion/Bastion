@@ -53,6 +53,9 @@ def setPlayerEvent():
     eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
+    # 截止时间必须在事件被提交/对外可见前武装好，否则已生效事件在 deadline 写入前
+    # 的窗口内会被 deadline 等待判为过期（null==0）而立即结束
+    setEventDuration()
     commitPlayerEventCategory()
     wait(getAverageServerLoad() / 100 * 0.032)
     if eventPlayer.eventLastId == null:
@@ -84,5 +87,4 @@ def setPlayerEvent():
             eventPlayer.eventDesc.replace("\n", "，")
         )
     )
-    setEventDuration()
     lbl_1:

@@ -13,7 +13,7 @@ rule "Resolve giveaway":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SELFLESS_GIVEAWAY]) == true
     
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
-        eventPlayer.eventDuration = 0
+        requestPlayerEventEnd()
     else:
         # 每名接收者按自己的获得倍率结算，不能统一固定值
         eventPlayer.target = getPlayers(Team.1).exclude(eventPlayer)
@@ -25,7 +25,7 @@ rule "Resolve giveaway":
         setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_1, eventPlayer, 200)
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 100)
-    wait(eventPlayer.eventDuration)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 rule "Rebuild max health":
     @Event eachPlayer

@@ -23,7 +23,7 @@ rule "Resolve mission":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL]) == true
     
-    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL, eventPlayer.eventDuration + 1.5)
+    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()
     if eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 成功！")
@@ -33,4 +33,4 @@ rule "Resolve mission":
     else:
         bigMessage(eventPlayer, "任务：菲迪皮德斯之力 失败")
     eventPlayer.eventMission = 0
-    eventPlayer.eventDuration = 0
+    requestPlayerEventEnd()
