@@ -100,6 +100,8 @@ rule STR_LICENSE_PERMIT:
 
 #!include "events/allocation/buildCompatibleEventPool.opy"
 
+#!include "events/allocation/filterEventHardEligible.opy"
+
 #!include "events/allocation/buildCandidatePool.opy"
 
 #!include "events/allocation/rejectSampling.opy"

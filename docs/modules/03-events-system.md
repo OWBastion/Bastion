@@ -76,14 +76,14 @@
 
 `setPlayerEvent` 不再执行类别随机数，也不在类别池之间分支。`refreshCompatibleEventPool` 从 `eventCatalogId` 复制启用事件的统一 ID，并按结构兼容性过滤预定义 ID 组；不支持相位触发的英雄不会在基础池中包含 `PHASE_SURGE` / `BODYGUARD`。该池在加入、英雄切换及进度重置完成后刷新。`buildCandidatePool` 从玩家基础池筛选当前有效权重的事件；正常路径允许 Buff、Debuff、Mech 在同一轮竞争，选中后才把目录中的类别写入 `eventType`。Thief 会将受害者的下一次候选池限制为非 Buff，并在该次经由候选池的分配后消耗标记。
 
-作弊/赌徒事件写入显式强制类型契约（`eventForceType` + `eventForceCount`）：`我要验牌` 强制下一个事件为 Buff，`暗箱操作` 强制为 Mech，短期/长期投资强制未来 N 个分配为 Debuff。契约优先于窃贼窃取等普通候选修饰——`drawForcedEvent` 绕过候选池，在契约类型对应的连续统一 ID 区间内直接取标量号（Buff → Debuff → Mech 依 `EventId` 声明顺序排列），每次取号仍须通过注册成员、正向权重与全部动态硬资格（`eventHardEligible`，与候选池共用同一谓词）。去重兜底只放宽最近事件条件、不跨类型；区间内暂无可满足候选时回落统一候选池且不消耗契约次数，旗标留待后续分配兑现。强制非 Buff 分配不消耗受害者的 `thiefBuffStolen`。具体 `eventNextIndex` 式覆盖不属于该机制。
+作弊/赌徒事件写入显式强制类型契约（`eventForceType` + `eventForceCount`）：`我要验牌` 强制下一个事件为 Buff，`暗箱操作` 强制为 Mech，短期/长期投资强制未来 N 个分配为 Debuff。契约优先于窃贼窃取等普通候选修饰——`drawForcedEvent` 绕过候选池，在契约类型对应的连续统一 ID 区间内直接取标量号（Buff → Debuff → Mech 依 `EventId` 声明顺序排列），每次取号仍须通过注册成员、正向权重与全部动态硬资格（`filterEventHardEligible`，与候选池共用同一子程序）。去重兜底只放宽最近事件条件、不跨类型；区间内暂无可满足候选时回落统一候选池且不消耗契约次数，旗标留待后续分配兑现。强制非 Buff 分配不消耗受害者的 `thiefBuffStolen`。具体 `eventNextIndex` 式覆盖不属于该机制。
 
 `rejectSampling` 通过 `random.uniform(0, eventWeight) < eventCatalogWeight[candidate]` 决策是否命中，最多 8 轮；失败时采用最后一次候选，保证有限终止。抽样始终直接使用目录配置权重，不根据对局经过时间计算替代权重。`eventWeight`（当前由 `EVT_INIT_EVENT_WEIGHT` 初始化）仍作为拒绝采样的统一上界。旧的 `42.5 / 37.5 / 20` 类别概率不再作为隐含乘数；全局池的最终逐事件权重平衡属于后续发布前的独立平衡工作。
 
 去重与候选池门控策略：
 
 - `eventLastId` 现为最近事件历史全局目录索引数组（长度由 `EVT_RECENT_EVENT_DEDUP_COUNT` 控制，默认 10），不再依赖类别编码，避免不同类别同数值 ID 相互误排除。
-- 结构兼容组由 `buildCompatibleEventPool.opy` 表示；`EVENT_GROUP_PHASE_TRIGGER` 包含 `PHASE_SURGE` / `BODYGUARD`，并在英雄生命周期变化时过滤。动态硬资格由 `buildCandidatePool.opy` 中的 `eventHardEligible` 谓词统一定义，候选池过滤与强制类型标量抽样共用同一套门槛：`EVENT_GROUP_HEART_STEEL` 包含依赖当前正向心之钢层数的三个赌徒事件；强制减益契约存续期间排除 `SELFLESS_GIVEAWAY`；赢家通吃的奖池门槛、Temper Heart 一次性状态和 Mirror Inversion 仍保留为事件特例。事件组只表达资格，不携带概率、稀有度或独立抽样步骤。
+- 结构兼容组由 `buildCompatibleEventPool.opy` 表示；`EVENT_GROUP_PHASE_TRIGGER` 包含 `PHASE_SURGE` / `BODYGUARD`，并在英雄生命周期变化时过滤。动态硬资格由 `filterEventHardEligible.opy` 子程序统一定义（逐条扁平过滤，避免单个深嵌套表达式），候选池过滤与强制类型标量抽样共用同一套门槛：`EVENT_GROUP_HEART_STEEL` 包含依赖当前正向心之钢层数的三个赌徒事件；强制减益契约存续期间排除 `SELFLESS_GIVEAWAY`；赢家通吃的奖池门槛、Temper Heart 一次性状态和 Mirror Inversion 仍保留为事件特例。事件组只表达资格，不携带概率、稀有度或独立抽样步骤。
 - 若最近事件去重后为空，兜底路径只移除去重条件，仍执行所有硬资格门控，避免把不兼容事件恢复进候选集。
 - 每次抽到新事件后，将其 append 到 `eventLastId`；当长度超过窗口时移除最旧记录（保留最近 N 条）。
 - 当最近事件去重导致候选池为空时，会降级到保留硬资格门控、仅移除去重条件，避免抽样中断。

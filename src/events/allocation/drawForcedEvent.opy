@@ -34,7 +34,12 @@ def drawForcedEvent():
         eventPlayer.eventLoopCount++
         # 最近事件去重只在去重窗口内且尚无合格候选时生效：
         # 窗口后仍无合格候选等价于“去重致空”，按候选池既有兜底放开去重，但不跨类型
-        if eventCatalogType[eventPlayer.eventForceIndex] == eventPlayer.eventForceType and eventPlayer.eventForceIndex in eventPlayer.eventCompatibleBasePool and eventCatalogWeight[eventPlayer.eventForceIndex] > 0 and eventPlayer.eventHardEligible(eventPlayer.eventForceIndex) and (eventPlayer.eventLastId == null or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
+        if eventCatalogType[eventPlayer.eventForceIndex] == eventPlayer.eventForceType and eventPlayer.eventForceIndex in eventPlayer.eventCompatibleBasePool and eventCatalogWeight[eventPlayer.eventForceIndex] > 0:
+            eventPlayer.eventTempIndex = [eventPlayer.eventForceIndex]
+            filterEventHardEligible()
+        else:
+            eventPlayer.eventTempIndex = []
+        if len(eventPlayer.eventTempIndex) > 0 and (eventPlayer.eventLastId == null or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
             eventPlayer.eventCandidateIndex = eventPlayer.eventForceIndex
             if random.uniform(0, eventWeight) < eventCatalogWeight[eventPlayer.eventCandidateIndex]:
                 eventPlayer.eventIsSelected = true
