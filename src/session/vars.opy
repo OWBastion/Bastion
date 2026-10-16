@@ -58,6 +58,7 @@ globalvar hashTagWeightVerifyState
 globalvar masteryRunCode
 globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
+globalvar prophetViewers
 
 #Player variables
 
@@ -150,4 +151,6 @@ playervar menuHeroIndex
 playervar mod_heal_perma
 playervar thiefBuffStolen
 playervar eventMatchCounters
+playervar eventNextIndex
 playervar eventEndTime
+playervar prophetTextId

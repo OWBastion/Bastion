@@ -29,6 +29,9 @@ def buildCandidatePool():
     # 有难同当同一时间全队至多一名持有者：他人已生效或已预取锁定（eventCandidateIndex）的都算占位；多人同持会让旁观者承伤叠加超过单个承伤者
     if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.SHARE_THE_PAIN or other.eventCandidateIndex == EventId.SHARE_THE_PAIN))) > 0:
         eventPlayer.eventTempIndex.remove(EventId.SHARE_THE_PAIN)
+    # Unique 事件：先知同一时间最多一名。他人已生效、已承诺（eventNextIndex）或正预取锁定（eventCandidateIndex）的都算占位
+    if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.PROPHET or other.eventNextIndex == EventId.PROPHET or other.eventCandidateIndex == EventId.PROPHET))) > 0:
+        eventPlayer.eventTempIndex.remove(EventId.PROPHET)
 
     if eventPlayer.eventLastId != null:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)

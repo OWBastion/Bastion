@@ -340,6 +340,15 @@ enum HeartSteelData:
 #!define EVT_32_REWARD_HEAL_PERMA 100
 #!define EVT_32_HUD_INTERVAL 5
 
+# --- ID 34: 有福同享 ---
+#!define EVT_BUFF_34_DURATION 120
+#!define EVT_BUFF_34_WEIGHT 0.4
+# 任务完成时双方各获得的心之钢层数：基础 + 当前地图堡垒数量 × 每堡垒层数
+#!define EVT_34_REWARD_BASE 6
+#!define EVT_34_REWARD_PER_BASTION 2
+# 绑定判定半径（米）：该范围内最近的友方按住互动即完成绑定
+#!define EVT_34_BIND_RADIUS 5
+
 #!define EVT_BUFF_35_DURATION 5
 #!define EVT_BUFF_35_WEIGHT 0.6
 #!define EVT_35_DMG_TAKEN_DELTA 10
@@ -577,6 +586,22 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_23_HP_UNIT 100
 #!define EVT_DEBUFF_23_DMG_TAKEN_PER_UNIT 10
 #!define EVT_DEBUFF_23_REFRESH_INTERVAL 0.25
+
+# --- ID 25 (Debuff): 静电力场 ---
+# Duration（秒）
+#!define EVT_DEBUFF_25_DURATION 30
+# Weight（权重）
+#!define EVT_DEBUFF_25_WEIGHT 1
+# 触发距离 (米)
+#!define EVT_DEBUFF_25_TRIGGER_RADIUS 6
+# 击退冲量
+#!define EVT_DEBUFF_25_IMPULSE 150
+# 击晕时长 (秒)，仅作用于事件持有者
+#!define EVT_DEBUFF_25_STUN 0.75
+# 触发保护 (秒，触发后该窗口内不再判定)
+#!define EVT_DEBUFF_25_TRIGGER_PROTECTION 1.5
+# 近身扫描间隔 (秒)
+#!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -888,5 +913,11 @@ enum MirrorInversionStat:
 #!define EVT_MECH_24_WIN_RATE 10
 #!define EVT_MECH_24_POOL_MIN 8
 #!define EVT_MECH_24_PLAYER_STACKS_MIN 4
+
+# --- ID 25 (Mech): 先知 ---
+# Duration（秒）
+#!define EVT_MECH_25_DURATION 90
+# Weight（权重）
+#!define EVT_MECH_25_WEIGHT 0.8
 
 # -----------------------------------------------------------------------------

@@ -172,6 +172,8 @@
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：后续心之钢层数获取×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
+#!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
+#!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
@@ -190,6 +192,8 @@
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
 #!define STR_EVT_DEBUFF_23_DESC "每有{0}点生命值，使受到的伤害提高{1}%"
+#!define STR_EVT_DEBUFF_25_TITLE "静电力场"
+#!define STR_EVT_DEBUFF_25_DESC "{0}米内存在友方时\n双方朝相反方向弹开，自身击晕{1}秒"
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
@@ -225,6 +229,10 @@
 #!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：\n减伤/移速/治疗强度/心之钢"
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
 #!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数\n{2}%概率清空奖池并获得其中所有心之钢层数"
+#!define STR_EVT_MECH_25_TITLE "先知"
+#!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
+#!define STR_EVT_MECH_25_NEXT "→ {0}"
+#!define STR_EVT_MECH_25_UNKNOWN "未知"
 
 
 # 事件类别
