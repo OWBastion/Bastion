@@ -175,9 +175,9 @@
 #!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
 #!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
 #!define STR_EVT_BUFF_36_TITLE "我独自闯关"
-#!define STR_EVT_BUFF_36_DESC "周围无队友时获得 {0}% 减伤 / {1}% 治疗 / {2}% 移速 / {3}% 击退抵抗"
+#!define STR_EVT_BUFF_36_DESC "周围无队友时获得\n{0}% 减伤 / {1}% 治疗\n{2}% 移速 / {3}% 击退抵抗"
 #!define STR_EVT_BUFF_37_TITLE "我独自升级"
-#!define STR_EVT_BUFF_37_DESC "每用一名新英雄到达终点，永久获得 {0} 层心之钢 / {1}% 减伤 / {2}% 移速 / {3}% 治疗，并延长当前事件 {4}s"
+#!define STR_EVT_BUFF_37_DESC "每用一名新英雄到达终点\n永久获得 {0} 层心之钢 / {1}% 减伤 / {2}% 移速 / {3}% 治疗\n并延长当前事件 {4}s"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
