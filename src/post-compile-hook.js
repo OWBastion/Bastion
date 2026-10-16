@@ -5,4 +5,5 @@ content = content.replace(/尖刺墙生命值倍率/g, "尖刺墙生命值");
 content = content.replace(/Charged Shot/g, "充能射击");
 content = content.replace(/enableInfiniteAbility2/g, "纵情狂飙无限持续时间");
 content = content.replace(/ability2Duration/g, "纵情狂飙持续时间倍率");
+content = content.replace(/Grímsvötn/g, "格里姆火山");
 content;
