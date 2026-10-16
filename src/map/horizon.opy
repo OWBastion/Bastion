@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     __currentMapText___ = "月球基地"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("月球基地")
 
     bastionPosition = [
         vect(-15.287, 6, -127.244),

@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     __currentMapText___ = "南极半岛"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("南极半岛")
 
     bastionPosition = compressed([
         vect(-98.119, 15.423, 46.112),

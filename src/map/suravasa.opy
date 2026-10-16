@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_SURAVASA_DEFAULT():
     __currentMapText___ = "苏拉瓦萨"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("苏拉瓦萨")
 
     bastionPosition = [
         vect(16.734, 10.5, 72.11),

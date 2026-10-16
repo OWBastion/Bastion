@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_RUNASAPI_DEFAULT():
     __currentMapText___ = "鲁纳塞彼"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("鲁纳塞彼")
 
     bastionPosition = [
         vect(70.39, 7.86, 24.73),

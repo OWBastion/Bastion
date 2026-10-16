@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_JUNKERTOWN_DEFAULT():
     __currentMapText___ = "渣客镇"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("渣客镇")
 
     bastionPosition = [
         vect(-101.37, 12.72, -135.27),

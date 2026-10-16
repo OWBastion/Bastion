@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_HOLLYWOOD_DEFAULT():
     __currentMapText___ = "好莱坞"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("好莱坞")
 
     bastionPosition = [
         vect(-20.813, 9.795, -128.879),

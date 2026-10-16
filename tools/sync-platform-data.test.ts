@@ -244,7 +244,7 @@ test('initializes title text only after map presentation overrides are ready', a
   ]);
 
   assert.match(titleSource, /@Condition mapTitlePlayersByKey != null[\s\S]*?titleText = \[/);
-  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n    @Condition __currentMapClassicText___ != null[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n\n    if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___\n    if __currentMapClassicText___ == null:\n        __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format\(__currentMapText___\)/);
   assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('mapTitlePlayersByKey = ['));
   assert.ok(mapTitleSource.indexOf('if mapTitlePlayersByKey == null:') > mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"'));
 
@@ -558,6 +558,27 @@ test('generates deterministic map-local macros for default and classic revisions
   assert.doesNotMatch(output, /playerNameToIndexDelimited|mapTitlePlayersByKey|__currentMapPioneerText___/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
+});
+
+test('declares classic map text only when the map has a classic revision', () => {
+  const defaultOnly = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision] }]
+    }
+  }));
+  assert.match(defaultOnly, /__currentMapText___ = /);
+  assert.doesNotMatch(defaultOnly, /__currentMapClassicText___/);
+
+  const withClassic = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, classicGameplayRevision] }],
+      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
+      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }]
+    }
+  }));
+  assert.match(withClassic, /__currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format/);
 });
 
 test('accepts revision holders without playerId and still dedupes by name', () => {

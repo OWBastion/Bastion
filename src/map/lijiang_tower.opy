@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_LIJIANG_TOWER_DEFAULT():
     __currentMapText___ = "漓江塔"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("漓江塔")
 
     bastionPosition = [
         vect(34.55, 33.85, -36.64),

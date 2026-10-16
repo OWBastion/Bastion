@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_NEW_A021ED61_DEFAULT():
     __currentMapText___ = "监测站：格里姆火山"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("监测站：格里姆火山")
 
     bastionPosition = [
         vect(-122.36, 13.155, -60.554),

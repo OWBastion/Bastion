@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_BUSAN_DEFAULT():
     __currentMapText___ = "釜山"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("釜山")
     resetPosition = vect(-409.71, 10.11, 165.61)
     endPosition = vect(158.67, 10.81, 260.91)
     thirdPersonPosition = vect(-410.4, 10.11, 162.37)

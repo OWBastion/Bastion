@@ -4,10 +4,11 @@
 
 rule "Load CN map title holders":
     @Condition __currentMapText___ != null
-    @Condition __currentMapClassicText___ != null
 
     if __currentMapPioneerText___ == null:
         __currentMapPioneerText___ = __currentMapText___
+    if __currentMapClassicText___ == null:
+        __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(__currentMapText___)
     __currentPioneerText___ = null
     if (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true:
         __currentMapPioneerText___ = "织金"

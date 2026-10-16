@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_HANAOKA_DEFAULT():
     __currentMapText___ = "花冈"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("花冈")
 
     bastionPosition = [
         vect(-22.263, 46.024, -89.586),

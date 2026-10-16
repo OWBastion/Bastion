@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_NEON_JUNCTION_DEFAULT():
     __currentMapText___ = "霓虹枢纽"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("霓虹枢纽")
 
     bastionPosition = [
         vect(0.708, 4.061, 388.523),

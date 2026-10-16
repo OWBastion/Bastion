@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_NEW_QUEEN_STREET_DEFAULT():
     __currentMapText___ = "新皇后街"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新皇后街")
 
     bastionPosition = [
         vect(-74.922, 14.194, -16.661),

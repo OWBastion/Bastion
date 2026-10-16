@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_ROUTE66_DEFAULT():
     __currentMapText___ = "66号公路"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("66号公路")
 
     bastionPosition = [
         vect(-95.624, 12.66, -5.541),
