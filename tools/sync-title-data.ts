@@ -735,8 +735,13 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       color: { kind: "heroColor", index: 43 }
     });
   }
-  for (const key of dynamicMapTitleDefinitions.keys()) {
-    if (!mapTitleMetadata.has(key)) throw new Error(`Missing title metadata for dynamic map title definition: ${key}`);
+  for (const [key, slot] of dynamicMapTitleDefinitions) {
+    if (mapTitleMetadata.has(key)) continue;
+    const separator = key.indexOf(':');
+    const titleKey = key.slice(separator + 1);
+    if (!titleRecords.has(titleKey)) throw new Error(`Missing title metadata for dynamic map title definition: ${key}`);
+    mapTitleDefinitions.add(`${key.slice(0, separator)}:${slot}`);
+    mapTitleMetadata.add(key);
   }
 
   const players = new Map<string, JsonObject>();

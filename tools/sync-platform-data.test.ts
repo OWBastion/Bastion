@@ -331,6 +331,34 @@ test('uses dynamic map-title achievements as the authoritative slot projection',
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: ['征服者'], DOMINATOR: [], CLASSIC: [] });
 });
 
+test('derives map title bindings from dynamic rules when no map title record exists', () => {
+  const dynamicRule = (titleKey: string, kind: string) => ({
+    challengeId: `map.test_map.${kind}`, family: 'map' as const, gameplayRevisionId: 'revision:map.test_map:default',
+    type: 'map_completion', kind: 'map_title_achievement', titleKey, mapId: 'map.test_map',
+    status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15',
+    mapTitleRule: { ruleId: `rule.${kind}`, kind, displayKind: 'map_name_suffix', slot: kind, dynamic: true }
+  });
+  const titles = [
+    { ...platformData.titles[0], titleKey: 'CONQUEROR', scope: 'global' },
+    { ...platformData.titles[0], titleKey: 'DOMINATOR', scope: 'global' }
+  ];
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      achievements: [dynamicRule('CONQUEROR', 'conqueror'), dynamicRule('DOMINATOR', 'dominator')],
+      titles,
+      playerTitleGrants: [],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CONQUEROR', slot: 'conqueror', slotSemantics: 'named', playerId: 'player-7', playerName: '征服者' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  });
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: ['征服者'], DOMINATOR: [], CLASSIC: [] });
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: { ...platformData, achievements: [dynamicRule('TITLE_UNKNOWN', 'conqueror')], titles },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  }), /Missing title metadata for dynamic map title definition: map\.test_map:TITLE_UNKNOWN/);
+});
+
 test('rejects map holders that omit the explicit slot semantics', () => {
   assert.throws(() => buildPlatformTitleSource({
     platformData: {

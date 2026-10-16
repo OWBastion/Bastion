@@ -115,6 +115,13 @@ rule "Load CN map title holders":
             DATA_WATCHPOINT_GIBRALTAR[2].split("-"),
             []
         ]
+    if __currentMap___ == Map.GRIMSVOTN:
+        mapTitlePlayersByKey = [
+            DATA_NEW_A021ED61[0].split("-"),
+            DATA_NEW_A021ED61[1].split("-"),
+            DATA_NEW_A021ED61[2].split("-"),
+            []
+        ]
     if (__currentMap___ == Map.HANAMURA or __currentMap___ == 1848 or __currentMap___ == Map.HANAMURA_WINTER) == true:
         if classicMapVariant == CLASSIC_MAP_VARIANT_HANAMURA:
             mapTitlePlayersByKey = [
