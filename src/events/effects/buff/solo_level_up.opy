@@ -18,20 +18,23 @@ rule "Track hero finishes":
 
     eventPlayer.eventMission = eventPlayer.heroNumber
     eventPlayer.hudText = "已强化 {0} 次".format(eventPlayer.eventMissionGoal)
-    while eventPlayer.eventId == EventId.SOLO_LEVEL_UP and eventPlayer.eventEndTime > getTotalTimeElapsed():
-        waitUntil(eventPlayer.eventId != EventId.SOLO_LEVEL_UP or eventPlayer.heroNumber > eventPlayer.eventMission or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
-        wait()
-        if eventPlayer.eventId == EventId.SOLO_LEVEL_UP and eventPlayer.heroNumber > eventPlayer.eventMission:
-            eventPlayer.temp = eventPlayer.heroNumber - eventPlayer.eventMission
-            eventPlayer.eventMission = eventPlayer.heroNumber
-            eventPlayer.eventMissionGoal += eventPlayer.temp
-            eventPlayer.hudText = "已强化 {0} 次".format(eventPlayer.eventMissionGoal)
-            bigMessage(eventPlayer, "我独自升级：通关奖励 ×{0}".format(eventPlayer.temp))
-            smallMessage(eventPlayer, "  {0}  获得 {1} 层心之钢、{2}% 伤害减免、{3}% 移速、{4}% 治疗强度，当前事件延长 {5} 秒".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_37_REWARD_HEARTSTEEL * eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_37_REWARD_DMG_REDUCTION * eventPlayer.temp, EVT_37_REWARD_SPEED * eventPlayer.temp, EVT_37_REWARD_HEAL * eventPlayer.temp, EVT_37_EXTEND_SECONDS * eventPlayer.temp))
-            eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_37_REWARD_HEARTSTEEL * eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
-            eventPlayer.mod_dmg_perma -= EVT_37_REWARD_DMG_REDUCTION * eventPlayer.temp
-            eventPlayer.mod_speed_perma += EVT_37_REWARD_SPEED * eventPlayer.temp
-            eventPlayer.mod_heal_perma += EVT_37_REWARD_HEAL * eventPlayer.temp
-            eventPlayer.eventEndTime += EVT_37_EXTEND_SECONDS * eventPlayer.temp
-            setPlayerHP()
-            updatePlayerStats()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.heroNumber > eventPlayer.eventMission or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    wait(getAverageServerLoad() / 100 * 0.032)
+    if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
+        return
+    if eventPlayer.heroNumber > eventPlayer.eventMission:
+        eventPlayer.temp = eventPlayer.heroNumber - eventPlayer.eventMission
+        eventPlayer.eventMission = eventPlayer.heroNumber
+        eventPlayer.eventMissionGoal += eventPlayer.temp
+        eventPlayer.hudText = "已强化 {0} 次".format(eventPlayer.eventMissionGoal)
+        bigMessage(eventPlayer, "我独自升级：通关奖励 ×{0}".format(eventPlayer.temp))
+        smallMessage(eventPlayer, "  {0}  获得 {1} 层心之钢、{2}% 伤害减免、{3}% 移速、{4}% 治疗强度，当前事件延长 {5} 秒".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_37_REWARD_HEARTSTEEL * eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_37_REWARD_DMG_REDUCTION * eventPlayer.temp, EVT_37_REWARD_SPEED * eventPlayer.temp, EVT_37_REWARD_HEAL * eventPlayer.temp, EVT_37_EXTEND_SECONDS * eventPlayer.temp))
+        eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_37_REWARD_HEARTSTEEL * eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
+        eventPlayer.mod_dmg_perma -= EVT_37_REWARD_DMG_REDUCTION * eventPlayer.temp
+        eventPlayer.mod_speed_perma += EVT_37_REWARD_SPEED * eventPlayer.temp
+        eventPlayer.mod_heal_perma += EVT_37_REWARD_HEAL * eventPlayer.temp
+        eventPlayer.eventEndTime += EVT_37_EXTEND_SECONDS * eventPlayer.temp
+        setPlayerHP()
+        updatePlayerStats()
+    if ruleCondition:
+        loop()
