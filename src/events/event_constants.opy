@@ -364,8 +364,21 @@ enum HeartSteelData:
 #!define EVT_DEBUFF_0_DURATION 20
 # Weight（权重）
 #!define EVT_DEBUFF_0_WEIGHT 1.2
-# 100 + 70
-#!define EVT_DEBUFF_0_GRAVITY 70
+# 效果类型：每次事件仅抽取一次，持续期间不变。
+# 从 1 开始编号，因为 eventMission 用 0 作为"未开始"哨兵（0==null）
+enum GravityAnomalyRoll:
+    ZERO_GRAVITY = 1
+    LOW_GRAVITY
+    HIGH_GRAVITY
+    NO_JUMP
+# 低重力随机区间（重力百分比，区间内连续取值）
+#!define EVT_DEBUFF_0_LOW_GRAVITY_MIN 10
+#!define EVT_DEBUFF_0_LOW_GRAVITY_MAX 60
+# 高重力随机区间（重力百分比，区间内连续取值）
+#!define EVT_DEBUFF_0_HIGH_GRAVITY_MIN 130
+#!define EVT_DEBUFF_0_HIGH_GRAVITY_MAX 250
+# 收尾归还重力前等待禅雅塔结束悬浮的上限（秒，需覆盖其 1.5s 悬浮上限）
+#!define EVT_DEBUFF_0_ZEN_HOVER_WAIT 2
 
 # --- ID 1 (Debuff): 电磁脉冲 ---
 # Duration（秒）

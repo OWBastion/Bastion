@@ -104,7 +104,7 @@
 # 减益事件 (Debuff Events)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_0_TITLE "重力异常"
-#!define STR_EVT_DEBUFF_0_DESC "跳跃高度降低{0}%"
+#!define STR_EVT_DEBUFF_0_DESC "随机失重、重力减轻、重力加重或无法跳跃"
 #!define STR_EVT_DEBUFF_1_TITLE "电磁脉冲"
 #!define STR_EVT_DEBUFF_1_DESC "被侵入，无法使用技能"
 #!define STR_EVT_DEBUFF_2_TITLE "献祭"
