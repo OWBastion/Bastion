@@ -42,7 +42,9 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
         eventPlayer.eventMissionGoal
     )
     if len(eventPlayer.eventMission) == eventPlayer.eventMissionGoal:
-        waitUntil(eventPlayer.isAlive(), EVT_21_WAITUNTIL_TIMEOUT)
+        waitUntil(eventPlayer.isAlive() or eventPlayer.eventId != EventId.MARTYR_TRIAL, EVT_21_WAITUNTIL_TIMEOUT)
+        if eventPlayer.eventId != EventId.MARTYR_TRIAL:
+            return
         bigMessage(eventPlayer, "任务：殉道者 完成！")
         smallMessage(eventPlayer, "  {0}  任务奖励：永久获得 {1}% 伤害减免".format(abilityIconString(Hero.HAZARD, Button.SECONDARY_FIRE), negToPos(EVT_21_REWARD_DMG_PERMA)))
         eventPlayer.mod_dmg_perma += EVT_21_REWARD_DMG_PERMA
