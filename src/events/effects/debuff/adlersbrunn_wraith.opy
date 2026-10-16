@@ -9,24 +9,37 @@
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH]) == true
 
-    eventPlayer.eventMission = EVT_DEBUFF_21_TOTAL_STACK
-    eventPlayer.mod_heal_perma += eventPlayer.eventMission * EVT_DEBUFF_21_HEAL_DELTA_PER_STACK
-    eventPlayer.hudText = "诅咒：{0}层".format(eventPlayer.eventMission)
-    updatePlayerStats()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    eventPlayer.passiveRegenBlocked = true
+    eventPlayer.eventMissionGoal = eventPlayer.maxHealthPercent(EVT_DEBUFF_21_DRAIN_MAXHP_FACTOR * 100 * eventPlayer.getStatistic(Stat.ELIMINATIONS))
+    eventPlayer.hudText = "冤魂缠身：-{0}/秒".format(round(eventPlayer.eventMissionGoal))
+    if eventPlayer.eventMissionGoal > 0:
+        eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
+        eventPlayer.temp = eventPlayer.getHealth()
+        damage(eventPlayer, null, eventPlayer.eventMissionGoal)
+        eventPlayer.temp -= eventPlayer.getHealth()
+        if len(eventPlayer.target) > 0 and eventPlayer.temp > 0:
+            heal(eventPlayer.target, null, eventPlayer.temp / len(eventPlayer.target))
+    wait(EVT_DEBUFF_21_DRAIN_INTERVAL)
+    if ruleCondition:
+        loop()
     eventPlayer.hudText = ""
+    eventPlayer.target = null
+    eventPlayer.eventMissionGoal = 0
+    eventPlayer.passiveRegenBlocked = false
+    startCombatRegen()
 
-rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (抵消层数)":
-    @Event eachPlayer
+rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (阵亡结算)":
+    @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH,  eventPlayer.eventMission > 0, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH, eventPlayer.eventMission == 0]) == true
 
-    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
-    damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_DEBUFF_21_HP_COST_RATIO * 100))
-    eventPlayer.eventMission--
-    eventPlayer.mod_heal_perma += negToPos(EVT_DEBUFF_21_HEAL_DELTA_PER_STACK)
-    eventPlayer.hudText = "诅咒：{0}层".format(eventPlayer.eventMission)
+    eventPlayer.eventMission = 1
+    eventPlayer.mod_heal_perma += EVT_DEBUFF_21_DEATH_HEAL_PERMA
     updatePlayerStats()
-    wait(10)
+    eventPlayer.target = getPlayers(Team.1).exclude(eventPlayer)
+    for eventPlayer.temp in range(len(eventPlayer.target)):
+        eventPlayer.target[eventPlayer.temp].mod_heal_perma += negToPos(EVT_DEBUFF_21_DEATH_HEAL_PERMA) / len(eventPlayer.target)
+        eventPlayer.target[eventPlayer.temp].setHealingDealt(100 + eventPlayer.target[eventPlayer.temp].mod_heal_perma + eventPlayer.target[eventPlayer.temp].mod_heal_event)
+    eventPlayer.target = null

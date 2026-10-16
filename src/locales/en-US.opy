@@ -182,7 +182,7 @@
 # Random Pack 5: Debuffs
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "Adlersbrunn's Wraith"
-#!define STR_EVT_DEBUFF_21_DESC "Gain {0} curses immediately.\nEach curse reduces healing power by {1}%.\nHold {2}: pay {3}% max HP to remove 1 curse.\nOn end, lose {1}% permanent healing power per remaining curse."
+#!define STR_EVT_DEBUFF_21_DESC "Each second, Max HP × {0}% × your eliminations is shared among other allies.\nDying while cursed permanently loses {1}% healing power, permanently shared among other allies."
 #!define STR_EVT_DEBUFF_22_TITLE "Wayward Navigation"
 #!define STR_EVT_DEBUFF_22_DESC "Every {0}s, launch yourself at high speed in a random direction."
 #!define STR_EVT_DEBUFF_23_TITLE "Overweight Backpack"
