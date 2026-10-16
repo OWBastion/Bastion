@@ -607,9 +607,12 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_21_DURATION 85
 # Weight（权重）
 #!define EVT_DEBUFF_21_WEIGHT 0.4
-#!define EVT_DEBUFF_21_TOTAL_STACK 7
-#!define EVT_DEBUFF_21_HEAL_DELTA_PER_STACK -10
-#!define EVT_DEBUFF_21_HP_COST_RATIO 0.99
+# 每秒生命转移量的最大生命值系数（乘以持有者自身消灭数）
+#!define EVT_DEBUFF_21_DRAIN_MAXHP_FACTOR 0.02
+# 生命转移结算间隔（秒）
+#!define EVT_DEBUFF_21_DRAIN_INTERVAL 1
+# 阵亡结算：持有者永久损失的治疗强度（百分点），由其他友方均分获得
+#!define EVT_DEBUFF_21_DEATH_HEAL_PERMA -50
 
 # --- ID 21 (Debuff): 缺德导航 ---
 # Duration（秒）

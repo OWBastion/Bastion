@@ -191,7 +191,7 @@
 # 随机事件包 5：减益 (Debuff Events Pack 5)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
-#!define STR_EVT_DEBUFF_21_DESC "获得{0}层诅咒\n每层降低{1}%治疗强度\n长按{2}消耗{3}%最大生命值移除1层\n结束时永久失去剩余层数×{1}%治疗强度"
+#!define STR_EVT_DEBUFF_21_DESC "获得诅咒，每秒转移{0}% × 友方击杀次数的生命值给其他友方\n如果在此期间阵亡，则损失{1}%治疗强度由其他友方均分"
 #!define STR_EVT_DEBUFF_22_TITLE "缺德导航"
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
