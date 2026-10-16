@@ -786,10 +786,10 @@ enum GravityAnomalyRoll:
 #!define EVT_MECH_8_WEIGHT 1
 
 # 胜率阈值：random.randint(0,99) < 阈值 则胜
-#!define EVT_MECH_8_WIN_CHANCE 75
+#!define EVT_MECH_8_WIN_CHANCE 25
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_8_REWARD_STACKS 4
+#!define EVT_MECH_8_REWARD_STACKS 32
 
 # 强制减益契约剩余抵扣次数：每次兑现强制类型分配扣 1，扣完清除旗标
 #!define EVT_MECH_8_FORCE_COUNT 2
@@ -830,10 +830,10 @@ enum GravityAnomalyRoll:
 #!define EVT_MECH_12_WEIGHT 0.6
 
 # 胜率阈值：random.randint(0, 99) < 阈值 则胜
-#!define EVT_MECH_12_WIN_CHANCE 33
+#!define EVT_MECH_12_WIN_CHANCE 90
 
 # 胜利奖励：心之钢层数
-#!define EVT_MECH_12_REWARD_STACKS 24
+#!define EVT_MECH_12_REWARD_STACKS 10
 
 # 强制减益契约剩余抵扣次数：每次兑现强制类型分配扣 1，扣完清除旗标
 #!define EVT_MECH_12_FORCE_COUNT 4
