@@ -437,16 +437,16 @@ rule "initialize event array":
     eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
     eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
 
-    eventName[EventId.SOLO_RUN] = STR_EVT_BUFF_17_TITLE
-    eventDesc[EventId.SOLO_RUN] = STR_EVT_BUFF_17_DESC.format(EVT_17_TEAMMATE_RADIUS, EVT_17_DMG_REDUCTION, EVT_17_HEAL_BONUS, EVT_17_SPEED_BONUS, EVT_17_KNOCKBACK_RESIST)
-    eventDuration[EventId.SOLO_RUN] = EVT_BUFF_17_DURATION
-    eventCatalogWeight[EventId.SOLO_RUN] = EVT_BUFF_17_WEIGHT
+    eventName[EventId.SOLO_RUN] = STR_EVT_BUFF_36_TITLE
+    eventDesc[EventId.SOLO_RUN] = STR_EVT_BUFF_36_DESC.format(EVT_36_DMG_REDUCTION, EVT_36_HEAL_BONUS, EVT_36_SPEED_BONUS, EVT_36_KNOCKBACK_RESIST)
+    eventDuration[EventId.SOLO_RUN] = EVT_BUFF_36_DURATION
+    eventCatalogWeight[EventId.SOLO_RUN] = EVT_BUFF_36_WEIGHT
     eventCatalogType[EventId.SOLO_RUN] = EventType.BUFF
 
-    eventName[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_33_TITLE
-    eventDesc[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_33_DESC.format(EVT_33_REWARD_HEARTSTEEL, EVT_33_REWARD_DMG_REDUCTION, EVT_33_REWARD_SPEED, EVT_33_REWARD_HEAL, EVT_33_EXTEND_SECONDS)
-    eventDuration[EventId.SOLO_LEVEL_UP] = EVT_BUFF_33_DURATION
-    eventCatalogWeight[EventId.SOLO_LEVEL_UP] = EVT_BUFF_33_WEIGHT
+    eventName[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_TITLE
+    eventDesc[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_DESC.format(EVT_37_REWARD_HEARTSTEEL, EVT_37_REWARD_DMG_REDUCTION, EVT_37_REWARD_SPEED, EVT_37_REWARD_HEAL, EVT_37_EXTEND_SECONDS)
+    eventDuration[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_DURATION
+    eventCatalogWeight[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_WEIGHT
     eventCatalogType[EventId.SOLO_LEVEL_UP] = EventType.BUFF
     # ================================================
     # Pack 5: Debuffs
