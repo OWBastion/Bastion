@@ -33,4 +33,4 @@ rule "map - 监测站：格里姆火山":
     @Condition __currentMap___ == Map.GRIMSVOTN
 
     platformMapRevision_NEW_A021ED61_DEFAULT()
-    startForcingSpawn(Team.1, 2)
+    startForcingSpawn(Team.1, 0)
