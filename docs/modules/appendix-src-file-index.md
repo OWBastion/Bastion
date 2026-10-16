@@ -150,6 +150,7 @@
 - `src/map/eichenwalde.opy`
 - `src/map/esperanca.opy`
 - `src/map/gibraltar.opy`
+- `src/map/grimsvotn.opy`
 - `src/map/hanamura.opy`
 - `src/map/hanaoka.opy`
 - `src/map/havana.opy`

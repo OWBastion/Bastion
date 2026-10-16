@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_RIALTO_DEFAULT():
     __currentMapText___ = "里阿尔托"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("里阿尔托")
 
     bastionPosition = [
         vect(-64.421, 5.04, -125.927),

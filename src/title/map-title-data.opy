@@ -4,10 +4,11 @@
 
 rule "Load CN map title holders":
     @Condition __currentMapText___ != null
-    @Condition __currentMapClassicText___ != null
 
     if __currentMapPioneerText___ == null:
         __currentMapPioneerText___ = __currentMapText___
+    if __currentMapClassicText___ == null:
+        __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(__currentMapText___)
     __currentPioneerText___ = null
     if (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true:
         __currentMapPioneerText___ = "织金"
@@ -113,6 +114,13 @@ rule "Load CN map title holders":
             DATA_WATCHPOINT_GIBRALTAR[0].split("-"),
             DATA_WATCHPOINT_GIBRALTAR[1].split("-"),
             DATA_WATCHPOINT_GIBRALTAR[2].split("-"),
+            []
+        ]
+    if __currentMap___ == Map.GRIMSVOTN:
+        mapTitlePlayersByKey = [
+            DATA_NEW_A021ED61[0].split("-"),
+            DATA_NEW_A021ED61[1].split("-"),
+            DATA_NEW_A021ED61[2].split("-"),
             []
         ]
     if (__currentMap___ == Map.HANAMURA or __currentMap___ == 1848 or __currentMap___ == Map.HANAMURA_WINTER) == true:

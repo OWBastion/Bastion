@@ -416,6 +416,14 @@ enum MapTITLEKey:
    []\
 ]
 
+# 监测站：格里姆火山
+#!define DATA_NEW_A021ED61 [ \
+   [], \
+   [], \
+   [], \
+   []\
+]
+
 # 新渣客城
 #!define DATA_NEW_JUNK_CITY [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "眼镜小宅"], "-"), \

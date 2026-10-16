@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_HAVANA_DEFAULT():
     __currentMapText___ = "哈瓦那"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("哈瓦那")
 
     bastionPosition = [
         vect(117.332, 14.433, -58.091),

@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     __currentMapText___ = "暴雪世界"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("暴雪世界")
 
     bastionPosition = [
         vect(-114.474, 4.902, 100.451),

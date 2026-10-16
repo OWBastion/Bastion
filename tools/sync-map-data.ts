@@ -750,7 +750,8 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
     for (const scratchName of Object.values(compositeRouteScratchNames(map.mapId))) lines.push(`globalvar ${scratchName}`);
     lines.push('');
   }
-  if (map.revisions.some((revision) => revision.mapVariant === 'classic')) lines.push('');
+  const hasClassicRevision = map.revisions.some((revision) => revision.mapVariant === 'classic');
+  if (hasClassicRevision) lines.push('');
 
   for (const revision of map.revisions) {
     const variant = mapRevisionVariantName(revision);
@@ -760,7 +761,7 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
     lines.push(`macro ${macroName}():`);
     const mapText = JSON.stringify(map.mapName);
     lines.push(`    __currentMapText___ = ${isClassic ? `STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})` : mapText}`);
-    lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
+    if (hasClassicRevision) lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
     if (isComposite) {
       const composite = revision.spatialConfig as CompositeSpatialConfig;
       lines.push(`    resetPosition = ${renderSpatialPosition(composite.resetPosition)}`);

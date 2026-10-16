@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_DORADO_DEFAULT():
     __currentMapText___ = "多拉多"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("多拉多")
 
     bastionPosition = [
         vect(167.25, 10.85, 42.4),

@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_ILIOS_DEFAULT():
     __currentMapText___ = "伊利奥斯"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("伊利奥斯")
 
     bastionPosition = [
         vect(-173.701, -0.46, -71.552),

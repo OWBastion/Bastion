@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_NEW_JUNK_CITY_DEFAULT():
     __currentMapText___ = "新渣客城"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("新渣客城")
 
     bastionPosition = [
         vect(-45.678, 8.298, 88.433),

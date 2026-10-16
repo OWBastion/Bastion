@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_SAMOA_DEFAULT():
     __currentMapText___ = "萨摩亚"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("萨摩亚")
 
     bastionPosition = [
         vect(-408.95, 14.4, -84.76),

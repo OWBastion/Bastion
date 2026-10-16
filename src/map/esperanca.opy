@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_ESPERANCA_DEFAULT():
     __currentMapText___ = "埃斯佩兰萨"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("埃斯佩兰萨")
 
     bastionPosition = [
         vect(86.815, -0.268, -54.406),

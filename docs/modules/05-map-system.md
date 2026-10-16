@@ -2,7 +2,7 @@
 
 ## 设计目标
 
-- 每张图独立维护地图流程；38 张当前地图的声明式点位由平台 revision 数据提供
+- 每张图独立维护地图流程；39 张当前地图的声明式点位由平台 revision 数据提供
 - 支持单图逃生与多段控制点/传送切图
 - 与玩家进度系统、Bastion 生成逻辑解耦
 
@@ -48,11 +48,11 @@
 
 南极半岛的地图规则在首名玩家出生后只调用一次生成的 setup-route 宏。当前平台投影仍是 `alternateStages`，因此继续选择完整子图配置；平台启用 `composition + stages` 后，该宏会检测首段并使用指定 fallback，再从剩余阶段中随机选择所需数量，保留顺序且不重复，在同一地图设置规则中组装活动路线。复合数据由路线根节点提供 reset、end、第三人称、credits 点位及单一重生轴/阈值；每个原子阶段提供 Bastion、control center、一个 jump/respawn 配对、portal 与 springboard 点位。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
 
-## 地图清单摘要（38 个文件）
+## 地图清单摘要（39 个文件）
 
 - 单图：如 `dorado`, `eichenwalde`, `route66`, `kings_row`, `paraiso` 等
 - 多段：`lijiang_tower`, `samoa`, `oasis`, `busan`, `nepal`, `rialto`, `new_junk_city`
-- 新图/实验：`suravasa`, `hanaoka`, `aatlis`, `throne_of_anubis`
+- 新图/实验：`suravasa`, `hanaoka`, `aatlis`, `throne_of_anubis`, `neon_junction`, `grimsvotn`
 
 ## 关联模块
 

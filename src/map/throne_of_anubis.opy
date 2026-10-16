@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯王座"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿努比斯王座")
 
     bastionPosition = [
         vect(-28.955, 6.079, 65.912),

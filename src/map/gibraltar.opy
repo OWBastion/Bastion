@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
     __currentMapText___ = "直布罗陀"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("直布罗陀")
 
     bastionPosition = [
         vect(70.099, 9, 26.803),

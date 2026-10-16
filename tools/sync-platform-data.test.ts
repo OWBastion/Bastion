@@ -244,7 +244,7 @@ test('initializes title text only after map presentation overrides are ready', a
   ]);
 
   assert.match(titleSource, /@Condition mapTitlePlayersByKey != null[\s\S]*?titleText = \[/);
-  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n    @Condition __currentMapClassicText___ != null[\s\S]*?if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___/);
+  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n\n    if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___\n    if __currentMapClassicText___ == null:\n        __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format\(__currentMapText___\)/);
   assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('mapTitlePlayersByKey = ['));
   assert.ok(mapTitleSource.indexOf('if mapTitlePlayersByKey == null:') > mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"'));
 
@@ -329,6 +329,34 @@ test('uses dynamic map-title achievements as the authoritative slot projection',
   });
 
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: ['征服者'], DOMINATOR: [], CLASSIC: [] });
+});
+
+test('derives map title bindings from dynamic rules when no map title record exists', () => {
+  const dynamicRule = (titleKey: string, kind: string) => ({
+    challengeId: `map.test_map.${kind}`, family: 'map' as const, gameplayRevisionId: 'revision:map.test_map:default',
+    type: 'map_completion', kind: 'map_title_achievement', titleKey, mapId: 'map.test_map',
+    status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15',
+    mapTitleRule: { ruleId: `rule.${kind}`, kind, displayKind: 'map_name_suffix', slot: kind, dynamic: true }
+  });
+  const titles = [
+    { ...platformData.titles[0], titleKey: 'CONQUEROR', scope: 'global' },
+    { ...platformData.titles[0], titleKey: 'DOMINATOR', scope: 'global' }
+  ];
+  const source = buildPlatformTitleSource({
+    platformData: {
+      ...platformData,
+      achievements: [dynamicRule('CONQUEROR', 'conqueror'), dynamicRule('DOMINATOR', 'dominator')],
+      titles,
+      playerTitleGrants: [],
+      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CONQUEROR', slot: 'conqueror', slotSemantics: 'named', playerId: 'player-7', playerName: '征服者' }]
+    },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  });
+  assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: ['征服者'], DOMINATOR: [], CLASSIC: [] });
+  assert.throws(() => buildPlatformTitleSource({
+    platformData: { ...platformData, achievements: [dynamicRule('TITLE_UNKNOWN', 'conqueror')], titles },
+    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
+  }), /Missing title metadata for dynamic map title definition: map\.test_map:TITLE_UNKNOWN/);
 });
 
 test('rejects map holders that omit the explicit slot semantics', () => {
@@ -530,6 +558,27 @@ test('generates deterministic map-local macros for default and classic revisions
   assert.doesNotMatch(output, /playerNameToIndexDelimited|mapTitlePlayersByKey|__currentMapPioneerText___/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
+});
+
+test('declares classic map text only when the map has a classic revision', () => {
+  const defaultOnly = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision] }]
+    }
+  }));
+  assert.match(defaultOnly, /__currentMapText___ = /);
+  assert.doesNotMatch(defaultOnly, /__currentMapClassicText___/);
+
+  const withClassic = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
+    platformData: {
+      ...platformData,
+      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, classicGameplayRevision] }],
+      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
+      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }]
+    }
+  }));
+  assert.match(withClassic, /__currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format/);
 });
 
 test('accepts revision holders without playerId and still dedupes by name', () => {

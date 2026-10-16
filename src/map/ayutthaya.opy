@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_AYUTTHAYA_DEFAULT():
     __currentMapText___ = "阿育陀耶"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("阿育陀耶")
 
     bastionPosition = [
         vect(18.158, 1.217, -56.711),

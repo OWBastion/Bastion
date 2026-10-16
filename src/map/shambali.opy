@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     __currentMapText___ = "香巴里寺院"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("香巴里寺院")
 
     bastionPosition = [
         vect(-16.139, 40.508, 181.288),

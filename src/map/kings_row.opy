@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_KINGS_ROW_DEFAULT():
     __currentMapText___ = "国王大道"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("国王大道")
 
     bastionPosition = [
         vect(-143.9, 7.13, 10.15),

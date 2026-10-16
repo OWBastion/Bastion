@@ -7,7 +7,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_VOLSKAYA_DEFAULT():
     __currentMapText___ = "沃斯卡娅工业区"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("沃斯卡娅工业区")
 
     bastionPosition = [
         vect(-72.477, 16.869, 47.82),

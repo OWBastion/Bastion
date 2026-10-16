@@ -6,7 +6,6 @@
 # Source: OWBastion Agents API
 macro platformMapRevision_NEPAL_DEFAULT():
     __currentMapText___ = "尼泊尔"
-    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format("尼泊尔")
 
     bastionPosition = [
         vect(-152.68, -92.115, -64.862),
