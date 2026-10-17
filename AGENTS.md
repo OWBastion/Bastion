@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file is the repository entrypoint for AI agents working on Bastion. [OWBastion organization routing](https://github.com/OWBastion/.github/blob/main/AGENTS.md) owns repository ownership, shared policy routing, and global invariants. This file specializes Bastion ownership, domain constraints, risk routing, and local validation.
+This file is the repository entrypoint for AI agents working on Bastion. [OWBastion organization routing](../.github/AGENTS.md) owns repository ownership, shared policy routing, and global invariants. This file specializes Bastion ownership, domain constraints, risk routing, and local validation.
 
 ## Repository role
 
@@ -14,7 +14,7 @@ Is the product the [organization product goal](../.github/docs/product-goal.md) 
 
 ## Repository delivery constraints
 
-Use [organization PR delivery policy](https://github.com/OWBastion/.github/blob/main/docs/pr-delivery.md), [issue readiness and preflight](https://github.com/OWBastion/.github/blob/main/docs/issue-readiness.md), and `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
+Follow the organization [PR delivery](../.github/docs/pr-delivery.md) and [issue readiness](../.github/docs/issue-readiness.md) policies, plus `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
 
 ## Minimal red lines
 
@@ -44,7 +44,7 @@ Read only documents needed for the actual change:
 
 ## Gameplay verification
 
-Apply the [organization testing policy](https://github.com/OWBastion/.github/blob/main/docs/testing-policy.md) and [verification policy](https://github.com/OWBastion/.github/blob/main/docs/verification-and-acceptance.md). Material gameplay behavior, state lifecycle, random-event selection, platform boundaries, and performance-sensitive changes need evidence that can expose an incorrect behavior at the affected game/build boundary.
+Apply the organization [testing](../.github/docs/testing-policy.md) and [verification](../.github/docs/verification-and-acceptance.md) policies. Material gameplay behavior, state lifecycle, random-event selection, platform boundaries, and performance-sensitive changes need evidence that can expose an incorrect behavior at the affected game/build boundary.
 
 ## Local invariants
 
@@ -68,32 +68,16 @@ Apply the [organization testing policy](https://github.com/OWBastion/.github/blo
 
 Link to canonical owners instead of duplicating their full guidance.
 
-## Workflow command pointers
+## Commands
 
-- CI-parity install: `pnpm install --frozen-lockfile`
-- Core compile validation: `pnpm run build`
-- Entry-specific compile validation: `pnpm run build:cn:zh`, `pnpm run build:external:en`, `pnpm run build:external:zh`, `pnpm run build:dev:cn:zh`
-- Aggregate tool tests: `pnpm run tools:test`
-- Unified source-data sync: `pnpm run tools -- sync`
-- Platform/title metadata sync: `pnpm run sync:platform-data`
-- Event add/remove: `pnpm run tools -- event:add`, `pnpm run tools -- event:remove`
-- Platform-data sync validation: `pnpm run sync:platform-data` then `pnpm run tools -- test:platform-data-sync`
-- Locale-key integrity: `./tools/check_locale_keys.sh`
-- Performance scan: `pnpm run tools -- perf:scan`; strict gate: `pnpm run tools -- perf:scan --strict`
-- Release artifact parity: `pnpm run build:release`
-- Profile release builds: `pnpm run build:cn:zh`, `pnpm run build:external:en`
-- Manual env-version helper: `pnpm run tools -- bump:env-version`
+`package.json` scripts and `docs/agents/build-validation.md` are the command source of truth; do not copy command inventories here.
 
 Player title grants remain platform-owned; Bastion has no local grant helper.
 
 ## Skills
 
-- `add-workshop-title`: use when platform title metadata or generated title artifacts are being added or changed.
-- `add-workshop-event`: use when adding/removing/changing event enum/constants/i18n/config/effects or their generated facts.
-- `session-skill-maintainer`: use when durable evidence shows repository-local skill content or routing needs maintenance.
+- `add-workshop-title`: platform title metadata or generated title artifacts are added or changed.
+- `add-workshop-event`: event enum/constants/i18n/config/effects or their generated facts are added, removed, or changed.
+- `session-skill-maintainer`: durable evidence shows repository-local skill content or routing needs maintenance.
 
-Workspace governance skills in `.agents/skills/` apply organization policy when the task shape matches: `owbastion-reclaim-entropy` (cleanup and load-bearing investigations), `owbastion-verify-change` (independent verification of another author's material change), and `owbastion-test-design-review` (test necessity and stability).
-
-Skill metadata is an activation surface. Relevant task shapes, changed artifacts, or failure signals should trigger the skill without the user having to name it. Skills are procedures, not policy owners, and must not enlarge task scope or override this file and its canonical routed contracts.
-
-`skills/` in this repository is the owner for Bastion workflow procedures (`add-workshop-event`, `add-workshop-title`, `remove-workshop-event`, `session-skill-maintainer`). Same-name directories under workspace `.agents/skills/` are governed by the `.agents` repository and may lag; treat this repository's copies as canonical for Bastion tasks.
+`skills/` in this repository owns Bastion workflow procedures (`add-workshop-event`, `add-workshop-title`, `remove-workshop-event`, `session-skill-maintainer`); same-name directories under workspace `.agents/skills/` may lag, so treat these as canonical for Bastion tasks. Workspace governance skills (`owbastion-reclaim-entropy`, `owbastion-verify-change`, `owbastion-test-design-review`) apply per the organization routing.
