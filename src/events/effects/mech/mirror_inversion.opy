@@ -23,14 +23,16 @@ rule "[VishkarEvent]: 镜像反转":
         eventPlayer.temp.append(MirrorInversionStat.HEART_STEEL)
 
     if len(eventPlayer.temp) > 0:
-        eventPlayer.temp = random.choice(eventPlayer.temp)
-        if eventPlayer.temp == MirrorInversionStat.DAMAGE:
+        # eventTempIndex 是事件间候选池暂存槽，事件生效期间不被分配流程读写，此处复用为保底反转项；其余负向项各以 50% 概率独立纳入
+        eventPlayer.eventTempIndex = random.choice(eventPlayer.temp)
+        eventPlayer.temp = eventPlayer.temp.filter(lambda stat: stat == eventPlayer.eventTempIndex or random.randint(0, 1) == 0)
+        if MirrorInversionStat.DAMAGE in eventPlayer.temp:
             eventPlayer.mod_dmg_perma = negToPos(eventPlayer.mod_dmg_perma)
-        elif eventPlayer.temp == MirrorInversionStat.SPEED:
+        if MirrorInversionStat.SPEED in eventPlayer.temp:
             eventPlayer.mod_speed_perma = negToPos(eventPlayer.mod_speed_perma)
-        elif eventPlayer.temp == MirrorInversionStat.HEALING:
+        if MirrorInversionStat.HEALING in eventPlayer.temp:
             eventPlayer.mod_heal_perma = negToPos(eventPlayer.mod_heal_perma)
-        elif eventPlayer.temp == MirrorInversionStat.HEART_STEEL:
+        if MirrorInversionStat.HEART_STEEL in eventPlayer.temp:
             eventPlayer.heart_steel[HeartSteelData.STACKS] = negToPos(eventPlayer.heart_steel[HeartSteelData.STACKS])
         eventPlayer.eventMission = 1
         updatePlayerStats()
