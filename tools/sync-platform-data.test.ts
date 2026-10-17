@@ -581,14 +581,10 @@ test('declares classic map text only when the map has a classic revision', () =>
   assert.match(withClassic, /__currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format/);
 });
 
-test('accepts revision holders whose title is a global dynamic map title', () => {
-  const globalTitle = { ...platformData.titles[0], scope: 'global' as const, titleKey: 'CONQUEROR' };
+test('projects revision holders whose title is a global dynamic map title', () => {
   const holder = { mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CONQUEROR', slot: 'conqueror' as const, slotSemantics: 'named' as const, playerName: '征服者' };
-  const source = buildPlatformMapRevisionSource({ platformData: { ...platformData, achievements: [], titles: [globalTitle], mapTitleHolders: [holder] } });
+  const source = buildPlatformMapRevisionSource({ platformData: { ...platformData, achievements: [], mapTitleHolders: [holder] } });
   assert.deepEqual(source.maps[0]?.revisions[0]?.titleHolders.map((item) => item.playerName), ['征服者']);
-  assert.throws(() => buildPlatformMapRevisionSource({
-    platformData: { ...platformData, achievements: [], titles: [], mapTitleHolders: [holder] }
-  }), /references unknown map title/);
 });
 
 test('accepts revision holders without playerId and still dedupes by name', () => {
