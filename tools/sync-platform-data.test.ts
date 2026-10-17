@@ -87,6 +87,14 @@ const compositeSpatialConfig = {
   ]
 };
 
+function resolvePositionPool(output: string): string {
+  const pool = output.match(/mapPositionPool = compressed\(\[([\s\S]*?)\]\)/)?.[1] ?? '';
+  const positions = [...pool.matchAll(/vect\([^)]+\)/g)].map((match) => match[0]);
+  return output
+    .replace(/mapPositionPool\.slice\((\d+), (\d+)\)/g, (_, start, count) => `[${positions.slice(Number(start), Number(start) + Number(count)).join(', ')}]`)
+    .replace(/mapPositionPool\[(\d+)\]/g, (_, index) => positions[Number(index)] ?? 'undefined');
+}
+
 const defaultGameplayRevision = {
   gameplayRevisionId: 'revision:map.test_map:default',
   mapId: 'map.test_map',
@@ -692,9 +700,10 @@ test('renders sorted alternate spatial stages deterministically', () => {
   });
   assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
   const output = renderPlatformMapRevisionData(source);
-  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION vect\(50, 51, 52\)/);
-  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ZETA_SETUP_POSITION vect\(40, 41, 42\)/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
+  const resolved = resolvePositionPool(output);
+  assert.match(resolved, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION vect\(50, 51, 52\)/);
+  assert.match(resolved, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ZETA_SETUP_POSITION vect\(40, 41, 42\)/);
+  assert.match(resolved, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION/);
   assert.match(output, /# END AUTO-GENERATED PLATFORM MAP REVISION\n$/);
   assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
@@ -731,9 +740,10 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.match(output, /if len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION, platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_RADIUS, Team\.1\)\) != 0:[\s\S]*elif len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
   assert.match(output, /_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)[\s\S]*_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)/);
   assert.match(output, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_STAGE_0\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_1\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_2\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(207, 208, 209\)\)/);
+  const resolved = resolvePositionPool(output);
+  assert.match(resolved, /controlJumpPosition\.append\(vect\(207, 208, 209\)\)/);
   assert.match(output, /if stageOrder < 1:/);
-  const revisionMacro = output.split('macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_0')[0]!;
+  const revisionMacro = resolved.split('macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_0')[0]!;
   assert.match(revisionMacro, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
   const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
   assert.doesNotMatch(setupMacro, /(?:resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis|controlRespawnAxisThreshold)\s*=/);
@@ -771,12 +781,13 @@ test('statically expands every spawn-detected cyclic route with complete spatial
       maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', gameplayRevisionId: 'revision:map.busan:default', spatialConfig: cycleConfig }] }]
     }
   }));
-  const routeBodies = output.split(/^macro /m).slice(1)
+  const resolved = resolvePositionPool(output);
+  const routeBodies = resolved.split(/^macro /m).slice(1)
     .map((block) => block.slice(0, block.search(/^macro |\n# END AUTO-GENERATED/m) < 0 ? undefined : block.search(/^macro |\n# END AUTO-GENERATED/m)))
-    .filter((block) => block.includes('bastionPosition = compressed(['));
+    .filter((block) => block.includes('bastionPosition = ['));
   assert.equal(routeBodies.length, 3);
   const bastionCoordinates = routeBodies.map((body) => {
-    const assignment = body.match(/bastionPosition = compressed\(\[([\s\S]*?)\]\)/)?.[1] ?? '';
+    const assignment = body.match(/bastionPosition = \[([\s\S]*?)\]/)?.[1] ?? '';
     return [...assignment.matchAll(/vect\((\d+), (\d+), (\d+)\)/g)].map((match) => match[1]);
   });
   assert.deepEqual(bastionCoordinates, [
@@ -785,11 +796,7 @@ test('statically expands every spawn-detected cyclic route with complete spatial
     ['301', '101']
   ]);
   for (const body of routeBodies) {
-    assert.match(body, /resetPosition = vect\(904, 905, 906\)/);
-    assert.match(body, /endPosition = vect\(907, 908, 909\)/);
-    assert.match(body, /thirdPersonPosition = vect\(910, 911, 912\)/);
-    assert.match(body, /creditsPosition = vect\(913, 914, 915\)/);
-    assert.match(body, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
+    assert.doesNotMatch(body, /resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis/);
     assert.equal((body.match(/controlCenterPosition = \[/g) ?? []).length, 1);
     assert.equal((body.match(/controlJumpPosition = \[/g) ?? []).length, 1);
     assert.equal((body.match(/controlRespawnPosition = \[/g) ?? []).length, 1);
@@ -800,7 +807,12 @@ test('statically expands every spawn-detected cyclic route with complete spatial
   assert.doesNotMatch(routeBodies[1]!, /springBoardPosition =/);
   assert.match(routeBodies[2]!, /portalPosition = \[[\s\S]*vect\(310, 311, 312\)/);
   assert.match(routeBodies[2]!, /springBoardPosition = vect\(210, 211, 212\)/);
-  const setupRoute = output.match(/macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n([\s\S]*?)(?=\n\n|$)/)?.[1] ?? '';
+  const setupRoute = resolved.match(/macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n([\s\S]*?)(?=\n\n|$)/)?.[1] ?? '';
+  assert.match(setupRoute, /resetPosition = vect\(904, 905, 906\)/);
+  assert.match(setupRoute, /endPosition = vect\(907, 908, 909\)/);
+  assert.match(setupRoute, /thirdPersonPosition = vect\(910, 911, 912\)/);
+  assert.match(setupRoute, /creditsPosition = vect\(913, 914, 915\)/);
+  assert.match(setupRoute, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
   assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION/);
   assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
   assert.doesNotMatch(setupRoute, /for |%|\[[^\]]*\]|COMPOSITE_SELECTED|COMPOSITE_STAGE_ORDER/);
@@ -809,7 +821,7 @@ test('statically expands every spawn-detected cyclic route with complete spatial
   const fallbackRoute = setupRoute.match(/else:\n\s+([A-Za-z0-9_]+)\(\)/)?.[1];
   const firstBastionCoordinate = (macroName: string | undefined) => {
     const body = macroBodies.get(macroName ?? '');
-    return body?.match(/bastionPosition = compressed\(\[\s*vect\((\d+),/)?.[1];
+    return body?.match(/bastionPosition = \[\s*vect\((\d+),/)?.[1];
   };
   assert.deepEqual(detectedRoutes.map(([, setupPosition, macroName]) => [setupPosition, firstBastionCoordinate(macroName as string)]), [
     ['platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION', '201'],
@@ -872,7 +884,7 @@ test('uses stage route anchors at each generated cyclic route boundary', () => {
       maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: routeConfig }] }]
     }
   }));
-  const routes = [...output.matchAll(/macro platformMapRevision_TEST_MAP_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
+  const routes = [...resolvePositionPool(output).matchAll(/macro platformMapRevision_TEST_MAP_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
   assert.equal(routes.length, 3);
   const anchors = routes.map(([, index, body]) => [
     index,
@@ -980,7 +992,7 @@ test('composes supported scalar controls and clears detected default centers bef
   assert.match(output, /controlRespawnAxis = 2/);
   assert.match(output, /controlRespawnAxisThreshold = 40/);
   assert.doesNotMatch(output, /controlRespawnAxisByRespawnIndex|controlRespawnAxisThresholdByRespawnIndex/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2\(stageOrder\):[\s\S]*if platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED != true:\n        controlCenterPosition = \[\]\n        platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED = true\n    controlCenterPosition\.append\(vect\(316, 317, 318\)\)/);
+  assert.match(resolvePositionPool(output), /macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2\(stageOrder\):[\s\S]*if platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED != true:\n        controlCenterPosition = \[\]\n        platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED = true\n    controlCenterPosition\.append\(vect\(316, 317, 318\)\)/);
   assert.doesNotMatch(output.match(/macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1\(stageOrder\):[\s\S]*?\n\n/)?.[0] ?? '', /controlCenterPosition = \[\]/);
 });
 

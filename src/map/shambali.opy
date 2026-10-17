@@ -8,23 +8,11 @@
 macro platformMapRevision_SHAMBALI_MONASTERY_DEFAULT():
     __currentMapText___ = "香巴里寺院"
 
-    bastionPosition = [
-        vect(-16.139, 40.508, 181.288),
-        vect(-44.29, 40.509, 203.816),
-        vect(-13.976, 29.775, 143.323),
-        vect(-50.623, 27.354, 113.051),
-        vect(-10.115, 37.04, 130.901),
-        vect(-4.849, 14, 61.562),
-        vect(-16.627, 9.917, 13.463),
-        vect(16.27, 20.587, 99.534),
-        vect(-38.962, 16.615, 69.858),
-        vect(26.033, 9.149, 19.823),
-        vect(-9.824, 8.001, -21.875)
-    ]
-    resetPosition = vect(-1.97, 31.07, 221.85)
-    endPosition = vect(-19.43, 8, -22.02)
-    thirdPersonPosition = vect(-7.69, 31.07, 226.97)
-    creditsPosition = vect(1.75, 35, 232.5)
+    bastionPosition = mapPositionPool.slice(626, 11)
+    resetPosition = mapPositionPool[637]
+    endPosition = mapPositionPool[638]
+    thirdPersonPosition = mapPositionPool[639]
+    creditsPosition = mapPositionPool[640]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -8,20 +8,11 @@
 macro platformMapRevision_DORADO_DEFAULT():
     __currentMapText___ = "多拉多"
 
-    bastionPosition = [
-        vect(167.25, 10.85, 42.4),
-        vect(113.04, 13.8, 24.63),
-        vect(112.06, 17.25, -2.91),
-        vect(102.79, 11.01, -23.56),
-        vect(78.973, 17.48, -6.843),
-        vect(34.78, 10.05, -6.8),
-        vect(32.21, 10.59, 20.55),
-        vect(8.83, 2.38, 25.76)
-    ]
-    resetPosition = vect(183.3, 7.04, 37.96)
-    endPosition = vect(15.47, 9.54, -1)
-    thirdPersonPosition = vect(182.47, 7.04, 42.27)
-    creditsPosition = vect(197.72, 10.01, 44.63)
+    bastionPosition = mapPositionPool.slice(185, 8)
+    resetPosition = mapPositionPool[193]
+    endPosition = mapPositionPool[194]
+    thirdPersonPosition = mapPositionPool[195]
+    creditsPosition = mapPositionPool[196]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

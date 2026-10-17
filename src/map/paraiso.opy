@@ -8,21 +8,11 @@
 macro platformMapRevision_PARAISO_DEFAULT():
     __currentMapText___ = "帕拉伊苏"
 
-    bastionPosition = [
-        vect(-10.3, 6.832, -132.595),
-        vect(-41.189, 3.79, -155.701),
-        vect(-1.528, 12.665, -112.339),
-        vect(10.71, 10.361, -67.628),
-        vect(-15.164, 9.512, -47.168),
-        vect(-4.057, 10.45, -18.278),
-        vect(13.362, 4.189, 13.072),
-        vect(-43.153, 3, 42.732),
-        vect(-58.618, 0.007, 19.441)
-    ]
-    resetPosition = vect(-78.3, 5.03, -170.8)
-    endPosition = vect(-39.54, -2, 62.86)
-    thirdPersonPosition = vect(-78.25, 6.33, -167.96)
-    creditsPosition = vect(-70.2, 7.75, -183.14)
+    bastionPosition = mapPositionPool.slice(533, 9)
+    resetPosition = mapPositionPool[542]
+    endPosition = mapPositionPool[543]
+    thirdPersonPosition = mapPositionPool[544]
+    creditsPosition = mapPositionPool[545]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
