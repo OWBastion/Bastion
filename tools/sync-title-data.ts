@@ -367,44 +367,38 @@ function buildPlayerTitleSets(titles, players) {
 }
 
 function renderPlayerTitleSetPool(titles, titleSets) {
-  const lines = [];
+  const titleIdByKey = new Map(titles.map((title, index) => [title.key, index]));
+  const flat = [];
+  const offsets = [0];
 
-  lines.push(PLAYER_TITLE_SET_POOL_BEGIN);
-  lines.push(`#!define TP_ALL [${titles.map((title) => `TITLE.${title.key}`).join(', ')}]`);
-  lines.push('#!define player_title_set_pool [ \\');
-
-  titleSets.forEach((titleSet, index) => {
-    const isLast = index === titleSets.length - 1;
-    const titleExpr = titleSet.allTitles
-      ? 'TP_ALL'
-      : titleSet.titleKeys.length
-        ? `[${titleSet.titleKeys.map((key) => `TITLE.${key}`).join(', ')}]`
-        : '[]';
-    const suffix = isLast ? ' \\' : ', \\';
-    lines.push(`    ${titleExpr}${suffix}`);
+  titleSets.forEach((titleSet) => {
+    const ids = titleSet.allTitles
+      ? titles.map((_, index) => index)
+      : titleSet.titleKeys.map((key) => titleIdByKey.get(key));
+    flat.push(...ids);
+    offsets.push(offsets[offsets.length - 1] + ids.length);
   });
 
-  lines.push(']');
+  const lines = [];
+  lines.push(PLAYER_TITLE_SET_POOL_BEGIN);
+  lines.push(`#!define player_title_set_flat compressed([${flat.join(', ')}])`);
+  lines.push(`#!define player_title_set_off [${offsets.join(', ')}]`);
   lines.push(PLAYER_TITLE_SET_POOL_END);
   return lines.join('\n');
 }
 
 function renderPlayerDatabase(playersWithTitleSetIndex) {
+  const names = playersWithTitleSetIndex.map((player) => player.name);
+  for (const name of names) {
+    if (/["\\‖\n]/.test(name)) {
+      throw new Error(`player name ${name} contains a character unsafe for packed-string encoding`);
+    }
+  }
+
   const lines = [];
-
   lines.push(PLAYER_DB_BEGIN);
-  lines.push('#!define player_database [ \\');
-
-  playersWithTitleSetIndex.forEach((player, index) => {
-    const isLast = index === playersWithTitleSetIndex.length - 1;
-
-    lines.push('    { \\');
-    lines.push(`        name: "${player.name}", \\`);
-    lines.push(`        titleSetIndex: ${player.titleSetIndex} \\`);
-    lines.push(isLast ? '    } \\' : '    }, \\');
-  });
-
-  lines.push(']');
+  lines.push(`#!define player_name_list ${JSON.stringify(names.join('‖'))}`);
+  lines.push(`#!define player_title_set_index [${playersWithTitleSetIndex.map((player) => player.titleSetIndex).join(', ')}]`);
   lines.push(PLAYER_DB_END);
   return lines.join('\n');
 }
@@ -413,13 +407,29 @@ function renderAllTitleAssignment(titles) {
   const lines = [];
 
   lines.push(ALL_TITLE_BEGIN);
-  lines.push('    titleText = [');
-  titles.forEach((title, index) => {
-    const suffix = index === titles.length - 1 ? '' : ',';
-    lines.push(`        # ${index}: ${title.key}`);
-    lines.push(`        ${title.displayExpr}${suffix}`);
+
+  // 纯字符串称号文本打包进一个分隔符字符串再 split，表达式条目保持字面量。
+  const PLAIN_TEXT = /^"[^"\\\n‖]*"$/;
+  const titleTextParts = [];
+  let titleTextPending = [];
+  const flushTitleText = () => {
+    if (titleTextPending.length) {
+      titleTextParts.push(`"${titleTextPending.join('‖')}".split("‖")`);
+      titleTextPending = [];
+    }
+  };
+  titles.forEach((title) => {
+    const expr = title.displayExpr.trim();
+    const plain = PLAIN_TEXT.test(expr) && !expr.slice(1, -1).includes('\\') ? expr.slice(1, -1) : null;
+    if (plain === null) {
+      flushTitleText();
+      titleTextParts.push(`[${expr}]`);
+    } else {
+      titleTextPending.push(plain);
+    }
   });
-  lines.push('    ]');
+  flushTitleText();
+  lines.push(`    titleText = ${titleTextParts[0]}${titleTextParts.slice(1).map((part) => `.concat(${part})`).join('')}`);
   lines.push('    titleColor = [');
   titles.forEach((title, index) => {
     const suffix = index === titles.length - 1 ? '' : ',';
@@ -441,7 +451,14 @@ function renderDelimitedNames(names) {
   return `playerNameToIndexDelimited([${quoted}], "-")`;
 }
 
-function renderMapTitleData(mapTitles) {
+function packHolderIndices(names, indexByName) {
+  return names
+    .map((name) => indexByName.get(name))
+    .filter((index) => index !== undefined)
+    .join('-');
+}
+
+function renderMapTitleData(mapTitles, indexByName) {
   const lines = [];
   lines.push('# 地图数据块 (Data Blocks)');
   lines.push(MAP_DATA_BEGIN);
@@ -451,6 +468,10 @@ function renderMapTitleData(mapTitles) {
       lines.push('');
     }
 
+    const packedRow = ['PIONEER', 'CONQUEROR', 'DOMINATOR', 'CLASSIC']
+      .map((slot) => packHolderIndices(mapItem.holders[slot] ?? [], indexByName))
+      .join('|');
+
     lines.push(`# ${mapItem.mapLabel}`);
     lines.push(`#!define ${mapItem.mapKey} [ \\`);
     lines.push(`   ${renderDelimitedNames(mapItem.holders.PIONEER)}, \\`);
@@ -458,6 +479,7 @@ function renderMapTitleData(mapTitles) {
     lines.push(`   ${renderDelimitedNames(mapItem.holders.DOMINATOR)}, \\`);
     lines.push(`   ${renderDelimitedNames(mapItem.holders.CLASSIC)}\\`);
     lines.push(']');
+    lines.push(`#!define ${mapItem.mapKey}_PACKED ${JSON.stringify(packedRow)}`);
   });
 
   lines.push(MAP_DATA_END);
@@ -510,7 +532,8 @@ function applyManagedTitleFile(source, data) {
   const titleSetPoolBlock = renderPlayerTitleSetPool(data.titles, titleSets);
   const dbBlock = renderPlayerDatabase(playersWithTitleSetIndex);
   const allTitleBlock = renderAllTitleAssignment(data.titles);
-  const mapDataBlock = renderMapTitleData(data.mapTitles);
+  const indexByName = new Map(data.players.map((player, index) => [player.name, index]));
+  const mapDataBlock = renderMapTitleData(data.mapTitles, indexByName);
 
   let next = source;
 
