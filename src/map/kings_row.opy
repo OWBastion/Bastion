@@ -8,19 +8,11 @@
 macro platformMapRevision_KINGS_ROW_DEFAULT():
     __currentMapText___ = "国王大道"
 
-    bastionPosition = [
-        vect(-143.9, 7.13, 10.15),
-        vect(-116.44, 6.13, 5.72),
-        vect(-103.12, 6.93, -4.02),
-        vect(-91.99, 7.5, -28.63),
-        vect(-66.62, 4.5, -35.93),
-        vect(-29.17, 2.55, -31.43),
-        vect(-10.67, 16.97, 5.65)
-    ]
-    resetPosition = vect(-175.23, -0.07, 43.03)
-    endPosition = vect(-1.9, 5, -0.29)
-    thirdPersonPosition = vect(-176.048, -0.07, 36.54)
-    creditsPosition = vect(-185.56, 3.53, 38.32)
+    bastionPosition = mapPositionPool.slice(357, 7)
+    resetPosition = mapPositionPool[364]
+    endPosition = mapPositionPool[365]
+    thirdPersonPosition = mapPositionPool[366]
+    creditsPosition = mapPositionPool[367]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
