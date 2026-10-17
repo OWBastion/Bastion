@@ -78,6 +78,5 @@ Player title grants remain platform-owned; Bastion has no local grant helper.
 
 - `add-workshop-title`: platform title metadata or generated title artifacts are added or changed.
 - `add-workshop-event`: event enum/constants/i18n/config/effects or their generated facts are added, removed, or changed.
-- `session-skill-maintainer`: durable evidence shows repository-local skill content or routing needs maintenance.
 
-`skills/` in this repository owns Bastion workflow procedures (`add-workshop-event`, `add-workshop-title`, `remove-workshop-event`, `session-skill-maintainer`); same-name directories under workspace `.agents/skills/` may lag, so treat these as canonical for Bastion tasks. Workspace governance skills (`owbastion-reclaim-entropy`, `owbastion-verify-change`, `owbastion-test-design-review`) apply per the organization routing.
+`skills/` in this repository owns Bastion workflow procedures. Workspace governance skills (`owbastion-reclaim-entropy`, `owbastion-verify-change`, `owbastion-test-design-review`) apply per the organization routing.
