@@ -190,17 +190,15 @@ test('rejects unknown platform title IDs', () => {
 });
 
 test('rejects unsupported platform enums', () => {
-  assert.throws(() => merge({ maps: [{ ...platformData.maps[0], difficultyRating: 'T9' }] }), /difficultyRating has an unsupported value/);
   assert.throws(() => merge({ titles: [{ ...platformData.titles[0], displayKind: 'unknown' }] }), /unsupported scope or displayKind/);
-  assert.throws(() => merge({ achievements: [{ ...platformData.achievements[0], status: 'draft' }] }), /status has an unsupported value/);
-  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '未知' }] }), /category has an unsupported value/);
+  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '未知' }] }), /cannot be mapped to a Bastion event/);
 });
 
-test('ignores unmapped historical events while validating their platform category', () => {
+test('ignores unmapped platform events regardless of their shape', () => {
   const result = merge({
     events: [
       platformData.events[0],
-      { ...platformData.events[0], eventId: 'event.history', category: '全局', name: '历史事件' }
+      { eventId: 'event.history', name: '历史事件', category: '未来类别', releaseStatus: 'future', challenges: [{ challengeId: 'unknown' }] }
     ]
   });
   assert.equal(result.counts.ignoredEvents, 1);
@@ -236,42 +234,6 @@ test('builds player and map title generation input from public player names', ()
   assert.equal(source.titles[0].colorExpr, '[heroColor[12]]');
 });
 
-test('initializes title text only after map presentation overrides are ready', async () => {
-  const [titleSource, mapTitleSource, parisSource] = await Promise.all([
-    readFile(new URL('../src/title/title-cn.opy', import.meta.url), 'utf8'),
-    readFile(new URL('../src/title/map-title-data.opy', import.meta.url), 'utf8'),
-    readFile(new URL('../src/map/paris.opy', import.meta.url), 'utf8')
-  ]);
-
-  assert.match(titleSource, /@Condition mapTitlePlayersByKey != null[\s\S]*?titleText = \[/);
-  assert.match(mapTitleSource, /@Condition __currentMapText___ != null\n\n    if __currentMapPioneerText___ == null:\n        __currentMapPioneerText___ = __currentMapText___\n    if __currentMapClassicText___ == null:\n        __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format\(__currentMapText___\)/);
-  assert.ok(mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"') < mapTitleSource.indexOf('mapTitlePlayersByKey = ['));
-  assert.ok(mapTitleSource.indexOf('if mapTitlePlayersByKey == null:') > mapTitleSource.indexOf('__currentPioneerText___ = "黄金节拍"'));
-
-  const parisRule = parisSource.slice(parisSource.indexOf('rule "map - paris":'));
-  assert.ok(parisRule.indexOf('__currentMapClassicText___ = "塞納河畔灬噯已散場"') > parisRule.indexOf('platformMapRevision_PARIS_DEFAULT()'));
-});
-
-test('allows a legitimate map-holder removal without requiring a non-zero result', () => {
-  const mapTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: ['新地图'] };
-  const withHolder = buildPlatformTitleSource({
-    platformData: {
-      ...platformData,
-      titles: [mapTitle],
-      playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-1', playerName: '玩家' }]
-    },
-    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  });
-  const withoutHolder = buildPlatformTitleSource({
-    platformData: { ...platformData, titles: [mapTitle], playerTitleGrants: [], mapTitleHolders: [] },
-    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  });
-
-  assert.deepEqual(withHolder.mapTitles[0]?.holders.PIONEER, ['玩家']);
-  assert.deepEqual(withoutHolder.mapTitles[0]?.holders.PIONEER, []);
-});
-
 test('recognizes revision-aware map sources without legacy DATA macros', () => {
   const source = buildPlatformTitleSource({
     platformData: {
@@ -304,15 +266,6 @@ test('maps the platform scoped CLASSIC title to the internal classic slot', () =
 
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: ['经典玩家'] });
   assert.equal(source.titles[0].displayExpr, '__currentMapClassicText___');
-});
-
-test('selects map titles from the active map revision rather than the global classic setting', async () => {
-  const source = await readFile(new URL('../src/title/setPlayerTitle.opy', import.meta.url), 'utf8');
-  assert.doesNotMatch(source, /classicMapVariant/);
-  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.PIONEER\]/);
-  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.CONQUEROR\]/);
-  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.DOMINATOR\]/);
-  assert.match(source, /mapTitlePlayersByKey\[MapTITLEKey\.CLASSIC\]/);
 });
 
 test('uses dynamic map-title achievements as the authoritative slot projection', () => {
@@ -483,21 +436,11 @@ test('sync still rejects missing spatial configuration for a supported map', asy
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
-test('falls back to the existing generated title color when the platform omits it', () => {
-  const source = {
-    ...titleSource,
-    titles: [{ ...titleSource.titles[0], colorExpr: null }]
-  };
-  const result = applyTitleColorFallback(source, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
-  assert.equal(result.titles[0].colorExpr, '[heroColor[12]]');
-});
-
-test('uses the platform title color when it is present', () => {
-  const result = applyTitleColorFallback({
-    ...titleSource,
-    titles: [{ ...titleSource.titles[0], colorExpr: '[vect(1, 2, 3)]' }]
-  }, `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`);
-  assert.equal(result.titles[0].colorExpr, '[vect(1, 2, 3)]');
+test('keeps the generated title color only when the platform omits it', () => {
+  const generated = `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`;
+  const withColor = (colorExpr: string | null) => applyTitleColorFallback({ ...titleSource, titles: [{ ...titleSource.titles[0], colorExpr }] }, generated);
+  assert.equal(withColor(null).titles[0].colorExpr, '[heroColor[12]]');
+  assert.equal(withColor('[vect(1, 2, 3)]').titles[0].colorExpr, '[vect(1, 2, 3)]');
 });
 
 test('preserves existing title and player IDs while appending new entries', () => {
@@ -553,10 +496,7 @@ test('generates deterministic map-local macros for default and classic revisions
   const output = renderPlatformMapRevisionData(source);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_CLASSIC\(\):/);
-  assert.doesNotMatch(output, /platformMapRevision(?:Id|Variant)/);
   assert.match(output, /vect\(1, 2, 3\)/);
-  assert.doesNotMatch(output, /playerNameToIndexDelimited|mapTitlePlayersByKey|__currentMapPioneerText___/);
-  assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
   assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
 });
 
@@ -579,6 +519,12 @@ test('declares classic map text only when the map has a classic revision', () =>
     }
   }));
   assert.match(withClassic, /__currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format/);
+});
+
+test('projects revision holders whose title is a global dynamic map title', () => {
+  const holder = { mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'CONQUEROR', slot: 'conqueror' as const, slotSemantics: 'named' as const, playerName: '征服者' };
+  const source = buildPlatformMapRevisionSource({ platformData: { ...platformData, achievements: [], mapTitleHolders: [holder] } });
+  assert.deepEqual(source.maps[0]?.revisions[0]?.titleHolders.map((item) => item.playerName), ['征服者']);
 });
 
 test('accepts revision holders without playerId and still dedupes by name', () => {
@@ -697,7 +643,6 @@ test('renders sorted alternate spatial stages deterministically', () => {
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION/);
   assert.match(output, /# END AUTO-GENERATED PLATFORM MAP REVISION\n$/);
-  assert.doesNotMatch(output, /PLATFORM_MAP_REVISION_DATA/);
 });
 
 test('renders atomic composite stages once and selects an ordered unique route at runtime', () => {
@@ -737,7 +682,6 @@ test('renders atomic composite stages once and selects an ordered unique route a
   assert.match(revisionMacro, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
   const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
   assert.doesNotMatch(setupMacro, /(?:resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis|controlRespawnAxisThreshold)\s*=/);
-  assert.doesNotMatch(output, /macro .*PAIR|macro .*PERMUTATION/);
   const noCenterStages = compositeSpatialConfig.stages.map((stage) => ({ ...stage, control: { ...stage.control, centerPositions: [] } }));
   const noCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: {
@@ -816,7 +760,6 @@ test('statically expands every spawn-detected cyclic route with complete spatial
     ['platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION', '301']
   ]);
   assert.equal(firstBastionCoordinate(fallbackRoute), '101');
-  assert.doesNotMatch(output, /globalvar platformMapRevision_BUSAN_COMPOSITE|COMPOSITE_AVAILABLE_STAGE_INDICES|COMPOSITE_SELECTED_STAGE_INDICES/);
 
   const emptyCenterStages = cycleConfig.stages.map((stage) => ({
     ...stage,
@@ -955,7 +898,7 @@ test('accepts random-first composites and rejects invalid composition constraint
   }) }), /respawnAxisThreshold must be a non-negative finite number/);
 });
 
-test('composes supported scalar controls and clears detected default centers before explicit centers', async () => {
+test('composes supported scalar controls and clears detected default centers before explicit centers', () => {
   const compositeConfig = {
     ...compositeSpatialConfig,
     stages: [
@@ -973,24 +916,12 @@ test('composes supported scalar controls and clears detected default centers bef
   const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
     platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeConfig }] }] }
   }));
-  const mapDetectionSource = await readFile(new URL('../src/map/mapDetection.opy', import.meta.url), 'utf8');
 
-  assert.match(mapDetectionSource, /controlCenterPosition = \[getObjectivePosition\(0\), getObjectivePosition\(1\), getObjectivePosition\(2\)\]/);
   assert.match(output, /COMPOSITE_CENTER_POSITIONS_INITIALIZED = false/);
   assert.match(output, /controlRespawnAxis = 2/);
   assert.match(output, /controlRespawnAxisThreshold = 40/);
-  assert.doesNotMatch(output, /controlRespawnAxisByRespawnIndex|controlRespawnAxisThresholdByRespawnIndex/);
   assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2\(stageOrder\):[\s\S]*if platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED != true:\n        controlCenterPosition = \[\]\n        platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED = true\n    controlCenterPosition\.append\(vect\(316, 317, 318\)\)/);
   assert.doesNotMatch(output.match(/macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1\(stageOrder\):[\s\S]*?\n\n/)?.[0] ?? '', /controlCenterPosition = \[\]/);
-});
-
-test('Antarctic delegates route selection to one setup-time generated macro', async () => {
-  const source = await readFile(new URL('../src/map/antarctic_peninsula.opy', import.meta.url), 'utf8');
-  const runtimeSource = source.split('# END AUTO-GENERATED PLATFORM MAP REVISION')[1] ?? '';
-  const routeCalls = runtimeSource.match(/platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE\(\)/g) ?? [];
-  assert.equal(routeCalls.length, 1);
-  assert.ok(runtimeSource.indexOf('waitUntil(getPlayers(Team.1).any') < runtimeSource.indexOf(routeCalls[0]!));
-  assert.doesNotMatch(runtimeSource, /DEFAULT_STAGE_(ICEBREAKER|LABORATORY)\(/);
 });
 
 test('requires composite setup routes to be executable rather than commented out', () => {

@@ -122,22 +122,9 @@ test('distinguishes map achievements with a reused challenge ID by map ID', asyn
   assert.deepEqual(result.map((item) => item.mapId), ['map-1', 'map-2']);
 });
 
-test('identifies Bastion in the Agents request User-Agent', async () => {
-  let userAgent: string | null = null;
-  const client = new PlatformDataClient({
-    baseUrl: 'https://platform.example',
-    fetch: async (_input, init) => {
-      userAgent = new Headers(init?.headers).get('user-agent');
-      return new Response(JSON.stringify(pageResponse([{ mapId: 'map-1' }], 1, 100)), { status: 200 });
-    }
-  });
-
-  await client.fetchResource('maps');
-  assert.equal(userAgent, PLATFORM_DATA_USER_AGENT);
-});
-
-test('sends the configured Bastion access token without exposing it in the URL', async () => {
+test('identifies Bastion and sends the access token without exposing it in the URL', async () => {
   let authorization: string | null = null;
+  let userAgent: string | null = null;
   let requestedUrl = '';
   const client = new PlatformDataClient({
     baseUrl: 'https://platform.example',
@@ -145,12 +132,14 @@ test('sends the configured Bastion access token without exposing it in the URL',
     fetch: async (input, init) => {
       requestedUrl = String(input);
       authorization = new Headers(init?.headers).get('authorization');
+      userAgent = new Headers(init?.headers).get('user-agent');
       return new Response(JSON.stringify(pageResponse([{ mapId: 'map-1' }], 1, 100)), { status: 200 });
     }
   });
 
   await client.fetchResource('maps');
   assert.equal(authorization, 'Bearer bastion-token');
+  assert.equal(userAgent, PLATFORM_DATA_USER_AGENT);
   assert.equal(requestedUrl, 'https://platform.example/v1/agents/maps?page=1&pageSize=100');
   assert.equal(PLATFORM_DATA_TOKEN_ENV, 'BASTION_BUILD_TOKEN');
 });
@@ -272,20 +261,28 @@ test('rejects duplicate IDs across pages and changing totals', async (t) => {
   await t.test('duplicate across pages', async () => {
     const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
       if (resource !== 'events') return validPage(resource, page, pageSize);
-      return page === 1
-        ? pageResponse([{ eventId: 'same-event' }], page, pageSize, 2)
-        : pageResponse([{ eventId: 'same-event' }], page, pageSize, 2);
+      return pageResponse([{ eventId: 'same-event' }], page, pageSize, 2);
     });
     await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('events'), /Duplicate eventId: same-event/);
   });
 
-  await t.test('total must remain stable during one resource fetch', async () => {
-    const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
+  await t.test('total that keeps changing is rejected, a transient change is retried', async () => {
+    const unstable = await startFakeServer((resource, page, pageSize) => {
       if (resource !== 'maps') return validPage(resource, page, pageSize);
       return page === 1
         ? pageResponse([{ mapId: 'map-1' }], page, pageSize, 2)
         : pageResponse([{ mapId: 'map-2' }], page, pageSize, 3);
     });
-    await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('maps'), /does not match earlier total/);
+    await assert.rejects(() => new PlatformDataClient({ baseUrl: unstable.baseUrl, pageSize: 1 }).fetchResource('maps'), /does not match earlier total/);
+
+    let snapshots = 0;
+    const transient = await startFakeServer((resource, page, pageSize) => {
+      if (resource !== 'maps') return validPage(resource, page, pageSize);
+      if (page === 1) snapshots += 1;
+      const total = snapshots === 1 && page === 2 ? 3 : 2;
+      return pageResponse([{ mapId: `map-${page}` }], page, pageSize, total);
+    });
+    const maps = await new PlatformDataClient({ baseUrl: transient.baseUrl, pageSize: 1 }).fetchResource('maps');
+    assert.deepEqual(maps.map((item) => item.mapId), ['map-1', 'map-2']);
   });
 });

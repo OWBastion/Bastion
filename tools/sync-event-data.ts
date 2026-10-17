@@ -6,8 +6,6 @@ import {
   type JsonObject,
   type PlatformData,
   EVENT_CATEGORIES,
-  PLATFORM_EVENT_CATEGORIES,
-  EVENT_STATUSES
 } from './platform-data-client.ts';
 
 export type EventType = 'buff' | 'debuff' | 'mech';
@@ -38,11 +36,9 @@ export function validateAndMergeEvents(
     const id = requireString(item.eventId, `${prefix}.eventId`);
     if (remoteById.has(id)) throw new Error(`Duplicate platform event ID: ${id}`);
     remoteById.set(id, item);
+    if (!mappedPlatformIds.has(id)) continue;
     requireString(item.name, `${prefix}.name`);
     requireString(item.description, `${prefix}.description`);
-    if (!PLATFORM_EVENT_CATEGORIES.has(item.category)) throw new Error(`${prefix}.category has an unsupported value`);
-    if (!EVENT_STATUSES.has(item.releaseStatus)) throw new Error(`${prefix}.releaseStatus has an unsupported value`);
-    if (typeof item.archived !== 'boolean') throw new Error(`${prefix}.archived must be a boolean`);
     if (item.durationSeconds !== null && (requireNumber(item.durationSeconds, `${prefix}.durationSeconds`) < 0)) throw new Error(`${prefix}.durationSeconds must be non-negative`);
     if (item.weight !== null && (requireNumber(item.weight, `${prefix}.weight`) < 0)) throw new Error(`${prefix}.weight must be non-negative`);
     if (!Array.isArray(item.challenges)) throw new Error(`${prefix}.challenges must be an array`);
