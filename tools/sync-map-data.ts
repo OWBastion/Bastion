@@ -475,7 +475,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
     if (item.slotSemantics !== 'named' && item.slotSemantics !== 'none') throw new Error(`${prefix}.slotSemantics has an unsupported value`);
     if (item.slotSemantics === 'named' && !['pioneer', 'conqueror', 'dominator'].includes(String(item.slot))) throw new Error(`${prefix} has an invalid named slot`);
     if (item.slotSemantics === 'none' && (item.slot !== null || titleKey !== 'CLASSIC')) throw new Error(`${prefix} has an invalid none slot reference`);
-    const title = platformData.titles.find((candidate) => candidate.titleKey === titleKey && candidate.scope === 'map' && candidate.mapId === mapId);
+    const title = platformData.titles.find((candidate) => candidate.titleKey === titleKey && (candidate.scope === 'global' || (candidate.scope === 'map' && candidate.mapId === mapId)));
     if (!title) throw new Error(`${prefix} references unknown map title ${mapId}/${titleKey}`);
     const holder = { titleKey, slot: item.slotSemantics === 'none' ? null : item.slot as 'pioneer' | 'conqueror' | 'dominator', slotSemantics: item.slotSemantics, playerId, playerName };
     const identity = `${titleKey}:${holder.slot ?? 'classic'}:${playerName}`;
