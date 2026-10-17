@@ -51,13 +51,14 @@ def resetPlayerSavedState():
     if not eventPlayer.inSaved(savedIndex):
         return
 
-    savedData.savedHero[eventPlayer.savedIndex(savedIndex)] = 0
-    savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = 0
-    savedData.savedWinner[eventPlayer.savedIndex(savedIndex)] = false
-    savedData.savedSkipCount[eventPlayer.savedIndex(savedIndex)] = 0
-    savedData.savedJoinTime[eventPlayer.savedIndex(savedIndex)] = eventPlayer.joinTime
-    savedData.savedWinnerTime[eventPlayer.savedIndex(savedIndex)] = 0
-    savedData.savedPlayerOnceEventState[eventPlayer.savedIndex(savedIndex)] = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
+    eventPlayer.savedDataIndex = eventPlayer.savedIndex(savedIndex)
+    savedData.savedHero[eventPlayer.savedDataIndex] = 0
+    savedData.savedDeaths[eventPlayer.savedDataIndex] = 0
+    savedData.savedWinner[eventPlayer.savedDataIndex] = false
+    savedData.savedSkipCount[eventPlayer.savedDataIndex] = 0
+    savedData.savedJoinTime[eventPlayer.savedDataIndex] = eventPlayer.joinTime
+    savedData.savedWinnerTime[eventPlayer.savedDataIndex] = 0
+    savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     wait(getAverageServerLoad() / 100 * 0.032)
 
 def finishResetProgress():
