@@ -86,8 +86,8 @@ rule "initialize color array":
     breathPalette.purple = [vect(161, 73, 197), vect(204, 204, 255)]
     breathPalette.blue = [vect(85, 178, 204), vect(25, 80, 120)]
     breathPalette.orange = [vect(250, 121, 0), vect(255, 220, 180)]
-    breathPalette.gold = [vect(255, 242, 163), vect(255, 196, 0)]
-    heroColor = compressed([vect(124, 62, 82), vect(214, 145, 65), vect(236, 233, 189), vect(185, 179, 137), vect(191, 115, 110), vect(148, 161, 165), vect(60, 126, 204), vect(160, 169, 186), vect(157, 105, 166), vect(124, 143, 122), vect(45, 187, 209), vect(236, 229, 128), vect(149, 239, 66), vect(179, 139, 80), vect(173, 90, 95), vect(236, 190, 82), vect(231, 130, 184), vect(109, 121, 149), vect(132, 201, 81), vect(237, 147, 199), vect(9, 171, 235), vect(118, 93, 189), vect(131, 83, 76), vect(110, 137, 177), vect(69, 139, 66), vect(139, 98, 94), vect(151, 113, 228), vect(219, 147, 66), vect(198, 28, 65), vect(105, 105, 104), vect(154, 202, 243), vect(85, 178, 204), vect(212, 135, 143), vect(142, 181, 215), vect(148, 160, 165), vect(157, 140, 208), vect(224, 182, 198), vect(220, 132, 125), vect(183, 168, 142), vect(121, 97, 78), vect(173, 143, 203), vect(114, 31, 163), vect(54, 127, 221), vect(238, 75, 43), vect(93, 63, 211), vect(196, 30, 58)])
+    breathPalette.gold = [vect(255, 215, 0), vect(184, 134, 11)]
+    heroColor = [vect(124, 62, 82), vect(214, 145, 65), vect(236, 233, 189), vect(185, 179, 137), vect(191, 115, 110), vect(148, 161, 165), vect(60, 126, 204), vect(160, 169, 186), vect(157, 105, 166), vect(124, 143, 122), vect(45, 187, 209), vect(236, 229, 128), vect(149, 239, 66), vect(179, 139, 80), vect(173, 90, 95), vect(236, 190, 82), vect(231, 130, 184), vect(109, 121, 149), vect(132, 201, 81), vect(237, 147, 199), vect(9, 171, 235), vect(118, 93, 189), vect(131, 83, 76), vect(110, 137, 177), vect(69, 139, 66), vect(139, 98, 94), vect(151, 113, 228), vect(219, 147, 66), vect(198, 28, 65), vect(105, 105, 104), vect(154, 202, 243), vect(85, 178, 204), vect(212, 135, 143), vect(142, 181, 215), vect(148, 160, 165), vect(157, 140, 208), vect(224, 182, 198), vect(220, 132, 125), vect(183, 168, 142), vect(121, 97, 78), vect(173, 143, 203), vect(114, 31, 163), vect(54, 127, 221), vect(238, 75, 43), vect(93, 63, 211), vect(196, 30, 58)]
 
 rule "initialize phase hero arrays":
     @Condition vishkarEventActivated == true
@@ -111,10 +111,12 @@ rule "initialize hero list":
     #make default hero list, which includes all 36 heroes available in Season 2
     heroList = [Hero.SOMBRA, Hero.REAPER, Hero.MOIRA, Hero.KIRIKO, Hero.SIGMA, Hero.WUYANG, Hero.MIZUKI, Hero.EMRE, Hero.GENJI, Hero.ORISA, Hero.WINSTON, Hero.DVA, Hero.TRACER, Hero.WIDOWMAKER, Hero.DOMINA, Hero.SOJOURN, Hero.BAPTISTE, Hero.SYMMETRA, Hero.MEI, Hero.ECHO, Hero.BRIGITTE, Hero.SOLDIER, Hero.JUNO, Hero.WRECKING_BALL, Hero.CASSIDY, Hero.ZARYA, Hero.LUCIO, Hero.PHARAH, Hero.JETPACK_CAT, Hero.MERCY, Hero.REINHARDT, Hero.HANZO, Hero.DOOMFIST, Hero.ROADHOG, Hero.JUNKER_QUEEN, Hero.ASHE, Hero.DMON, Hero.TORBJORN, Hero.ANA, Hero.ZENYATTA, Hero.JUNKRAT, Hero.BASTION]
     #remove all heroes that are not for some reason in Overwatch's list of all the heroes (at the time of making this, Mei is an example because she was removed to be patched)
-    heroList = heroList.filter(lambda player: player in getAllHeroes())
+    heroList.remove(heroList.filter(lambda player: not player in getAllHeroes()))
     #add any heroes that for some reason are on Overwatch's list but not the game's (eg if I don't update the mode after a hero release). they are added as the second hero in the list
     if getAllHeroes().any(lambda i: not i in heroList):
         missingHeroes = getAllHeroes().filter(lambda i: not i in heroList)
-        heroList = sorted(heroList.concat(missingHeroes), lambda i, idx: idx if i in heroList else 0.5)
+        for I in range(len(missingHeroes)):
+            heroList = sorted(heroList.concat(missingHeroes[I]), lambda i, idx: idx if i != missingHeroes[I] else 0.5)
+            wait()
     #move Bastion to the end of the hero list, and keep the rest of the list how it is
     heroList = sorted(heroList, lambda player, i: i + (len(heroList) * (player == Hero.BASTION)))
