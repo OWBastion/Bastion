@@ -7,6 +7,10 @@ globalvar playerTitleRelation 47
 globalvar rgbList 48
 globalvar __currentPioneerText___ 106
 globalvar __currentMapPioneerText___ 107
+globalvar __mapTitleKey
+globalvar __mapTitleData
+globalvar __mapTitleNorm
+globalvar __mapTitleClassic
 
 playervar playerTitleAndColor 37
 playervar titleTextID 38
