@@ -1,5 +1,0 @@
-version: 1
-interface:
-  display_name: Session Skill Maintainer
-  short_description: Summarize recent Bastion sessions and orchestrate skill maintenance updates with verifiable checks.
-  default_prompt: Use $session-skill-maintainer to summarize recent Bastion sessions, map findings into skill update actions, and output verification commands plus unresolved risks.
