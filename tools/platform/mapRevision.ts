@@ -83,13 +83,74 @@ export function renderSpatialPosition(position: SpatialPosition): string {
   return `vect(${position.map((part) => Object.is(part, -0) ? '0' : String(part)).join(', ')})`;
 }
 
-export function renderVectorAssignment(field: string, positions: SpatialPosition[], indent: string, compressed = false): string[] {
-  const opening = compressed ? 'compressed([' : '[';
-  const lines = [`${indent}${field} = ${opening}`];
-  const itemIndent = `${indent}    `;
-  positions.forEach((position, index) => lines.push(`${itemIndent}${renderSpatialPosition(position)}${index === positions.length - 1 ? '' : ','}`));
-  lines.push(`${indent}]${compressed ? ')' : ''}`);
-  return lines;
+export const MAP_POSITION_POOL_VARIABLE = 'mapPositionPool';
+
+export class SpatialPositionPool {
+  private positions: SpatialPosition[] = [];
+  private indexByKey = new Map<string, number>();
+  private rangeByArrayKey = new Map<string, { start: number; count: number }>();
+
+  private key(position: SpatialPosition): string {
+    return position.join(',');
+  }
+
+  intern(position: SpatialPosition): number {
+    const key = this.key(position);
+    const existing = this.indexByKey.get(key);
+    if (existing !== undefined) return existing;
+    const index = this.positions.length;
+    this.positions.push(position);
+    this.indexByKey.set(key, index);
+    return index;
+  }
+
+  internArray(positions: SpatialPosition[]): { start: number; count: number } {
+    if (positions.length === 0) return { start: 0, count: 0 };
+    const arrayKey = positions.map((position) => this.key(position)).join(';');
+    const existing = this.rangeByArrayKey.get(arrayKey);
+    if (existing !== undefined) return existing;
+    const start = this.positions.length;
+    for (const position of positions) {
+      const key = this.key(position);
+      if (!this.indexByKey.has(key)) this.indexByKey.set(key, this.positions.length);
+      this.positions.push(position);
+    }
+    const range = { start, count: positions.length };
+    this.rangeByArrayKey.set(arrayKey, range);
+    return range;
+  }
+
+  ref(position: SpatialPosition): string {
+    return `${MAP_POSITION_POOL_VARIABLE}[${this.intern(position)}]`;
+  }
+
+  slice(positions: SpatialPosition[]): string {
+    const { start, count } = this.internArray(positions);
+    return `${MAP_POSITION_POOL_VARIABLE}.slice(${start}, ${count})`;
+  }
+
+  get size(): number {
+    return this.positions.length;
+  }
+
+  renderBlock(): string {
+    const lines = [
+      MAP_REVISION_BEGIN,
+      '# Source: OWBastion Agents API',
+      `globalvar ${MAP_POSITION_POOL_VARIABLE}`,
+      '',
+      'rule "Initialize map position pool":',
+      `    ${MAP_POSITION_POOL_VARIABLE} = compressed([`
+    ];
+    this.positions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === this.positions.length - 1 ? '' : ','}`));
+    lines.push('    ])', MAP_REVISION_END);
+    return lines.join('\n');
+  }
+}
+
+export function renderVectorAssignment(field: string, positions: SpatialPosition[], indent: string, pool: SpatialPositionPool): string[] {
+  if (positions.length === 0) return [`${indent}${field} = []`];
+  return [`${indent}${field} = ${pool.slice(positions)}`];
 }
 
 export function renderPlayerIndexDelimited(names: string[]): string {
@@ -130,24 +191,24 @@ export function hasSpawnDetectedCycle(spatialConfig: CompositeSpatialConfig): bo
     && spatialConfig.composition.remainingStageSelection === 'stage_id_cycle';
 }
 
-export function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, compressedBastion = false) {
-  lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', compressedBastion));
-  lines.push(`    resetPosition = ${renderSpatialPosition(config.resetPosition)}`);
-  lines.push(`    endPosition = ${renderSpatialPosition(config.endPosition)}`);
-  lines.push(`    thirdPersonPosition = ${renderSpatialPosition(config.thirdPersonPosition)}`);
-  lines.push(`    creditsPosition = ${renderSpatialPosition(config.creditsPosition)}`);
+export function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, pool: SpatialPositionPool) {
+  lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', pool));
+  lines.push(`    resetPosition = ${pool.ref(config.resetPosition)}`);
+  lines.push(`    endPosition = ${pool.ref(config.endPosition)}`);
+  lines.push(`    thirdPersonPosition = ${pool.ref(config.thirdPersonPosition)}`);
+  lines.push(`    creditsPosition = ${pool.ref(config.creditsPosition)}`);
   if (config.control) {
-    if (config.control.centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', config.control.centerPositions, '    '));
-    if (config.control.jumpPositions.length > 0) lines.push(...renderVectorAssignment('controlJumpPosition', config.control.jumpPositions, '    '));
-    if (config.control.respawnPositions.length > 0) lines.push(...renderVectorAssignment('controlRespawnPosition', config.control.respawnPositions, '    '));
+    if (config.control.centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', config.control.centerPositions, '    ', pool));
+    if (config.control.jumpPositions.length > 0) lines.push(...renderVectorAssignment('controlJumpPosition', config.control.jumpPositions, '    ', pool));
+    if (config.control.respawnPositions.length > 0) lines.push(...renderVectorAssignment('controlRespawnPosition', config.control.respawnPositions, '    ', pool));
     if (config.control.respawnAxis !== null) {
       const axis = { x: 0, y: 1, z: 2 }[config.control.respawnAxis];
       lines.push(`    controlRespawnAxis = ${axis}`);
       lines.push(`    controlRespawnAxisThreshold = ${config.control.respawnAxisThreshold}`);
     }
   }
-  if (config.portalPositions.length > 0) lines.push(...renderVectorAssignment('portalPosition', config.portalPositions, '    '));
-  if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${renderSpatialPosition(config.springboardPositions[0]!)}`);
+  if (config.portalPositions.length > 0) lines.push(...renderVectorAssignment('portalPosition', config.portalPositions, '    ', pool));
+  if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${pool.ref(config.springboardPositions[0]!)}`);
 }
 
 export function renderCompositeStageMacro(
@@ -156,14 +217,13 @@ export function renderCompositeStageMacro(
   variant: 'DEFAULT' | 'CLASSIC',
   stage: CompositeSpatialStage,
   stageIndex: number,
-  selectionCount: number
+  selectionCount: number,
+  pool: SpatialPositionPool
 ) {
   const macroName = compositeStageMacroName(mapId, variant, stageIndex);
   const { stageBastionPositions: stagePositions, centerPositionsInitialized } = compositeRouteScratchNames(mapId);
   lines.push(`macro ${macroName}(stageOrder):`);
-  lines.push(`    ${stagePositions} = compressed([`);
-  stage.bastionPositions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === stage.bastionPositions.length - 1 ? '' : ','}`));
-  lines.push('    ])');
+  lines.push(...renderVectorAssignment(stagePositions, stage.bastionPositions, '    ', pool));
   lines.push('    if stageOrder == 0:');
   lines.push(`        bastionPosition = ${stagePositions}`);
   lines.push('    else:');
@@ -173,20 +233,20 @@ export function renderCompositeStageMacro(
     lines.push(`    if ${centerPositionsInitialized} != true:`);
     lines.push('        controlCenterPosition = []');
     lines.push(`        ${centerPositionsInitialized} = true`);
-    stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${renderSpatialPosition(position)})`));
+    stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${pool.ref(position)})`));
   }
   lines.push(`    if stageOrder < ${selectionCount - 1}:`);
-  lines.push('        controlJumpPosition.append(' + renderSpatialPosition(stage.control.jumpPositions[0]!) + ')');
-  lines.push(`    controlRespawnPosition.append(${renderSpatialPosition(stage.control.respawnPositions[0]!)})`);
+  lines.push('        controlJumpPosition.append(' + pool.ref(stage.control.jumpPositions[0]!) + ')');
+  lines.push(`    controlRespawnPosition.append(${pool.ref(stage.control.respawnPositions[0]!)})`);
 
   if (stage.portalPositions.length > 0) {
     lines.push('    if portalPosition == null:');
     lines.push('        portalPosition = []');
-    stage.portalPositions.forEach((position) => lines.push(`    portalPosition.append(${renderSpatialPosition(position)})`));
+    stage.portalPositions.forEach((position) => lines.push(`    portalPosition.append(${pool.ref(position)})`));
   }
   if (stage.springboardPositions.length > 0) {
     lines.push('    if springBoardPosition == null:');
-    lines.push(`        springBoardPosition = ${renderSpatialPosition(stage.springboardPositions[0]!)}`);
+    lines.push(`        springBoardPosition = ${pool.ref(stage.springboardPositions[0]!)}`);
   }
   lines.push('');
 }
@@ -260,7 +320,8 @@ export function renderSpawnDetectedCompositeRoutes(
   lines: string[],
   mapId: string,
   variant: 'DEFAULT' | 'CLASSIC',
-  spatialConfig: CompositeSpatialConfig
+  spatialConfig: CompositeSpatialConfig,
+  pool: SpatialPositionPool
 ) {
   const mapName = mapRevisionMacroName(mapId, variant);
   const { stages } = spatialConfig;
@@ -283,10 +344,10 @@ export function renderSpawnDetectedCompositeRoutes(
   });
   const sharedAnchors = routeAnchorPositions.every((anchors) => anchors.join(';') === routeAnchorPositions[0]!.join(';'));
   const renderAnchors = (anchors: SpatialPosition[]) => [
-    `    resetPosition = ${renderSpatialPosition(anchors[0]!)}`,
-    `    endPosition = ${renderSpatialPosition(anchors[1]!)}`,
-    `    thirdPersonPosition = ${renderSpatialPosition(anchors[2]!)}`,
-    `    creditsPosition = ${renderSpatialPosition(anchors[3]!)}`,
+    `    resetPosition = ${pool.ref(anchors[0]!)}`,
+    `    endPosition = ${pool.ref(anchors[1]!)}`,
+    `    thirdPersonPosition = ${pool.ref(anchors[2]!)}`,
+    `    creditsPosition = ${pool.ref(anchors[3]!)}`,
     `    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`,
     `    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`
   ];
@@ -295,15 +356,15 @@ export function renderSpawnDetectedCompositeRoutes(
     const macroName = `${mapName}_ROUTE_${startIndex}`;
     lines.push(`macro ${macroName}():`);
     if (!sharedAnchors) lines.push(...renderAnchors(routeAnchorPositions[startIndex]!));
-    lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', true));
+    lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', pool));
     const centerPositions = route.flatMap((stage) => stage.control.centerPositions);
-    if (centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', centerPositions, '    '));
-    lines.push(...renderVectorAssignment('controlJumpPosition', route.slice(0, -1).flatMap((stage) => stage.control.jumpPositions), '    '));
-    lines.push(...renderVectorAssignment('controlRespawnPosition', route.flatMap((stage) => stage.control.respawnPositions), '    '));
+    if (centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', centerPositions, '    ', pool));
+    lines.push(...renderVectorAssignment('controlJumpPosition', route.slice(0, -1).flatMap((stage) => stage.control.jumpPositions), '    ', pool));
+    lines.push(...renderVectorAssignment('controlRespawnPosition', route.flatMap((stage) => stage.control.respawnPositions), '    ', pool));
     const portals = route.flatMap((stage) => stage.portalPositions);
-    if (portals.length > 0) lines.push(...renderVectorAssignment('portalPosition', portals, '    '));
+    if (portals.length > 0) lines.push(...renderVectorAssignment('portalPosition', portals, '    ', pool));
     const springboard = route.find((stage) => stage.springboardPositions.length > 0)?.springboardPositions[0];
-    if (springboard) lines.push(`    springBoardPosition = ${renderSpatialPosition(springboard)}`);
+    if (springboard) lines.push(`    springBoardPosition = ${pool.ref(springboard)}`);
     lines.push('');
   });
 
@@ -319,11 +380,10 @@ export function renderSpawnDetectedCompositeRoutes(
   lines.push('');
 }
 
-export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number]): string {
+export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][number], pool: SpatialPositionPool): string {
   const unsupported = map.revisions.filter((revision) => !revision.isDefault && revision.mapVariant !== 'classic');
   if (unsupported.length > 0) throw new Error(`${map.mapId} has selectable revisions that cannot be selected by the compile-time map source: ${unsupported.map((revision) => revision.gameplayRevisionId).join(', ')}`);
 
-  const mapKey = mapKeyFromPlatformId(map.mapId);
   const lines = [
     MAP_REVISION_BEGIN,
     '# Source: OWBastion Agents API',
@@ -347,41 +407,41 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
     if (hasClassicRevision) lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
     if (isComposite) {
       const composite = revision.spatialConfig as CompositeSpatialConfig;
-      lines.push(`    resetPosition = ${renderSpatialPosition(composite.resetPosition)}`);
-      lines.push(`    endPosition = ${renderSpatialPosition(composite.endPosition)}`);
-      lines.push(`    thirdPersonPosition = ${renderSpatialPosition(composite.thirdPersonPosition)}`);
-      lines.push(`    creditsPosition = ${renderSpatialPosition(composite.creditsPosition)}`);
+      lines.push(`    resetPosition = ${pool.ref(composite.resetPosition)}`);
+      lines.push(`    endPosition = ${pool.ref(composite.endPosition)}`);
+      lines.push(`    thirdPersonPosition = ${pool.ref(composite.thirdPersonPosition)}`);
+      lines.push(`    creditsPosition = ${pool.ref(composite.creditsPosition)}`);
       lines.push(`    controlRespawnAxis = ${String({ x: 0, y: 1, z: 2 }[composite.control.respawnAxis])}`);
       lines.push(`    controlRespawnAxisThreshold = ${composite.control.respawnAxisThreshold}`);
       lines.push('');
       for (const [stageIndex, stage] of composite.stages.entries()) {
         if (stage.setupDetection) {
           lines.push('');
-          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${renderSpatialPosition(stage.setupDetection.position)}`);
+          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${pool.ref(stage.setupDetection.position)}`);
           lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_RADIUS ${stage.setupDetection.radius}`);
         }
       }
       if (hasSpawnDetectedCycle(composite)) {
-        renderSpawnDetectedCompositeRoutes(lines, map.mapId, variant, composite);
+        renderSpawnDetectedCompositeRoutes(lines, map.mapId, variant, composite, pool);
       } else {
         for (const [stageIndex, stage] of composite.stages.entries()) {
           lines.push('');
-          renderCompositeStageMacro(lines, map.mapId, variant, stage, stageIndex, composite.composition.selectionCount);
+          renderCompositeStageMacro(lines, map.mapId, variant, stage, stageIndex, composite.composition.selectionCount, pool);
         }
         renderCompositeSetupMacro(lines, map.mapId, variant, composite);
       }
     } else {
       lines.push('');
       const legacy = revision.spatialConfig as LegacySpatialConfig;
-      renderSpatialAssignments(lines, legacy, mapKey === 'DATA_ANTARCTIC_PENINSULA');
+      renderSpatialAssignments(lines, legacy, pool);
       for (const stage of legacy.alternateStages) {
         const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
         const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
         lines.push('');
-        lines.push(`#!define ${setupPositionMacro} ${renderSpatialPosition(stage.setupDetection.position)}`);
+        lines.push(`#!define ${setupPositionMacro} ${pool.ref(stage.setupDetection.position)}`);
         lines.push(`#!define ${setupRadiusMacro} ${stage.setupDetection.radius}`);
         lines.push(`macro ${stageMacroName(map.mapId, variant, stage.stageId)}():`);
-        renderSpatialAssignments(lines, stage, false);
+        renderSpatialAssignments(lines, stage, pool);
       }
       if (legacy.alternateStages.length > 0) {
         lines.push('');
@@ -399,8 +459,12 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
   return lines.join('\n');
 }
 
+export const MAP_POSITION_POOL_FILE = 'positionPool.opy';
+
 export function renderPlatformMapRevisionData(source: PlatformMapRevisionSource): string {
-  return source.maps.map((map) => renderMapRevisionBlock(map)).join('\n\n') + '\n';
+  const pool = new SpatialPositionPool();
+  const blocks = source.maps.map((map) => renderMapRevisionBlock(map, pool));
+  return [pool.renderBlock(), ...blocks].join('\n\n') + '\n';
 }
 
 export function renderPlatformMapRevisionMapSources({
@@ -410,11 +474,12 @@ export function renderPlatformMapRevisionMapSources({
   source: PlatformMapRevisionSource;
   mapSourceFiles: Array<{ file: string; content: string }>;
 }): GeneratedPlatformFile[] {
-  return source.maps.map((map) => {
+  const pool = new SpatialPositionPool();
+  const files = source.maps.map((map) => {
     const matches = mapSourceFiles.filter(({ content }) => content.includes(`${mapRevisionStem(map.mapId)}_DEFAULT()`));
     if (matches.length !== 1) throw new Error(`${mapKeyFromPlatformId(map.mapId)} must match exactly one map source for compile-time revision injection`);
     const sourceFile = matches[0]!;
-    const content = replaceManagedBlock(sourceFile.content, MAP_REVISION_BEGIN, MAP_REVISION_END, renderMapRevisionBlock(map));
+    const content = replaceManagedBlock(sourceFile.content, MAP_REVISION_BEGIN, MAP_REVISION_END, renderMapRevisionBlock(map, pool));
     if (content === null) throw new Error(`${sourceFile.file} must contain the generated platform revision macro block`);
     const generatedBlockEnd = content.indexOf(MAP_REVISION_END) + MAP_REVISION_END.length;
     const mapRuleSource = content.slice(generatedBlockEnd);
@@ -428,4 +493,9 @@ export function renderPlatformMapRevisionMapSources({
     }
     return { path: path.join(MAP_SOURCE_DIR, sourceFile.file), content };
   });
+  files.push({
+    path: path.join(MAP_SOURCE_DIR, MAP_POSITION_POOL_FILE),
+    content: `#!mainFile "../main.opy"\n\n#!optimizeStrict\n\n${pool.renderBlock()}\n`
+  });
+  return files;
 }

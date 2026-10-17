@@ -8,21 +8,11 @@
 macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
     __currentMapText___ = "直布罗陀"
 
-    bastionPosition = [
-        vect(70.099, 9, 26.803),
-        vect(86.26, 7.46, 2.95),
-        vect(61.64, 3.67, -20.79),
-        vect(46.95, 7.65, -66.08),
-        vect(32.69, 4.69, -52.38),
-        vect(21, 4.2, -64.39),
-        vect(31.85, 7.62, -107.88),
-        vect(56.88, 9.23, -118.92),
-        vect(18.08, 8.78, -133.02)
-    ]
-    resetPosition = vect(97.55, 1.06, 60.38)
-    endPosition = vect(43.42, 5.15, -129.34)
-    thirdPersonPosition = vect(93.88, 1.06, 63.17)
-    creditsPosition = vect(112.23, 0, 73.59)
+    bastionPosition = mapPositionPool.slice(686, 9)
+    resetPosition = mapPositionPool[695]
+    endPosition = mapPositionPool[696]
+    thirdPersonPosition = mapPositionPool[697]
+    creditsPosition = mapPositionPool[698]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
