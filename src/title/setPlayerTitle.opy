@@ -9,7 +9,7 @@ def setPlayerTitle():
     @Name "set player title"
     
     # 1. 基础称号 (从通用数据库获取)
-    eventPlayer.playerTitles = playerTitleRelation[playerTitleSetIndex[eventPlayer.playerTitleRelationIndex]]
+    eventPlayer.playerTitles = player_title_set_flat.slice(player_title_set_off[playerTitleSetIndex[eventPlayer.playerTitleRelationIndex]], player_title_set_off[playerTitleSetIndex[eventPlayer.playerTitleRelationIndex] + 1] - player_title_set_off[playerTitleSetIndex[eventPlayer.playerTitleRelationIndex]])
 
     # 2. 查找并合并地图称号
     if f"{eventPlayer.playerTitleRelationIndex}" in mapTitlePlayersByKey[MapTITLEKey.PIONEER]:
