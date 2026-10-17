@@ -22,7 +22,7 @@ macro platformMapRevision_BUSAN_DEFAULT():
 #!define platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_RADIUS 30
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_0():
     resetPosition = vect(-409.71, 10.11, 165.61)
-    endPosition = vect(158.67, 10.81, 260.91)
+    endPosition = vect(104.77, 17.74, -137.21)
     thirdPersonPosition = vect(-410.4, 10.11, 162.37)
     creditsPosition = vect(-426.04, 13.11, 165.81)
     controlRespawnAxis = 0
@@ -54,10 +54,10 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_0():
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
-    resetPosition = vect(-409.71, 10.11, 165.61)
+    resetPosition = vect(-30.05, 17, -118.12)
     endPosition = vect(158.67, 10.81, 260.91)
-    thirdPersonPosition = vect(-410.4, 10.11, 162.37)
-    creditsPosition = vect(-426.04, 13.11, 165.81)
+    thirdPersonPosition = vect(-30.05, 17, -133.42)
+    creditsPosition = vect(-43.73, 19, -125.54)
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
     bastionPosition = compressed([
@@ -87,10 +87,10 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_2():
-    resetPosition = vect(-409.71, 10.11, 165.61)
-    endPosition = vect(158.67, 10.81, 260.91)
-    thirdPersonPosition = vect(-410.4, 10.11, 162.37)
-    creditsPosition = vect(-426.04, 13.11, 165.81)
+    resetPosition = vect(282.34, 12.1, 201.72)
+    endPosition = vect(-251.99, 11.34, 174.77)
+    thirdPersonPosition = vect(289.73, 12.1, 199.05)
+    creditsPosition = vect(297.09, 14.1, 208.95)
     controlRespawnAxis = 0
     controlRespawnAxisThreshold = 40
     bastionPosition = compressed([

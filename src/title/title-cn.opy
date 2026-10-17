@@ -115,9 +115,9 @@ enum MapTITLEKey:
     [TITLE.LUCKY_STAR, TITLE.ANNIVERSARY_2026, TITLE.TASKS_COMPLETED], \
     [TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.HARD_TO_KILL, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50, TITLE.HACKING, TITLE.LIST_THEM, TITLE.LIFE_GUARDS_LIFE], \
     [TITLE.QUANTUM_UNLUCKY], \
-    [], \
     [TITLE.CHALLENGER_LEGEND, TITLE.TRAVELER_HELL, TITLE.DODGE_ULTIMATE, TITLE.FLAWLESS, TITLE.SPEEDRUN, TITLE.LUCKY_STAR, TITLE.UNLUCKY, TITLE.MANBA, TITLE.V_50], \
-    [TITLE.ANNIVERSARY_2026, TITLE.QUANTUM_UNLUCKY] \
+    [TITLE.ANNIVERSARY_2026, TITLE.QUANTUM_UNLUCKY], \
+    [] \
 ]
 # END AUTO-GENERATED PLAYER_TITLE_SET_POOL
 # BEGIN AUTO-GENERATED TITLE PLAYER DATABASE
@@ -208,23 +208,27 @@ enum MapTITLEKey:
     }, \
     { \
         name: "黑洛", \
-        titleSetIndex: 20 \
+        titleSetIndex: 19 \
     }, \
     { \
         name: "一杯美式", \
-        titleSetIndex: 21 \
+        titleSetIndex: 20 \
     }, \
     { \
         name: "用户", \
-        titleSetIndex: 22 \
+        titleSetIndex: 21 \
     }, \
     { \
         name: "轩一", \
-        titleSetIndex: 20 \
+        titleSetIndex: 22 \
     }, \
     { \
         name: "风子修", \
-        titleSetIndex: 20 \
+        titleSetIndex: 22 \
+    }, \
+    { \
+        name: "南城花开", \
+        titleSetIndex: 22 \
     } \
 ]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
@@ -275,8 +279,8 @@ enum MapTITLEKey:
 # 釜山
 #!define DATA_BUSAN [ \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "Fajacy", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["云雀", "八月八月八", "一杯美式", "初一", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["云雀", "八月八月八", "一杯美式", "初一", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "云雀", "八月八月八", "用户", "一杯美式", "初一", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "云雀", "八月八月八", "用户", "一杯美式", "初一", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -299,8 +303,8 @@ enum MapTITLEKey:
 # 多拉多
 #!define DATA_DORADO [ \
    [], \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "风子修", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "风子修", "自律达人游十三", "豆本豆豆奶", "墙上静止的钟", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -387,8 +391,8 @@ enum MapTITLEKey:
 # 漓江塔
 #!define DATA_LIJIANG_TOWER [ \
    [], \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "黑洛", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "黑洛", "銀狼", "卖核弹的小女孩", "云雀", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
 
@@ -418,9 +422,9 @@ enum MapTITLEKey:
 
 # 监测站：格里姆火山
 #!define DATA_NEW_A021ED61 [ \
-   [], \
-   [], \
-   [], \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "吾携秋水揽星河", "卖核弹的小女孩", "用户", "风子修", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "吾携秋水揽星河", "卖核弹的小女孩", "用户", "风子修", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "吾携秋水揽星河", "卖核弹的小女孩", "用户", "风子修", "EruIluvatar"], "-"), \
    []\
 ]
 
