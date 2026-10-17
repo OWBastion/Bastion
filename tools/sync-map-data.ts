@@ -2,16 +2,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   PLATFORM_DATA_CONTRACT_VERSION,
-  assertExactKeys,
+  assertRequiredKeys,
   assertUnique,
   requireNumber,
   requireString,
   type JsonObject,
   type PlatformData,
   type TitleSource,
-  MAP_DIFFICULTIES,
-  CHALLENGE_STATUSES,
-  SUBMISSION_MODES,
   TITLE_DISPLAY_KINDS,
   TITLE_SLOTS
 } from './platform-data-client.ts';
@@ -95,10 +92,6 @@ export type ValidatedPlatformMap = {
   mapId: string;
   mapName: string;
   gameVersion: string;
-  difficultyRating: string | null;
-  mechanics: string[];
-  coverUrl: string | null;
-  backgroundUrl: string | null;
   gameplayRevisions: ValidatedGameplayRevision[];
 };
 
@@ -143,7 +136,7 @@ export function validateSpatialPositions(value: unknown, label: string, required
 }
 
 export function validateAlternateStageSetupDetection(value: unknown, label: string): AlternateStageSetupDetection {
-  assertExactKeys(value, label, ['position', 'radius']);
+  assertRequiredKeys(value, label, ['position', 'radius']);
   const detection = value as Record<string, unknown>;
   const radius = detection.radius;
   if (typeof radius !== 'number' || !Number.isFinite(radius) || radius <= 0) throw new Error(`${label}.radius must be a positive finite number`);
@@ -159,11 +152,11 @@ export const compositeStageSpatialKeys = ['bastionPositions', 'control', 'portal
 export const compositeStageRouteAnchorKeys = ['resetPosition', 'endPosition', 'thirdPersonPosition', 'creditsPosition'];
 
 export function validateSpatialConfigBase(value: unknown, label: string): SpatialConfigBase {
-  assertExactKeys(value, label, spatialConfigKeys);
+  assertRequiredKeys(value, label, spatialConfigKeys);
   const config = value as Record<string, unknown>;
   let control: SpatialConfigBase['control'] = null;
   if (config.control !== null) {
-    assertExactKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
+    assertRequiredKeys(config.control, `${label}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions', 'respawnAxis', 'respawnAxisThreshold']);
     const rawControl = config.control as Record<string, unknown>;
     const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${label}.control.centerPositions`, false);
     const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${label}.control.jumpPositions`, false);
@@ -192,8 +185,8 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
   const config = value as Record<string, unknown>;
   if ('composition' in config || 'stages' in config) {
-    assertExactKeys(config, label, [...compositeSharedSpatialKeys, 'composition', 'stages']);
-    assertExactKeys(config.composition, `${label}.composition`, ['selectionCount', 'firstStageSelection', 'remainingStageSelection']);
+    assertRequiredKeys(config, label, [...compositeSharedSpatialKeys, 'composition', 'stages']);
+    assertRequiredKeys(config.composition, `${label}.composition`, ['selectionCount', 'firstStageSelection', 'remainingStageSelection']);
     const rawComposition = config.composition as Record<string, unknown>;
     const selectionCount = rawComposition.selectionCount;
     if (typeof selectionCount !== 'number' || !Number.isInteger(selectionCount) || selectionCount < 2 || selectionCount > 16) {
@@ -210,7 +203,7 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
     const firstStageSelectionValue = rawFirstStageSelection as Record<string, unknown>;
     let firstStageSelection: CompositeSpatialConfig['composition']['firstStageSelection'];
     if (firstStageSelectionValue.mode === 'setup_detection') {
-      assertExactKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode', 'fallbackStageId']);
+      assertRequiredKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode', 'fallbackStageId']);
       firstStageSelection = {
         mode: 'setup_detection',
         fallbackStageId: requireString(firstStageSelectionValue.fallbackStageId, `${label}.composition.firstStageSelection.fallbackStageId`)
@@ -219,7 +212,7 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
         throw new Error(`${label}.composition.firstStageSelection.fallbackStageId has an unsupported value`);
       }
     } else if (firstStageSelectionValue.mode === 'random') {
-      assertExactKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode']);
+      assertRequiredKeys(firstStageSelectionValue, `${label}.composition.firstStageSelection`, ['mode']);
       firstStageSelection = { mode: 'random' };
     } else {
       throw new Error(`${label}.composition.firstStageSelection.mode has an unsupported value`);
@@ -241,7 +234,7 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
       if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
       if (stageIds.has(stageId)) throw new Error(`Duplicate composite spatial stage ${stageId}`);
       stageIds.add(stageId);
-      assertExactKeys(stage.control, `${stageLabel}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions']);
+      assertRequiredKeys(stage.control, `${stageLabel}.control`, ['centerPositions', 'jumpPositions', 'respawnPositions']);
       const rawControl = stage.control as Record<string, unknown>;
       const centerPositions = validateSpatialPositions(rawControl.centerPositions, `${stageLabel}.control.centerPositions`, false);
       const jumpPositions = validateSpatialPositions(rawControl.jumpPositions, `${stageLabel}.control.jumpPositions`, false);
@@ -261,7 +254,7 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
       };
     }).sort((left, right) => left.stageId < right.stageId ? -1 : left.stageId > right.stageId ? 1 : 0);
     const routeControlValue = config.control;
-    assertExactKeys(routeControlValue, `${label}.control`, ['respawnAxis', 'respawnAxisThreshold']);
+    assertRequiredKeys(routeControlValue, `${label}.control`, ['respawnAxis', 'respawnAxisThreshold']);
     const routeControl = routeControlValue as Record<string, unknown>;
     const respawnAxis = routeControl.respawnAxis;
     if (respawnAxis !== 'x' && respawnAxis !== 'y' && respawnAxis !== 'z') throw new Error(`${label}.control.respawnAxis must be x, y, or z`);
@@ -300,7 +293,7 @@ export function validateSpatialConfig(value: unknown, label: string): SpatialCon
   const stageIds = new Set<string>();
   const alternateStages = rawAlternateStages.map((rawStage, index) => {
     const stageLabel = `${label}.alternateStages[${index}]`;
-    assertExactKeys(rawStage, stageLabel, ['stageId', 'setupDetection', ...spatialConfigKeys]);
+    assertRequiredKeys(rawStage, stageLabel, ['stageId', 'setupDetection', ...spatialConfigKeys]);
     const stage = rawStage as Record<string, unknown>;
     const stageId = requireString(stage.stageId, `${stageLabel}.stageId`);
     if (!/^[a-z0-9][a-z0-9_-]*$/.test(stageId) || stageId.length > 64) throw new Error(`${stageLabel}.stageId has an unsupported value`);
@@ -335,7 +328,7 @@ export function validateMigratedMapSpatialConfig(mapId: string, config: SpatialC
 }
 
 export function validateGameplayRevision(value: unknown, mapId: string, label: string): ValidatedGameplayRevision {
-  assertExactKeys(value, label, ['gameplayRevisionId', 'mapId', 'mapVariant', 'lifecycle', 'enabled', 'isDefault', 'isSelectable', 'gameVersion', 'spatialConfig', 'challengeRefs']);
+  assertRequiredKeys(value, label, ['gameplayRevisionId', 'mapId', 'mapVariant', 'lifecycle', 'enabled', 'isDefault', 'isSelectable', 'gameVersion', 'spatialConfig', 'challengeRefs']);
   const revision = value as Record<string, unknown>;
   const gameplayRevisionId = requireString(revision.gameplayRevisionId, `${label}.gameplayRevisionId`);
   if (requireString(revision.mapId, `${label}.mapId`) !== mapId) throw new Error(`${label}.mapId does not match ${mapId}`);
@@ -351,7 +344,7 @@ export function validateGameplayRevision(value: unknown, mapId: string, label: s
   const challengeIds = new Set<string>();
   const challengeRefs = revision.challengeRefs.map((rawRef, index) => {
     const refLabel = `${label}.challengeRefs[${index}]`;
-    assertExactKeys(rawRef, refLabel, ['family', 'challengeId']);
+    assertRequiredKeys(rawRef, refLabel, ['family', 'challengeId']);
     const ref = rawRef as Record<string, unknown>;
     if (ref.family !== 'map') throw new Error(`${refLabel}.family must be map`);
     const challengeId = requireString(ref.challengeId, `${refLabel}.challengeId`);
@@ -382,15 +375,6 @@ export function validatePlatformMaps(platformData: PlatformData, titleSource: Ti
     platformMapIds.add(mapId);
     requireString(item.mapName, `${prefix}.mapName`);
     requireString(item.gameVersion, `${prefix}.gameVersion`);
-    if (item.difficultyRating !== null && !MAP_DIFFICULTIES.has(item.difficultyRating)) {
-      throw new Error(`${prefix}.difficultyRating has an unsupported value`);
-    }
-    if (!Array.isArray(item.mechanics) || item.mechanics.length > 16 || item.mechanics.some((value: unknown) => typeof value !== 'string' || value.trim() === '')) {
-      throw new Error(`${prefix}.mechanics must contain non-empty strings`);
-    }
-    for (const field of ['coverUrl', 'backgroundUrl']) {
-      if (item[field] !== null && (typeof item[field] !== 'string' || !/^https?:\/\//.test(item[field]))) throw new Error(`${prefix}.${field} must be a valid URL or null`);
-    }
     if (!mapKeyById.has(mapId)) throw new Error(`${prefix} references unknown Bastion map ${mapId}`);
     if (!Array.isArray(item.gameplayRevisions) || item.gameplayRevisions.length > 32) throw new Error(`${prefix}.gameplayRevisions must contain at most 32 revisions`);
     const gameplayRevisions = item.gameplayRevisions.map((revision, revisionIndex) => validateGameplayRevision(revision, mapId, `${prefix}.gameplayRevisions[${revisionIndex}]`));
@@ -404,10 +388,6 @@ export function validatePlatformMaps(platformData: PlatformData, titleSource: Ti
       mapId,
       mapName: requireString(item.mapName, `${prefix}.mapName`),
       gameVersion: requireString(item.gameVersion, `${prefix}.gameVersion`),
-      difficultyRating: item.difficultyRating as string | null,
-      mechanics: item.mechanics as string[],
-      coverUrl: item.coverUrl as string | null,
-      backgroundUrl: item.backgroundUrl as string | null,
       gameplayRevisions
     });
     mapIds.delete(mapId);
@@ -464,7 +444,7 @@ export function buildPlatformMapRevisionSource({ platformData }: { platformData:
   const holderIdentitiesByRevision = new Map<string, Set<string>>();
   for (const [index, item] of platformData.mapTitleHolders.entries()) {
     const prefix = `mapTitleHolders[${index}]`;
-    assertExactKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerName'], ['playerId']);
+    assertRequiredKeys(item, prefix, ['mapId', 'gameplayRevisionId', 'titleKey', 'slot', 'slotSemantics', 'playerName']);
     const mapId = requireString(item.mapId, `${prefix}.mapId`);
     const gameplayRevisionId = requireString(item.gameplayRevisionId, `${prefix}.gameplayRevisionId`);
     const revision = catalog.revisions.get(gameplayRevisionId);
@@ -853,8 +833,6 @@ export function validatePlatformAchievements(platformData: PlatformData, titleKe
     const challengeId = requireString(item.challengeId, `${prefix}.challengeId`);
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
     if (!titleKeys.has(titleKey)) throw new Error(`${prefix} references unknown title ${titleKey}`);
-    if (!CHALLENGE_STATUSES.has(item.status)) throw new Error(`${prefix}.status has an unsupported value`);
-    if (!SUBMISSION_MODES.has(item.submissionMode)) throw new Error(`${prefix}.submissionMode has an unsupported value`);
     if (item.family === 'achievement' && item.type === 'title_achievement' && item.kind === 'title_achievement') {
       if (!challengeId.startsWith('title.') || challengeId !== `title.${titleKey}`) {
         throw new Error(`${prefix}.challengeId must reference title.${titleKey}`);

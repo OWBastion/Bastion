@@ -2,7 +2,6 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  assertExactKeys,
   assertUnique,
   requireNumber,
   requireString,
@@ -291,13 +290,6 @@ function validateSourceShape(sourceData) {
 
       ensureNoDuplicate(slotNames, `player name in ${mapItem.mapKey}.${slot}`);
       normalizedHolders[slot] = slotNames;
-    }
-
-    const conquerorSet = new Set(normalizedHolders.CONQUEROR);
-    for (const dominatorName of normalizedHolders.DOMINATOR) {
-      if (!conquerorSet.has(dominatorName)) {
-        throw new Error(`${mapItem.mapKey}: DOMINATOR holder ${dominatorName} must also be in CONQUEROR.`);
-      }
     }
 
     return {
@@ -784,7 +776,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
   });
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
-  for (const map of mapTitles) { const conquerors = new Set(map.holders.CONQUEROR); if (map.holders.DOMINATOR.some((name) => !conquerors.has(name))) throw new Error(`${map.mapKey}: DOMINATOR holder must also be CONQUEROR`); }
   const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }

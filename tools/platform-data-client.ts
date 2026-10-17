@@ -69,6 +69,20 @@ export class PlatformDataClientError extends Error {
   }
 }
 
+class PlatformSnapshotChangedError extends PlatformDataClientError {}
+
+const SNAPSHOT_ATTEMPTS = 3;
+
+async function withStableSnapshot<T>(fetchSnapshot: () => Promise<T>): Promise<T> {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await fetchSnapshot();
+    } catch (error) {
+      if (!(error instanceof PlatformSnapshotChangedError) || attempt >= SNAPSHOT_ATTEMPTS) throw error;
+    }
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -243,7 +257,11 @@ export class PlatformDataClient {
     return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.gameplayRevisionId)}:${String(item.titleKey)}:${String(item.slot)}:${String(item.playerId ?? '')}:${String(item.playerName)}`);
   }
 
-  async fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
+  fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
+    return withStableSnapshot(() => this.fetchResourceOnce(resource));
+  }
+
+  private async fetchResourceOnce(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
     const items: PlatformDataItem[] = [];
     const ids = new Set<string>();
     let requestedPage = 1;
@@ -254,7 +272,7 @@ export class PlatformDataClient {
       if (expectedTotal === undefined) {
         expectedTotal = response.total;
       } else if (response.total !== expectedTotal) {
-        throw new PlatformDataClientError(
+        throw new PlatformSnapshotChangedError(
           `Response total ${response.total} does not match earlier total ${expectedTotal}`,
           { resource, page: requestedPage }
         );
@@ -285,7 +303,11 @@ export class PlatformDataClient {
     }
   }
 
-  private async fetchCustomResource(resource: string, query: URLSearchParams, identity: (item: PlatformDataItem) => string): Promise<PlatformDataItem[]> {
+  private fetchCustomResource(resource: string, query: URLSearchParams, identity: (item: PlatformDataItem) => string): Promise<PlatformDataItem[]> {
+    return withStableSnapshot(() => this.fetchCustomResourceOnce(resource, query, identity));
+  }
+
+  private async fetchCustomResourceOnce(resource: string, query: URLSearchParams, identity: (item: PlatformDataItem) => string): Promise<PlatformDataItem[]> {
     const items: PlatformDataItem[] = [];
     const ids = new Set<string>();
     let requestedPage = 1;
@@ -296,7 +318,7 @@ export class PlatformDataClient {
       pageQuery.set('pageSize', String(this.pageSize));
       const response = await this.fetchCustomPage(resource, pageQuery, requestedPage);
       if (expectedTotal === undefined) expectedTotal = response.total;
-      else if (response.total !== expectedTotal) throw new PlatformDataClientError(`Response total ${response.total} does not match earlier total ${expectedTotal}`, { page: requestedPage });
+      else if (response.total !== expectedTotal) throw new PlatformSnapshotChangedError(`Response total ${response.total} does not match earlier total ${expectedTotal}`, { page: requestedPage });
       for (const item of response.items) {
         const id = identity(item);
         if (!id || id === 'undefined' || id === 'null') throw new PlatformDataClientError(`Invalid identity in ${resource}`, { page: requestedPage });
@@ -395,12 +417,10 @@ export function assertUnique(values: string[], label: string) {
   }
 }
 
-export function assertExactKeys(value: unknown, label: string, expectedKeys: string[], optionalKeys: string[] = []) {
+export function assertRequiredKeys(value: unknown, label: string, requiredKeys: string[]) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
-  const actualKeys = Object.keys(value);
-  const allowed = new Set([...expectedKeys, ...optionalKeys]);
-  const valid = expectedKeys.every((key) => actualKeys.includes(key)) && actualKeys.every((key) => allowed.has(key));
-  if (!valid) throw new Error(`${label} has an invalid shape; expected keys ${[...allowed].sort().join(', ')}`);
+  const missing = requiredKeys.filter((key) => !(key in value));
+  if (missing.length) throw new Error(`${label} is missing required keys: ${missing.join(', ')}`);
 }
 
 export const TITLE_SCOPES = new Set(['global', 'map']);
@@ -409,18 +429,11 @@ export const TITLE_DISPLAY_KINDS = new Set(['fixed', 'map_pioneer', 'map_name_su
 
 export const TITLE_SLOTS = new Set(['pioneer', 'conqueror', 'dominator', 'classic']);
 
-export const MAP_DIFFICULTIES = new Set(['T0', 'T1', 'T2', 'T3', 'T4', 'T5']);
 
-export const CHALLENGE_STATUSES = new Set(['scheduled', 'active', 'sunsetting']);
 
-export const SUBMISSION_MODES = new Set(['manual', 'automatic']);
 
 export const EVENT_CATEGORIES = new Map([
   ['增益', 'buff'],
   ['减益', 'debuff'],
   ['机制', 'mech']
 ] as const);
-
-export const PLATFORM_EVENT_CATEGORIES = new Set(['增益', '减益', '机制', '全局']);
-
-export const EVENT_STATUSES = new Set(['implemented', 'removed']);

@@ -279,13 +279,23 @@ test('rejects duplicate IDs across pages and changing totals', async (t) => {
     await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('events'), /Duplicate eventId: same-event/);
   });
 
-  await t.test('total must remain stable during one resource fetch', async () => {
-    const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
+  await t.test('total that keeps changing is rejected, a transient change is retried', async () => {
+    const unstable = await startFakeServer((resource, page, pageSize) => {
       if (resource !== 'maps') return validPage(resource, page, pageSize);
       return page === 1
         ? pageResponse([{ mapId: 'map-1' }], page, pageSize, 2)
         : pageResponse([{ mapId: 'map-2' }], page, pageSize, 3);
     });
-    await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('maps'), /does not match earlier total/);
+    await assert.rejects(() => new PlatformDataClient({ baseUrl: unstable.baseUrl, pageSize: 1 }).fetchResource('maps'), /does not match earlier total/);
+
+    let snapshots = 0;
+    const transient = await startFakeServer((resource, page, pageSize) => {
+      if (resource !== 'maps') return validPage(resource, page, pageSize);
+      if (page === 1) snapshots += 1;
+      const total = snapshots === 1 && page === 2 ? 3 : 2;
+      return pageResponse([{ mapId: `map-${page}` }], page, pageSize, total);
+    });
+    const maps = await new PlatformDataClient({ baseUrl: transient.baseUrl, pageSize: 1 }).fetchResource('maps');
+    assert.deepEqual(maps.map((item) => item.mapId), ['map-1', 'map-2']);
   });
 });

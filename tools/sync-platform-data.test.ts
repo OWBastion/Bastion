@@ -190,17 +190,15 @@ test('rejects unknown platform title IDs', () => {
 });
 
 test('rejects unsupported platform enums', () => {
-  assert.throws(() => merge({ maps: [{ ...platformData.maps[0], difficultyRating: 'T9' }] }), /difficultyRating has an unsupported value/);
   assert.throws(() => merge({ titles: [{ ...platformData.titles[0], displayKind: 'unknown' }] }), /unsupported scope or displayKind/);
-  assert.throws(() => merge({ achievements: [{ ...platformData.achievements[0], status: 'draft' }] }), /status has an unsupported value/);
-  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '未知' }] }), /category has an unsupported value/);
+  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '未知' }] }), /cannot be mapped to a Bastion event/);
 });
 
-test('ignores unmapped historical events while validating their platform category', () => {
+test('ignores unmapped platform events regardless of their shape', () => {
   const result = merge({
     events: [
       platformData.events[0],
-      { ...platformData.events[0], eventId: 'event.history', category: '全局', name: '历史事件' }
+      { eventId: 'event.history', name: '历史事件', category: '未来类别', releaseStatus: 'future', challenges: [{ challengeId: 'unknown' }] }
     ]
   });
   assert.equal(result.counts.ignoredEvents, 1);
