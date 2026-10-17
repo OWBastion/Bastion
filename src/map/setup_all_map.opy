@@ -5,6 +5,7 @@
 #!useVariableForCompressionAlphabet
 
 
+#!include "position_pool.opy"
 #!include "blizzworld.opy"
 #!include "dorado.opy"
 #!include "eichenwalde.opy"
