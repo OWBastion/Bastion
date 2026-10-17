@@ -57,13 +57,13 @@ Workshop 只有 128 个 player 变量槽。reviewer 反复拦截：
 
 ## L6. 事件效果规则的惯例细节（skill 覆盖不全）
 
-`add-workshop-event` 已含"派发仅 `eventId` 单条件""动作区判断需显式 `wait`"，review 又补出：
+`workshop-event` 已含"派发仅 `eventId` 单条件""动作区判断需显式 `wait`"，review 又补出：
 
 - 效果规则内部不重复判断自身 `eventId`/`eventType`——规则已被 ID 门控（#403、#257）
 - 清理归属：`clearPlayerEvent` 只做通用清扫、不按事件 ID 分支；事件专属状态在事件文件内回收（#257 的纠正 + #390 的统一 `UNKILLABLE` 清扫合起来才是完整规则）
 - 不主动加特效（#267、#269）；少用 `#!define` 收缩实现（#263）；locale 文案注意 `\n` 与占位符（#257、#330）
 
-→ 落地：补进 `skills/add-workshop-event/` 的规则条件清单；属判断项，不进 lint。
+→ 落地：补进 `skills/workshop-event/` 的规则条件清单；属判断项，不进 lint。
 
 ## 附注
 
