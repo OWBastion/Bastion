@@ -180,22 +180,51 @@ function removeLocaleEntries(source: string, type: EventType, id: number): strin
   return `${filtered.join('\n')}\n`;
 }
 
-function addConfigRegistration(source: string, spec: AddSpec): string {
+function parseCatalogRows(source: string): { key: string; row: string }[] {
+  const entries: { key: string; row: string }[] = [];
+  for (const match of source.matchAll(/# \d+: EventId\.([A-Z0-9_]+)\n    (\[.*\]),?\s*$/gm)) {
+    entries.push({ key: match[1], row: match[2] });
+  }
+  return entries;
+}
+
+function renderCatalogRows(entries: { key: string; row: string }[]): string {
+  const body = entries.map((entry, index) => `    # ${index}: EventId.${entry.key}\n    ${entry.row},`).join('\n');
+  return `eventCatalogRows = [\n${body.slice(0, -1)}\n    ]`;
+}
+
+const CATALOG_ROWS_RE = /eventCatalogRows = \[\n[\s\S]*?\n    \]/;
+
+function parseEnumKeys(source: string): string[] {
+  const match = source.match(/enum EventId:[\s\S]*?(?=\n\w|\n*$)/);
+  if (!match) {
+    throw new Error('enum EventId block not found');
+  }
+  return match[0]
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => /^[A-Z0-9_]+(\s*=\s*\d+)?$/.test(line))
+    .map((line) => line.split(/\s*=\s*/)[0]);
+}
+
+function addConfigRegistration(source: string, spec: AddSpec, idsSource: string): string {
   const cfg = CONFIG_CONTAINER[spec.type];
   const titleToken = `STR_EVT_${cfg.prefix}_${spec.id}_TITLE`;
   const descToken = spec.configDescExpr?.trim() || `STR_EVT_${cfg.prefix}_${spec.id}_DESC`;
-  const block =
-    `    eventName[${ENUM_NAME}.${spec.key}] = ${titleToken}\n` +
-    `    eventDesc[${ENUM_NAME}.${spec.key}] = ${descToken}\n` +
-    `    eventDuration[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_DURATION\n` +
-    `    eventCatalogWeight[${ENUM_NAME}.${spec.key}] = EVT_${cfg.prefix}_${spec.id}_WEIGHT\n` +
-    `    eventCatalogType[${ENUM_NAME}.${spec.key}] = EventType.${cfg.prefix}`;
+  const row = `[${titleToken}, ${descToken}, EVT_${cfg.prefix}_${spec.id}_DURATION, EVT_${cfg.prefix}_${spec.id}_WEIGHT, EventType.${cfg.prefix}]`;
 
-  if (source.includes(`${ENUM_NAME}.${spec.key}]`) || source.includes(`${ENUM_NAME}.${spec.key})`)) {
-    throw new Error(`${ENUM_NAME}.${spec.key} already registered in config`);
+  const enumKeys = parseEnumKeys(idsSource);
+  const index = enumKeys.indexOf(spec.key);
+  if (index < 0) {
+    throw new Error(`${ENUM_NAME}.${spec.key} not found in updated enum`);
   }
 
-  return `${source.trimEnd()}\n\n${block}\n`;
+  const entries = parseCatalogRows(source);
+  if (entries.some((entry) => entry.key === spec.key)) {
+    throw new Error(`${ENUM_NAME}.${spec.key} already registered in config`);
+  }
+  entries.splice(index, 0, { key: spec.key, row });
+  return source.replace(CATALOG_ROWS_RE, () => renderCatalogRows(entries));
 }
 
 function addCatalogOrderEntry(source: string, key: string): string {
@@ -219,23 +248,12 @@ function removeCatalogOrderEntry(source: string, key: string): string {
 }
 
 function removeConfigRegistration(source: string, spec: RemoveSpec): string {
-  const escapedEnum = escapeRegExp(`${ENUM_NAME}.${spec.key}`);
-  const lines = source.split('\n');
-  let removed = 0;
-  const filtered = lines.filter((line) => {
-    const matchAssign = new RegExp(`^\\s*\\w+\\[\\s*${escapedEnum}\\s*\\]\\s*=`).test(line);
-    if (matchAssign) {
-      removed += 1;
-      return false;
-    }
-    return true;
-  });
-
-  if (removed === 0) {
+  const entries = parseCatalogRows(source);
+  const filtered = entries.filter((entry) => entry.key !== spec.key);
+  if (filtered.length === entries.length) {
     throw new Error(`${ENUM_NAME}.${spec.key} registration not found`);
   }
-
-  return `${filtered.join('\n')}\n`;
+  return source.replace(CATALOG_ROWS_RE, () => renderCatalogRows(filtered));
 }
 
 async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
@@ -262,12 +280,13 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
   let next = { ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev };
 
   if (spec.action === 'add') {
+    const nextIds = addEnumEntry(next.ids, spec.type, spec.key, spec.id);
     next = {
-      ids: addEnumEntry(next.ids, spec.type, spec.key, spec.id),
+      ids: nextIds,
       constants: addConstantsBlock(next.constants, spec.type, spec.id, spec.duration, spec.weight),
       localeZh: addLocaleEntries(next.localeZh, spec.type, spec.id, spec.titleZh, spec.descZh),
       localeEn: addLocaleEntries(next.localeEn, spec.type, spec.id, spec.titleEn, spec.descEn),
-      catalog: addConfigRegistration(next.catalog, spec),
+      catalog: addConfigRegistration(next.catalog, spec, nextIds),
       catalogMain: addCatalogOrderEntry(next.catalogMain, spec.key),
       catalogDev: addCatalogOrderEntry(next.catalogDev, spec.key)
     };

@@ -42,6 +42,7 @@ globalvar vishkarEventActivated 72
 globalvar eventCatalogId 82
 globalvar eventCatalogType
 globalvar eventCatalogWeight
+globalvar eventCatalogRows
 globalvar obstrucVis 89
 globalvar heroColor 90
 globalvar breathPalette 91

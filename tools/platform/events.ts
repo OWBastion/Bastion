@@ -14,11 +14,43 @@ export type EventMacros = { id: string | number; duration: string; weight: strin
 
 export type EventEntry = { key: string; type: EventType; platformId: string; macros: EventMacros };
 
+const CATALOG_ROW_PATTERN = /# \d+: EventId\.([A-Z0-9_]+)\s*\n\s+\[(.*)\],?\s*$/gm;
+
+function splitCatalogRowFields(row: string): string[] {
+  const fields: string[] = [];
+  let depth = 0;
+  let inString = false;
+  let current = '';
+  for (const ch of row) {
+    if (ch === '"') {
+      inString = !inString;
+    } else if (!inString) {
+      if (ch === '[' || ch === '(') depth += 1;
+      else if (ch === ']' || ch === ')') depth -= 1;
+      else if (ch === ',' && depth === 0) {
+        fields.push(current.trim());
+        current = '';
+        continue;
+      }
+    }
+    current += ch;
+  }
+  fields.push(current.trim());
+  return fields;
+}
+
+function catalogRowFields(catalogSource: string, eventKey: string): string[] | null {
+  const pattern = new RegExp(`# \\d+: EventId\\.${eventKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\n\\s+\\[(.*)\\],?\\s*$`, 'm');
+  const row = catalogSource.match(pattern)?.[1];
+  return row ? splitCatalogRowFields(row) : null;
+}
+
 export function collectEventEntries(catalogSource: string): Array<{ key: string; type: EventType }> {
   const entries = new Map<string, { key: string; type: EventType }>();
-  const pattern = /eventCatalogType\[\s*EventId\.([A-Z0-9_]+)\s*\]\s*=\s*EventType\.(BUFF|DEBUFF|MECH)/g;
-  for (const match of catalogSource.matchAll(pattern)) {
-    entries.set(match[1], { key: match[1], type: match[2].toLowerCase() as EventType });
+  for (const match of catalogSource.matchAll(CATALOG_ROW_PATTERN)) {
+    const type = splitCatalogRowFields(match[2])[4]?.match(/^EventType\.(BUFF|DEBUFF|MECH)$/)?.[1];
+    if (!type) throw new Error(`Unable to resolve catalog row type for EventId.${match[1]}`);
+    entries.set(match[1], { key: match[1], type: type.toLowerCase() as EventType });
   }
   return [...entries.values()];
 }
@@ -79,19 +111,10 @@ export function replaceOverPyDefine(source: string, name: string, value: string 
 
 export function resolveEventMacros(eventKey: string, eventType: string, catalogSource: string) {
   const type = eventType.toUpperCase();
-  const escapedKey = eventKey.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
-  const titlePattern = new RegExp(
-    `eventName\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*STR_EVT_${type}_(\\d+)_TITLE`
-  );
-  const durationPattern = new RegExp(
-    `eventDuration\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
-  );
-  const weightPattern = new RegExp(
-    `eventCatalogWeight\\[\\s*EventId\\.${escapedKey}\\s*\\]\\s*=\\s*(EVT_[A-Z0-9_]+)`
-  );
-  const id = catalogSource.match(titlePattern)?.[1];
-  const duration = catalogSource.match(durationPattern)?.[1];
-  const weight = catalogSource.match(weightPattern)?.[1];
+  const fields = catalogRowFields(catalogSource, eventKey);
+  const id = fields?.[0]?.match(new RegExp(`^STR_EVT_${type}_(\\d+)_TITLE$`))?.[1];
+  const duration = fields?.[2]?.match(/^(EVT_[A-Z0-9_]+)$/)?.[1];
+  const weight = fields?.[3]?.match(/^(EVT_[A-Z0-9_]+)$/)?.[1];
   if (!id || !duration || !weight) throw new Error(`Unable to resolve OverPy macros for ${eventType}:${eventKey}`);
   return { id, duration, weight };
 }
