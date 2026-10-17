@@ -376,12 +376,12 @@ enum HeartSteelData:
 # Weight（权重）
 #!define EVT_BUFF_37_WEIGHT 0.8
 # 每用一名新英雄通关获得的永久加成
-#!define EVT_37_REWARD_HEARTSTEEL 25
-#!define EVT_37_REWARD_DMG_REDUCTION 2
-#!define EVT_37_REWARD_SPEED 2
-#!define EVT_37_REWARD_HEAL 10
+#!define EVT_37_REWARD_HEARTSTEEL 10
+#!define EVT_37_REWARD_DMG_REDUCTION 1
+#!define EVT_37_REWARD_SPEED 1
+#!define EVT_37_REWARD_HEAL 5
 # 每次通关延长当前事件的秒数
-#!define EVT_37_EXTEND_SECONDS 45
+#!define EVT_37_EXTEND_SECONDS 25
 
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
