@@ -196,9 +196,16 @@ jobs:
 
       - name: Commit release inputs back to main
         if: steps.release_gate.outputs.should_release == 'true'
+        id: commit
         shell: bash
         run: |
           set -euo pipefail
+          git fetch origin main
+          if [[ "$(git rev-parse origin/main)" != "${GITHUB_SHA}" ]]; then
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+            echo "Skip release: origin/main moved past ${GITHUB_SHA} during the build; the newer push owns the release"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/env/env.opy src/events/event_constants.opy src/events/event_manifest.opy src/locales/zh-CN.opy src/title/title-cn.opy src/map/*.opy src/title/playerNameToIndex.js src/title/playerNameToIndexDelimited.js
@@ -210,7 +217,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Ensure git tag exists
-        if: steps.release_gate.outputs.should_release == 'true'
+        if: steps.release_gate.outputs.should_release == 'true' && steps.commit.outputs.stale != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -224,7 +231,7 @@ jobs:
           echo "Created and pushed tag: ${tag}"
 
       - name: Generate custom release notes
-        if: steps.release_gate.outputs.should_release == 'true'
+        if: steps.release_gate.outputs.should_release == 'true' && steps.commit.outputs.stale != 'true'
         id: notes
         shell: bash
         run: |
@@ -270,7 +277,7 @@ jobs:
           echo "Generated ${notes_file} from range: ${commit_range}"
 
       - name: Publish GitHub Release with build artifacts
-        if: steps.release_gate.outputs.should_release == 'true'
+        if: steps.release_gate.outputs.should_release == 'true' && steps.commit.outputs.stale != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
@@ -281,7 +288,7 @@ jobs:
           gh release create "${tag}" --title "${tag}" --notes-file "${notes_file}" "${CN_RELEASE_ARTIFACT}" "${EXTERNAL_RELEASE_ARTIFACT}"
 
       - name: Release summary
-        if: steps.release_gate.outputs.should_release == 'true'
+        if: steps.release_gate.outputs.should_release == 'true' && steps.commit.outputs.stale != 'true'
         shell: bash
         run: |
           echo "Version bump: ${{ steps.bump.outputs.old_version }} -> ${{ steps.bump.outputs.new_version }}"
