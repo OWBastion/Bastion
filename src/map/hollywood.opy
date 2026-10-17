@@ -8,20 +8,11 @@
 macro platformMapRevision_HOLLYWOOD_DEFAULT():
     __currentMapText___ = "好莱坞"
 
-    bastionPosition = [
-        vect(-20.813, 9.795, -128.879),
-        vect(-6.517, 15.305, -105.981),
-        vect(-14.73, 6.027, -67.67),
-        vect(4.162, 11.155, -39.796),
-        vect(-15.818, 5.751, -7.412),
-        vect(-1.715, 2.332, 10.867),
-        vect(-31.241, 4.84, 49.397),
-        vect(25.884, 7.646, -68.66)
-    ]
-    resetPosition = vect(-23.64, 3.92, -157.44)
-    endPosition = vect(-48.89, -0.15, 53.12)
-    thirdPersonPosition = vect(-27.291, 3.92, -156.654)
-    creditsPosition = vect(-31.65, 8.96, -175.05)
+    bastionPosition = mapPositionPool.slice(312, 8)
+    resetPosition = mapPositionPool[320]
+    endPosition = mapPositionPool[321]
+    thirdPersonPosition = mapPositionPool[322]
+    creditsPosition = mapPositionPool[323]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
