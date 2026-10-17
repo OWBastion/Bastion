@@ -8,20 +8,11 @@
 macro platformMapRevision_COLOSSEO_DEFAULT():
     __currentMapText___ = "斗兽场"
 
-    bastionPosition = [
-        vect(60.94, 12.5, -13.78),
-        vect(30.54, 5.09, 6.64),
-        vect(-7.85, 20, -29.95),
-        vect(-21.88, 7.49, -3),
-        vect(-54.52, 12.46, -10.1),
-        vect(-9.98, 5, -39.5),
-        vect(-60.93, 12.21, -11.91),
-        vect(-87.64, 16.77, -22.43)
-    ]
-    resetPosition = vect(111.17, 9, -50.91)
-    endPosition = vect(-90.31, 9, -33.55)
-    thirdPersonPosition = vect(117.38, 9, -38.98)
-    creditsPosition = vect(117.64, 13, -48.66)
+    bastionPosition = mapPositionPool.slice(180, 8)
+    resetPosition = mapPositionPool[188]
+    endPosition = mapPositionPool[189]
+    thirdPersonPosition = mapPositionPool[190]
+    creditsPosition = mapPositionPool[191]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

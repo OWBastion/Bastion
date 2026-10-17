@@ -8,18 +8,11 @@
 macro platformMapRevision_AYUTTHAYA_DEFAULT():
     __currentMapText___ = "阿育陀耶"
 
-    bastionPosition = [
-        vect(18.158, 1.217, -56.711),
-        vect(17.999, 6.029, -30.873),
-        vect(14.01, 3.189, -9.077),
-        vect(34.905, 5.09, 4.157),
-        vect(4.54, 6.004, 26.42),
-        vect(10.071, 1.931, 38.699)
-    ]
-    resetPosition = vect(20.46, 1, -104.03)
-    endPosition = vect(16.12, 1, 66.52)
-    thirdPersonPosition = vect(15.45, 1, -103.8)
-    creditsPosition = vect(17.69, 9.22, -111.87)
+    bastionPosition = mapPositionPool.slice(71, 6)
+    resetPosition = mapPositionPool[77]
+    endPosition = mapPositionPool[78]
+    thirdPersonPosition = mapPositionPool[79]
+    creditsPosition = mapPositionPool[80]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -8,22 +8,11 @@
 macro platformMapRevision_MIDTOWN_DEFAULT():
     __currentMapText___ = "中城"
 
-    bastionPosition = [
-        vect(59.17, 9.847, -6.159),
-        vect(118.361, 5.867, -78.645),
-        vect(133.892, 5.637, -53.775),
-        vect(92.256, 8.438, -22.921),
-        vect(77.01, 13.219, -20.601),
-        vect(43.662, 8.805, 12.811),
-        vect(59.729, 9.199, 38.82),
-        vect(7.768, 9.061, 44.804),
-        vect(11.395, 9.676, 91.561),
-        vect(-13.854, 9.931, 73.748)
-    ]
-    resetPosition = vect(119.51, 1.84, -104.94)
-    endPosition = vect(12.91, 3.75, 127.69)
-    thirdPersonPosition = vect(133.91, 1.84, -104.94)
-    creditsPosition = vect(126.5, 3, -125.37)
+    bastionPosition = mapPositionPool.slice(391, 10)
+    resetPosition = mapPositionPool[401]
+    endPosition = mapPositionPool[402]
+    thirdPersonPosition = mapPositionPool[403]
+    creditsPosition = mapPositionPool[404]
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
