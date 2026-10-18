@@ -21,7 +21,7 @@ macro HERO_SETTINGS_ALL_TEAMS = {
         "ability2Cooldown%": 70
     },
     "ana": {
-        "ability1Cooldown%": 67
+        "ability1Cooldown%": 50
     },
     "anran": {
         "ability1Cooldown%": 75,
