@@ -9,10 +9,17 @@ macro platformMapRevision_HAVANA_DEFAULT():
     __currentMapText___ = "哈瓦那"
 
     bastionPosition = mapPositionPool.slice(280, 7)
-    resetPosition = mapPositionPool[287]
-    endPosition = mapPositionPool[288]
-    thirdPersonPosition = mapPositionPool[289]
-    creditsPosition = mapPositionPool[290]
+    # (117.332, 14.433, -58.091)
+    # (97, 9.01, -25.51)
+    # (62.21, 12.06, -83.3)
+    # (11.58, 7.96, -52.71)
+    # (10.13, 6, -100.38)
+    # (-37.54, 8.23, -72.23)
+    # (-77.17, 10.13, -66.78)
+    resetPosition = mapPositionPool[287] # (158.3, 11, -44.35)
+    endPosition = mapPositionPool[288] # (-77.24, 7.22, -49.83)
+    thirdPersonPosition = mapPositionPool[289] # (158.256, 11, -47.739)
+    creditsPosition = mapPositionPool[290] # (193.45, 13.25, -46.49)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

@@ -137,20 +137,30 @@ export class SpatialPositionPool {
     const lines = [
       MAP_REVISION_BEGIN,
       '# Source: OWBastion Agents API',
+      `# Spatial positions emitted by tools/platform/mapRevision.ts are interned here once;`,
+      `# macros read entries as ${MAP_POSITION_POOL_VARIABLE}[i] or ${MAP_POSITION_POOL_VARIABLE}.slice(start, count),`,
+      '# with the resolved coordinates annotated in trailing comments at each use site.',
       `globalvar ${MAP_POSITION_POOL_VARIABLE}`,
       '',
       'rule "Initialize map position pool":',
       `    ${MAP_POSITION_POOL_VARIABLE} = compressed([`
     ];
-    this.positions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === this.positions.length - 1 ? '' : ','}`));
+    this.positions.forEach((position, index) => lines.push(`        ${renderSpatialPosition(position)}${index === this.positions.length - 1 ? '' : ','} # ${index}`));
     lines.push('    ])', MAP_REVISION_END);
     return lines.join('\n');
   }
 }
 
+export function positionComment(position: SpatialPosition): string {
+  return `# (${position.join(', ')})`;
+}
+
 export function renderVectorAssignment(field: string, positions: SpatialPosition[], indent: string, pool: SpatialPositionPool): string[] {
   if (positions.length === 0) return [`${indent}${field} = []`];
-  return [`${indent}${field} = ${pool.slice(positions)}`];
+  return [
+    `${indent}${field} = ${pool.slice(positions)}`,
+    ...positions.map((position) => `${indent}${positionComment(position)}`)
+  ];
 }
 
 export function renderPlayerIndexDelimited(names: string[]): string {
@@ -193,10 +203,10 @@ export function hasSpawnDetectedCycle(spatialConfig: CompositeSpatialConfig): bo
 
 export function renderSpatialAssignments(lines: string[], config: SpatialConfigBase, pool: SpatialPositionPool) {
   lines.push(...renderVectorAssignment('bastionPosition', config.bastionPositions, '    ', pool));
-  lines.push(`    resetPosition = ${pool.ref(config.resetPosition)}`);
-  lines.push(`    endPosition = ${pool.ref(config.endPosition)}`);
-  lines.push(`    thirdPersonPosition = ${pool.ref(config.thirdPersonPosition)}`);
-  lines.push(`    creditsPosition = ${pool.ref(config.creditsPosition)}`);
+  lines.push(`    resetPosition = ${pool.ref(config.resetPosition)} ${positionComment(config.resetPosition)}`);
+  lines.push(`    endPosition = ${pool.ref(config.endPosition)} ${positionComment(config.endPosition)}`);
+  lines.push(`    thirdPersonPosition = ${pool.ref(config.thirdPersonPosition)} ${positionComment(config.thirdPersonPosition)}`);
+  lines.push(`    creditsPosition = ${pool.ref(config.creditsPosition)} ${positionComment(config.creditsPosition)}`);
   if (config.control) {
     if (config.control.centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', config.control.centerPositions, '    ', pool));
     if (config.control.jumpPositions.length > 0) lines.push(...renderVectorAssignment('controlJumpPosition', config.control.jumpPositions, '    ', pool));
@@ -208,7 +218,7 @@ export function renderSpatialAssignments(lines: string[], config: SpatialConfigB
     }
   }
   if (config.portalPositions.length > 0) lines.push(...renderVectorAssignment('portalPosition', config.portalPositions, '    ', pool));
-  if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${pool.ref(config.springboardPositions[0]!)}`);
+  if (config.springboardPositions.length > 0) lines.push(`    springBoardPosition = ${pool.ref(config.springboardPositions[0]!)} ${positionComment(config.springboardPositions[0]!)}`);
 }
 
 export function renderCompositeStageMacro(
@@ -233,20 +243,20 @@ export function renderCompositeStageMacro(
     lines.push(`    if ${centerPositionsInitialized} != true:`);
     lines.push('        controlCenterPosition = []');
     lines.push(`        ${centerPositionsInitialized} = true`);
-    stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${pool.ref(position)})`));
+    stage.control.centerPositions.forEach((position) => lines.push(`    controlCenterPosition.append(${pool.ref(position)}) ${positionComment(position)}`));
   }
   lines.push(`    if stageOrder < ${selectionCount - 1}:`);
-  lines.push('        controlJumpPosition.append(' + pool.ref(stage.control.jumpPositions[0]!) + ')');
-  lines.push(`    controlRespawnPosition.append(${pool.ref(stage.control.respawnPositions[0]!)})`);
+  lines.push('        controlJumpPosition.append(' + pool.ref(stage.control.jumpPositions[0]!) + ') ' + positionComment(stage.control.jumpPositions[0]!));
+  lines.push(`    controlRespawnPosition.append(${pool.ref(stage.control.respawnPositions[0]!)}) ${positionComment(stage.control.respawnPositions[0]!)}`);
 
   if (stage.portalPositions.length > 0) {
     lines.push('    if portalPosition == null:');
     lines.push('        portalPosition = []');
-    stage.portalPositions.forEach((position) => lines.push(`    portalPosition.append(${pool.ref(position)})`));
+    stage.portalPositions.forEach((position) => lines.push(`    portalPosition.append(${pool.ref(position)}) ${positionComment(position)}`));
   }
   if (stage.springboardPositions.length > 0) {
     lines.push('    if springBoardPosition == null:');
-    lines.push(`        springBoardPosition = ${pool.ref(stage.springboardPositions[0]!)}`);
+    lines.push(`        springBoardPosition = ${pool.ref(stage.springboardPositions[0]!)} ${positionComment(stage.springboardPositions[0]!)}`);
   }
   lines.push('');
 }
@@ -344,10 +354,10 @@ export function renderSpawnDetectedCompositeRoutes(
   });
   const sharedAnchors = routeAnchorPositions.every((anchors) => anchors.join(';') === routeAnchorPositions[0]!.join(';'));
   const renderAnchors = (anchors: SpatialPosition[]) => [
-    `    resetPosition = ${pool.ref(anchors[0]!)}`,
-    `    endPosition = ${pool.ref(anchors[1]!)}`,
-    `    thirdPersonPosition = ${pool.ref(anchors[2]!)}`,
-    `    creditsPosition = ${pool.ref(anchors[3]!)}`,
+    `    resetPosition = ${pool.ref(anchors[0]!)} ${positionComment(anchors[0]!)}`,
+    `    endPosition = ${pool.ref(anchors[1]!)} ${positionComment(anchors[1]!)}`,
+    `    thirdPersonPosition = ${pool.ref(anchors[2]!)} ${positionComment(anchors[2]!)}`,
+    `    creditsPosition = ${pool.ref(anchors[3]!)} ${positionComment(anchors[3]!)}`,
     `    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`,
     `    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`
   ];
@@ -364,7 +374,7 @@ export function renderSpawnDetectedCompositeRoutes(
     const portals = route.flatMap((stage) => stage.portalPositions);
     if (portals.length > 0) lines.push(...renderVectorAssignment('portalPosition', portals, '    ', pool));
     const springboard = route.find((stage) => stage.springboardPositions.length > 0)?.springboardPositions[0];
-    if (springboard) lines.push(`    springBoardPosition = ${pool.ref(springboard)}`);
+    if (springboard) lines.push(`    springBoardPosition = ${pool.ref(springboard)} ${positionComment(springboard)}`);
     lines.push('');
   });
 
@@ -407,17 +417,17 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
     if (hasClassicRevision) lines.push(`    __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(${mapText})`);
     if (isComposite) {
       const composite = revision.spatialConfig as CompositeSpatialConfig;
-      lines.push(`    resetPosition = ${pool.ref(composite.resetPosition)}`);
-      lines.push(`    endPosition = ${pool.ref(composite.endPosition)}`);
-      lines.push(`    thirdPersonPosition = ${pool.ref(composite.thirdPersonPosition)}`);
-      lines.push(`    creditsPosition = ${pool.ref(composite.creditsPosition)}`);
+      lines.push(`    resetPosition = ${pool.ref(composite.resetPosition)} ${positionComment(composite.resetPosition)}`);
+      lines.push(`    endPosition = ${pool.ref(composite.endPosition)} ${positionComment(composite.endPosition)}`);
+      lines.push(`    thirdPersonPosition = ${pool.ref(composite.thirdPersonPosition)} ${positionComment(composite.thirdPersonPosition)}`);
+      lines.push(`    creditsPosition = ${pool.ref(composite.creditsPosition)} ${positionComment(composite.creditsPosition)}`);
       lines.push(`    controlRespawnAxis = ${String({ x: 0, y: 1, z: 2 }[composite.control.respawnAxis])}`);
       lines.push(`    controlRespawnAxisThreshold = ${composite.control.respawnAxisThreshold}`);
       lines.push('');
       for (const [stageIndex, stage] of composite.stages.entries()) {
         if (stage.setupDetection) {
           lines.push('');
-          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${pool.ref(stage.setupDetection.position)}`);
+          lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_POSITION ${pool.ref(stage.setupDetection.position)} ${positionComment(stage.setupDetection.position)}`);
           lines.push(`#!define ${macroName}_COMPOSITE_STAGE_${stageIndex}_SETUP_RADIUS ${stage.setupDetection.radius}`);
         }
       }
@@ -438,7 +448,7 @@ export function renderMapRevisionBlock(map: PlatformMapRevisionSource['maps'][nu
         const setupPositionMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_POSITION`;
         const setupRadiusMacro = `${stageMacroName(map.mapId, variant, stage.stageId)}_SETUP_RADIUS`;
         lines.push('');
-        lines.push(`#!define ${setupPositionMacro} ${pool.ref(stage.setupDetection.position)}`);
+        lines.push(`#!define ${setupPositionMacro} ${pool.ref(stage.setupDetection.position)} ${positionComment(stage.setupDetection.position)}`);
         lines.push(`#!define ${setupRadiusMacro} ${stage.setupDetection.radius}`);
         lines.push(`macro ${stageMacroName(map.mapId, variant, stage.stageId)}():`);
         renderSpatialAssignments(lines, stage, pool);
