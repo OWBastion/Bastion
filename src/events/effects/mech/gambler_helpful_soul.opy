@@ -22,9 +22,9 @@ rule "[VishkarEvent]: 赌徒：孤注一掷":
     else:
         eventPlayer.target.setHealth(1)
         # ＞_＜ 挑战：因队友赌输被降至 1 血且自身正处于「我独自闯关」的队友进入存活观察
-        for eventPlayer.temp in range(len(eventPlayer.target)):
-            if eventPlayer.target[eventPlayer.temp] != eventPlayer and eventPlayer.target[eventPlayer.temp].eventId == EventId.SOLO_RUN:
-                eventPlayer.target[eventPlayer.temp].dlcTimeChallenge[3] = 1
+        eventPlayer.temp = [player for player in eventPlayer.target if player != eventPlayer and player.eventId == EventId.SOLO_RUN]
+        eventPlayer.temp.dlcTimeChallenge[3] = 1
+        eventPlayer.temp = null
         smallMessage(eventPlayer.target, "  {0}  孤注一掷：所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
     eventPlayer.target = null
     requestPlayerEventEnd()
