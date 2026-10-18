@@ -9,10 +9,18 @@ macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
     __currentMapText___ = "暴雪世界"
 
     bastionPosition = mapPositionPool.slice(81, 8)
-    resetPosition = mapPositionPool[89]
-    endPosition = mapPositionPool[90]
-    thirdPersonPosition = mapPositionPool[91]
-    creditsPosition = mapPositionPool[92]
+    # (-114.474, 4.902, 100.451)
+    # (-115.368, 4.75, 129.864)
+    # (-82.619, 1.75, 147.017)
+    # (-35.778, 11.637, 106.066)
+    # (-38.722, -0.204, 66.024)
+    # (25.083, 6, 67.282)
+    # (3.062, -0.097, 20.98)
+    # (23.863, -4, 0.817)
+    resetPosition = mapPositionPool[89] # (-150.25, 0.83, 104.51)
+    endPosition = mapPositionPool[90] # (26.53, -4.1, -7.83)
+    thirdPersonPosition = mapPositionPool[91] # (-149.17, 0.83, 100.85)
+    creditsPosition = mapPositionPool[92] # (-170.8, 3.65, 96.45)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
