@@ -225,7 +225,7 @@
 #!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
 #!define STR_EVT_MECH_19_TITLE "窃贼"
 #!define STR_EVT_MECH_19_DESC "长按{0}：窃取一名友方的下一个增益"
-#!define STR_EVT_MECH_20_TITLE "赌徒：乐于助人"
+#!define STR_EVT_MECH_20_TITLE "赌徒：孤注一掷"
 #!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n{3}%概率使所有玩家生命值降至1"
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
 #!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
