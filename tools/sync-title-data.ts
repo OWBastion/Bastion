@@ -31,12 +31,6 @@ const MAP_DATA_BEGIN = '# BEGIN AUTO-GENERATED MAP_TITLE_DATA';
 const MAP_DATA_END = '# END AUTO-GENERATED MAP_TITLE_DATA';
 const PLAYER_TITLE_SET_POOL_BEGIN = '# BEGIN AUTO-GENERATED PLAYER_TITLE_SET_POOL';
 const PLAYER_TITLE_SET_POOL_END = '# END AUTO-GENERATED PLAYER_TITLE_SET_POOL';
-const TITLE_AVAILABILITY = {
-  ACTIVE: 'active',
-  RETIRED: 'retired'
-};
-const ALLOWED_TITLE_AVAILABILITY = new Set(Object.values(TITLE_AVAILABILITY));
-
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -178,10 +172,6 @@ function validateSourceShape(sourceData) {
     ensureString(title.colorExpr, `titles[${index}].colorExpr is required.`);
     const tags = normalizeTitleTags(title.tags, index);
 
-    if (!ALLOWED_TITLE_AVAILABILITY.has(title.availability)) {
-      throw new Error(`titles[${index}].availability must be one of: ${Object.values(TITLE_AVAILABILITY).join(', ')}.`);
-    }
-
     if (titleKeys.has(title.key)) {
       throw new Error(`Duplicate title key detected: ${title.key}`);
     }
@@ -195,7 +185,6 @@ function validateSourceShape(sourceData) {
       category: title.category,
       condition: title.condition,
       tags,
-      availability: title.availability,
       displayExpr: title.displayExpr,
       colorExpr: title.colorExpr
     };
@@ -614,7 +603,7 @@ export function validateAndMergeTitles(platformData: PlatformData, titleSource: 
     const label = requireString(item.label, `${prefix}.label`);
     const category = requireString(item.category, `${prefix}.category`);
     const condition = requireString(item.condition, `${prefix}.condition`);
-    const definition = JSON.stringify({ label, category, condition, availability: item.availability, displayKind: item.displayKind, color: item.color });
+    const definition = JSON.stringify({ label, category, condition, displayKind: item.displayKind, color: item.color });
     const previousDefinition = seenDefinitions.get(key);
     if (previousDefinition !== undefined && previousDefinition !== definition) throw new Error(`Inconsistent platform title definition: ${key}`);
     seenDefinitions.set(key, definition);
@@ -625,8 +614,6 @@ export function validateAndMergeTitles(platformData: PlatformData, titleSource: 
     }
     local.category = category;
     local.condition = condition;
-    local.availability = item.availability;
-    if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
   }
   return titles;
 }
@@ -698,7 +685,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const key = requireString(item.titleKey, `${prefix}.titleKey`);
     if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) throw new Error(`${prefix} has an unsupported scope or displayKind`);
     requireString(item.category, `${prefix}.category`); requireString(item.condition, `${prefix}.condition`);
-    if (item.availability !== 'active' && item.availability !== 'retired') throw new Error(`${prefix}.availability has an unsupported value`);
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
@@ -711,7 +697,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       mapTitleMetadata.add(`${mapId}:${key}`);
     }
     const previous = titleRecords.get(key);
-    if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, availability: previous.availability, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
+    if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
     titleRecords.set(key, previous ?? item);
   }
   if (!titleRecords.has("CLASSIC")) {
@@ -720,7 +706,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       label: "賽檤の盡頭灬只剩莪",
       category: "经典版地图系列",
       condition: "通关对应地图经典版。",
-      availability: "active",
       scope: "map",
       displayKind: "fixed",
       displayExpr: "__currentMapClassicText___",
@@ -776,6 +761,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
   });
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
-  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, availability: item.availability, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }

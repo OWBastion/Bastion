@@ -10,7 +10,7 @@ import type { PlatformData } from './platform-data-client.ts';
 
 const titleSource = {
   meta: { sourceLabel: 'titles' },
-  titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', availability: 'active', displayExpr: '"旧称号"', colorExpr: 'null' }],
+  titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', displayExpr: '"旧称号"', colorExpr: 'null' }],
   players: [{ name: '玩家', titleKeys: ['TITLE_ONE'] }],
   mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }]
 };
@@ -121,7 +121,7 @@ const platformData: PlatformData = {
   events: [{ eventId: 'event.one', name: '新事件', category: '增益', rarity: 'R', description: '新描述', durationSeconds: 20, weight: 2, archived: false, releaseStatus: 'implemented', challenges: [] }],
   maps: [{ mapId: 'map.test_map', mapName: '新地图', gameVersion: '2026.07.15', difficultyRating: 'T1', mechanics: [], coverUrl: null, backgroundUrl: null, gameplayRevisions: [defaultGameplayRevision] }],
   achievements: [{ challengeId: 'title.TITLE_ONE', family: 'achievement', type: 'title_achievement', kind: 'title_achievement', titleKey: 'TITLE_ONE', status: 'active', submissionMode: 'manual' }],
-  titles: [{ titleKey: 'TITLE_ONE', label: '新称号', icon: 'trophy', category: '新分类', condition: '新条件', availability: 'active', scope: 'global', displayKind: 'fixed', gameVersion: '2026.07.15' }]
+  titles: [{ titleKey: 'TITLE_ONE', label: '新称号', icon: 'trophy', category: '新分类', condition: '新条件', scope: 'global', displayKind: 'fixed', gameVersion: '2026.07.15' }]
   ,playerTitleGrants: [], mapTitleHolders: []
 };
 
@@ -180,9 +180,33 @@ test('accepts map classic achievements that reuse the global title challenge ID'
     ]
   }, {
     ...titleSource,
-    titles: [...titleSource.titles, { key: 'CLASSIC', label: '老兵', category: '地图精通系列', condition: '通关经典版地图', availability: 'active', displayExpr: '__currentMapClassicText___', colorExpr: 'null' }]
+    titles: [...titleSource.titles, { key: 'CLASSIC', label: '老兵', category: '地图精通系列', condition: '通关经典版地图', displayExpr: '__currentMapClassicText___', colorExpr: 'null' }]
   });
   assert.equal(result.counts.achievements, 2);
+});
+
+test('ignores platform title availability whether it is active, retired, or absent', async () => {
+  const mapSourceFiles = [{ file: 'test_map.opy', content: testMapSource }];
+  const shapes = [
+    platformData.titles[0],
+    { ...platformData.titles[0], availability: 'active' },
+    { ...platformData.titles[0], availability: 'retired' }
+  ];
+  const sources = shapes.map((title) => buildPlatformTitleSource({
+    platformData: { ...platformData, titles: [title] },
+    mapSourceFiles
+  }));
+  assert.deepEqual(sources[1], sources[0]);
+  assert.deepEqual(sources[2], sources[0]);
+  assert.ok(!('availability' in sources[0].titles[0]));
+
+  const generated = [];
+  for (const source of sources) {
+    const result = await syncTitleData({ sourceData: source, dryRun: true });
+    generated.push(result.generatedFiles.map((file) => file.content));
+  }
+  assert.deepEqual(generated[1], generated[0]);
+  assert.deepEqual(generated[2], generated[0]);
 });
 
 test('rejects unknown platform title IDs', () => {
