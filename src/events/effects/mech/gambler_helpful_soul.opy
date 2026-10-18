@@ -21,6 +21,10 @@ rule "[VishkarEvent]: 赌徒：孤注一掷":
         smallMessage(eventPlayer.target, "  {0}  孤注一掷：恢复{1}%最大生命值，{2}秒内每秒恢复{3}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), EVT_MECH_20_HOT_DURATION, percent(EVT_MECH_20_HOT_MAXHP_FACTOR)))
     else:
         eventPlayer.target.setHealth(1)
+        # ＞_＜ 挑战：因队友赌输被降至 1 血且自身正处于「我独自闯关」的队友进入存活观察
+        for eventPlayer.temp in range(len(eventPlayer.target)):
+            if eventPlayer.target[eventPlayer.temp] != eventPlayer and eventPlayer.target[eventPlayer.temp].eventId == EventId.SOLO_RUN:
+                eventPlayer.target[eventPlayer.temp].dlcTimeChallenge[3] = 1
         smallMessage(eventPlayer.target, "  {0}  孤注一掷：所有友方生命值降至 1".format(iconString(Icon.DIAMOND)))
     eventPlayer.target = null
     requestPlayerEventEnd()
