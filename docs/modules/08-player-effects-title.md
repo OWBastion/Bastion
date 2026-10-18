@@ -19,7 +19,7 @@
 
 ### `player/achievement.opy`
 
-- 主线成就挑战追踪（当前为 PHANTOM_THIEF 怪盗）
+- 主线成就挑战追踪（PHANTOM_THIEF 怪盗计数；EMOTICON_CONFUSED ？？？按强制事件兑现链追踪：暗箱操作→我要验牌→奥利维娅的礼物，由 `setPlayerEvent` 按 `eventForceSourceId` 判定）
 - 解锁统一调用 `unlockAchievement()`（`player/unlockAchievement.opy`）
 
 ### `player/progressHero.opy` / `player/savePlayerData.opy` / `player/finishSettlement.opy`

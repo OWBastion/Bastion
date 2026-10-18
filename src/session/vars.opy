@@ -138,6 +138,8 @@ playervar hp_data 101
 # 强制下一个事件类型契约（EventType；-1 = 无契约，因 0==null 会与 BUFF 混淆）。由作弊/赌徒事件写入，drawForcedEvent 消费
 playervar eventForceType 102
 playervar eventForceCount 103
+# 挂起强制契约的来源事件 ID（与 eventForceType 同生命周期；-1 = 无），供连锁挑战追踪「通过某事件触发某事件」
+playervar eventForceSourceId
 # 强制类型抽样中正在校验的标量候选（drawForcedEvent 内部暂存）
 playervar eventForceIndex
 playervar eventSize 104

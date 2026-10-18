@@ -20,6 +20,7 @@ rule "[VishkarEvent]: 赌徒：长期投资 (豪赌)":
         smallMessage(eventPlayer, "  {0}  输！祝你好运".format(iconString(Icon.DIAMOND)))
     eventPlayer.eventForceType = EventType.DEBUFF
     eventPlayer.eventForceCount = EVT_MECH_12_FORCE_COUNT
+    eventPlayer.eventForceSourceId = EventId.GAMBLER_LONG_INVESTMENT
     # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
     if eventPlayer.eventNextIndex != -1:
         rerollNextEvent()
