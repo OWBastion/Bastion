@@ -677,8 +677,11 @@ enum GravityAnomalyRoll:
 # 获胜概率 (%)
 #!define EVT_MECH_1_WIN_RATE 50
 
-# 单次赌注 (心之钢层数 / HP百分比)
+# 失败赌注 (心之钢层数，进入赌徒奖池)
 #!define EVT_MECH_1_STAKE 8
+
+# 获胜基础奖励 (心之钢层数，仍应用 GAIN_MULTIPLIER)
+#!define EVT_MECH_1_REWARD_STACKS 10
 
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
