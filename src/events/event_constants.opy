@@ -916,10 +916,10 @@ enum GravityAnomalyRoll:
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.6
-#!define EVT_MECH_17_WIN_RATE 8
+#!define EVT_MECH_17_WIN_RATE 10
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
-#!define EVT_MECH_17_WIN_MULTIPLIER 5
+#!define EVT_MECH_17_WIN_MULTIPLIER 8
 
 # --- ID 18 (Mech): 吸血鬼 ---
 #!define EVT_MECH_18_DURATION 45
