@@ -9,10 +9,16 @@ macro platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT():
     __currentMapText___ = "月球基地"
 
     bastionPosition = mapPositionPool.slice(303, 6)
-    resetPosition = mapPositionPool[309]
-    endPosition = mapPositionPool[310]
-    thirdPersonPosition = mapPositionPool[311]
-    creditsPosition = mapPositionPool[312]
+    # (-15.287, 6, -127.244)
+    # (16.25, 11.86, -106.756)
+    # (62.52, 14, -77.97)
+    # (33.14, 13.03, -43.68)
+    # (19.496, 9, -1.439)
+    # (66.687, 8.52, -37.241)
+    resetPosition = mapPositionPool[309] # (-45.62, 5, -156.87)
+    endPosition = mapPositionPool[310] # (34.476, 12, -23.518)
+    thirdPersonPosition = mapPositionPool[311] # (-41.39, 5, -159.03)
+    creditsPosition = mapPositionPool[312] # (-55.87, 7.68, -171.97)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
