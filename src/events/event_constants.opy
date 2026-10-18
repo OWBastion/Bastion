@@ -381,7 +381,7 @@ enum HeartSteelData:
 #!define EVT_37_REWARD_SPEED 1
 #!define EVT_37_REWARD_HEAL 5
 # 每次通关延长当前事件的秒数
-#!define EVT_37_EXTEND_SECONDS 25
+#!define EVT_37_EXTEND_SECONDS 30
 
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
