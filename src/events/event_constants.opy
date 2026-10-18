@@ -677,8 +677,11 @@ enum GravityAnomalyRoll:
 # 获胜概率 (%)
 #!define EVT_MECH_1_WIN_RATE 50
 
-# 单次赌注 (心之钢层数 / HP百分比)
+# 失败赌注 (心之钢层数，进入赌徒奖池)
 #!define EVT_MECH_1_STAKE 8
+
+# 获胜基础奖励 (心之钢层数，仍应用 GAIN_MULTIPLIER)
+#!define EVT_MECH_1_REWARD_STACKS 10
 
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
@@ -754,7 +757,7 @@ enum GravityAnomalyRoll:
 # Weight（权重）
 #!define EVT_MECH_6_WEIGHT 0.8
 # 触发赌博消耗的心之钢层数
-#!define EVT_MECH_6_HEARTSTEEL_COST 4
+#!define EVT_MECH_6_HEARTSTEEL_COST 2
 
 # 连续区间阈值：0 <= roll <= 49 => 49%
 #!define EVT_MECH_6_PROB_WIN_NORMAL 49
@@ -894,7 +897,7 @@ enum GravityAnomalyRoll:
 # Weight（权重）
 #!define EVT_MECH_15_WEIGHT 0.6
 # 单次结算后冷却间隔（秒）
-#!define EVT_MECH_15_ROLL_INTERVAL 1.5
+#!define EVT_MECH_15_ROLL_INTERVAL 0.5
 # 永久移速变更值（%）
 #!define EVT_MECH_15_SPEED_DELTA 2
 # 心之钢层数变更值
@@ -905,7 +908,7 @@ enum GravityAnomalyRoll:
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.4
+#!define EVT_MECH_16_WEIGHT 0.6
 #!define EVT_MECH_16_WIN_RATE 50
 #!define EVT_MECH_16_WIN_MULTIPLIER 2
 #!define EVT_MECH_16_LOSE_RATIO 0.5
@@ -913,10 +916,10 @@ enum GravityAnomalyRoll:
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.6
-#!define EVT_MECH_17_WIN_RATE 8
+#!define EVT_MECH_17_WIN_RATE 10
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
-#!define EVT_MECH_17_WIN_MULTIPLIER 5
+#!define EVT_MECH_17_WIN_MULTIPLIER 8
 
 # --- ID 18 (Mech): 吸血鬼 ---
 #!define EVT_MECH_18_DURATION 45

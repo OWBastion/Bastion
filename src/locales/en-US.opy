@@ -131,7 +131,7 @@
 #!define STR_EVT_MECH_0_TITLE "Extreme Challenge"
 #!define STR_EVT_MECH_0_DESC "Gain {0}% damage reduction.\nHP is locked at {1}%.\nHealing is disabled."
 #!define STR_EVT_MECH_1_TITLE "Gambler"
-#!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to permanently lose/gain {2} Heartsteel stacks."
+#!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to gain {2} Heartsteel stacks; {3}% chance to lose {4} stacks."
 #!define STR_EVT_MECH_2_TITLE "Mini Form"
 #!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"

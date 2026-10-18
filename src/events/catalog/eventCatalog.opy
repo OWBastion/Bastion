@@ -105,7 +105,7 @@ rule "initialize event array":
     # Pack 1: Mechanics
     # ================================================
     eventName[EventId.GAMBLER] = STR_EVT_MECH_1_TITLE
-    eventDesc[EventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
+    eventDesc[EventId.GAMBLER] = STR_EVT_MECH_1_DESC.format(Button.RELOAD, EVT_MECH_1_WIN_RATE, EVT_MECH_1_REWARD_STACKS, 100 - EVT_MECH_1_WIN_RATE, EVT_MECH_1_STAKE)
     eventDuration[EventId.GAMBLER] = EVT_MECH_1_DURATION
     eventCatalogWeight[EventId.GAMBLER] = EVT_MECH_1_WEIGHT
     eventCatalogType[EventId.GAMBLER] = EventType.MECH

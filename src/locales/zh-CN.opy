@@ -138,7 +138,7 @@
 #!define STR_EVT_MECH_0_TITLE "极限挑战"
 #!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免\n生命值被锁定在{1}%\n获得禁疗"
 #!define STR_EVT_MECH_1_TITLE "赌徒"
-#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率永久损失/获得{2}层心之钢"
+#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率获得{2}层心之钢\n{3}%概率损失{4}层心之钢"
 #!define STR_EVT_MECH_2_TITLE "迷你形态"
 #!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
