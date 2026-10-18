@@ -8,91 +8,82 @@
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT():
     __currentMapText___ = "南极半岛"
 
-    bastionPosition = compressed([
-        vect(-98.119, 15.423, 46.112),
-        vect(-103.198, 12.267, 17.698),
-        vect(-94, 19.5, -28.74),
-        vect(-68, 16.41, -47.6),
-        vect(-85.854, 8.087, -0.132),
-        vect(-113.76, 9.5, -23.19),
-        vect(244.902, -1, -226.505),
-        vect(236.299, -3.86, -255.149),
-        vect(283.34, 28.04, -201.87),
-        vect(318.253, -4.899, -211.882),
-        vect(336.311, -6.618, -242.569),
-        vect(283.936, -8.688, -253.317)
-    ])
-    resetPosition = vect(-95.12, 9.47, 90.05)
-    endPosition = vect(354.1, -9.5, -226.25)
-    thirdPersonPosition = vect(-76.97, 9.04, 87)
-    creditsPosition = vect(-85.96, 9.25, 98.83)
-    controlJumpPosition = [
-        vect(-79.07, 12.7, -63.71)
-    ]
-    controlRespawnPosition = [
-        vect(-90.25, 9.25, 90),
-        vect(175.87, -9.5, -228)
-    ]
+    bastionPosition = mapPositionPool.slice(17, 12)
+    # (-98.119, 15.423, 46.112)
+    # (-103.198, 12.267, 17.698)
+    # (-94, 19.5, -28.74)
+    # (-68, 16.41, -47.6)
+    # (-85.854, 8.087, -0.132)
+    # (-113.76, 9.5, -23.19)
+    # (244.902, -1, -226.505)
+    # (236.299, -3.86, -255.149)
+    # (283.34, 28.04, -201.87)
+    # (318.253, -4.899, -211.882)
+    # (336.311, -6.618, -242.569)
+    # (283.936, -8.688, -253.317)
+    resetPosition = mapPositionPool[29] # (-95.12, 9.47, 90.05)
+    endPosition = mapPositionPool[30] # (354.1, -9.5, -226.25)
+    thirdPersonPosition = mapPositionPool[31] # (-76.97, 9.04, 87)
+    creditsPosition = mapPositionPool[32] # (-85.96, 9.25, 98.83)
+    controlJumpPosition = mapPositionPool.slice(33, 1)
+    # (-79.07, 12.7, -63.71)
+    controlRespawnPosition = mapPositionPool.slice(34, 2)
+    # (-90.25, 9.25, 90)
+    # (175.87, -9.5, -228)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-#!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION vect(175.87, -9.5, -228)
+#!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_POSITION mapPositionPool[35] # (175.87, -9.5, -228)
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER_SETUP_RADIUS 30
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_ICEBREAKER():
-    bastionPosition = [
-        vect(244.902, -1, -226.505),
-        vect(236.299, -3.86, -255.149),
-        vect(283.34, 28.04, -201.87),
-        vect(318.253, -4.899, -211.882),
-        vect(336.311, -6.618, -242.569),
-        vect(283.936, -8.688, -253.317),
-        vect(358.414, 64.664, 155.328),
-        vect(329.109, 48.084, 166.447),
-        vect(269.63, 68.9, 209.25),
-        vect(270.34, 42.58, 139.77),
-        vect(214.64, 53.09, 189.61)
-    ]
-    resetPosition = vect(173.68, -6.85, -246.89)
-    endPosition = vect(209.17, 51.5, 161.47)
-    thirdPersonPosition = vect(171.42, -6.88, -236.82)
-    creditsPosition = vect(172.58, -8.46, -229.17)
-    controlJumpPosition = [
-        vect(354.1, -9.5, -226.25)
-    ]
-    controlRespawnPosition = [
-        vect(175.87, -9.5, -228),
-        vect(371, 46, 176)
-    ]
+    bastionPosition = mapPositionPool.slice(36, 11)
+    # (244.902, -1, -226.505)
+    # (236.299, -3.86, -255.149)
+    # (283.34, 28.04, -201.87)
+    # (318.253, -4.899, -211.882)
+    # (336.311, -6.618, -242.569)
+    # (283.936, -8.688, -253.317)
+    # (358.414, 64.664, 155.328)
+    # (329.109, 48.084, 166.447)
+    # (269.63, 68.9, 209.25)
+    # (270.34, 42.58, 139.77)
+    # (214.64, 53.09, 189.61)
+    resetPosition = mapPositionPool[47] # (173.68, -6.85, -246.89)
+    endPosition = mapPositionPool[48] # (209.17, 51.5, 161.47)
+    thirdPersonPosition = mapPositionPool[49] # (171.42, -6.88, -236.82)
+    creditsPosition = mapPositionPool[50] # (172.58, -8.46, -229.17)
+    controlJumpPosition = mapPositionPool.slice(51, 1)
+    # (354.1, -9.5, -226.25)
+    controlRespawnPosition = mapPositionPool.slice(52, 2)
+    # (175.87, -9.5, -228)
+    # (371, 46, 176)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 
-#!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION vect(371, 46, 176)
+#!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_POSITION mapPositionPool[53] # (371, 46, 176)
 #!define platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY_SETUP_RADIUS 30
 macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_STAGE_LABORATORY():
-    bastionPosition = [
-        vect(358.414, 64.664, 155.328),
-        vect(329.109, 48.084, 166.447),
-        vect(269.63, 68.9, 209.25),
-        vect(270.34, 42.58, 139.77),
-        vect(214.64, 53.09, 189.61),
-        vect(246.75, 55.6, 151.36),
-        vect(-98.119, 15.423, 46.112),
-        vect(-103.198, 12.267, 17.698),
-        vect(-94, 19.5, -28.74),
-        vect(-68, 16.41, -47.6),
-        vect(-85.854, 8.087, -0.132)
-    ]
-    resetPosition = vect(371.95, 47.01, 185.5)
-    endPosition = vect(-79.07, 12.7, -63.71)
-    thirdPersonPosition = vect(370.25, 47, 164.04)
-    creditsPosition = vect(380.23, 47.21, 173.1)
-    controlJumpPosition = [
-        vect(209.17, 51.5, 161.47)
-    ]
-    controlRespawnPosition = [
-        vect(371, 46, 176),
-        vect(-90.25, 9.25, 90)
-    ]
+    bastionPosition = mapPositionPool.slice(54, 11)
+    # (358.414, 64.664, 155.328)
+    # (329.109, 48.084, 166.447)
+    # (269.63, 68.9, 209.25)
+    # (270.34, 42.58, 139.77)
+    # (214.64, 53.09, 189.61)
+    # (246.75, 55.6, 151.36)
+    # (-98.119, 15.423, 46.112)
+    # (-103.198, 12.267, 17.698)
+    # (-94, 19.5, -28.74)
+    # (-68, 16.41, -47.6)
+    # (-85.854, 8.087, -0.132)
+    resetPosition = mapPositionPool[65] # (371.95, 47.01, 185.5)
+    endPosition = mapPositionPool[33] # (-79.07, 12.7, -63.71)
+    thirdPersonPosition = mapPositionPool[66] # (370.25, 47, 164.04)
+    creditsPosition = mapPositionPool[67] # (380.23, 47.21, 173.1)
+    controlJumpPosition = mapPositionPool.slice(68, 1)
+    # (209.17, 51.5, 161.47)
+    controlRespawnPosition = mapPositionPool.slice(69, 2)
+    # (371, 46, 176)
+    # (-90.25, 9.25, 90)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 40
 

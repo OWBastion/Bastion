@@ -8,20 +8,19 @@
 macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯神殿"
 
-    bastionPosition = [
-        vect(-17.188, 11.237, 105.646),
-        vect(-3.47, 20.35, 97.61),
-        vect(-4.69, 22.57, 79.47),
-        vect(-37.62, 1.91, 47.85),
-        vect(-25.2, 1.07, 25.16),
-        vect(-37.5, 16.8, -4.79),
-        vect(-0.35, 17.87, -24.21)
-    ]
-    resetPosition = vect(-17.16, 4.46, 137.76)
-    endPosition = vect(-7.02, -0.66, -36.43)
-    thirdPersonPosition = vect(-7.969, 4.701, 137.39)
-    creditsPosition = vect(-11.3, 7.35, 149.11)
-    springBoardPosition = vect(-47.93, 1.5, 51.33)
+    bastionPosition = mapPositionPool.slice(648, 7)
+    # (-17.188, 11.237, 105.646)
+    # (-3.47, 20.35, 97.61)
+    # (-4.69, 22.57, 79.47)
+    # (-37.62, 1.91, 47.85)
+    # (-25.2, 1.07, 25.16)
+    # (-37.5, 16.8, -4.79)
+    # (-0.35, 17.87, -24.21)
+    resetPosition = mapPositionPool[655] # (-17.16, 4.46, 137.76)
+    endPosition = mapPositionPool[656] # (-7.02, -0.66, -36.43)
+    thirdPersonPosition = mapPositionPool[657] # (-7.969, 4.701, 137.39)
+    creditsPosition = mapPositionPool[658] # (-11.3, 7.35, 149.11)
+    springBoardPosition = mapPositionPool[659] # (-47.93, 1.5, 51.33)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
