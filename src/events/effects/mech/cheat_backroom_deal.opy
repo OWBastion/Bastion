@@ -17,6 +17,7 @@ rule "[VishkarEvent]: 作弊：暗箱操作 (触发)":
     playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
     eventPlayer.eventForceType = EventType.MECH
     eventPlayer.eventForceCount = 0
+    eventPlayer.eventForceSourceId = EventId.CHEAT_BACKROOM_DEAL
     # 强制旗标改变下一个事件的候选池，已承诺的预览需按最新旗标重取
     if eventPlayer.eventNextIndex != -1:
         rerollNextEvent()

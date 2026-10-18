@@ -79,10 +79,19 @@ def setPlayerEvent():
         eventPlayer.eventLastId = []
     # 强制契约按实际兑现消费：分配未落在声明类型上（区间暂不可得而回落）不扣次数
     if eventPlayer.eventForceType != -1 and eventPlayer.eventType == eventPlayer.eventForceType:
+        # ？？？连锁：兑现对 = 旗标来源事件 → 实际分配事件。暗箱→验牌 武装连锁，验牌→奥利维娅的礼物 达成
+        if eventPlayer.eventForceSourceId == EventId.CHEAT_BACKROOM_DEAL and eventPlayer.eventCandidateIndex == EventId.CHEAT_CARD_COUNTING:
+            eventPlayer.dlcTimeChallenge[1] = 1
+        elif eventPlayer.dlcTimeChallenge[1] == 1:
+            eventPlayer.dlcTimeChallenge[1] = 2 if (eventPlayer.eventForceSourceId == EventId.CHEAT_CARD_COUNTING and eventPlayer.eventCandidateIndex == EventId.OLIVIA_GIFT) else 0
         if eventPlayer.eventForceCount > 0:
             eventPlayer.eventForceCount--
         else:
             eventPlayer.eventForceType = -1
+            eventPlayer.eventForceSourceId = -1
+    elif eventPlayer.dlcTimeChallenge[1] == 1 and eventPlayer.eventForceSourceId != EventId.CHEAT_CARD_COUNTING:
+        # 连锁待决期间：仅当验牌的强制增益旗标仍挂起（回落分配）时连锁存活，其余分配使其失效
+        eventPlayer.dlcTimeChallenge[1] = 0
     eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)

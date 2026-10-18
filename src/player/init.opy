@@ -14,6 +14,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     # -1 哨兵：Workshop 中 0 与 null 比较相等，EventType.BUFF=0 必须用 -1 表示无契约
     eventPlayer.eventForceType = -1
     eventPlayer.eventForceCount = 0
+    eventPlayer.eventForceSourceId = -1
     eventPlayer.eventLastId = []
     eventPlayer.eventNextIndex = -1
     eventPlayer.eventCompatibleBasePool = null

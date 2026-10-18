@@ -20,6 +20,7 @@ rule "[VishkarEvent]: 窃贼":
         eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer))
         eventPlayer.eventForceType = EventType.BUFF
         eventPlayer.eventForceCount = 0
+        eventPlayer.eventForceSourceId = EventId.THIEF
         eventPlayer.target.thiefBuffStolen = true
         # 窃取影响的是“下一个增益”：目标已承诺的增益事件作废，下一次分配按新旗标重掷
         if eventPlayer.target.eventNextIndex != -1:
