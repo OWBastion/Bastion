@@ -226,7 +226,7 @@
 #!define STR_EVT_MECH_19_TITLE "窃贼"
 #!define STR_EVT_MECH_19_DESC "长按{0}：窃取一名友方的下一个增益"
 #!define STR_EVT_MECH_20_TITLE "赌徒：孤注一掷"
-#!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n并获得{4}秒持续治疗（每秒{5}%最大生命值）\n{3}%概率使所有玩家生命值降至1"
+#!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n并在{4}秒内每秒回复{5}%最大生命值\n{3}%概率使所有玩家生命值降至1"
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
 #!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
 #!define STR_EVT_MECH_23_TITLE "镜像反转"
