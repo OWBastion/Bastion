@@ -894,7 +894,7 @@ enum GravityAnomalyRoll:
 # Weight（权重）
 #!define EVT_MECH_15_WEIGHT 0.6
 # 单次结算后冷却间隔（秒）
-#!define EVT_MECH_15_ROLL_INTERVAL 1.5
+#!define EVT_MECH_15_ROLL_INTERVAL 0.5
 # 永久移速变更值（%）
 #!define EVT_MECH_15_SPEED_DELTA 2
 # 心之钢层数变更值
