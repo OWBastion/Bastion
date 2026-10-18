@@ -933,11 +933,16 @@ enum GravityAnomalyRoll:
 #!define EVT_MECH_19_WEIGHT 1.6
 #!define EVT_MECH_19_LUCK_SHIFT 2
 
-# --- ID 20 (Mech/Special): 赌徒：乐于助人 ---
+# --- ID 20 (Mech/Special): 赌徒：孤注一掷 ---
 #!define EVT_MECH_20_DURATION 15
 #!define EVT_MECH_20_WEIGHT 1
-#!define EVT_MECH_20_WIN_RATE 75
-#!define EVT_MECH_20_HEAL_MAXHP_FACTOR 0.85
+#!define EVT_MECH_20_WIN_RATE 50
+# 获胜即时治疗 (各接收者最大生命值比例)
+#!define EVT_MECH_20_HEAL_MAXHP_FACTOR 1
+# 获胜持续治疗时长 (秒)
+#!define EVT_MECH_20_HOT_DURATION 5
+# 持续治疗速率 (各接收者每秒最大生命值比例)
+#!define EVT_MECH_20_HOT_MAXHP_FACTOR 0.5
 
 # --- ID 22 (Mech/Special): 作弊：暗箱操作 ---
 #!define EVT_MECH_22_DURATION 15
