@@ -119,26 +119,25 @@ rule "Load CN map title holders":
     __mapTitleKey = __currentMap___
     if __mapTitleNorm in [Map.ANTARCTIC_PENINSULA, Map.COLOSSEO]:
         __mapTitleKey = __mapTitleNorm
-    __mapTitleClassic = (classicMapVariant == CLASSIC_MAP_VARIANT_PARIS and __mapTitleKey == Map.PARIS) or (classicMapVariant == CLASSIC_MAP_VARIANT_HANAMURA and __mapTitleKey in [Map.HANAMURA, 1848, Map.HANAMURA_WINTER]) or (classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL and __mapTitleKey == Map.CIRCUIT_ROYAL)
     __mapTitleKey = MAP_TITLE_KEYS.index(__mapTitleKey)
     if __mapTitleKey != -1:
-        __mapTitleData = MAP_TITLE_OVR.split("␞")[__mapTitleKey]
+        mapTitlePlayersByKey = MAP_TITLE_OVR.split("␞")[__mapTitleKey]
         if __currentMap___ == Map.WATCHPOINT_GIBRALTAR:
             __currentMapPioneerText___ = "守望先锋" if random.randint(0, 99) < 50 else "黑爪特工"
             __currentPioneerText___ = ""
-        elif __mapTitleData != "":
-            __mapTitleData = __mapTitleData.split("‖")
-            __currentMapPioneerText___ = __mapTitleData[0]
-            __currentPioneerText___ = __mapTitleData[1]
-        __mapTitleData = MAP_TITLE_DATA[__mapTitleKey].split("|")
-        if __mapTitleClassic:
-            mapTitlePlayersByKey = [[], [], [], __mapTitleData[3].split("-")]
+        elif mapTitlePlayersByKey != "":
+            mapTitlePlayersByKey = mapTitlePlayersByKey.split("‖")
+            __currentMapPioneerText___ = mapTitlePlayersByKey[0]
+            __currentPioneerText___ = mapTitlePlayersByKey[1]
+        mapTitlePlayersByKey = MAP_TITLE_DATA[__mapTitleKey].split("|")
+        if (classicMapVariant == CLASSIC_MAP_VARIANT_PARIS and __currentMap___ == Map.PARIS) or (classicMapVariant == CLASSIC_MAP_VARIANT_HANAMURA and __currentMap___ in [Map.HANAMURA, 1848, Map.HANAMURA_WINTER]) or (classicMapVariant == CLASSIC_MAP_VARIANT_CIRCUIT_ROYAL and __currentMap___ == Map.CIRCUIT_ROYAL):
+            mapTitlePlayersByKey = [[], [], [], mapTitlePlayersByKey[3].split("-")]
         else:
             mapTitlePlayersByKey = [
-                __mapTitleData[0].split("-"),
-                __mapTitleData[1].split("-"),
-                __mapTitleData[2].split("-"),
-                [] if __mapTitleData[3] == "" else __mapTitleData[3].split("-")
+                mapTitlePlayersByKey[0].split("-"),
+                mapTitlePlayersByKey[1].split("-"),
+                mapTitlePlayersByKey[2].split("-"),
+                [] if mapTitlePlayersByKey[3] == "" else mapTitlePlayersByKey[3].split("-")
             ]
 
     if mapTitlePlayersByKey == null:
