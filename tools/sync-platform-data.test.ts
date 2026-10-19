@@ -753,11 +753,7 @@ test('statically expands every spawn-detected cyclic route with complete spatial
     ['301', '101']
   ]);
   for (const body of routeBodies) {
-    assert.match(body, /resetPosition = vect\(904, 905, 906\)/);
-    assert.match(body, /endPosition = vect\(907, 908, 909\)/);
-    assert.match(body, /thirdPersonPosition = vect\(910, 911, 912\)/);
-    assert.match(body, /creditsPosition = vect\(913, 914, 915\)/);
-    assert.match(body, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
+    assert.doesNotMatch(body, /resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis/);
     assert.equal((body.match(/controlCenterPosition = \[/g) ?? []).length, 1);
     assert.equal((body.match(/controlJumpPosition = \[/g) ?? []).length, 1);
     assert.equal((body.match(/controlRespawnPosition = \[/g) ?? []).length, 1);
@@ -769,6 +765,11 @@ test('statically expands every spawn-detected cyclic route with complete spatial
   assert.match(routeBodies[2]!, /portalPosition = \[[\s\S]*vect\(310, 311, 312\)/);
   assert.match(routeBodies[2]!, /springBoardPosition = vect\(210, 211, 212\)/);
   const setupRoute = output.match(/macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n([\s\S]*?)(?=\n\n|$)/)?.[1] ?? '';
+  assert.match(setupRoute, /resetPosition = vect\(904, 905, 906\)/);
+  assert.match(setupRoute, /endPosition = vect\(907, 908, 909\)/);
+  assert.match(setupRoute, /thirdPersonPosition = vect\(910, 911, 912\)/);
+  assert.match(setupRoute, /creditsPosition = vect\(913, 914, 915\)/);
+  assert.match(setupRoute, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
   assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION/);
   assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
   assert.doesNotMatch(setupRoute, /for |%|\[[^\]]*\]|COMPOSITE_SELECTED|COMPOSITE_STAGE_ORDER/);
@@ -784,6 +785,7 @@ test('statically expands every spawn-detected cyclic route with complete spatial
     ['platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION', '301']
   ]);
   assert.equal(firstBastionCoordinate(fallbackRoute), '101');
+  assert.doesNotMatch(output, /globalvar platformMapRevision_BUSAN_COMPOSITE|COMPOSITE_AVAILABLE_STAGE_INDICES|COMPOSITE_SELECTED_STAGE_INDICES/);
 
   const emptyCenterStages = cycleConfig.stages.map((stage) => ({
     ...stage,

@@ -680,17 +680,30 @@ export function renderSpawnDetectedCompositeRoutes(
     Array.from({ length: selectionCount }, (_, offset) => stages[(startIndex + offset) % stages.length]!)
   );
 
-  routes.forEach((route, startIndex) => {
-    const macroName = `${mapName}_ROUTE_${startIndex}`;
+  const routeAnchorPositions = routes.map((route) => {
     const firstStage = route[0]!;
     const lastStage = route[route.length - 1]!;
+    return [
+      firstStage.resetPosition ?? spatialConfig.resetPosition,
+      lastStage.endPosition ?? spatialConfig.endPosition,
+      firstStage.thirdPersonPosition ?? spatialConfig.thirdPersonPosition,
+      firstStage.creditsPosition ?? spatialConfig.creditsPosition
+    ];
+  });
+  const sharedAnchors = routeAnchorPositions.every((anchors) => anchors.join(';') === routeAnchorPositions[0]!.join(';'));
+  const renderAnchors = (anchors: SpatialPosition[]) => [
+    `    resetPosition = ${renderSpatialPosition(anchors[0]!)}`,
+    `    endPosition = ${renderSpatialPosition(anchors[1]!)}`,
+    `    thirdPersonPosition = ${renderSpatialPosition(anchors[2]!)}`,
+    `    creditsPosition = ${renderSpatialPosition(anchors[3]!)}`,
+    `    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`,
+    `    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`
+  ];
+
+  routes.forEach((route, startIndex) => {
+    const macroName = `${mapName}_ROUTE_${startIndex}`;
     lines.push(`macro ${macroName}():`);
-    lines.push(`    resetPosition = ${renderSpatialPosition(firstStage.resetPosition ?? spatialConfig.resetPosition)}`);
-    lines.push(`    endPosition = ${renderSpatialPosition(lastStage.endPosition ?? spatialConfig.endPosition)}`);
-    lines.push(`    thirdPersonPosition = ${renderSpatialPosition(firstStage.thirdPersonPosition ?? spatialConfig.thirdPersonPosition)}`);
-    lines.push(`    creditsPosition = ${renderSpatialPosition(firstStage.creditsPosition ?? spatialConfig.creditsPosition)}`);
-    lines.push(`    controlRespawnAxis = ${{ x: 0, y: 1, z: 2 }[spatialConfig.control.respawnAxis]}`);
-    lines.push(`    controlRespawnAxisThreshold = ${spatialConfig.control.respawnAxisThreshold}`);
+    if (!sharedAnchors) lines.push(...renderAnchors(routeAnchorPositions[startIndex]!));
     lines.push(...renderVectorAssignment('bastionPosition', route.flatMap((stage) => stage.bastionPositions), '    ', true));
     const centerPositions = route.flatMap((stage) => stage.control.centerPositions);
     if (centerPositions.length > 0) lines.push(...renderVectorAssignment('controlCenterPosition', centerPositions, '    '));
@@ -704,6 +717,7 @@ export function renderSpawnDetectedCompositeRoutes(
   });
 
   lines.push(`macro ${mapName}_SETUP_ROUTE():`);
+  if (sharedAnchors) lines.push(...renderAnchors(routeAnchorPositions[0]!));
   const detectedStages = stages.map((stage, index) => ({ stage, index })).filter(({ stage }) => stage.setupDetection);
   detectedStages.forEach(({ stage, index }, detectionIndex) => {
     lines.push(`    ${detectionIndex === 0 ? 'if' : 'elif'} len(getPlayersInRadius(${mapName}_COMPOSITE_STAGE_${index}_SETUP_POSITION, ${mapName}_COMPOSITE_STAGE_${index}_SETUP_RADIUS, Team.1)) != 0:`);
