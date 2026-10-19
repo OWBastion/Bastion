@@ -9,7 +9,8 @@
 #
 # 绑定：持有者按住 INTERACT 满 EVT_INTERACT_HOLD_TIME、EVT_34_BIND_RADIUS 内存在未通关友方即绑定最近者
 #（描述文案为持有者"长按互动与最近的队友绑定"，按键主体是持有者而非队友）。
-# 判定同钢化你心：绑定时记录双方 heroNumber 基准（eventMission=自己，eventLoopCount=友方），双方各推进一格即双双过线。
+# 判定同钢化你心：绑定时记录双方 heroNumber 基准（eventMission=自己，eventLoopCount=友方），双方各推进一格即双双过线；
+# 末位英雄（堡垒）过线只置 isWinner 不推进 heroNumber，故两侧完成判定均以 heroNumber 增量或 isWinner 任一成立为准。
 # eventMissionGoal>0 兼作"已绑定"标记，防止条件残留导致重复触发；未绑定到期由事件自然到期处理。
 # 任务奖励 = EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION × 当前地图堡垒数（len(bastionPosition)），
 # 双方各按自己的心之钢获得倍率结算；队友血量重建走公共 setPlayerHP 旗标路径（见 debuff/selfless_giveaway.opy）。
@@ -38,9 +39,9 @@ rule "Settle":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal > 0, eventPlayer.target != null, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
-    waitUntil(eventPlayer.eventId != EventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.1) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]) or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventId != EventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.1) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner == true]) or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()
-    if eventPlayer.eventId == EventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1]))):
+    if eventPlayer.eventId == EventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner == true]))):
         eventPlayer.temp = EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)
         bigMessage(eventPlayer, "有福同享 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
