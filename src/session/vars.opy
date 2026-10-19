@@ -158,3 +158,4 @@ playervar eventEndTime
 playervar prophetTextId
 
 playervar savedDataIndex
+playervar lastHero

@@ -69,13 +69,23 @@ def finishResetProgress():
     eventPlayer.startForcingHero(heroList[0])
     wait()
     eventPlayer.stopForcingCurrentHero()
-    # 与 progressHero 一致：换英雄后按大厅配置重断言技能可用性，清除粘性覆盖标志
-    if eventPlayer.possess == null:
-        eventPlayer.setAbility1Enabled(heroList[0] not in [Hero.TORBJORN, Hero.SYMMETRA])
-        eventPlayer.setAbility2Enabled(heroList[0] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, 1))
     refreshCompatibleEventPool()
+
+
+rule "Re-assert ability availability on hero change":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.getHero() != eventPlayer.lastHero
+
+    # Set Ability Enabled 是玩家级粘性覆盖标志，跨英雄切换保留且压过大厅设置；
+    # 所有换英雄路径（进度解锁、菜单选人、原生选人、重置、重开）都会在此按大厅配置
+    # 重新断言，否则残留标志会泄漏到新英雄上（技能被锁或被非法放开）。
+    eventPlayer.lastHero = eventPlayer.getHero()
+    eventPlayer.setAbility1Enabled(eventPlayer.getHero() not in [Hero.TORBJORN, Hero.SYMMETRA])
+    eventPlayer.setAbility2Enabled(eventPlayer.getHero() != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
 
 
 rule "Track progression death":
