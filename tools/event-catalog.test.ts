@@ -4,14 +4,27 @@ import test from 'node:test';
 
 const read = (file: string) => readFile(new URL(`../${file}`, import.meta.url), 'utf8');
 
-const FIELDS = ['eventName', 'eventDesc', 'eventDuration', 'eventCatalogWeight', 'eventCatalogType'] as const;
+function catalogRows(catalog: string): { index: number; key: string; row: string }[] {
+  const rows: { index: number; key: string; row: string }[] = [];
+  for (const match of catalog.matchAll(/# (\d+): EventId\.([A-Z0-9_]+)\n    (\[.*\]),?\s*$/gm)) {
+    rows.push({ index: Number(match[1]), key: match[2], row: match[3] });
+  }
+  return rows;
+}
 
 function registeredEvents(catalog: string): string[] {
-  const ids: string[] = [];
-  for (const match of catalog.matchAll(/eventCatalogType\[\s*EventId\.([A-Z0-9_]+)\s*\]\s*=\s*EventType\.(BUFF|DEBUFF|MECH)/g)) {
-    ids.push(match[1]);
+  return catalogRows(catalog).map((row) => row.key);
+}
+
+function topLevelFieldCount(row: string): number {
+  let depth = 0;
+  let count = 0;
+  for (const ch of row) {
+    if (ch === '[' || ch === '(') depth += 1;
+    else if (ch === ']' || ch === ')') depth -= 1;
+    else if (ch === ',' && depth === 1) count += 1;
   }
-  return ids;
+  return count;
 }
 
 function catalogOrder(source: string, file: string): string[] {
@@ -22,17 +35,30 @@ function catalogOrder(source: string, file: string): string[] {
 
 test('every registered event assigns all catalog fields', async () => {
   const catalog = await read('src/events/catalog/eventCatalog.opy');
-  const ids = registeredEvents(catalog);
-  assert.ok(ids.length > 0, 'event catalog must register at least one event');
-  for (const id of ids) {
-    for (const field of FIELDS) {
-      assert.match(
-        catalog,
-        new RegExp(`${field}\\[\\s*EventId\\.${id}\\s*\\]\\s*=`),
-        `${field}[EventId.${id}] missing in eventCatalog.opy`
-      );
-    }
-  }
+  const rows = catalogRows(catalog);
+  assert.ok(rows.length > 0, 'event catalog must register at least one event');
+  rows.forEach((row, position) => {
+    assert.equal(row.index, position, `row ${row.key} comment index ${row.index} != literal position ${position}`);
+    assert.equal(topLevelFieldCount(row.row), 4, `EventId.${row.key} row must contain 5 fields`);
+  });
+});
+
+test('catalog row order matches EventId enum order', async () => {
+  const [catalog, idsSource] = await Promise.all([
+    read('src/events/catalog/eventCatalog.opy'),
+    read('src/events/event_ids.opy')
+  ]);
+  const enumKeys = idsSource
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => /^[A-Z0-9_]+(\s*=\s*\d+)?$/.test(line) && line !== 'COUNT')
+    .map((line) => line.split(/\s*=\s*/)[0]);
+  const rows = catalogRows(catalog);
+  assert.deepEqual(
+    rows.map((row) => row.key),
+    enumKeys,
+    'eventCatalogRows order must match EventId enum order'
+  );
 });
 
 test('each profile catalog order covers the registered set exactly', async () => {
