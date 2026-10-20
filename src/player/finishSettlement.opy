@@ -10,11 +10,9 @@ rule "Resolve finish":
     @Team 1
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.anchorPos(eventPlayer.possess).y >= endPosition.y
-    @Condition distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
+    @Condition eventPlayer.getPosition().y >= endPosition.y
+    @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
 
-    if len(eventPlayer.possessed) > 0:
-        eventPlayer.possessed = []
     eventPlayer.respawn()
     wait(0.032)
     if controlRespawnPosition == null:

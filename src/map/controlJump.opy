@@ -34,8 +34,8 @@ rule "Advance control jump":
 
     wait(0.032, Wait.ABORT_WHEN_FALSE)
     wait(0.2)
-    if (eventPlayer.anchorPos(eventPlayer.possess).y >= controlJumpPosition[eventPlayer.controlJumpIndex].y):
-        if distance(eventPlayer.anchorPos(eventPlayer.possess) * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4:
+    if (eventPlayer.getPosition().y >= controlJumpPosition[eventPlayer.controlJumpIndex].y):
+        if distance(eventPlayer.getPosition() * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4:
             eventPlayer.controlJumpIndex++
             wait()
             if any([eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.hasStatus(Status.INVINCIBLE)]):

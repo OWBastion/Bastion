@@ -127,8 +127,6 @@ playervar hudTextId 89
 playervar heart_steel 90
 playervar obstrucVis 91
 playervar sizeHealth 92
-playervar possess 93
-playervar possessed 94
 playervar empProMax 95
 playervar setPlayerHP 96
 playervar dlcTimeChallenge 97

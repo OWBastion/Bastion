@@ -30,8 +30,6 @@ def resetPlayerProgressState():
     eventPlayer.mod_dmg_perma = 0
     eventPlayer.mod_heal_perma = 0
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
-    eventPlayer.possess = null
-    eventPlayer.possessed = []
     # dlcTimeChallenge: [0:窃贼, 1:？？？连锁阶段, 2:o_O全反转, 3:＞_＜存活标记, 4:我觉得不行, 5:我觉得可以]
     eventPlayer.dlcTimeChallenge = [0, 0, 0, 0, 0, 0]
     eventPlayer.eventForceType = -1
@@ -70,9 +68,8 @@ def finishResetProgress():
     wait()
     eventPlayer.stopForcingCurrentHero()
     # 与 progressHero 一致：换英雄后按大厅配置重断言技能可用性，清除粘性覆盖标志
-    if eventPlayer.possess == null:
-        eventPlayer.setAbility1Enabled(heroList[0] not in [Hero.TORBJORN, Hero.SYMMETRA])
-        eventPlayer.setAbility2Enabled(heroList[0] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
+    eventPlayer.setAbility1Enabled(heroList[0] not in [Hero.TORBJORN, Hero.SYMMETRA])
+    eventPlayer.setAbility2Enabled(heroList[0] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
     wait(getServerLoad() / 100 * 0.5)
     eventPlayer.setAllowedHeroes(heroList.slice(0, 1))
     refreshCompatibleEventPool()
