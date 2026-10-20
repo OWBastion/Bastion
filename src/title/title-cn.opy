@@ -170,11 +170,11 @@ enum MapTITLEKey:
 # 斗兽场
 #!define DATA_COLOSSEO [ \
    playerNameToIndexDelimited(["豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "风子修", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "他又", "锄禾日当午", "八月八月八", "一杯美式", "Fajacy", "初一", "风子修", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_COLOSSEO_PACKED "14|18-9-8-7-3-4-16-5-22-2-6-14-19-13-12-1|18-9-8-7-3-4-16-5-22-2-6-14-19-13-12-1|"
+#!define DATA_COLOSSEO_PACKED "14|18-9-8-7-3-4-16-5-22-2-6-25-14-19-13-12-1|18-9-8-7-3-4-16-5-22-2-6-25-14-19-13-12-1|"
 
 # 多拉多
 #!define DATA_DORADO [ \
@@ -313,12 +313,12 @@ enum MapTITLEKey:
 
 # 监测站：格里姆火山
 #!define DATA_NEW_A021ED61 [ \
-   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "Fajacy", "风子修", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "Fajacy", "风子修", "雨鸢", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "Fajacy", "风子修", "雨鸢", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "Fajacy", "风子修", "雨鸢", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_NEW_A021ED61_PACKED "26-18-9-8-7-5-23-2-25-1|26-18-9-8-7-5-23-2-25-19-1|26-18-9-8-7-5-23-2-25-19-1|"
+#!define DATA_NEW_A021ED61_PACKED "26-18-9-8-7-5-23-2-25-19-1|26-18-9-8-7-5-23-2-25-19-1|26-18-9-8-7-5-23-2-25-19-1|"
 
 # 新渣客城
 #!define DATA_NEW_JUNK_CITY [ \
@@ -359,11 +359,11 @@ enum MapTITLEKey:
 # 帕拉伊苏
 #!define DATA_PARAISO [ \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "云雀", "八月八月八", "训犬大师", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "云雀", "八月八月八", "用户", "初一", "豆本豆豆奶", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "云雀", "八月八月八", "用户", "初一", "豆本豆豆奶", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "云雀", "八月八月八", "用户", "初一", "豆本豆豆奶", "雨鸢", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "云雀", "八月八月八", "用户", "初一", "豆本豆豆奶", "雨鸢", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_PARAISO_PACKED "9-8-7-3-5-13-12|18-9-3-5-23-6-14-1|18-9-3-5-23-6-14-1|"
+#!define DATA_PARAISO_PACKED "9-8-7-3-5-13-12|18-9-3-5-23-6-14-19-1|18-9-3-5-23-6-14-19-1|"
 
 # 巴黎
 #!define DATA_PARIS [ \
