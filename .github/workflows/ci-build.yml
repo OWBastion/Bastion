@@ -57,8 +57,8 @@ jobs:
 
       - name: Check Bastion source with Wright and opy-rs
         run: |
-          wright check src/main.opy --kind opy --root .
-          wright check src/externalMain.opy --kind opy --root .
+          wright check src/main.opy --kind opy --root . --locale zh-cn
+          wright check src/externalMain.opy --kind opy --root . --locale zh-cn
 
       - name: Check generated Workshop with Wright and workshop-rs
         run: |
