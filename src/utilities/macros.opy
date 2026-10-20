@@ -18,12 +18,6 @@ macro Player.inSaved(saved):
 macro Player.savedIndex(saved):
     saved.index(self.key)
 
-macro Player.hasPossessTarget(possess):
-    possess != null and possess[0] != null and entityExists(possess[0])
-
-macro Player.anchorPos(possess):
-    possess[0].getPosition() if self.hasPossessTarget(possess) else self.getPosition()
-
 # Macro function for converting decimal to percent
 macro percent(p):
     100*(p)
