@@ -13,7 +13,7 @@
 - `special/getRedPacket.opy`：红包触发类别选择
 - `special/rollActivePacket.opy`：红包点位抽样
 - `special/achievement.opy`：活动成就追踪
-- `special/map/lijiang_tower.opy`：春节漓江塔点位（含红包点）
+- `special/map/lijiangTower.opy`：春节漓江塔点位（含红包点）
 
 ## 与主线差异
 

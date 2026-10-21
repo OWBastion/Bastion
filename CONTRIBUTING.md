@@ -151,8 +151,8 @@ When adding/changing events, at minimum:
 
 1. Keep map points/flow in the corresponding `src/map/` file.  
    点位与流程逻辑放在对应 `src/map/` 文件。
-2. Update `src/map/setup_all_map.opy` when adding new maps.  
-   新增地图时更新 `src/map/setup_all_map.opy` 聚合入口。
+2. Update `src/map/setupAllMap.opy` when adding new maps.\
+   新增地图时更新 `src/map/setupAllMap.opy` 聚合入口。
 3. Verify teleport/checkpoint compatibility with `mapDetection` and settlement flow.  
    联动验证传送/检查点与 `mapDetection`、结算逻辑兼容。
 

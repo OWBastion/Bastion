@@ -11,7 +11,7 @@ subroutine drawForcedEvent
 #!define EVT_FORCED_SAMPLE_TRIES 12
 
 # 强制类型契约：eventForceType 存放显式 EventType（非历史概率阈值）。
-# 统一目录槽位按 Buff → Debuff → Mech 连续排布（event_ids.opy 声明顺序即槽位号），
+# 统一目录槽位按 Buff → Debuff → Mech 连续排布（eventIds.opy 声明顺序即槽位号），
 # 因此强制类型只在本类型的数值区间内直接取标量号，不构造按类别过滤的完整数组。
 # 每次取号仍须全部满足：注册类型与强制类型一致、属于玩家兼容基础池（构建注册 +
 # 结构兼容）、目录权重 > 0、动态硬资格。任一不过即重抽，重试耗尽也不放行。

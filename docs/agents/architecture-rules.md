@@ -11,7 +11,8 @@ This document is the canonical rule source for entry architecture and structural
    - `src/events/catalog/eventCatalogDev.opy`
 4. Seasonal/event-specific logic belongs to dedicated follow-up branches, not current mainline.
 5. Prefer minimal-scope changes in owning module before cross-directory edits.
-6. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides.
+6. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides. A gameplay event whose name is `shared` (for example `sharedBlessing`) is allowed.
+7. Source file names under `src/` are camelCase and unique across the tree, so `rg --files` finds a file by name. Entry-specific names (`init<Domain>`, `menu<Name>`, `dev<Name>`, `host<Name>`, `title<Name>`) carry their domain; locale files keep their locale tag (`zh-CN.opy`, `en-US.opy`). Event effect files are named after the event key in camelCase.
 
 ## Validation Expectations
 

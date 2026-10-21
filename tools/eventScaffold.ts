@@ -32,8 +32,8 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const PATHS = {
-  ids: path.resolve(ROOT, 'src/events/event_ids.opy'),
-  constants: path.resolve(ROOT, 'src/events/event_constants.opy'),
+  ids: path.resolve(ROOT, 'src/events/eventIds.opy'),
+  constants: path.resolve(ROOT, 'src/events/eventConstants.opy'),
   localeZh: path.resolve(ROOT, 'src/locales/zh-CN.opy'),
   localeEn: path.resolve(ROOT, 'src/locales/en-US.opy'),
   catalog: path.resolve(ROOT, 'src/events/catalog/eventCatalog.opy'),
@@ -130,7 +130,7 @@ function addConstantsBlock(source: string, type: EventType, id: number, duration
   const sectionMarker = `# -----------------------------------------------------------------------------\n# ${prefix} 事件（按ID排序）`;
   const sectionStart = source.indexOf(sectionMarker);
   if (sectionStart < 0) {
-    throw new Error(`Unable to find ${prefix} section in event_constants.opy`);
+    throw new Error(`Unable to find ${prefix} section in eventConstants.opy`);
   }
 
   const nextSection = source.indexOf('# -----------------------------------------------------------------------------', sectionStart + sectionMarker.length);

@@ -357,7 +357,7 @@ test('generates the all-titles player entry without title keys', async () => {
 });
 
 test('prepares every generated file before any replacement is attempted', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const source = buildPlatformTitleSource({
     platformData,
@@ -376,7 +376,7 @@ test('prepares every generated file before any replacement is attempted', async 
 });
 
 test('does not write files after an unavailable holder projection', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }), { headers: { 'content-type': 'application/json' } });
   const fakeFetch: typeof globalThis.fetch = async (input) => {
@@ -394,7 +394,7 @@ test('does not write files after an unavailable holder projection', async () => 
 });
 
 test('sync skips unsupported maps and their challenges without requesting their titles or holders', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const requestedMapIds: string[] = [];
   let eventsReached = false;
@@ -429,7 +429,7 @@ test('sync skips unsupported maps and their challenges without requesting their 
 });
 
 test('sync still rejects missing spatial configuration for a supported map', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }));
   const fakeFetch: typeof globalThis.fetch = async (input) => {

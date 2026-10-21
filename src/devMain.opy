@@ -1,4 +1,4 @@
-#!include "env/env_dev.opy"
+#!include "env/envDev.opy"
 #!include "locales/zh-CN.opy"
 #!define ENTRY_SPECTATOR_SLOTS LOBBY_SPECTATOR_SLOTS_DEV
 #!define ENTRY_ALLOW_PLAYERS_IN_QUEUE true
@@ -6,14 +6,14 @@
 #!define ENTRY_CLASSIC_MAP_VARIANT CLASSIC_MAP_VARIANT_OFF
 #!define ENTRY_DIFFICULTY SETTING_DIFFICULTY_DEFAULT
 # Compile-time definitions
-#!include "events/event_constants.opy"
-#!include "events/event_ids.opy"
-#!include "events/event_manifest.opy"
-#!include "composition/mode_constants.opy"
-#!include "map/classic_variants.opy"
-#!include "utilities/macros.opy"
-#!include "heroes/settings/team_rules.opy"
-#!include "heroes/settings/all_teams.opy"
+#!include "events/eventConstants.opy"
+#!include "events/eventIds.opy"
+#!include "events/eventManifest.opy"
+#!include "composition/modeConstants.opy"
+#!include "map/classicVariants.opy"
+#!include "env/macros.opy"
+#!include "heroes/settings/teamRules.opy"
+#!include "heroes/settings/allTeams.opy"
 
 # Lobby, mode, and hero settings
 settings {
@@ -64,7 +64,7 @@ settings {
 }
 
 # Variable slots and Workshop extensions
-#!include "session/vars.opy"
+#!include "session/sessionVars.opy"
 
 #!extension buffStatusEffects
 #!extension debuffStatusEffects
@@ -84,20 +84,20 @@ rule STR_LICENSE_PERMIT:
     @Delimiter
 
 # Session initialization and profile policy
-#!include "session/game.opy"
-#!include "session/title-vars.opy"
-#!include "title/title-cn.opy"
-#!include "composition/profile-cn.opy"
+#!include "session/sessionGame.opy"
+#!include "session/titleVars.opy"
+#!include "title/titleCn.opy"
+#!include "composition/profileCn.opy"
 #!include "events/catalog/eventCatalogDev.opy"
 #!include "events/catalog/eventCatalog.opy"
 
 # Runtime modules in emission order
 #!include "map/mapDetection.opy"
-#!include "blacklist/init.opy"
+#!include "blacklist/initBlacklist.opy"
 #!include "blacklist/removeFromBlacklist.opy"
 #!include "events/lifecycle/detectFlag.opy"
 
-#!include "heroes/all_hero.opy"
+#!include "heroes/allHero.opy"
 
 #!include "events/allocation/buildCompatibleEventPool.opy"
 
@@ -126,7 +126,7 @@ rule STR_LICENSE_PERMIT:
 
 #!include "bastion/createBastionBot.opy"
 
-#!include "events/integrity/hashtag.opy"
+#!include "events/integrity/eventHashtag.opy"
 
 # Player attributes and event lifecycle
 #!include "player/updatePlayerStats.opy"
@@ -158,49 +158,49 @@ rule STR_LICENSE_PERMIT:
 #!include "events/effects/mechEffects.opy"
 
 # Maps
-#!include "map/setup_all_map.opy"
+#!include "map/setupAllMap.opy"
 
-#!include "bastion/init.opy"
+#!include "bastion/initBastion.opy"
 
 #!include "map/controlJump.opy"
 #!include "player/finishSettlement.opy"
 #!include "events/integrity/masteryRunCode.opy"
 
-#!include "effects/init.opy"
+#!include "effects/initEffects.opy"
 #!include "map/interactions.opy"
-#!include "effects/nano.opy"
-#!include "effects/player.opy"
+#!include "effects/nanoEffects.opy"
+#!include "effects/playerEffects.opy"
 
 # 事件完整重置入口；保持在 status.opy 前以维持子程序索引与规则顺序
 #!include "events/lifecycle/resetPlayerEventState.opy"
 #!include "player/status.opy"
-#!include "player/init.opy"
+#!include "player/initPlayer.opy"
 
 
-#!include "utilities/system/autoReboot.opy"
+#!include "session/autoReboot.opy"
 
 # Player, host, and developer menus
-#!include "menu/frame.opy"
-#!include "menu/hero.opy"
-#!include "menu/dev/pages.opy"
-#!include "menu/player.opy"
-#!include "menu/dev/difficulty.opy"
-#!include "menu/host/reboot.opy"
-#!include "menu/dev/restart.opy"
-#!include "menu/host/moderation.opy"
-#!include "menu/dev/admin.opy"
-#!include "menu/dev/movement.opy"
-#!include "menu/dev/actions.opy"
-#!include "menu/dev/weights.opy"
+#!include "menu/menuFrame.opy"
+#!include "menu/menuHero.opy"
+#!include "menu/dev/devPages.opy"
+#!include "menu/menuPlayer.opy"
+#!include "menu/dev/devDifficulty.opy"
+#!include "menu/host/hostReboot.opy"
+#!include "menu/dev/devRestart.opy"
+#!include "menu/host/hostModeration.opy"
+#!include "menu/dev/devAdmin.opy"
+#!include "menu/dev/devMovement.opy"
+#!include "menu/dev/devActions.opy"
+#!include "menu/dev/devWeights.opy"
 
 # CN titles and achievements
-#!include "title/map-title-data.opy"
+#!include "title/mapTitleData.opy"
 #!include "title/setPlayerTitle.opy"
 #!include "title/applyTitleColor.opy"
 #!include "player/unlockAchievement.opy"
-#!include "title/init.opy"
-#!include "title/hashtag.opy"
-#!include "title/effects.opy"
-#!include "title/player-init.opy"
-#!include "menu/title.opy"
+#!include "title/initTitle.opy"
+#!include "title/titleHashtag.opy"
+#!include "title/titleEffects.opy"
+#!include "title/initTitlePlayer.opy"
+#!include "menu/menuTitle.opy"
 #!include "player/achievement.opy"

@@ -10,15 +10,15 @@
 
 - `autoReboot.opy`：整局自动重开计时
 
-### B. `utilities/macros.opy`
+### B. `env/macros.opy`
 
 共享生产宏（英雄判定、存档索引、定位、`percent` 等），由三个入口显式 include；原 `dev_support/` 层为误标，已消除。
 
 ## 入口约定
 
-- 顶部宏：`utilities/macros.opy`
+- 顶部宏：`env/macros.opy`
 - 中段服务分组：三个入口按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
-- 末尾菜单分组：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等固定槽位交错展开
+- 末尾菜单分组：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/dev/*` -> `menu/menuPlayer.opy` -> `menu/host/*` 等固定槽位交错展开
 
 ## 关键实现模式
 
@@ -36,5 +36,5 @@
 - 新增属性修正时需记得并入 `player/updatePlayerStats.opy`
 - `hp_data` 相关功能必须维护过期清理，否则元素数会累积
 - `player/playerRegen.opy` 的脱战回复由受伤信号控制：受伤会立即停止 HOT，并通过 `wait(3, Wait.RESTART_WHEN_TRUE)` 保证“满 3 秒未再受伤”后才重新允许启动回复
-- `title/hashtag.opy` 为 init 阶段主机 `titlePlayer` 白名单校验：等待称号数组初始化并确认 `hostPlayer` 存在后，若主机名不在白名单中则关闭 `hashTag`
-- `events/integrity/hashtag.opy` 权重校验分两路：对局 125s 后做一次权重总和等值校验（与 `EVENT_MANIFEST_ACTIVE_WEIGHT_SUM` 不一致即判负）；另有持续生效的超限校验，`eventCatalogWeightTotal`（由对局码生成规则维护的实际权重总账）超过清单值 +0.05 即判负，覆盖 125s 检查点之后的开发菜单权重页加权
+- `title/titleHashtag.opy` 为 init 阶段主机 `titlePlayer` 白名单校验：等待称号数组初始化并确认 `hostPlayer` 存在后，若主机名不在白名单中则关闭 `hashTag`
+- `events/integrity/eventHashtag.opy` 权重校验分两路：对局 125s 后做一次权重总和等值校验（与 `EVENT_MANIFEST_ACTIVE_WEIGHT_SUM` 不一致即判负）；另有持续生效的超限校验，`eventCatalogWeightTotal`（由对局码生成规则维护的实际权重总账）超过清单值 +0.05 即判负，覆盖 125s 检查点之后的开发菜单权重页加权
