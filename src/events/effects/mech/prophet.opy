@@ -19,7 +19,7 @@
 #     prophetViewers 是唯一的玩家集合参数，由本文件 1Hz 全局循环刷新；
 #     重估表达式内禁止内联 getPlayers().filter()（会转化为每帧常驻扫描）
 #   - 内容：事件名经 eventName[eventNextIndex] 按 ID 查询
-#   - 颜色：沿用称号当前色（title/init.opy 中 titleColorNow 的同式内联——
+#   - 颜色：沿用称号当前色（title/initTitle.opy 中 titleColorNow 的同式内联——
 #     该宏定义在本文件 include 之后，无法直接引用）；无称号循环色时给默认紫
 # 称号状态（playerTitleAndColor / playerTitles）与称号文本一律不读写，
 # 不影响称号本身及赌徒、资格判定等任何其他系统。

@@ -10,7 +10,7 @@ import {
   PLATFORM_DATA_TOKEN_ENV,
   PLATFORM_DATA_USER_AGENT,
   type PlatformDataResource
-} from './platform-data-client.ts';
+} from './client.ts';
 
 const servers: Server[] = [];
 
@@ -26,7 +26,7 @@ afterEach(async () => {
 });
 
 async function startFakeServer(
-  handler: (resource: PlatformDataResource | 'player-title-grants' | 'map-title-holders', page: number, pageSize: number, requestUrl: URL) => unknown
+  handler: (resource: PlatformDataResource, page: number, pageSize: number, requestUrl: URL) => unknown
 ): Promise<{ baseUrl: string; requests: URL[] }> {
   const requests: URL[] = [];
   const server = createServer((request, response) => {
@@ -38,7 +38,7 @@ async function startFakeServer(
       return;
     }
 
-    const resource = match[1] as PlatformDataResource | 'player-title-grants' | 'map-title-holders';
+    const resource = match[1] as PlatformDataResource;
     const page = Number(requestUrl.searchParams.get('page'));
     const pageSize = Number(requestUrl.searchParams.get('pageSize'));
     requests.push(requestUrl);
@@ -185,7 +185,7 @@ test('rejects non-success HTTP responses with resource and status context', asyn
 
 test('rejects unavailable map-holder projections before an empty collection can be consumed', async () => {
   const { baseUrl } = await startFakeServer((resource) => {
-    if (resource === 'map-title-holders') return new Response(JSON.stringify({ error: { code: 'AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE' } }), { status: 503, statusText: 'Unavailable' });
+    if ((resource as string) === 'map-title-holders') return new Response(JSON.stringify({ error: { code: 'AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE' } }), { status: 503, statusText: 'Unavailable' });
     return validPage(resource as PlatformDataResource, 1, 100);
   });
 

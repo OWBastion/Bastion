@@ -11,7 +11,7 @@
 
 - `events/effects/healthPool.opy` 的 while 清理循环
 - `events/allocation/rejectSampling.opy` 的有限轮采样循环
-- `bastion/init.opy`、`effects/init.opy` 中大量循环心跳规则
+- `bastion/initBastion.opy`、`effects/initEffects.opy` 中大量循环心跳规则
 
 实践原则：每个循环都带 `wait`，且超时时间可控。
 
@@ -23,7 +23,7 @@
 
 对应到项目：
 
-- `map/setup_all_map.opy` 与 `map/mapDetection.opy`
+- `map/setupAllMap.opy` 与 `map/mapDetection.opy`
 - 入口文件启用的 `#!extension`（状态效果、音效、dummy 等）
 
 ## 3) C-Style / OverPy 风格参考
@@ -33,7 +33,7 @@
 对应到项目：
 
 - 本仓库使用 OverPy 宏、subroutine、数组推导与表达式风格
-- `events/event_constants.opy` 与 `title/title-cn.opy` 体现配置化 DSL 的写法
+- `events/eventConstants.opy` 与 `title/titleCn.opy` 体现配置化 DSL 的写法
 
 ## 4) OW2 Workshop 差异
 

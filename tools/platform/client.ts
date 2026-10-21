@@ -6,7 +6,7 @@ export const PLATFORM_DATA_TOKEN_ENV = 'BASTION_BUILD_TOKEN';
 export const PLATFORM_DATA_RESOURCES = ['events', 'maps', 'achievements', 'titles'] as const;
 export type PlatformDataResource = (typeof PLATFORM_DATA_RESOURCES)[number];
 
-type PlatformDataItem = Record<string, unknown>;
+type PlatformDataItem = Record<string, any>;
 
 export type PlatformDataPage<TItem extends PlatformDataItem = PlatformDataItem> = {
   contractVersion: typeof PLATFORM_DATA_CONTRACT_VERSION;
@@ -123,7 +123,7 @@ function ensurePageResponse(
 
   ensurePositiveInteger(value.page, 'Response page', details);
   ensurePositiveInteger(value.pageSize, 'Response pageSize', details);
-  ensureNonNegativeInteger(value.total, 'Response total', details);
+  ensureNonNegativeInteger((value.total as number), 'Response total', details);
   if (typeof value.hasMore !== 'boolean') {
     throw new PlatformDataClientError('Response hasMore must be a boolean', details);
   }
@@ -140,10 +140,10 @@ function ensurePageResponse(
   if (value.items.length > value.pageSize) {
     throw new PlatformDataClientError('Response items cannot exceed pageSize', details);
   }
-  if (value.total < value.items.length) {
+  if ((value.total as number) < value.items.length) {
     throw new PlatformDataClientError('Response total cannot be smaller than items.length', details);
   }
-  if (value.hasMore !== (value.page * value.pageSize < value.total)) {
+  if (value.hasMore !== (value.page * value.pageSize < (value.total as number))) {
     throw new PlatformDataClientError('Response hasMore is inconsistent with page, pageSize, and total', details);
   }
 
@@ -168,8 +168,8 @@ function ensureCustomPageResponse(value: unknown, resource: string, requestedPag
   if (!Array.isArray(value.items)) throw new PlatformDataClientError(`Response items must be an array for ${resource}`, details);
   ensurePositiveInteger(value.page, 'Response page', { resource: 'titles', page: requestedPage });
   ensurePositiveInteger(value.pageSize, 'Response pageSize', { resource: 'titles', page: requestedPage });
-  ensureNonNegativeInteger(value.total, 'Response total', { resource: 'titles', page: requestedPage });
-  if (typeof value.hasMore !== 'boolean' || value.page !== requestedPage || value.pageSize !== requestedPageSize || value.items.length > value.pageSize || value.total < value.items.length || value.hasMore !== (value.page * value.pageSize < value.total)) {
+  ensureNonNegativeInteger((value.total as number), 'Response total', { resource: 'titles', page: requestedPage });
+  if (typeof value.hasMore !== 'boolean' || value.page !== requestedPage || value.pageSize !== requestedPageSize || value.items.length > value.pageSize || (value.total as number) < value.items.length || value.hasMore !== (value.page * value.pageSize < (value.total as number))) {
     throw new PlatformDataClientError(`Invalid pagination response for ${resource}`, details);
   }
   for (const item of value.items) if (!isRecord(item)) throw new PlatformDataClientError('Response items must contain objects', details);
@@ -393,10 +393,30 @@ export async function fetchPlatformData(options: PlatformDataClientOptions = {})
 
 export type JsonObject = Record<string, any>;
 
-export type TitleSource = JsonObject & {
-  titles: JsonObject[];
-  players: JsonObject[];
-  mapTitles: JsonObject[];
+export type MapTitleSlot = 'PIONEER' | 'CONQUEROR' | 'DOMINATOR' | 'CLASSIC';
+
+export type TitleEntry = {
+  key: string;
+  label: string;
+  category: string;
+  condition: string;
+  displayExpr: string;
+  colorExpr: string | null;
+};
+
+export type PlayerEntry = { name: string; titleKeys?: string[]; allTitles?: boolean };
+
+export type MapTitleEntry = {
+  mapKey: string;
+  mapLabel: string;
+  holders: Record<MapTitleSlot, string[]>;
+};
+
+export type TitleSource = {
+  meta?: { sourceLabel: string };
+  titles: TitleEntry[];
+  players: PlayerEntry[];
+  mapTitles: MapTitleEntry[];
 };
 
 export function requireString(value: unknown, label: string): string {

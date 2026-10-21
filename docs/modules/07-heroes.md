@@ -2,7 +2,7 @@
 
 ## 结构
 
-- 聚合：`all_hero.opy`
+- 聚合：`allHero.opy`
 - 子模块：`ana`, `dva`, `juno`, `lifeweaver`, `mercy`, `reinhardt`, `symmetra`, `zenyatta`
 - 英雄设置：`settings/team_rules.opy`、`settings/all_teams.opy`
 
@@ -40,12 +40,12 @@
 
 ## 与其他模块的耦合
 
-- `phaseHero`（`session/game.opy`）定义哪些技能会触发位移检测
+- `phaseHero`（`session/sessionGame.opy`）定义哪些技能会触发位移检测
 - `dashDetector.opy` 依赖英雄分组与状态位
-- `effects/init.opy` 中部分 HUD 按英雄显示
+- `effects/initEffects.opy` 中部分 HUD 按英雄显示
 
 ## 扩展建议
 
-- 新英雄规则优先单文件维护，再接入 `all_hero.opy`
+- 新英雄规则优先单文件维护，再接入 `allHero.opy`
 - 如涉及事件联动，尽量在事件层设置标记，在英雄层只做行为响应
 - 调整 Workshop 的英雄参数时，优先维护 `settings/team_rules.opy` 或 `settings/all_teams.opy`；main、dev 与 en-US 入口当前使用同一组英雄设置。

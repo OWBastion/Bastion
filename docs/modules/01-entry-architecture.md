@@ -8,17 +8,17 @@
 
 三者共享同一套组装骨架，差异由头部 `ENTRY_*` 定义与 `composition/` profile 文件表达：
 
-- 头部环境文件：`env/env.opy` vs `env/env_dev.opy`
-- Profile 差异宏：`composition/profile-cn.opy` vs `composition/profile-external.opy`
+- 头部环境文件：`env/env.opy` vs `env/envDev.opy`
+- Profile 差异宏：`composition/profileCn.opy` vs `composition/profileExternal.opy`
 - 事件目录顺序入口：`events/catalog/eventCatalogMain.opy`（main + externalMain）vs `events/catalog/eventCatalogDev.opy`（devMain），注册定义共用 `events/catalog/eventCatalog.opy`
-- CN 专属功能尾部：仅 `main`/`devMain` 直接 include 称号实现、`menu/title.opy` 和成就模块
+- CN 专属功能尾部：仅 `main`/`devMain` 直接 include 称号实现、`menu/menuTitle.opy` 和成就模块
 - 调试能力与默认配置（`DEBUG`、workshop 默认值等）
 
 ## 显式入口组装
 
 三个入口直接列出编译定义、`settings {}`、变量声明、初始化、运行模块和菜单的引入顺序。include 路径以入口所在的 `src/` 为基准，顶层不依赖某个已引入 settings 文件留下的目录上下文。
 
-`composition/` 保留实际定义：`mode_constants.opy` 和 CN/external 的 `PROFILE_*` 差异宏。profile 文件只定义策略宏，不再隐式引入称号数据或功能模块。
+`composition/` 保留实际定义：`modeConstants.opy` 和 CN/external 的 `PROFILE_*` 差异宏。profile 文件只定义策略宏，不再隐式引入称号数据或功能模块。
 
 事件效果、地图和英雄聚合仍分别维护自己的有序列表。不要将这些有实际职责的聚合替换成通用装配框架。
 
@@ -38,10 +38,10 @@
 
 ## 服务 include 约定（三入口同步）
 
-- 三个入口直接 include `utilities/macros.opy` 和编译所需的事件/模式/地图定义
+- 三个入口直接 include `env/macros.opy` 和编译所需的事件/模式/地图定义
 - 三个入口直接列出中段服务，按固定槽位交错 include 各属主模块；不要按目录重新分组排序
 - `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
-- 菜单 include 固定在末尾位置：`menu/frame.opy` -> `menu/hero.opy` -> `menu/dev/*` -> `menu/player.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排
+- 菜单 include 固定在末尾位置：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/dev/*` -> `menu/menuPlayer.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排
 
 ## 核心全局数据结构
 
@@ -60,7 +60,7 @@
 - 控制点检查点推进与回位：`map/controlJump.opy`
 - 终点结算与胜者充能：`player/finishSettlement.opy`
 - 对局码生成：`events/integrity/masteryRunCode.opy`
-- 自动重开：`utilities/system/autoReboot.opy`
+- 自动重开：`session/autoReboot.opy`
 
 这些规则与 `map/`、`player/`、`events/` 子模块深度联动。
 
@@ -74,6 +74,6 @@
 ## 关键注意点
 
 - include 顺序敏感，不能随意重排。
-- `settings.heroes` 位于三个入口的 settings 块，宏真源在 `heroes/settings/`（`team_rules.opy`、`all_teams.opy`），三入口共用同一组英雄设置。
+- `settings.heroes` 位于三个入口的 settings 块，宏真源在 `heroes/settings/`（`teamRules.opy`、`allTeams.opy`），三入口共用同一组英雄设置。
 - 新增全局变量时需谨慎维护索引稳定性，避免覆盖既有槽位。
 - 修改业务逻辑时改职责属主目录下的真实文件；`utilities/system/` 只承载无单一属主的系统机制，不再新增业务实现。

@@ -11,9 +11,6 @@ importers:
       '@types/node':
         specifier: ^26.6.4
         version: 26.6.4
-      commander:
-        specifier: ^15.0.0
-        version: 15.0.0
       tsx:
         specifier: ^4.23.5
         version: 4.23.5
@@ -302,10 +299,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  commander@15.0.0:
-    resolution: {integrity: sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==}
-    engines: {node: '>=22.12.0'}
-
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
     engines: {node: '>=18'}
@@ -472,8 +465,6 @@ snapshots:
 
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
-
-  commander@15.0.0: {}
 
   esbuild@0.28.1:
     optionalDependencies:

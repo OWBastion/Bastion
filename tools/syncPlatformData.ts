@@ -1,35 +1,30 @@
-import { execFile } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
 
 import {
   DEFAULT_PLATFORM_DATA_BASE_URL,
-  PLATFORM_DATA_CONTRACT_VERSION,
   PLATFORM_DATA_TOKEN_ENV,
   PlatformDataClient,
   type PlatformData,
   type PlatformDataClientOptions
-} from './platform-data-client.ts';
-import { syncTitleData } from './sync-title-data.ts';
+} from './platform/client.ts';
+import { syncTitleData } from './platform/titles.ts';
 
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
 import {
-  buildPlatformMapRevisionSource,
   hasMapSource,
-  mapKeyFromPlatformId,
   platformMapId,
   validatePlatformAchievements,
   type PlatformMapRevisionSource,
-  renderPlatformMapRevisionMapSources,
   validatePlatformMaps,
   validateRevisionAwareMapSources
-} from './sync-map-data.ts';
+} from './platform/mapValidation.ts';
 import {
   buildPlatformTitleSource,
   validateAndMergeMaps,
   validateAndMergeTitles
-} from './sync-title-data.ts';
+} from './platform/titles.ts';
 import {
   collectEventEntries,
   mergePlatformEventOverPyData,
@@ -37,30 +32,23 @@ import {
   resolveEventMacros,
   validateAndMergeEvents,
   type EventEntry
-} from './sync-event-data.ts';
+} from './platform/events.ts';
 import {
-  assertUnique,
-  requireNumber,
   requireString,
-  type JsonObject,
   type TitleSource
-} from './platform-data-client.ts';
+} from './platform/client.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const EVENT_PLATFORM_IDS_FILE = path.join(ROOT, 'data/platform-event-ids.json');
 const ENV_FILE = path.join(ROOT, 'src/env/env.opy');
-const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/events/event_manifest.opy');
+const EVENT_MANIFEST_FILE = path.join(ROOT, 'src/events/eventManifest.opy');
 const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
-const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/events/event_constants.opy');
+const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/events/eventConstants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
 const EVENT_CATALOG_FILE = path.join(ROOT, 'src/events/catalog/eventCatalog.opy');
-const execFileAsync = promisify(execFile);
 
-export type PlatformSyncOptions = PlatformDataClientOptions & {
-  build?: boolean;
-  buildRunner?: () => Promise<void>;
-};
+export type PlatformSyncOptions = PlatformDataClientOptions;
 
 export type GeneratedPlatformFile = { path: string; content: string };
 
@@ -81,6 +69,7 @@ export function mergePlatformData({
   platformData: PlatformData;
   titleSource: TitleSource;
   eventEntries: EventEntry[];
+  platformEventIds: Record<string, string>;
   mapSourceFiles: Array<{ file: string; content: string }>;
 }) {
   const sourceMapKeys = new Set(titleSource.mapTitles.map((item) => requireString(item.mapKey, 'mapKey')));
@@ -106,12 +95,6 @@ export function mergePlatformData({
       ignoredEvents: platformData.events.length - Object.keys(platformEventIds).length
     }
   };
-}
-
-async function runBuild() {
-  for (const command of ['build:cn:zh', 'build:dev:cn:zh', 'build:external:en', 'build:external:zh']) {
-    await execFileAsync('pnpm', ['run', command], { cwd: ROOT, maxBuffer: 20 * 1024 * 1024 });
-  }
 }
 
 export async function prepareGeneratedPlatformFiles({
@@ -224,7 +207,6 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     envSource,
   });
   await writeGeneratedPlatformFiles(generatedFiles);
-  if (options.build !== false) await (options.buildRunner ?? runBuild)();
   const counts = {
     events: events.length,
     maps: maps.length,
@@ -237,7 +219,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
 }
 
 
-if (process.argv[1]?.endsWith('sync-platform-data.ts')) {
+if (process.argv[1]?.endsWith('syncPlatformData.ts')) {
   const urlIndex = process.argv.indexOf('--url');
   const baseUrl = urlIndex >= 0 ? process.argv[urlIndex + 1] : undefined;
   syncPlatformData({ baseUrl }).catch((error) => {

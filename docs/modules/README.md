@@ -39,18 +39,18 @@
 
 按行数统计的高优先文件：
 
-- `src/events/event_constants.opy`（事件参数总表）
+- `src/events/eventConstants.opy`（事件参数总表）
 - `src/events/effects/buffEffects.opy`
 - `src/events/effects/debuffEffects.opy`
 - `src/events/effects/mechEffects.opy`
 - `src/main.opy` / `src/devMain.opy` / `src/externalMain.opy`
 - `src/events/catalog/eventCatalog.opy` / `src/events/catalog/eventCatalogMain.opy` / `src/events/catalog/eventCatalogDev.opy`
-- `src/bastion/init.opy`
-- `src/title/title-cn.opy`
+- `src/bastion/initBastion.opy`
+- `src/title/titleCn.opy`
 
 ## 维护约定
 
 - 新功能优先补充对应模块文档，避免只改代码不改说明。
 - 事件类改动需同时核对：`config` + `events/effects` + `locales`。
-- 地图类改动需同时核对：对应地图文件 + `map/setup_all_map.opy` +（必要时）`map/mapDetection.opy`。
+- 地图类改动需同时核对：对应地图文件 + `map/setupAllMap.opy` +（必要时）`map/mapDetection.opy`。
 - 若仅改部分入口（`main.opy` / `devMain.opy` / `externalMain.opy`），必须在变更说明中写明原因。

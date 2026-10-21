@@ -1,8 +1,8 @@
-# 04. 堡垒 AI（`bastion/init.opy`）
+# 04. 堡垒 AI（`bastion/initBastion.opy`）
 
 ## 职责范围
 
-`src/bastion/init.opy` 负责敌方堡垒（Team 2）的完整行为控制：
+`src/bastion/initBastion.opy` 负责敌方堡垒（Team 2）的完整行为控制：
 
 - 生成后定位与姿态维持
 - 目标搜索与开火
@@ -47,4 +47,4 @@
 
 - `bastion/createBastionBot.opy`：补齐 dummy 数量
 - `events/effects/*`：部分事件会影响堡垒状态
-- `effects/nano.opy`：狂暴/纳米状态可视化
+- `effects/nanoEffects.opy`：狂暴/纳米状态可视化

@@ -6,7 +6,7 @@ import {
   type JsonObject,
   type PlatformData,
   EVENT_CATEGORIES,
-} from './platform-data-client.ts';
+} from './client.ts';
 
 export type EventType = 'buff' | 'debuff' | 'mech';
 
@@ -23,11 +23,11 @@ export function collectEventEntries(catalogSource: string): Array<{ key: string;
   return [...entries.values()];
 }
 
-export function validateAndMergeEvents(
+export function validateAndMergeEvents<T extends { key: string; type: EventType }>(
   platformData: PlatformData,
   platformIds: Record<string, string>,
   challengeIds: Set<string>,
-  eventEntries: Array<{ key: string; type: EventType }>
+  eventEntries: T[]
 ) {
   const remoteById = new Map<string, JsonObject>();
   const mappedPlatformIds = new Set(Object.values(platformIds));

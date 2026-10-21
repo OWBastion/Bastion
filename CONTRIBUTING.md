@@ -53,7 +53,7 @@ pnpm run build
    在首次 PR 前执行本地化键检查：
 
 ```bash
-./tools/check_locale_keys.sh
+./tools/checkLocaleKeys.sh
 ```
 
 ## 3. Ownership / 模块归属
@@ -151,8 +151,8 @@ When adding/changing events, at minimum:
 
 1. Keep map points/flow in the corresponding `src/map/` file.  
    点位与流程逻辑放在对应 `src/map/` 文件。
-2. Update `src/map/setup_all_map.opy` when adding new maps.  
-   新增地图时更新 `src/map/setup_all_map.opy` 聚合入口。
+2. Update `src/map/setupAllMap.opy` when adding new maps.\
+   新增地图时更新 `src/map/setupAllMap.opy` 聚合入口。
 3. Verify teleport/checkpoint compatibility with `mapDetection` and settlement flow.  
    联动验证传送/检查点与 `mapDetection`、结算逻辑兼容。
 
@@ -174,7 +174,6 @@ Build entries separately / 分别构建各入口：
 
 ```bash
 pnpm run build:cn:zh
-pnpm run build:cn:en
 pnpm run build:dev:cn:zh
 pnpm run build:external:en
 pnpm run build:external:zh
@@ -189,7 +188,7 @@ pnpm run build:release
 Locale key consistency check (required before commit) / 本地化键一致性检查（提交前必跑）：
 
 ```bash
-./tools/check_locale_keys.sh
+./tools/checkLocaleKeys.sh
 ```
 
 ## 11. Pre-commit Checklist / 提交前检查
@@ -206,8 +205,8 @@ Locale key consistency check (required before commit) / 本地化键一致性检
    是否出现无关格式化或重排。
 6. Ensure seasonal logic is moved to dedicated branches if needed.  
    季节性内容是否应转入专用分支。
-7. Run and pass `./tools/check_locale_keys.sh`.  
-   `./tools/check_locale_keys.sh` 是否通过。
+7. Run and pass `./tools/checkLocaleKeys.sh`.\
+   `./tools/checkLocaleKeys.sh` 是否通过。
 
 ## 12. Commit / PR Suggestions / Commit / PR 建议
 

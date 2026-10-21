@@ -8,7 +8,7 @@
 
 ## 聚合入口
 
-- `src/map/setup_all_map.opy` 统一 include 全部地图文件
+- `src/map/setupAllMap.opy` 统一 include 全部地图文件
 - 新增地图时必须同步更新该聚合文件
 
 ## 地图文件通用职责
@@ -28,9 +28,9 @@
 - `paraiso.opy`：普通单图点位
 - `eichenwalde.opy`：默认 revision 与 `classic` 可选 revision
 - `busan.opy`：三段控制点的 center/jump/respawn/axis 配置
-- `antarctic_peninsula.opy`：玩家首次出生后调用生成的 setup-route 宏；当前平台投影仍使用 `alternateStages`，平台启用 `composition + stages` 后由同一入口抽取复合路线。`ilios.opy` 继续以 `alternateStages.setupDetection` 选择完整子图配置
+- `antarcticPeninsula.opy`：玩家首次出生后调用生成的 setup-route 宏；当前平台投影仍使用 `alternateStages`，平台启用 `composition + stages` 后由同一入口抽取复合路线。`ilios.opy` 继续以 `alternateStages.setupDetection` 选择完整子图配置
 
-每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标和控制点配置。CN 称号持有人投影由 `title/map-title-data.opy` 独立消费；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
+每张 `src/map/*.opy` 的 `# BEGIN/END AUTO-GENERATED PLATFORM MAP REVISION` 区块是 `sync:platform-data` 的生成输出，不是第二个手工真源。同步阶段按 `gameplayRevisionId` 关联并校验 revision；地图宏只注入运行时需要的地图文案、矢量坐标和控制点配置。CN 称号持有人投影由 `title/mapTitleData.opy` 独立消费；历史/准备中 revision 不进入产物。OverPy 在编译期展开这些宏，Workshop 运行时只执行原有地图设置规则，不解析平台数据表。
 
 ## 多段地图（典型）
 
@@ -42,9 +42,9 @@
 
 ## 代表性地图能力
 
-- 传送门地图：`new_junk_city.opy`（`portalPosition`）
-- 弹板地图：`temple_of_anubis.opy`, `esperanca.opy`（`springBoardPosition`）
-- 子图判定地图：`antarctic_peninsula.opy`（当前以 `alternateStages` 选择完整配置；切换到复合投影后 Bastion 在运行时组装路线）、`ilios.opy`（平台 selector 选定完整子图配置）
+- 传送门地图：`newJunkCity.opy`（`portalPosition`）
+- 弹板地图：`templeOfAnubis.opy`, `esperanca.opy`（`springBoardPosition`）
+- 子图判定地图：`antarcticPeninsula.opy`（当前以 `alternateStages` 选择完整配置；切换到复合投影后 Bastion 在运行时组装路线）、`ilios.opy`（平台 selector 选定完整子图配置）
 
 南极半岛的地图规则在首名玩家出生后只调用一次生成的 setup-route 宏。当前平台投影仍是 `alternateStages`，因此继续选择完整子图配置；平台启用 `composition + stages` 后，该宏会检测首段并使用指定 fallback，再从剩余阶段中随机选择所需数量，保留顺序且不重复，在同一地图设置规则中组装活动路线。复合数据由路线根节点提供 reset、end、第三人称、credits 点位及单一重生轴/阈值；每个原子阶段提供 Bastion、control center、一个 jump/respawn 配对、portal 与 springboard 点位。路线只在设置阶段抽取，后续玩家生命周期和控制点规则不会重新抽选。
 
@@ -60,7 +60,7 @@
 - `map/controlJump.opy`：控制点检查点推进与回位
 - `player/finishSettlement.opy`：终点结算与胜者规则
 - `map/interactions.opy`：弹跳板/传送门/第三人称点位交互
-- `effects/init.opy`：终点/跳点可视化
+- `effects/initEffects.opy`：终点/跳点可视化
 
 ## 开发注意
 
@@ -70,4 +70,4 @@
   - Bastion 数量与 `bastionPosition` 长度一致
   - 终点触发半径可达
   - reset/third-person/world text 不重叠
-  - 修改已迁移 revision 时，先通过 `tools/sync-platform-data.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建并确认元素数低于 Workshop 导入上限。
+  - 修改已迁移 revision 时，先通过 `tools/syncPlatformData.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建并确认元素数低于 Workshop 导入上限。

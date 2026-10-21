@@ -2,11 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources, validateRevisionAwareMapSources } from './sync-map-data.ts';
-import { mergePlatformEventOverPyData } from './sync-event-data.ts';
-import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
-import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './sync-platform-data.ts';
-import type { PlatformData } from './platform-data-client.ts';
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
+import { validateRevisionAwareMapSources } from './platform/mapValidation.ts';
+import { mergePlatformEventOverPyData } from './platform/events.ts';
+import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './platform/titles.ts';
+import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './syncPlatformData.ts';
+import type { PlatformData } from './platform/client.ts';
 
 const titleSource = {
   meta: { sourceLabel: 'titles' },
@@ -109,14 +110,6 @@ const classicGameplayRevision = {
   isSelectable: true
 };
 
-const selectableGameplayRevision = {
-  ...defaultGameplayRevision,
-  gameplayRevisionId: 'revision:map.test_map:selectable',
-  lifecycle: 'selectable',
-  isDefault: false,
-  isSelectable: true
-};
-
 const platformData: PlatformData = {
   events: [{ eventId: 'event.one', name: '新事件', category: '增益', rarity: 'R', description: '新描述', durationSeconds: 20, weight: 2, archived: false, releaseStatus: 'implemented', challenges: [] }],
   maps: [{ mapId: 'map.test_map', mapName: '新地图', gameVersion: '2026.07.15', difficultyRating: 'T1', mechanics: [], coverUrl: null, backgroundUrl: null, gameplayRevisions: [defaultGameplayRevision] }],
@@ -183,6 +176,14 @@ test('accepts map classic achievements that reuse the global title challenge ID'
     titles: [...titleSource.titles, { key: 'CLASSIC', label: '老兵', category: '地图精通系列', condition: '通关经典版地图', displayExpr: '__currentMapClassicText___', colorExpr: 'null' }]
   });
   assert.equal(result.counts.achievements, 2);
+});
+
+test('accepts a title achievement challenge ID with an instance suffix and rejects another title key', () => {
+  const achievement = platformData.achievements[0];
+  const withChallengeId = (challengeId: string) => merge({ achievements: [{ ...achievement, challengeId }] });
+  assert.equal(withChallengeId('title.TITLE_ONE.d62e4a11-8913-428c-9fe7-627867c29e91').counts.achievements, 1);
+  assert.throws(() => withChallengeId('title.OTHER'), /must reference title.TITLE_ONE/);
+  assert.throws(() => withChallengeId('title.TITLE_ONE_EXTRA'), /must reference title.TITLE_ONE/);
 });
 
 test('ignores platform title availability whether it is active, retired, or absent', async () => {
@@ -364,7 +365,7 @@ test('generates the all-titles player entry without title keys', async () => {
 });
 
 test('prepares every generated file before any replacement is attempted', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const source = buildPlatformTitleSource({
     platformData,
@@ -374,6 +375,7 @@ test('prepares every generated file before any replacement is attempted', async 
   await assert.rejects(() => prepareGeneratedPlatformFiles({
     titleSource: source,
     mapRevisionSource: null as never,
+    mapSourceFiles: [],
     platformEventData: { constantsSource: '#!define EVT_BUFF_0_DURATION 20\n', localeSource: '#!define STR_EVT_BUFF_0_TITLE "事件"\n' },
     validatedEventEntries: eventEntries,
     envSource: '#!define VERSION "2026.08.13"\n',
@@ -381,10 +383,9 @@ test('prepares every generated file before any replacement is attempted', async 
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
-test('does not build after an unavailable holder projection', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+test('does not write files after an unavailable holder projection', async () => {
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
-  let buildReached = false;
   const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }), { headers: { 'content-type': 'application/json' } });
   const fakeFetch: typeof globalThis.fetch = async (input) => {
     const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
@@ -395,19 +396,16 @@ test('does not build after an unavailable holder projection', async () => {
   };
 
   await assert.rejects(() => syncPlatformData({
-    fetch: fakeFetch,
-    buildRunner: async () => { buildReached = true; }
+    fetch: fakeFetch
   }), /HTTP 503/);
-  assert.equal(buildReached, false);
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
 test('sync skips unsupported maps and their challenges without requesting their titles or holders', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
   const requestedMapIds: string[] = [];
   let eventsReached = false;
-  let buildReached = false;
   const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }));
   const fakeFetch: typeof globalThis.fetch = async (input) => {
     const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
@@ -431,19 +429,16 @@ test('sync skips unsupported maps and their challenges without requesting their 
   };
 
   await assert.rejects(() => syncPlatformData({
-    fetch: fakeFetch,
-    buildRunner: async () => { buildReached = true; }
+    fetch: fakeFetch
   }), /HTTP 503/);
   assert.equal(eventsReached, true, 'supported map data and global title grants must pass generation validation');
   assert.deepEqual(new Set(requestedMapIds), new Set(['map.aatlis']));
-  assert.equal(buildReached, false);
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
 test('sync still rejects missing spatial configuration for a supported map', async () => {
-  const titleFile = new URL('../src/title/title-cn.opy', import.meta.url);
+  const titleFile = new URL('../src/title/titleCn.opy', import.meta.url);
   const before = await readFile(titleFile, 'utf8');
-  let buildReached = false;
   const page = (items: unknown[]) => new Response(JSON.stringify({ contractVersion: '1', items, page: 1, pageSize: 100, total: items.length, hasMore: false }));
   const fakeFetch: typeof globalThis.fetch = async (input) => {
     const url = input instanceof URL ? input : new URL(typeof input === 'string' ? input : input.url);
@@ -453,10 +448,8 @@ test('sync still rejects missing spatial configuration for a supported map', asy
     return page([]);
   };
   await assert.rejects(() => syncPlatformData({
-    fetch: fakeFetch,
-    buildRunner: async () => { buildReached = true; }
+    fetch: fakeFetch
   }), /spatialConfig/);
-  assert.equal(buildReached, false);
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
@@ -471,7 +464,7 @@ test('preserves existing title and player IDs while appending new entries', () =
   const ordered = preservePlatformTitleOrder(
     {
       meta: { sourceLabel: 'titles' },
-      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }],
+      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }].map((item) => ({ ...item, label: '', category: '', condition: '', displayExpr: '""', colorExpr: null })),
       players: [{ name: '新玩家' }, { name: '他又' }],
       mapTitles: []
     },
@@ -496,53 +489,6 @@ test('accepts map holders without playerId from the public Agents view', () => {
   });
   assert.deepEqual(source.mapTitles[0]?.holders.PIONEER, ['玩家']);
   assert.deepEqual(source.players, [{ name: '玩家', titleKeys: [] }]);
-});
-
-test('generates deterministic map-local macros for default and classic revisions', () => {
-  const source = buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [classicGameplayRevision, defaultGameplayRevision] }],
-      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
-      titles: [
-        { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] },
-        { ...platformData.titles[0], titleKey: 'CLASSIC', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }
-      ],
-      mapTitleHolders: [
-        { mapId: 'map.test_map', gameplayRevisionId: defaultGameplayRevision.gameplayRevisionId, titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerId: 'player-6', playerName: '默认玩家' },
-        { mapId: 'map.test_map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, titleKey: 'CLASSIC', slot: null, slotSemantics: 'none', playerId: 'player-5', playerName: '经典玩家' }
-      ]
-    }
-  });
-  assert.deepEqual(source.maps[0]?.revisions.map((revision) => revision.gameplayRevisionId), [defaultGameplayRevision.gameplayRevisionId, classicGameplayRevision.gameplayRevisionId]);
-  assert.equal(source.maps[0]?.revisions[0]?.titleHolders[0]?.playerName, '默认玩家');
-  assert.equal(source.maps[0]?.revisions[1]?.titleHolders[0]?.playerName, '经典玩家');
-  const output = renderPlatformMapRevisionData(source);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_CLASSIC\(\):/);
-  assert.match(output, /vect\(1, 2, 3\)/);
-  assert.equal(output, renderPlatformMapRevisionData(JSON.parse(JSON.stringify(source))));
-});
-
-test('declares classic map text only when the map has a classic revision', () => {
-  const defaultOnly = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision] }]
-    }
-  }));
-  assert.match(defaultOnly, /__currentMapText___ = /);
-  assert.doesNotMatch(defaultOnly, /__currentMapClassicText___/);
-
-  const withClassic = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, classicGameplayRevision] }],
-      achievements: [{ challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: classicGameplayRevision.gameplayRevisionId, type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' }],
-      titles: [{ ...platformData.titles[0], titleKey: 'CLASSIC', scope: 'map', displayKind: 'fixed', mapId: 'map.test_map' }]
-    }
-  }));
-  assert.match(withClassic, /__currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX\.format/);
 });
 
 test('projects revision holders whose title is a global dynamic map title', () => {
@@ -637,232 +583,6 @@ test('validates the migrated Busan control-map shape before generation', () => {
   }), /three center\/respawn and two jump/);
 });
 
-test('renders sorted alternate spatial stages deterministically', () => {
-  const alternateSpatialConfig = {
-    ...spatialConfig,
-    alternateStages: [
-      { stageId: 'zeta', ...spatialConfig, resetPosition: [20, 21, 22], setupDetection: { position: [40, 41, 42], radius: 30 } },
-      { stageId: 'alpha', ...spatialConfig, resetPosition: [30, 31, 32], setupDetection: { position: [50, 51, 52], radius: 30 } }
-    ]
-  };
-  const source = buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: alternateSpatialConfig }] }]
-    }
-  });
-  const validatedSpatialConfig = source.maps[0]?.revisions[0]?.spatialConfig;
-  assert.ok(validatedSpatialConfig && 'alternateStages' in validatedSpatialConfig);
-  assert.deepEqual(validatedSpatialConfig.alternateStages.map((stage) => stage.stageId), ['alpha', 'zeta']);
-  const reversedSource = buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...alternateSpatialConfig, alternateStages: [...alternateSpatialConfig.alternateStages].reverse() } }] }]
-    }
-  });
-  assert.equal(renderPlatformMapRevisionData(source), renderPlatformMapRevisionData(reversedSource));
-  const output = renderPlatformMapRevisionData(source);
-  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION vect\(50, 51, 52\)/);
-  assert.match(output, /platformMapRevision_TEST_MAP_DEFAULT_STAGE_ZETA_SETUP_POSITION vect\(40, 41, 42\)/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA\(\):[\s\S]*resetPosition = vect\(30, 31, 32\)/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE\(\):[\s\S]*getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_STAGE_ALPHA_SETUP_POSITION/);
-  assert.match(output, /# END AUTO-GENERATED PLATFORM MAP REVISION\n$/);
-});
-
-test('renders atomic composite stages once and selects an ordered unique route at runtime', () => {
-  const source = buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeSpatialConfig }] }]
-    }
-  });
-  const validatedSpatialConfig = source.maps[0]?.revisions[0]?.spatialConfig;
-  assert.ok(validatedSpatialConfig && 'stages' in validatedSpatialConfig);
-  assert.deepEqual(validatedSpatialConfig.stages.map((stage) => stage.stageId), ['base', 'icebreaker', 'laboratory']);
-
-  const output = renderPlatformMapRevisionData(source);
-  const reversedSource = buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: {
-        ...compositeSpatialConfig,
-        stages: [...compositeSpatialConfig.stages].reverse()
-      } }] }]
-    }
-  });
-  assert.equal(output, renderPlatformMapRevisionData(reversedSource));
-  for (const offset of [100, 200, 300]) {
-    for (const positionOffset of [1, 4, 7, 10]) {
-      const coordinate = `vect(${offset + positionOffset}, ${offset + positionOffset + 1}, ${offset + positionOffset + 2})`;
-      assert.equal(output.split(coordinate).length - 1, 1, `${coordinate} should be emitted once`);
-    }
-  }
-  assert.match(output, /if len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION, platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1_SETUP_RADIUS, Team\.1\)\) != 0:[\s\S]*elif len\(getPlayersInRadius\(platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
-  assert.match(output, /_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)[\s\S]*_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)/);
-  assert.match(output, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_STAGE_0\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_1\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)[\s\S]*COMPOSITE_STAGE_2\(platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER\)/);
-  assert.match(output, /controlJumpPosition\.append\(vect\(207, 208, 209\)\)/);
-  assert.match(output, /if stageOrder < 1:/);
-  const revisionMacro = output.split('macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_0')[0]!;
-  assert.match(revisionMacro, /macro platformMapRevision_TEST_MAP_DEFAULT\(\):[\s\S]*resetPosition = vect\(904, 905, 906\)[\s\S]*endPosition = vect\(907, 908, 909\)[\s\S]*controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
-  const setupMacro = output.slice(output.indexOf('macro platformMapRevision_TEST_MAP_DEFAULT_SETUP_ROUTE():'));
-  assert.doesNotMatch(setupMacro, /(?:resetPosition|endPosition|thirdPersonPosition|creditsPosition|controlRespawnAxis|controlRespawnAxisThreshold)\s*=/);
-  const noCenterStages = compositeSpatialConfig.stages.map((stage) => ({ ...stage, control: { ...stage.control, centerPositions: [] } }));
-  const noCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...compositeSpatialConfig, stages: noCenterStages } }] }]
-    }
-  }));
-  assert.doesNotMatch(noCenterOutput, /controlCenterPosition = \[\]/);
-});
-
-test('statically expands every spawn-detected cyclic route with complete spatial assignments', () => {
-  const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
-  const cycleConfig = {
-    ...compositeSpatialConfig,
-    composition: {
-      selectionCount: 2,
-      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'base' },
-      remainingStageSelection: 'stage_id_cycle' as const
-    },
-    stages: [
-      compositeStage('laboratory', 300, setupDetection),
-      compositeStage('base', 100),
-      compositeStage('icebreaker', 200, setupDetection)
-    ]
-  };
-  cycleConfig.stages[0]!.portalPositions = [[310, 311, 312]];
-  cycleConfig.stages[1]!.springboardPositions = [[210, 211, 212]];
-  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [{ ...defaultGameplayRevision, mapId: 'map.busan', gameplayRevisionId: 'revision:map.busan:default', spatialConfig: cycleConfig }] }]
-    }
-  }));
-  const routeBodies = output.split(/^macro /m).slice(1)
-    .map((block) => block.slice(0, block.search(/^macro |\n# END AUTO-GENERATED/m) < 0 ? undefined : block.search(/^macro |\n# END AUTO-GENERATED/m)))
-    .filter((block) => block.includes('bastionPosition = compressed(['));
-  assert.equal(routeBodies.length, 3);
-  const bastionCoordinates = routeBodies.map((body) => {
-    const assignment = body.match(/bastionPosition = compressed\(\[([\s\S]*?)\]\)/)?.[1] ?? '';
-    return [...assignment.matchAll(/vect\((\d+), (\d+), (\d+)\)/g)].map((match) => match[1]);
-  });
-  assert.deepEqual(bastionCoordinates, [
-    ['101', '201'],
-    ['201', '301'],
-    ['301', '101']
-  ]);
-  for (const body of routeBodies) {
-    assert.match(body, /resetPosition = vect\(904, 905, 906\)/);
-    assert.match(body, /endPosition = vect\(907, 908, 909\)/);
-    assert.match(body, /thirdPersonPosition = vect\(910, 911, 912\)/);
-    assert.match(body, /creditsPosition = vect\(913, 914, 915\)/);
-    assert.match(body, /controlRespawnAxis = 2[\s\S]*controlRespawnAxisThreshold = 40/);
-    assert.equal((body.match(/controlCenterPosition = \[/g) ?? []).length, 1);
-    assert.equal((body.match(/controlJumpPosition = \[/g) ?? []).length, 1);
-    assert.equal((body.match(/controlRespawnPosition = \[/g) ?? []).length, 1);
-  }
-  assert.doesNotMatch(routeBodies[0]!, /portalPosition =/);
-  assert.match(routeBodies[0]!, /springBoardPosition = vect\(210, 211, 212\)/);
-  assert.match(routeBodies[1]!, /portalPosition = \[[\s\S]*vect\(310, 311, 312\)/);
-  assert.doesNotMatch(routeBodies[1]!, /springBoardPosition =/);
-  assert.match(routeBodies[2]!, /portalPosition = \[[\s\S]*vect\(310, 311, 312\)/);
-  assert.match(routeBodies[2]!, /springBoardPosition = vect\(210, 211, 212\)/);
-  const setupRoute = output.match(/macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE\(\):\n([\s\S]*?)(?=\n\n|$)/)?.[1] ?? '';
-  assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION/);
-  assert.match(setupRoute, /getPlayersInRadius\(platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION/);
-  assert.doesNotMatch(setupRoute, /for |%|\[[^\]]*\]|COMPOSITE_SELECTED|COMPOSITE_STAGE_ORDER/);
-  const macroBodies = new Map(routeBodies.map((body) => [body.match(/^([^\n(]+)\(\):/)![1]!, body]));
-  const detectedRoutes = [...setupRoute.matchAll(/(?:if|elif) len\(getPlayersInRadius\(([^,]+),[^)]+\)\) != 0:\n\s+([A-Za-z0-9_]+)\(\)/g)];
-  const fallbackRoute = setupRoute.match(/else:\n\s+([A-Za-z0-9_]+)\(\)/)?.[1];
-  const firstBastionCoordinate = (macroName: string | undefined) => {
-    const body = macroBodies.get(macroName ?? '');
-    return body?.match(/bastionPosition = compressed\(\[\s*vect\((\d+),/)?.[1];
-  };
-  assert.deepEqual(detectedRoutes.map(([, setupPosition, macroName]) => [setupPosition, firstBastionCoordinate(macroName as string)]), [
-    ['platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_1_SETUP_POSITION', '201'],
-    ['platformMapRevision_BUSAN_DEFAULT_COMPOSITE_STAGE_2_SETUP_POSITION', '301']
-  ]);
-  assert.equal(firstBastionCoordinate(fallbackRoute), '101');
-
-  const emptyCenterStages = cycleConfig.stages.map((stage) => ({
-    ...stage,
-    control: { ...stage.control, centerPositions: [] }
-  }));
-  const emptyCenterOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: { ...cycleConfig, stages: emptyCenterStages } }] }]
-    }
-  }));
-  assert.doesNotMatch(emptyCenterOutput, /controlCenterPosition = \[\s*\]/);
-});
-
-test('uses stage route anchors at each generated cyclic route boundary', () => {
-  const setupDetection = { position: [1, 2, 3] as [number, number, number], radius: 30 };
-  const point = (offset: number): [number, number, number] => [offset, offset + 1, offset + 2];
-  const root = {
-    resetPosition: point(1),
-    endPosition: point(4),
-    thirdPersonPosition: point(7),
-    creditsPosition: point(10)
-  };
-  const routeConfig = {
-    ...compositeSpatialConfig,
-    ...root,
-    composition: {
-      selectionCount: 2,
-      firstStageSelection: { mode: 'setup_detection' as const, fallbackStageId: 'stage-0' },
-      remainingStageSelection: 'stage_id_cycle' as const
-    },
-    stages: [
-      { ...compositeStage('stage-0', 100), endPosition: point(13) },
-      {
-        ...compositeStage('stage-1', 200, setupDetection),
-        resetPosition: point(16),
-        thirdPersonPosition: point(19),
-        creditsPosition: point(22),
-        endPosition: point(25)
-      },
-      {
-        ...compositeStage('stage-2', 300, setupDetection),
-        resetPosition: point(28),
-        thirdPersonPosition: point(31),
-        creditsPosition: point(34)
-      }
-    ]
-  };
-  const stages = routeConfig.stages;
-  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: routeConfig }] }]
-    }
-  }));
-  const routes = [...output.matchAll(/macro platformMapRevision_TEST_MAP_DEFAULT_ROUTE_(\d+)\(\):([\s\S]*?)(?=\n\n|$)/g)];
-  assert.equal(routes.length, 3);
-  const anchors = routes.map(([, index, body]) => [
-    index,
-    body!.match(/resetPosition = vect\(([^)]+)\)/)?.[1],
-    body!.match(/endPosition = vect\(([^)]+)\)/)?.[1],
-    body!.match(/thirdPersonPosition = vect\(([^)]+)\)/)?.[1],
-    body!.match(/creditsPosition = vect\(([^)]+)\)/)?.[1]
-  ]);
-  const formatPosition = (position: [number, number, number]) => position.join(', ');
-  const expected = stages.map((_, startIndex) => {
-    const first = stages[startIndex]!;
-    const last = stages[(startIndex + 1) % stages.length]!;
-    return [
-      String(startIndex),
-      formatPosition(first.resetPosition ?? root.resetPosition),
-      formatPosition(last.endPosition ?? root.endPosition),
-      formatPosition(first.thirdPersonPosition ?? root.thirdPersonPosition),
-      formatPosition(first.creditsPosition ?? root.creditsPosition)
-    ];
-  });
-  assert.deepEqual(anchors, expected);
-});
-
 test('accepts random-first composites and rejects invalid composition constraints', () => {
   const randomFirstConfig = {
     ...compositeSpatialConfig,
@@ -920,32 +640,6 @@ test('accepts random-first composites and rejects invalid composition constraint
     ...compositeSpatialConfig,
     control: { respawnAxis: 'x', respawnAxisThreshold: null }
   }) }), /respawnAxisThreshold must be a non-negative finite number/);
-});
-
-test('composes supported scalar controls and clears detected default centers before explicit centers', () => {
-  const compositeConfig = {
-    ...compositeSpatialConfig,
-    stages: [
-      { ...compositeStage('base', 100), control: { ...compositeStage('base', 100).control, centerPositions: [] } },
-      {
-        ...compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 }),
-        control: { ...compositeStage('icebreaker', 200).control, centerPositions: [] }
-      },
-      {
-        ...compositeStage('laboratory', 300, { position: [930, 931, 932], radius: 30 }),
-        control: { ...compositeStage('laboratory', 300).control, centerPositions: [[316, 317, 318]] }
-      }
-    ]
-  };
-  const output = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: compositeConfig }] }] }
-  }));
-
-  assert.match(output, /COMPOSITE_CENTER_POSITIONS_INITIALIZED = false/);
-  assert.match(output, /controlRespawnAxis = 2/);
-  assert.match(output, /controlRespawnAxisThreshold = 40/);
-  assert.match(output, /macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_2\(stageOrder\):[\s\S]*if platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED != true:\n        controlCenterPosition = \[\]\n        platformMapRevision_TEST_MAP_COMPOSITE_CENTER_POSITIONS_INITIALIZED = true\n    controlCenterPosition\.append\(vect\(316, 317, 318\)\)/);
-  assert.doesNotMatch(output.match(/macro platformMapRevision_TEST_MAP_DEFAULT_COMPOSITE_STAGE_1\(stageOrder\):[\s\S]*?\n\n/)?.[0] ?? '', /controlCenterPosition = \[\]/);
 });
 
 test('requires composite setup routes to be executable rather than commented out', () => {

@@ -8,13 +8,18 @@ const SOURCE_EXTENSIONS = new Set(['.opy']);
 const LOOP_WAIT_WINDOW = 10;
 const __filename = fileURLToPath(import.meta.url);
 
-function isFlag(value) {
+type Severity = 'HIGH' | 'MEDIUM' | 'LOW';
+type Finding = { file: string; line: number; type: string; detail: string; severity: Severity };
+type SourceLine = { lineNo: number; text: string };
+type RuleBlock = { start: number; end: number; lines: SourceLine[] };
+
+function isFlag(value: string) {
   return value.startsWith('--');
 }
 
-function parseArgs(argv) {
+function parseArgs(argv: string[]) {
   let strict = false;
-  const targets = [];
+  const targets: string[] = [];
 
   for (const arg of argv) {
     if (arg === '--strict') {
@@ -33,7 +38,7 @@ function parseArgs(argv) {
   };
 }
 
-async function pathExists(targetPath) {
+async function pathExists(targetPath: string) {
   try {
     await fs.access(targetPath);
     return true;
@@ -42,7 +47,7 @@ async function pathExists(targetPath) {
   }
 }
 
-async function collectFiles(targetPath, files, warnings) {
+async function collectFiles(targetPath: string, files: string[], warnings: string[]) {
   const resolved = path.resolve(process.cwd(), targetPath);
   const exists = await pathExists(resolved);
   if (!exists) {
@@ -69,11 +74,11 @@ async function collectFiles(targetPath, files, warnings) {
   files.push(resolved);
 }
 
-function toRel(filePath) {
+function toRel(filePath: string) {
   return path.relative(process.cwd(), filePath) || '.';
 }
 
-function makeFinding(filePath, line, type, detail, severity = 'MEDIUM') {
+function makeFinding(filePath: string, line: number, type: string, detail: string, severity: Severity = 'MEDIUM'): Finding {
   return {
     file: toRel(filePath),
     line,
@@ -83,11 +88,11 @@ function makeFinding(filePath, line, type, detail, severity = 'MEDIUM') {
   };
 }
 
-function isComment(line) {
+function isComment(line: string) {
   return line.trimStart().startsWith('#');
 }
 
-function hasNearbyWait(lines, index) {
+function hasNearbyWait(lines: string[], index: number) {
   const start = Math.max(0, index - LOOP_WAIT_WINDOW);
   const end = Math.min(lines.length - 1, index + LOOP_WAIT_WINDOW);
   for (let i = start; i <= end; i += 1) {
@@ -101,9 +106,9 @@ function hasNearbyWait(lines, index) {
   return false;
 }
 
-function getRuleBlocks(lines) {
-  const blocks = [];
-  let active = null;
+function getRuleBlocks(lines: string[]) {
+  const blocks: RuleBlock[] = [];
+  let active: RuleBlock | null = null;
 
   for (let i = 0; i < lines.length; i += 1) {
     if (/^\s*rule\s+["'`]/.test(lines[i])) {
@@ -129,8 +134,8 @@ function getRuleBlocks(lines) {
   return blocks;
 }
 
-function scanRuleBlock(filePath, block) {
-  const findings = [];
+function scanRuleBlock(filePath: string, block: RuleBlock) {
+  const findings: Finding[] = [];
   const eventLine = block.lines.find((item) => /@Event\s+(eachPlayer|global)\b/.test(item.text));
   if (!eventLine) {
     return findings;
@@ -148,8 +153,8 @@ function scanRuleBlock(filePath, block) {
   const heavyPattern =
     /(distance\(|sorted\(|getLivingPlayers\(|getPlayersInRadius\(|getPlayersWithinRadius\(|\.filter\(|\.sorted\()/;
 
-  let firstCheap = null;
-  let firstHeavy = null;
+  let firstCheap: SourceLine | null = null;
+  let firstHeavy: SourceLine | null = null;
 
   for (const condition of conditionLines) {
     if (firstCheap === null && cheapPattern.test(condition.text)) {
@@ -175,12 +180,12 @@ function scanRuleBlock(filePath, block) {
   return findings;
 }
 
-function scanSource(filePath, content) {
+function scanSource(filePath: string, content: string): Finding[] {
   if (path.extname(filePath) !== '.opy') {
     return [];
   }
 
-  const findings = [];
+  const findings: Finding[] = [];
   const lines = content.split(/\r?\n/);
 
   for (let i = 0; i < lines.length; i += 1) {
@@ -233,18 +238,18 @@ function scanSource(filePath, content) {
   return findings;
 }
 
-function groupFindings(findings) {
+function groupFindings(findings: Finding[]) {
   const risk = findings.filter((f) => f.severity === 'HIGH');
   const hotspots = findings.filter((f) => f.type.startsWith('HOTSPOT_'));
   const suggestions = findings.filter((f) => f.type === 'ONGOING_GATING_ORDER');
   return { risk, hotspots, suggestions };
 }
 
-function formatEntry(entry) {
+function formatEntry(entry: Finding) {
   return `- [${entry.severity}] ${entry.type} ${entry.file}:${entry.line} -> ${entry.detail}`;
 }
 
-function printSection(title, entries) {
+function printSection(title: string, entries: Finding[]) {
   console.log(`${title}:`);
   if (entries.length === 0) {
     console.log('- none');
@@ -255,7 +260,7 @@ function printSection(title, entries) {
   }
 }
 
-function printSummary(totalFiles, findings, strict) {
+function printSummary(totalFiles: number, findings: Finding[], strict: boolean) {
   const high = findings.filter((f) => f.severity === 'HIGH').length;
   const medium = findings.filter((f) => f.severity === 'MEDIUM').length;
   const low = findings.filter((f) => f.severity === 'LOW').length;
@@ -267,15 +272,15 @@ function printSummary(totalFiles, findings, strict) {
 
 export async function main(argv = process.argv.slice(2)) {
   const { strict, targets } = parseArgs(argv);
-  const files = [];
-  const warnings = [];
+  const files: string[] = [];
+  const warnings: string[] = [];
 
   for (const target of targets) {
     await collectFiles(target, files, warnings);
   }
 
   const uniqueFiles = [...new Set(files)].sort();
-  const findings = [];
+  const findings: Finding[] = [];
   for (const filePath of uniqueFiles) {
     const content = await fs.readFile(filePath, 'utf8');
     findings.push(...scanSource(filePath, content));
@@ -305,7 +310,7 @@ const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
 
 if (invokedPath === __filename) {
   main().catch((error) => {
-    console.error(error.message);
+    console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   });
 }
