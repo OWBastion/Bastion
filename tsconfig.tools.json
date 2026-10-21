@@ -4,12 +4,16 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
-    "noCheck": true,
-    "strict": false,
+    "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "noUnusedLocals": true
   },
-  "include": ["tools/**/*.ts"]
+  "include": [
+    "tools/**/*.ts"
+  ]
 }

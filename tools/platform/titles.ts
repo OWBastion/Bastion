@@ -2,24 +2,27 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  assertUnique,
   requireNumber,
   requireString,
   type JsonObject,
+  type MapTitleEntry,
+  type MapTitleSlot,
   type PlatformData,
+  type PlayerEntry,
+  type TitleEntry,
   type TitleSource,
   TITLE_SCOPES,
   TITLE_DISPLAY_KINDS,
   TITLE_SLOTS
-} from './platform-data-client.ts';
-import { hasMapSource, mapKeyFromPlatformId, platformMapId, validateGameplayRevision } from './sync-map-data.ts';
+} from './client.ts';
+import { hasMapSource, mapKeyFromPlatformId, platformMapId, validateGameplayRevision, type ValidatedGameplayRevision } from './mapValidation.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const TITLE_FILE = path.resolve(__dirname, '../src/title/title-cn.opy');
-const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../src/title/playerNameToIndex.js');
-const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../src/title/playerNameToIndexDelimited.js');
+const TITLE_FILE = path.resolve(__dirname, '../../src/title/title-cn.opy');
+const PLAYER_NAME_TO_INDEX_FILE = path.resolve(__dirname, '../../src/title/playerNameToIndex.js');
+const PLAYER_NAME_TO_INDEX_DELIMITED_FILE = path.resolve(__dirname, '../../src/title/playerNameToIndexDelimited.js');
 
 const ENUM_BEGIN = '# BEGIN AUTO-GENERATED TITLE ENUM';
 const ENUM_END = '# END AUTO-GENERATED TITLE ENUM';
@@ -31,33 +34,17 @@ const MAP_DATA_BEGIN = '# BEGIN AUTO-GENERATED MAP_TITLE_DATA';
 const MAP_DATA_END = '# END AUTO-GENERATED MAP_TITLE_DATA';
 const PLAYER_TITLE_SET_POOL_BEGIN = '# BEGIN AUTO-GENERATED PLAYER_TITLE_SET_POOL';
 const PLAYER_TITLE_SET_POOL_END = '# END AUTO-GENERATED PLAYER_TITLE_SET_POOL';
-function escapeRegex(value) {
+function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function ensureString(value, message) {
-  if (typeof value !== 'string' || value.trim() === '') {
-    throw new Error(message);
-  }
-}
-
-function ensureNoDuplicate(items, label) {
-  const seen = new Set();
-  for (const item of items) {
-    if (seen.has(item)) {
-      throw new Error(`Duplicate ${label}: ${item}`);
-    }
-    seen.add(item);
-  }
-}
-
-export function readGeneratedTitleOrder(source) {
+export function readGeneratedTitleOrder(source: string) {
   const match = source.match(new RegExp(`${escapeRegex(ENUM_BEGIN)}[\\s\\S]*?enum TITLE:\\n([\\s\\S]*?)${escapeRegex(ENUM_END)}`));
   if (!match) return [];
   return [...match[1].matchAll(/^\s+([A-Z0-9_]+),?\s*#/gm)].map((item) => item[1]);
 }
 
-export function readGeneratedPlayerOrder(source) {
+export function readGeneratedPlayerOrder(source: string): string[] {
   const match = source.match(/const TITLE_PLAYER_NAMES = \[([\s\S]*?)\];/);
   if (!match) return [];
   try {
@@ -67,11 +54,11 @@ export function readGeneratedPlayerOrder(source) {
   }
 }
 
-export function readGeneratedTitleColors(source) {
+export function readGeneratedTitleColors(source: string) {
   const match = source.match(new RegExp(`${escapeRegex(ALL_TITLE_BEGIN)}[\\s\\S]*?    titleColor = \\[([\\s\\S]*?)    \\]`));
   if (!match) return new Map();
 
-  const colors = new Map();
+  const colors = new Map<string, string>();
   const lines = match[1].split('\n');
   for (let index = 0; index < lines.length; index += 1) {
     const keyMatch = lines[index].match(/^\s*# \d+: ([A-Z0-9_]+)\s*$/);
@@ -82,23 +69,23 @@ export function readGeneratedTitleColors(source) {
   return colors;
 }
 
-export function normalizeTitleColorExpr(expr) {
+export function normalizeTitleColorExpr(expr: string | null | undefined) {
   if (expr == null || expr === 'null' || expr.startsWith('[') || expr.startsWith('breathPalette.')) return expr;
   return `[${expr}]`;
 }
 
-export function applyTitleColorFallback(sourceData, titleFileSource) {
+export function applyTitleColorFallback(sourceData: TitleSource, titleFileSource: string): TitleSource {
   const fallbackColors = readGeneratedTitleColors(titleFileSource);
   return {
     ...sourceData,
     titles: sourceData.titles.map((title) => ({
       ...title,
-      colorExpr: normalizeTitleColorExpr(title.colorExpr ?? fallbackColors.get(title.key))
+      colorExpr: normalizeTitleColorExpr(title.colorExpr ?? fallbackColors.get(title.key)) ?? null
     }))
   };
 }
 
-function preserveGeneratedOrder(items, historicalKeys, keyOf) {
+function preserveGeneratedOrder<T>(items: T[], historicalKeys: string[], keyOf: (item: T) => string): T[] {
   const byKey = new Map(items.map((item) => [keyOf(item), item]));
   const historicalKeySet = new Set(historicalKeys);
   const preserved = historicalKeys.flatMap((key) => {
@@ -109,7 +96,7 @@ function preserveGeneratedOrder(items, historicalKeys, keyOf) {
   return [...preserved, ...appended];
 }
 
-export function preservePlatformTitleOrder(sourceData, titleFileSource, playerIndexSource) {
+export function preservePlatformTitleOrder(sourceData: TitleSource, titleFileSource: string, playerIndexSource: string): TitleSource {
   return {
     ...sourceData,
     titles: preserveGeneratedOrder(sourceData.titles, readGeneratedTitleOrder(titleFileSource), (title) => title.key),
@@ -117,188 +104,7 @@ export function preservePlatformTitleOrder(sourceData, titleFileSource, playerIn
   };
 }
 
-function normalizeTitleTags(tags, index) {
-  if (tags == null) {
-    return [];
-  }
-
-  if (!Array.isArray(tags)) {
-    throw new Error(`titles[${index}].tags must be an array of non-empty strings when provided.`);
-  }
-
-  const normalizedTags = tags.map((tag, tagIndex) => {
-    ensureString(tag, `titles[${index}].tags[${tagIndex}] must be a non-empty string.`);
-    return tag.trim();
-  });
-
-  ensureNoDuplicate(normalizedTags, `tag in titles[${index}]`);
-  return normalizedTags;
-}
-
-function validateSourceShape(sourceData) {
-  if (!sourceData || typeof sourceData !== 'object') {
-    throw new Error('Title source must be a JSON object.');
-  }
-
-  if (!Array.isArray(sourceData.titles) || sourceData.titles.length === 0) {
-    throw new Error('Platform title data must include a non-empty titles array.');
-  }
-
-  if (!Array.isArray(sourceData.players)) {
-    throw new Error('Platform title data must include a players array.');
-  }
-
-  if (!Array.isArray(sourceData.mapTitles)) {
-    throw new Error('Platform title data must include a mapTitles array.');
-  }
-
-  if (!sourceData.meta || typeof sourceData.meta !== 'object') {
-    throw new Error('Platform title data must include a meta object.');
-  }
-
-  ensureString(sourceData.meta.sourceLabel, 'meta.sourceLabel is required.');
-
-  const titleKeys = new Set();
-  const titles = sourceData.titles.map((title, index) => {
-    if (!title || typeof title !== 'object') {
-      throw new Error(`titles[${index}] must be an object.`);
-    }
-
-    ensureString(title.key, `titles[${index}].key is required.`);
-    ensureString(title.label, `titles[${index}].label is required.`);
-    ensureString(title.category, `titles[${index}].category is required.`);
-    ensureString(title.condition, `titles[${index}].condition is required.`);
-    ensureString(title.displayExpr, `titles[${index}].displayExpr is required.`);
-    ensureString(title.colorExpr, `titles[${index}].colorExpr is required.`);
-    const tags = normalizeTitleTags(title.tags, index);
-
-    if (titleKeys.has(title.key)) {
-      throw new Error(`Duplicate title key detected: ${title.key}`);
-    }
-
-    titleKeys.add(title.key);
-
-    return {
-      id: index,
-      key: title.key,
-      label: title.label,
-      category: title.category,
-      condition: title.condition,
-      tags,
-      displayExpr: title.displayExpr,
-      colorExpr: title.colorExpr
-    };
-  });
-
-  const playersByName = new Set();
-  const players = sourceData.players.map((player, index) => {
-    if (!player || typeof player !== 'object') {
-      throw new Error(`players[${index}] must be an object.`);
-    }
-
-    ensureString(player.name, `players[${index}].name is required.`);
-
-    if (playersByName.has(player.name)) {
-      throw new Error(`Duplicate player name detected: ${player.name}`);
-    }
-    playersByName.add(player.name);
-
-    if (player.allTitles !== undefined && typeof player.allTitles !== 'boolean') {
-      throw new Error(`players[${index}].allTitles must be a boolean when provided.`);
-    }
-
-    const allTitles = player.allTitles === true;
-    if (!allTitles && !Array.isArray(player.titleKeys)) {
-      throw new Error(`players[${index}].titleKeys must be an array.`);
-    }
-    if (allTitles && player.titleKeys !== undefined) {
-      throw new Error(`players[${index}] cannot define both allTitles and titleKeys.`);
-    }
-
-    const sourceTitleKeys = allTitles ? [...titleKeys] : player.titleKeys;
-    ensureNoDuplicate(sourceTitleKeys, `title key in player ${player.name}`);
-
-    const titleKeysForPlayer = sourceTitleKeys.map((key, keyIndex) => {
-      ensureString(key, `players[${index}].titleKeys[${keyIndex}] must be a non-empty string.`);
-
-      if (!titleKeys.has(key)) {
-        throw new Error(`Unknown title key ${key} in player ${player.name}.`);
-      }
-
-      return key;
-    });
-
-    return {
-      name: player.name,
-      titleKeys: titleKeysForPlayer,
-      allTitles
-    };
-  });
-
-  const playerNameSet = new Set(players.map((player) => player.name));
-  const mapKeySet = new Set();
-  const mapTitles = sourceData.mapTitles.map((mapItem, index) => {
-    if (!mapItem || typeof mapItem !== 'object') {
-      throw new Error(`mapTitles[${index}] must be an object.`);
-    }
-
-    ensureString(mapItem.mapKey, `mapTitles[${index}].mapKey is required.`);
-    ensureString(mapItem.mapLabel, `mapTitles[${index}].mapLabel is required.`);
-
-    if (!/^DATA_[A-Z0-9_]+$/.test(mapItem.mapKey)) {
-      throw new Error(`mapTitles[${index}].mapKey must match DATA_*: ${mapItem.mapKey}`);
-    }
-
-    if (mapKeySet.has(mapItem.mapKey)) {
-      throw new Error(`Duplicate map key detected: ${mapItem.mapKey}`);
-    }
-    mapKeySet.add(mapItem.mapKey);
-
-    const holders = mapItem.holders;
-    if (!holders || typeof holders !== 'object') {
-      throw new Error(`mapTitles[${index}].holders must be an object.`);
-    }
-
-    const slots = ['PIONEER', 'CONQUEROR', 'DOMINATOR', 'CLASSIC'];
-    const normalizedHolders = {};
-
-    for (const slot of slots) {
-      if (holders[slot] != null && !Array.isArray(holders[slot])) {
-        throw new Error(`mapTitles[${index}].holders.${slot} must be an array.`);
-      }
-
-      const slotNames = (holders[slot] ?? []).map((name, slotIndex) => {
-        ensureString(name, `mapTitles[${index}].holders.${slot}[${slotIndex}] must be a non-empty string.`);
-
-        if (!playerNameSet.has(name)) {
-          throw new Error(`Unknown player ${name} in ${mapItem.mapKey}.${slot}`);
-        }
-
-        return name;
-      });
-
-      ensureNoDuplicate(slotNames, `player name in ${mapItem.mapKey}.${slot}`);
-      normalizedHolders[slot] = slotNames;
-    }
-
-    return {
-      mapKey: mapItem.mapKey,
-      mapLabel: mapItem.mapLabel,
-      holders: normalizedHolders
-    };
-  });
-
-  return {
-    meta: {
-      sourceLabel: sourceData.meta.sourceLabel
-    },
-    titles,
-    players,
-    mapTitles
-  };
-}
-
-function renderTitleEnum(titles) {
+function renderTitleEnum(titles: TitleEntry[]) {
   const lines = [];
   lines.push(ENUM_BEGIN);
   lines.push('enum TITLE:');
@@ -313,14 +119,14 @@ function renderTitleEnum(titles) {
   return lines.join('\n');
 }
 
-function buildPlayerTitleSets(titles, players) {
+function buildPlayerTitleSets(titles: TitleEntry[], players: PlayerEntry[]) {
   const titleIdByKey = new Map(titles.map((title, index) => [title.key, index]));
   const titleKeyById = new Map(titles.map((title, index) => [index, title.key]));
-  const titleSetIndexByIds = new Map();
-  const titleSets = [];
+  const titleSetIndexByIds = new Map<string, number>();
+  const titleSets: Array<{ allTitles: boolean; titleKeys: string[] }> = [];
   const playersWithTitleSetIndex = players.map((player) => {
-    const sortedTitleIds = player.allTitles ? [] : player.titleKeys
-      .map((key) => titleIdByKey.get(key))
+    const sortedTitleIds = player.allTitles ? [] : (player.titleKeys ?? [])
+      .map((key) => titleIdByKey.get(key)!)
       .sort((left, right) => left - right);
     const titleSetKey = player.allTitles ? 'TP_ALL' : sortedTitleIds.join(',');
     let titleSetIndex = titleSetIndexByIds.get(titleSetKey);
@@ -329,8 +135,8 @@ function buildPlayerTitleSets(titles, players) {
       titleSetIndex = titleSets.length;
       titleSetIndexByIds.set(titleSetKey, titleSetIndex);
       titleSets.push({
-        allTitles: player.allTitles,
-        titleKeys: sortedTitleIds.map((id) => titleKeyById.get(id))
+        allTitles: player.allTitles === true,
+        titleKeys: sortedTitleIds.map((id) => titleKeyById.get(id)!)
       });
     }
 
@@ -347,15 +153,15 @@ function buildPlayerTitleSets(titles, players) {
   };
 }
 
-function renderPlayerTitleSetPool(titles, titleSets) {
+function renderPlayerTitleSetPool(titles: TitleEntry[], titleSets: Array<{ allTitles: boolean; titleKeys: string[] }>) {
   const titleIdByKey = new Map(titles.map((title, index) => [title.key, index]));
-  const flat = [];
+  const flat: number[] = [];
   const offsets = [0];
 
   titleSets.forEach((titleSet) => {
     const ids = titleSet.allTitles
       ? titles.map((_, index) => index)
-      : titleSet.titleKeys.map((key) => titleIdByKey.get(key));
+      : titleSet.titleKeys.map((key) => titleIdByKey.get(key)!);
     flat.push(...ids);
     offsets.push(offsets[offsets.length - 1] + ids.length);
   });
@@ -368,7 +174,7 @@ function renderPlayerTitleSetPool(titles, titleSets) {
   return lines.join('\n');
 }
 
-function renderPlayerDatabase(playersWithTitleSetIndex) {
+function renderPlayerDatabase(playersWithTitleSetIndex: Array<{ name: string; titleSetIndex: number }>) {
   const names = playersWithTitleSetIndex.map((player) => player.name);
   for (const name of names) {
     if (/["\\‖\n]/.test(name)) {
@@ -384,15 +190,15 @@ function renderPlayerDatabase(playersWithTitleSetIndex) {
   return lines.join('\n');
 }
 
-function renderAllTitleAssignment(titles) {
+function renderAllTitleAssignment(titles: TitleEntry[]) {
   const lines = [];
 
   lines.push(ALL_TITLE_BEGIN);
 
   // 纯字符串称号文本打包进一个分隔符字符串再 split，表达式条目保持字面量。
   const PLAIN_TEXT = /^"[^"\\\n‖]*"$/;
-  const titleTextParts = [];
-  let titleTextPending = [];
+  const titleTextParts: string[] = [];
+  let titleTextPending: string[] = [];
   const flushTitleText = () => {
     if (titleTextPending.length) {
       titleTextParts.push(`"${titleTextPending.join('‖')}".split("‖")`);
@@ -423,7 +229,7 @@ function renderAllTitleAssignment(titles) {
   return lines.join('\n');
 }
 
-function renderDelimitedNames(names) {
+function renderDelimitedNames(names: string[]) {
   if (!names.length) {
     return '[]';
   }
@@ -432,14 +238,14 @@ function renderDelimitedNames(names) {
   return `playerNameToIndexDelimited([${quoted}], "-")`;
 }
 
-function packHolderIndices(names, indexByName) {
+function packHolderIndices(names: string[], indexByName: Map<string, number>) {
   return names
     .map((name) => indexByName.get(name))
     .filter((index) => index !== undefined)
     .join('-');
 }
 
-function renderMapTitleData(mapTitles, indexByName) {
+function renderMapTitleData(mapTitles: MapTitleEntry[], indexByName: Map<string, number>) {
   const lines = [];
   lines.push('# 地图数据块 (Data Blocks)');
   lines.push(MAP_DATA_BEGIN);
@@ -449,7 +255,7 @@ function renderMapTitleData(mapTitles, indexByName) {
       lines.push('');
     }
 
-    const packedRow = ['PIONEER', 'CONQUEROR', 'DOMINATOR', 'CLASSIC']
+    const packedRow = (['PIONEER', 'CONQUEROR', 'DOMINATOR', 'CLASSIC'] as MapTitleSlot[])
       .map((slot) => packHolderIndices(mapItem.holders[slot] ?? [], indexByName))
       .join('|');
 
@@ -467,7 +273,7 @@ function renderMapTitleData(mapTitles, indexByName) {
   return lines.join('\n');
 }
 
-function renderPlayerIndexScript(players, { delimited }) {
+function renderPlayerIndexScript(players: PlayerEntry[], { delimited }: { delimited: boolean }) {
   const names = players.map((player) => player.name);
   const quotedNames = names.map((name) => `  ${JSON.stringify(name)}`).join(',\n');
   const lines = [];
@@ -497,7 +303,7 @@ function renderPlayerIndexScript(players, { delimited }) {
   return `${lines.join('\n')}\n`;
 }
 
-function replaceManagedBlock(source, beginMarker, endMarker, blockContent) {
+function replaceManagedBlock(source: string, beginMarker: string, endMarker: string, blockContent: string) {
   const pattern = new RegExp(`${escapeRegex(beginMarker)}[\\s\\S]*?${escapeRegex(endMarker)}`);
 
   if (!pattern.test(source)) {
@@ -507,7 +313,7 @@ function replaceManagedBlock(source, beginMarker, endMarker, blockContent) {
   return source.replace(pattern, blockContent);
 }
 
-function applyManagedTitleFile(source, data) {
+function applyManagedTitleFile(source: string, data: TitleSource) {
   const enumBlock = renderTitleEnum(data.titles);
   const { titleSets, playersWithTitleSetIndex } = buildPlayerTitleSets(data.titles, data.players);
   const titleSetPoolBlock = renderPlayerTitleSetPool(data.titles, titleSets);
@@ -569,7 +375,13 @@ export async function syncTitleData({
   playerNameToIndexFile = PLAYER_NAME_TO_INDEX_FILE,
   playerNameToIndexDelimitedFile = PLAYER_NAME_TO_INDEX_DELIMITED_FILE,
   dryRun = false
-} = {}) {
+}: {
+  sourceData: TitleSource;
+  titleFile?: string;
+  playerNameToIndexFile?: string;
+  playerNameToIndexDelimitedFile?: string;
+  dryRun?: boolean;
+}) {
   if (!providedSourceData) throw new Error('Platform title data is required; run sync:platform-data');
   const [rawSourceData, titleSource, playerNameToIndexSource, playerNameToIndexDelimitedSource] = await Promise.all([
     providedSourceData,

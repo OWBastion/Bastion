@@ -13,11 +13,11 @@ This document is the canonical rule source for build commands and validation wor
 
 ## CI References
 
-1. PR build workflow: `.github/workflows/ci-build.yml` (runs `pnpm run tools:test`, then the platform sync and builds; the sync validates only the platform data Bastion consumes)
+1. PR build workflow: `.github/workflows/ci-build.yml` (runs `pnpm run typecheck` and `pnpm run tools:test`, then the platform sync and builds; the sync validates only the platform data Bastion consumes)
 2. Release workflow: `.github/workflows/release.yml` (triggered by push to `main` when `src/**` changes, or by manual `workflow_dispatch`; auto-bumps `src/env/env.opy` VERSION, pushes bump commit, tags `v{VERSION}`, and publishes release)
 
 ## Required Checks Before Completion
 
 1. Run the relevant build validation for the changed scope.
-2. Run `./tools/check_locale_keys.sh` when source/localization/event text may be affected.
+2. Run `./tools/checkLocaleKeys.sh` when source/localization/event text may be affected.
 3. Ensure no unrelated formatting/reordering noise is included in final changes.

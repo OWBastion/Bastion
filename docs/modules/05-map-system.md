@@ -70,4 +70,4 @@
   - Bastion 数量与 `bastionPosition` 长度一致
   - 终点触发半径可达
   - reset/third-person/world text 不重叠
-  - 修改已迁移 revision 时，先通过 `tools/sync-platform-data.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建并确认元素数低于 Workshop 导入上限。
+  - 修改已迁移 revision 时，先通过 `tools/syncPlatformData.ts` 的空间、生命周期、挑战引用和称号持有者校验，再运行 main/dev 构建并确认元素数低于 Workshop 导入上限。

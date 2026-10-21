@@ -11,15 +11,15 @@
     "build:dev:cn:zh": "pnpm run build:dir && wright compile src/devMain.opy --kind opy --root . --locale zh-CN -o build/dev-cn-zh-CN.ow",
     "build:external:en": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/external-en-US.ow",
     "build:external:zh": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale zh-CN -o build/external-zh-CN.ow",
-    "sync:platform-data": "tsx tools/sync-platform-data.ts",
-    "perf:scan": "tsx tools/perf-loop-scan.ts",
-    "bump:env-version": "tsx tools/bump-env-version.ts",
+    "sync:platform-data": "tsx tools/syncPlatformData.ts",
+    "perf:scan": "tsx tools/perfLoopScan.ts",
+    "bump:env-version": "tsx tools/bumpEnvVersion.ts",
     "typecheck": "tsc -p tsconfig.tools.json",
-    "tools:test": "node --import tsx --test tools/*.test.ts",
+    "tools:test": "node --import tsx --test \"tools/**/*.test.ts\"",
     "build:all": "pnpm run build:cn:zh && pnpm run build:dev:cn:zh && pnpm run build:external:en && pnpm run build:external:zh",
     "build": "pnpm run sync:platform-data && pnpm run build:all",
     "build:release": "pnpm run sync:platform-data && pnpm run build:cn:zh && pnpm run build:external:en",
-    "event": "tsx tools/event.ts"
+    "event": "tsx tools/eventScaffold.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",

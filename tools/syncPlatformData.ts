@@ -4,30 +4,27 @@ import { fileURLToPath } from 'node:url';
 
 import {
   DEFAULT_PLATFORM_DATA_BASE_URL,
-  PLATFORM_DATA_CONTRACT_VERSION,
   PLATFORM_DATA_TOKEN_ENV,
   PlatformDataClient,
   type PlatformData,
   type PlatformDataClientOptions
-} from './platform-data-client.ts';
-import { syncTitleData } from './sync-title-data.ts';
+} from './platform/client.ts';
+import { syncTitleData } from './platform/titles.ts';
 
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
 import {
-  buildPlatformMapRevisionSource,
   hasMapSource,
-  mapKeyFromPlatformId,
   platformMapId,
   validatePlatformAchievements,
   type PlatformMapRevisionSource,
-  renderPlatformMapRevisionMapSources,
   validatePlatformMaps,
   validateRevisionAwareMapSources
-} from './sync-map-data.ts';
+} from './platform/mapValidation.ts';
 import {
   buildPlatformTitleSource,
   validateAndMergeMaps,
   validateAndMergeTitles
-} from './sync-title-data.ts';
+} from './platform/titles.ts';
 import {
   collectEventEntries,
   mergePlatformEventOverPyData,
@@ -35,14 +32,11 @@ import {
   resolveEventMacros,
   validateAndMergeEvents,
   type EventEntry
-} from './sync-event-data.ts';
+} from './platform/events.ts';
 import {
-  assertUnique,
-  requireNumber,
   requireString,
-  type JsonObject,
   type TitleSource
-} from './platform-data-client.ts';
+} from './platform/client.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -75,6 +69,7 @@ export function mergePlatformData({
   platformData: PlatformData;
   titleSource: TitleSource;
   eventEntries: EventEntry[];
+  platformEventIds: Record<string, string>;
   mapSourceFiles: Array<{ file: string; content: string }>;
 }) {
   const sourceMapKeys = new Set(titleSource.mapTitles.map((item) => requireString(item.mapKey, 'mapKey')));
@@ -224,7 +219,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
 }
 
 
-if (process.argv[1]?.endsWith('sync-platform-data.ts')) {
+if (process.argv[1]?.endsWith('syncPlatformData.ts')) {
   const urlIndex = process.argv.indexOf('--url');
   const baseUrl = urlIndex >= 0 ? process.argv[urlIndex + 1] : undefined;
   syncPlatformData({ baseUrl }).catch((error) => {

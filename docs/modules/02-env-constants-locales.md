@@ -53,7 +53,7 @@
 称号系统现采用“平台 API 单一真源 + 受管生成”模式：
 
 - 真源：平台称号定义、玩家 active 授予和地图持有者 Agents API
-- 同步脚本：`tools/sync-platform-data.ts`
+- 同步脚本：`tools/syncPlatformData.ts`
 - 生成目标：
   - `src/title/title-cn.opy` 的受管区块（`enum TITLE` / `player_database` / `allTitle`）
   - `src/map/*.opy` 中每张地图的地图修订、空间配置和修订称号持有者受管区块
@@ -74,7 +74,7 @@
 - 本地化 key 与配置/事件逻辑必须同名联动。
 - 事件持续时间不写入 `locales` 文案；持续时间统一由 `events/event_constants.opy` 管理。
 - 事件文案中涉及动态数值时，优先使用占位符并由 `EVT_*` 常量通过 `.format()` 注入，避免把数值硬编码在文案里。
-- 提交前运行 `tools/check_locale_keys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
+- 提交前运行 `tools/checkLocaleKeys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。
 - 发布前可执行 `pnpm run bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
 - 称号相关改动后运行 `pnpm run sync:platform-data` 与 `pnpm run tools:test`。

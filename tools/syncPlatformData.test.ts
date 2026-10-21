@@ -2,11 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources, validateRevisionAwareMapSources } from './sync-map-data.ts';
-import { mergePlatformEventOverPyData } from './sync-event-data.ts';
-import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './sync-title-data.ts';
-import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './sync-platform-data.ts';
-import type { PlatformData } from './platform-data-client.ts';
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
+import { validateRevisionAwareMapSources } from './platform/mapValidation.ts';
+import { mergePlatformEventOverPyData } from './platform/events.ts';
+import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './platform/titles.ts';
+import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './syncPlatformData.ts';
+import type { PlatformData } from './platform/client.ts';
 
 const titleSource = {
   meta: { sourceLabel: 'titles' },
@@ -104,14 +105,6 @@ const classicGameplayRevision = {
   ...defaultGameplayRevision,
   gameplayRevisionId: 'revision:map.test_map:classic',
   mapVariant: 'classic',
-  lifecycle: 'selectable',
-  isDefault: false,
-  isSelectable: true
-};
-
-const selectableGameplayRevision = {
-  ...defaultGameplayRevision,
-  gameplayRevisionId: 'revision:map.test_map:selectable',
   lifecycle: 'selectable',
   isDefault: false,
   isSelectable: true
@@ -374,6 +367,7 @@ test('prepares every generated file before any replacement is attempted', async 
   await assert.rejects(() => prepareGeneratedPlatformFiles({
     titleSource: source,
     mapRevisionSource: null as never,
+    mapSourceFiles: [],
     platformEventData: { constantsSource: '#!define EVT_BUFF_0_DURATION 20\n', localeSource: '#!define STR_EVT_BUFF_0_TITLE "事件"\n' },
     validatedEventEntries: eventEntries,
     envSource: '#!define VERSION "2026.08.13"\n',
@@ -462,7 +456,7 @@ test('preserves existing title and player IDs while appending new entries', () =
   const ordered = preservePlatformTitleOrder(
     {
       meta: { sourceLabel: 'titles' },
-      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }],
+      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }].map((item) => ({ ...item, label: '', category: '', condition: '', displayExpr: '""', colorExpr: null })),
       players: [{ name: '新玩家' }, { name: '他又' }],
       mapTitles: []
     },

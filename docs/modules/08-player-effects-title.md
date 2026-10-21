@@ -61,7 +61,7 @@ HUD 在既有左侧结算统计区域直接显示该数字代码（无标签前�
 
 ## `title/`：称号系统
 
-### `tools/sync-platform-data.ts`
+### `tools/syncPlatformData.ts`
 
 - 接收平台 Agents API 规范化数据，生成 `title-cn.opy` 受管区块
 - 地图称号的地图/槽位关系以成就投影中的 `mapTitleRule` 为准；称号目录只提供展示元数据

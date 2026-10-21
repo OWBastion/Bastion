@@ -53,7 +53,7 @@ pnpm run build
    在首次 PR 前执行本地化键检查：
 
 ```bash
-./tools/check_locale_keys.sh
+./tools/checkLocaleKeys.sh
 ```
 
 ## 3. Ownership / 模块归属
@@ -189,7 +189,7 @@ pnpm run build:release
 Locale key consistency check (required before commit) / 本地化键一致性检查（提交前必跑）：
 
 ```bash
-./tools/check_locale_keys.sh
+./tools/checkLocaleKeys.sh
 ```
 
 ## 11. Pre-commit Checklist / 提交前检查
@@ -206,8 +206,8 @@ Locale key consistency check (required before commit) / 本地化键一致性检
    是否出现无关格式化或重排。
 6. Ensure seasonal logic is moved to dedicated branches if needed.  
    季节性内容是否应转入专用分支。
-7. Run and pass `./tools/check_locale_keys.sh`.  
-   `./tools/check_locale_keys.sh` 是否通过。
+7. Run and pass `./tools/checkLocaleKeys.sh`.\
+   `./tools/checkLocaleKeys.sh` 是否通过。
 
 ## 12. Commit / PR Suggestions / Commit / PR 建议
 

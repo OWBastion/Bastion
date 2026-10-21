@@ -26,11 +26,11 @@ function getNow() {
   return parsed;
 }
 
-function pad2(value) {
+function pad2(value: number) {
   return String(value).padStart(2, '0');
 }
 
-function parseVersion(value) {
+function parseVersion(value: string) {
   const match = value.match(VERSION_VALUE_PATTERN);
   if (!match) {
     throw new Error(
