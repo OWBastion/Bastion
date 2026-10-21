@@ -174,7 +174,6 @@ Build entries separately / 分别构建各入口：
 
 ```bash
 pnpm run build:cn:zh
-pnpm run build:cn:en
 pnpm run build:dev:cn:zh
 pnpm run build:external:en
 pnpm run build:external:zh

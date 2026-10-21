@@ -7,7 +7,6 @@
   "scripts": {
     "build:dir": "node -e \"require('fs').mkdirSync('build',{recursive:true})\"",
     "build:cn:zh": "pnpm run build:dir && wright compile src/main.opy --kind opy --root . --locale zh-CN -o build/cn-zh-CN.ow",
-    "build:cn:en": "pnpm run build:dir && wright compile src/main.opy --kind opy --root . --locale en-US -o build/cn-en-US.ow",
     "build:dev:cn:zh": "pnpm run build:dir && wright compile src/devMain.opy --kind opy --root . --locale zh-CN -o build/dev-cn-zh-CN.ow",
     "build:external:en": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale en-US -o build/external-en-US.ow",
     "build:external:zh": "pnpm run build:dir && wright compile src/externalMain.opy --kind opy --root . --locale zh-CN -o build/external-zh-CN.ow",
