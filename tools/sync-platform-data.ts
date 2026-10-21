@@ -1,8 +1,6 @@
-import { execFile } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
 
 import {
   DEFAULT_PLATFORM_DATA_BASE_URL,
@@ -55,12 +53,8 @@ const MAP_SOURCE_DIR = path.join(ROOT, 'src/map');
 const EVENT_CONSTANTS_FILE = path.join(ROOT, 'src/events/event_constants.opy');
 const ZH_LOCALE_FILE = path.join(ROOT, 'src/locales/zh-CN.opy');
 const EVENT_CATALOG_FILE = path.join(ROOT, 'src/events/catalog/eventCatalog.opy');
-const execFileAsync = promisify(execFile);
 
-export type PlatformSyncOptions = PlatformDataClientOptions & {
-  build?: boolean;
-  buildRunner?: () => Promise<void>;
-};
+export type PlatformSyncOptions = PlatformDataClientOptions;
 
 export type GeneratedPlatformFile = { path: string; content: string };
 
@@ -106,12 +100,6 @@ export function mergePlatformData({
       ignoredEvents: platformData.events.length - Object.keys(platformEventIds).length
     }
   };
-}
-
-async function runBuild() {
-  for (const command of ['build:cn:zh', 'build:dev:cn:zh', 'build:external:en', 'build:external:zh']) {
-    await execFileAsync('pnpm', ['run', command], { cwd: ROOT, maxBuffer: 20 * 1024 * 1024 });
-  }
 }
 
 export async function prepareGeneratedPlatformFiles({
@@ -224,7 +212,6 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
     envSource,
   });
   await writeGeneratedPlatformFiles(generatedFiles);
-  if (options.build !== false) await (options.buildRunner ?? runBuild)();
   const counts = {
     events: events.length,
     maps: maps.length,

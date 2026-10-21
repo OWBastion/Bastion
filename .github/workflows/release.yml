@@ -118,7 +118,7 @@ jobs:
 
       - name: Sync platform data
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
-        run: pnpm run sync:platform-data --no-build
+        run: pnpm run sync:platform-data
 
       - name: Decide whether release is needed
         if: steps.freshness.outputs.should_run == 'true' && steps.substantive_changes.outputs.should_run == 'true'
@@ -149,7 +149,7 @@ jobs:
         run: |
           set -euo pipefail
           old_version="$(sed -n 's/^#!define VERSION "\(.*\)"$/\1/p' src/env/env.opy | head -n1)"
-          pnpm run tools -- bump:env-version
+          pnpm run bump:env-version
           new_version="$(sed -n 's/^#!define VERSION "\(.*\)"$/\1/p' src/env/env.opy | head -n1)"
 
           if [[ -z "${old_version}" || -z "${new_version}" ]]; then

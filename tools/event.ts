@@ -356,7 +356,7 @@ function parseArgs(rawArgs: string[]) {
   }
 
   if (!specFile) {
-    throw new Error('Usage: pnpm run tools -- event:add --spec <file.json> [--dry-run] | event:remove --spec <file.json> [--dry-run]');
+    throw new Error('Usage: pnpm run event --spec <file.json> [--dry-run]');
   }
 
   return { specFile: path.resolve(process.cwd(), specFile), dryRun };

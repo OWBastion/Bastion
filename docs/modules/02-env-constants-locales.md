@@ -76,6 +76,6 @@
 - 事件文案中涉及动态数值时，优先使用占位符并由 `EVT_*` 常量通过 `.format()` 注入，避免把数值硬编码在文案里。
 - 提交前运行 `tools/check_locale_keys.sh`，确保中英 key 对齐、无重复 key、配置引用 key 有定义。
 - `env` 层的默认值变更会影响 main/dev 两入口行为，应同步验证。
-- 发布前可执行 `pnpm run tools -- bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
-- 称号相关改动后运行 `pnpm run sync:platform-data` 与 `pnpm run tools -- test:platform-data-sync`。
+- 发布前可执行 `pnpm run bump:env-version` 自动更新 `src/env/env.opy` 的 `VERSION`（`YY.MMDD.N`）。
+- 称号相关改动后运行 `pnpm run sync:platform-data` 与 `pnpm run tools:test`。
 - `TITLE` 数字 ID 按平台返回的稳定定义顺序生成；玩家和地图持有者按公开 `playerName` 关联（`playerId` 可缺省），OverPy 输出玩家显示名称。
