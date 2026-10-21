@@ -178,6 +178,14 @@ test('accepts map classic achievements that reuse the global title challenge ID'
   assert.equal(result.counts.achievements, 2);
 });
 
+test('accepts a title achievement challenge ID with an instance suffix and rejects another title key', () => {
+  const achievement = platformData.achievements[0];
+  const withChallengeId = (challengeId: string) => merge({ achievements: [{ ...achievement, challengeId }] });
+  assert.equal(withChallengeId('title.TITLE_ONE.d62e4a11-8913-428c-9fe7-627867c29e91').counts.achievements, 1);
+  assert.throws(() => withChallengeId('title.OTHER'), /must reference title.TITLE_ONE/);
+  assert.throws(() => withChallengeId('title.TITLE_ONE_EXTRA'), /must reference title.TITLE_ONE/);
+});
+
 test('ignores platform title availability whether it is active, retired, or absent', async () => {
   const mapSourceFiles = [{ file: 'test_map.opy', content: testMapSource }];
   const shapes = [

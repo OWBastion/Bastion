@@ -436,7 +436,7 @@ export function validatePlatformAchievements(platformData: PlatformData, titleKe
     const titleKey = requireString(item.titleKey, `${prefix}.titleKey`);
     if (!titleKeys.has(titleKey)) throw new Error(`${prefix} references unknown title ${titleKey}`);
     if (item.family === 'achievement' && item.type === 'title_achievement' && item.kind === 'title_achievement') {
-      if (!challengeId.startsWith('title.') || challengeId !== `title.${titleKey}`) {
+      if (challengeId !== `title.${titleKey}` && !challengeId.startsWith(`title.${titleKey}.`)) {
         throw new Error(`${prefix}.challengeId must reference title.${titleKey}`);
       }
     } else if (item.family === 'map' && item.type === 'map_completion' && item.kind === 'map_title_achievement') {
