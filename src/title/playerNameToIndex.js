@@ -2,7 +2,6 @@ const TITLE_PLAYER_NAMES = [
   "自律达人游十三",
   "EruIluvatar",
   "Fajacy",
-  "云雀",
   "他又",
   "八月八月八",
   "初一",
@@ -27,7 +26,8 @@ const TITLE_PLAYER_NAMES = [
   "风子修",
   "南城花开",
   "Cresc3nt",
-  "听心语"
+  "听心语",
+  "小满都未满"
 ];
 
 const titleIndexByName = Object.fromEntries(
