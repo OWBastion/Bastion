@@ -13,9 +13,12 @@ rule "[VishkarEvent]: 天降神兵":
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.altFormActive = true
-    eventPlayer.target = getLivingPlayers(Team.1).exclude(eventPlayer)
-    if len(eventPlayer.target) > 0:
-        eventPlayer.target = (sorted(eventPlayer.target, lambda i: ratioPercent(i.getHealth(), i.getMaxHealth()))).first()
+    eventPlayer.temp = sorted(getLivingPlayers(Team.1).exclude(eventPlayer), lambda p: ratioPercent(p.getHealth(), p.getMaxHealth()))
+    if len(eventPlayer.temp) > 0:
+        eventPlayer.temp = eventPlayer.temp.filter(lambda p: ratioPercent(p.getHealth(), p.getMaxHealth()) == ratioPercent(eventPlayer.temp[0].getHealth(), eventPlayer.temp[0].getMaxHealth()))
+        if len(eventPlayer.temp) > 1:
+            eventPlayer.temp = eventPlayer.temp.exclude(eventPlayer.target)
+        eventPlayer.target = random.choice(eventPlayer.temp)
         playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_DISAPPEAR, Color.TEAM_1, eventPlayer, 200)
         eventPlayer.teleport(nearestWalkablePosition(eventPlayer.target.getPosition() - vect(0, 0, -1)))
         playEffect(getAllPlayers(), DynamicEffect.TRACER_RECALL_REAPPEAR, Color.TEAM_1, eventPlayer, 200)
