@@ -21,10 +21,10 @@ rule "create bastion bots when the game starts and there are not enough":
     @Condition getNumberOfPlayers(Team.2) < len(bastionPosition)
     @Condition getTotalTimeElapsed() > 10
     
-    wait(1)
+    wait(0.25)
     if getNumberOfPlayers(Team.2) < len(bastionPosition):
         createBastionBot()
-    wait(2)
+    wait(0.5)
     wait(max(0.5, getAverageServerLoad() / 100 * 0.8))
     if ruleCondition:
         loop()
