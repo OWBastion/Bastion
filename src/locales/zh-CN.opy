@@ -167,7 +167,7 @@
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
 #!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态\n并获得{0}%移速加成"
 #!define STR_EVT_BUFF_30_TITLE "天降神兵"
-#!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值百分比最低的友方身边\n为其恢复{1}+{2}%最大生命值，冷却{3}秒"
+#!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值\n冷却{3}秒"
 #!define STR_EVT_BUFF_31_TITLE "任务：钢化你心"
 #!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：后续心之钢层数获取×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
@@ -191,7 +191,7 @@
 # 随机事件包 5：减益 (Debuff Events Pack 5)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
-#!define STR_EVT_DEBUFF_21_DESC "获得诅咒，每秒转移{0}% × 友方击杀次数的生命值给其他友方\n如果在此期间阵亡，则损失{1}%治疗强度由其他友方均分"
+#!define STR_EVT_DEBUFF_21_DESC "获得诅咒\n每秒转移{0}% ×友方击杀数的生命值给其他友方\n阵亡则损失{1}%治疗强度由其他友方均分"
 #!define STR_EVT_DEBUFF_22_TITLE "缺德导航"
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
