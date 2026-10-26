@@ -49,8 +49,8 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_0():
         vect(-251.99, 11.34, 174.77)
     ]
     controlRespawnPosition = [
-        vect(-426.04, 11.11, 165.81),
-        vect(-30.95, 17, -125.55)
+        vect(-426.04, 12.67, 165.81),
+        vect(-30.95, 17.2, -125.55)
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
@@ -82,8 +82,8 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_1():
         vect(104.77, 17.74, -137.21)
     ]
     controlRespawnPosition = [
-        vect(-30.95, 17, -125.55),
-        vect(291.62, 11.09, 208.25)
+        vect(-30.95, 17.2, -125.55),
+        vect(291.62, 12.16, 208.25)
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_ROUTE_2():
@@ -115,8 +115,8 @@ macro platformMapRevision_BUSAN_DEFAULT_ROUTE_2():
         vect(158.67, 10.81, 260.91)
     ]
     controlRespawnPosition = [
-        vect(291.62, 11.09, 208.25),
-        vect(-426.04, 11.11, 165.81)
+        vect(291.62, 12.16, 208.25),
+        vect(-426.04, 12.67, 165.81)
     ]
 
 macro platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE():
