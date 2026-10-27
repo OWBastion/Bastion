@@ -39,15 +39,17 @@ rule "initialize effects":
     # --------------------------------------------------------------------------------------------------------------------------------
     # 个人事件详情 (顶部中央底部): 排在 assignPlayerEvent 的 HUD_PAD_BOTTOM 状态行 (TOP 20) 之后
     # --------------------------------------------------------------------------------------------------------------------------------
-    hudText(
+    hudSubheader(
         null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
-        "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)),
-        STR_HUD_EVENT_DETAIL.format(
-            localPlayer.eventName,
-            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT,
-            localPlayer.eventDesc
+        "{0} {1}".format(
+            abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1),
+            STR_HUD_EVENT_DETAIL.format(
+                localPlayer.eventName,
+                STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT,
+                localPlayer.eventDesc
+            )
         ),
-        null, HudPosition.TOP, 21, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+        HudPosition.TOP, 21, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
 
     # --------------------------------------------------------------------------------------------------------------------------------
