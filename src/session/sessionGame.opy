@@ -61,7 +61,6 @@ rule "Initialize global variables":
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
     obstrucVis = []
-    sharedBlessingPayout = []
 
 rule "Update targetPlayer when player left":
     @Event playerLeft

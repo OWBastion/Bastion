@@ -59,7 +59,6 @@ globalvar masteryRunCode
 globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
 globalvar prophetViewers
-globalvar sharedBlessingPayout
 
 #Player variables
 
