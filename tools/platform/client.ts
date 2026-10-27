@@ -236,10 +236,8 @@ export class PlatformDataClient {
 
   async fetchAll(): Promise<PlatformData> {
     const [events, maps, achievements, titles] = await Promise.all(
-      PLATFORM_DATA_RESOURCES.map((resource) => this.fetchResource(resource))
+      PLATFORM_DATA_RESOURCES.map((resource) => resource === 'events' ? this.fetchEvents() : this.fetchResource(resource))
     );
-    // 平台默认只返回已实现的事件；开发中的事件需要显式请求，才能映射并随版本构建。
-    events.push(...await this.fetchResource('events', { status: 'development' }));
 
     return { events, maps, achievements, titles, playerTitleGrants: [], mapTitleHolders: [] };
   }
@@ -257,6 +255,11 @@ export class PlatformDataClient {
   async fetchMapTitleHolders(mapId: string): Promise<PlatformDataItem[]> {
     const query = new URLSearchParams({ mapId });
     return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.gameplayRevisionId)}:${String(item.titleKey)}:${String(item.slot)}:${String(item.playerId ?? '')}:${String(item.playerName)}`);
+  }
+
+  // 平台默认只返回已实现的事件；开发中的事件需要显式请求，才能映射并随版本构建。
+  async fetchEvents(): Promise<PlatformDataItem[]> {
+    return [...await this.fetchResource('events'), ...await this.fetchResource('events', { status: 'development' })];
   }
 
   fetchResource(resource: PlatformDataResource, filter: Record<string, string> = {}): Promise<PlatformDataItem[]> {

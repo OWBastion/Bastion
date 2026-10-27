@@ -185,7 +185,7 @@ export async function syncPlatformData(options: PlatformSyncOptions = {}) {
   const titleSource = buildPlatformTitleSource({ platformData: titleData, mapSourceFiles });
 
   console.log('Platform sync: fetching events');
-  const events = await client.fetchResource('events');
+  const events = await client.fetchEvents();
   console.log(`Platform sync: fetched ${achievements.length} achievements and ${events.length} events`);
   const platformData = { ...titleData, events };
   const merged = mergePlatformData({ platformData, titleSource, eventEntries, platformEventIds, mapSourceFiles });
