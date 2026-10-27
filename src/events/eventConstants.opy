@@ -1016,4 +1016,12 @@ enum MirrorInversionStat:
 # 长按换弹为所有玩家当前事件延长的秒数
 #!define EVT_26_EXTEND_SECONDS 30
 
+# --- ID 27 (Mech): 命运狂想曲 ---
+# Duration（秒）
+#!define EVT_MECH_27_DURATION 60
+# Weight（权重）
+#!define EVT_MECH_27_WEIGHT 0.8
+# 伤害减免上限（%）。设计稿未写上限，暂定 90 以避免无敌，待 owner 确认
+#!define EVT_MECH_27_MAX_REDUCTION 90
+
 # -----------------------------------------------------------------------------

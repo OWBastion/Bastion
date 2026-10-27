@@ -485,3 +485,5 @@
 #!define STR_EVT_BUFF_40_DESC "来自其他友方的治疗\n额外增加 {0}% 治疗效果\n不含自我治疗"
 #!define STR_EVT_DEBUFF_26_TITLE "命运赋格曲"
 #!define STR_EVT_DEBUFF_26_DESC "受到伤害后，{0} 秒后\n再受到该次伤害 {1}% 的额外伤害\n额外伤害不会再次触发"
+#!define STR_EVT_MECH_27_TITLE "命运狂想曲"
+#!define STR_EVT_MECH_27_DESC "获得与已损失生命值百分比\n相同的伤害减免，上限 {0}%"

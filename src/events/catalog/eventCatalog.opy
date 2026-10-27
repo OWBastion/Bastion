@@ -534,3 +534,9 @@ rule "initialize event array":
     eventDuration[EventId.FATE_FUGUE] = EVT_DEBUFF_26_DURATION
     eventCatalogWeight[EventId.FATE_FUGUE] = EVT_DEBUFF_26_WEIGHT
     eventCatalogType[EventId.FATE_FUGUE] = EventType.DEBUFF
+
+    eventName[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_TITLE
+    eventDesc[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_DESC.format(EVT_MECH_27_MAX_REDUCTION)
+    eventDuration[EventId.FATE_RHAPSODY] = EVT_MECH_27_DURATION
+    eventCatalogWeight[EventId.FATE_RHAPSODY] = EVT_MECH_27_WEIGHT
+    eventCatalogType[EventId.FATE_RHAPSODY] = EventType.MECH

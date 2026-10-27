@@ -161,5 +161,7 @@ enum EventId:
     PROPHET
     # legacy numeric id: 26
     SOLO_DECIDE
+    # legacy numeric id: 27
+    FATE_RHAPSODY
     # sentinel only for integrity checks (do not register as an event)
     COUNT

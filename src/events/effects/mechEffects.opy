@@ -31,3 +31,4 @@
 #!include "mech/mirrorInversion.opy"
 #!include "mech/prophet.opy"
 #!include "mech/soloDecide.opy"
+#!include "mech/fateRhapsody.opy"

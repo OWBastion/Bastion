@@ -474,3 +474,5 @@
 #!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies\nis increased by {0}%.\nSelf-healing is not affected."
 #!define STR_EVT_DEBUFF_26_TITLE "Fate Fugue"
 #!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage\nagain {0}s later.\nThe extra damage does not trigger again."
+#!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
+#!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your\nmissing health percentage, up to {0}%."
