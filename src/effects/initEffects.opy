@@ -150,8 +150,8 @@ rule "initialize effects":
 
     # 运行时信息
     hudSubheader([player for player in getAllPlayers() if player.settlementCardEnd == null], "{0}\n{1}".format(
-        STR_HUD_AUTO_RESTART.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor((rebootTime - getTotalTimeElapsed()) / 3600)) if rebootTime - getTotalTimeElapsed() > 3599 else "", STR_TIME_UNIT_MIN.format(floor(((rebootTime - getTotalTimeElapsed()) % 3600) / 60)) if rebootTime - getTotalTimeElapsed() > 59 else "", STR_TIME_UNIT_SEC.format(floor((rebootTime - getTotalTimeElapsed()) % 60)))),
-        STR_HUD_SERVER_UPTIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(getTotalTimeElapsed() / 3600)) if getTotalTimeElapsed() >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(getTotalTimeElapsed() % 3600 / 60)) if getTotalTimeElapsed() >= 60 else "", STR_TIME_UNIT_SEC.format(floor(getTotalTimeElapsed() % 60))))
+        STR_HUD_AUTO_RESTART.format(hhmmss(max(0, rebootTime - getTotalTimeElapsed()))),
+        STR_HUD_SERVER_UPTIME.format(hhmmss(getTotalTimeElapsed()))
     ), HudPosition.RIGHT, -4, Color.YELLOW if rebootTime - getTotalTimeElapsed() <= 600 else Color.GRAY, HudReeval.VISIBILITY_STRING_AND_COLOR)
     hudSubheader([player for player in getAllPlayers() if player.settlementCardEnd == null], STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
