@@ -89,7 +89,8 @@ test('fetches all Agents resources through paginated GET requests using a custom
     achievements: [{ challengeId: 'achievement-1' }, { challengeId: 'achievement-2' }],
     titles: [{ titleKey: 'title-1' }, { titleKey: 'title-2' }, { titleKey: 'title-3' }]
   };
-  const { baseUrl, requests } = await startFakeServer((resource, page, pageSize) => {
+  const { baseUrl, requests } = await startFakeServer((resource, page, pageSize, requestUrl) => {
+    if (requestUrl.searchParams.has('status')) return pageResponse([], page, pageSize, 0);
     const items = datasets[resource].slice((page - 1) * pageSize, page * pageSize);
     return pageResponse(items, page, pageSize, datasets[resource].length);
   });
@@ -105,9 +106,21 @@ test('fetches all Agents resources through paginated GET requests using a custom
       '/v1/agents/achievements?page=1&pageSize=2',
       '/v1/agents/titles?page=1&pageSize=2',
       '/v1/agents/events?page=2&pageSize=2',
-      '/v1/agents/titles?page=2&pageSize=2'
+      '/v1/agents/titles?page=2&pageSize=2',
+      '/v1/agents/events?status=development&page=1&pageSize=2'
     ]
   );
+});
+
+test('fetchAll also reads in-development events', async () => {
+  const { baseUrl } = await startFakeServer((resource, page, pageSize, requestUrl) => {
+    if (resource !== 'events') return validPage(resource, page, pageSize);
+    const id = requestUrl.searchParams.get('status') === 'development' ? 'event-dev' : 'event-live';
+    return pageResponse([{ eventId: id }], page, pageSize, 1);
+  });
+
+  const data = await new PlatformDataClient({ baseUrl }).fetchAll();
+  assert.deepEqual(data.events.map((item) => item.eventId), ['event-live', 'event-dev']);
 });
 
 test('distinguishes map achievements with a reused challenge ID by map ID', async () => {
