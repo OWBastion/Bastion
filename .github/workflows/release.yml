@@ -180,15 +180,21 @@ jobs:
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "Release tag: ${tag}"
 
-      - name: Install Wright and OverPy provider
+      - name: Setup Wright
         if: steps.release_gate.outputs.should_release == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -fsSL https://install.wrightkit.dev/wright/install.sh \
-            | bash -s -- --dir "${RUNNER_TEMP}/wright/bin"
-          echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
-          "${RUNNER_TEMP}/wright/bin/wright" update provider opy
+        id: setup-wright
+        uses: wrightkit/setup-wright@v1
+
+      - name: Cache Wright providers
+        if: steps.release_gate.outputs.should_release == 'true'
+        uses: actions/cache@v5
+        with:
+          path: ~/.local/share/wright/providers
+          key: wright-providers-${{ runner.os }}-${{ steps.setup-wright.outputs.version }}
+
+      - name: Install OverPy provider
+        if: steps.release_gate.outputs.should_release == 'true'
+        run: wright update provider opy
 
       - name: Build workshop outputs
         if: steps.release_gate.outputs.should_release == 'true'
