@@ -20,6 +20,7 @@ def resetPlayerProgressState():
     eventPlayer.runDeathCount = 0
     eventPlayer.isWinner = false
     eventPlayer.winnerTime = 0
+    eventPlayer.settlementCardEnd = null
     eventPlayer.dmgReduc = false
     eventPlayer.invincible = false
     eventPlayer.isAirWalkEnabled = false

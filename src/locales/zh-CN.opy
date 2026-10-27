@@ -306,10 +306,6 @@
 # ------------------------------------------------
 # HUD 文本
 # ------------------------------------------------
-#!define STR_HUD_DEATHS "阵亡"
-#!define STR_HUD_DEATHS_VAL "{0} / {1}"
-#!define STR_HUD_HEROES "进度"
-#!define STR_HUD_HEROES_VAL "{0} / {1}"
 #!define STR_HUD_NEXT_HERO "下一个英雄"
 #!define STR_HUD_ESCAPED "逃脱成功"
 #!define STR_HUD_UNLOCKED "{0} 已解锁！"
@@ -319,7 +315,6 @@
 #!define STR_HUD_RUN_SKIPS "本轮共计 {0} 次跳过"
 #!define STR_HUD_SURVIVOR "大难不死 {0} "
 #!define STR_HUD_GAMBLER_KING "赌王 {0} "
-#!define STR_HUD_TOTAL_TIME "\n通关总计耗时\n{0}"
 #!define STR_HUD_SKIP_HINT "[秘籍] 使用终极技能跳过（{0}） "
 #!define STR_HUD_WELCOME_MULTI "欢迎来到三合一大地图！你需要挑战所有小地图并到达终点！阵亡 {0} 次之后可跳过英雄"
 #!define STR_HUD_WELCOME_MULTI_HARD "欢迎来到三合一大地图！你需要挑战所有小地图并到达终点！当前难度无法跳过英雄，加油吧！"
@@ -338,25 +333,15 @@
 #!define STR_HUD_VERSION "版本"
 
 # ------------------------------------------------
-# HUD 面板结构 (4.0 New)
+# HUD 面板 (左列)
 # ------------------------------------------------
-#!define STR_HUD_PANEL_TOP "┌───────────┐"
-#!define STR_HUD_PANEL_BOTTOM "└───────────┘"
-
-# 统计面板内容 (多行格式)
-# {0}=阵亡/跳过数值, {1}=事件统计, {2}=玩家属性, {3}=通关总耗时, {4}=通关代码
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
-
-# 阵亡/跳过
-# {0}=阵亡数, {1}=跳过数
-#!define STR_HUD_STATS_DEATH_SKIP "总计阵亡/跳过 \n{0}/{1}"
+# 英雄进度/阵亡行
+# {0}=当前英雄序号, {1}=英雄总数, {2}=阵亡数, {3}=阵亡上限
+#!define STR_HUD_STATS_HERO_DEATH "英雄 {0}/{1} · 阵亡 {2}/{3}"
 
 # 事件统计
 # {0}=增益, {1}=减益, {2}=总计
-#!define STR_HUD_STATS_EVENT "增益/减益/总计\r\n{0}/{1}/{2} "
-
-# 随机事件 4.0 标题
-#!define STR_HUD_RANDOM_EVENTS_VERSION "［随机事件 5.0］"
+#!define STR_HUD_STATS_EVENT "增益 {0} · 减益 {1} · 总计 {2}"
 
 # 事件详情格式 (HUD Text)
 # {0}=名称, {1}=时间, {2}=描述
@@ -365,6 +350,22 @@
 # 玩家属性面板
 # {0}=心之钢层数, {1}=永久移速加成, {2}=永久减伤, {3}=治疗强度
 #!define STR_HUD_ATTR_PANEL "心之钢/移速/减伤/治疗%\r\n{0}/{1}/{2}/{3}%"
+
+# ------------------------------------------------
+# 通关结算卡 (顶部中央, 仅本人, 限时)
+# ------------------------------------------------
+# {0}=耗时 HH:MM:SS
+#!define STR_HUD_CARD_TITLE "挑战完成 · {0}"
+# {0}=玩家名, {1}=通关代码
+#!define STR_HUD_CARD_PLAYER "玩家 {0} · 通关代码 {1}"
+# {0}=地图(含经典版标记), {1}=难度, {2}=版本
+#!define STR_HUD_CARD_MAP "{0} · {1} · v{2}"
+# {0}=阵亡数, {1}=跳过数
+#!define STR_HUD_CARD_STATS "阵亡 {0} · 跳过 {1}"
+# {0}=本局已获称号(· 分隔) 或 —
+#!define STR_HUD_CARD_TITLES "称号 {0}"
+# {0}=剩余秒数
+#!define STR_HUD_CARD_COUNTDOWN "剩余 {0} 秒"
 
 
 # ------------------------------------------------
@@ -427,6 +428,7 @@
 #!define STR_MAP_PARIS "巴黎"
 # {0}=Button, {1}=State, {2}=Next Line
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    第三人称视角    {1}\n{2}"
+#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    显示结算卡    \n{1}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    标记玩家    {1}\n{2}"
 #!define STR_MENU_OPT_UNMARK_BLOCK "{0}    移除标记玩家并临时拉黑    \n{1}"
 #!define STR_MENU_OPT_NEXT_PAGE "{0}    下一页    "

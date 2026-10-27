@@ -50,6 +50,14 @@ macro Number.isAtMostPercentOf(p, base):
 macro Number.isAbovePercentOf(p, base):
     self > base.percentOf(p)
 
+# Zero-pad a non-negative integer to 2 digits (HH:MM:SS fields)
+macro Number.pad2():
+    "{0}{1}".format("0" if self < 10 else "", self)
+
+# Seconds -> zero-padded "HH:MM:SS" (e.g. 3723 -> "01:02:03")
+macro hhmmss(t):
+    "{0}:{1}:{2}".format(floor((t) / 3600).pad2(), floor((t) % 3600 / 60).pad2(), floor((t) % 60).pad2())
+
 macro Player.maxHealthPercent(percent):
     self.getMaxHealth().percentOf(percent)
 
