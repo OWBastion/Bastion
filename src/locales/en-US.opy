@@ -223,7 +223,7 @@
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
 #!define STR_EVT_MECH_28_TITLE "Shapeshifter"
-#!define STR_EVT_MECH_28_DESC "Press {0} to switch between Giant and Mini. The chosen form lasts until you switch again or the event ends.\nGiant: size x{1}, +{2}% bonus HP, {3}% damage reduction.\nMini: size x{4}, max HP reduced by {5}%, {6}% movement speed."
+#!define STR_EVT_MECH_28_DESC "Hold {0}: choose a form that lasts until you change it again or the event ends.\n- Giant: size x {1}, +{2}% bonus HP, {3}% damage reduction\n- Mini: size x {4}, max HP -{5}%, {6}% movement speed"
 
 
 # Event Categories

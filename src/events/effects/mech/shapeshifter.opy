@@ -14,9 +14,12 @@ rule "[VishkarEvent]: 变形大师 切换形态":
         eventPlayer.hasSpawned(),
         eventPlayer.eventId == EventId.SHAPESHIFTER,
         eventPlayer.eventEndTime > getTotalTimeElapsed(),
-        eventPlayer.isHoldingButton(Button.INTERACT)
+        eventPlayer.isHoldingButton(Button.RELOAD)
     ]) == true
 
+    wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
+    if eventPlayer.eventId != EventId.SHAPESHIFTER:
+        return
     eventPlayer.eventMission = 2 if eventPlayer.eventMission == 1 else 1
     eventPlayer.stopScalingSize()
     eventPlayer.stopScalingBarriers()
