@@ -522,3 +522,9 @@ rule "initialize event array":
     eventDuration[EventId.FATE_VARIATION] = EVT_BUFF_39_DURATION
     eventCatalogWeight[EventId.FATE_VARIATION] = EVT_BUFF_39_WEIGHT
     eventCatalogType[EventId.FATE_VARIATION] = EventType.BUFF
+
+    eventName[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_TITLE
+    eventDesc[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_DESC.format(EVT_40_HEAL_BONUS)
+    eventDuration[EventId.FATE_CONCERTO] = EVT_BUFF_40_DURATION
+    eventCatalogWeight[EventId.FATE_CONCERTO] = EVT_BUFF_40_WEIGHT
+    eventCatalogType[EventId.FATE_CONCERTO] = EventType.BUFF

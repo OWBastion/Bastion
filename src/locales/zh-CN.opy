@@ -481,3 +481,5 @@
 #!define STR_EVT_BUFF_38_DESC "每次受到伤害时\n抵消 {0} 点伤害"
 #!define STR_EVT_BUFF_39_TITLE "命运变奏曲"
 #!define STR_EVT_BUFF_39_DESC "受到伤害后获得 {0}% 移速加成\n并在 {1} 秒内衰减至 0\n再次受伤时重新计时，不叠加"
+#!define STR_EVT_BUFF_40_TITLE "命运协奏曲"
+#!define STR_EVT_BUFF_40_DESC "来自其他友方的治疗\n额外增加 {0}% 治疗效果\n不含自我治疗"

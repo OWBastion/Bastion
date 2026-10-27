@@ -65,6 +65,8 @@ enum EventId:
     FATE_PRELUDE
     # legacy numeric id: 39
     FATE_VARIATION
+    # legacy numeric id: 40
+    FATE_CONCERTO
     # ---- Debuff ----
     # legacy numeric id: 0
     GRAVITY_ANOMALY

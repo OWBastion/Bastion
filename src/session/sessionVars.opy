@@ -145,6 +145,8 @@ playervar eventTargetHP 105
 playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
+# 事件持有的伤害/治疗修正 ID，以单元素数组存放（空数组 = 未持有；ID 0 与 null 相等）
+playervar eventModificationId
 playervar altFormActive 111
 playervar playerOnceEventState
 playervar menuHeroIndex

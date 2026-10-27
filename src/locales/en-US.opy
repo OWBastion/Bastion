@@ -470,3 +470,5 @@
 #!define STR_EVT_BUFF_38_DESC "Each time you take damage,\nnegate {0} of it."
 #!define STR_EVT_BUFF_39_TITLE "Fate Variation"
 #!define STR_EVT_BUFF_39_DESC "After taking damage, gain {0}% movement speed\ndecaying to 0 over {1}s.\nTaking damage again restarts the decay without stacking."
+#!define STR_EVT_BUFF_40_TITLE "Fate Concerto"
+#!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies\nis increased by {0}%.\nSelf-healing is not affected."

@@ -41,3 +41,4 @@
 #!include "buff/soloLevelUp.opy"
 #!include "buff/fatePrelude.opy"
 #!include "buff/fateVariation.opy"
+#!include "buff/fateConcerto.opy"
