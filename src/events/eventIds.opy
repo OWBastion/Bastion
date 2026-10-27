@@ -63,6 +63,8 @@ enum EventId:
     SOLO_LEVEL_UP
     # legacy numeric id: 38
     FATE_PRELUDE
+    # legacy numeric id: 39
+    FATE_VARIATION
     # ---- Debuff ----
     # legacy numeric id: 0
     GRAVITY_ANOMALY

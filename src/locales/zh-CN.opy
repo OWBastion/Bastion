@@ -479,3 +479,5 @@
 #!define STR_MSG_AUTO_RESTART_1MIN "游戏将在 1 分钟后自动重开"
 #!define STR_EVT_BUFF_38_TITLE "命运序曲"
 #!define STR_EVT_BUFF_38_DESC "每次受到伤害时\n抵消 {0} 点伤害"
+#!define STR_EVT_BUFF_39_TITLE "命运变奏曲"
+#!define STR_EVT_BUFF_39_DESC "受到伤害后获得 {0}% 移速加成\n并在 {1} 秒内衰减至 0\n再次受伤时重新计时，不叠加"

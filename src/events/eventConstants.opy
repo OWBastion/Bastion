@@ -391,6 +391,17 @@ enum HeartSteelData:
 # 每次受到伤害时抵消的伤害量
 #!define EVT_38_ABSORB 25
 
+# --- ID 39: 命运变奏曲 ---
+# Duration（秒）
+#!define EVT_BUFF_39_DURATION 45
+# Weight（权重）
+#!define EVT_BUFF_39_WEIGHT 0.8
+# 受伤后的初始移速加成（%），在衰减时间内线性衰减至 0
+#!define EVT_39_SPEED_BOOST 300
+#!define EVT_39_DECAY_SECONDS 2
+# 衰减刷新间隔（秒）
+#!define EVT_39_DECAY_STEP 0.1
+
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
 # -----------------------------------------------------------------------------

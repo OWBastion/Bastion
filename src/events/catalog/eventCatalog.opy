@@ -516,3 +516,9 @@ rule "initialize event array":
     eventDuration[EventId.FATE_PRELUDE] = EVT_BUFF_38_DURATION
     eventCatalogWeight[EventId.FATE_PRELUDE] = EVT_BUFF_38_WEIGHT
     eventCatalogType[EventId.FATE_PRELUDE] = EventType.BUFF
+
+    eventName[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_TITLE
+    eventDesc[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_DESC.format(EVT_39_SPEED_BOOST, EVT_39_DECAY_SECONDS)
+    eventDuration[EventId.FATE_VARIATION] = EVT_BUFF_39_DURATION
+    eventCatalogWeight[EventId.FATE_VARIATION] = EVT_BUFF_39_WEIGHT
+    eventCatalogType[EventId.FATE_VARIATION] = EventType.BUFF
