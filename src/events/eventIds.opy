@@ -57,10 +57,6 @@ enum EventId:
     BATTLEFIELD_MEDIC
     # legacy numeric id: 34
     SHARED_BLESSING
-    # legacy numeric id: 36
-    SOLO_RUN
-    # legacy numeric id: 37
-    SOLO_LEVEL_UP
     # legacy numeric id: 38
     FATE_PRELUDE
     # legacy numeric id: 39
@@ -159,8 +155,6 @@ enum EventId:
     GAMBLER_WINNER_TAKE_ALL
     # legacy numeric id: 25
     PROPHET
-    # legacy numeric id: 26
-    SOLO_DECIDE
     # legacy numeric id: 27
     FATE_RHAPSODY
     # sentinel only for integrity checks (do not register as an event)
