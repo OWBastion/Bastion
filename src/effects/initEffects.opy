@@ -20,7 +20,7 @@ rule "initialize effects":
     hudText(localPlayer if localPlayer.isWinner and localPlayer.settlementCardEnd == null else null, iconString(Icon.CHECKMARK), STR_HUD_NEXT_HERO, STR_HUD_CHALLENGE_COMPLETE, HudPosition.LEFT, 2, Color.GREEN, Color.GREEN, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
 
     # 英雄 x/y · 阵亡 x/y
-    hudSubheader(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] and localPlayer.settlementCardEnd == null else null, STR_HUD_STATS_HERO_DEATH.format(heroList.index(localPlayer.getHero()) + 1, len(heroList), localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞"), HudPosition.LEFT, 3, difficultyText[1], HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] and localPlayer.settlementCardEnd == null else null, STR_HUD_STATS_HERO_DEATH.format(heroList.index(localPlayer.getHero()) + 1, len(heroList), localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞"), HudPosition.LEFT, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
     # 增益 · 减益 · 总计
     hudSubheader(localPlayer if localPlayer.settlementCardEnd == null else null, STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]), HudPosition.LEFT, 4, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
@@ -37,7 +37,7 @@ rule "initialize effects":
     hudSubheader(localPlayer if difficulty != 5 and localPlayer.progressionDeathCount == maxDeath and localPlayer.settlementCardEnd == null else null, STR_HUD_SKIP_HINT.format(inputBindingString(Button.ULTIMATE)), HudPosition.LEFT, 6, Color.BLUE, HudReeval.VISIBILITY_AND_STRING)
 
     # --------------------------------------------------------------------------------------------------------------------------------
-    # 个人事件详情 (顶部中央, 服务器代码行之后)
+    # 个人事件详情 (顶部中央底部): 排在 assignPlayerEvent 的 HUD_PAD_BOTTOM 状态行 (TOP 20) 之后
     # --------------------------------------------------------------------------------------------------------------------------------
     hudText(
         null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
@@ -47,7 +47,7 @@ rule "initialize effects":
             STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT,
             localPlayer.eventDesc
         ),
-        null, HudPosition.TOP, 4, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+        null, HudPosition.TOP, 21, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
 
     # --------------------------------------------------------------------------------------------------------------------------------

@@ -341,7 +341,7 @@
 
 # Attribute panel
 # {0}=Heartsteel stacks, {1}=Permanent movement speed bonus, {2}=Permanent damage reduction, {3}=Healing power
-#!define STR_HUD_ATTR_PANEL "Heartsteel/Speed/DR/Heal%\r\n{0}/{1}/{2}/{3}%"
+#!define STR_HUD_ATTR_PANEL "Heartsteel {0} · Speed {1} · DR {2} · Heal {3}%"
 
 # ------------------------------------------------
 # Settlement Card (top center, self only, time-limited)

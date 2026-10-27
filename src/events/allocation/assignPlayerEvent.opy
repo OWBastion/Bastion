@@ -15,7 +15,7 @@ rule "[VishkarEvent]: get player event":
     if eventPlayer.hudTextId != null:
         goto lbl_0
     eventPlayer.hudText = ""
-    hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 9, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 20, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     eventPlayer.hudTextId = getLastCreatedText()
         
     
