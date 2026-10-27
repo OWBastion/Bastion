@@ -13,7 +13,12 @@
 # 末位英雄（堡垒）过线只置 isWinner 不推进 heroNumber，故两侧完成判定均以 heroNumber 增量或 isWinner 任一成立为准。
 # eventMissionGoal>0 兼作"已绑定"标记，防止条件残留导致重复触发；未绑定到期由事件自然到期处理。
 # 任务奖励 = EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION × 当前地图堡垒数（len(bastionPosition)），
-# 双方各按自己的心之钢获得倍率结算；队友血量重建走公共 setPlayerHP 旗标路径（见 debuff/selfless_giveaway.opy）。
+# 每名获得者按自己的心之钢获得倍率结算；
+# 队友血量重建走公共 setPlayerHP 旗标路径（见 debuff/selfless_giveaway.opy）。
+# 持有者为通关玩家（isWinner）时无法完成绑定，由 "Settle on finish without bind" 直接判成功并向全队发放：
+# 结算时把 eventMissionGoal 置 2 作"待领取"哨兵（绑定路径仅用 0/1；禁规则内循环、禁新增变量），
+# "Grant shared blessing" 按哨兵逐人领取；哨兵随持有者事件被 clearPlayerEvent 清零自动失效，
+# 条件持续为真不重复触发故无需领取去重，领取窗口=结算至事件清理之间（期间死亡/未 spawn 的队员不补发）。
 
 # 绑定候选：半径内未通关的存活友方（排除自己）
 macro Player.bindCandidates():
@@ -65,9 +70,19 @@ rule "Settle on finish without bind":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.isWinner == true, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
-    # 未绑定时不产生队友奖励，仅结算持有者本人任务
+    # 通关持有者无法绑定：置哨兵由 "Grant shared blessing" 逐人领取（禁循环/禁新增变量）
     bigMessage(eventPlayer, "有福同享 成功！")
-    smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
+    smallMessage(eventPlayer, "  {0}  任务奖励：与全队分享，获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
+    eventPlayer.eventMissionGoal = 2
     eventPlayer.heart_steel[HeartSteelData.STACKS] += (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
     setPlayerHP()
     requestPlayerEventEnd()
+
+rule "Grant shared blessing":
+    @Event eachPlayer
+    @Team 1
+    @Condition all([eventPlayer.hasSpawned(), len(getPlayers(Team.1).filter(lambda p: p != eventPlayer and p.eventId == EventId.SHARED_BLESSING and p.eventMissionGoal == 2)) > 0]) == true
+
+    smallMessage(eventPlayer, "  {0}  有福同享：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
+    eventPlayer.heart_steel[HeartSteelData.STACKS] += (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
+    eventPlayer.setPlayerHP = true
