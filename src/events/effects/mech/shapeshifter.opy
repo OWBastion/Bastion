@@ -22,19 +22,19 @@ rule "[VishkarEvent]: 变形大师 切换形态":
     eventPlayer.stopScalingBarriers()
     eventPlayer.stopModifyingVoicelinePitch()
     if eventPlayer.eventMission == 1:
-        eventPlayer.sizeHealth = 1 + EVT_MECH_27_GIANT_BONUS_HP / 100
-        eventPlayer.mod_dmg_taken = -EVT_MECH_27_GIANT_DMG_REDUCTION
+        eventPlayer.sizeHealth = 1 + EVT_MECH_28_GIANT_BONUS_HP / 100
+        eventPlayer.mod_dmg_taken = -EVT_MECH_28_GIANT_DMG_REDUCTION
         eventPlayer.mod_speed_event = 0
-        eventPlayer.startScalingSize(EVT_MECH_27_GIANT_SCALE, false)
-        eventPlayer.startScalingBarriers(EVT_MECH_27_GIANT_SCALE, false)
-        eventPlayer.startModifyingVoicelinePitch(EVT_MECH_27_GIANT_VOICE_PITCH, false)
+        eventPlayer.startScalingSize(EVT_MECH_28_GIANT_SCALE, false)
+        eventPlayer.startScalingBarriers(EVT_MECH_28_GIANT_SCALE, false)
+        eventPlayer.startModifyingVoicelinePitch(EVT_MECH_28_GIANT_VOICE_PITCH, false)
     else:
-        eventPlayer.sizeHealth = 1 - EVT_MECH_27_MINI_HP_CUT / 100
+        eventPlayer.sizeHealth = 1 - EVT_MECH_28_MINI_HP_CUT / 100
         eventPlayer.mod_dmg_taken = 0
-        eventPlayer.mod_speed_event = EVT_MECH_27_MINI_SPEED_BOOST
-        eventPlayer.startScalingSize(EVT_MECH_27_MINI_SCALE, false)
-        eventPlayer.startScalingBarriers(EVT_MECH_27_MINI_SCALE, false)
-        eventPlayer.startModifyingVoicelinePitch(EVT_MECH_27_MINI_VOICE_PITCH, false)
+        eventPlayer.mod_speed_event = EVT_MECH_28_MINI_SPEED_BOOST
+        eventPlayer.startScalingSize(EVT_MECH_28_MINI_SCALE, false)
+        eventPlayer.startScalingBarriers(EVT_MECH_28_MINI_SCALE, false)
+        eventPlayer.startModifyingVoicelinePitch(EVT_MECH_28_MINI_VOICE_PITCH, false)
     updatePlayerStats()
     setPlayerHP()
 

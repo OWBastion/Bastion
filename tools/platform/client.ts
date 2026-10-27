@@ -236,7 +236,7 @@ export class PlatformDataClient {
 
   async fetchAll(): Promise<PlatformData> {
     const [events, maps, achievements, titles] = await Promise.all(
-      PLATFORM_DATA_RESOURCES.map((resource) => this.fetchResource(resource))
+      PLATFORM_DATA_RESOURCES.map((resource) => resource === 'events' ? this.fetchEvents() : this.fetchResource(resource))
     );
 
     return { events, maps, achievements, titles, playerTitleGrants: [], mapTitleHolders: [] };
@@ -257,18 +257,23 @@ export class PlatformDataClient {
     return this.fetchCustomResource('map-title-holders', query, (item) => `${String(item.mapId)}:${String(item.gameplayRevisionId)}:${String(item.titleKey)}:${String(item.slot)}:${String(item.playerId ?? '')}:${String(item.playerName)}`);
   }
 
-  fetchResource(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
-    return withStableSnapshot(() => this.fetchResourceOnce(resource));
+  // 平台默认只返回已实现的事件；开发中的事件需要显式请求，才能映射并随版本构建。
+  async fetchEvents(): Promise<PlatformDataItem[]> {
+    return [...await this.fetchResource('events'), ...await this.fetchResource('events', { status: 'development' })];
   }
 
-  private async fetchResourceOnce(resource: PlatformDataResource): Promise<PlatformDataItem[]> {
+  fetchResource(resource: PlatformDataResource, filter: Record<string, string> = {}): Promise<PlatformDataItem[]> {
+    return withStableSnapshot(() => this.fetchResourceOnce(resource, filter));
+  }
+
+  private async fetchResourceOnce(resource: PlatformDataResource, filter: Record<string, string>): Promise<PlatformDataItem[]> {
     const items: PlatformDataItem[] = [];
     const ids = new Set<string>();
     let requestedPage = 1;
     let expectedTotal: number | undefined;
 
     while (true) {
-      const response = await this.fetchPage(resource, requestedPage);
+      const response = await this.fetchPage(resource, requestedPage, filter);
       if (expectedTotal === undefined) {
         expectedTotal = response.total;
       } else if (response.total !== expectedTotal) {
@@ -353,8 +358,9 @@ export class PlatformDataClient {
     return ensureCustomPageResponse(payload, resource, page, this.pageSize);
   }
 
-  private async fetchPage(resource: PlatformDataResource, page: number): Promise<PlatformDataPage> {
+  private async fetchPage(resource: PlatformDataResource, page: number, filter: Record<string, string>): Promise<PlatformDataPage> {
     const url = new URL(`${this.baseUrl}/v1/agents/${resource}`);
+    for (const [key, value] of Object.entries(filter)) url.searchParams.set(key, value);
     url.searchParams.set('page', String(page));
     url.searchParams.set('pageSize', String(this.pageSize));
 

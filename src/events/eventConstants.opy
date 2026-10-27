@@ -355,33 +355,32 @@ enum HeartSteelData:
 #!define EVT_35_SPEED_DELTA 20
 #!define EVT_35_HP_LAYER 6
 
-# --- ID 36: 我独自闯关 ---
+# --- ID 38: 命运序曲 ---
 # Duration（秒）
-#!define EVT_BUFF_36_DURATION 120
+#!define EVT_BUFF_38_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_36_WEIGHT 1.2
-# 独行判定半径（米）：范围内无存活队友时效果生效
-#!define EVT_36_TEAMMATE_RADIUS 8
-# 生效时的加成：伤害减免 / 治疗增益 / 移动速度 / 击退抵抗
-#!define EVT_36_DMG_REDUCTION 50
-#!define EVT_36_HEAL_BONUS 100
-#!define EVT_36_SPEED_BONUS 50
-#!define EVT_36_KNOCKBACK_RESIST 95
-# 检测间隔（秒）
-#!define EVT_36_CHECK_INTERVAL 4
+#!define EVT_BUFF_38_WEIGHT 0.8
+# 每次受到伤害时抵消的伤害量
+#!define EVT_38_ABSORB 25
 
-# --- ID 37: 我独自升级 ---
+# --- ID 39: 命运变奏曲 ---
 # Duration（秒）
-#!define EVT_BUFF_37_DURATION 120
+#!define EVT_BUFF_39_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_37_WEIGHT 0.8
-# 每用一名新英雄通关获得的永久加成
-#!define EVT_37_REWARD_HEARTSTEEL 10
-#!define EVT_37_REWARD_DMG_REDUCTION 1
-#!define EVT_37_REWARD_SPEED 1
-#!define EVT_37_REWARD_HEAL 5
-# 每次通关延长当前事件的秒数
-#!define EVT_37_EXTEND_SECONDS 30
+#!define EVT_BUFF_39_WEIGHT 0.8
+# 受伤后的初始移速加成（%），在衰减时间内线性衰减至 0
+#!define EVT_39_SPEED_BOOST 300
+#!define EVT_39_DECAY_SECONDS 2
+# 衰减刷新间隔（秒）
+#!define EVT_39_DECAY_STEP 0.1
+
+# --- ID 40: 命运协奏曲 ---
+# Duration（秒）
+#!define EVT_BUFF_40_DURATION 60
+# Weight（权重）
+#!define EVT_BUFF_40_WEIGHT 0.8
+# 来自其他友方的治疗额外增加的百分比
+#!define EVT_40_HEAL_BONUS 300
 
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
@@ -646,6 +645,15 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_25_TRIGGER_PROTECTION 1.5
 # 近身扫描间隔 (秒)
 #!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
+
+# --- ID 26 (Debuff): 命运赋格曲 ---
+# Duration（秒）
+#!define EVT_DEBUFF_26_DURATION 60
+# Weight（权重）
+#!define EVT_DEBUFF_26_WEIGHT 0.8
+# 额外伤害延迟（秒）与占原伤害的百分比
+#!define EVT_DEBUFF_26_DELAY 1.5
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 50
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -955,29 +963,30 @@ enum MirrorInversionStat:
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.8
 
-# --- ID 26 (Mech): 我独自决定 ---
-# Duration（秒）
-#!define EVT_MECH_26_DURATION 15
-# Weight（权重）
-#!define EVT_MECH_26_WEIGHT 0.6
-# 长按换弹为所有玩家当前事件延长的秒数
-#!define EVT_26_EXTEND_SECONDS 30
 
-# --- ID 27 (Mech): 变形大师 ---
-# Duration（秒），暂定值，待 owner 确认
-#!define EVT_MECH_27_DURATION 90
-# Weight（权重），暂定值，待 owner 确认
+# --- ID 27 (Mech): 命运狂想曲 ---
+# Duration（秒）
+#!define EVT_MECH_27_DURATION 60
+# Weight（权重）
 #!define EVT_MECH_27_WEIGHT 0.8
+# 伤害减免上限（%）。设计稿未写上限，暂定 90 以避免无敌，待 owner 确认
+#!define EVT_MECH_27_MAX_REDUCTION 90
+
+# --- ID 28 (Mech): 变形大师 ---
+# Duration（秒），暂定值，待 owner 确认
+#!define EVT_MECH_28_DURATION 90
+# Weight（权重），暂定值，待 owner 确认
+#!define EVT_MECH_28_WEIGHT 0.8
 # 巨大膨胀：体型倍率、额外生命值(%)、减伤(%)
-#!define EVT_MECH_27_GIANT_SCALE 2
-#!define EVT_MECH_27_GIANT_BONUS_HP 2000
-#!define EVT_MECH_27_GIANT_DMG_REDUCTION 25
+#!define EVT_MECH_28_GIANT_SCALE 2
+#!define EVT_MECH_28_GIANT_BONUS_HP 2000
+#!define EVT_MECH_28_GIANT_DMG_REDUCTION 25
 # 迷你形态：体型倍率、最大生命值降低(%)、移速加成(%)
-#!define EVT_MECH_27_MINI_SCALE 0.3
-#!define EVT_MECH_27_MINI_HP_CUT 50
-#!define EVT_MECH_27_MINI_SPEED_BOOST 50
+#!define EVT_MECH_28_MINI_SCALE 0.3
+#!define EVT_MECH_28_MINI_HP_CUT 50
+#!define EVT_MECH_28_MINI_SPEED_BOOST 50
 # 语音音高
-#!define EVT_MECH_27_GIANT_VOICE_PITCH 0.7
-#!define EVT_MECH_27_MINI_VOICE_PITCH 1.5
+#!define EVT_MECH_28_GIANT_VOICE_PITCH 0.7
+#!define EVT_MECH_28_MINI_VOICE_PITCH 1.5
 
 # -----------------------------------------------------------------------------

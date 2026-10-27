@@ -172,10 +172,6 @@
 #!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
 #!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
 #!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
-#!define STR_EVT_BUFF_36_TITLE "我独自闯关"
-#!define STR_EVT_BUFF_36_DESC "周围无队友时获得\n{0}% 减伤 / {1}% 治疗\n{2}% 移速 / {3}% 击退抵抗"
-#!define STR_EVT_BUFF_37_TITLE "我独自升级"
-#!define STR_EVT_BUFF_37_DESC "每用一名新英雄到达终点\n永久获得 {0} 层心之钢 / {1}% 减伤 / {2}% 移速 / {3}% 治疗\n并延长当前事件 {4}s"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
@@ -235,10 +231,8 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
-#!define STR_EVT_MECH_26_TITLE "我独自决定"
-#!define STR_EVT_MECH_26_DESC "长按{0}：所有队友当前事件延长{1}s；\n长按{2}：立即结束所有队友当前事件"
-#!define STR_EVT_MECH_27_TITLE "变形大师"
-#!define STR_EVT_MECH_27_DESC "按{0}在巨大膨胀与迷你形态间切换，所选形态保留到再次切换或事件结束\n巨大膨胀：体型×{1}，获得{2}%额外生命值，{3}%减伤\n迷你形态：体型×{4}，最大生命值降低{5}%，{6}%移速加成"
+#!define STR_EVT_MECH_28_TITLE "变形大师"
+#!define STR_EVT_MECH_28_DESC "按{0}在巨大膨胀与迷你形态间切换，所选形态保留到再次切换或事件结束\n巨大膨胀：体型×{1}，获得{2}%额外生命值，{3}%减伤\n迷你形态：体型×{4}，最大生命值降低{5}%，{6}%移速加成"
 
 
 # 事件类别
@@ -477,3 +471,13 @@
 # 自动重开倒计时
 # ------------------------------------------------
 #!define STR_MSG_AUTO_RESTART_1MIN "游戏将在 1 分钟后自动重开"
+#!define STR_EVT_BUFF_38_TITLE "命运序曲"
+#!define STR_EVT_BUFF_38_DESC "每次受到伤害时\n抵消 {0} 点伤害"
+#!define STR_EVT_BUFF_39_TITLE "命运变奏曲"
+#!define STR_EVT_BUFF_39_DESC "受到伤害后获得 {0}% 移速加成\n并在 {1} 秒内衰减至 0\n再次受伤时重新计时，不叠加"
+#!define STR_EVT_BUFF_40_TITLE "命运协奏曲"
+#!define STR_EVT_BUFF_40_DESC "来自其他友方的治疗\n额外增加 {0}% 治疗效果\n不含自我治疗"
+#!define STR_EVT_DEBUFF_26_TITLE "命运赋格曲"
+#!define STR_EVT_DEBUFF_26_DESC "受到伤害后，{0} 秒后\n再受到该次伤害 {1}% 的额外伤害\n额外伤害不会再次触发"
+#!define STR_EVT_MECH_27_TITLE "命运狂想曲"
+#!define STR_EVT_MECH_27_DESC "获得与已损失生命值百分比\n相同的伤害减免，上限 {0}%"

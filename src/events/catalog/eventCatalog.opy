@@ -430,18 +430,6 @@ rule "initialize event array":
     eventDuration[EventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
     eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
     eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
-
-    eventName[EventId.SOLO_RUN] = STR_EVT_BUFF_36_TITLE
-    eventDesc[EventId.SOLO_RUN] = STR_EVT_BUFF_36_DESC.format(EVT_36_DMG_REDUCTION, EVT_36_HEAL_BONUS, EVT_36_SPEED_BONUS, EVT_36_KNOCKBACK_RESIST)
-    eventDuration[EventId.SOLO_RUN] = EVT_BUFF_36_DURATION
-    eventCatalogWeight[EventId.SOLO_RUN] = EVT_BUFF_36_WEIGHT
-    eventCatalogType[EventId.SOLO_RUN] = EventType.BUFF
-
-    eventName[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_TITLE
-    eventDesc[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_DESC.format(EVT_37_REWARD_HEARTSTEEL, EVT_37_REWARD_DMG_REDUCTION, EVT_37_REWARD_SPEED, EVT_37_REWARD_HEAL, EVT_37_EXTEND_SECONDS)
-    eventDuration[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_DURATION
-    eventCatalogWeight[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_WEIGHT
-    eventCatalogType[EventId.SOLO_LEVEL_UP] = EventType.BUFF
     # ================================================
     # Pack 5: Debuffs
     # ================================================
@@ -496,17 +484,41 @@ rule "initialize event array":
     eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
     eventCatalogType[EventId.PROPHET] = EventType.MECH
 
-    eventName[EventId.SOLO_DECIDE] = STR_EVT_MECH_26_TITLE
-    eventDesc[EventId.SOLO_DECIDE] = STR_EVT_MECH_26_DESC.format(Button.RELOAD, EVT_26_EXTEND_SECONDS, Button.INTERACT)
-    eventDuration[EventId.SOLO_DECIDE] = EVT_MECH_26_DURATION
-    eventCatalogWeight[EventId.SOLO_DECIDE] = EVT_MECH_26_WEIGHT
-    eventCatalogType[EventId.SOLO_DECIDE] = EventType.MECH
-
-    eventName[EventId.SHAPESHIFTER] = STR_EVT_MECH_27_TITLE
-    eventDesc[EventId.SHAPESHIFTER] = STR_EVT_MECH_27_DESC.format(Button.INTERACT, EVT_MECH_27_GIANT_SCALE, EVT_MECH_27_GIANT_BONUS_HP, EVT_MECH_27_GIANT_DMG_REDUCTION, EVT_MECH_27_MINI_SCALE, EVT_MECH_27_MINI_HP_CUT, EVT_MECH_27_MINI_SPEED_BOOST)
-    eventDuration[EventId.SHAPESHIFTER] = EVT_MECH_27_DURATION
-    eventCatalogWeight[EventId.SHAPESHIFTER] = EVT_MECH_27_WEIGHT
+    eventName[EventId.SHAPESHIFTER] = STR_EVT_MECH_28_TITLE
+    eventDesc[EventId.SHAPESHIFTER] = STR_EVT_MECH_28_DESC.format(Button.INTERACT, EVT_MECH_28_GIANT_SCALE, EVT_MECH_28_GIANT_BONUS_HP, EVT_MECH_28_GIANT_DMG_REDUCTION, EVT_MECH_28_MINI_SCALE, EVT_MECH_28_MINI_HP_CUT, EVT_MECH_28_MINI_SPEED_BOOST)
+    eventDuration[EventId.SHAPESHIFTER] = EVT_MECH_28_DURATION
+    eventCatalogWeight[EventId.SHAPESHIFTER] = EVT_MECH_28_WEIGHT
     eventCatalogType[EventId.SHAPESHIFTER] = EventType.MECH
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
+
+    eventName[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_TITLE
+    eventDesc[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_DESC.format(EVT_38_ABSORB)
+    eventDuration[EventId.FATE_PRELUDE] = EVT_BUFF_38_DURATION
+    eventCatalogWeight[EventId.FATE_PRELUDE] = EVT_BUFF_38_WEIGHT
+    eventCatalogType[EventId.FATE_PRELUDE] = EventType.BUFF
+
+    eventName[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_TITLE
+    eventDesc[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_DESC.format(EVT_39_SPEED_BOOST, EVT_39_DECAY_SECONDS)
+    eventDuration[EventId.FATE_VARIATION] = EVT_BUFF_39_DURATION
+    eventCatalogWeight[EventId.FATE_VARIATION] = EVT_BUFF_39_WEIGHT
+    eventCatalogType[EventId.FATE_VARIATION] = EventType.BUFF
+
+    eventName[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_TITLE
+    eventDesc[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_DESC.format(EVT_40_HEAL_BONUS)
+    eventDuration[EventId.FATE_CONCERTO] = EVT_BUFF_40_DURATION
+    eventCatalogWeight[EventId.FATE_CONCERTO] = EVT_BUFF_40_WEIGHT
+    eventCatalogType[EventId.FATE_CONCERTO] = EventType.BUFF
+
+    eventName[EventId.FATE_FUGUE] = STR_EVT_DEBUFF_26_TITLE
+    eventDesc[EventId.FATE_FUGUE] = STR_EVT_DEBUFF_26_DESC.format(EVT_DEBUFF_26_DELAY, EVT_DEBUFF_26_DAMAGE_PERCENT)
+    eventDuration[EventId.FATE_FUGUE] = EVT_DEBUFF_26_DURATION
+    eventCatalogWeight[EventId.FATE_FUGUE] = EVT_DEBUFF_26_WEIGHT
+    eventCatalogType[EventId.FATE_FUGUE] = EventType.DEBUFF
+
+    eventName[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_TITLE
+    eventDesc[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_DESC.format(EVT_MECH_27_MAX_REDUCTION)
+    eventDuration[EventId.FATE_RHAPSODY] = EVT_MECH_27_DURATION
+    eventCatalogWeight[EventId.FATE_RHAPSODY] = EVT_MECH_27_WEIGHT
+    eventCatalogType[EventId.FATE_RHAPSODY] = EventType.MECH

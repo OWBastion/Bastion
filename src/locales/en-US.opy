@@ -163,10 +163,6 @@
 #!define STR_EVT_BUFF_32_DESC "Heal {0} + {1} x player count HP.\nReward: permanently gain {2}% healing power."
 #!define STR_EVT_BUFF_34_TITLE "Mission: Shared Blessing"
 #!define STR_EVT_BUFF_34_DESC "Hold {0} to bind with the nearest teammate.\nBoth must pass the finish line in time.\nReward: {1} + {2} x bastion count Heartsteel stacks each."
-#!define STR_EVT_BUFF_36_TITLE "Solo Run"
-#!define STR_EVT_BUFF_36_DESC "While no teammates are nearby, gain {0}% damage\nreduction, {1}% healing dealt, {2}% movement speed,\nand {3}% knockback resistance."
-#!define STR_EVT_BUFF_37_TITLE "Solo Leveling"
-#!define STR_EVT_BUFF_37_DESC "Each new hero that reaches the finish line permanently\ngrants {0} Heartsteel stacks, {1}% damage reduction,\n{2}% movement speed, and {3}% healing dealt,\nand extends the current event by {4}s."
 
 # ------------------------------------------------
 # Random Pack 4: Debuffs
@@ -226,10 +222,8 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
-#!define STR_EVT_MECH_26_TITLE "Solo Decision"
-#!define STR_EVT_MECH_26_DESC "Hold {0}: extend all teammates' current events by {1}s.\nHold {2}: immediately end all teammates' current events."
-#!define STR_EVT_MECH_27_TITLE "Shapeshifter"
-#!define STR_EVT_MECH_27_DESC "Press {0} to switch between Giant and Mini. The chosen form lasts until you switch again or the event ends.\nGiant: size x{1}, +{2}% bonus HP, {3}% damage reduction.\nMini: size x{4}, max HP reduced by {5}%, {6}% movement speed."
+#!define STR_EVT_MECH_28_TITLE "Shapeshifter"
+#!define STR_EVT_MECH_28_DESC "Press {0} to switch between Giant and Mini. The chosen form lasts until you switch again or the event ends.\nGiant: size x{1}, +{2}% bonus HP, {3}% damage reduction.\nMini: size x{4}, max HP reduced by {5}%, {6}% movement speed."
 
 
 # Event Categories
@@ -466,3 +460,13 @@
 # Auto Restart Countdown
 # ------------------------------------------------
 #!define STR_MSG_AUTO_RESTART_1MIN "Game will auto-restart in 1 minute"
+#!define STR_EVT_BUFF_38_TITLE "Fate Prelude"
+#!define STR_EVT_BUFF_38_DESC "Each time you take damage,\nnegate {0} of it."
+#!define STR_EVT_BUFF_39_TITLE "Fate Variation"
+#!define STR_EVT_BUFF_39_DESC "After taking damage, gain {0}% movement speed\ndecaying to 0 over {1}s.\nTaking damage again restarts the decay without stacking."
+#!define STR_EVT_BUFF_40_TITLE "Fate Concerto"
+#!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies\nis increased by {0}%.\nSelf-healing is not affected."
+#!define STR_EVT_DEBUFF_26_TITLE "Fate Fugue"
+#!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage\nagain {0}s later.\nThe extra damage does not trigger again."
+#!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
+#!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your\nmissing health percentage, up to {0}%."
