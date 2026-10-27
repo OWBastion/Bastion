@@ -355,6 +355,33 @@ enum HeartSteelData:
 #!define EVT_35_SPEED_DELTA 20
 #!define EVT_35_HP_LAYER 6
 
+# --- ID 38: 命运序曲 ---
+# Duration（秒）
+#!define EVT_BUFF_38_DURATION 45
+# Weight（权重）
+#!define EVT_BUFF_38_WEIGHT 0.8
+# 每次受到伤害时抵消的伤害量
+#!define EVT_38_ABSORB 25
+
+# --- ID 39: 命运变奏曲 ---
+# Duration（秒）
+#!define EVT_BUFF_39_DURATION 45
+# Weight（权重）
+#!define EVT_BUFF_39_WEIGHT 0.8
+# 受伤后的初始移速加成（%），在衰减时间内线性衰减至 0
+#!define EVT_39_SPEED_BOOST 300
+#!define EVT_39_DECAY_SECONDS 2
+# 衰减刷新间隔（秒）
+#!define EVT_39_DECAY_STEP 0.1
+
+# --- ID 40: 命运协奏曲 ---
+# Duration（秒）
+#!define EVT_BUFF_40_DURATION 60
+# Weight（权重）
+#!define EVT_BUFF_40_WEIGHT 0.8
+# 来自其他友方的治疗额外增加的百分比
+#!define EVT_40_HEAL_BONUS 300
+
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
 # -----------------------------------------------------------------------------
@@ -618,6 +645,15 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_25_TRIGGER_PROTECTION 1.5
 # 近身扫描间隔 (秒)
 #!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
+
+# --- ID 26 (Debuff): 命运赋格曲 ---
+# Duration（秒）
+#!define EVT_DEBUFF_26_DURATION 60
+# Weight（权重）
+#!define EVT_DEBUFF_26_WEIGHT 0.8
+# 额外伤害延迟（秒）与占原伤害的百分比
+#!define EVT_DEBUFF_26_DELAY 1.5
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 50
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -943,5 +979,14 @@ enum MirrorInversionStat:
 #!define EVT_MECH_25_DURATION 90
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.8
+
+
+# --- ID 27 (Mech): 命运狂想曲 ---
+# Duration（秒）
+#!define EVT_MECH_27_DURATION 60
+# Weight（权重）
+#!define EVT_MECH_27_WEIGHT 0.8
+# 伤害减免上限（%）。设计稿未写上限，暂定 90 以避免无敌，待 owner 确认
+#!define EVT_MECH_27_MAX_REDUCTION 90
 
 # -----------------------------------------------------------------------------

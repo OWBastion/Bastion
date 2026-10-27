@@ -30,3 +30,4 @@
 #!include "mech/cheatBackroomDeal.opy"
 #!include "mech/mirrorInversion.opy"
 #!include "mech/prophet.opy"
+#!include "mech/fateRhapsody.opy"

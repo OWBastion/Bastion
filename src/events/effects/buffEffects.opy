@@ -37,3 +37,6 @@
 #!include "buff/temperHeart.opy"
 #!include "buff/battlefieldMedic.opy"
 #!include "buff/sharedBlessing.opy"
+#!include "buff/fatePrelude.opy"
+#!include "buff/fateVariation.opy"
+#!include "buff/fateConcerto.opy"

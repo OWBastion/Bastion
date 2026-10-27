@@ -492,3 +492,33 @@ rule "initialize event array":
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
+
+    eventName[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_TITLE
+    eventDesc[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_DESC.format(EVT_38_ABSORB)
+    eventDuration[EventId.FATE_PRELUDE] = EVT_BUFF_38_DURATION
+    eventCatalogWeight[EventId.FATE_PRELUDE] = EVT_BUFF_38_WEIGHT
+    eventCatalogType[EventId.FATE_PRELUDE] = EventType.BUFF
+
+    eventName[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_TITLE
+    eventDesc[EventId.FATE_VARIATION] = STR_EVT_BUFF_39_DESC.format(EVT_39_SPEED_BOOST, EVT_39_DECAY_SECONDS)
+    eventDuration[EventId.FATE_VARIATION] = EVT_BUFF_39_DURATION
+    eventCatalogWeight[EventId.FATE_VARIATION] = EVT_BUFF_39_WEIGHT
+    eventCatalogType[EventId.FATE_VARIATION] = EventType.BUFF
+
+    eventName[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_TITLE
+    eventDesc[EventId.FATE_CONCERTO] = STR_EVT_BUFF_40_DESC.format(EVT_40_HEAL_BONUS)
+    eventDuration[EventId.FATE_CONCERTO] = EVT_BUFF_40_DURATION
+    eventCatalogWeight[EventId.FATE_CONCERTO] = EVT_BUFF_40_WEIGHT
+    eventCatalogType[EventId.FATE_CONCERTO] = EventType.BUFF
+
+    eventName[EventId.FATE_FUGUE] = STR_EVT_DEBUFF_26_TITLE
+    eventDesc[EventId.FATE_FUGUE] = STR_EVT_DEBUFF_26_DESC.format(EVT_DEBUFF_26_DELAY, EVT_DEBUFF_26_DAMAGE_PERCENT)
+    eventDuration[EventId.FATE_FUGUE] = EVT_DEBUFF_26_DURATION
+    eventCatalogWeight[EventId.FATE_FUGUE] = EVT_DEBUFF_26_WEIGHT
+    eventCatalogType[EventId.FATE_FUGUE] = EventType.DEBUFF
+
+    eventName[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_TITLE
+    eventDesc[EventId.FATE_RHAPSODY] = STR_EVT_MECH_27_DESC.format(EVT_MECH_27_MAX_REDUCTION)
+    eventDuration[EventId.FATE_RHAPSODY] = EVT_MECH_27_DURATION
+    eventCatalogWeight[EventId.FATE_RHAPSODY] = EVT_MECH_27_WEIGHT
+    eventCatalogType[EventId.FATE_RHAPSODY] = EventType.MECH

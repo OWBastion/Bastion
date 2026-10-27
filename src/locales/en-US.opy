@@ -460,3 +460,13 @@
 # Auto Restart Countdown
 # ------------------------------------------------
 #!define STR_MSG_AUTO_RESTART_1MIN "Game will auto-restart in 1 minute"
+#!define STR_EVT_BUFF_38_TITLE "Fate Prelude"
+#!define STR_EVT_BUFF_38_DESC "Each time you take damage,\nnegate {0} of it."
+#!define STR_EVT_BUFF_39_TITLE "Fate Variation"
+#!define STR_EVT_BUFF_39_DESC "After taking damage, gain {0}% movement speed\ndecaying to 0 over {1}s.\nTaking damage again restarts the decay without stacking."
+#!define STR_EVT_BUFF_40_TITLE "Fate Concerto"
+#!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies\nis increased by {0}%.\nSelf-healing is not affected."
+#!define STR_EVT_DEBUFF_26_TITLE "Fate Fugue"
+#!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage\nagain {0}s later.\nThe extra damage does not trigger again."
+#!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
+#!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your\nmissing health percentage, up to {0}%."

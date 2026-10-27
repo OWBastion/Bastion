@@ -68,5 +68,10 @@
   "CHEAT_BACKROOM_DEAL": "event.103df74d-0ac9-4b3e-a82e-46af280a3be0",
   "MIRROR_INVERSION": "event.5123208b-f4b7-4e51-bab2-62d6fea2560f",
   "PROPHET": "event.71af36de-7295-4b36-9581-22025c69ff49",
-  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df"
+  "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df",
+  "FATE_PRELUDE": "event.7675f711-b517-4cbb-822e-96ca0417fed1",
+  "FATE_VARIATION": "event.a2576563-adb5-4a4b-acf4-f9c1921a50e7",
+  "FATE_CONCERTO": "event.8b9beb9d-3edb-4db6-a2bf-f2f18ed3146e",
+  "FATE_FUGUE": "event.991e6fec-eba7-46b8-be6a-45984f9c1541",
+  "FATE_RHAPSODY": "event.9c2317c3-826a-4308-83e4-fbeb83e5e72d"
 }
