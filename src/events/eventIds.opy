@@ -107,8 +107,6 @@ enum EventId:
     EXTREME_CHALLENGE
     # legacy numeric id: 1
     GAMBLER
-    # legacy numeric id: 2
-    MINI_FORM
     # legacy numeric id: 3
     STEALTH_CROUCH
     # legacy numeric id: 4
@@ -153,5 +151,7 @@ enum EventId:
     PROPHET
     # legacy numeric id: 26
     SOLO_DECIDE
+    # legacy numeric id: 27
+    SHAPESHIFTER
     # sentinel only for integrity checks (do not register as an event)
     COUNT

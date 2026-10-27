@@ -132,8 +132,6 @@
 #!define STR_EVT_MECH_0_DESC "Gain {0}% damage reduction.\nHP is locked at {1}%.\nHealing is disabled."
 #!define STR_EVT_MECH_1_TITLE "Gambler"
 #!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to gain {2} Heartsteel stacks; {3}% chance to lose {4} stacks."
-#!define STR_EVT_MECH_2_TITLE "Mini Form"
-#!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"
 #!define STR_EVT_MECH_3_DESC "Become invisible while crouching. While moving, lose {0}% max health per second and gain {1}% movement speed."
 #!define STR_EVT_MECH_4_TITLE "Brake Failure"
@@ -230,6 +228,8 @@
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
 #!define STR_EVT_MECH_26_TITLE "Solo Decision"
 #!define STR_EVT_MECH_26_DESC "Hold {0}: extend all teammates' current events by {1}s.\nHold {2}: immediately end all teammates' current events."
+#!define STR_EVT_MECH_27_TITLE "Shapeshifter"
+#!define STR_EVT_MECH_27_DESC "Press {0} to switch between Giant and Mini. The chosen form lasts until you switch again or the event ends.\nGiant: size x{1}, +{2}% bonus HP, {3}% damage reduction.\nMini: size x{4}, max HP reduced by {5}%, {6}% movement speed."
 
 
 # Event Categories

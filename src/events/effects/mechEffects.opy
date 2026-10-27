@@ -8,7 +8,6 @@
 
 #!include "mech/extremeChallenge.opy"
 #!include "mech/gambler.opy"
-#!include "mech/miniForm.opy"
 #!include "mech/stealthCrouch.opy"
 #!include "mech/brakeFailure.opy"
 #!include "mech/gamblerShortInvestment.opy"
@@ -31,3 +30,4 @@
 #!include "mech/mirrorInversion.opy"
 #!include "mech/prophet.opy"
 #!include "mech/soloDecide.opy"
+#!include "mech/shapeshifter.opy"
