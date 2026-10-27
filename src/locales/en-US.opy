@@ -472,3 +472,5 @@
 #!define STR_EVT_BUFF_39_DESC "After taking damage, gain {0}% movement speed\ndecaying to 0 over {1}s.\nTaking damage again restarts the decay without stacking."
 #!define STR_EVT_BUFF_40_TITLE "Fate Concerto"
 #!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies\nis increased by {0}%.\nSelf-healing is not affected."
+#!define STR_EVT_DEBUFF_26_TITLE "Fate Fugue"
+#!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage\nagain {0}s later.\nThe extra damage does not trigger again."

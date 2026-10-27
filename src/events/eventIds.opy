@@ -108,6 +108,8 @@ enum EventId:
     OVERWEIGHT_PACK
     # legacy numeric id: 25
     STATIC_FIELD
+    # legacy numeric id: 26
+    FATE_FUGUE
     # ---- Mech ----
     # legacy numeric id: 0
     EXTREME_CHALLENGE

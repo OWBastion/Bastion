@@ -674,6 +674,15 @@ enum GravityAnomalyRoll:
 # 近身扫描间隔 (秒)
 #!define EVT_DEBUFF_25_SCAN_INTERVAL 0.25
 
+# --- ID 26 (Debuff): 命运赋格曲 ---
+# Duration（秒）
+#!define EVT_DEBUFF_26_DURATION 60
+# Weight（权重）
+#!define EVT_DEBUFF_26_WEIGHT 0.8
+# 额外伤害延迟（秒）与占原伤害的百分比
+#!define EVT_DEBUFF_26_DELAY 1.5
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 50
+
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
 # -----------------------------------------------------------------------------
