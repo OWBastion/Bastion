@@ -436,18 +436,6 @@ rule "initialize event array":
     eventDuration[EventId.SHARED_BLESSING] = EVT_BUFF_34_DURATION
     eventCatalogWeight[EventId.SHARED_BLESSING] = EVT_BUFF_34_WEIGHT
     eventCatalogType[EventId.SHARED_BLESSING] = EventType.BUFF
-
-    eventName[EventId.SOLO_RUN] = STR_EVT_BUFF_36_TITLE
-    eventDesc[EventId.SOLO_RUN] = STR_EVT_BUFF_36_DESC.format(EVT_36_DMG_REDUCTION, EVT_36_HEAL_BONUS, EVT_36_SPEED_BONUS, EVT_36_KNOCKBACK_RESIST)
-    eventDuration[EventId.SOLO_RUN] = EVT_BUFF_36_DURATION
-    eventCatalogWeight[EventId.SOLO_RUN] = EVT_BUFF_36_WEIGHT
-    eventCatalogType[EventId.SOLO_RUN] = EventType.BUFF
-
-    eventName[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_TITLE
-    eventDesc[EventId.SOLO_LEVEL_UP] = STR_EVT_BUFF_37_DESC.format(EVT_37_REWARD_HEARTSTEEL, EVT_37_REWARD_DMG_REDUCTION, EVT_37_REWARD_SPEED, EVT_37_REWARD_HEAL, EVT_37_EXTEND_SECONDS)
-    eventDuration[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_DURATION
-    eventCatalogWeight[EventId.SOLO_LEVEL_UP] = EVT_BUFF_37_WEIGHT
-    eventCatalogType[EventId.SOLO_LEVEL_UP] = EventType.BUFF
     # ================================================
     # Pack 5: Debuffs
     # ================================================
@@ -501,12 +489,6 @@ rule "initialize event array":
     eventDuration[EventId.PROPHET] = EVT_MECH_25_DURATION
     eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
     eventCatalogType[EventId.PROPHET] = EventType.MECH
-
-    eventName[EventId.SOLO_DECIDE] = STR_EVT_MECH_26_TITLE
-    eventDesc[EventId.SOLO_DECIDE] = STR_EVT_MECH_26_DESC.format(Button.RELOAD, EVT_26_EXTEND_SECONDS, Button.INTERACT)
-    eventDuration[EventId.SOLO_DECIDE] = EVT_MECH_26_DURATION
-    eventCatalogWeight[EventId.SOLO_DECIDE] = EVT_MECH_26_WEIGHT
-    eventCatalogType[EventId.SOLO_DECIDE] = EventType.MECH
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
