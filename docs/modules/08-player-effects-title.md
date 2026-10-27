@@ -19,7 +19,7 @@
 
 ### `player/achievement.opy`
 
-- 主线成就挑战追踪（PHANTOM_THIEF 怪盗计数；EMOTICON_CONFUSED ？？？按强制事件兑现链追踪：暗箱操作→我要验牌→奥利维娅的礼物，由 `setPlayerEvent` 按 `eventForceSourceId` 判定；EMOTICON_GRIMACE ＞_＜ 由「赌徒：乐于助人」赌输标记「我独自闯关」存活结算；EMOTICON_SURPRISED o_O 追踪「镜像反转」四负属性全反转；I_THINK_NO 我觉得不行 追踪「我独自决定」立即结束至少两种不同队友减益事件；I_THINK_YES 我觉得可以 追踪「我独自决定」续期队友「我独自升级」）
+- 主线成就挑战追踪（EMOTICON_CONFUSED ？？？按强制事件兑现链追踪：暗箱操作→我要验牌→奥利维娅的礼物，由 `setPlayerEvent` 按 `eventForceSourceId` 判定；EMOTICON_SURPRISED o_O 追踪「镜像反转」四负属性全反转）
 - 解锁统一调用 `unlockAchievement()`（`player/unlockAchievement.opy`）
 
 ### `player/progressHero.opy` / `player/savePlayerData.opy` / `player/finishSettlement.opy`
