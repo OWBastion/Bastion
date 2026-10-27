@@ -694,23 +694,6 @@ enum GravityAnomalyRoll:
 # 赌徒连胜计数上限 (用于HUD显示赌王称号等)
 #!define EVT_MECH_1_WIN_STREAK_CAP 5
 
-# --- ID 2 (Mech): 迷你形态 ---
-# Duration（秒）
-#!define EVT_MECH_2_DURATION 60
-# Weight（权重）
-#!define EVT_MECH_2_WEIGHT 1
-# 生命倍率 (用于 setPlayerHP 计算)
-#!define EVT_MECH_2_HP_SCALE 0.5
-
-# 模型缩放比例
-#!define EVT_MECH_2_MODEL_SCALE 0.4
-
-# 语音语调 (尖细)
-#!define EVT_MECH_2_VOICE_PITCH 1.5
-
-# 移动速度加成 (%)
-#!define EVT_MECH_2_SPEED_BOOST 25
-
 # --- ID 3 (Mech): 悄悄地进村 ---
 # Duration（秒）
 #!define EVT_MECH_3_DURATION 30
@@ -988,5 +971,22 @@ enum MirrorInversionStat:
 #!define EVT_MECH_27_WEIGHT 0.8
 # 伤害减免上限（%）。设计稿未写上限，暂定 90 以避免无敌，待 owner 确认
 #!define EVT_MECH_27_MAX_REDUCTION 90
+
+# --- ID 28 (Mech): 变形大师 ---
+# Duration（秒），暂定值，待 owner 确认
+#!define EVT_MECH_28_DURATION 90
+# Weight（权重），暂定值，待 owner 确认
+#!define EVT_MECH_28_WEIGHT 0.8
+# 巨大膨胀：体型倍率、额外生命值(%)、减伤(%)
+#!define EVT_MECH_28_GIANT_SCALE 2
+#!define EVT_MECH_28_GIANT_BONUS_HP 2000
+#!define EVT_MECH_28_GIANT_DMG_REDUCTION 25
+# 迷你形态：体型倍率、最大生命值降低(%)、移速加成(%)
+#!define EVT_MECH_28_MINI_SCALE 0.3
+#!define EVT_MECH_28_MINI_HP_CUT 50
+#!define EVT_MECH_28_MINI_SPEED_BOOST 50
+# 语音音高
+#!define EVT_MECH_28_GIANT_VOICE_PITCH 0.7
+#!define EVT_MECH_28_MINI_VOICE_PITCH 1.5
 
 # -----------------------------------------------------------------------------

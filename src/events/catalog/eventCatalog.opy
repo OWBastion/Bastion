@@ -110,12 +110,6 @@ rule "initialize event array":
     eventCatalogWeight[EventId.GAMBLER] = EVT_MECH_1_WEIGHT
     eventCatalogType[EventId.GAMBLER] = EventType.MECH
 
-    eventName[EventId.MINI_FORM] = STR_EVT_MECH_2_TITLE
-    eventDesc[EventId.MINI_FORM] = STR_EVT_MECH_2_DESC.format(percent(1 - EVT_MECH_2_MODEL_SCALE), percent(1 - EVT_MECH_2_HP_SCALE), EVT_MECH_2_SPEED_BOOST)
-    eventDuration[EventId.MINI_FORM] = EVT_MECH_2_DURATION
-    eventCatalogWeight[EventId.MINI_FORM] = EVT_MECH_2_WEIGHT
-    eventCatalogType[EventId.MINI_FORM] = EventType.MECH
-
     eventName[EventId.STEALTH_CROUCH] = STR_EVT_MECH_3_TITLE
     eventDesc[EventId.STEALTH_CROUCH] = STR_EVT_MECH_3_DESC.format(percent(EVT_MECH_3_HP_COST_RATIO), EVT_MECH_3_SPEED_BOOST)
     eventDuration[EventId.STEALTH_CROUCH] = EVT_MECH_3_DURATION
@@ -489,6 +483,12 @@ rule "initialize event array":
     eventDuration[EventId.PROPHET] = EVT_MECH_25_DURATION
     eventCatalogWeight[EventId.PROPHET] = EVT_MECH_25_WEIGHT
     eventCatalogType[EventId.PROPHET] = EventType.MECH
+
+    eventName[EventId.SHAPESHIFTER] = STR_EVT_MECH_28_TITLE
+    eventDesc[EventId.SHAPESHIFTER] = STR_EVT_MECH_28_DESC.format(Button.RELOAD, EVT_MECH_28_GIANT_SCALE, EVT_MECH_28_GIANT_BONUS_HP, EVT_MECH_28_GIANT_DMG_REDUCTION, EVT_MECH_28_MINI_SCALE, EVT_MECH_28_MINI_HP_CUT, EVT_MECH_28_MINI_SPEED_BOOST)
+    eventDuration[EventId.SHAPESHIFTER] = EVT_MECH_28_DURATION
+    eventCatalogWeight[EventId.SHAPESHIFTER] = EVT_MECH_28_WEIGHT
+    eventCatalogType[EventId.SHAPESHIFTER] = EventType.MECH
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER

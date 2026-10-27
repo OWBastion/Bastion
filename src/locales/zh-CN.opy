@@ -139,8 +139,6 @@
 #!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免\n生命值被锁定在{1}%\n获得禁疗"
 #!define STR_EVT_MECH_1_TITLE "赌徒"
 #!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率获得{2}层心之钢\n{3}%概率损失{4}层心之钢"
-#!define STR_EVT_MECH_2_TITLE "迷你形态"
-#!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
 #!define STR_EVT_MECH_3_DESC "下蹲时进入隐身状态\n移动时每秒损失{0}%最大生命值\n获得{1}%移速加成"
 #!define STR_EVT_MECH_4_TITLE "刹车失灵"
@@ -233,6 +231,8 @@
 #!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
+#!define STR_EVT_MECH_28_TITLE "变形大师"
+#!define STR_EVT_MECH_28_DESC "长按{0}：主动选择形态，直到再次主动改变形态或事件结束。\n- 巨大膨胀：体型 × {1}，获得 {2}% 额外生命值，{3}% 伤害减免\n- 迷你形态：体型 × {4}，最大生命值 -{5}%，{6}% 移动速度"
 
 
 # 事件类别

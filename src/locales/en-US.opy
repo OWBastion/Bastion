@@ -132,8 +132,6 @@
 #!define STR_EVT_MECH_0_DESC "Gain {0}% damage reduction.\nHP is locked at {1}%.\nHealing is disabled."
 #!define STR_EVT_MECH_1_TITLE "Gambler"
 #!define STR_EVT_MECH_1_DESC "Hold {0} to trigger.\n{1}% chance to gain {2} Heartsteel stacks; {3}% chance to lose {4} stacks."
-#!define STR_EVT_MECH_2_TITLE "Mini Form"
-#!define STR_EVT_MECH_2_DESC "Size reduced by {0}%, max HP reduced by {1}%.\nGain {2}% movement speed."
 #!define STR_EVT_MECH_3_TITLE "Sneaky Beaky"
 #!define STR_EVT_MECH_3_DESC "Become invisible while crouching. While moving, lose {0}% max health per second and gain {1}% movement speed."
 #!define STR_EVT_MECH_4_TITLE "Brake Failure"
@@ -224,6 +222,8 @@
 #!define STR_EVT_MECH_25_DESC "For the duration, you can see every valid player's next event\n— but not your own."
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "Unknown"
+#!define STR_EVT_MECH_28_TITLE "Shapeshifter"
+#!define STR_EVT_MECH_28_DESC "Hold {0}: choose a form that lasts until you change it again or the event ends.\n- Giant: size x {1}, +{2}% bonus HP, {3}% damage reduction\n- Mini: size x {4}, max HP -{5}%, {6}% movement speed"
 
 
 # Event Categories
