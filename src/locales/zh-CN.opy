@@ -477,3 +477,5 @@
 # 自动重开倒计时
 # ------------------------------------------------
 #!define STR_MSG_AUTO_RESTART_1MIN "游戏将在 1 分钟后自动重开"
+#!define STR_EVT_BUFF_38_TITLE "命运序曲"
+#!define STR_EVT_BUFF_38_DESC "每次受到伤害时\n抵消 {0} 点伤害"

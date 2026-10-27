@@ -61,6 +61,8 @@ enum EventId:
     SOLO_RUN
     # legacy numeric id: 37
     SOLO_LEVEL_UP
+    # legacy numeric id: 38
+    FATE_PRELUDE
     # ---- Debuff ----
     # legacy numeric id: 0
     GRAVITY_ANOMALY

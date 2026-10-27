@@ -39,3 +39,4 @@
 #!include "buff/sharedBlessing.opy"
 #!include "buff/soloRun.opy"
 #!include "buff/soloLevelUp.opy"
+#!include "buff/fatePrelude.opy"

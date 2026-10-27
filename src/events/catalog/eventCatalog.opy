@@ -510,3 +510,9 @@ rule "initialize event array":
 
     # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
+
+    eventName[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_TITLE
+    eventDesc[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_DESC.format(EVT_38_ABSORB)
+    eventDuration[EventId.FATE_PRELUDE] = EVT_BUFF_38_DURATION
+    eventCatalogWeight[EventId.FATE_PRELUDE] = EVT_BUFF_38_WEIGHT
+    eventCatalogType[EventId.FATE_PRELUDE] = EventType.BUFF
