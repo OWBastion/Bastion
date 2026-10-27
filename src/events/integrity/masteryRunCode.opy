@@ -8,7 +8,7 @@
 # 对局码固定承载 round(事件目录总权重 * 100) 的 4 位数字：第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位，其余位随机
 rule "Generate mastery run code":
     @Condition len(eventCatalogId) > 0
-    @Condition masteryRunCode == ""
+    @Condition masteryRunCode == null
 
     runCodeWeightTotal = 0
     I = 0
