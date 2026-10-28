@@ -16,6 +16,10 @@ This document is the canonical rule source for build commands and validation wor
 1. PR build workflow: `.github/workflows/ci-build.yml` (runs `pnpm run typecheck` and `pnpm run tools:test`, then the platform sync and builds; the sync validates only the platform data Bastion consumes)
 2. Release workflow: `.github/workflows/release.yml` (triggered by push to `main` when `src/**` changes, or by manual `workflow_dispatch`; auto-bumps `src/env/env.opy` VERSION, pushes bump commit, tags `v{VERSION}`, and publishes release)
 
+## Reading Build and Cost Output
+
+Do not read `build/*.ow` or the full output of `wright inspect cost --all` directly. Summarize them with a script and read only the summary. Why: one build output is hundreds of KB, so reading it consumes the context without adding evidence that a summary cannot give.
+
 ## Required Checks Before Completion
 
 1. Run the relevant build validation for the changed scope.
