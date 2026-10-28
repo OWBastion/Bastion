@@ -448,12 +448,12 @@ enum MapTITLEKey:
 
 # 沃斯卡娅工业区
 #!define DATA_VOLSKAYA [ \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   [], \
+   [], \
+   [], \
    []\
 ]
-#!define DATA_VOLSKAYA_PACKED "7-6-11|17-8-7-6-15-4-21-5-28-13-18-12-11-1|17-8-7-6-15-4-21-5-28-13-18-12-11-1|"
+#!define DATA_VOLSKAYA_PACKED "|||"
 
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
