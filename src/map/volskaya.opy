@@ -33,4 +33,5 @@ rule "map - volskaya industries":
     
     platformMapRevision_VOLSKAYA_DEFAULT()
     __currentMapText___ = "沃斯卡娅"
+    __currentMapPioneerText___ = "Ура! Ура!"
     startForcingSpawn(Team.1, 0)
