@@ -21,7 +21,7 @@
     "event": "tsx tools/eventScaffold.ts"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "tsx": "^4.23.5",
     "typescript": "^7.0.2"
   }
