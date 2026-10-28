@@ -1,7 +1,7 @@
 # 躲避堡垒3
 
-![GitHub License](https://img.shields.io/github/license/Teakowa/Bastion)
-[![CI Build Check](https://github.com/Teakowa/Bastion/actions/workflows/ci-build.yml/badge.svg)](https://github.com/Teakowa/Bastion/actions/workflows/ci-build.yml)
+![GitHub License](https://img.shields.io/github/license/OWBastion/Bastion)
+[![CI Build Check](https://github.com/OWBastion/Bastion/actions/workflows/ci-build.yml/badge.svg)](https://github.com/OWBastion/Bastion/actions/workflows/ci-build.yml)
 
 [English](README.md) | 简体中文
 
@@ -23,13 +23,14 @@
 
 # 三合一挑战
 
-该模式将 占领要点 地图池中的三张小图整合为一张长流程地图。玩家需依次完成三个阶段并抵达最终终点。若中途阵亡，将在当前阶段对应的重生室复活。
+该模式将一张占领要点地图的三个阶段整合为一条长流程。玩家需依次完成三个阶段并抵达最终终点。若中途阵亡，将在当前阶段对应的重生室复活。
 
 支持地图：
-    - 漓江塔
-    - 萨摩亚
-    - 绿洲城
-    - 釜山
+
+- 漓江塔
+- 萨摩亚
+- 绿洲城
+- 釜山
 
 ## 新难度：地狱
 
@@ -53,10 +54,10 @@
 ## 参与开发
 
 - 本项目支持 AI 协助开发，架构与协作规范请优先阅读 `AGENTS.md`。
-- `src/main.opy` 与 `src/devMain.opy` 应尽量保持结构对齐。
-- 修改事件逻辑时，请同步检查：
-  - `src/config/eventConfig.opy`
-  - `src/config/eventConfigDev.opy`
+- `src/main.opy`、`src/devMain.opy` 与 `src/externalMain.opy` 应尽量保持结构对齐。
+- 修改事件逻辑时，请同步检查共享目录和两个顺序文件：
+  - `src/events/catalog/eventCatalog.opy`
+  - `src/events/catalog/eventCatalogMain.opy` / `src/events/catalog/eventCatalogDev.opy`
 - 性能与稳定性规则见 `docs/improve-server-stability.md`：
   - 避免无 `wait` 循环
   - 持续规则默认使用条件区门控（约每 0.016s 自上而下短路判定）
@@ -66,6 +67,7 @@
   - 同门槛规则按声明顺序执行，先声明先执行动作
 - 模块文档位于 `docs/modules/`，涉及源码改动时应尽量同步更新对应文档。
 - 以最小改动为原则，避免无关 include 顺序调整或大范围格式化。
+- 发布验收基线：使用最新 Workshop 代码新开房间。已有房间不会热加载新脚本，房间内替换脚本不能作为验收路径。
 
 ### 平台元数据同步
 
@@ -81,12 +83,12 @@ pnpm run sync:platform-data
 
 ### CI 自动发布（pnpm）
 
-项目已支持通过 GitHub Actions 在推送到 `main` 分支时自动编译并发布 Workshop 文件：
+推送到 `main` 且改动 `src/**`、每两天一次的定时任务或手动触发时，GitHub Actions 会编译并发布 Workshop 文件：
 
 - 工作流文件：`.github/workflows/release.yml`
-- 发布产物（双语言）：
-  - `build/en-US.ow`
-  - `build/zh-CN.ow`
+- 发布产物：
+  - `build/cn-zh-CN.ow`
+  - `build/external-en-US.ow`
 - 包管理器：`pnpm`
 
 本地构建：
@@ -96,13 +98,17 @@ pnpm install
 pnpm run build
 ```
 
-构建脚本使用 Wright CLI（`wright compile ...`）及其 OverPy provider。请从 <https://wrightkit.dev> 安装 Wright，并执行一次 `wright update provider opy`；CI 与 release 使用最新 provider，`.github/workflows/release.yml` 仅固定 Wright CLI 版本。
+`pnpm run build` 先通过 Agents API 同步平台当前元数据，再编译国服 zh-CN、国际服 en-US、国际服 zh-CN 和国服开发版 zh-CN。发布构建只产出国服和国际服的正式产物。
 
-分别构建双入口：
+构建脚本使用 Wright CLI（`wright compile ...`）及其 OverPy provider。请从 <https://wrightkit.dev> 安装 Wright，并执行一次 `wright update provider opy`。CI 与 release 通过 `wrightkit/setup-wright` 安装 Wright CLI，并使用最新 provider。
+
+分别构建各入口：
 
 ```bash
-pnpm run build:main
-pnpm run build:dev
+pnpm run build:cn:zh
+pnpm run build:external:en
+pnpm run build:external:zh
+pnpm run build:dev:cn:zh
 ```
 
 称号、事件、词条和分配视图现在由主站平台负责；Bastion 只保留数据源、OverPy 生成和构建校验。

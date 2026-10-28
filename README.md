@@ -1,7 +1,7 @@
 # Bastion Escape 3
 
-![GitHub License](https://img.shields.io/github/license/Teakowa/Bastion)
-[![CI Build Check](https://github.com/Teakowa/Bastion/actions/workflows/ci-build.yml/badge.svg)](https://github.com/Teakowa/Bastion/actions/workflows/ci-build.yml)
+![GitHub License](https://img.shields.io/github/license/OWBastion/Bastion)
+[![CI Build Check](https://github.com/OWBastion/Bastion/actions/workflows/ci-build.yml/badge.svg)](https://github.com/OWBastion/Bastion/actions/workflows/ci-build.yml)
 
 English | [简体中文](README.zh-CN.md)
 
@@ -23,13 +23,14 @@ Events are split into buffs, debuffs, and mechanics. Some events help, some are 
 
 # 3-in-1 Challenge
 
-This mode combines three Control maps into one long run. Players must clear all three phases and reach the final finish line. If a player dies, they respawn in the current phase's respawn room.
+This mode combines the three stages of a Control map into one long run. Players must clear all three phases and reach the final finish line. If a player dies, they respawn in the current phase's respawn room.
 
-Supported Maps:
-    - Lijiang Tower
-    - Samoa
-    - Oasis
-    - Busan
+Supported maps:
+
+- Lijiang Tower
+- Samoa
+- Oasis
+- Busan
 
 ## New Difficulty: Inferno
 
@@ -82,7 +83,7 @@ The sync validates stable IDs, supported enums, and cross-resource references, u
 
 ### CI Auto Release (pnpm)
 
-This project supports automatic compile-and-release of Workshop files via GitHub Actions when pushing to `main`:
+GitHub Actions compiles and releases the Workshop files when a push to `main` changes `src/**`, on a schedule every two days, or on manual dispatch:
 
 - Workflow file: `.github/workflows/release.yml`
 - Release artifacts:
@@ -99,13 +100,14 @@ pnpm run build
 
 `pnpm run build` first synchronizes current platform metadata through the Agents API, then compiles CN zh-CN, External en-US, External zh-CN, and CN development zh-CN. The release build emits the CN and External production artifacts.
 
-Build scripts use the Wright CLI (`wright compile ...`) with the OverPy provider. Install Wright from <https://wrightkit.dev> and run `wright update provider opy` once; CI and release use the latest provider, while `.github/workflows/release.yml` pins the Wright CLI version.
+Build scripts use the Wright CLI (`wright compile ...`) with the OverPy provider. Install Wright from <https://wrightkit.dev> and run `wright update provider opy` once. CI and release install the Wright CLI with `wrightkit/setup-wright` and use the latest provider.
 
 Build each entry independently:
 
 ```bash
 pnpm run build:cn:zh
 pnpm run build:external:en
+pnpm run build:external:zh
 pnpm run build:dev:cn:zh
 ```
 
