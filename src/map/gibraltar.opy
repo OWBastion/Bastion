@@ -20,7 +20,7 @@ macro platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT():
         vect(18.08, 8.78, -133.02)
     ]
     resetPosition = vect(97.55, 1.06, 60.38)
-    endPosition = vect(43.42, 5.15, -129.34)
+    endPosition = vect(43.42, 4.03, -129.34)
     thirdPersonPosition = vect(93.88, 1.06, 63.17)
     creditsPosition = vect(112.23, 0, 73.59)
 
