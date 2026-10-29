@@ -145,6 +145,8 @@ playervar eventTargetHP 105
 playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
+# 事件持有的伤害/治疗修正 ID，以单元素数组存放（空数组 = 未持有；ID 0 与 null 相等）
+playervar eventModificationId
 playervar altFormActive 111
 playervar playerOnceEventState
 playervar menuHeroIndex
@@ -156,3 +158,6 @@ playervar eventEndTime
 playervar prophetTextId
 
 playervar savedDataIndex
+
+# 通关结算卡显示截止时间（绝对时刻，null = 不显示）：通关置 now+20，玩家菜单"显示结算卡"重置为 now+20；持久 20s 窗口无法复用事件 scratch 槽
+playervar settlementCardEnd

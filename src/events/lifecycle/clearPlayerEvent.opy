@@ -53,9 +53,3 @@ def clearPlayerEvent():
     eventPlayer.stopScalingBarriers()
     eventPlayer.stopModifyingVoicelinePitch()
     updatePlayerStats()
-    smallMessage(
-        eventPlayer, 
-        STR_MSG_EVENT_ENDED.format(
-            abilityIconString(Hero.MOIRA, Button.ABILITY_2)
-        )
-    )

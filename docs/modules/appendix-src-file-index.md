@@ -100,7 +100,6 @@
 - `src/events/effects/mech/gamblerSpeedChallenge.opy`
 - `src/events/effects/mech/gamblerWinnerTakeAll.opy`
 - `src/events/effects/mech/jumpThrust.opy`
-- `src/events/effects/mech/miniForm.opy`
 - `src/events/effects/mech/mirrorInversion.opy`
 - `src/events/effects/mech/nestingDoll.opy`
 - `src/events/effects/mech/stealthCrouch.opy`

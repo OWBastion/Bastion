@@ -57,10 +57,12 @@ enum EventId:
     BATTLEFIELD_MEDIC
     # legacy numeric id: 34
     SHARED_BLESSING
-    # legacy numeric id: 36
-    SOLO_RUN
-    # legacy numeric id: 37
-    SOLO_LEVEL_UP
+    # legacy numeric id: 38
+    FATE_PRELUDE
+    # legacy numeric id: 39
+    FATE_VARIATION
+    # legacy numeric id: 40
+    FATE_CONCERTO
     # ---- Debuff ----
     # legacy numeric id: 0
     GRAVITY_ANOMALY
@@ -102,13 +104,13 @@ enum EventId:
     OVERWEIGHT_PACK
     # legacy numeric id: 25
     STATIC_FIELD
+    # legacy numeric id: 26
+    FATE_FUGUE
     # ---- Mech ----
     # legacy numeric id: 0
     EXTREME_CHALLENGE
     # legacy numeric id: 1
     GAMBLER
-    # legacy numeric id: 2
-    MINI_FORM
     # legacy numeric id: 3
     STEALTH_CROUCH
     # legacy numeric id: 4
@@ -151,7 +153,9 @@ enum EventId:
     GAMBLER_WINNER_TAKE_ALL
     # legacy numeric id: 25
     PROPHET
-    # legacy numeric id: 26
-    SOLO_DECIDE
+    # legacy numeric id: 27
+    FATE_RHAPSODY
+    # legacy numeric id: 28
+    SHAPESHIFTER
     # sentinel only for integrity checks (do not register as an event)
     COUNT

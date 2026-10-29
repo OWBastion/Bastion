@@ -74,31 +74,31 @@
 #!define STR_EVT_BUFF_2_TITLE "钢铁防线"
 #!define STR_EVT_BUFF_2_DESC "获得{0}+{1}%最大生命值的临时护甲与{2}%伤害减免"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
-#!define STR_EVT_BUFF_4_DESC "获得{0}%最大生命值的临时生命值\n每秒恢复{1}%最大生命值"
+#!define STR_EVT_BUFF_4_DESC "获得{0}%最大生命值的临时生命值，每秒恢复{1}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"
-#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时\n获得{0}+{1}%临时生命值与{2}%移速加成"
+#!define STR_EVT_BUFF_5_DESC "被堡垒锁定时，获得{0}+{1}%临时生命值与{2}%移速加成"
 #!define STR_EVT_BUFF_6_TITLE "足力健"
 #!define STR_EVT_BUFF_6_DESC "持续移动获得{0}%可叠加的移动速度"
 #!define STR_EVT_BUFF_7_TITLE "血肉再生"
-#!define STR_EVT_BUFF_7_DESC "获得{0}+{1}%最大生命值的临时生命值\n每{2}秒自动刷新"
+#!define STR_EVT_BUFF_7_DESC "获得{0}+{1}%最大生命值的临时生命值，每{2}秒自动刷新"
 #!define STR_EVT_BUFF_8_TITLE "心之钢"
-#!define STR_EVT_BUFF_8_DESC "阵亡后获得{0}层\n每层永久提供{1}%最大生命值"
+#!define STR_EVT_BUFF_8_DESC "阵亡后获得{0}层，每层永久提供{1}%最大生命值"
 #!define STR_EVT_BUFF_9_TITLE "死亡延迟"
-#!define STR_EVT_BUFF_9_DESC "受到致命伤害时\n该伤害将被延迟到事件结束后"
+#!define STR_EVT_BUFF_9_DESC "受到致命伤害时，该伤害将被延迟到事件结束后"
 #!define STR_EVT_BUFF_11_TITLE "↑↑↓↓←→←→BABA"
 #!define STR_EVT_BUFF_11_DESC "阵亡后在阵亡地点复活"
 #!define STR_EVT_BUFF_12_TITLE "费斯卡光子护盾"
-#!define STR_EVT_BUFF_12_DESC "所有人获得一个可恢复的护盾\n数值为{0}+{1}%最大生命值\n护盾持续到你阵亡或事件结束"
+#!define STR_EVT_BUFF_12_DESC "所有人获得一个可恢复的护盾，数值为{0}+{1}%最大生命值，护盾持续到你阵亡或事件结束"
 #!define STR_EVT_BUFF_13_TITLE "向我靠拢"
 #!define STR_EVT_BUFF_13_DESC "你和你附近的队友每{0}秒获得{1}秒无敌"
 #!define STR_EVT_BUFF_14_TITLE "胜利意志"
-#!define STR_EVT_BUFF_14_DESC "生命值低于{0}%触发\n获得{1}秒无敌并清除负面状态"
+#!define STR_EVT_BUFF_14_DESC "生命值低于{0}%触发，获得{1}秒无敌并清除负面状态"
 #!define STR_EVT_BUFF_15_TITLE "任务：菲迪皮德斯之力"
 #!define STR_EVT_BUFF_15_DESC "持续移动{0}秒后永久获得{1}%移速加成"
 #!define STR_EVT_BUFF_16_TITLE "心之钢 Pro"
-#!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢\n基于层数临时提升最大生命值\n数值为心之钢层数×{1}"
+#!define STR_EVT_BUFF_16_DESC "获得{0}层心之钢，基于层数临时提升最大生命值，数值为心之钢层数×{1}"
 #!define STR_EVT_BUFF_18_TITLE "我按Q辣"
-#!define STR_EVT_BUFF_18_DESC "持续移动获得终极技能充能\n终极技能持续期间获得{0}%伤害减免"
+#!define STR_EVT_BUFF_18_DESC "持续移动获得终极技能充能，终极技能持续期间获得{0}%伤害减免"
 
 # ------------------------------------------------
 # 减益事件 (Debuff Events)
@@ -108,47 +108,45 @@
 #!define STR_EVT_DEBUFF_1_TITLE "电磁脉冲"
 #!define STR_EVT_DEBUFF_1_DESC "被侵入，无法使用技能"
 #!define STR_EVT_DEBUFF_2_TITLE "献祭"
-#!define STR_EVT_DEBUFF_2_DESC "队友使用技能时\n消耗你 {0}% 最大生命值"
+#!define STR_EVT_DEBUFF_2_DESC "队友使用技能时，消耗你 {0}% 最大生命值"
 #!define STR_EVT_DEBUFF_3_TITLE "易损"
 #!define STR_EVT_DEBUFF_3_DESC "受到的所有伤害提高{0}%"
 #!define STR_EVT_DEBUFF_4_TITLE "限速40"
 #!define STR_EVT_DEBUFF_4_DESC "移动时每秒损失{0}+{1}%最大生命值"
 #!define STR_EVT_DEBUFF_5_TITLE "引力异常"
-#!define STR_EVT_DEBUFF_5_DESC "被持续性拉向最近的堡垒\n移动速度降低{0}%"
+#!define STR_EVT_DEBUFF_5_DESC "被持续性拉向最近的堡垒，移动速度降低{0}%"
 #!define STR_EVT_DEBUFF_6_TITLE "骨质疏松"
 #!define STR_EVT_DEBUFF_6_DESC "移动速度随时间降低，最多{0}%"
 #!define STR_EVT_DEBUFF_7_TITLE "电磁脉冲 ProMax"
-#!define STR_EVT_DEBUFF_7_DESC "被侵入\n并扩散至{0}米以内的队友"
+#!define STR_EVT_DEBUFF_7_DESC "被侵入，并扩散至{0}米以内的队友"
 #!define STR_EVT_DEBUFF_8_TITLE "能量泄漏"
 #!define STR_EVT_DEBUFF_8_DESC "使用技能会消耗{0}%生命值"
 #!define STR_EVT_DEBUFF_9_TITLE "有难同当"
 #!define STR_EVT_DEBUFF_9_DESC "受到的{0}%伤害扩散给全体友方"
 #!define STR_EVT_DEBUFF_10_TITLE "狂欢盛宴"
-#!define STR_EVT_DEBUFF_10_DESC "当你在盛宴期间内阵亡\n堡垒将进入{0}秒狂暴状态"
+#!define STR_EVT_DEBUFF_10_DESC "当你在盛宴期间内阵亡，堡垒将进入{0}秒狂暴状态"
 #!define STR_EVT_DEBUFF_11_TITLE "归于大地"
 #!define STR_EVT_DEBUFF_11_DESC "{0}秒后所有存活的友方将被击倒{1}秒"
 #!define STR_EVT_DEBUFF_13_TITLE "减半"
-#!define STR_EVT_DEBUFF_13_DESC "每{0}秒损失{1}%生命值\n当生命值低于{2}%时立即阵亡"
+#!define STR_EVT_DEBUFF_13_DESC "每{0}秒损失{1}%生命值，当生命值低于{2}%时立即阵亡"
 #!define STR_EVT_DEBUFF_14_TITLE "舍己为人"
-#!define STR_EVT_DEBUFF_14_DESC "基于玩家数量损失心之钢层数\n每名玩家损失{0}层，由其他玩家均分"
+#!define STR_EVT_DEBUFF_14_DESC "基于玩家数量损失心之钢层数，每名玩家损失{0}层，由其他玩家均分"
 
 # ------------------------------------------------
 # 机制事件 (Mech Events)
 # ------------------------------------------------
 #!define STR_EVT_MECH_0_TITLE "极限挑战"
-#!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免\n生命值被锁定在{1}%\n获得禁疗"
+#!define STR_EVT_MECH_0_DESC "获得{0}%伤害减免，生命值被锁定在{1}%，获得禁疗"
 #!define STR_EVT_MECH_1_TITLE "赌徒"
-#!define STR_EVT_MECH_1_DESC "长按{0}触发\n{1}%概率获得{2}层心之钢\n{3}%概率损失{4}层心之钢"
-#!define STR_EVT_MECH_2_TITLE "迷你形态"
-#!define STR_EVT_MECH_2_DESC "体积缩小{0}%，最大生命值降低{1}%\n获得{2}%移速加成"
+#!define STR_EVT_MECH_1_DESC "长按{0}触发，{1}%概率获得{2}层心之钢，{3}%概率损失{4}层心之钢"
 #!define STR_EVT_MECH_3_TITLE "悄悄滴进村"
-#!define STR_EVT_MECH_3_DESC "下蹲时进入隐身状态\n移动时每秒损失{0}%最大生命值\n获得{1}%移速加成"
+#!define STR_EVT_MECH_3_DESC "下蹲时进入隐身状态，移动时每秒损失{0}%最大生命值，获得{1}%移速加成"
 #!define STR_EVT_MECH_4_TITLE "刹车失灵"
-#!define STR_EVT_MECH_4_DESC "不受控的向前移动\n移动速度会逐渐提高至{0}%"
+#!define STR_EVT_MECH_4_DESC "不受控的向前移动，移动速度会逐渐提高至{0}%"
 #!define STR_EVT_MECH_5_TITLE "屁动力"
-#!define STR_EVT_MECH_5_DESC "长按{0}朝你的前方飞行\n飞行时获得{1}%伤害减免"
+#!define STR_EVT_MECH_5_DESC "长按{0}朝你的前方飞行，飞行时获得{1}%伤害减免"
 #!define STR_EVT_MECH_6_TITLE "赌徒：竞速挑战"
-#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}层心之钢\n{2}%概率永久获得/损失{3}%移速加成\n{4}%概率永久获得/损失{5}%移速加成"
+#!define STR_EVT_MECH_6_DESC "长按{0}消耗{1}层心之钢，{2}%概率永久获得/损失{3}%移速加成，{4}%概率永久获得/损失{5}%移速加成"
 
 # ------------------------------------------------
 # 随机事件包 4：增益 (Buff Events Pack 4)
@@ -159,25 +157,21 @@
 #!define STR_EVT_BUFF_20_DESC "位移技能为最近友方提供护甲"
 #!define STR_EVT_BUFF_21_TITLE "任务：殉道者"
 # {0}=堡垒数量
-#!define STR_EVT_BUFF_21_DESC "被不同的堡垒击杀\n奖励：{0}% 永久伤害减免"
+#!define STR_EVT_BUFF_21_DESC "被不同的堡垒击杀，奖励：{0}% 永久伤害减免"
 #!define STR_EVT_BUFF_24_TITLE "F5"
 #!define STR_EVT_BUFF_24_DESC "每{0}秒重置所有技能冷却"
 #!define STR_EVT_BUFF_25_TITLE "治疗光塔 ProMax"
 #!define STR_EVT_BUFF_25_DESC "无视距离，每秒为全队提供{0}+{1}%最大生命值的治疗"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
-#!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态\n并获得{0}%移速加成"
+#!define STR_EVT_BUFF_29_DESC "使用表情时进入隐身状态，并获得{0}%移速加成"
 #!define STR_EVT_BUFF_30_TITLE "天降神兵"
-#!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值最低的友方身边\n为其恢复{1}+{2}%最大生命值\n冷却{3}秒"
+#!define STR_EVT_BUFF_30_DESC "长按{0}传送至生命值最低的友方身边，为其恢复{1}+{2}%最大生命值，冷却{3}秒"
 #!define STR_EVT_BUFF_31_TITLE "任务：钢化你心"
-#!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点\n奖励：后续心之钢层数获取×{1}\n每层最大生命值永久由 {2}% 提升至 {3}%"
+#!define STR_EVT_BUFF_31_DESC "使用{0}个英雄通过终点，奖励：后续心之钢层数获取×{1}，每层最大生命值永久由 {2}% 提升至 {3}%"
 #!define STR_EVT_BUFF_32_TITLE "任务：战地医生"
-#!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值\n奖励：永久获得 {2}% 治疗强度"
+#!define STR_EVT_BUFF_32_DESC "累计治疗 {0}+{1}×玩家数 点生命值，奖励：永久获得 {2}% 治疗强度"
 #!define STR_EVT_BUFF_34_TITLE "任务：有福同享"
-#!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定\n时限内双双通过终点\n奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
-#!define STR_EVT_BUFF_36_TITLE "我独自闯关"
-#!define STR_EVT_BUFF_36_DESC "周围无队友时获得\n{0}% 减伤 / {1}% 治疗\n{2}% 移速 / {3}% 击退抵抗"
-#!define STR_EVT_BUFF_37_TITLE "我独自升级"
-#!define STR_EVT_BUFF_37_DESC "每用一名新英雄到达终点\n永久获得 {0} 层心之钢 / {1}% 减伤 / {2}% 移速 / {3}% 治疗\n并延长当前事件 {4}s"
+#!define STR_EVT_BUFF_34_DESC "长按{0}与最近的队友绑定，时限内双双通过终点，奖励：双方各获得 {1}+{2}×堡垒数 层心之钢"
 
 # ------------------------------------------------
 # 随机事件包 4：减益 (Debuff Events Pack 4)
@@ -185,60 +179,60 @@
 #!define STR_EVT_DEBUFF_15_TITLE "保持距离"
 #!define STR_EVT_DEBUFF_15_DESC "距离队友越近受到伤害越高"
 #!define STR_EVT_DEBUFF_20_TITLE "登月火箭"
-#!define STR_EVT_DEBUFF_20_DESC "被随机射向天空\n在空中无法控制方向"
+#!define STR_EVT_DEBUFF_20_DESC "被随机射向天空，在空中无法控制方向"
 
 # ------------------------------------------------
 # 随机事件包 5：减益 (Debuff Events Pack 5)
 # ------------------------------------------------
 #!define STR_EVT_DEBUFF_21_TITLE "阿德勒斯布鲁恩的冤魂"
-#!define STR_EVT_DEBUFF_21_DESC "获得诅咒\n每秒转移{0}% ×友方击杀数的生命值给其他友方\n阵亡则损失{1}%治疗强度由其他友方均分"
+#!define STR_EVT_DEBUFF_21_DESC "获得诅咒，每秒转移{0}% ×友方击杀数的生命值给其他友方，阵亡则损失{1}%治疗强度由其他友方均分"
 #!define STR_EVT_DEBUFF_22_TITLE "缺德导航"
 #!define STR_EVT_DEBUFF_22_DESC "每{0}秒随机朝一个方向高速弹射"
 #!define STR_EVT_DEBUFF_23_TITLE "超重背包"
 #!define STR_EVT_DEBUFF_23_DESC "每有{0}点生命值，使受到的伤害提高{1}%"
 #!define STR_EVT_DEBUFF_25_TITLE "静电力场"
-#!define STR_EVT_DEBUFF_25_DESC "{0}米内存在友方时\n双方朝相反方向弹开，自身击晕{1}秒"
+#!define STR_EVT_DEBUFF_25_DESC "{0}米内存在友方时，双方朝相反方向弹开，自身击晕{1}秒"
 # ------------------------------------------------
 # 随机事件包 4：机制 (Mech Events Pack 4)
 # ------------------------------------------------
 #!define STR_EVT_MECH_7_TITLE "作弊：我要验牌"
-#!define STR_EVT_MECH_7_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为增益"
+#!define STR_EVT_MECH_7_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值），下个事件必为增益"
 #!define STR_EVT_MECH_8_TITLE "赌徒：短期投资"
-#!define STR_EVT_MECH_8_DESC "长按{0}锁定{1}个减益\n{2}%概率获得{3}层心之钢"
+#!define STR_EVT_MECH_8_DESC "长按{0}锁定{1}个减益，{2}%概率获得{3}层心之钢"
 #!define STR_EVT_MECH_10_TITLE "作弊：跳过"
 #!define STR_EVT_MECH_10_DESC "长按{0}跳过当前英雄且不计入挑战进度"
 #!define STR_EVT_MECH_11_TITLE "俄罗斯套娃"
-#!define STR_EVT_MECH_11_DESC "阵亡{0}秒后复活\n每次复活变小{1}%并加速{2}%"
+#!define STR_EVT_MECH_11_DESC "阵亡{0}秒后复活，每次复活变小{1}%并加速{2}%"
 #!define STR_EVT_MECH_12_TITLE "赌徒：长期投资"
-#!define STR_EVT_MECH_12_DESC "长按{0}锁定{1}个减益\n{2}%概率获得{3}层心之钢"
+#!define STR_EVT_MECH_12_DESC "长按{0}锁定{1}个减益，{2}%概率获得{3}层心之钢"
 #!define STR_EVT_MECH_13_TITLE "瓦尔基里降临"
-#!define STR_EVT_MECH_13_DESC "生命值提高{0}%，获得禁疗\n受到伤害获得大招充能\n大招持续期间最多回复{1}%生命值"
+#!define STR_EVT_MECH_13_DESC "生命值提高{0}%，获得禁疗，受到伤害获得大招充能，大招持续期间最多回复{1}%生命值"
 #!define STR_EVT_MECH_14_TITLE "三位一体"
-#!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速\n每{2}秒获得1层心之钢"
+#!define STR_EVT_MECH_14_DESC "100HP→{0}%减伤，1%减伤→{1}%移速，每{2}秒获得1层心之钢"
 #!define STR_EVT_MECH_15_TITLE "赌徒：掷骰狂人"
-#!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子\n根据点数永久损失/获得：\n心之钢/移速/减伤/治疗强度"
+#!define STR_EVT_MECH_15_DESC "长按{1}掷出一枚骰子，根据点数永久损失/获得：心之钢/移速/减伤/治疗强度"
 #!define STR_EVT_MECH_16_TITLE "赌徒：心之钢"
-#!define STR_EVT_MECH_16_DESC "长按{0}触发\n{1}%概率心之钢层数变为{2}倍\n{3}%概率失去{4}%层数"
+#!define STR_EVT_MECH_16_DESC "长按{0}触发，{1}%概率心之钢层数变为{2}倍，{3}%概率失去{4}%层数"
 #!define STR_EVT_MECH_17_TITLE "赌徒：梭哈艺术"
-#!define STR_EVT_MECH_17_DESC "按下{0}以{1}%心之钢层数为赌注\n{2}%概率获得赌注×{3}层数"
+#!define STR_EVT_MECH_17_DESC "按下{0}以{1}%心之钢层数为赌注，{2}%概率获得赌注×{3}层数"
 #!define STR_EVT_MECH_18_TITLE "吸血鬼"
-#!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值\n每击杀一名队友永久获得{2}%治疗强度"
+#!define STR_EVT_MECH_18_DESC "每秒吸取队友{0}+{1}%最大生命值，每击杀一名队友永久获得{2}%治疗强度"
 #!define STR_EVT_MECH_19_TITLE "窃贼"
 #!define STR_EVT_MECH_19_DESC "长按{0}：窃取一名友方的下一个增益"
 #!define STR_EVT_MECH_20_TITLE "赌徒：孤注一掷"
-#!define STR_EVT_MECH_20_DESC "长按{0}触发\n{1}%概率使所有友方恢复{2}%最大生命值\n并在{4}秒内每秒回复{5}%最大生命值\n{3}%概率使所有玩家生命值降至1"
+#!define STR_EVT_MECH_20_DESC "长按{0}触发，{1}%概率使所有友方恢复{2}%最大生命值，并在{4}秒内每秒回复{5}%最大生命值，{3}%概率使所有玩家生命值降至1"
 #!define STR_EVT_MECH_22_TITLE "作弊：暗箱操作"
-#!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值）\n下个事件必为机制"
+#!define STR_EVT_MECH_22_DESC "长按{0}永久损失{1}层心之钢（约{2}%最大生命值），下个事件必为机制"
 #!define STR_EVT_MECH_23_TITLE "镜像反转"
-#!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：\n减伤/移速/治疗强度/心之钢"
+#!define STR_EVT_MECH_23_DESC "长按{0}永久反转当前的属性：减伤/移速/治疗强度/心之钢"
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
-#!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数\n{2}%概率清空奖池并获得其中所有心之钢层数"
+#!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数，{2}%概率清空奖池并获得其中所有心之钢层数"
 #!define STR_EVT_MECH_25_TITLE "先知"
-#!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件\n但看不到自己的下一个事件"
+#!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件，但看不到自己的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
-#!define STR_EVT_MECH_26_TITLE "我独自决定"
-#!define STR_EVT_MECH_26_DESC "长按{0}：所有队友当前事件延长{1}s；\n长按{2}：立即结束所有队友当前事件"
+#!define STR_EVT_MECH_28_TITLE "变形大师"
+#!define STR_EVT_MECH_28_DESC "长按{0}：主动选择形态，直到再次主动改变形态或事件结束。- 巨大膨胀：体型 × {1}，获得 {2}% 额外生命值，{3}% 伤害减免，- 迷你形态：体型 × {4}，最大生命值 -{5}%，{6}% 移动速度"
 
 
 # 事件类别
@@ -251,19 +245,15 @@
 # ------------------------------------------------
 # 原文："{0} 触发事件：{1}（{2}）"
 # {0}=图标, {1}=事件名, {2}=持续时间
-#!define STR_MSG_EVENT_TRIGGER "  {0}  触发事件：{1}（{2}）"
 
 # 原文："{0}秒"
 # {0}=秒数
-#!define STR_MSG_DURATION_SEC "{0}秒"
 
 # 原文："一次性"
 #!define STR_MSG_DURATION_INSTANT "一次性"
 
 # 原文："{0} 事件效果：{1}"
 # {0}=图标, {1}=事件描述
-#!define STR_MSG_EVENT_EFFECT "  {0}  事件效果：{1}"
-#!define STR_MSG_EVENT_ENDED "  {0} 事件已结束"
 #!define STR_MSG_PROGRESS_SAVED "  你的挑战进度已保存"
 #!define STR_MSG_HOST_WARNING_RESET "  如果当前游戏重开，所有人的进度数据将被清空"
 #!define STR_MSG_HOST_ENDORSEMENT_HINT "  为了保证房间处于公开状态，请确保房主赞赏等级为 3 级或以上"
@@ -306,10 +296,6 @@
 # ------------------------------------------------
 # HUD 文本
 # ------------------------------------------------
-#!define STR_HUD_DEATHS "阵亡"
-#!define STR_HUD_DEATHS_VAL "{0} / {1}"
-#!define STR_HUD_HEROES "进度"
-#!define STR_HUD_HEROES_VAL "{0} / {1}"
 #!define STR_HUD_NEXT_HERO "下一个英雄"
 #!define STR_HUD_ESCAPED "逃脱成功"
 #!define STR_HUD_UNLOCKED "{0} 已解锁！"
@@ -319,7 +305,6 @@
 #!define STR_HUD_RUN_SKIPS "本轮共计 {0} 次跳过"
 #!define STR_HUD_SURVIVOR "大难不死 {0} "
 #!define STR_HUD_GAMBLER_KING "赌王 {0} "
-#!define STR_HUD_TOTAL_TIME "\n通关总计耗时\n{0}"
 #!define STR_HUD_SKIP_HINT "[秘籍] 使用终极技能跳过（{0}） "
 #!define STR_HUD_WELCOME_MULTI "欢迎来到三合一大地图！你需要挑战所有小地图并到达终点！阵亡 {0} 次之后可跳过英雄"
 #!define STR_HUD_WELCOME_MULTI_HARD "欢迎来到三合一大地图！你需要挑战所有小地图并到达终点！当前难度无法跳过英雄，加油吧！"
@@ -338,33 +323,39 @@
 #!define STR_HUD_VERSION "版本"
 
 # ------------------------------------------------
-# HUD 面板结构 (4.0 New)
+# HUD 面板 (左列)
 # ------------------------------------------------
-#!define STR_HUD_PANEL_TOP "┌───────────┐"
-#!define STR_HUD_PANEL_BOTTOM "└───────────┘"
-
-# 统计面板内容 (多行格式)
-# {0}=阵亡/跳过数值, {1}=事件统计, {2}=玩家属性, {3}=通关总耗时, {4}=通关代码
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
-
-# 阵亡/跳过
-# {0}=阵亡数, {1}=跳过数
-#!define STR_HUD_STATS_DEATH_SKIP "总计阵亡/跳过 \n{0}/{1}"
+# 英雄进度/阵亡行
+# {0}=当前英雄序号, {1}=英雄总数, {2}=阵亡数, {3}=阵亡上限
+#!define STR_HUD_STATS_HERO_DEATH "英雄 {0}/{1} · 阵亡 {2}/{3}"
 
 # 事件统计
 # {0}=增益, {1}=减益, {2}=总计
-#!define STR_HUD_STATS_EVENT "增益/减益/总计\r\n{0}/{1}/{2} "
-
-# 随机事件 4.0 标题
-#!define STR_HUD_RANDOM_EVENTS_VERSION "［随机事件 5.0］"
+#!define STR_HUD_STATS_EVENT "增益 {0} · 减益 {1} · 总计 {2}"
 
 # 事件详情格式 (HUD Text)
 # {0}=名称, {1}=时间, {2}=描述
-#!define STR_HUD_EVENT_DETAIL "{0}（{1}）\n{2}"
+#!define STR_HUD_EVENT_TITLE "{0} {1}（{2}）"
 
 # 玩家属性面板
 # {0}=心之钢层数, {1}=永久移速加成, {2}=永久减伤, {3}=治疗强度
-#!define STR_HUD_ATTR_PANEL "心之钢/移速/减伤/治疗%\r\n{0}/{1}/{2}/{3}%"
+#!define STR_HUD_ATTR_PANEL "心之钢 {0} · 移速 {1} · 减伤 {2} · 治疗 {3}%"
+
+# ------------------------------------------------
+# 通关结算卡 (顶部中央, 仅本人, 限时)
+# ------------------------------------------------
+# {0}=耗时 HH:MM:SS
+#!define STR_HUD_CARD_TITLE "挑战完成 · {0}"
+# {0}=玩家名, {1}=通关代码
+#!define STR_HUD_CARD_PLAYER "玩家 {0} · 通关代码 {1}"
+# {0}=地图(含经典版标记), {1}=难度, {2}=版本
+#!define STR_HUD_CARD_MAP "{0} · {1} · v{2}"
+# {0}=阵亡数, {1}=跳过数
+#!define STR_HUD_CARD_STATS "阵亡 {0} · 跳过 {1}"
+# {0}=本局已获称号(· 分隔) 或 —
+#!define STR_HUD_CARD_TITLES "称号 {0}"
+# {0}=剩余秒数
+#!define STR_HUD_CARD_COUNTDOWN "剩余 {0} 秒"
 
 
 # ------------------------------------------------
@@ -427,6 +418,7 @@
 #!define STR_MAP_PARIS "巴黎"
 # {0}=Button, {1}=State, {2}=Next Line
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    第三人称视角    {1}\n{2}"
+#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    显示结算卡    \n{1}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    标记玩家    {1}\n{2}"
 #!define STR_MENU_OPT_UNMARK_BLOCK "{0}    移除标记玩家并临时拉黑    \n{1}"
 #!define STR_MENU_OPT_NEXT_PAGE "{0}    下一页    "
@@ -477,3 +469,13 @@
 # 自动重开倒计时
 # ------------------------------------------------
 #!define STR_MSG_AUTO_RESTART_1MIN "游戏将在 1 分钟后自动重开"
+#!define STR_EVT_BUFF_38_TITLE "命运序曲"
+#!define STR_EVT_BUFF_38_DESC "每次受到伤害时，抵消 {0} 点伤害"
+#!define STR_EVT_BUFF_39_TITLE "命运变奏曲"
+#!define STR_EVT_BUFF_39_DESC "受到伤害后获得 {0}% 移速加成，并在 {1} 秒内衰减至 0，再次受伤时重新计时，不叠加"
+#!define STR_EVT_BUFF_40_TITLE "命运协奏曲"
+#!define STR_EVT_BUFF_40_DESC "来自其他友方的治疗，额外增加 {0}% 治疗效果，不含自我治疗"
+#!define STR_EVT_DEBUFF_26_TITLE "命运赋格曲"
+#!define STR_EVT_DEBUFF_26_DESC "受到伤害后，{0} 秒后，再受到该次伤害 {1}% 的额外伤害，额外伤害不会再次触发"
+#!define STR_EVT_MECH_27_TITLE "命运狂想曲"
+#!define STR_EVT_MECH_27_DESC "获得与已损失生命值百分比，相同的伤害减免，上限 {0}%"

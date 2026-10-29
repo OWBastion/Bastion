@@ -19,7 +19,7 @@
 
 ### `player/achievement.opy`
 
-- 主线成就挑战追踪（PHANTOM_THIEF 怪盗计数；EMOTICON_CONFUSED ？？？按强制事件兑现链追踪：暗箱操作→我要验牌→奥利维娅的礼物，由 `setPlayerEvent` 按 `eventForceSourceId` 判定；EMOTICON_GRIMACE ＞_＜ 由「赌徒：乐于助人」赌输标记「我独自闯关」存活结算；EMOTICON_SURPRISED o_O 追踪「镜像反转」四负属性全反转；I_THINK_NO 我觉得不行 追踪「我独自决定」立即结束至少两种不同队友减益事件；I_THINK_YES 我觉得可以 追踪「我独自决定」续期队友「我独自升级」）
+- 主线成就挑战追踪（EMOTICON_CONFUSED ？？？按强制事件兑现链追踪：暗箱操作→我要验牌→奥利维娅的礼物，由 `setPlayerEvent` 按 `eventForceSourceId` 判定；EMOTICON_SURPRISED o_O 追踪「镜像反转」四负属性全反转）
 - 解锁统一调用 `unlockAchievement()`（`player/unlockAchievement.opy`）
 
 ### `player/progressHero.opy` / `player/savePlayerData.opy` / `player/finishSettlement.opy`
@@ -38,9 +38,11 @@
 
 ### `effects/initEffects.opy`
 
-- 模式主 HUD 初始化（左侧进度、右侧模式信息、随机事件面板）
-- 玩家属性统计并入左侧统计面板中段：心之钢、永久移速、永久减伤、治疗强度
-- 首个玩家通关后，左侧结算统计面板为所有参与者显示同一房间级 `NNNN-NNNN-NNNN` 通关代码；该字段与通关耗时、死亡/跳过、事件统计共用截图布局
+- 模式主 HUD 初始化（左侧进度、右侧模式信息、顶部中央事件详情与通关结算卡）
+- 左列依次显示：下一个英雄、`英雄 x/y · 阵亡 x/y`、事件统计（增益·减益·总计）、属性行（心之钢/永久移速/永久减伤/治疗强度）；跳过提示与成就禁用行排在其后
+- 个人事件详情位于顶部中央底部，排在 `assignPlayerEvent` 以 `HUD_PAD_BOTTOM` 垫高的事件状态行（TOP 20）之后
+- 右列依次显示：地图·难度、模式版本、自动重开倒计时与已运行时间、服务器负载；版本行不再携带对局码或玩家名
+- 通关结算卡：通关或经玩家菜单"显示结算卡"触发；`settlementCardEnd`（绝对时刻）非空期间仅对本人显示，含 `挑战完成 · HH:MM:SS` 标题与 4 行固定副标题（玩家+通关代码、地图·难度·版本、阵亡·跳过、称号），底部为剩余秒数；"Expire settlement card" 规则到期后置空变量并恢复常规 HUD
 - 终点、切图点、第三人称点、重置点等世界特效
 - 自动重开倒计时可视化
 
@@ -48,7 +50,7 @@
 
 `masteryRunCode` 在 `session/sessionGame.opy` 的全局新局初始化中置空；`events/integrity/masteryRunCode.opy` 的 "Generate mastery run code" 规则在 `len(eventCatalogId) > 0` 且 `masteryRunCode == ""` 时生成，格式为三个 `1000..9999` 数字组。生成时遍历 `eventCatalogId` 累加 `eventCatalogWeight` 得到对局实际总权重，其 `round(总权重 * 100)` 的 4 位数字按固定位序分散在三段（第 1 段第 2-3 位、第 2 段第 3 位、第 3 段第 4 位），其余位随机、每段首位为非零随机数；平台可按位反推对局实际权重并与期望值校验。该规则同时将未取整总权重写入 `eventCatalogWeightTotal` 供 hashTag 超限校验。它不随玩家重生、换英雄、重新连接式初始化或玩家进度重置而变化；正常新局启动会重置为空并重新生成，开发菜单权重页修改目录权重时也会置空触发重算，使码始终携带当前有效总权重。
 
-HUD 在既有左侧结算统计区域直接显示该数字代码（无标签前缀），不调用平台或改变游戏逻辑。`OWBastion/ocrkit` 应把这个字段作为结构化证据处理，并在 Bastion 实际发布后再记录最小兼容游戏/布局版本；本仓库不会预先声明发布版本。
+OCR 证据集中在通关结算卡：游戏内 HUD 不再显示通关耗时或对局码。结算卡仅对通关者本人显示 20 秒（玩家菜单"显示结算卡"可重显 20 秒），期间左列、右列、事件详情与欢迎语隐藏，服务器代码行与原生 HUD 保留。HUD 不调用平台或改变游戏逻辑；`OWBastion/ocrkit` 应把结算卡字段作为结构化证据处理，并在 Bastion 实际发布后再记录最小兼容游戏/布局版本；本仓库不会预先声明发布版本。
 
 ### `effects/nanoEffects.opy`
 

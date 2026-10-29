@@ -25,8 +25,6 @@
   "TEMPER_HEART": "event.b112cc82-ffc5-4342-8201-181da9c20302",
   "BATTLEFIELD_MEDIC": "event.7336c213-efbe-4703-a456-9ab9df0459f5",
   "SHARED_BLESSING": "event.1b35dd8d-f760-4106-ae6f-05f0a6d88f78",
-  "SOLO_RUN": "event.3dd2ae48-b9a7-4c47-8e1a-caa2c6f2d80d",
-  "SOLO_LEVEL_UP": "event.859b0b11-bd2b-4679-832e-dd4f09d1d3e5",
   "GRAVITY_ANOMALY": "event.9791fe58-95c5-4b3c-9a4a-fc940b0f9e35",
   "EMP": "event.6b1d97f7-5539-4250-956d-88c3977ccbe6",
   "SACRIFICE": "event.f17fe237-a5c7-4c7e-bad5-97eb89a70fcc",
@@ -49,7 +47,6 @@
   "STATIC_FIELD": "event.3abd8380-a221-44c7-b64d-f704b944955e",
   "EXTREME_CHALLENGE": "event.c2402624-70dc-47f6-b7b7-5cdc0b5991b5",
   "GAMBLER": "event.628f6424-6998-48bc-9ab1-c0e615e02cd1",
-  "MINI_FORM": "event.fbcabaed-6790-4068-90b4-f57eaede2d1e",
   "STEALTH_CROUCH": "event.1d1840b1-0c71-40a1-9d06-a9c819015740",
   "BRAKE_FAILURE": "event.0cd47cc8-34f6-4b89-b376-d69b9a569235",
   "JUMP_THRUST": "event.e425013c-a753-49e9-98ec-107db1697be9",
@@ -71,5 +68,10 @@
   "MIRROR_INVERSION": "event.5123208b-f4b7-4e51-bab2-62d6fea2560f",
   "PROPHET": "event.71af36de-7295-4b36-9581-22025c69ff49",
   "GAMBLER_WINNER_TAKE_ALL": "event.a2a53b12-f5a8-4cee-a842-6650e56e21df",
-  "SOLO_DECIDE": "event.42c07be9-ce0f-44aa-b6aa-518c7af46598"
+  "FATE_PRELUDE": "event.7675f711-b517-4cbb-822e-96ca0417fed1",
+  "FATE_VARIATION": "event.a2576563-adb5-4a4b-acf4-f9c1921a50e7",
+  "FATE_CONCERTO": "event.8b9beb9d-3edb-4db6-a2bf-f2f18ed3146e",
+  "FATE_FUGUE": "event.991e6fec-eba7-46b8-be6a-45984f9c1541",
+  "FATE_RHAPSODY": "event.9c2317c3-826a-4308-83e4-fbeb83e5e72d",
+  "SHAPESHIFTER": "event.e910c533-a72c-44be-b725-e5af00301748"
 }

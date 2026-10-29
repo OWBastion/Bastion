@@ -13,3 +13,16 @@ rule "Toggle third person":
 
     wait(getAverageServerLoad() / 100 * 0.032)
     setThirdPerson()
+
+
+rule "Show settlement card":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.isWinner == true
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.MELEE) == false
+    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == false
+
+    eventPlayer.settlementCardEnd = evalOnce(getTotalTimeElapsed()) + 20
+    waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) == false, 99999)

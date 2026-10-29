@@ -26,3 +26,4 @@
 #!include "debuff/overweightPack.opy"
 #!include "debuff/adlersbrunnWraith.opy"
 #!include "debuff/staticField.opy"
+#!include "debuff/fateFugue.opy"
