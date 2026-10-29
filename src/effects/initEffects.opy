@@ -88,7 +88,7 @@ rule "initialize effects":
     hudSubheader(
         localPlayer if localPlayer.settlementCardEnd != null else null,
         STR_HUD_CARD_TITLES.format(
-            "{0}{1}{2}".format(
+            STR_HUD_ACHIEVEMENT_DISABLED.format(iconString(Icon.WARNING)) if hashTag == false else ("{0}{1}{2}".format(
                 titleText[localPlayer.earnedAchievements[0]],
                 " · {0}".format(titleText[localPlayer.earnedAchievements[1]]) if len(localPlayer.earnedAchievements) > 1 else "",
                 "{0}{1}".format(
@@ -107,7 +107,7 @@ rule "initialize effects":
                         )
                     )
                 )
-            ) if localPlayer.earnedAchievements != null and len(localPlayer.earnedAchievements) > 0 else "—"
+            ) if localPlayer.earnedAchievements != null and len(localPlayer.earnedAchievements) > 0 else "—")
         ),
         HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
     )
