@@ -10,83 +10,107 @@ rule "initialize effects":
     setDifficulty()
     
     # --------------------------------------------------------------------------------------------------------------------------------
-    # Player HUD (Top Left)
+    # Player HUD (Left)
     # --------------------------------------------------------------------------------------------------------------------------------
-    
-    # 阵亡 / 英雄 / 下一个英雄
-    hudText(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] else null, " ", "{0}  {1}\n{2}".format(STR_HUD_DEATHS, STR_HUD_DEATHS_VAL.format(localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞"), "{0}  {1}".format(STR_HUD_HEROES, STR_HUD_HEROES_VAL.format(heroList.index(localPlayer.getHero()) + 1, len(heroList)))), null, HudPosition.LEFT, 2, difficultyText[1], Color.WHITE, null, HudReeval.VISIBILITY_AND_STRING)
+    # 下一个英雄
+    hudText(null if localPlayer.isWinner or localPlayer.getHero() != heroList[localPlayer.heroNumber] or localPlayer.settlementCardEnd != null else localPlayer, " ", STR_HUD_NEXT_HERO, "{0} {1}".format(heroIcon(heroList[localPlayer.heroNumber + 1]) if localPlayer.heroNumber + 1 < len(heroList) else iconString(Icon.FLAG), heroList[localPlayer.heroNumber + 1] if localPlayer.heroNumber + 1 < len(heroList) else STR_HUD_ESCAPED), HudPosition.LEFT, 2, rgb(36, 205, 244), Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
-    # hudText(localPlayer, "{0}: {1}".format(STR_HUD_HEROES, STR_HUD_HEROES_VAL.format(heroList.index(localPlayer.getHero()) + 1, len(heroList))), "", null, HudPosition.LEFT, 3, Color.WHITE, null, null, HudReeval.VISIBILITY_AND_STRING)
+    hudText(null if localPlayer.isWinner or localPlayer.getHero() == heroList[localPlayer.heroNumber] or localPlayer.settlementCardEnd != null else localPlayer, iconString(Icon.NO), STR_HUD_NEXT_HERO, STR_HUD_UNLOCKED.format(heroIcon(heroList[localPlayer.heroNumber])), HudPosition.LEFT, 2, rgb(235, 45, 79), rgb(235, 45, 79), rgb(235, 45, 79), HudReeval.VISIBILITY_AND_STRING)
 
-    hudText(null if localPlayer.isWinner or localPlayer.getHero() != heroList[localPlayer.heroNumber] else localPlayer, " ", STR_HUD_NEXT_HERO, "{0} {1}".format(heroIcon(heroList[localPlayer.heroNumber + 1]) if localPlayer.heroNumber + 1 < len(heroList) else iconString(Icon.FLAG), heroList[localPlayer.heroNumber + 1] if localPlayer.heroNumber + 1 < len(heroList) else STR_HUD_ESCAPED), HudPosition.LEFT, 4, rgb(36, 205, 244), Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    hudText(localPlayer if localPlayer.isWinner and localPlayer.settlementCardEnd == null else null, iconString(Icon.CHECKMARK), STR_HUD_NEXT_HERO, STR_HUD_CHALLENGE_COMPLETE, HudPosition.LEFT, 2, Color.GREEN, Color.GREEN, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
 
-    hudText(null if localPlayer.isWinner or localPlayer.getHero() == heroList[localPlayer.heroNumber] else localPlayer, iconString(Icon.NO), STR_HUD_NEXT_HERO, STR_HUD_UNLOCKED.format(heroIcon(heroList[localPlayer.heroNumber])), HudPosition.LEFT, 4, rgb(235, 45, 79), rgb(235, 45, 79), rgb(235, 45, 79), HudReeval.VISIBILITY_AND_STRING)
+    # 英雄 x/y · 阵亡 x/y
+    hudSubheader(localPlayer if localPlayer.heroNumber + 1 < len(heroList) and localPlayer.getHero() == heroList[localPlayer.heroNumber] and localPlayer.settlementCardEnd == null else null, STR_HUD_STATS_HERO_DEATH.format(heroList.index(localPlayer.getHero()) + 1, len(heroList), localPlayer.progressionDeathCount, maxDeath if difficulty != 5 else "∞"), HudPosition.LEFT, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
-    hudText(localPlayer if localPlayer.isWinner else null, iconString(Icon.CHECKMARK), STR_HUD_NEXT_HERO, STR_HUD_CHALLENGE_COMPLETE, HudPosition.LEFT, 4, Color.GREEN, Color.GREEN, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
-    
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # New Stats Panel (4.0)
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # 边框 Top
-    hudSubheader(localPlayer, STR_HUD_PANEL_TOP, HudPosition.LEFT, 6, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    
-        # 统计内容 (合并)
-    hudSubheader(localPlayer, STR_HUD_STATS_PANEL.format(
-        # 1. 阵亡/跳过
-        STR_HUD_STATS_DEATH_SKIP.format(localPlayer.runDeathCount, localPlayer.skipCount),
+    # 增益 · 减益 · 总计
+    hudSubheader(localPlayer if localPlayer.settlementCardEnd == null else null, STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]), HudPosition.LEFT, 4, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
-        STR_HUD_STATS_EVENT.format(localPlayer.eventCount[EventType.BUFF], localPlayer.eventCount[EventType.DEBUFF], localPlayer.eventCount[EventType.BUFF] + localPlayer.eventCount[EventType.DEBUFF] + localPlayer.eventCount[EventType.MECH]),
-        
-        # 2. 玩家属性
-        STR_HUD_ATTR_PANEL.format(
-            round(localPlayer.heart_steel[HeartSteelData.STACKS]),
-            localPlayer.mod_speed_perma,
-            negToPos(localPlayer.mod_dmg_perma),
-            localPlayer.mod_heal_perma + localPlayer.mod_heal_event
-        ),
+    # 属性行
+    hudSubheader(localPlayer if localPlayer.settlementCardEnd == null else null, STR_HUD_ATTR_PANEL.format(
+        round(localPlayer.heart_steel[HeartSteelData.STACKS]),
+        localPlayer.mod_speed_perma,
+        negToPos(localPlayer.mod_dmg_perma),
+        localPlayer.mod_heal_perma + localPlayer.mod_heal_event
+    ), HudPosition.LEFT, 5, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
-        # 3. 总耗时 (仅在通关后显示)
-        STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(
-            STR_TIME_UNIT_HOUR.format(floor(localPlayer.winnerTime / 3600)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 3600 else "", 
-            STR_TIME_UNIT_MIN.format(floor(localPlayer.winnerTime % 3600 / 60)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 60 else "", 
-            STR_TIME_UNIT_SEC.format(floor(localPlayer.winnerTime % 60)) if localPlayer.winnerTime != null else STR_TIME_UNIT_ZERO_SEC
-        )) if localPlayer.isWinner else "",
-
-        # 4. 房间级通关代码 (首个玩家通关后对所有参与者可见)
-        "\n{0}\n{1}".format(masteryRunCode, localPlayer) if localPlayer.isWinner else ""
-
-    ), HudPosition.LEFT, 7, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-
-    
-    # 边框 Bottom
-    hudSubheader(localPlayer, STR_HUD_PANEL_BOTTOM, HudPosition.LEFT, 8, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # Random Events 4.0 HUD
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # 事件版本子标题
-    hudSubheader(getAllPlayers(), STR_HUD_RANDOM_EVENTS_VERSION, HudPosition.RIGHT, -5, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
-    
-    # 个人事件详情 (改用 hudText)
-    hudText(
-        null if localPlayer.eventId == -1 else localPlayer, 
-        "{0}".format(abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1)), 
-        STR_HUD_EVENT_DETAIL.format(
-            localPlayer.eventName, 
-            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT, 
-            localPlayer.eventDesc
-        ), 
-        null, HudPosition.LEFT, 70, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
-    )
-    
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # Misc Info
-    # --------------------------------------------------------------------------------------------------------------------------------
-    # 总耗时
-    # hudSubheader(localPlayer if localPlayer.isWinner else null, STR_HUD_TOTAL_TIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(localPlayer.winnerTime / 3600)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(localPlayer.winnerTime % 3600 / 60)) if localPlayer.winnerTime != null and localPlayer.winnerTime >= 60 else "", STR_TIME_UNIT_SEC.format(floor(localPlayer.winnerTime % 60)) if localPlayer.winnerTime != null else STR_TIME_UNIT_ZERO_SEC)), HudPosition.LEFT, 7, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    
     # 跳过提示
-    hudSubheader(localPlayer if difficulty != 5 and localPlayer.progressionDeathCount == maxDeath else null, STR_HUD_SKIP_HINT.format(inputBindingString(Button.ULTIMATE)), HudPosition.LEFT, 5, Color.BLUE, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(localPlayer if difficulty != 5 and localPlayer.progressionDeathCount == maxDeath and localPlayer.settlementCardEnd == null else null, STR_HUD_SKIP_HINT.format(inputBindingString(Button.ULTIMATE)), HudPosition.LEFT, 6, Color.BLUE, HudReeval.VISIBILITY_AND_STRING)
+
+    # --------------------------------------------------------------------------------------------------------------------------------
+    # 个人事件详情 (顶部中央底部): 排在 assignPlayerEvent 的 HUD_PAD_BOTTOM 状态行 (TOP 20) 之后
+    # --------------------------------------------------------------------------------------------------------------------------------
+    hudSubheader(
+        null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
+        "{0} {1}".format(
+            abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1),
+            STR_HUD_EVENT_DETAIL.format(
+                localPlayer.eventName,
+                STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT,
+                localPlayer.eventDesc
+            )
+        ),
+        HudPosition.TOP, 21, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+    )
+
+    # --------------------------------------------------------------------------------------------------------------------------------
+    # 通关结算卡 (顶部中央, 仅本人, settlementCardEnd 期间显示)
+    # --------------------------------------------------------------------------------------------------------------------------------
+    hudHeader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_TITLE.format(hhmmss(localPlayer.winnerTime)),
+        HudPosition.TOP, 6, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    hudSubheader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_PLAYER.format(localPlayer, masteryRunCode),
+        HudPosition.TOP, 7, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    hudSubheader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_MAP.format(getCurrentMap() if __currentMapText___ == null else __currentMapText___, difficultyText[0], VERSION),
+        HudPosition.TOP, 8, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    hudSubheader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_STATS.format(localPlayer.runDeathCount, localPlayer.skipCount),
+        HudPosition.TOP, 9, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    hudSubheader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_TITLES.format(
+            "{0}{1}{2}".format(
+                titleText[localPlayer.earnedAchievements[0]],
+                " · {0}".format(titleText[localPlayer.earnedAchievements[1]]) if len(localPlayer.earnedAchievements) > 1 else "",
+                "{0}{1}".format(
+                    " · {0}".format(titleText[localPlayer.earnedAchievements[2]]) if len(localPlayer.earnedAchievements) > 2 else "",
+                    "{0}{1}".format(
+                        " · {0}".format(titleText[localPlayer.earnedAchievements[3]]) if len(localPlayer.earnedAchievements) > 3 else "",
+                        "{0}{1}".format(
+                            " · {0}".format(titleText[localPlayer.earnedAchievements[4]]) if len(localPlayer.earnedAchievements) > 4 else "",
+                            "{0}{1}".format(
+                                " · {0}".format(titleText[localPlayer.earnedAchievements[5]]) if len(localPlayer.earnedAchievements) > 5 else "",
+                                "{0}{1}".format(
+                                    " · {0}".format(titleText[localPlayer.earnedAchievements[6]]) if len(localPlayer.earnedAchievements) > 6 else "",
+                                    " · {0}".format(titleText[localPlayer.earnedAchievements[7]]) if len(localPlayer.earnedAchievements) > 7 else ""
+                                )
+                            )
+                        )
+                    )
+                )
+            ) if localPlayer.earnedAchievements != null and len(localPlayer.earnedAchievements) > 0 else "—"
+        ),
+        HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    hudSubheader(
+        localPlayer if localPlayer.settlementCardEnd != null else null,
+        STR_HUD_CARD_COUNTDOWN.format(ceil(localPlayer.settlementCardEnd - getTotalTimeElapsed()) if localPlayer.settlementCardEnd != null else 0),
+        HudPosition.TOP, 11, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # Goal Effects
@@ -111,25 +135,25 @@ rule "initialize effects":
     # --------------------------------------------------------------------------------------------------------------------------------
     wait(0.5)
     if controlJumpPosition != null and portalPosition == null:
-        hudSubtext(getAllPlayers(), STR_HUD_WELCOME_MULTI.format(maxDeath) if difficulty != 5 else STR_HUD_WELCOME_MULTI_HARD, HudPosition.TOP, 0, rgb(255, 255, 255, 125), HudReeval.VISIBILITY_AND_STRING)
+        hudSubtext([player for player in getAllPlayers() if player.settlementCardEnd == null], STR_HUD_WELCOME_MULTI.format(maxDeath) if difficulty != 5 else STR_HUD_WELCOME_MULTI_HARD, HudPosition.TOP, 0, rgb(255, 255, 255, 125), HudReeval.VISIBILITY_AND_STRING)
     else:
-        hudSubtext(getAllPlayers(), STR_HUD_WELCOME_NORMAL.format(maxDeath) if difficulty != 5 else STR_HUD_WELCOME_NORMAL_HARD, HudPosition.TOP, 0, rgb(255, 255, 255, 125), HudReeval.VISIBILITY_AND_STRING)
-    
+        hudSubtext([player for player in getAllPlayers() if player.settlementCardEnd == null], STR_HUD_WELCOME_NORMAL.format(maxDeath) if difficulty != 5 else STR_HUD_WELCOME_NORMAL_HARD, HudPosition.TOP, 0, rgb(255, 255, 255, 125), HudReeval.VISIBILITY_AND_STRING)
+
     # 欢迎信息
     hudSubheader(getAllPlayers(), "{0} | {1}".format(STR_MODE_CODE, STR_HUD_FOOTER_INFO), HudPosition.TOP, 1, rgb(255, 255, 255, 125), HudReeval.VISIBILITY_AND_STRING)
-    
-    # 难度显示
-    hudSubtext(getAllPlayers(), "{0}：{1}".format(getCurrentMap() if __currentMapText___ == null else __currentMapText___, difficultyText[0]), HudPosition.RIGHT, -6, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
-    
+
+    # 地图 · 难度
+    hudSubtext([player for player in getAllPlayers() if player.settlementCardEnd == null], "{0} · {1}".format(getCurrentMap() if __currentMapText___ == null else __currentMapText___, difficultyText[0]), HudPosition.RIGHT, -6, difficultyText[1], HudReeval.VISIBILITY_STRING_AND_COLOR)
+
+    # 模式版本
+    hudSubheader([player for player in getAllPlayers() if player.settlementCardEnd == null], "{0} {1}".format(STR_HUD_VERSION, VERSION), HudPosition.RIGHT, -5, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+
     # 运行时信息
-    hudSubheader(getAllPlayers(), "{0}\n{1}".format(
-        STR_HUD_AUTO_RESTART.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor((rebootTime - getTotalTimeElapsed()) / 3600)) if rebootTime - getTotalTimeElapsed() > 3599 else "", STR_TIME_UNIT_MIN.format(floor(((rebootTime - getTotalTimeElapsed()) % 3600) / 60)) if rebootTime - getTotalTimeElapsed() > 59 else "", STR_TIME_UNIT_SEC.format(floor((rebootTime - getTotalTimeElapsed()) % 60)))),
-        STR_HUD_SERVER_UPTIME.format("{0}{1}{2}".format(STR_TIME_UNIT_HOUR.format(floor(getTotalTimeElapsed() / 3600)) if getTotalTimeElapsed() >= 3600 else "", STR_TIME_UNIT_MIN.format(floor(getTotalTimeElapsed() % 3600 / 60)) if getTotalTimeElapsed() >= 60 else "", STR_TIME_UNIT_SEC.format(floor(getTotalTimeElapsed() % 60))))
+    hudSubheader([player for player in getAllPlayers() if player.settlementCardEnd == null], "{0}\n{1}".format(
+        STR_HUD_AUTO_RESTART.format(hhmmss(max(0, rebootTime - getTotalTimeElapsed()))),
+        STR_HUD_SERVER_UPTIME.format(hhmmss(getTotalTimeElapsed()))
     ), HudPosition.RIGHT, -4, Color.YELLOW if rebootTime - getTotalTimeElapsed() <= 600 else Color.GRAY, HudReeval.VISIBILITY_STRING_AND_COLOR)
-    hudSubheader(getAllPlayers(), STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
-    
-    # 版本号
-    hudSubheader(getAllPlayers(), "{0}{1}".format("{0} {1}".format(STR_HUD_VERSION, VERSION), "\n{0}\n{1}".format(masteryRunCode, localPlayer) if localPlayer.isWinner else ""), HudPosition.RIGHT, -3, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+    hudSubheader([player for player in getAllPlayers() if player.settlementCardEnd == null], STR_HUD_SERVER_LOAD.format(getAverageServerLoad()), HudPosition.RIGHT, -2, Color.GRAY, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     
     # --------------------------------------------------------------------------------------------------------------------------------
     # World Effects

@@ -292,10 +292,6 @@
 # ------------------------------------------------
 # HUD Text
 # ------------------------------------------------
-#!define STR_HUD_DEATHS "Deaths"
-#!define STR_HUD_DEATHS_VAL "{0} / {1}"
-#!define STR_HUD_HEROES "Hero"
-#!define STR_HUD_HEROES_VAL "{0} / {1}"
 #!define STR_HUD_NEXT_HERO "Next Hero"
 #!define STR_HUD_ESCAPED "Escaped"
 #!define STR_HUD_UNLOCKED "{0} Unlocked!"
@@ -305,7 +301,6 @@
 #!define STR_HUD_RUN_SKIPS "Run Skips: {0}"
 #!define STR_HUD_SURVIVOR "Survivor {0} "
 #!define STR_HUD_GAMBLER_KING "Gambling King {0} "
-#!define STR_HUD_TOTAL_TIME "Total Time: {0}"
 #!define STR_HUD_SKIP_HINT "[Cheat] Use Ultimate to Skip ({0}) "
 #!define STR_HUD_WELCOME_MULTI "Welcome to the 3-in-1 Map! Challenge all mini-maps to reach the end! Skip heroes after {0} deaths."
 #!define STR_HUD_WELCOME_MULTI_HARD "Welcome to the 3-in-1 Map! Hero skipping is disabled on this difficulty. Good luck!"
@@ -324,25 +319,15 @@
 #!define STR_HUD_VERSION "Ver"
 
 # ------------------------------------------------
-# HUD Panel Structure (4.0 New)
+# HUD Panel (Left Column)
 # ------------------------------------------------
-#!define STR_HUD_PANEL_TOP "┌───────────┐"
-#!define STR_HUD_PANEL_BOTTOM "└───────────┘"
-
-# Stats Panel Content
-# {0}=Deaths/Skips, {1}=Event Stats, {2}=Player Attributes, {3}=Total Time, {4}=Completion Code
-#!define STR_HUD_STATS_PANEL "{0}\r\n{1}\r\n{2}{3}{4}"
-
-# Deaths/Skips
-# {0}=Deaths, {1}=Skips
-#!define STR_HUD_STATS_DEATH_SKIP "Deaths/Skips \n{0}/{1}"
+# Hero progress / deaths line
+# {0}=Current hero index, {1}=Total heroes, {2}=Deaths, {3}=Death cap
+#!define STR_HUD_STATS_HERO_DEATH "Heroes {0}/{1} · Deaths {2}/{3}"
 
 # Event Stats
 # {0}=Buff, {1}=Debuff, {2}=Total
-#!define STR_HUD_STATS_EVENT "Buff/Debuff/Total\r\n{0}/{1}/{2} "
-
-# Random Events 4.0 Title
-#!define STR_HUD_RANDOM_EVENTS_VERSION "[Random Events 5.0]"
+#!define STR_HUD_STATS_EVENT "Buff {0} · Debuff {1} · Total {2}"
 
 # Event Detail Format
 # {0}=Name, {1}=Time, {2}=Desc
@@ -350,7 +335,23 @@
 
 # Attribute panel
 # {0}=Heartsteel stacks, {1}=Permanent movement speed bonus, {2}=Permanent damage reduction, {3}=Healing power
-#!define STR_HUD_ATTR_PANEL "Heartsteel/Speed/DR/Heal%\r\n{0}/{1}/{2}/{3}%"
+#!define STR_HUD_ATTR_PANEL "Heartsteel {0} · Speed {1} · DR {2} · Heal {3}%"
+
+# ------------------------------------------------
+# Settlement Card (top center, self only, time-limited)
+# ------------------------------------------------
+# {0}=Clear time HH:MM:SS
+#!define STR_HUD_CARD_TITLE "Challenge Complete · {0}"
+# {0}=Player name, {1}=Clear code
+#!define STR_HUD_CARD_PLAYER "Player {0} · Clear Code {1}"
+# {0}=Map (with classic marker), {1}=Difficulty, {2}=Version
+#!define STR_HUD_CARD_MAP "{0} · {1} · v{2}"
+# {0}=Deaths, {1}=Skips
+#!define STR_HUD_CARD_STATS "Deaths {0} · Skips {1}"
+# {0}=Titles earned this run (·-separated) or —
+#!define STR_HUD_CARD_TITLES "Titles {0}"
+# {0}=Seconds remaining
+#!define STR_HUD_CARD_COUNTDOWN "{0}s remaining"
 
 
 # ------------------------------------------------
@@ -411,6 +412,7 @@
 #!define STR_MENU_OPT_DIFF_INC "{0}    Increase Difficulty    \n{1}"
 #!define STR_MENU_OPT_DIFF_DEC "{0}    Decrease Difficulty    \n{1}"
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    3rd Person View    {1}\n{2}"
+#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    Show Settlement Card    \n{1}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    Mark Player    {1}\n{2}"
 #!define STR_MENU_OPT_UNMARK_BLOCK "{0}    Unmark & Temp Ban    \n{1}"
 #!define STR_MENU_OPT_NEXT_PAGE "{0}    Next Page    "

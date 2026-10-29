@@ -27,6 +27,7 @@ rule "Resolve finish":
     elif eventPlayer.getHero() == heroList.last() and not eventPlayer.isWinner:
         eventPlayer.isWinner = true
         eventPlayer.winnerTime = evalOnce(getTotalTimeElapsed()) - eventPlayer.joinTime
+        eventPlayer.settlementCardEnd = evalOnce(getTotalTimeElapsed()) + 20
         if any([eventPlayer.dmgReduc, eventPlayer.invincible, eventPlayer.isPortalEnabled, eventPlayer.isAirWalkEnabled]):
             goto lbl_1
         bigMessage(
@@ -65,3 +66,12 @@ rule "Charge winner ult":
     eventPlayer.setUltCharge(min(100, eventPlayer.getUltCharge() + 25))
     if ruleCondition:
         loop()
+
+
+rule "Expire settlement card":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.settlementCardEnd != null
+    @Condition getTotalTimeElapsed() >= eventPlayer.settlementCardEnd
+
+    eventPlayer.settlementCardEnd = null

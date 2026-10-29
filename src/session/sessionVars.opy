@@ -158,3 +158,6 @@ playervar eventEndTime
 playervar prophetTextId
 
 playervar savedDataIndex
+
+# 通关结算卡显示截止时间（绝对时刻，null = 不显示）：通关置 now+20，玩家菜单"显示结算卡"重置为 now+20；持久 20s 窗口无法复用事件 scratch 槽
+playervar settlementCardEnd
