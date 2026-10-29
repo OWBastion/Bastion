@@ -37,8 +37,8 @@ rule "[VishkarEvent]: Challenge 61 Track (EMOTICON_SURPRISED)":
     eventPlayer.unlockAchievement(61)
 
 # 我大受震撼：「先知」打开后只结算一次首次观测。
-# 观测范围：其他已出生的一队玩家；等待他们的下一个事件坍缩（最多 5 秒），
-# 再统计其中已确定的下一个事件里的减益事件数。无资格的玩家不会坍缩，只会让等待跑满 5 秒。
+# 观测范围：其他已出生的一队玩家；等待他们的下一个事件坍缩（最多 2 秒，先知缓存每秒刷新一次），
+# 再统计其中已确定的下一个事件里的减益事件数。无资格的玩家不会坍缩，只会让等待跑满 2 秒。
 # 过滤数组内不能引用 PROFILE_EVENT_PLAYER_ELIGIBLE(p)：它展开为对元素玩家变量的两层数组取值，Workshop 客户端会拒绝导入。
 # dlcTimeChallenge[3] 标记本次先知已结算，先知结束时复位。
 rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
@@ -52,7 +52,7 @@ rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
 
     waitUntil(
         len(getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.hasSpawned() == true and p.eventNextIndex == -1)) == 0,
-        5
+        52
     )
     if eventPlayer.eventId != EventId.PROPHET:
         return
