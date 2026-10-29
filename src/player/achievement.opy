@@ -52,7 +52,7 @@ rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
 
     waitUntil(
         len(getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.hasSpawned() == true and p.eventNextIndex == -1)) == 0,
-        52
+        2
     )
     if eventPlayer.eventId != EventId.PROPHET:
         return
