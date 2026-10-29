@@ -95,25 +95,7 @@ def setPlayerEvent():
     eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
-    if eventPlayer.eventDesc == null:
-        goto lbl_1
-    smallMessage(
-    eventPlayer, 
-        STR_MSG_EVENT_TRIGGER.format(
-            abilityIconString(Hero.SOMBRA, Button.ULTIMATE), 
-            eventPlayer.eventName, 
-            STR_MSG_DURATION_SEC.format(eventPlayer.eventDuration) if eventPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT
-        )
-    )
 
-    smallMessage(
-        eventPlayer, 
-        STR_MSG_EVENT_EFFECT.format(
-            abilityIconString(Hero.SOMBRA, Button.ULTIMATE), 
-            eventPlayer.eventDesc.replace("\n", "，")
-        )
-    )
-    lbl_1:
 
 def rerollNextEvent():
     @Name "[VishkarEvent]: reroll committed next event"
