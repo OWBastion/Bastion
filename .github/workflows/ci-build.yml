@@ -44,13 +44,15 @@ jobs:
       - name: Run tooling tests
         run: pnpm run tools:test
 
-      - name: Install released Wright CLI
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -fsSL https://install.wrightkit.dev/wright/install.sh \
-            | bash -s -- --dir "${RUNNER_TEMP}/wright/bin"
-          echo "${RUNNER_TEMP}/wright/bin" >> "${GITHUB_PATH}"
+      - name: Setup Wright
+        id: setup-wright
+        uses: wrightkit/setup-wright@v1
+
+      - name: Cache Wright providers
+        uses: actions/cache@v5
+        with:
+          path: ~/.local/share/wright/providers
+          key: wright-providers-${{ runner.os }}-${{ steps.setup-wright.outputs.version }}
 
       - name: Install OverPy provider
         run: wright update provider opy
