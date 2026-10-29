@@ -971,6 +971,8 @@ enum MirrorInversionStat:
 #!define EVT_MECH_27_WEIGHT 0.8
 # 伤害减免上限（%）。设计稿未写上限，暂定 90 以避免无敌，待 owner 确认
 #!define EVT_MECH_27_MAX_REDUCTION 90
+# 减免刷新间隔（秒）
+#!define EVT_MECH_27_INTERVAL 1
 
 # --- ID 28 (Mech): 变形大师 ---
 # Duration（秒），暂定值，待 owner 确认
