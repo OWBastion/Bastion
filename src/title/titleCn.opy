@@ -359,11 +359,11 @@ enum MapTITLEKey:
 # 帕拉伊苏
 #!define DATA_PARAISO [ \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "小满都未满", "训犬大师", "眼镜小宅"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "八月八月八", "用户", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "八月八月八", "用户", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "八月八月八", "用户", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "八月八月八", "用户", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_PARAISO_PACKED "8-7-6-4-28-12-11|17-8-4-22-5-28-13-18-1|17-8-4-22-5-28-13-18-1|"
+#!define DATA_PARAISO_PACKED "8-7-6-4-28-12-11|17-8-4-22-5-28-13-18-19-1|17-8-4-22-5-28-13-18-19-1|"
 
 # 巴黎
 #!define DATA_PARIS [ \
