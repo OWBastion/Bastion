@@ -42,17 +42,20 @@ rule "initialize effects":
     hudText(
         null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
         null,
+        null,
         STR_HUD_EVENT_TITLE.format(
             abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1),
             localPlayer.eventName,
             STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT
         ),
+        HudPosition.TOP, 21, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+    )
+    hudText(
+        null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
+        null,
+        null,
         localPlayer.eventDesc,
-        HudPosition.TOP, 21,
-        Color.WHITE,
-        Color.RED if localPlayer.eventType == EventType.DEBUFF else Color.GREEN if localPlayer.eventType == EventType.BUFF else Color.PURPLE,
-        Color.WHITE,
-        HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.DEFAULT
+        HudPosition.TOP, 22, Color.WHITE, Color.WHITE, rgb(255, 255, 255, 170), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
 
     # --------------------------------------------------------------------------------------------------------------------------------
