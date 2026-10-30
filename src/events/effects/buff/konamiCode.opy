@@ -10,7 +10,7 @@ rule "[VishkarEvent]: ↑↑↓↓←→←→BABA":
     @Event playerDied
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.KONAMI_CODE]) == true
-    @Condition eventPlayer.isWinner != true
+    @Condition not eventPlayer.isWinner
 
     eventPlayer.controlPlayerRespawnPosition = [eventPlayer.getPosition(), eventPlayer.getFacingDirection(), eventPlayer.getHero()]
     bigMessage(eventPlayer, "↑↑↓↓←→←→BABA")

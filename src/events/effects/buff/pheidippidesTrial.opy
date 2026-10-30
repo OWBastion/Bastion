@@ -23,7 +23,7 @@ rule "Resolve mission":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL]) == true
     
-    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner == true or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()
     if eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL:
         return

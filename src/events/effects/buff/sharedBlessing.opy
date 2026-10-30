@@ -50,7 +50,7 @@ rule "Settle":
         eventPlayer.temp = EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)
         bigMessage(eventPlayer, "有福同享 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
-        if eventPlayer.target != null and eventPlayer.target in getPlayers(Team.1):
+        if eventPlayer.target and eventPlayer.target in getPlayers(Team.1):
             bigMessage(eventPlayer.target, "有福同享 成功！")
             smallMessage(eventPlayer.target, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), eventPlayer.temp * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
             eventPlayer.target.heart_steel[HeartSteelData.STACKS] += eventPlayer.temp * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]

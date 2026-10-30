@@ -34,7 +34,7 @@ rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL]) == true
     @Condition attacker.getTeam() == Team.2
-    @Condition (not attacker in eventPlayer.eventMission) == true
+    @Condition not attacker in eventPlayer.eventMission
     
     eventPlayer.eventMission.append(attacker)
     eventPlayer.hudText = "{0}/{1}".format(
