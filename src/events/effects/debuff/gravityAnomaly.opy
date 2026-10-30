@@ -42,8 +42,8 @@ rule "[VishkarEvent]: 重力异常":
     waitUntil(eventPlayer.eventId != EventId.GRAVITY_ANOMALY or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     if eventPlayer.eventTempIndex != 100:
         # 禅雅塔悬浮期间归还 100% 会截断其合法悬浮，延后至松开跳跃（上限覆盖悬浮最长时长）
-        waitUntil(eventPlayer.getHero() != Hero.ZENYATTA or eventPlayer.isHoldingButton(Button.JUMP) == false, EVT_DEBUFF_0_ZEN_HOVER_WAIT)
-        if eventPlayer.isAirWalkEnabled == false:
+        waitUntil(eventPlayer.getHero() != Hero.ZENYATTA or not eventPlayer.isHoldingButton(Button.JUMP), EVT_DEBUFF_0_ZEN_HOVER_WAIT)
+        if not eventPlayer.isAirWalkEnabled:
             eventPlayer.setGravity(100)
     # 菜单打开期间跳跃由菜单持有锁定，跳过归还；菜单关闭时菜单自身统一解除
     if eventPlayer.menu == 0:
