@@ -9,7 +9,7 @@ rule "Break teleporter on interact":
     @Event eachPlayer
     @Team 1
     @Hero symmetra
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
     
     wait(0.5)
@@ -31,11 +31,11 @@ rule "Disable ability 1":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.SYMMETRA
-    @Condition eventPlayer.isWinner != true
+    @Condition not eventPlayer.isWinner
     @Disabled
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(eventPlayer.isWinner == true or eventPlayer.getHero() != Hero.SYMMETRA, Math.INFINITY)
+    waitUntil(eventPlayer.isWinner or eventPlayer.getHero() != Hero.SYMMETRA, Math.INFINITY)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility1Enabled(true)

@@ -8,7 +8,7 @@ rule "reinhardt cannot charge bastions":
     @Event eachPlayer
     @Team 1
     @Hero reinhardt
-    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isUsingAbility1()
     
     waitUntil(getPlayersInRadius(eventPlayer, 2, Team.2)[0] or not eventPlayer.isUsingAbility1(), 5)
     if not eventPlayer.isUsingAbility1() or eventPlayer.isFiringSecondaryFire():
