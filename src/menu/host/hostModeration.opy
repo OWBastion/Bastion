@@ -13,11 +13,11 @@ rule "Select host target":
 
     if targetPlayerIndex == null or targetPlayerIndex >= len(sorted(getPlayers(Team.1))):
         targetPlayerIndex = 0
-        wait(getAverageServerLoad() / 100 * 0.032)
-    wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
+    waitLoadBrief()
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if targetPlayer == null else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 

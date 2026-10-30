@@ -40,10 +40,10 @@ def resetPlayerProgressState():
     PROFILE_RESET_ACHIEVEMENT_STATE()
     PROFILE_RESET_ACHIEVEMENT_LIST()
     eventPlayer.thiefBuffStolen = false
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     setPlayerHP()
     updatePlayerStats()
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
 
 def resetPlayerSavedState():
     @Name "[VishkarEvent]: reset player saved state"
@@ -59,12 +59,12 @@ def resetPlayerSavedState():
     savedData.savedJoinTime[eventPlayer.savedDataIndex] = eventPlayer.joinTime
     savedData.savedWinnerTime[eventPlayer.savedDataIndex] = 0
     savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
 
 def finishResetProgress():
     @Name "[VishkarEvent]: finish reset progress"
 
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     eventPlayer.startForcingHero(heroList[0])
     wait()
     eventPlayer.stopForcingCurrentHero()

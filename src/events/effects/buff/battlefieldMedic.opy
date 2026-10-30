@@ -37,7 +37,7 @@ rule "[VishkarEvent]: 战地医生 (结束判定)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.BATTLEFIELD_MEDIC, eventPlayer.eventMissionGoal > 0]) == true
 
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     if eventPlayer.eventId == -1:
         return
     if eventPlayer.getStatistic(Stat.HEALING_DEALT) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:

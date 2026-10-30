@@ -28,4 +28,4 @@ def resetPlayerEventState():
     eventPlayer.eventCandidateIndex = null
     eventPlayer.eventForceIndex = null
     eventPlayer.eventTempIndex = []
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()

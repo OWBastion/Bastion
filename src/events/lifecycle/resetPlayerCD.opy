@@ -14,4 +14,4 @@ def resetPlayerCD():
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.setAbilityCooldown(Button.JUMP, 0)
     eventPlayer.setAbilityCooldown(Button.RELOAD, 0)
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()

@@ -13,11 +13,11 @@ rule "Select dev target":
 
     if targetPlayerIndex == null or targetPlayerIndex >= len(sorted(getPlayers(Team.1))):
         targetPlayerIndex = 0
-        wait(getAverageServerLoad() / 100 * 0.032)
-    wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
+    waitLoadBrief()
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if targetPlayer == null else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
@@ -50,7 +50,7 @@ rule "Toggle damage reduction":
     @Condition eventPlayer.isHoldingButton(Button.MELEE) == true
 
     eventPlayer.dmgReduc = not eventPlayer.dmgReduc
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     if eventPlayer.dmgReduc:
         eventPlayer.setDamageReceived(1)
         createEffect(getAllPlayers(), Effect.ANA_NANO_BOOSTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
@@ -69,7 +69,7 @@ rule "Toggle invincible":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
 
     eventPlayer.invincible = not eventPlayer.invincible
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     if eventPlayer.invincible:
         eventPlayer.setStatusEffect(null, Status.INVINCIBLE, Math.INFINITY)
         createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)

@@ -55,10 +55,10 @@ def setPlayerEvent():
             eventPlayer.eventCandidateIndex = -1
     if eventPlayer.eventCandidateIndex == -1 and eventPlayer.eventForceType != -1:
         drawForcedEvent()
-        wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
     if eventPlayer.eventCandidateIndex == -1:
         buildCandidatePool()
-        wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
         rejecSampling()
         # 窃贼标记只在其实际过滤了候选池的分配上消耗；强制非增益分配不消耗挂起状态
         if eventPlayer.thiefBuffStolen == true:
@@ -74,7 +74,7 @@ def setPlayerEvent():
     eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
     setEventDuration()
     commitPlayerEventCategory()
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     if eventPlayer.eventLastId == null:
         eventPlayer.eventLastId = []
     # 强制契约按实际兑现消费：分配未落在声明类型上（区间暂不可得而回落）不扣次数
@@ -129,9 +129,9 @@ def rerollNextEvent():
     eventPlayer.eventCandidateIndex = -1
     if eventPlayer.eventForceType != -1:
         drawForcedEvent()
-        wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
     if eventPlayer.eventCandidateIndex == -1:
         buildCandidatePool()
-        wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
         rejecSampling()
     eventPlayer.eventNextIndex = eventPlayer.eventCandidateIndex
