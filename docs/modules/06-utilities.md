@@ -18,7 +18,7 @@
 
 - 顶部宏：`env/macros.opy`
 - 中段服务分组：三个入口按固定槽位交错 include 各属主模块（`map/`、`blacklist/`、`player/`、`session/`、`bastion/`、`events/*` 及 `utilities/system` 遗留项），槽位顺序不可重排
-- 末尾菜单分组：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/dev/*` -> `menu/menuPlayer.opy` -> `menu/host/*` 等固定槽位交错展开
+- 末尾菜单分组：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/menuPlayer.opy` -> `menu/host/*` / `menu/dev/*` -> `menu/menuHud.opy` -> `menu/hud/*` 等固定槽位交错展开
 
 ## 关键实现模式
 

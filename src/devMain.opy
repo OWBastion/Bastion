@@ -182,7 +182,6 @@ rule STR_LICENSE_PERMIT:
 # Player, host, and developer menus
 #!include "menu/menuFrame.opy"
 #!include "menu/menuHero.opy"
-#!include "menu/dev/devPages.opy"
 #!include "menu/menuPlayer.opy"
 #!include "menu/dev/devDifficulty.opy"
 #!include "menu/host/hostReboot.opy"
@@ -192,6 +191,8 @@ rule STR_LICENSE_PERMIT:
 #!include "menu/dev/devMovement.opy"
 #!include "menu/dev/devActions.opy"
 #!include "menu/dev/devWeights.opy"
+#!include "menu/menuHud.opy"
+#!include "menu/hud/hudPair.opy"
 
 # CN titles and achievements
 #!include "title/mapTitleData.opy"

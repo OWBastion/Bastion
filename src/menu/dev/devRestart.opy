@@ -7,7 +7,7 @@
 
 rule "Restart match":
     @Event eachPlayer
-    @Condition eventPlayer.menu == 2
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
 

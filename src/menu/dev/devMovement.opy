@@ -5,11 +5,14 @@
 # 保留迁移前发射规则名 "[DevTool] ..." 前缀不变
 #!rulePrefix "DevTool"
 
+#!define MENU_DEV_MOVEMENT_TITLE(viewer) STR_MENU_TITLE_DEV_PANEL
+#!define MENU_DEV_MOVEMENT_BODY(viewer) STR_MENU_OPT_AIR_WALK.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_STATE_ON if viewer.isAirWalkEnabled else STR_MENU_STATE_OFF, STR_MENU_OPT_NOCLIP.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_STATE_ON if viewer.isPortalEnabled == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SELECT_INDEX.format(inputBindingString(Button.ABILITY_1), viewer.controlCenterIndex, STR_MENU_OPT_TP_TO_INDEX.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))))))
+
 rule "Toggle air walk":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
-    @Condition eventPlayer.menu == 3
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_MOVEMENT
 
     if eventPlayer.isAirWalkEnabled == true:
         goto lbl_0
@@ -38,7 +41,7 @@ rule "Hold air position":
 rule "Toggle noclip":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.menu == 3
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_MOVEMENT
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
     if eventPlayer.isPortalEnabled == true:
@@ -80,7 +83,7 @@ rule "Step noclip":
 rule "Cycle control point":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.menu == 3
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_MOVEMENT
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
 
     if controlCenterPosition == null:
@@ -100,7 +103,7 @@ rule "Cycle control point":
 rule "Teleport to control point":
     @Event eachPlayer
     @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.menu == 3
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_MOVEMENT
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
     @Condition controlCenterPosition != null
 

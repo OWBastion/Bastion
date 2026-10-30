@@ -9,7 +9,7 @@ rule "Increase difficulty":
     @Event eachPlayer
     @Team 1
     @Condition difficulty < 5
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
     @Disabled
@@ -23,7 +23,7 @@ rule "Increase difficulty":
 rule "Decrease difficulty":
     @Event eachPlayer
     @Condition difficulty > 0
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition eventPlayer.isDev == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     @Disabled

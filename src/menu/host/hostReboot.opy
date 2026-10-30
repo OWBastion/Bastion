@@ -7,7 +7,7 @@
 
 rule "Extend reboot timer":
     @Event eachPlayer
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
 
@@ -24,7 +24,7 @@ rule "Extend reboot timer":
 
 rule "Reduce reboot timer":
     @Event eachPlayer
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
