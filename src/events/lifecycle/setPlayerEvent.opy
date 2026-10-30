@@ -98,7 +98,7 @@ def setPlayerEvent():
     if eventPlayer.eventType == EventType.BUFF:
         playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENADE_INCREASED_HEALING_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     elif eventPlayer.eventType == EventType.DEBUFF:
-        playEffect(eventPlayer, DynamicEffect.SOMBRA_TRANSLOCATING_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
+        playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     else:
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     if eventPlayer.eventDesc != null:
