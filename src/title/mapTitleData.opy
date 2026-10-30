@@ -105,6 +105,11 @@
 ]
 #!define MAP_TITLE_OVR "␞␞␞␞瓦拉纳西‖守护者␞␞␞␞␞␞␞␞␞‖黄金节拍␞␞␞␞␞␞␞桥元御守‖␞桥元御守‖␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞‖永别了牢笼␞␞␞␞␞␞␞␞␞␞␞␞大城‖守护者␞织金‖门徒␞科研先锋‖␞科研先锋‖␞织金‖门徒"
 
+subroutine waitTitleReady
+
+def waitTitleReady():
+    waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+
 rule "Load CN map title holders":
     @Condition __currentMapText___
 
@@ -144,13 +149,13 @@ rule "Load CN map title holders":
         mapTitlePlayersByKey = [[], [], [], []]
 
     if __currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860:
-        waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+        waitTitleReady()
         titleColor[TITLE.PIONEER] = [vect(250, 120, 115)]
     elif __mapTitleNorm == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177:
-        waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+        waitTitleReady()
         titleColor[TITLE.PIONEER] = [vect(109, 171, 235)]
     elif __currentMap___ == Map.WATCHPOINT_GIBRALTAR:
-        waitUntil(len(titleText) > TITLE.PIONEER, Math.INFINITY)
+        waitTitleReady()
         if __currentMapPioneerText___ == "守望先锋":
             titleColor[TITLE.PIONEER] = [vect(240, 101, 20)]
         else:

@@ -17,7 +17,7 @@ def progressHero():
     waitTick2()
     eventPlayer.preloadHero(heroList[eventPlayer.heroNumber])
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
-    waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
+    waitHeroMatch()
     eventPlayer.stopForcingCurrentHero()
 
     # Set Ability Enabled 是玩家级覆盖标志，跨英雄切换保留且压过大厅设置；
