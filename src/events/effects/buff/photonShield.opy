@@ -10,7 +10,7 @@
 rule "Bind shield source":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHOTON_SHIELD]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.PHOTON_SHIELD)
     
     wait()
     getPlayers(Team.1).target = eventPlayer
@@ -23,12 +23,12 @@ rule "Bind shield source":
 rule "Grant shields":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.target != null]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.target
     
     wait()
     eventPlayer.addHealthPool(Health.SHIELDS, EVT_12_BASE_SHIELD + eventPlayer.target.maxHealthPercent(EVT_12_SHIELD_PERCENT * 100), true, false)
     eventPlayer.healthId[2] = getLastCreatedHealthPool()
     # Exception: bonded target shield must track target lifecycle directly.
-    waitUntil(eventPlayer.target == null or eventPlayer.target.eventId == -1 or not eventPlayer.target.isAlive() or eventPlayer.target.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(not eventPlayer.target or eventPlayer.target.eventId == -1 or not eventPlayer.target.isAlive() or eventPlayer.target.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[2])
     eventPlayer.healthId[2] = null

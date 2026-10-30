@@ -8,10 +8,10 @@
 
 rule "[VishkarEvent]: 钢铁防线":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.IRON_BULWARK)
     
     waitTick2()
-    if eventPlayer.healthId[1] == null:
+    if not eventPlayer.healthId[1]:
         goto lbl_0
     removeHealthPool(eventPlayer.healthId[1])
     lbl_0:

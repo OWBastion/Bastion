@@ -9,22 +9,22 @@
 rule "[VishkarEvent]: 死亡延迟（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.DEATH_DELAY and eventPlayer.eventEndTime > getTotalTimeElapsed() and not eventPlayer.hasStatus(Status.UNKILLABLE)
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
 rule "[VishkarEvent]: 死亡延迟":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.DEATH_DELAY, attacker.getHero() != eventPlayer.getHero(), eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] == null, eventPlayer.hasStatus(Status.UNKILLABLE)]) == true
-    @Condition (any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_9_TRIGGER_HP_PERCENT * 100), eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP])) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.DEATH_DELAY and attacker.getHero() != eventPlayer.getHero() and not eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] and eventPlayer.hasStatus(Status.UNKILLABLE)
+    @Condition ((eventDamage >= eventPlayer.getHealth() or eventPlayer.healthAtMostPercent(EVT_9_TRIGGER_HP_PERCENT * 100) or eventAbility == Button.SECONDARY_FIRE and attacker.getHero() == Hero.BASTION and eventPlayer.getMaxHealth() <= EVT_9_BASTION_EXECUTE_HP)) == true
 
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     smallMessage(eventPlayer, "  {0}  已触发死亡延迟，致命伤害已延后".format(abilityIconString(Hero.BAPTISTE, Button.ABILITY_2)))
-    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
+    waitUntil((eventPlayer.eventId == -1 or eventPlayer.isDead() or eventPlayer.eventEndTime <= getTotalTimeElapsed()), Math.INFINITY)
     if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
         return
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
@@ -33,7 +33,7 @@ rule "[VishkarEvent]: 死亡延迟":
     if eventPlayer.isDead():
         return
     wait()
-    if any([eventPlayer.untargetable(), eventPlayer.hasSpawned() != true, eventPlayer.isAlive() != true]):
+    if (eventPlayer.untargetable() or not eventPlayer.hasSpawned() or not eventPlayer.isAlive()):
         goto lbl_0
     smallMessage(eventPlayer, "  {0} 死亡延迟：致命伤害已施加".format(
     iconString(Icon.SKULL)))
