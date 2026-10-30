@@ -408,7 +408,7 @@
 #!define STR_MENU_OPT_DIFF_INC "{0}    Increase Difficulty    \n{1}"
 #!define STR_MENU_OPT_DIFF_DEC "{0}    Decrease Difficulty    \n{1}"
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    3rd Person View    {1}\n{2}"
-#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    Show Settlement Card    \n{1}"
+#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    Hold: Show Settlement Card    \n{1}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    Mark Player    {1}\n{2}"
 #!define STR_MENU_OPT_UNMARK_BLOCK "{0}    Unmark & Temp Ban    \n{1}"
 #!define STR_MENU_OPT_NEXT_PAGE "{0}    Next Page    "
