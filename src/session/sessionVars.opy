@@ -60,6 +60,7 @@ globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
 globalvar prophetViewers
 globalvar __ringRadius
+globalvar __healTarget
 
 #Player variables
 

@@ -16,8 +16,9 @@ rule "[VishkarEvent]: 赌徒：孤注一掷":
     if random.randint(1, 100) <= EVT_MECH_20_WIN_RATE:
         eventPlayer.temp = 0
         for eventPlayer.temp in range(len(eventPlayer.target)):
-            heal(eventPlayer.target[eventPlayer.temp], eventPlayer, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_20_HEAL_MAXHP_FACTOR * 100))
-            eventPlayer.target[eventPlayer.temp].startHealingOverTime(eventPlayer, EVT_MECH_20_HOT_DURATION, eventPlayer.target[eventPlayer.temp].maxHealthPercent(EVT_MECH_20_HOT_MAXHP_FACTOR * 100))
+            __healTarget = eventPlayer.target[eventPlayer.temp]
+            heal(__healTarget, eventPlayer, __healTarget.maxHealthPercent(EVT_MECH_20_HEAL_MAXHP_FACTOR * 100))
+            __healTarget.startHealingOverTime(eventPlayer, EVT_MECH_20_HOT_DURATION, __healTarget.maxHealthPercent(EVT_MECH_20_HOT_MAXHP_FACTOR * 100))
         smallMessage(eventPlayer.target, "  {0}  孤注一掷：恢复{1}%最大生命值，{2}秒内每秒恢复{3}%最大生命值".format(iconString(Icon.CLUB), percent(EVT_MECH_20_HEAL_MAXHP_FACTOR), EVT_MECH_20_HOT_DURATION, percent(EVT_MECH_20_HOT_MAXHP_FACTOR)))
     else:
         eventPlayer.target.setHealth(1)
