@@ -471,7 +471,7 @@ enum MapTITLEKey:
 rule "initialize title array":
     @Condition mapTitlePlayersByKey != null
 
-    wait(getAverageServerLoad() / 100 * 0.5)
+    waitLoadShort()
     # BEGIN AUTO-GENERATED ALL_TITLE
     titleText = ["{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者")].concat("这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡‖地图不是我做的‖野生开发者‖堡垒建筑师‖友善的地图维护者‖三合一地图作者‖骇人鲸‖纯害战士".split("‖")).concat(["{0}征服者".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat(["{0}主宰".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat("专家幸存者‖传奇挑战者‖地狱穿梭者‖终极闪避‖轻装上阵‖完美无缺‖永不言弃‖坚韧不拔‖速通传奇‖闪避の神‖智瞳开拓者‖大难不死‖胜天半子‖堡垒の偶像‖第一颗蛋‖我还能吃‖万象归一‖守望旅行家‖万域天穹‖狂暴烈焰‖万蛋丛中过‖天选之子‖幸运星‖赌王‖福星高照‖倒霉蛋‖What can i say‖我命由我‖赌神‖牢 大‖V我50‖钢门‖开了‖红包收藏家‖好运来‖千里独行‖踏遍青山‖我不会放过你的酸不辣‖赌圣‖害群之马‖我要验牌‖牌没有问题‖大舍天下‖冲出地表‖把他们上市‖生命守护生命‖怪盗".split("‖")).concat([__currentMapClassicText___]).concat("？？？‖＞_＜‖o_O‖我觉得不行‖我觉得可以‖到此一游‖先知：麦迪文‖哪里有完美的时间线‖哈！哈！哈！我滴任务完成辣！‖我大受震撼".split("‖"))
     titleColor = [

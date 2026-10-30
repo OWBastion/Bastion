@@ -8,7 +8,7 @@ subroutine savePlayerData
 def savePlayerData():
     @Name "save player data if the player has pa\ufeffssed round 2"
     
-    wait(getAverageServerLoad() / 100 * 0.5)
+    waitLoadShort()
     if eventPlayer.heroNumber > 2:
         #We're saving data as a string, because although we can't hold entity id's, we can hold entity names as string.
         if not eventPlayer.inSaved(savedIndex):
@@ -16,18 +16,18 @@ def savePlayerData():
         eventPlayer.savedDataIndex = eventPlayer.savedIndex(savedIndex)
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 2) * 0.5)
         savedData.savedHero[eventPlayer.savedDataIndex] = eventPlayer.heroNumber
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         savedData.savedDeaths[eventPlayer.savedDataIndex] = eventPlayer.runDeathCount
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         savedData.savedWinner[eventPlayer.savedDataIndex] = eventPlayer.isWinner
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         savedData.savedSkipCount[eventPlayer.savedDataIndex] = eventPlayer.skipCount
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         if eventPlayer.winnerTime == null:
             goto lbl_0
         savedData.savedWinnerTime[eventPlayer.savedDataIndex] = eventPlayer.winnerTime
         lbl_0:
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] = eventPlayer.playerOnceEventState.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT) if eventPlayer.playerOnceEventState != null else DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
         savedData.savedJoinTime[eventPlayer.savedDataIndex] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)

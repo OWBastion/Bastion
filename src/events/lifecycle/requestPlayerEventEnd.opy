@@ -13,3 +13,6 @@ def requestPlayerEventEnd():
 
 def waitLoadBrief():
     wait(getAverageServerLoad() * 0.00032)
+
+def waitLoadShort():
+    wait(getAverageServerLoad() * 0.005)
