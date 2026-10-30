@@ -19,6 +19,6 @@ rule "[VishkarEvent]: 疾风祝福":
     eventPlayer.eventEffect = getLastCreatedEntity()
     eventPlayer.mod_speed_event = EVT_1_SPEED_BOOST
     updatePlayerStats()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()

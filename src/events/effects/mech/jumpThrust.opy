@@ -32,7 +32,7 @@ rule "[VishkarEvent]: 屁动力 eff":
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.JUMP) else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.nanoEffect = getLastCreatedEntity()
     
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
     
     destroyEffect(eventPlayer.nanoEffect)
     eventPlayer.nanoEffect = null

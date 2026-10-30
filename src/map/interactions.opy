@@ -26,7 +26,7 @@ rule "springboard":
     wait(INTERACTION_GATE_DT, Wait.ABORT_WHEN_FALSE)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer, 200)
     eventPlayer.applyImpulse(Vector.UP, 14, Relativity.TO_PLAYER)
-    wait(0.032)
+    waitTick2()
     eventPlayer.applyImpulse(worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 3.5, Relativity.TO_WORLD)
     wait(5)
 

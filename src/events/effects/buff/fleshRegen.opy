@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 血肉再生":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FLESH_REGEN]) == true
     
-    wait(0.032)
+    waitTick2()
     removeHealthPool(eventPlayer.healthId[0])
     eventPlayer.addHealthPool(Health.NORMAL, round(EVT_7_BASE_HEALTH + eventPlayer.maxHealthPercent(EVT_7_HEALTH_PERCENT * 100)), false, false)
     eventPlayer.healthId[0] = getLastCreatedHealthPool()

@@ -52,6 +52,6 @@ rule "player deaths are counted manually rather than relying on in-game statisti
     wait(0.5 * getServerLoad() / 100)
     eventPlayer.runDeathCount++
     if eventPlayer in savedIndex:
-        wait(0.032)
+        waitTick2()
         savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if controlRespawnPosition == null else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)

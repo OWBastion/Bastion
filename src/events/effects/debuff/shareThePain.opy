@@ -14,7 +14,7 @@ rule "[VishkarEvent]: 有难同当 Effect":
     waitLoadBrief()
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
 
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage

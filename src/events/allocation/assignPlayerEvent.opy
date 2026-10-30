@@ -23,7 +23,7 @@ rule "[VishkarEvent]: get player event":
     wait(10 if evalOnce(debugMode) else random.randint(30, 35) if not eventPlayer.isWinner else 40, Wait.ABORT_WHEN_FALSE)
     waitLoadBrief()
     setPlayerEvent()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
     waitLoadBrief()
     if eventPlayer.eventId != -1 and eventPlayer.eventEndTime <= getTotalTimeElapsed():
         clearPlayerEvent()
