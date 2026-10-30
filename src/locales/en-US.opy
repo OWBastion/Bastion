@@ -235,12 +235,16 @@
 # In-game Notifications
 # ------------------------------------------------
 # {0}=Icon, {1}=Event Name, {2}=Duration
+#!define STR_MSG_EVENT_TRIGGER "  {0}  Event Triggered: {1} ({2})"
 
 # {0}=Seconds
+#!define STR_MSG_DURATION_SEC "{0}s"
 
 #!define STR_MSG_DURATION_INSTANT "Instant"
 
 # {0}=Icon, {1}=Description
+#!define STR_MSG_EVENT_EFFECT "  {0}  Effect: {1}"
+#!define STR_MSG_EVENT_ENDED "  {0} Event Ended"
 #!define STR_MSG_PROGRESS_SAVED "  Your challenge progress has been saved"
 #!define STR_MSG_HOST_WARNING_RESET "  If the game restarts, all progress data will be cleared"
 #!define STR_MSG_HOST_ENDORSEMENT_HINT "  To keep the lobby public, ensure the host has Endorsement Level 3 or higher"

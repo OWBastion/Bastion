@@ -95,6 +95,28 @@ def setPlayerEvent():
     eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
+    if eventPlayer.eventType == EventType.BUFF:
+        playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENADE_INCREASED_HEALING_SOUND, Color.WHITE, eventPlayer.getPosition(), 100)
+    elif eventPlayer.eventType == EventType.DEBUFF:
+        playEffect(eventPlayer, DynamicEffect.SOMBRA_TRANSLOCATING_SOUND, Color.WHITE, eventPlayer.getPosition(), 100)
+    else:
+        playEffect(eventPlayer, DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 100)
+    if eventPlayer.eventDesc != null:
+        smallMessage(
+            eventPlayer,
+            STR_MSG_EVENT_TRIGGER.format(
+                abilityIconString(Hero.SOMBRA, Button.ULTIMATE),
+                eventPlayer.eventName,
+                STR_MSG_DURATION_SEC.format(eventPlayer.eventDuration) if eventPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT
+            )
+        )
+        smallMessage(
+            eventPlayer,
+            STR_MSG_EVENT_EFFECT.format(
+                abilityIconString(Hero.SOMBRA, Button.ULTIMATE),
+                eventPlayer.eventDesc
+            )
+        )
 
 
 def rerollNextEvent():
