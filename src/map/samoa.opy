@@ -43,7 +43,7 @@ macro platformMapRevision_SAMOA_DEFAULT():
 
 
 rule "map - 萨摩亚":
-    @Condition (__currentMap___ == Map.SAMOA or __currentMap___ == 13628) == true
+    @Condition __currentMap___ == Map.SAMOA or __currentMap___ == 13628
 
     platformMapRevision_SAMOA_DEFAULT()
     startForcingSpawn(Team.1, 2)

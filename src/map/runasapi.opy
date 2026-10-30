@@ -26,7 +26,7 @@ macro platformMapRevision_RUNASAPI_DEFAULT():
 
 
 rule "map - 鲁纳塞彼":
-    @Condition (__currentMap___ == Map.RUNASAPI or __currentMap___ == 8048) == true
+    @Condition __currentMap___ == Map.RUNASAPI or __currentMap___ == 8048
 
     platformMapRevision_RUNASAPI_DEFAULT()
     startForcingSpawn(Team.1, 2)

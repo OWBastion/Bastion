@@ -37,7 +37,7 @@ macro platformMapRevision_AATLIS_DEFAULT():
 
 
 rule "map - 阿特利斯":
-    @Condition (__currentMap___ == Map.AATLIS or __currentMap___ == 1826) == true
+    @Condition __currentMap___ == Map.AATLIS or __currentMap___ == 1826
     
     platformMapRevision_AATLIS_DEFAULT()
     startForcingSpawn(Team.1, 1)

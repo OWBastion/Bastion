@@ -7,8 +7,8 @@
 
 rule "3rd person":
     @Event eachPlayer
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition distance(eventPlayer * vect(1, 0, 1), thirdPersonPosition * vect(1, 0, 1)) <= 1.2
 
     wait(INTERACTION_GATE_DT)
@@ -17,9 +17,9 @@ rule "3rd person":
 
 rule "springboard":
     @Event eachPlayer
-    @Condition springBoardPosition != null
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    @Condition springBoardPosition
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= springBoardPosition.y
     @Condition distance(eventPlayer * vect(1, 0, 1), springBoardPosition * vect(1, 0, 1)) <= 1.2
 
@@ -33,9 +33,9 @@ rule "springboard":
 
 rule "portalPosition":
     @Event eachPlayer
-    @Condition portalPosition != null
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    @Condition portalPosition
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= portalPosition[0].y
     @Condition distance(eventPlayer * vect(1, 0, 1), portalPosition[0] * vect(1, 0, 1)) <= 1.2
 

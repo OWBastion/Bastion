@@ -46,7 +46,7 @@ macro platformMapRevision_HANAMURA_CLASSIC():
 
 
 rule "map - 花村":
-    @Condition (__currentMap___ == Map.HANAMURA or __currentMap___ == 1848 or __currentMap___ == Map.HANAMURA_WINTER) == true
+    @Condition __currentMap___ == Map.HANAMURA or __currentMap___ == 1848 or __currentMap___ == Map.HANAMURA_WINTER
 
     if classicMapVariant == CLASSIC_MAP_VARIANT_HANAMURA:
         platformMapRevision_HANAMURA_CLASSIC()

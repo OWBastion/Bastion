@@ -34,7 +34,7 @@ macro platformMapRevision_HANAOKA_DEFAULT():
 
 
 rule "map - 花冈":
-     @Condition (__currentMap___ == Map.HANAOKA or __currentMap___ == 2601) == true
+     @Condition __currentMap___ == Map.HANAOKA or __currentMap___ == 2601
     
     platformMapRevision_HANAOKA_DEFAULT()
      __currentMapText___ = "花冈"

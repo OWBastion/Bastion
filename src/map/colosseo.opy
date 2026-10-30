@@ -27,7 +27,7 @@ macro platformMapRevision_COLOSSEO_DEFAULT():
 
 
 rule "map - 斗兽场":
-    @Condition (getCurrentMap() == Map.COLOSSEO or __currentMap___ == 2147) == true
+    @Condition getCurrentMap() == Map.COLOSSEO or __currentMap___ == 2147
     
     platformMapRevision_COLOSSEO_DEFAULT()
     startForcingSpawn(Team.1, 2)
