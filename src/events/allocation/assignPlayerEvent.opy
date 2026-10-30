@@ -8,11 +8,11 @@ rule "[VishkarEvent]: get player event":
     @Event eachPlayer
     @Team 1
     @Condition getNumberOfPlayers(Team.2) == len(bastionPosition)
-    @Condition all([vishkarEventActivated, eventPlayer.hasSpawned(), eventPlayer.eventId == -1]) == true
+    @Condition (vishkarEventActivated and eventPlayer.hasSpawned() and eventPlayer.eventId == -1)
     @Condition eventPlayer.eventCompatibleBasePool != null
-    @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer) == true
+    @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
 
-    if eventPlayer.hudTextId != null:
+    if eventPlayer.hudTextId:
         goto lbl_0
     eventPlayer.hudText = ""
     hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 20, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)

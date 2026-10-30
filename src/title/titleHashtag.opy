@@ -5,7 +5,7 @@
 rule "hashTag | Host Title Whitelist Verify":
     @Event global
     @Condition getTotalTimeElapsed() > 30
-    @Condition hashTag == true
+    @Condition hashTag
 
     waitUntil(len(titlePlayer) > 0 and hostPlayer != null, Math.INFINITY)
 
@@ -14,10 +14,10 @@ rule "hashTag | Host Title Whitelist Verify":
 
 rule "hashTag | Host Emre Ability1 Duration Verify":
     @Event global
-    @Condition hashTag == true
+    @Condition hashTag
 
-    waitUntil(hostPlayer != null and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1(), Math.INFINITY)
-    waitUntil(hostPlayer == null or hostPlayer.getHero() != Hero.EMRE or hostPlayer.isUsingAbility1() == false, 6)
+    waitUntil(hostPlayer and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1(), Math.INFINITY)
+    waitUntil(not hostPlayer or hostPlayer.getHero() != Hero.EMRE or not hostPlayer.isUsingAbility1(), 6)
 
-    if hostPlayer != null and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1() == true:
+    if hostPlayer and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1():
         hashTag = false

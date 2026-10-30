@@ -7,14 +7,7 @@ subroutine buildCandidatePool
 
 # Whether this hero is currently using its supported phase-trigger input.
 macro Player.usesPhaseTrigger():
-    any([
-        (self.getHero() in phaseHero[0] and self.isUsingAbility1()),
-        (self.getHero() in phaseHero[1] and self.isUsingAbility2()),
-        (self.getHero() in phaseHero[2] and self.isFiringSecondaryFire()),
-        (self.getHero() in phaseHero[3] and self.isHoldingButton(Button.JUMP)),
-        (isHero(self, Hero.BRIGITTE) and self.isFiringSecondaryFire() and self.isHoldingButton(Button.PRIMARY_FIRE)),
-        (self.getHero() in phaseHero[4] and self.zenSnapKick)
-    ])
+    ((self.getHero() in phaseHero[0] and self.isUsingAbility1()) or (self.getHero() in phaseHero[1] and self.isUsingAbility2()) or (self.getHero() in phaseHero[2] and self.isFiringSecondaryFire()) or (self.getHero() in phaseHero[3] and self.isHoldingButton(Button.JUMP)) or (isHero(self, Hero.BRIGITTE) and self.isFiringSecondaryFire() and self.isHoldingButton(Button.PRIMARY_FIRE)) or (self.getHero() in phaseHero[4] and self.zenSnapKick))
 
 def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
@@ -33,7 +26,7 @@ def buildCandidatePool():
     if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.PROPHET or other.eventNextIndex == EventId.PROPHET or other.eventCandidateIndex == EventId.PROPHET))) > 0:
         eventPlayer.eventTempIndex.remove(EventId.PROPHET)
 
-    if eventPlayer.eventLastId != null:
+    if eventPlayer.eventLastId:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
         if len(eventPlayer.eventCandidateIndex) > 0:
             eventPlayer.eventTempIndex = eventPlayer.eventCandidateIndex

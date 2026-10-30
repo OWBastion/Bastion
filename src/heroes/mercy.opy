@@ -6,8 +6,8 @@
 rule "when a mercy might rez, respawn time is increased":
     @Event playerDied
     @Team 1
-    @Condition isHeroBeingPlayed(Hero.MERCY, Team.1) == true
-    @Condition eventPlayer.controlPlayerRespawnPosition == null
+    @Condition isHeroBeingPlayed(Hero.MERCY, Team.1)
+    @Condition not eventPlayer.controlPlayerRespawnPosition
 
     if eventPlayer.eventId == EventId.NESTING_DOLL:
         return

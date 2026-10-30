@@ -27,13 +27,13 @@ rule "Reset sleep lockout":
     @Event eachPlayer
     @Team 1
     @Hero ana
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isAlive()
     
     waitLoadLong()
     eventPlayer.anaSleepLimit = [-30 for player in bastionPosition]
 
 rule "Display sleep HUD":
-    @Condition isHeroBeingPlayed(Hero.ANA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.ANA, Team.1)
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ANA and localPlayer.isInSpawnRoom() else null, STR_ANA_SLEEP_LIMIT_HINT.format(abilityIconString(Hero.ANA, Button.ABILITY_1), 30), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)
     wait()

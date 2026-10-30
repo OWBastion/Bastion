@@ -8,8 +8,8 @@
 rule "Restart match":
     @Event eachPlayer
     @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
-    @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
+    @Condition eventPlayer.isDev
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 长按 {1} 进行重启".format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD)))
     wait(2, Wait.ABORT_WHEN_FALSE)

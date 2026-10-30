@@ -199,14 +199,14 @@ function addConfigRegistration(source: string, spec: AddSpec): string {
 }
 
 function addCatalogOrderEntry(source: string, key: string): string {
-  const pattern = /(#!define\s+EVENT_CATALOG_ORDER\s+\[[^\]]*)\]/;
+  const pattern = /(#!define\s+EVENT_CATALOG_ORDER\s+compressed\(\[[^\]]*)\]\)/;
   if (!pattern.test(source)) {
     throw new Error('EVENT_CATALOG_ORDER define not found');
   }
   if (source.includes(`${ENUM_NAME}.${key}`)) {
     throw new Error(`${ENUM_NAME}.${key} already present in EVENT_CATALOG_ORDER`);
   }
-  return source.replace(pattern, `$1, ${ENUM_NAME}.${key}]`);
+  return source.replace(pattern, `$1, ${ENUM_NAME}.${key}])`);
 }
 
 function removeCatalogOrderEntry(source: string, key: string): string {

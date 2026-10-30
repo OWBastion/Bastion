@@ -7,9 +7,9 @@
 rule "Toggle dev rainbow":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.isDev == true
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isDev
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
     @Disabled
     
     eventPlayer.rainbowOff = not eventPlayer.rainbowOff
@@ -20,8 +20,8 @@ rule "Toggle dev rainbow":
 rule "Refresh winner outlines":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.isWinner != false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isWinner
+    @Condition eventPlayer.isAlive()
     
     waitLoadLong()
     eventPlayer.startForcingOutlineFor(getPlayers(Team.1), true, Color.GREEN, OutlineVisibility.ALWAYS)
@@ -42,7 +42,7 @@ rule "Outline winners for joiners":
 rule "Clear non-winner outlines":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.isWinner == false
+    @Condition not eventPlayer.isWinner
     
     waitLoadLong()
     eventPlayer.stopForcingOutlineFor(getPlayers(Team.1))

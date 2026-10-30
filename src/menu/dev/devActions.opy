@@ -7,10 +7,10 @@
 
 rule "Teleport to target":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
-    @Condition targetPlayer != null
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition targetPlayer
 
     eventPlayer.teleport(nearestWalkablePosition(targetPlayer.getPosition() - vect(0, 0, -1)))
     eventPlayer.setFacing(targetPlayer.getFacingDirection(), Relativity.TO_WORLD)
@@ -18,10 +18,10 @@ rule "Teleport to target":
 
 rule "Unlock all heroes":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
-    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
-    @Condition eventPlayer.isWinner == false
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+    @Condition not eventPlayer.isWinner
 
     if eventPlayer.heroNumber < len(heroList) - 1:
         eventPlayer.heroNumber = len(heroList) - 1
@@ -30,7 +30,7 @@ rule "Unlock all heroes":
         waitLoadShort()
         smallMessage(eventPlayer, "  {0} 开发者模式：已解锁全英雄".format(iconString(Icon.BOLT)))
         #savePlayerData()
-    elif eventPlayer.isWinner == false:
+    elif not eventPlayer.isWinner:
         eventPlayer.isWinner = true
         waitLoadShort()
         smallMessage(eventPlayer, "  {0} 开发者模式：已通关".format(iconString(Icon.BOLT)))

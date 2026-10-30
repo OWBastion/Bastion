@@ -14,9 +14,9 @@
 
 rule "Cycle event category":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_WEIGHTS
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
 
     devEventCategory = (devEventCategory + 1) % 3
     devEventIndex = 0 # 切换分类重置索引
@@ -24,9 +24,9 @@ rule "Cycle event category":
 
 rule "Cycle event selection":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_WEIGHTS
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
 
     # 循环切换索引
     if len(getCurrentEventIdArray()) > 0:
@@ -35,9 +35,9 @@ rule "Cycle event selection":
 
 rule "Increase event weight":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_WEIGHTS
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
 
     if len(getCurrentEventIdArray()) > 0:
         if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] == null:
@@ -50,7 +50,7 @@ rule "Increase event weight":
 
 rule "Decrease event weight":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == MENU_PAGE_DEV_WEIGHTS
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
 

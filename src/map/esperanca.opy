@@ -32,7 +32,7 @@ macro platformMapRevision_ESPERANCA_DEFAULT():
 
 
 rule "map - 埃斯佩兰萨":
-    @Condition (__currentMap___ == Map.ESPERANCA or __currentMap___ == 276) == true
+    @Condition __currentMap___ == Map.ESPERANCA or __currentMap___ == 276
     
     platformMapRevision_ESPERANCA_DEFAULT()
     startForcingSpawn(Team.1, 2)

@@ -12,6 +12,14 @@
 # 事件正常结束或中途 abort 均不会残留保护状态。
 # 弹射只击晕事件持有者本人；被弹开的队友不受眩晕（公告 #393）。
 
+rule "Create effect":
+    @Event eachPlayer
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.STATIC_FIELD, eventPlayer.eventEffect == null]) == true
+
+    createEffect(getAllPlayers(), Effect.WINSTON_TESLA_CANNON_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    eventPlayer.eventEffect = getLastCreatedEntity()
+    waitUntil(eventPlayer.eventId != EventId.STATIC_FIELD or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+
 rule "Proximity repel":
     @Event eachPlayer
     @Team 1

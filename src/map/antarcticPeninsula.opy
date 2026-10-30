@@ -106,9 +106,9 @@ macro platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE():
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
 rule "map - 南极半岛":
-    @Condition (getCurrentMap() == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177) == true
+    @Condition getCurrentMap() == Map.ANTARCTIC_PENINSULA or __currentMap___ == 6177
 
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
+    waitAllSpawned()
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE()

@@ -26,7 +26,7 @@ macro platformMapRevision_AYUTTHAYA_DEFAULT():
 
 
 rule "map - 阿育陀耶":
-    @Condition (__currentMap___ == Map.AYUTTHAYA or __currentMap___ == 1826) == true
+    @Condition __currentMap___ == Map.AYUTTHAYA or __currentMap___ == 1826
     
     rebootTime = 5400
     platformMapRevision_AYUTTHAYA_DEFAULT()

@@ -14,11 +14,11 @@ rule "[VishkarEvent]: 保持距离 (易伤光环)":
     eventPlayer.target = getPlayersInRadius(eventPlayer, EVT_DEBUFF_15_RADIUS, Team.1, LosCheck.SURFACES).exclude(eventPlayer)
     if len(eventPlayer.target) > 1:
         eventPlayer.target = sorted(eventPlayer.target, lambda i: distance(eventPlayer, i))[0]
-    elif eventPlayer.target[0] != null:
+    elif eventPlayer.target[0]:
         eventPlayer.target = eventPlayer.target[0]
     else:
         eventPlayer.target = null
-    if eventPlayer.target != null:
+    if eventPlayer.target:
         eventPlayer.mod_dmg_taken = min(EVT_DEBUFF_15_MAX, max(0, (EVT_DEBUFF_15_RADIUS - distance(eventPlayer, eventPlayer.target)) * EVT_DEBUFF_15_FACTOR))
         eventPlayer.hudText = "受到伤害 +{0}%".format(eventPlayer.mod_dmg_taken)
     else:

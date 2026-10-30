@@ -28,7 +28,7 @@ macro platformMapRevision_NEON_JUNCTION_DEFAULT():
 
 
 rule "map - 霓虹枢纽":
-    @Condition (__currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860) == true
+    @Condition __currentMap___ == Map.NEON_JUNCTION or __currentMap___ == -6860
 
     platformMapRevision_NEON_JUNCTION_DEFAULT()
     startForcingSpawn(Team.1, 2)

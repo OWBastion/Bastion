@@ -27,8 +27,8 @@
 rule "Collapse undecided next event under observation":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer) == true
+    @Condition eventPlayer.hasSpawned()
+    @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
     @Condition len(prophetViewers.exclude(eventPlayer)) > 0
     @Condition eventPlayer.eventNextIndex == -1
 
@@ -37,8 +37,8 @@ rule "Collapse undecided next event under observation":
 rule "Attach prophet next-event text":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.prophetTextId == null
+    @Condition eventPlayer.hasSpawned()
+    @Condition not eventPlayer.prophetTextId
 
     wait(eventPlayer.getSlot() * 0.08)
     createInWorldText(
@@ -54,14 +54,14 @@ rule "Attach prophet next-event text":
             eventPlayer.titleCycleAB[0].x + eventPlayer.titleCycleAB[1].x * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)),
             eventPlayer.titleCycleAB[0].y + eventPlayer.titleCycleAB[1].y * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)),
             eventPlayer.titleCycleAB[0].z + eventPlayer.titleCycleAB[1].z * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)))
-            if eventPlayer.titleCycleAB != null else rgb(186, 120, 255)
+            if eventPlayer.titleCycleAB else rgb(186, 120, 255)
     )
     eventPlayer.prophetTextId = getLastCreatedText()
 
 rule "Destroy prophet next-event text when player leaves":
     @Event playerLeft
     @Team 1
-    @Condition eventPlayer.prophetTextId != null
+    @Condition eventPlayer.prophetTextId
 
     destroyInWorldText(eventPlayer.prophetTextId)
     eventPlayer.prophetTextId = null
