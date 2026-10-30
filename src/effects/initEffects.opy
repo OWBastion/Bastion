@@ -5,7 +5,7 @@
 
 
 rule "initialize effects":
-    hashTag = false if hashTag == false else true
+    hashTag = not not hashTag
     wait(random.uniform(1, 2))
     setDifficulty()
     

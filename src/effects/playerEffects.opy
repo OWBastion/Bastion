@@ -12,7 +12,7 @@ rule "Toggle dev rainbow":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Disabled
     
-    eventPlayer.rainbowOff = false if eventPlayer.rainbowOff else true
+    eventPlayer.rainbowOff = not eventPlayer.rainbowOff
     eventPlayer.stopForcingOutlineFor(getAllPlayers())
     smallMessage(eventPlayer, "DEV 特效{0}".format("关闭" if eventPlayer.rainbowOff else "开启"))
 
