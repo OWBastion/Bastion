@@ -26,6 +26,9 @@ def waitLoadShort():
 def waitLoadLong():
     wait(getAverageServerLoad() * 0.01)
 
+def waitAllSpawned():
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
+
 def waitHeroMatch():
     waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
 

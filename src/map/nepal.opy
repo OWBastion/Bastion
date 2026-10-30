@@ -45,4 +45,4 @@ rule "map - 尼泊尔":
 
     platformMapRevision_NEPAL_DEFAULT()
     startForcingSpawn(Team.1, 1)
-    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
+    waitAllSpawned()
