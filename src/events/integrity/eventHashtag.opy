@@ -36,11 +36,7 @@ rule "Hashtag":
     @Condition hashTag
     @Condition vishkarEventActivated == true
     @Condition getTotalTimeElapsed() > 125
-    @Condition any([
-            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.BUFF)) < EVENT_MANIFEST_ACTIVE_BUFF_COUNT,
-            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.DEBUFF)) < EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT,
-            len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.MECH)) < EVENT_MANIFEST_ACTIVE_MECH_COUNT
-        ]) == true
+    @Condition (len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.BUFF)) < EVENT_MANIFEST_ACTIVE_BUFF_COUNT or len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.DEBUFF)) < EVENT_MANIFEST_ACTIVE_DEBUFF_COUNT or len(eventCatalogId.filter(lambda id: eventCatalogType[id] == EventType.MECH)) < EVENT_MANIFEST_ACTIVE_MECH_COUNT) == true
 
     wait()
     hashTag = false

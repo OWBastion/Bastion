@@ -28,7 +28,7 @@ rule "Resolve finish":
         eventPlayer.isWinner = true
         eventPlayer.winnerTime = evalOnce(getTotalTimeElapsed()) - eventPlayer.joinTime
         eventPlayer.settlementCardEnd = evalOnce(getTotalTimeElapsed()) + 20
-        if any([eventPlayer.dmgReduc, eventPlayer.invincible, eventPlayer.isPortalEnabled, eventPlayer.isAirWalkEnabled]):
+        if (eventPlayer.dmgReduc or eventPlayer.invincible or eventPlayer.isPortalEnabled or eventPlayer.isAirWalkEnabled):
             goto lbl_1
         bigMessage(
             getPlayers(Team.1),
