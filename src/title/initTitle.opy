@@ -17,10 +17,10 @@ macro Player.titleColorNow = rgb(
 
 rule "Create in-world title":
     @Event eachPlayer
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.playerTitleAndColor != null
-    @Condition eventPlayer.titleTextID == null
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.playerTitleAndColor
+    @Condition not eventPlayer.titleTextID
 
     wait(eventPlayer.getSlot() * 0.08)
 

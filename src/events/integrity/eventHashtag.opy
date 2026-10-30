@@ -5,7 +5,7 @@
 
 rule "hashTag | Event Weight Sum Verify":
     @Event global
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition vishkarEventActivated == true
     @Condition hashTagWeightVerifyState[0] != true
     @Condition getTotalTimeElapsed() > 125
@@ -26,14 +26,14 @@ rule "hashTag | Event Weight Sum Verify":
 # 0.05 为半个权重调整步长，任意有效加权即判负，同时容忍浮点噪声
 rule "hashTag | Event Weight Over-Limit":
     @Event global
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition vishkarEventActivated == true
     @Condition eventCatalogWeightTotal > EVENT_MANIFEST_ACTIVE_WEIGHT_SUM + 0.05
 
     hashTag = false
 
 rule "Hashtag":
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition vishkarEventActivated == true
     @Condition getTotalTimeElapsed() > 125
     @Condition any([

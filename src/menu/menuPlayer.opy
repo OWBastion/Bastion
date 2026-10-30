@@ -7,8 +7,8 @@
 
 rule "Toggle third person":
     @Event eachPlayer
-    #@Condition eventPlayer.isDev == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    #@Condition eventPlayer.isDev
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.menu == 1
 
     waitLoadBrief()

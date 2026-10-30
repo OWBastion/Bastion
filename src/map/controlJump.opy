@@ -8,11 +8,11 @@
 rule "Reset to control respawn":
     @Event eachPlayer
     @Team 1
-    @Condition controlRespawnPosition != null
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isInSpawnRoom() == true
-    @Condition controlRespawnPosition[eventPlayer.controlJumpIndex] != null
+    @Condition controlRespawnPosition
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.isInSpawnRoom()
+    @Condition controlRespawnPosition[eventPlayer.controlJumpIndex]
     @Condition (any([controlRespawnAxis == 0 and distance(vect(eventPlayer.getPosition().x, 0, 0), vect(controlRespawnPosition[eventPlayer.controlJumpIndex].x, 0, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 1 and distance(vect(0, eventPlayer.getPosition().y, 0), vect(0, controlRespawnPosition[eventPlayer.controlJumpIndex].y, 0)) >= controlRespawnAxisThreshold, controlRespawnAxis == 2 and distance(vect(0, 0, eventPlayer.getPosition().z), vect(0, 0, controlRespawnPosition[eventPlayer.controlJumpIndex].z)) >= controlRespawnAxisThreshold])) == true
 
     eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
@@ -23,12 +23,12 @@ rule "Reset to control respawn":
 rule "Advance control jump":
     @Event eachPlayer
     @Team 1
-    @Condition controlRespawnPosition != null
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isInSpawnRoom() != true
-    @Condition eventPlayer.isMoving() == true
-    @Condition controlJumpPosition[eventPlayer.controlJumpIndex] != null
+    @Condition controlRespawnPosition
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
+    @Condition not eventPlayer.isInSpawnRoom()
+    @Condition eventPlayer.isMoving()
+    @Condition controlJumpPosition[eventPlayer.controlJumpIndex]
     #@Condition eventPlayer.getPosition().y >= controlJumpPosition[eventPlayer.controlJumpIndex].y
     #@Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), controlJumpPosition[eventPlayer.controlJumpIndex] * vect(1, 0, 1)) <= 4
 

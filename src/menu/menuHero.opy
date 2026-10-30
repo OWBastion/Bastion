@@ -7,8 +7,8 @@
 
 rule "Display hero page":
     @Event eachPlayer
-    @Condition (controlRespawnPosition == null or eventPlayer.isWinner or len(controlRespawnPosition) < 3) == true
-    @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
+    @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
+    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
 
     destroyHudText(eventPlayer.menuTextID[0])
     destroyHudText(eventPlayer.menuTextID[1])
@@ -40,8 +40,8 @@ rule "Display hero page":
 
 rule "Cycle hero selection":
     @Event eachPlayer
-    @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
-    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
+    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
     eventPlayer.menuHeroIndex += 1
     eventPlayer.menuHeroIndex = eventPlayer.menuHeroIndex % (
@@ -50,14 +50,14 @@ rule "Cycle hero selection":
             else (eventPlayer.heroNumber)
         ) + 1
     )
-    waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false, 99999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 99999)
 
 rule "Apply hero selection":
     @Event eachPlayer
-    @Condition (controlRespawnPosition == null or eventPlayer.isWinner or len(controlRespawnPosition) < 3) == true
-    @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
-    @Condition (eventPlayer.isInSpawnRoom() and eventPlayer.isMoving() != true) == true
+    @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
+    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition eventPlayer.isInSpawnRoom() and not eventPlayer.isMoving()
 
     eventPlayer.eventCompatibleBasePool = null
     eventPlayer.menuHeroIndex = eventPlayer.menuHeroIndex % (
@@ -72,4 +72,4 @@ rule "Apply hero selection":
     wait(getServerLoad() * 0.005)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
     refreshCompatibleEventPool()
-    waitUntil(eventPlayer.isHoldingButton(Button.RELOAD) == false, 99999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.RELOAD), 99999)

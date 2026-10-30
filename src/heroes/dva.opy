@@ -12,8 +12,8 @@ rule "Enable remech":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.DVA
-    @Condition eventPlayer.isInAlternateForm() == true
-    @Condition eventPlayer.isUsingUltimate() == false
+    @Condition eventPlayer.isInAlternateForm()
+    @Condition not eventPlayer.isUsingUltimate()
     
     eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 1.5)
     eventPlayer.setUltEnabled(false)
@@ -27,8 +27,8 @@ rule "Sync remech charge":
     @Event eachPlayer
     @Team 1
     @Hero dva
-    @Condition eventPlayer.isInAlternateForm() == true
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isInAlternateForm()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.dvaStart != 0
     @Condition eventPlayer.getUltCharge() != 100
     
@@ -42,7 +42,7 @@ rule "Complete remech goal":
     @Event eachPlayer
     @Team 1
     @Hero dva
-    @Condition eventPlayer.isInAlternateForm() == true
+    @Condition eventPlayer.isInAlternateForm()
     @Condition eventPlayer.dvaStart != 0
     
     waitUntil(distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.dvaStart) >= 30 or eventPlayer.isDead(), Math.INFINITY)
@@ -52,7 +52,7 @@ rule "Complete remech goal":
     eventPlayer.setUltCharge(100)
 
 rule "Display goal HUD":
-    @Condition isHeroBeingPlayed(Hero.DVA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.DVA, Team.1)
     
     wait(2, Wait.ABORT_WHEN_FALSE)
     hudHeader(localPlayer if localPlayer.getHero() == Hero.DVA and localPlayer.isInAlternateForm() and localPlayer.isAlive() and localPlayer.dvaStart != 0 else null, STR_DVA_DISTANCE_GOAL.format(max(0, 30 - distance(localPlayer.getPosition() * vect(1, 0, 1), localPlayer.dvaStart * vect(1, 0, 1)))), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)

@@ -10,8 +10,8 @@ rule "Init spawn state":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.hasSpawned()
     
     wait(0.25)
     eventPlayer.setDamageDealt(100 + 50 * difficulty)
@@ -22,7 +22,7 @@ rule "Init spawn state":
 
 
 rule "Freeze match time":
-    @Condition isInSetup() == false
+    @Condition not isInSetup()
     
     if not debugMode:
         disableInspector()
@@ -37,7 +37,7 @@ rule "Freeze match time":
 
 rule "Restart active match":
     @Condition getCurrentGamemode() != Gamemode.SKIRMISH
-    @Condition (isInSetup() or isAssemblingHeroes() or isGameInProgress()) == true
+    @Condition isInSetup() or isAssemblingHeroes() or isGameInProgress()
     
     disableAnnouncer()
     wait()
@@ -86,7 +86,7 @@ rule "Label bot names":
 
 rule "Apply player damage reduction":
     @Condition difficulty != 5
-    @Condition dmgReduction == false
+    @Condition not dmgReduction
     
     startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not player.isDev], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
 
@@ -94,7 +94,7 @@ rule "Apply player damage reduction":
 rule "Disable player HUD":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.hasSpawned()
     
     eventPlayer.disableGamemodeHud()
     eventPlayer.disableGamemodeInWorldUi()
@@ -115,7 +115,7 @@ rule "Disable player HUD":
 
 ## 当前循环内的“是否威胁态”
 macro isThreat(target):
-    (target != null) or (getTotalTimeElapsed() - eventPlayer.lastThreatTime <= THREAT_HOLD_SEC)
+    (target) or (getTotalTimeElapsed() - eventPlayer.lastThreatTime <= THREAT_HOLD_SEC)
 
 rule "Maintain assault form":
     @Event eachPlayer
@@ -124,13 +124,13 @@ rule "Maintain assault form":
     @Condition getTotalTimeElapsed() > 10
     # 必须技能冷却完成才会触发本规则
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0
-    # @Condition eventPlayer.isInAlternateForm() == false
+    # @Condition not eventPlayer.isInAlternateForm()
 
-    if eventPlayer.target != null:
+    if eventPlayer.target:
         eventPlayer.lastThreatTime = getTotalTimeElapsed()
     
     #this cancels bastion's "standing up" animation so he can sit back down faster
-    if eventPlayer.isInAlternateForm() == false:
+    if not eventPlayer.isInAlternateForm():
         eventPlayer.cancelPrimaryAction()
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
         eventPlayer.forceButtonPress(Button.ABILITY_1)
@@ -146,7 +146,7 @@ rule "Refresh assault form":
     @Team 2
     @Hero bastion
     @Condition getTotalTimeElapsed() > 10
-    @Condition eventPlayer.isInAlternateForm() == false
+    @Condition not eventPlayer.isInAlternateForm()
     @Condition eventPlayer.target == false
     @Condition getPlayersInRadius(eventPlayer.getPosition(), 110, Team.1)[0] != false
     
@@ -166,7 +166,7 @@ rule "Refresh assault form":
 #!define TURN_REFRESH_DT 0.1
 
 macro isBastionTargetEligible(target):
-    target != null and target.hasSpawned() and not target.isWinner and not target.hasStatus(Status.PHASED_OUT) and not target.targetSilence and distance(eventPlayer, target) < 100
+    target and target.hasSpawned() and not target.isWinner and not target.hasStatus(Status.PHASED_OUT) and not target.targetSilence and distance(eventPlayer, target) < 100
 
 macro hasBastionTargetLoS(target):
     isInLoS(eventPlayer.getEyePosition(), target.getEyePosition()) or isInLoS(eventPlayer.getEyePosition(), target.getPosition())
@@ -175,13 +175,13 @@ rule "Acquire target":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
 
     wait(random.uniform(
-        SCAN_DT_HAS_TARGET_MIN if eventPlayer.target != null else SCAN_DT_NO_TARGET_MIN,
-        SCAN_DT_HAS_TARGET_MAX if eventPlayer.target != null else SCAN_DT_NO_TARGET_MAX
+        SCAN_DT_HAS_TARGET_MIN if eventPlayer.target else SCAN_DT_NO_TARGET_MIN,
+        SCAN_DT_HAS_TARGET_MAX if eventPlayer.target else SCAN_DT_NO_TARGET_MAX
     ), Wait.IGNORE_CONDITION)
 
     if isBastionTargetEligible(eventPlayer.target) and hasBastionTargetLoS(eventPlayer.target):
@@ -221,10 +221,10 @@ rule "Force primary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.hasNano != true
-    @Condition eventPlayer.isFiringPrimaryFire() == false
+    @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.target != false
     
     eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
@@ -237,9 +237,9 @@ rule "Stop primary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
+    @Condition eventPlayer.isDummy()
     @Condition eventPlayer.target == false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isAlive()
     
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
     wait(1, Wait.ABORT_WHEN_FALSE)
@@ -253,9 +253,9 @@ rule "Pulse secondary fire":
     @Hero bastion
     @Condition any([difficulty == 5, bastionBotSeconFire]) == true
     @Condition eventPlayer.hasNano == false
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.isFiringPrimaryFire() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
     @Condition eventPlayer.target != false
     
@@ -270,9 +270,9 @@ rule "Sustain nano secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
+    @Condition eventPlayer.isDummy()
     @Condition eventPlayer.hasNano == true
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
     
     wait(random.uniform(0.016, 0.032), Wait.ABORT_WHEN_FALSE)
@@ -287,9 +287,9 @@ rule "Update aim point":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.target != null
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.target
     
     eventPlayer.tempAimPosition = (eventPlayer.target.getPosition() + eventPlayer.target.getEyePosition()) / 2
     if isInLoS(eventPlayer.getEyePosition(), eventPlayer.tempAimPosition):
@@ -307,14 +307,14 @@ rule "Pre-aim nearest target":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.target == false
     
     wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
     #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
     eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
-    if eventPlayer.nearestTargetOutOfLoS == null:
+    if not eventPlayer.nearestTargetOutOfLoS:
         goto lbl_0
     eventPlayer.aimPosition = eventPlayer.nearestTargetOutOfLoS.getEyePosition() + vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
     lbl_0:
@@ -327,8 +327,8 @@ rule "Update turn speed":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.target != false
     
     eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition())) * turnSpeedMultiplier
@@ -342,10 +342,10 @@ rule "Boost turn speed":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.target == false
-    @Condition eventPlayer.aimPosition != null
+    @Condition eventPlayer.aimPosition
     @Condition angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition)) >= 1
     
     eventPlayer.turnSpeed = angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition) * turnSpeedMultiplier)
@@ -358,9 +358,9 @@ rule "Start facing aim point":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isDummy() != false
-    @Condition eventPlayer.isAlive() == true
-    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.isDummy()
+    @Condition eventPlayer.isAlive()
+    @Condition eventPlayer.hasSpawned()
     @Condition getTotalTimeElapsed() > 10
     
     eventPlayer.startFacing(directionTowards(eventPlayer.getEyePosition(), eventPlayer.aimPosition), 0 if eventPlayer.hasStatus(Status.ASLEEP) else eventPlayer.turnSpeed)
@@ -391,7 +391,7 @@ rule "Regenerate health":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.getNormalizedHealth() < 1
     
     wait(60)
@@ -435,7 +435,7 @@ rule "Lock landing position":
     @Hero bastion
     @Condition getTotalTimeElapsed() > 10
     @Condition eventPlayer.isInPosition == false
-    @Condition eventPlayer.isMoving() == false
+    @Condition not eventPlayer.isMoving()
     
     wait(5, Wait.ABORT_WHEN_FALSE)
     waitUntil(eventPlayer.isUsingAbility1(), 2)
@@ -450,8 +450,8 @@ rule "Lock elevated position":
     @Team 2
     @Hero bastion
     @Condition eventPlayer.isInPosition == false
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
     @Condition distance(raycast(bastionPosition[eventPlayer.getSlot()] + Vector.UP, bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5, null, null, false).getHitPosition(), bastionPosition[eventPlayer.getSlot()] + Vector.DOWN * 5) == 0
     
     eventPlayer.teleport(bastionPosition[eventPlayer.getSlot()])

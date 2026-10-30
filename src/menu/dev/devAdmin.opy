@@ -7,9 +7,9 @@
 
 rule "Select dev target":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == 2
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
 
     if targetPlayerIndex == null or targetPlayerIndex >= len(sorted(getPlayers(Team.1))):
         targetPlayerIndex = 0
@@ -18,16 +18,16 @@ rule "Select dev target":
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
     waitLoadBrief()
-    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if targetPlayer == null else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  没有可标记的玩家".format(iconString(Icon.BOLT)) if not targetPlayer else "  {0}  开发者模式： 已标记 {1}（{2}）".format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
 rule "Kick dev target":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == 2
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
 
-    if targetPlayer == null or targetPlayer.isDev:
+    if not targetPlayer or targetPlayer.isDev:
         return
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 长按 {1} 移除 {2}".format(iconString(Icon.BOLT), inputBindingString(Button.ULTIMATE), targetPlayer))
     wait(2, Wait.ABORT_WHEN_FALSE)
@@ -45,9 +45,9 @@ rule "Kick dev target":
 
 rule "Toggle damage reduction":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == 2
-    @Condition eventPlayer.isHoldingButton(Button.MELEE) == true
+    @Condition eventPlayer.isHoldingButton(Button.MELEE)
 
     eventPlayer.dmgReduc = not eventPlayer.dmgReduc
     waitLoadBrief()
@@ -64,9 +64,9 @@ rule "Toggle damage reduction":
 
 rule "Toggle invincible":
     @Event eachPlayer
-    @Condition eventPlayer.isDev == true
+    @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == 2
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
 
     eventPlayer.invincible = not eventPlayer.invincible
     waitLoadBrief()

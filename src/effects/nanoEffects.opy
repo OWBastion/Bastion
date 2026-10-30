@@ -9,7 +9,7 @@ rule "initialize player nano effects":
     @Team 2
     @Condition eventPlayer.hasNano == true
     
-    if eventPlayer.nanoEffect != null:
+    if eventPlayer.nanoEffect:
         goto lbl_0
     createEffect(getAllPlayers() if eventPlayer.hasNano else null, Effect.ANA_NANO_BOOSTED, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.nanoEffect = getLastCreatedEntity()

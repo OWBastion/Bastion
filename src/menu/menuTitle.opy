@@ -6,7 +6,7 @@
 rule "Next title":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition len(eventPlayer.playerTitles) > 0
 
     if eventPlayer.playerTitleIndex == null:
@@ -31,7 +31,7 @@ rule "Next title":
 rule "Previous title":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition len(eventPlayer.playerTitles) > 0
 
     if eventPlayer.playerTitleIndex == null or eventPlayer.playerTitleIndex <= 0:

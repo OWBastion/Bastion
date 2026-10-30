@@ -26,7 +26,7 @@ macro platformMapRevision_KINGS_ROW_DEFAULT():
 
 
 rule "map - king's row":
-    @Condition (__currentMap___ == Map.KINGS_ROW or __currentMap___ == 742) == true
+    @Condition __currentMap___ == Map.KINGS_ROW or __currentMap___ == 742
     
     platformMapRevision_KINGS_ROW_DEFAULT()
     __currentMapText___ = "国王大道"

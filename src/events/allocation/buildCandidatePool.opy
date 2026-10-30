@@ -33,7 +33,7 @@ def buildCandidatePool():
     if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.PROPHET or other.eventNextIndex == EventId.PROPHET or other.eventCandidateIndex == EventId.PROPHET))) > 0:
         eventPlayer.eventTempIndex.remove(EventId.PROPHET)
 
-    if eventPlayer.eventLastId != null:
+    if eventPlayer.eventLastId:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
         if len(eventPlayer.eventCandidateIndex) > 0:
             eventPlayer.eventTempIndex = eventPlayer.eventCandidateIndex

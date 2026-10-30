@@ -7,10 +7,10 @@
 
 rule "Toggle menu":
     @Event eachPlayer
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition eventPlayer.isHoldingButton(Button.MELEE) == true
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
+    @Condition eventPlayer.isHoldingButton(Button.MELEE)
 
-    if (eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH)) == true:
+    if eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH):
         return
     if eventPlayer.menu != 0:
         goto lbl_0
@@ -62,9 +62,9 @@ rule "Cleanup closed menu":
 rule "Advance page":
     @Event eachPlayer
     @Condition eventPlayer.menu != 0
-    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
+    @Condition eventPlayer.isHoldingButton(Button.CROUCH)
 
-    if eventPlayer.isDev == true:
+    if eventPlayer.isDev:
         if eventPlayer.menu >= 5:
             eventPlayer.menu = 1
         else:
@@ -76,7 +76,7 @@ rule "Advance page":
             eventPlayer.menu += 1
 
     # 防止按住连跳（不新增变量）
-    waitUntil(eventPlayer.isHoldingButton(Button.CROUCH) == false, 99999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.CROUCH), 99999)
 
 rule "Display mode page":
     @Event eachPlayer
@@ -88,9 +88,9 @@ rule "Display mode page":
     hudHeader(eventPlayer, STR_MENU_TITLE_INGAME.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)), HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()
     if eventPlayer.isDev:
-        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_DEV_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SETTLEMENT_CARD.format(inputBindingString(Button.INTERACT), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if eventPlayer.isWinner else STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_DEV_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SETTLEMENT_CARD.format(inputBindingString(Button.INTERACT), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if eventPlayer.isWinner else STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     elif eventPlayer == hostPlayer:
-        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_HOST_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer != null else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SETTLEMENT_CARD.format(inputBindingString(Button.INTERACT), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if eventPlayer.isWinner else STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
+        hudSubheader(eventPlayer, STR_MENU_OPT_RESTART_EXTEND.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_OPT_RESTART_REDUCE.format(inputBindingString(Button.SECONDARY_FIRE), PROFILE_HOST_MENU_OPTIONS(STR_MENU_OPT_MARK_PLAYER.format(inputBindingString(Button.ABILITY_1), "{0}（{1}）".format(targetPlayer, targetPlayer.getHero()) if targetPlayer else STR_MENU_STATE_NULL, STR_MENU_OPT_UNMARK_BLOCK.format(inputBindingString(Button.RELOAD), STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SETTLEMENT_CARD.format(inputBindingString(Button.INTERACT), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if eventPlayer.isWinner else STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     else:
         hudSubheader(eventPlayer, PROFILE_PLAYER_MENU_OPTIONS(STR_MENU_OPT_THIRD_PERSON.format(inputBindingString(Button.JUMP), STR_MENU_STATE_ON if eventPlayer.third == true else STR_MENU_STATE_OFF, STR_MENU_OPT_SETTLEMENT_CARD.format(inputBindingString(Button.INTERACT), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if eventPlayer.isWinner else STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))), HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
     eventPlayer.menuTextID[1] = getLastCreatedText()

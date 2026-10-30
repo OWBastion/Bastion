@@ -39,7 +39,7 @@ def drawForcedEvent():
             filterEventHardEligible()
         else:
             eventPlayer.eventTempIndex = []
-        if len(eventPlayer.eventTempIndex) > 0 and (eventPlayer.eventLastId == null or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
+        if len(eventPlayer.eventTempIndex) > 0 and (not eventPlayer.eventLastId or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
             eventPlayer.eventCandidateIndex = eventPlayer.eventForceIndex
             if random.uniform(0, eventWeight) < eventCatalogWeight[eventPlayer.eventCandidateIndex]:
                 eventPlayer.eventIsSelected = true

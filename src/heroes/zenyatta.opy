@@ -10,7 +10,7 @@ rule "Use snap kick from ground":
     @Event eachPlayer
     @Team 1
     @Hero zenyatta
-    @Condition eventPlayer.isMeleeing() == true
+    @Condition eventPlayer.isMeleeing()
     @Condition eventPlayer.getVerticalFacingAngle() >= 45
     
     if distance(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 2.51, getAllPlayers(), eventPlayer, true).getHitPosition(), eventPlayer.getEyePosition()) <= 2.5:
@@ -38,7 +38,7 @@ rule "Use legacy snap kick":
     @Event eachPlayer
     @Team 1
     @Hero zenyatta
-    @Condition eventPlayer.isMeleeing() == true
+    @Condition eventPlayer.isMeleeing()
     @Condition eventPlayer.getVerticalFacingAngle() >= 45
     @Disabled
     
@@ -63,8 +63,8 @@ rule "Hold levitation":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.getHero() == Hero.ZENYATTA
-    @Condition eventPlayer.isJumping() == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+    @Condition eventPlayer.isJumping()
+    @Condition eventPlayer.isHoldingButton(Button.JUMP)
     
     #don't activate the rule if the player is just jumping normally and not holding jump
     wait(0.12, Wait.ABORT_WHEN_FALSE)
@@ -78,7 +78,7 @@ rule "Hold levitation":
     waitUntil(eventPlayer.isOnGround(), 10)
 
 rule "Display kick HUD":
-    @Condition isHeroBeingPlayed(Hero.ZENYATTA, Team.1) == true
+    @Condition isHeroBeingPlayed(Hero.ZENYATTA, Team.1)
     @Disabled
     
     hudHeader(localPlayer if localPlayer.getHero() == Hero.ZENYATTA and localPlayer.isInSpawnRoom() else null, STR_ZEN_KICK_HINT.format(abilityIconString(Hero.ZENYATTA, Button.MELEE), iconString(Icon.ARROW_UP)), HudPosition.TOP, 5, Color.WHITE, HudReeval.VISIBILITY)

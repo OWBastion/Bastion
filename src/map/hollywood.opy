@@ -27,7 +27,7 @@ macro platformMapRevision_HOLLYWOOD_DEFAULT():
 
 
 rule "map - hollywood":
-    @Condition (__currentMap___ == Map.HOLLYWOOD or __currentMap___ == 1505) == true
+    @Condition __currentMap___ == Map.HOLLYWOOD or __currentMap___ == 1505
     
     platformMapRevision_HOLLYWOOD_DEFAULT()
     __currentMapText___ = "好莱坞"

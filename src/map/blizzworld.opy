@@ -27,7 +27,7 @@ macro platformMapRevision_BLIZZARD_WORLD_DEFAULT():
 
 
 rule "map - blizzworld":
-    @Condition (__currentMap___ == Map.BLIZZ_WORLD or __currentMap___ == 1228) == true
+    @Condition __currentMap___ == Map.BLIZZ_WORLD or __currentMap___ == 1228
     
     platformMapRevision_BLIZZARD_WORLD_DEFAULT()
     __currentMapText___ = "暴雪世界"

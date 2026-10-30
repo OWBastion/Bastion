@@ -75,7 +75,7 @@ def setPlayerEvent():
     setEventDuration()
     commitPlayerEventCategory()
     waitLoadBrief()
-    if eventPlayer.eventLastId == null:
+    if not eventPlayer.eventLastId:
         eventPlayer.eventLastId = []
     # 强制契约按实际兑现消费：分配未落在声明类型上（区间暂不可得而回落）不扣次数
     if eventPlayer.eventForceType != -1 and eventPlayer.eventType == eventPlayer.eventForceType:
