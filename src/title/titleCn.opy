@@ -449,11 +449,11 @@ enum MapTITLEKey:
 # 沃斯卡娅工业区
 #!define DATA_VOLSKAYA [ \
    [], \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "小满都未满"], "-"), \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "用户", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["吾携秋水揽星河", "用户", "小满都未满"], "-"), \
    []\
 ]
-#!define DATA_VOLSKAYA_PACKED "|7-28|7-28|"
+#!define DATA_VOLSKAYA_PACKED "|7-22-28|7-22-28|"
 
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
