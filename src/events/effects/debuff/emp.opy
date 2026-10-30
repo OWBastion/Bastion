@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 电磁脉冲":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EMP]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.EMP)
     
     stopChasingVariable(eventPlayer.hack_timer)
     eventPlayer.setStatusEffect(getPlayersOnHero(Hero.BASTION, Team.2)[0], Status.HACKED, EVT_DEBUFF_1_HACK_DURATION)
