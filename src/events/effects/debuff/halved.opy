@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 减半":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.eventId == EventId.HALVED, eventPlayer.getHealth() != 0]) == true
+    @Condition eventPlayer.eventId == EventId.HALVED and eventPlayer.getHealth() != 0
     
     eventPlayer.passiveRegenBlocked = true
     
