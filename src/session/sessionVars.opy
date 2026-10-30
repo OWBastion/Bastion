@@ -59,6 +59,7 @@ globalvar masteryRunCode
 globalvar runCodeWeightTotal
 globalvar eventCatalogWeightTotal
 globalvar prophetViewers
+globalvar __ringRadius
 
 #Player variables
 

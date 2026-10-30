@@ -59,9 +59,10 @@ rule "Restart active match":
     createIcon(getPlayers(Team.1), vect(0, 101, -0.25), Icon.WARNING, IconReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), false)
     createInWorldText(getPlayers(Team.1), STR_TEXT_HOST_RESTARTING, vect(0, 101, 0), 3, Clip.NONE, WorldTextReeval.COLOR, rgb(220 + sin(getTotalTimeElapsed() * 3.141) * 35, 0, 0), SpecVisibility.ALWAYS)
     for I in range(5):
-        createEffect(getPlayers(Team.1), Effect.ORB, Color.BLACK, vect(0, 100 + ((0.5 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
-        createEffect(getPlayers(Team.1), Effect.SPHERE, Color.BLACK, vect(0, 100, 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
-        createEffect(getPlayers(Team.1), Effect.BAD_AURA, Color.BLACK, vect(0, 100 + ((3 * (I + 1)) / 5), 0), 2 + (2 * (I + 5)), EffectReeval.NONE)
+        __ringRadius = 2 + (2 * (I + 5))
+        createEffect(getPlayers(Team.1), Effect.ORB, Color.BLACK, vect(0, 100 + ((0.5 * (I + 1)) / 5), 0), __ringRadius, EffectReeval.NONE)
+        createEffect(getPlayers(Team.1), Effect.SPHERE, Color.BLACK, vect(0, 100, 0), __ringRadius, EffectReeval.NONE)
+        createEffect(getPlayers(Team.1), Effect.BAD_AURA, Color.BLACK, vect(0, 100 + ((3 * (I + 1)) / 5), 0), __ringRadius, EffectReeval.NONE)
         wait()
     getPlayers(Team.1).startForcingHero(Hero.SOMBRA)
     wait()
