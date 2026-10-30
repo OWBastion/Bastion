@@ -418,7 +418,7 @@
 #!define STR_MAP_PARIS "巴黎"
 # {0}=Button, {1}=State, {2}=Next Line
 #!define STR_MENU_OPT_THIRD_PERSON "{0}    第三人称视角    {1}\n{2}"
-#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    显示结算卡    \n{1}"
+#!define STR_MENU_OPT_SETTLEMENT_CARD "{0}    长按显示结算卡    \n{1}"
 #!define STR_MENU_OPT_MARK_PLAYER "{0}    标记玩家    {1}\n{2}"
 #!define STR_MENU_OPT_UNMARK_BLOCK "{0}    移除标记玩家并临时拉黑    \n{1}"
 #!define STR_MENU_OPT_NEXT_PAGE "{0}    下一页    "

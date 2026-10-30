@@ -24,5 +24,6 @@ rule "Show settlement card":
     @Condition eventPlayer.isHoldingButton(Button.MELEE) == false
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == false
 
+    wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.settlementCardEnd = evalOnce(getTotalTimeElapsed()) + 20
     waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) == false, 99999)
