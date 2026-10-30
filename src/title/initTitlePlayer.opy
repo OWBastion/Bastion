@@ -14,7 +14,7 @@ rule "Initialize CN player title state":
         return
     eventPlayer.playerTitleRelationIndex = titlePlayer.index(eventPlayer.key)
     setPlayerTitle()
-    wait(0.032)
+    waitTick2()
     smallMessage(eventPlayer, "  称号已加载")
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     applyTitleColor()

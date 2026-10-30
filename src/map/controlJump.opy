@@ -17,7 +17,7 @@ rule "Reset to control respawn":
 
     eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
-    wait(0.032)
+    waitTick2()
 
 
 rule "Advance control jump":

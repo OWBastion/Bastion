@@ -28,7 +28,7 @@ rule "[VishkarEvent]: 心之钢":
     
     eventPlayer.heart_steel[HeartSteelData.STACKS] += EVT_8_HP_LAYER_PER_DEATH * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
     smallMessage(eventPlayer, "  {0}  已获得 {1} 层（{2}%）心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_8_HP_LAYER_PER_DEATH * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER], EVT_8_HP_LAYER_PER_DEATH * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
-    wait(0.032)
+    waitTick2()
     waitUntil(eventPlayer.isAlive(), 0.5)
     setPlayerHP()
-    wait(0.032)
+    waitTick2()
