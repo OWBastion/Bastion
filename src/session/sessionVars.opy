@@ -3,6 +3,7 @@
 subroutine waitLoadBrief
 subroutine waitLoadShort
 subroutine waitLoadLong
+subroutine waitHeroMatch
 subroutine waitTick2
 
 globalvar bastionPosition 0

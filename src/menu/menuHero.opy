@@ -67,7 +67,7 @@ rule "Apply hero selection":
         ) + 1
     )
     eventPlayer.startForcingHero(heroList[eventPlayer.menuHeroIndex])
-    waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
+    waitHeroMatch()
     eventPlayer.stopForcingCurrentHero()
     wait(getServerLoad() * 0.005)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))

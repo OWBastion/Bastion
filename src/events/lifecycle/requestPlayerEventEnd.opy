@@ -26,5 +26,8 @@ def waitLoadShort():
 def waitLoadLong():
     wait(getAverageServerLoad() * 0.01)
 
+def waitHeroMatch():
+    waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
+
 def waitTick2():
     wait(0.032)
