@@ -245,15 +245,19 @@
 # ------------------------------------------------
 # 原文："{0} 触发事件：{1}（{2}）"
 # {0}=图标, {1}=事件名, {2}=持续时间
+#!define STR_MSG_EVENT_TRIGGER "  {0}  触发事件：{1}（{2}）"
 
 # 原文："{0}秒"
 # {0}=秒数
+#!define STR_MSG_DURATION_SEC "{0}秒"
 
 # 原文："一次性"
 #!define STR_MSG_DURATION_INSTANT "一次性"
 
 # 原文："{0} 事件效果：{1}"
 # {0}=图标, {1}=事件描述
+#!define STR_MSG_EVENT_EFFECT "  {0}  事件效果：{1}"
+#!define STR_MSG_EVENT_ENDED "  {0} 事件已结束"
 #!define STR_MSG_PROGRESS_SAVED "  你的挑战进度已保存"
 #!define STR_MSG_HOST_WARNING_RESET "  如果当前游戏重开，所有人的进度数据将被清空"
 #!define STR_MSG_HOST_ENDORSEMENT_HINT "  为了保证房间处于公开状态，请确保房主赞赏等级为 3 级或以上"
