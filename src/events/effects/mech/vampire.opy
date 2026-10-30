@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 吸血鬼":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VAMPIRE]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.VAMPIRE
 
     eventPlayer.passiveRegenBlocked = true
     eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player != eventPlayer]
@@ -28,7 +28,7 @@ rule "[VishkarEvent]: 吸血鬼":
 rule "[VishkarEvent]: 吸血鬼击杀增益":
     @Event playerDied
     @Team 1
-    @Condition all([attacker.getTeam() == Team.1, attacker != eventPlayer, attacker.hasSpawned(), attacker.eventId == EventId.VAMPIRE]) == true
+    @Condition attacker.getTeam() == Team.1 and attacker != eventPlayer and attacker.hasSpawned() and attacker.eventId == EventId.VAMPIRE
 
     attacker.mod_heal_perma += EVT_MECH_18_KILL_HEAL_PERMA
     attacker.setHealingDealt(100 + attacker.mod_heal_perma + attacker.mod_heal_event)

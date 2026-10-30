@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 赌徒：掷骰狂人":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_DICE_MANIAC, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_DICE_MANIAC and eventPlayer.isHoldingButton(Button.RELOAD)
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.temp = random.randint(1, 6)
