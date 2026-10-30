@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 钢铁防线":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.IRON_BULWARK)
     
     waitTick2()
     if not eventPlayer.healthId[1]:

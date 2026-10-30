@@ -10,7 +10,7 @@
 rule "Track distance":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL, eventPlayer.getSpeed() != 0, eventPlayer.eventMission <= EVT_15_DISTANCE_GOAL]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL and eventPlayer.getSpeed() != 0 and eventPlayer.eventMission <= EVT_15_DISTANCE_GOAL
     
     wait(EVT_15_DISTANCE_INC, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventMission += 0.5
@@ -21,7 +21,7 @@ rule "Track distance":
 rule "Resolve mission":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.PHEIDIPPIDES_TRIAL)
     
     waitUntil(eventPlayer.eventMission >= EVT_15_DISTANCE_GOAL or eventPlayer.isWinner or eventPlayer.eventId != EventId.PHEIDIPPIDES_TRIAL or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()

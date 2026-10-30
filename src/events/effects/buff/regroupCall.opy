@@ -10,7 +10,7 @@
 rule "Mark protected allies":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.REGROUP_CALL]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.REGROUP_CALL)
     
     wait(EVT_13_CHECK_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventEffectPlayers = [player for player in getLivingPlayers(Team.1) if distance(eventPlayer, player) <= EVT_13_RADIUS and isInLoS(eventPlayer, player) == true and not player.hasStatus(Status.INVINCIBLE)]
@@ -23,7 +23,7 @@ rule "Mark protected allies":
 rule "Apply invincibility":
     @Event eachPlayer
     @Team 1
-    @Condition (all([eventPlayer.hasSpawned(), not eventPlayer.hasStatus(Status.INVINCIBLE), len(eventPlayer.invincible) >= 3])) == true
+    @Condition ((eventPlayer.hasSpawned() and not eventPlayer.hasStatus(Status.INVINCIBLE) and len(eventPlayer.invincible) >= 3)) == true
     
     eventPlayer.setStatusEffect(eventPlayer.invincible[1], Status.INVINCIBLE, eventPlayer.invincible[2])
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
