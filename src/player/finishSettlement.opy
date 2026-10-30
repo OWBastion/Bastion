@@ -8,14 +8,14 @@
 rule "Resolve finish":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() == true
-    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.hasSpawned()
+    @Condition eventPlayer.isAlive()
     @Condition eventPlayer.getPosition().y >= endPosition.y
     @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
 
     eventPlayer.respawn()
     waitTick2()
-    if controlRespawnPosition == null:
+    if not controlRespawnPosition:
         goto lbl_0
     eventPlayer.controlJumpIndex = 0
     eventPlayer.teleport(controlRespawnPosition[0])
@@ -39,18 +39,18 @@ rule "Resolve finish":
                 # 时间部分
                 "{0}{1}{2}".format(
                     # 小时部分
-                    STR_TIME_UNIT_HOUR.format(floor(eventPlayer.winnerTime / 3600)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 3600) else "",
+                    STR_TIME_UNIT_HOUR.format(floor(eventPlayer.winnerTime / 3600)) if (eventPlayer.winnerTime and eventPlayer.winnerTime >= 3600) else "",
 
                     # 分钟部分
-                    STR_TIME_UNIT_MIN.format(floor((eventPlayer.winnerTime % 3600) / 60)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 60) else "",
+                    STR_TIME_UNIT_MIN.format(floor((eventPlayer.winnerTime % 3600) / 60)) if (eventPlayer.winnerTime and eventPlayer.winnerTime >= 60) else "",
 
                     # 秒部分
-                    STR_TIME_UNIT_SEC.format(floor(eventPlayer.winnerTime % 60)) if (eventPlayer.winnerTime != null) else STR_TIME_UNIT_ZERO_SEC
+                    STR_TIME_UNIT_SEC.format(floor(eventPlayer.winnerTime % 60)) if (eventPlayer.winnerTime) else STR_TIME_UNIT_ZERO_SEC
                 )
             )
         )
         lbl_1:
-        if hashTag == true:
+        if hashTag:
             smallMessage(eventPlayer, STR_MSG_WIN_HINT.format(iconString(Icon.CHECKMARK)))
         savePlayerData()
 
@@ -58,9 +58,9 @@ rule "Resolve finish":
 rule "Charge winner ult":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.isWinner != false
+    @Condition eventPlayer.isWinner
     @Condition eventPlayer.getUltCharge() < 100
-    @Condition eventPlayer.isUsingUltimate() == false
+    @Condition not eventPlayer.isUsingUltimate()
 
     wait(15, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setUltCharge(min(100, eventPlayer.getUltCharge() + 25))

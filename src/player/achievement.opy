@@ -19,7 +19,7 @@ rule "Init Achievement Data":
 rule "[VishkarEvent]: Challenge 59 Track (EMOTICON_CONFUSED)":
     @Event eachPlayer
     @Team 1
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[1] >= 2
     @Condition 59 not in eventPlayer.earnedAchievements
@@ -29,7 +29,7 @@ rule "[VishkarEvent]: Challenge 59 Track (EMOTICON_CONFUSED)":
 rule "[VishkarEvent]: Challenge 61 Track (EMOTICON_SURPRISED)":
     @Event eachPlayer
     @Team 1
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.dlcTimeChallenge[2] >= 2
     @Condition 61 not in eventPlayer.earnedAchievements
@@ -44,7 +44,7 @@ rule "[VishkarEvent]: Challenge 61 Track (EMOTICON_SURPRISED)":
 rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
     @Event eachPlayer
     @Team 1
-    @Condition hashTag == true
+    @Condition hashTag
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.eventId == EventId.PROPHET
     @Condition eventPlayer.dlcTimeChallenge[3] == 0

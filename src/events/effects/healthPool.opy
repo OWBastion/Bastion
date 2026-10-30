@@ -15,7 +15,7 @@ rule "Clean expired health pools":
     @Team 1
     @Condition len(eventPlayer.hp_data) > 0
 
-    eventPlayer.hp_data = [player for player in eventPlayer.hp_data if player != null]
+    eventPlayer.hp_data = [player for player in eventPlayer.hp_data if player]
     if len(eventPlayer.hp_data) > 1:
         eventPlayer.hp_data = sorted(eventPlayer.hp_data, lambda i: -1 if len(i) > 2 and eventPlayer.eventId != i[2] else i[0])
     for I in range(HEALTH_POOL_CLEANUP_MAX_REMOVALS):

@@ -90,8 +90,8 @@ rule "Sync ult progress":
     @Condition difficulty != 5
     @Condition eventPlayer.eventId != EventId.ULT_MOMENTUM
     @Condition eventPlayer.progressionDeathCount < maxDeath
-    @Condition eventPlayer.isWinner == false
-    @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
+    @Condition not eventPlayer.isWinner
+    @Condition not (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm())
     @Condition round(eventPlayer.getUltCharge() / (100 / maxDeath)) != eventPlayer.progressionDeathCount
     
     wait(random.uniform(ULT_SYNC_DT_MIN, ULT_SYNC_DT_MAX), Wait.ABORT_WHEN_FALSE)
@@ -107,8 +107,8 @@ rule "Display skip ready":
     @Condition eventPlayer.eventId != EventId.ULT_MOMENTUM
     @Condition eventPlayer.progressionDeathCount == maxDeath
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
-    @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
-    @Condition eventPlayer.isAlive() == true
+    @Condition not (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm())
+    @Condition eventPlayer.isAlive()
     
     waitLoadLong()
     if eventPlayer.getUltCharge() == 100:
@@ -129,7 +129,7 @@ rule "Skip hero with ultimate":
     @Team 1
     @Condition difficulty != 5
     @Condition eventPlayer.progressionDeathCount >= maxDeath
-    @Condition (eventPlayer.isUsingUltimate() or eventPlayer.isDuplicatingAHero()) == true
+    @Condition eventPlayer.isUsingUltimate() or eventPlayer.isDuplicatingAHero()
     @Condition eventPlayer.heroNumber + 1 < len(heroList)
     @Condition eventPlayer.getHero() != Hero.BASTION
     
@@ -144,7 +144,7 @@ rule "Skip hero with ultimate":
 rule "Display reset hint":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.heroNumber > 0 or eventPlayer.runDeathCount > 0) == true
+    @Condition eventPlayer.heroNumber > 0 or eventPlayer.runDeathCount > 0
     @Condition eventPlayer in getPlayersInRadius(resetPosition, 20, Team.1) == true
     @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), resetPosition * vect(1, 0, 1)) <= 1.2
     
@@ -154,8 +154,8 @@ rule "Display reset hint":
 rule "Reset progress":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
-    @Condition (eventPlayer.runDeathCount > 0 or eventPlayer.heroNumber > 0) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition eventPlayer.runDeathCount > 0 or eventPlayer.heroNumber > 0
     @Condition distance(eventPlayer * vect(1, 0, 1), resetPosition * vect(1, 0, 1)) <= 1.2
     
     eventPlayer.preloadHero(heroList[0])

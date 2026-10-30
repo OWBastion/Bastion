@@ -19,11 +19,11 @@ rule "[VishkarEvent]: 献祭":
         playEffect(getAllPlayers(), DynamicEffect.MOIRA_FADE_REAPPEAR, Color.TEAM_2, eventPlayer, 200)
         if len(eventPlayer.target) > 1:
             eventPlayer.target = sorted(eventPlayer.target, lambda i: distance(eventPlayer, i))[0]
-        elif eventPlayer.target[0] != null:
+        elif eventPlayer.target[0]:
             eventPlayer.target = eventPlayer.target[0]
         else:
             eventPlayer.target = null
-        if eventPlayer.target != null:
+        if eventPlayer.target:
             damage(eventPlayer, eventPlayer.target, eventPlayer.maxHealthPercent(EVT_DEBUFF_2_DMG_PERCENT * 100))
     wait(SACRIFICE_SCAN_DT)
     if ruleCondition:
