@@ -2,6 +2,7 @@
 
 subroutine waitLoadBrief
 subroutine waitLoadShort
+subroutine waitLoadLong
 
 globalvar bastionPosition 0
 globalvar resetPosition 2

@@ -110,7 +110,7 @@ rule "Display skip ready":
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
     @Condition eventPlayer.isAlive() == true
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     if eventPlayer.getUltCharge() == 100:
         eventPlayer.setUltCharge(0)
         wait(0.2)

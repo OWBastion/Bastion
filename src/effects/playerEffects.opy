@@ -23,7 +23,7 @@ rule "Refresh winner outlines":
     @Condition eventPlayer.isWinner != false
     @Condition eventPlayer.isAlive() == true
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     eventPlayer.startForcingOutlineFor(getPlayers(Team.1), true, Color.GREEN, OutlineVisibility.ALWAYS)
     wait(30, Wait.RESTART_WHEN_TRUE)
     if ruleCondition:
@@ -35,7 +35,7 @@ rule "Outline winners for joiners":
     @Team 1
     @Condition getPlayers(Team.1).any(lambda player: player.isWinner) == true
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     getPlayers(Team.1).filter(lambda player: player.isWinner).startForcingOutlineFor(eventPlayer, true, Color.GREEN, OutlineVisibility.ALWAYS)
 
 
@@ -44,5 +44,5 @@ rule "Clear non-winner outlines":
     @Team 1
     @Condition eventPlayer.isWinner == false
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     eventPlayer.stopForcingOutlineFor(getPlayers(Team.1))

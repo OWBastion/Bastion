@@ -8,7 +8,7 @@ subroutine setDifficulty
 def setDifficulty():
     @Name "initialize difficulty effects text"
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     difficultyText[0] = ["简单", "一般", "困难", "专家", "传奇", "地狱"][difficulty]
     difficultyText[1] = [
         Color.GREEN,

@@ -16,3 +16,6 @@ def waitLoadBrief():
 
 def waitLoadShort():
     wait(getAverageServerLoad() * 0.005)
+
+def waitLoadLong():
+    wait(getAverageServerLoad() * 0.01)
