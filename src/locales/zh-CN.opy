@@ -228,11 +228,11 @@
 #!define STR_EVT_MECH_24_TITLE "赌徒：赢家通吃"
 #!define STR_EVT_MECH_24_DESC "长按{0}消耗{1}%心之钢层数，{2}%概率清空奖池并获得其中所有心之钢层数"
 #!define STR_EVT_MECH_25_TITLE "先知"
-#!define STR_EVT_MECH_25_DESC "持续期间可看到其他有效玩家的下一个事件，但看不到自己的下一个事件"
+#!define STR_EVT_MECH_25_DESC "可以看到其他玩家的下一个事件"
 #!define STR_EVT_MECH_25_NEXT "→ {0}"
 #!define STR_EVT_MECH_25_UNKNOWN "未知"
 #!define STR_EVT_MECH_28_TITLE "变形大师"
-#!define STR_EVT_MECH_28_DESC "长按{0}：主动选择形态\n巨大膨胀：体型 × {1}，获得 {2}% 额外生命值，{3}% 伤害减免\n迷你形态：体型 × {4}，最大生命值 -{5}%，{6}% 移动速度"
+#!define STR_EVT_MECH_28_DESC "长按{0}：主动选择形态\n巨大膨胀：获得 {2}% 额外生命值，{3}% 伤害减免\n迷你形态：最大生命值 -{5}%，{6}% 移动速度"
 
 
 # 事件类别
