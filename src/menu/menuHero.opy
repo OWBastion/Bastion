@@ -10,9 +10,8 @@ rule "Display hero page":
     @Condition (controlRespawnPosition == null or eventPlayer.isWinner or len(controlRespawnPosition) < 3) == true
     @Condition (eventPlayer.menu == 2 and eventPlayer.isDev == false) or (eventPlayer.menu == 5 and eventPlayer.isDev == true)
 
-    destroyHudText(eventPlayer.menuTextID[0])
-    destroyHudText(eventPlayer.menuTextID[1])
-    destroyHudText(eventPlayer.menuTextID[2])
+    for I in range(3):
+        destroyHudText(eventPlayer.menuTextID[I])
 
     hudHeader(eventPlayer, STR_MENU_OPT_HERO_PAGE_TITLE, HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()

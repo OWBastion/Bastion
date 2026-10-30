@@ -27,9 +27,8 @@ rule "Toggle menu":
     return
     lbl_0:
     eventPlayer.menu = 0
-    destroyHudText(eventPlayer.menuTextID[0])
-    destroyHudText(eventPlayer.menuTextID[1])
-    destroyHudText(eventPlayer.menuTextID[2])
+    for I in range(3):
+        destroyHudText(eventPlayer.menuTextID[I])
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -45,9 +44,8 @@ rule "Cleanup closed menu":
     @Event eachPlayer
     @Condition eventPlayer.menu == 0
 
-    destroyHudText(eventPlayer.menuTextID[0])
-    destroyHudText(eventPlayer.menuTextID[1])
-    destroyHudText(eventPlayer.menuTextID[2])
+    for I in range(3):
+        destroyHudText(eventPlayer.menuTextID[I])
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -82,9 +80,8 @@ rule "Display mode page":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
 
-    destroyHudText(eventPlayer.menuTextID[0])
-    destroyHudText(eventPlayer.menuTextID[1])
-    destroyHudText(eventPlayer.menuTextID[2])
+    for I in range(3):
+        destroyHudText(eventPlayer.menuTextID[I])
     hudHeader(eventPlayer, STR_MENU_TITLE_INGAME.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)), HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
     eventPlayer.menuTextID[0] = getLastCreatedText()
     if eventPlayer.isDev:
