@@ -24,7 +24,7 @@ rule "[VishkarEvent]: 镜像反转":
 
     if len(eventPlayer.temp) > 0:
         # o_O 挑战：激活时四个受支持项均为负才进入判定，反转结算后四项全部脱离负向即达成
-        eventPlayer.dlcTimeChallenge[2] = 1 if len(eventPlayer.temp) == 4 else 0
+        eventPlayer.dlcTimeChallenge[2] = len(eventPlayer.temp) == 4
         # eventTempIndex 是事件间候选池暂存槽，事件生效期间不被分配流程读写，此处复用为保底反转项；其余负向项各以 50% 概率独立纳入
         eventPlayer.eventTempIndex = random.choice(eventPlayer.temp)
         eventPlayer.temp = eventPlayer.temp.filter(lambda stat: stat == eventPlayer.eventTempIndex or random.randint(0, 1) == 0)
