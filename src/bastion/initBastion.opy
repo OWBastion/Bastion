@@ -251,7 +251,7 @@ rule "Pulse secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
-    @Condition any([difficulty == 5, bastionBotSeconFire]) == true
+    @Condition difficulty == 5 or bastionBotSeconFire
     @Condition eventPlayer.hasNano == false
     @Condition eventPlayer.isDummy()
     @Condition eventPlayer.isAlive()
