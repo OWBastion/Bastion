@@ -106,11 +106,11 @@
 #!define MAP_TITLE_OVR "␞␞␞␞瓦拉纳西‖守护者␞␞␞␞␞␞␞␞␞‖黄金节拍␞␞␞␞␞␞␞桥元御守‖␞桥元御守‖␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞‖永别了牢笼␞␞␞␞␞␞␞␞␞␞␞␞大城‖守护者␞织金‖门徒␞科研先锋‖␞科研先锋‖␞织金‖门徒"
 
 rule "Load CN map title holders":
-    @Condition __currentMapText___ != null
+    @Condition __currentMapText___
 
-    if __currentMapPioneerText___ == null:
+    if not __currentMapPioneerText___:
         __currentMapPioneerText___ = __currentMapText___
-    if __currentMapClassicText___ == null:
+    if not __currentMapClassicText___:
         __currentMapClassicText___ = STR_HUD_MAP_CLASSIC_SUFFIX.format(__currentMapText___)
     __currentPioneerText___ = null
     __mapTitleNorm = getCurrentMap()

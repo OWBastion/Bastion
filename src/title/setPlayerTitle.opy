@@ -24,5 +24,5 @@ def setPlayerTitle():
     if len(mapTitlePlayersByKey) > MapTITLEKey.CLASSIC and f"{eventPlayer.playerTitleRelationIndex}" in mapTitlePlayersByKey[MapTITLEKey.CLASSIC]:
         eventPlayer.playerTitles.append(TITLE.CLASSIC)
 
-    if eventPlayer.playerTitleIndex == null:
+    if not eventPlayer.playerTitleIndex:
         eventPlayer.playerTitleIndex = len(eventPlayer.playerTitles) - 1
