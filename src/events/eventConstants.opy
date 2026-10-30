@@ -980,7 +980,7 @@ enum MirrorInversionStat:
 # Weight（权重），暂定值，待 owner 确认
 #!define EVT_MECH_28_WEIGHT 0.8
 # 巨大膨胀：体型倍率、额外生命值(%)、减伤(%)
-#!define EVT_MECH_28_GIANT_SCALE 2
+#!define EVT_MECH_28_GIANT_SCALE 3
 #!define EVT_MECH_28_GIANT_BONUS_HP 2000
 #!define EVT_MECH_28_GIANT_DMG_REDUCTION 25
 # 迷你形态：体型倍率、最大生命值降低(%)、移速加成(%)
@@ -988,7 +988,7 @@ enum MirrorInversionStat:
 #!define EVT_MECH_28_MINI_HP_CUT 50
 #!define EVT_MECH_28_MINI_SPEED_BOOST 50
 # 语音音高
-#!define EVT_MECH_28_GIANT_VOICE_PITCH 0.7
-#!define EVT_MECH_28_MINI_VOICE_PITCH 1.5
+#!define EVT_MECH_28_GIANT_VOICE_PITCH 0.5
+#!define EVT_MECH_28_MINI_VOICE_PITCH 1.8
 
 # -----------------------------------------------------------------------------
