@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
         len(eventPlayer.eventMission),
         eventPlayer.eventMissionGoal
     )
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
 
 rule "[VishkarEvent]: 任务：殉道者 (进度检测)":
     @Event playerDied

@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 瓦尔基里降临":
     eventPlayer.mod_heal_event = EVT_MECH_0_HEAL_BAN
     updatePlayerStats()
     eventPlayer.eventMission = eventPlayer.getMaxHealth()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitPlayerEventEnd()
     eventPlayer.sizeHealth = 1
     setPlayerHP()
     eventPlayer.heal_recv = 0
