@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 限速40":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SPEED_LIMIT_40, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SPEED_LIMIT_40 and eventPlayer.isMoving() and eventPlayer.getSpeed() != 0
     
     eventPlayer.passiveRegenBlocked = true
     

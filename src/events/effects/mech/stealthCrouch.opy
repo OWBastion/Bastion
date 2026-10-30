@@ -10,11 +10,7 @@
 rule "Create effect":
     @Event eachPlayer
     @Team 1
-    @Condition all([
-        eventPlayer.hasSpawned(),
-        eventPlayer.eventId == EventId.STEALTH_CROUCH,
-        eventPlayer.eventEffect == null
-    ]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.STEALTH_CROUCH and eventPlayer.eventEffect != null
     
     createEffect(getAllPlayers() if eventPlayer.isHoldingButton(Button.CROUCH) else null, Effect.REAPER_WRAITH_FORM, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
@@ -24,7 +20,7 @@ rule "Create effect":
 rule "Apply stealth crouch":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.STEALTH_CROUCH]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.STEALTH_CROUCH)
     @Condition eventPlayer.isHoldingButton(Button.CROUCH)
     
     eventPlayer.targetSilence = true
@@ -40,13 +36,7 @@ rule "Apply stealth crouch":
 rule "Drain health":
     @Event eachPlayer
     @Team 1
-    @Condition all([
-        eventPlayer.hasSpawned(),
-        eventPlayer.eventId == EventId.STEALTH_CROUCH,
-        eventPlayer.isHoldingButton(Button.CROUCH) == true,
-        eventPlayer.isMoving(),
-        eventPlayer.getSpeed() != 0
-    ]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.STEALTH_CROUCH and eventPlayer.isHoldingButton(Button.CROUCH) and eventPlayer.isMoving() and eventPlayer.getSpeed() != 0
     
     wait(EVT_MECH_3_TICK_INTERVAL, Wait.ABORT_WHEN_FALSE)
     damage(eventPlayer, null, eventPlayer.maxHealthPercent(EVT_MECH_3_HP_COST_RATIO * 100))

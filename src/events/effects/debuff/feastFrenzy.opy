@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 狂欢盛宴":
     @Event playerDied
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FEAST_FRENZY, attacker.getHero() == Hero.BASTION]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.FEAST_FRENZY and attacker.getHero() == Hero.BASTION
     
     bigMessage(getAllPlayers(), "盛宴！")
     smallMessage(getPlayers(Team.1), "  {0} {1} 阵亡触发了狂欢盛宴".format(iconString(Icon.WARNING), eventPlayer))

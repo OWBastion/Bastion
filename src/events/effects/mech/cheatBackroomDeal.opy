@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 作弊：暗箱操作 (触发)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.CHEAT_BACKROOM_DEAL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.CHEAT_BACKROOM_DEAL and eventPlayer.isHoldingButton(Button.RELOAD)
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_22_HEART_STEEL_COST
