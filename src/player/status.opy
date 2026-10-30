@@ -40,10 +40,10 @@ def resetPlayerProgressState():
     PROFILE_RESET_ACHIEVEMENT_STATE()
     PROFILE_RESET_ACHIEVEMENT_LIST()
     eventPlayer.thiefBuffStolen = false
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     setPlayerHP()
     updatePlayerStats()
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
 
 def resetPlayerSavedState():
     @Name "[VishkarEvent]: reset player saved state"
@@ -59,19 +59,19 @@ def resetPlayerSavedState():
     savedData.savedJoinTime[eventPlayer.savedDataIndex] = eventPlayer.joinTime
     savedData.savedWinnerTime[eventPlayer.savedDataIndex] = 0
     savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
 
 def finishResetProgress():
     @Name "[VishkarEvent]: finish reset progress"
 
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     eventPlayer.startForcingHero(heroList[0])
     wait()
     eventPlayer.stopForcingCurrentHero()
     # 与 progressHero 一致：换英雄后按大厅配置重断言技能可用性，清除粘性覆盖标志
     eventPlayer.setAbility1Enabled(heroList[0] not in [Hero.TORBJORN, Hero.SYMMETRA])
     eventPlayer.setAbility2Enabled(heroList[0] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
-    wait(getServerLoad() / 100 * 0.5)
+    wait(getServerLoad() * 0.005)
     eventPlayer.setAllowedHeroes(heroList.slice(0, 1))
     refreshCompatibleEventPool()
 
@@ -110,7 +110,7 @@ rule "Display skip ready":
     @Condition (eventPlayer.getHero() == Hero.DVA and eventPlayer.isInAlternateForm()) == false
     @Condition eventPlayer.isAlive() == true
     
-    wait(getAverageServerLoad() / 100)
+    waitLoadLong()
     if eventPlayer.getUltCharge() == 100:
         eventPlayer.setUltCharge(0)
         wait(0.2)

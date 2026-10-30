@@ -11,7 +11,7 @@ rule "[VishkarEvent]: 有难同当 Effect":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARE_THE_PAIN]) == true
     
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)

@@ -10,3 +10,12 @@ def requestPlayerEventEnd():
     if eventPlayer.eventId != -1:
         eventPlayer.eventEndTime = getTotalTimeElapsed()
         eventPlayer.eventDurationHud = 0
+
+def waitLoadBrief():
+    wait(getAverageServerLoad() * 0.00032)
+
+def waitLoadShort():
+    wait(getAverageServerLoad() * 0.005)
+
+def waitLoadLong():
+    wait(getAverageServerLoad() * 0.01)

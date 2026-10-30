@@ -1,5 +1,9 @@
 #Global variables
 
+subroutine waitLoadBrief
+subroutine waitLoadShort
+subroutine waitLoadLong
+
 globalvar bastionPosition 0
 globalvar resetPosition 2
 globalvar creditsPosition 3

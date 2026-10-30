@@ -25,5 +25,5 @@ rule "[VishkarEvent]: 钢铁防线":
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     eventPlayer.healthId[1] = null

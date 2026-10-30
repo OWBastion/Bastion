@@ -25,12 +25,12 @@ rule "Unlock all heroes":
 
     if eventPlayer.heroNumber < len(heroList) - 1:
         eventPlayer.heroNumber = len(heroList) - 1
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         smallMessage(eventPlayer, "  {0} 开发者模式：已解锁全英雄".format(iconString(Icon.BOLT)))
         #savePlayerData()
     elif eventPlayer.isWinner == false:
         eventPlayer.isWinner = true
-        wait(getAverageServerLoad() / 100 * 0.5)
+        waitLoadShort()
         smallMessage(eventPlayer, "  {0} 开发者模式：已通关".format(iconString(Icon.BOLT)))

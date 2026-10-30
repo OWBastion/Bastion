@@ -11,7 +11,7 @@ rule "Toggle third person":
     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
     @Condition eventPlayer.menu == 1
 
-    wait(getAverageServerLoad() / 100 * 0.032)
+    waitLoadBrief()
     setThirdPerson()
 
 

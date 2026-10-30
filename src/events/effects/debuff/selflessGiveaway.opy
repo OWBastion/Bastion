@@ -35,7 +35,7 @@ rule "Rebuild max health":
     if eventPlayer.eventId == EventId.HEART_OF_STEEL_PRO:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_16_HP_MULTIPLIER)
-        wait(getAverageServerLoad() / 100 * 0.032)
+        waitLoadBrief()
         eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.temp))
     else:
         setPlayerHP()
