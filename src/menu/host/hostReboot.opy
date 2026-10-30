@@ -8,8 +8,8 @@
 rule "Extend reboot timer":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
-    @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
-    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
+    @Condition eventPlayer.isDev or hostPlayer == eventPlayer
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
 
     if rebootTime + 300 <= 15900 and __currentMap___ != Map.AYUTTHAYA:
@@ -25,8 +25,8 @@ rule "Extend reboot timer":
 rule "Reduce reboot timer":
     @Event eachPlayer
     @Condition eventPlayer.menu == 1
-    @Condition (eventPlayer.isDev or hostPlayer == eventPlayer) == true
-    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
+    @Condition eventPlayer.isDev or hostPlayer == eventPlayer
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
 
     #wait(0.16, Wait.ABORT_WHEN_FALSE)
     if rebootTime - 300 >= 300 and __currentMap___ != Map.AYUTTHAYA:
