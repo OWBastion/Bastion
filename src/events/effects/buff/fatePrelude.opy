@@ -12,4 +12,5 @@ rule "[VishkarEvent]: 命运序曲":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.FATE_PRELUDE]) == true
 
     # 受伤事件在伤害结算后触发，故直接把生命值加回；不经治疗结算，不受治疗修正影响。无持久状态，事件结束后规则条件自然失效。
-    eventPlayer.setHealth(min(eventPlayer.getMaxHealth(), eventPlayer.getHealth() + min(EVT_38_ABSORB, eventDamage)))
+    eventPlayer.setHealth(min(eventPlayer.getMaxHealth(), eventPlayer.getHealth() + EVT_38_ABSORB))
+    wait()
