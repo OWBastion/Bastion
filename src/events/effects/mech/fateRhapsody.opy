@@ -11,9 +11,13 @@ rule "[VishkarEvent]: 命运狂想曲":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FATE_RHAPSODY]) == true
 
-    # 减免 = 已损失生命值百分比，上限 EVT_MECH_27_MAX_REDUCTION；事件结束时 clearPlayerEvent() 清零 mod_dmg_taken，条件转假即中止。
-    eventPlayer.mod_dmg_taken = -min(EVT_MECH_27_MAX_REDUCTION, 100 - eventPlayer.getNormalizedHealth() * 100)
-    updatePlayerStats()
-    wait(EVT_MECH_27_INTERVAL, Wait.ABORT_WHEN_FALSE)
-    if ruleCondition:
-        loop()
+    # 重复触发（如重生）时先释放旧修正，避免叠加。
+    if len(eventPlayer.eventModificationId) > 0:
+        stopDamageModification(eventPlayer.eventModificationId[0])
+    # 受到的伤害比例 = max(100 - 上限, 当前生命值%)，即减免 = 已损失生命值%；引擎按受击时的生命值持续重估。
+    startDamageModification(eventPlayer, getAllPlayers(), max(100 - EVT_MECH_27_MAX_REDUCTION, eventPlayer.getNormalizedHealth() * 100), DamageReeval.RECEIVERS_DAMAGERS_AND_DMGPERCENT)
+    eventPlayer.eventModificationId = [getLastDamageModification()]
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    if len(eventPlayer.eventModificationId) > 0:
+        stopDamageModification(eventPlayer.eventModificationId[0])
+        eventPlayer.eventModificationId = []

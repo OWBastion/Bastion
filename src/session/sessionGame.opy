@@ -71,6 +71,9 @@ rule "Update targetPlayer when player left":
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.REGROUP_CALL])
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL])
     eventPlayer.invincibleEffect = DEFAULT_INVINCIBLE_EFFECTS.slice(0, InvincibleEffectSlot.COUNT)
+    if len(eventPlayer.eventModificationId) > 0:
+        stopDamageModification(eventPlayer.eventModificationId[0])
+        eventPlayer.eventModificationId = []
     waitLoadBrief()
     targetPlayerIndex = 0
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[0]
