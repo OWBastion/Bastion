@@ -25,7 +25,7 @@ rule "[VishkarEvent]: 死亡延迟":
     eventPlayer.eventEffect = getLastCreatedEntity()
     smallMessage(eventPlayer, "  {0}  已触发死亡延迟，致命伤害已延后".format(abilityIconString(Hero.BAPTISTE, Button.ABILITY_2)))
     waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
-    if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
+    if eventPlayer.eventId == -1:
         return
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEATH_DELAY])
