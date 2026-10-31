@@ -467,7 +467,7 @@
 #!define STR_EVT_BUFF_39_TITLE "Fate Variation"
 #!define STR_EVT_BUFF_39_DESC "After taking damage, gain {0}% movement speed decaying to 0 over {1}s. Taking damage again restarts the decay without stacking."
 #!define STR_EVT_BUFF_40_TITLE "Fate Concerto"
-#!define STR_EVT_BUFF_40_DESC "Healing you receive from other allies is increased by {0}%. Self-healing is not affected."
+#!define STR_EVT_BUFF_40_DESC "Whenever another ally is healed, you also receive healing equal to {0}% of that amount."
 #!define STR_EVT_DEBUFF_26_TITLE "Fate Fugue"
 #!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage again {0}s later. The extra damage does not trigger again."
 #!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
