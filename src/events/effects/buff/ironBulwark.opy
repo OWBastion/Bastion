@@ -34,7 +34,7 @@ rule "[VishkarEvent]: 钢铁防线 (结束判定)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK, eventPlayer.eventMissionGoal > 0]) == true
 
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
-    wait(getAverageServerLoad() * 0.00032)
+    wait(max(0.032, getAverageServerLoad() * 0.00032))
     if eventPlayer.eventId == -1:
         return
     if eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal:
