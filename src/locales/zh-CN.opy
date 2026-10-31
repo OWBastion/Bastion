@@ -478,7 +478,7 @@
 #!define STR_EVT_BUFF_39_TITLE "命运变奏曲"
 #!define STR_EVT_BUFF_39_DESC "受到伤害后获得 {0}% 移速加成，在 {1} 秒持续衰减"
 #!define STR_EVT_BUFF_40_TITLE "命运协奏曲"
-#!define STR_EVT_BUFF_40_DESC "其他友方受到治疗时，你额外获得该次治疗量 {0}% 的治疗"
+#!define STR_EVT_BUFF_40_DESC "从友方的治疗中获得 {0}% 额外治疗效果"
 #!define STR_EVT_DEBUFF_26_TITLE "命运赋格曲"
 #!define STR_EVT_DEBUFF_26_DESC "受到伤害的 {0} 秒后，再次受到该伤害 {1}% 的额外伤害"
 #!define STR_EVT_MECH_27_TITLE "命运狂想曲"

@@ -15,8 +15,6 @@ globalvar heroList 5
 globalvar missingHeroes 6
 globalvar maxDeath 7
 globalvar kills 9
-# 命运协奏曲：本周期友方受治疗总量
-globalvar concertoTotal
 globalvar bastionBotTargetPrefer 10
 globalvar textIDs 16
 
@@ -160,8 +158,6 @@ playervar playerOnceEventState
 playervar menuHeroIndex
 playervar mod_heal_perma
 playervar eventModificationId
-# 命运协奏曲：尚未结算的已受治疗量
-playervar concertoPending
 playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex
