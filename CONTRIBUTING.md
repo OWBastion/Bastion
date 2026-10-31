@@ -14,7 +14,7 @@ Please read these first before contributing:
 - `README.md`
 - `AGENTS.md`
 - `docs/improve-server-stability.md`
-- `docs/modules/README.md`
+- `docs/README.md`
 
 ## 1. Required Tools / 必备工具
 
@@ -58,22 +58,9 @@ pnpm run build
 
 ## 3. Ownership / 模块归属
 
-Find the owning module before editing:  
-先定位改动归属模块：
-- `src/bastion/`: Bastion AI and behavior / Bastion AI 与行为
-- `src/events/`: event trigger/allocation/effects / 随机事件触发、分配与效果
-- `src/composition/`: entry bootstrap and profile composition / 入口共享组装与 profile 差异层
-- `src/config/`: event catalog registration and MAIN/DEV order / 事件注册目录与 MAIN/DEV 顺序文件
-- `src/map/`: map points and flow / 地图点位与流程
-- `src/heroes/`: hero abilities and restrictions / 英雄能力与限制
-- `src/utilities/`: ownerless system mechanisms and dev macros / 无业务属主的系统机制与开发宏
-- `src/player/`: player state/init/achievements / 玩家状态、初始化、成就
-- `src/menu/`: player/host/dev menus / 玩家、房主、开发者菜单
-- `src/title/`: title system (synced from platform Agents API) / 称号系统（由平台 Agents API 同步生成）
-- `src/blacklist/`: blacklist initialization / 黑名单初始化
-- `src/effects/`: gameplay and visual effects / 玩法与视觉效果
-- `src/env/`: env and version macros / 环境与版本宏
-- `src/locales/`: localization text / 本地化文本
+Find the owning directory under `src/` before editing; directories are named by responsibility. Use `rg` to locate code.
+
+改动前先在 `src/` 下定位属主目录，目录按职责命名；用 `rg` 定位代码。
 
 ## 4. Architecture Constraints / 架构约束（必须遵守）
 
@@ -223,30 +210,11 @@ PR description should include / PR 描述建议包含：
 4. Performance risk assessment / 性能风险评估
 5. Local validation results / 本地验证结果
 
-## 13. Documentation Sync / 文档同步要求
+## 13. Documentation / 文档
 
-When source logic changes, update related docs in the same change when practical:  
-当源码逻辑发生变化时，请尽量在同一提交中同步更新对应文档：
-- Entry/include flow: `docs/modules/01-entry-architecture.md`  
-  入口/include 流程：`docs/modules/01-entry-architecture.md`
-- Constants/locales/env: `docs/modules/02-env-constants-locales.md`  
-  常量/本地化/env：`docs/modules/02-env-constants-locales.md`
-- Events system: `docs/modules/03-events-system.md`  
-  事件系统：`docs/modules/03-events-system.md`
-- Bastion AI: `docs/modules/04-bastion-ai.md`  
-  Bastion AI：`docs/modules/04-bastion-ai.md`
-- Map system: `docs/modules/05-map-system.md`  
-  地图系统：`docs/modules/05-map-system.md`
-- Utilities: `docs/modules/06-utilities.md`  
-  工具系统：`docs/modules/06-utilities.md`
-- Heroes: `docs/modules/07-heroes.md`  
-  英雄逻辑：`docs/modules/07-heroes.md`
-- Player/effects/title: `docs/modules/08-player-effects-title.md`  
-  玩家/效果/称号：`docs/modules/08-player-effects-title.md`
-- Seasonal branch: `docs/modules/09-special-seasonal.md`  
-  季节分支：`docs/modules/09-special-seasonal.md`
-- External references: `docs/modules/10-references-workshop-codes.md`  
-  外部参考：`docs/modules/10-references-workshop-codes.md`
+Code is the source of truth. Update a document in `docs/` only when the rule or contract it states changes.
+
+以代码为准。仅当 `docs/` 中的规则或契约发生变化时才更新对应文档。
 
 ## 14. Recommended Reading Order / 建议阅读顺序
 
@@ -255,7 +223,7 @@ For first-time contributors / 首次贡献者建议按以下顺序阅读：
 2. `src/main.opy`
 3. `src/devMain.opy`
 4. `src/events/catalog/eventCatalog.opy`
-5. `src/events/` and `src/utilities/`
+5. `src/events/`
 6. `docs/improve-server-stability.md`
 
 [OverPy]: https://www.npmjs.com/package/overpy

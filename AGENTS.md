@@ -32,15 +32,14 @@ Read only documents needed for the actual change:
 
 | Risk / task shape | Read first | Then if needed |
 | --- | --- | --- |
-| Entry/include/order changes or `main/devMain` parity | `docs/agents/architecture-rules.md` | `docs/modules/01-entry-architecture.md` |
+| Entry/include/order changes or `main/devMain` parity | `docs/agents/architecture-rules.md` | the three entry files |
 | Build, CI, release, or local validation | `docs/agents/build-validation.md` | relevant workflow files |
 | Performance, loops, `Ongoing`, polling, expensive player scans | `docs/agents/performance-loop-safety.md` | `docs/improve-server-stability.md`, `docs/references/Loops.md` |
 | Event lifecycle, temporary state/effects, reconnect/leave cleanup | `docs/agents/performance-loop-safety.md` | affected event/module source |
 | Random-event selection, eligibility, weighting, history/duplication | affected selection source and tests | performance guidance if hot-path behavior changes |
 | Platform metadata, title/event/map sync, Agents API, cross-repo contracts | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/build-validation.md`, affected sync tooling |
 | PR/commit/review delivery | `docs/agents/collaboration-commit.md` | this file |
-| Documentation ownership or source-to-doc sync | `docs/agents/doc-sync.md` | `docs/modules/README.md` |
-| Context acquisition and route-first loading | `docs/agents/context-routing.md` | `docs/agents/README.md` |
+| Documentation changes | `docs/README.md` | organization [documentation policy](../.github/docs/documentation.md) |
 
 ## Gameplay verification
 
@@ -56,15 +55,17 @@ Apply the organization [testing](../.github/docs/testing-policy.md) and [verific
 - Performance-sensitive changes should reduce frequency, candidate scope, or persistent state before micro-optimizing.
 - Code should communicate gameplay responsibility through naming, structure, and control flow. Comments are for durable external constraints, non-obvious invariants, compatibility reasons, and safety/performance rationale, not prose walkthroughs of unclear code.
 
+## Source of truth
+
+Code, tests, and `package.json` define current behavior. `docs/` holds only rules, contracts, and external references; it does not describe the implementation. Locate code with `rg`/`rg --files`, not with prose indexes. Read touched files first, then their direct dependencies, then only the routed rule document.
+
 ## Canonical rule index
 
 1. Architecture consistency and entry constraints -> `docs/agents/architecture-rules.md`
 2. Build and validation -> `docs/agents/build-validation.md`
 3. Performance and loop safety -> `docs/agents/performance-loop-safety.md`
 4. Collaboration, delivery, and commit hygiene -> `docs/agents/collaboration-commit.md`
-5. Documentation synchronization -> `docs/agents/doc-sync.md`
-6. Context routing -> `docs/agents/context-routing.md`
-7. Ecosystem/platform boundaries -> `docs/agents/ecosystem-platform-boundary.md`
+5. Ecosystem/platform boundaries -> `docs/agents/ecosystem-platform-boundary.md`
 
 Link to canonical owners instead of duplicating their full guidance.
 
