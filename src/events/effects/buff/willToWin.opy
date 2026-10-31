@@ -20,7 +20,6 @@ rule "[VishkarEvent]: 胜利意志":
     @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
 
     eventPlayer.setStatusEffect(eventPlayer, Status.INVINCIBLE, EVT_14_INVINCIBLE_DURATION)
-    eventPlayer.eventEndTime = max(eventPlayer.eventEndTime, getTotalTimeElapsed() + EVT_14_INVINCIBLE_DURATION)
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
