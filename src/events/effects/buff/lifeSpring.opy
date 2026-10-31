@@ -8,7 +8,7 @@
 
 rule "[VishkarEvent]: 生命源泉":
     @Event eachPlayer
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.LIFE_SPRING]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.LIFE_SPRING)
     
     waitTick2()
     if eventPlayer.healthId[3] == null:
