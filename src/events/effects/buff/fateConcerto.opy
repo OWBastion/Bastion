@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 命运协奏曲":
     # 治疗者由引擎持续重新求值，排除自己即排除自我治疗；额外 300% = 总计 400%。
     startHealingModification(eventPlayer, getPlayers(Team.1).exclude(eventPlayer), 100 + EVT_40_HEAL_BONUS, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
     eventPlayer.eventModificationId = [getLastHealingModification()]
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     if len(eventPlayer.eventModificationId) > 0:
         stopHealingModification(eventPlayer.eventModificationId[0])
         eventPlayer.eventModificationId = []

@@ -29,7 +29,7 @@ rule "Reset sleep lockout":
     @Hero ana
     @Condition eventPlayer.isAlive()
     
-    waitLoadLong()
+    wait(getAverageServerLoad() * 0.01)
     eventPlayer.anaSleepLimit = [-30 for player in bastionPosition]
 
 rule "Display sleep HUD":

@@ -16,7 +16,7 @@ rule "Increase difficulty":
 
     difficulty++
     setDifficulty()
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))
 
 
@@ -30,5 +30,5 @@ rule "Decrease difficulty":
 
     difficulty--
     setDifficulty()
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev), "  {0}  开发者模式： 已将难度设置为 {1}({2})".format(iconString(Icon.BOLT), difficultyText[0], difficulty))

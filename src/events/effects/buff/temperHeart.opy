@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
     # eventMission 基准与 eventMissionGoal 目标仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     if eventPlayer.eventId == -1:
         return
     if eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:

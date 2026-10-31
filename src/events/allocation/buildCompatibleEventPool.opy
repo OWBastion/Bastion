@@ -25,7 +25,7 @@ def refreshCompatibleEventPool():
     eventPlayer.eventCompatibleBasePool = eventCatalogId.slice(0, len(eventCatalogId))
     if eventPlayer.supportsPhaseTrigger() == false:
         eventPlayer.eventCompatibleBasePool = eventPlayer.eventCompatibleBasePool.filter(lambda candidateIndex: candidateIndex not in EVENT_GROUP_PHASE_TRIGGER)
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
 
 rule "initialize player compatible event pool":

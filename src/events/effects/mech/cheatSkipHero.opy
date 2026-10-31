@@ -17,7 +17,7 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     eventPlayer.controlCenterIndex = eventPlayer.controlJumpIndex
     eventPlayer.respawn()
     progressHero()
-    waitTick2()
+    wait(0.032)
     if controlRespawnPosition:
         if eventPlayer.controlCenterIndex >= len(controlRespawnPosition) or not controlRespawnPosition[eventPlayer.controlCenterIndex]:
             eventPlayer.controlJumpIndex = 0

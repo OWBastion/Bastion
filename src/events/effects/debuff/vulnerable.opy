@@ -16,8 +16,8 @@ rule "[VishkarEvent]: 易损":
     createEffect(getAllPlayers(), Effect.ZENYATTA_ORB_OF_DISCORD_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
     eventPlayer.mod_dmg_taken = EVT_DEBUFF_3_DMG_TAKEN
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     updatePlayerStats()
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()

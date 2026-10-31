@@ -14,12 +14,12 @@ rule "Resolve finish":
     @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
 
     eventPlayer.respawn()
-    waitTick2()
+    wait(0.032)
     if not controlRespawnPosition:
         goto lbl_0
     eventPlayer.controlJumpIndex = 0
     eventPlayer.teleport(controlRespawnPosition[0])
-    waitTick2()
+    wait(0.032)
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
     lbl_0:
     if eventPlayer.heroNumber + 1 < len(heroList) and eventPlayer.getHero() == heroList[eventPlayer.heroNumber]:

@@ -14,7 +14,7 @@ def progressHero():
     eventPlayer.controlPlayerRespawnPosition = null
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     eventPlayer.progressionDeathCount = 0
-    waitTick2()
+    wait(0.032)
     eventPlayer.preloadHero(heroList[eventPlayer.heroNumber])
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
