@@ -8,8 +8,8 @@
 # 选择索引按已解锁英雄数取模；控制点重生阶段且未通关时页面留空
 #!define MENU_HERO_INDEX(viewer) viewer.menuHeroIndex % (((len(heroList) - 1) if viewer.heroNumber > (len(heroList) - 1) else viewer.heroNumber) + 1)
 #!define MENU_HERO_AVAILABLE(viewer) (not controlRespawnPosition or viewer.isWinner or len(controlRespawnPosition) < 3)
-#!define MENU_HERO_TITLE(viewer) STR_MENU_OPT_HERO_PAGE_TITLE if MENU_HERO_AVAILABLE(viewer) else null
-#!define MENU_HERO_BODY(viewer) STR_MENU_OPT_HERO_NEXT.format(inputBindingString(Button.PRIMARY_FIRE), heroList[MENU_HERO_INDEX(viewer)], STR_MENU_OPT_HERO_APPLY.format(inputBindingString(Button.RELOAD), "")) if MENU_HERO_AVAILABLE(viewer) else null
+#!define MENU_HERO_TITLE(viewer) (STR_MENU_OPT_HERO_PAGE_TITLE if MENU_HERO_AVAILABLE(viewer) else null)
+#!define MENU_HERO_BODY(viewer) (STR_MENU_OPT_HERO_NEXT.format(inputBindingString(Button.PRIMARY_FIRE), heroList[MENU_HERO_INDEX(viewer)], STR_MENU_OPT_HERO_APPLY.format(inputBindingString(Button.RELOAD), "")) if MENU_HERO_AVAILABLE(viewer) else null)
 
 rule "Cycle hero selection":
     @Event eachPlayer

@@ -5,8 +5,8 @@
 # 保留迁移前发射规则名 "[DevTool] ..." 前缀不变
 #!rulePrefix "DevTool"
 
-#!define MENU_DEV_MOVEMENT_TITLE(viewer) STR_MENU_TITLE_DEV_PANEL
-#!define MENU_DEV_MOVEMENT_BODY(viewer) STR_MENU_OPT_AIR_WALK.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_STATE_ON if viewer.isAirWalkEnabled else STR_MENU_STATE_OFF, STR_MENU_OPT_NOCLIP.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_STATE_ON if viewer.isPortalEnabled else STR_MENU_STATE_OFF, STR_MENU_OPT_SELECT_INDEX.format(inputBindingString(Button.ABILITY_1), viewer.controlCenterIndex, STR_MENU_OPT_TP_TO_INDEX.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))))))
+#!define MENU_DEV_MOVEMENT_TITLE(viewer) (STR_MENU_TITLE_DEV_PANEL)
+#!define MENU_DEV_MOVEMENT_BODY(viewer) (STR_MENU_OPT_AIR_WALK.format(inputBindingString(Button.PRIMARY_FIRE), STR_MENU_STATE_ON if viewer.isAirWalkEnabled else STR_MENU_STATE_OFF, STR_MENU_OPT_NOCLIP.format(inputBindingString(Button.SECONDARY_FIRE), STR_MENU_STATE_ON if viewer.isPortalEnabled else STR_MENU_STATE_OFF, STR_MENU_OPT_SELECT_INDEX.format(inputBindingString(Button.ABILITY_1), viewer.controlCenterIndex, STR_MENU_OPT_TP_TO_INDEX.format(inputBindingString(Button.ABILITY_2), STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH)))))))
 
 rule "Toggle air walk":
     @Event eachPlayer

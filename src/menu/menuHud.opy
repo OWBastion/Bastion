@@ -12,5 +12,5 @@
 #!define MENU_HUD_SORT_TITLE 8
 #!define MENU_HUD_SORT_BODY 9
 
-#!define MENU_TITLE(viewer) MENU_MAIN_TITLE(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_TITLE(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_TITLE(viewer))))
-#!define MENU_BODY(viewer) MENU_MAIN_BODY(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_BODY(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_BODY(viewer))))
+#!define MENU_TITLE(viewer) (MENU_MAIN_TITLE(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_TITLE(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_TITLE(viewer)))))
+#!define MENU_BODY(viewer) (MENU_MAIN_BODY(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_BODY(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_BODY(viewer)))))

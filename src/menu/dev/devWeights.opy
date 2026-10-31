@@ -9,8 +9,8 @@
 
 # 权重页仅对持有对应 key 的开发者显示
 #!define MENU_DEV_WEIGHTS_AVAILABLE(viewer) viewer.key == "他又"
-#!define MENU_DEV_WEIGHTS_TITLE(viewer) STR_MENU_TITLE_WEIGHT_MANAGE if MENU_DEV_WEIGHTS_AVAILABLE(viewer) else null
-#!define MENU_DEV_WEIGHTS_BODY(viewer) "{0} 切换分类：{1}\n{2} 切换事件：{3}\n{4} 调整权重：{5}\n{6}".format(inputBindingString(Button.ULTIMATE), STR_CAT_BUFF if devEventCategory == 0 else (STR_CAT_DEBUFF if devEventCategory == 1 else STR_CAT_MECH), inputBindingString(Button.ABILITY_2), "{0} (Idx: {1})".format(eventName[getCurrentEventIdArray()[devEventIndex]], getCurrentEventIdArray()[devEventIndex]) if len(getCurrentEventIdArray()) > 0 else "无事件", "{0}/{1}".format(inputBindingString(Button.ABILITY_1), inputBindingString(Button.RELOAD)), eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] != null else 1.0 if len(getCurrentEventIdArray()) > 0 else "N/A", STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if MENU_DEV_WEIGHTS_AVAILABLE(viewer) else null
+#!define MENU_DEV_WEIGHTS_TITLE(viewer) (STR_MENU_TITLE_WEIGHT_MANAGE if MENU_DEV_WEIGHTS_AVAILABLE(viewer) else null)
+#!define MENU_DEV_WEIGHTS_BODY(viewer) ("{0} 切换分类：{1}\n{2} 切换事件：{3}\n{4} 调整权重：{5}\n{6}".format(inputBindingString(Button.ULTIMATE), STR_CAT_BUFF if devEventCategory == 0 else (STR_CAT_DEBUFF if devEventCategory == 1 else STR_CAT_MECH), inputBindingString(Button.ABILITY_2), "{0} (Idx: {1})".format(eventName[getCurrentEventIdArray()[devEventIndex]], getCurrentEventIdArray()[devEventIndex]) if len(getCurrentEventIdArray()) > 0 else "无事件", "{0}/{1}".format(inputBindingString(Button.ABILITY_1), inputBindingString(Button.RELOAD)), eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] if eventCatalogWeight[getCurrentEventIdArray()[devEventIndex]] != null else 1.0 if len(getCurrentEventIdArray()) > 0 else "N/A", STR_MENU_OPT_NEXT_PAGE.format(inputBindingString(Button.CROUCH))) if MENU_DEV_WEIGHTS_AVAILABLE(viewer) else null)
 
 rule "Cycle event category":
     @Event eachPlayer
