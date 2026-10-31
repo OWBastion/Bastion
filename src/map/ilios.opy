@@ -68,7 +68,7 @@ rule "map - 伊利奥斯":
 
     platformMapRevision_ILIOS_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     if len(getPlayersInRadius(platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_POSITION, platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS_SETUP_RADIUS, Team.1)) != 0:
         platformMapRevision_ILIOS_DEFAULT_STAGE_RUINS()
     elif len(getPlayersInRadius(platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_POSITION, platformMapRevision_ILIOS_DEFAULT_STAGE_LIGHTHOUSE_SETUP_RADIUS, Team.1)) != 0:

@@ -39,4 +39,4 @@ rule "map - 花冈":
     platformMapRevision_HANAOKA_DEFAULT()
      __currentMapText___ = "花冈"
      startForcingSpawn(Team.1, 2)
-     waitAllSpawned()
+     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
