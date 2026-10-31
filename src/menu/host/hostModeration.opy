@@ -8,7 +8,7 @@
 rule "Select host target":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
 
     if targetPlayerIndex == null or targetPlayerIndex >= len(sorted(getPlayers(Team.1))):
@@ -24,7 +24,7 @@ rule "Select host target":
 rule "Kick host target":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.menu == 1
+    @Condition eventPlayer.menu == MENU_PAGE_MAIN
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     if not targetPlayer or targetPlayer.isDev:

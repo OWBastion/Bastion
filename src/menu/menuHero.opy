@@ -5,42 +5,15 @@
 # 保留迁移前发射规则名 "[DevTool] ..." 前缀不变
 #!rulePrefix "DevTool"
 
-rule "Display hero page":
-    @Event eachPlayer
-    @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
-    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
-
-    destroyHudText(eventPlayer.menuTextID[0])
-    destroyHudText(eventPlayer.menuTextID[1])
-    destroyHudText(eventPlayer.menuTextID[2])
-
-    hudHeader(eventPlayer, STR_MENU_OPT_HERO_PAGE_TITLE, HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.NEVER)
-    eventPlayer.menuTextID[0] = getLastCreatedText()
-
-    eventPlayer.menuHeroIndex = eventPlayer.menuHeroIndex % (
-        (
-            (len(heroList) - 1) if (eventPlayer.heroNumber) > (len(heroList) - 1)
-            else (eventPlayer.heroNumber)
-        ) + 1
-    )
-
-    hudSubheader(
-        eventPlayer,
-        STR_MENU_OPT_HERO_NEXT.format(
-            inputBindingString(Button.PRIMARY_FIRE),
-            heroList[eventPlayer.menuHeroIndex],
-            STR_MENU_OPT_HERO_APPLY.format(
-                    inputBindingString(Button.RELOAD),
-                    ""
-                )
-        ),
-        HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
-    )
-    eventPlayer.menuTextID[1] = getLastCreatedText()
+# 选择索引按已解锁英雄数取模；控制点重生阶段且未通关时页面留空
+#!define MENU_HERO_INDEX(viewer) viewer.menuHeroIndex % (((len(heroList) - 1) if viewer.heroNumber > (len(heroList) - 1) else viewer.heroNumber) + 1)
+#!define MENU_HERO_AVAILABLE(viewer) (not controlRespawnPosition or viewer.isWinner or len(controlRespawnPosition) < 3)
+#!define MENU_HERO_TITLE(viewer) (STR_MENU_OPT_HERO_PAGE_TITLE if MENU_HERO_AVAILABLE(viewer) else null)
+#!define MENU_HERO_BODY(viewer) (STR_MENU_OPT_HERO_NEXT.format(inputBindingString(Button.PRIMARY_FIRE), heroList[MENU_HERO_INDEX(viewer)], STR_MENU_OPT_HERO_APPLY.format(inputBindingString(Button.RELOAD), "")) if MENU_HERO_AVAILABLE(viewer) else null)
 
 rule "Cycle hero selection":
     @Event eachPlayer
-    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
+    @Condition eventPlayer.menu == MENU_PAGE_HERO
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
     eventPlayer.menuHeroIndex += 1
@@ -55,7 +28,7 @@ rule "Cycle hero selection":
 rule "Apply hero selection":
     @Event eachPlayer
     @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
-    @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
+    @Condition eventPlayer.menu == MENU_PAGE_HERO
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
     @Condition eventPlayer.isInSpawnRoom() and not eventPlayer.isMoving()
 

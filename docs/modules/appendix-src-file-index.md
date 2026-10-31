@@ -186,11 +186,14 @@
 - `src/menu/dev/devAdmin.opy`
 - `src/menu/dev/devDifficulty.opy`
 - `src/menu/dev/devMovement.opy`
-- `src/menu/dev/devPages.opy`
 - `src/menu/dev/devRestart.opy`
 - `src/menu/dev/devWeights.opy`
 - `src/menu/menuFrame.opy`
+- `src/menu/hud/hudPair.opy`
+- `src/menu/hud/hudPerPlayer.opy`
+- `src/menu/hud/hudSingle.opy`
 - `src/menu/menuHero.opy`
+- `src/menu/menuHud.opy`
 - `src/menu/host/hostModeration.opy`
 - `src/menu/host/hostReboot.opy`
 - `src/menu/menuPlayer.opy`

@@ -15,7 +15,7 @@
 rule "Create effect":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.STATIC_FIELD, eventPlayer.eventEffect == null]) == true
-    
+
     createEffect(getAllPlayers(), Effect.WINSTON_TESLA_CANNON_TARGET, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     waitUntil(eventPlayer.eventId != EventId.STATIC_FIELD or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)

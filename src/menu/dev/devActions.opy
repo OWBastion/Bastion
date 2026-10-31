@@ -8,7 +8,7 @@
 rule "Teleport to target":
     @Event eachPlayer
     @Condition eventPlayer.isDev
-    @Condition eventPlayer.menu == 2
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition targetPlayer
 
@@ -19,7 +19,7 @@ rule "Teleport to target":
 rule "Unlock all heroes":
     @Event eachPlayer
     @Condition eventPlayer.isDev
-    @Condition eventPlayer.menu == 2
+    @Condition eventPlayer.menu == MENU_PAGE_DEV_ADMIN
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition not eventPlayer.isWinner
 

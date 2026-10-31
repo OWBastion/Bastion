@@ -41,7 +41,7 @@
 - 三个入口直接 include `env/macros.opy` 和编译所需的事件/模式/地图定义
 - 三个入口直接列出中段服务，按固定槽位交错 include 各属主模块；不要按目录重新分组排序
 - `events/lifecycle/resetPlayerEventState.opy` 固定 include 在 `player/status.opy` 之前，维持子程序索引与规则展开顺序
-- 菜单 include 固定在末尾位置：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/dev/*` -> `menu/menuPlayer.opy` -> `menu/host/*` 等按既有槽位交错展开，跨角色交错顺序不可重排
+- 菜单 include 固定在末尾位置：`menu/menuFrame.opy` -> `menu/menuHero.opy` -> `menu/menuPlayer.opy` -> `menu/host/*` / `menu/dev/*` 等按既有槽位交错展开，`menu/menuHud.opy` 与所选 `menu/hud/*` 紧随 `menu/dev/devWeights.opy`（页面文案宏必须先于它定义），跨角色交错顺序不可重排
 
 ## 核心全局数据结构
 
