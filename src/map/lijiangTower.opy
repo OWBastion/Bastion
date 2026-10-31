@@ -47,4 +47,4 @@ rule "map - 漓江塔":
 
     platformMapRevision_LIJIANG_TOWER_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

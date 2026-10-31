@@ -37,7 +37,7 @@ def refreshCompatibleEventPool():
         return
     eventPlayer.eventCompatibleBasePool = eventCatalogId
     eventPlayer.eventCompatibleBasePool.remove(eventPlayer.incompatibleEventIds())
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
 
 rule "initialize player compatible event pool":

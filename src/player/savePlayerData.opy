@@ -8,7 +8,7 @@ subroutine savePlayerData
 def savePlayerData():
     @Name "save player data if the player has pa\ufeffssed round 2"
     
-    waitLoadShort()
+    wait(getAverageServerLoad() * 0.005)
     if eventPlayer.heroNumber > 2:
         #We're saving data as a string, because although we can't hold entity id's, we can hold entity names as string.
         if not eventPlayer.inSaved(savedIndex):
@@ -16,18 +16,18 @@ def savePlayerData():
         eventPlayer.savedDataIndex = eventPlayer.savedIndex(savedIndex)
         wait(eventPlayer.getSlot() * 0.032 + random.uniform(1, 2) * 0.5)
         savedData.savedHero[eventPlayer.savedDataIndex] = eventPlayer.heroNumber
-        waitLoadShort()
+        wait(getAverageServerLoad() * 0.005)
         savedData.savedDeaths[eventPlayer.savedDataIndex] = eventPlayer.runDeathCount
-        waitLoadShort()
+        wait(getAverageServerLoad() * 0.005)
         savedData.savedWinner[eventPlayer.savedDataIndex] = eventPlayer.isWinner
-        waitLoadShort()
+        wait(getAverageServerLoad() * 0.005)
         savedData.savedSkipCount[eventPlayer.savedDataIndex] = eventPlayer.skipCount
-        waitLoadShort()
+        wait(getAverageServerLoad() * 0.005)
         if eventPlayer.winnerTime == null:
             goto lbl_0
         savedData.savedWinnerTime[eventPlayer.savedDataIndex] = eventPlayer.winnerTime
         lbl_0:
-        waitLoadShort()
+        wait(getAverageServerLoad() * 0.005)
         savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] = eventPlayer.playerOnceEventState.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT) if eventPlayer.playerOnceEventState != null else DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
         savedData.savedJoinTime[eventPlayer.savedDataIndex] = eventPlayer.joinTime
         smallMessage(eventPlayer, STR_MSG_PROGRESS_SAVED)
@@ -52,6 +52,6 @@ rule "player deaths are counted manually rather than relying on in-game statisti
     wait(0.5 * getServerLoad() / 100)
     eventPlayer.runDeathCount++
     if eventPlayer in savedIndex:
-        waitTick2()
+        wait(0.032)
         savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if controlRespawnPosition == null else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)

@@ -32,7 +32,7 @@ rule "[VishkarEvent]: 重力异常":
     eventPlayer.eventEffect[0] = getLastCreatedEntity()
     createEffect(getAllPlayers() if (eventPlayer.isAlive() and getPlayers(Team.2)[0] != null) else null, Effect.SIGMA_GRAVITIC_FLUX_TARGET_SOUND, Color.TEAM_2, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.eventEffect[1] = getLastCreatedEntity()
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     if eventPlayer.eventMission != GravityAnomalyRoll.NO_JUMP:
         eventPlayer.setGravity(eventPlayer.eventTempIndex)
     if eventPlayer.eventMission == GravityAnomalyRoll.ZERO_GRAVITY or eventPlayer.eventMission == GravityAnomalyRoll.NO_JUMP:

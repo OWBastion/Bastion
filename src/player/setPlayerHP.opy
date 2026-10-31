@@ -10,5 +10,5 @@ def setPlayerHP():
 
     eventPlayer.temp = eventPlayer.getNormalizedHealth()
     eventPlayer.setMaxHealth(100 * eventPlayer.sizeHealth + eventPlayer.heart_steel[HeartSteelData.STACKS] * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK])
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.temp))

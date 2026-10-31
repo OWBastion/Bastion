@@ -489,6 +489,6 @@ rule "Track kills and attacker":
     kills[eventPlayer.getSlot()]++
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
     victim.attacker.stopForcingOutlineFor(victim)
-    waitTick2()
+    wait(0.032)
     victim.attacker = attacker
     victim.attacker.startForcingOutlineFor(victim, true, Color.RED, OutlineVisibility.ALWAYS)

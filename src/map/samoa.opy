@@ -47,4 +47,4 @@ rule "map - 萨摩亚":
 
     platformMapRevision_SAMOA_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

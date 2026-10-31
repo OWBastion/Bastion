@@ -25,7 +25,7 @@ rule "Resolve giveaway":
         setPlayerHP()
     playEffect(getAllPlayers(), DynamicEffect.ORISA_HALT_IMPLOSION, Color.TEAM_1, eventPlayer, 200)
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 100)
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
 
 rule "Rebuild max health":
     @Event eachPlayer
@@ -35,7 +35,7 @@ rule "Rebuild max health":
     if eventPlayer.eventId == EventId.HEART_OF_STEEL_PRO:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()
         eventPlayer.setMaxHealth(100 + eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_16_HP_MULTIPLIER)
-        waitLoadBrief()
+        wait(getAverageServerLoad() * 0.00032)
         eventPlayer.setHealth(eventPlayer.getMaxHealth().scaledBy(eventPlayer.temp))
     else:
         setPlayerHP()

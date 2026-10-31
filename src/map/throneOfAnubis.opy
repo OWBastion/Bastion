@@ -39,4 +39,4 @@ rule "map - 阿努比斯王座":
     platformMapRevision_THRONE_OF_ANUBIS_DEFAULT()
     __currentMapText___ = "王座"
     startForcingSpawn(Team.1, 1)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

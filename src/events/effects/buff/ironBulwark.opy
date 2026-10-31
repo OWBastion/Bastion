@@ -10,7 +10,7 @@ rule "[VishkarEvent]: 钢铁防线":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK]) == true
     
-    waitTick2()
+    wait(0.032)
     if eventPlayer.healthId[1] == null:
         goto lbl_0
     removeHealthPool(eventPlayer.healthId[1])
@@ -21,9 +21,9 @@ rule "[VishkarEvent]: 钢铁防线":
     eventPlayer.mod_dmg_taken = EVT_2_DMG_TAKEN
     updatePlayerStats()
     # Exception: effect teardown is bound to event lifecycle completion.
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.mod_dmg_taken = 0
     updatePlayerStats()
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     eventPlayer.healthId[1] = null
