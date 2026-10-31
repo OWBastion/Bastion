@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 作弊：我要验牌 (触发)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.CHEAT_CARD_COUNTING and eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.CHEAT_CARD_COUNTING, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.heart_steel[HeartSteelData.STACKS] -= EVT_MECH_7_HEART_STEEL_COST

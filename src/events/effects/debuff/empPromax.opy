@@ -10,7 +10,7 @@
 rule "Broadcast EMP":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.EMP_PROMAX)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.EMP_PROMAX]) == true
     
     ([player for player in getPlayers(Team.1) if distance(eventPlayer, player) <= EVT_DEBUFF_7_RADIUS]).empProMax = eventPlayer
     playEffect(getAllPlayers(), DynamicEffect.SOMBRA_EMP_EXPLOSION_EFFECT, Color.TEAM_2, eventPlayer, 200)
@@ -20,7 +20,7 @@ rule "Broadcast EMP":
 rule "Apply hack":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and not eventPlayer.hasStatus(Status.HACKED) and eventPlayer.empProMax
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.hasStatus(Status.HACKED) != true, eventPlayer.empProMax != null]) == true
     
     stopChasingVariable(eventPlayer.hack_timer)
     eventPlayer.hack_timer = max(0, EVT_DEBUFF_7_HACK_BASE_DURATION if eventPlayer.empProMax == eventPlayer else EVT_DEBUFF_7_HACK_BASE_DURATION - distance(eventPlayer, eventPlayer.empProMax) * EVT_DEBUFF_7_DIST_FACTOR)

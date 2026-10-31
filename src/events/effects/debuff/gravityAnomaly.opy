@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 重力异常":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GRAVITY_ANOMALY and eventPlayer.eventMission == 0)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GRAVITY_ANOMALY, eventPlayer.eventMission == 0]) == true
 
     # 仅在事件开始时抽取一次效果类型与数值，持续期间不变。
     # eventMission = 抽取结果，兼作重生重复触发的闸门；eventTempIndex = 本事件期望的重力基线

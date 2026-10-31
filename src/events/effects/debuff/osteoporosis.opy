@@ -19,7 +19,7 @@ rule "[VishkarEvent]: 骨质疏松 Effect":
 rule "[VishkarEvent]: 骨质疏松":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.OSTEOPOROSIS)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.OSTEOPOROSIS]) == true
     
     while eventPlayer.mod_speed_event != EVT_DEBUFF_6_MAX_SPEED_DEC:
         eventPlayer.mod_speed_event -= EVT_DEBUFF_6_SPEED_DEC_PER_SEC

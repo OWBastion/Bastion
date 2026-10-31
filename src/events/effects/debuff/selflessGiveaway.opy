@@ -10,7 +10,7 @@
 rule "Resolve giveaway":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SELFLESS_GIVEAWAY)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SELFLESS_GIVEAWAY]) == true
     
     if eventPlayer.getMaxHealth() <= EVT_DEBUFF_14_MIN_MAX_HP:
         requestPlayerEventEnd()
@@ -30,7 +30,7 @@ rule "Resolve giveaway":
 rule "Rebuild max health":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.setPlayerHP)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.setPlayerHP]) == true
     
     if eventPlayer.eventId == EventId.HEART_OF_STEEL_PRO:
         eventPlayer.temp = eventPlayer.getNormalizedHealth()

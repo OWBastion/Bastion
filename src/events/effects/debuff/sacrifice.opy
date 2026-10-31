@@ -11,7 +11,7 @@
 rule "[VishkarEvent]: 献祭":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SACRIFICE)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SACRIFICE]) == true
 
     eventPlayer.target = [player for player in getLivingPlayers(Team.1) if player.isUsingAbility1() or player.isUsingAbility2()]
     if len(eventPlayer.target) > 0:

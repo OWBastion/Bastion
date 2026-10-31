@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 赌徒：赢家通吃 (奖池显示)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_WINNER_TAKE_ALL and eventPlayer.eventEndTime > getTotalTimeElapsed()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_WINNER_TAKE_ALL, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
     eventPlayer.hudText = "当前奖池：{0}层".format(round(gamblerHeartsteelJackpot))
     wait(0.5)
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 赌徒：赢家通吃 (奖池显示)":
 rule "[VishkarEvent]: 赌徒：赢家通吃":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_WINNER_TAKE_ALL and eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_WINNER_TAKE_ALL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.eventMission = max(1, floor(eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_MECH_24_STAKE_RATIO))

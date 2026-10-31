@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (下 注)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5 and eventPlayer.eventEndTime > getTotalTimeElapsed() and eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS and eventPlayer.altFormActive != true and eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.eventMissionGoal < EVT_MECH_17_MAX_BETS, eventPlayer.altFormActive != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     eventPlayer.altFormActive = true
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
@@ -19,13 +19,13 @@ rule "[VishkarEvent]: 赌徒：梭哈艺术 (下 注)":
         eventPlayer.eventMissionGoal++
         eventPlayer.hudText = "已 下 注：{0}层（{1}%）".format(eventPlayer.eventMission, eventPlayer.eventMissionGoal * 25)
         smallMessage(eventPlayer, "  {0}  已 下 注 {1} 层".format(iconString(Icon.CLUB), max(1, floor(eventPlayer.heart_steel[HeartSteelData.STACKS] * EVT_MECH_17_STAKE_RATIO))))
-    waitUntil((not eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.eventId != EventId.GAMBLER_ALL_IN_ART_5 or eventPlayer.eventEndTime <= getTotalTimeElapsed()), Math.INFINITY)
+    waitUntil(any([eventPlayer.isHoldingButton(Button.RELOAD) == false, eventPlayer.eventId != EventId.GAMBLER_ALL_IN_ART_5, eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
     eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 赌徒：梭哈艺术 (结算)":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_ALL_IN_ART_5]) == true
 
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime - getTotalTimeElapsed() <= 1, Math.INFINITY)
     if eventPlayer.eventId == -1:

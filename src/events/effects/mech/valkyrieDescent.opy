@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 瓦尔基里降临":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.VALKYRIE_DESCENT)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
     
     eventPlayer.sizeHealth = EVT_MECH_13_SIZE_HEALTH
     setPlayerHP()
@@ -27,7 +27,7 @@ rule "[VishkarEvent]: 瓦尔基里降临":
 rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
     @Event playerTookDamage
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.VALKYRIE_DESCENT
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT]) == true
     @Condition attacker != eventPlayer
     @Condition eventPlayer.getUltCharge() < 100
 
@@ -37,12 +37,12 @@ rule "[VishkarEvent]: 瓦尔基里降临 大招充能":
 rule "[VishkarEvent]: 瓦尔基里降临 (大招持续回血)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.VALKYRIE_DESCENT and eventPlayer.isUsingUltimate()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.VALKYRIE_DESCENT, eventPlayer.isUsingUltimate()]) == true
     
     if eventPlayer.eventTargetHP == 0:
         eventPlayer.eventTargetHP = eventPlayer.getMaxHealth()
     eventPlayer.eventTargetHP = eventPlayer.getHealth() + ((eventPlayer.eventTargetHP - eventPlayer.getHealth()) * EVT_MECH_13_HEAL_SMOOTHING)
-    while (eventPlayer.isUsingUltimate() and eventPlayer.getHealth() < eventPlayer.eventTargetHP):
+    while all([eventPlayer.isUsingUltimate(), eventPlayer.getHealth() < eventPlayer.eventTargetHP]):
         eventPlayer.setHealth(min(eventPlayer.eventTargetHP, eventPlayer.getHealth() + eventPlayer.maxHealthPercent(EVT_MECH_13_HEAL_TICK_PERCENT * 100)))
         playEffect(getAllPlayers(), DynamicEffect.HEAL_TARGET_ACTIVE, Color.YELLOW, eventPlayer, 60)
         wait(EVT_MECH_13_HEAL_TICK_INTERVAL)

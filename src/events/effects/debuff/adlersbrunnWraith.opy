@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH]) == true
 
     eventPlayer.passiveRegenBlocked = true
     eventPlayer.eventMissionGoal = eventPlayer.maxHealthPercent(EVT_DEBUFF_21_DRAIN_MAXHP_FACTOR * 100 * eventPlayer.getStatistic(Stat.ELIMINATIONS))
@@ -33,7 +33,7 @@ rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂":
 rule "[VishkarEvent]: 阿德勒斯布鲁恩的冤魂 (阵亡结算)":
     @Event playerDied
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH and eventPlayer.eventMission == 0)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.ADLERSBRUNN_WRAITH, eventPlayer.eventMission == 0]) == true
 
     eventPlayer.eventMission = 1
     eventPlayer.mod_heal_perma += EVT_DEBUFF_21_DEATH_HEAL_PERMA

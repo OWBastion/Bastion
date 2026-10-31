@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 有难同当 Effect":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SHARE_THE_PAIN)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARE_THE_PAIN]) == true
     
     waitLoadBrief()
     createEffect(getAllPlayers(), Effect.TORBJORN_OVERLOADING, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
@@ -19,9 +19,9 @@ rule "[VishkarEvent]: 有难同当 Effect":
 rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SHARE_THE_PAIN)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARE_THE_PAIN]) == true
     @Condition attacker
-    @Condition (eventAbility or attacker.getTeam() == Team.1)
+    @Condition any([eventAbility != null, attacker.getTeam() == Team.1])
     
     # 扩散不会二次触发：本事件全队唯一持有（见 buildCandidatePool 唯一持有门控），
     # 受扩散者必不持有此 debuff，其 eventId 条件必然不满足。

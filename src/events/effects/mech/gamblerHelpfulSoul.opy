@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 赌徒：孤注一掷":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_HELPFUL_SOUL and eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_HELPFUL_SOUL, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.target = getLivingPlayers(Team.1)

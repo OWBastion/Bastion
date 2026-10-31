@@ -22,7 +22,7 @@ rule "Create effect":
 rule "Pull toward bastion":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.GRAVITY_PULL
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.GRAVITY_PULL]) == true
     @Condition getPlayers(Team.2)[0] != null
     
     if eventPlayer.mod_speed_event != 0:

@@ -9,7 +9,7 @@
 rule "Random launch":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.WAYWARD_NAVIGATION
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WAYWARD_NAVIGATION]) == true
 
     wait(EVT_DEBUFF_22_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.applyImpulse(Vector.UP, 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
