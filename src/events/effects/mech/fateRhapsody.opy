@@ -21,11 +21,3 @@ rule "[VishkarEvent]: 命运狂想曲":
     if len(eventPlayer.eventModificationId) > 0:
         stopDamageModification(eventPlayer.eventModificationId[0])
         eventPlayer.eventModificationId = []
-
-rule "[VishkarEvent]: 命运狂想曲 (玩家离开)":
-    @Event playerLeft
-    @Team 1
-    @Condition all([eventPlayer.eventId == EventId.FATE_RHAPSODY, len(eventPlayer.eventModificationId) > 0]) == true
-
-    stopDamageModification(eventPlayer.eventModificationId[0])
-    eventPlayer.eventModificationId = []
