@@ -79,7 +79,7 @@ enum HeartSteelData:
 #!define EVT_2_BLOCK_GOAL_BASE 5000
 #!define EVT_2_BLOCK_GOAL_PER_BASTION 500
 # 完成奖励：本局永久护甲
-#!define EVT_2_REWARD_ARMOR 50
+#!define EVT_2_REWARD_ARMOR 100
 # HUD 刷新间隔（秒）
 #!define EVT_2_HUD_INTERVAL 1
 
