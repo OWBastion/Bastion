@@ -381,6 +381,8 @@ enum HeartSteelData:
 #!define EVT_BUFF_40_WEIGHT 0.8
 # 来自其他友方的治疗额外增加的百分比
 #!define EVT_40_HEAL_BONUS 300
+# 额外治疗的结算间隔（秒）
+#!define EVT_40_DISPATCH_INTERVAL 0.25
 
 # -----------------------------------------------------------------------------
 # DEBUFF 事件（按ID排序）
