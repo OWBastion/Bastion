@@ -10,7 +10,7 @@ rule "Teleport to target":
     @Condition eventPlayer.isDev
     @Condition eventPlayer.menu == 2
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition targetPlayer
+    @Condition targetPlayer != null
 
     eventPlayer.teleport(nearestWalkablePosition(targetPlayer.getPosition() - vect(0, 0, -1)))
     eventPlayer.setFacing(targetPlayer.getFacingDirection(), Relativity.TO_WORLD)
