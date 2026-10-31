@@ -14,7 +14,11 @@ rule "Run passive regen":
     @Condition eventPlayer.combatRegen == true
 
     eventPlayer.combatRegen = false
-    if (eventPlayer.isDead() or eventPlayer.getNormalizedHealth() == 1 or eventPlayer.heal_recv <= -100):
+    if any([
+        eventPlayer.isDead(),
+        eventPlayer.getNormalizedHealth() == 1,
+        eventPlayer.heal_recv <= -100
+    ]):
         return
 
     smallMessage(
@@ -25,7 +29,13 @@ rule "Run passive regen":
     )
     eventPlayer.startHealingOverTime(eventPlayer, Math.INFINITY, 50 + eventPlayer.maxHealthPercent(8))
     eventPlayer.healID = getLastHealingOverTimeId()
-    waitUntil((eventPlayer.passiveRegenBlocked or eventPlayer.isDead() or eventPlayer.getNormalizedHealth() == 1 or eventPlayer.heal_recv <= -100 or eventPlayer.healID == 0), Math.INFINITY)
+    waitUntil(any([
+        eventPlayer.passiveRegenBlocked,
+        eventPlayer.isDead(),
+        eventPlayer.getNormalizedHealth() == 1,
+        eventPlayer.heal_recv <= -100,
+        eventPlayer.healID == 0
+    ]), Math.INFINITY)
     if eventPlayer.healID != 0:
         stopHealingOverTime(eventPlayer.healID)
         eventPlayer.healID = 0
