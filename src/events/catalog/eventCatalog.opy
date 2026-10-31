@@ -33,7 +33,7 @@ rule "initialize event array":
     eventCatalogType[EventId.GALE_BLESSING] = EventType.BUFF
 
     eventName[EventId.IRON_BULWARK] = STR_EVT_BUFF_2_TITLE
-    eventDesc[EventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_ARMOR_FLAT, percent(EVT_2_ARMOR_MAXHP_FACTOR), negToPos(EVT_2_DMG_TAKEN))
+    eventDesc[EventId.IRON_BULWARK] = STR_EVT_BUFF_2_DESC.format(EVT_2_BLOCK_GOAL_BASE, EVT_2_BLOCK_GOAL_PER_BASTION, EVT_2_REWARD_ARMOR)
     eventDuration[EventId.IRON_BULWARK] = EVT_BUFF_2_DURATION
     eventCatalogWeight[EventId.IRON_BULWARK] = EVT_BUFF_2_WEIGHT
     eventCatalogType[EventId.IRON_BULWARK] = EventType.BUFF

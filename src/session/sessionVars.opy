@@ -151,6 +151,8 @@ playervar altFormActive 111
 playervar playerOnceEventState
 playervar menuHeroIndex
 playervar mod_heal_perma
+# 钢铁防线累计的本局永久护甲
+playervar bulwarkArmor
 playervar eventModificationId
 playervar thiefBuffStolen
 playervar eventMatchCounters

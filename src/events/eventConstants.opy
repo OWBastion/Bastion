@@ -75,10 +75,13 @@ enum HeartSteelData:
 #!define EVT_BUFF_2_DURATION 25
 # Weight（权重）
 #!define EVT_BUFF_2_WEIGHT 1.2
-#!define EVT_2_ARMOR_FLAT 500
-#!define EVT_2_ARMOR_MAXHP_FACTOR 1
-#!define EVT_2_DMG_TAKEN -25
-#!define EVT_2_EFFECT DynamicEffect.BRIGITTE_REPAIR_PACK_ARMOR
+# 事件期间需抵挡的伤害（Damage Blocked 统计增量）= 基础 + 每个堡垒的增量 × 堡垒数
+#!define EVT_2_BLOCK_GOAL_BASE 5000
+#!define EVT_2_BLOCK_GOAL_PER_BASTION 500
+# 完成奖励：本局永久护甲
+#!define EVT_2_REWARD_ARMOR 100
+# HUD 刷新间隔（秒）
+#!define EVT_2_HUD_INTERVAL 1
 
 # --- ID 4: 生命源泉 ---
 # Duration（秒）
