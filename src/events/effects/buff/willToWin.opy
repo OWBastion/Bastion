@@ -19,12 +19,8 @@ rule "[VishkarEvent]: 胜利意志":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null]) == true
     @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
 
-    # Exception: multi-phase revive/invincible flow keeps explicit phase waits.
-    wait()
-    eventPlayer.clearStatusEffect(Status.INVINCIBLE)
-    destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN])
-    wait()
     eventPlayer.setStatusEffect(eventPlayer, Status.INVINCIBLE, EVT_14_INVINCIBLE_DURATION)
+    eventPlayer.eventEndTime = max(eventPlayer.eventEndTime, getTotalTimeElapsed() + EVT_14_INVINCIBLE_DURATION)
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.BAPTISTE_IMMORTALITY_FIELD_PROTECTED_SOUND, Color.TEAM_1, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
@@ -33,7 +29,7 @@ rule "[VishkarEvent]: 胜利意志":
     bigMessage(eventPlayer, "胜利意志！")
     resetPlayerCD()
     heal(eventPlayer, eventPlayer, 99999)
-    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), 5)
-    if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.isDead(), EVT_14_INVINCIBLE_DURATION)
+    if eventPlayer.eventId == -1:
         return
     requestPlayerEventEnd()

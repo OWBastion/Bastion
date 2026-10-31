@@ -23,7 +23,7 @@ def savePlayerData():
         wait(getAverageServerLoad() * 0.005)
         savedData.savedSkipCount[eventPlayer.savedDataIndex] = eventPlayer.skipCount
         wait(getAverageServerLoad() * 0.005)
-        if not eventPlayer.winnerTime:
+        if eventPlayer.winnerTime == null:
             goto lbl_0
         savedData.savedWinnerTime[eventPlayer.savedDataIndex] = eventPlayer.winnerTime
         lbl_0:
@@ -54,4 +54,4 @@ rule "player deaths are counted manually rather than relying on in-game statisti
     if eventPlayer in savedIndex:
         wait(0.032)
         savedData.savedDeaths[eventPlayer.savedIndex(savedIndex)] = eventPlayer.runDeathCount
-    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if not controlRespawnPosition else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
+    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), endPosition.getPosition() if controlRespawnPosition == null else controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)

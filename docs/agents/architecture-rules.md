@@ -13,6 +13,9 @@ This document is the canonical rule source for entry architecture and structural
 5. Prefer minimal-scope changes in owning module before cross-directory edits.
 6. Do not use `shared` in project-owned names to describe common configuration or behavior; use responsibility-based names, `BASE` for base macros, and `MAIN` / `DEV` for entry-specific overrides. A gameplay event whose name is `shared` (for example `sharedBlessing`) is allowed.
 7. Source file names under `src/` are camelCase and unique across the tree, so `rg --files` finds a file by name. Entry-specific names (`init<Domain>`, `menu<Name>`, `dev<Name>`, `host<Name>`, `title<Name>`) carry their domain; locale files keep their locale tag (`zh-CN.opy`, `en-US.opy`). Event effect files are named after the event key in camelCase.
+8. Entry include order sets subroutine indices and rule expansion order. Middle-section service files are interleaved in fixed slots across owner directories; do not regroup them by directory. `events/lifecycle/resetPlayerEventState.opy` stays before `player/status.opy`. Menu includes stay at the end in their existing order.
+9. Event identity is the unified catalog slot `EventId.X`, stored in `eventPlayer.eventId`; `-1` means no event. Dispatch effect rules on `eventId` alone, never on `eventType`, which is derived category state.
+10. Updated Workshop code reaches only newly created rooms. Do not add in-room migration of legacy runtime state.
 
 ## Validation Expectations
 

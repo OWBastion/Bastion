@@ -17,7 +17,7 @@ rule "3rd person":
 
 rule "springboard":
     @Event eachPlayer
-    @Condition springBoardPosition
+    @Condition springBoardPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= springBoardPosition.y
@@ -33,7 +33,7 @@ rule "springboard":
 
 rule "portalPosition":
     @Event eachPlayer
-    @Condition portalPosition
+    @Condition portalPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= portalPosition[0].y

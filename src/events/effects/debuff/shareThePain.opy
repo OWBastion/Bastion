@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 有难同当":
     @Event playerTookDamage
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARE_THE_PAIN]) == true
-    @Condition attacker
+    @Condition attacker != null
     @Condition any([eventAbility != null, attacker.getTeam() == Team.1])
     
     # 扩散不会二次触发：本事件全队唯一持有（见 buildCandidatePool 唯一持有门控），

@@ -38,7 +38,7 @@ rule "Attach prophet next-event text":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.hasSpawned()
-    @Condition not eventPlayer.prophetTextId
+    @Condition eventPlayer.prophetTextId == null
 
     wait(eventPlayer.getSlot() * 0.08)
     createInWorldText(
@@ -54,14 +54,14 @@ rule "Attach prophet next-event text":
             eventPlayer.titleCycleAB[0].x + eventPlayer.titleCycleAB[1].x * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)),
             eventPlayer.titleCycleAB[0].y + eventPlayer.titleCycleAB[1].y * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)),
             eventPlayer.titleCycleAB[0].z + eventPlayer.titleCycleAB[1].z * (1 - abs(((getTotalTimeElapsed() - eventPlayer.titleCycleT0) / 2.5) % 2 - 1)))
-            if eventPlayer.titleCycleAB else rgb(186, 120, 255)
+            if eventPlayer.titleCycleAB != null else rgb(186, 120, 255)
     )
     eventPlayer.prophetTextId = getLastCreatedText()
 
 rule "Destroy prophet next-event text when player leaves":
     @Event playerLeft
     @Team 1
-    @Condition eventPlayer.prophetTextId
+    @Condition eventPlayer.prophetTextId != null
 
     destroyInWorldText(eventPlayer.prophetTextId)
     eventPlayer.prophetTextId = null

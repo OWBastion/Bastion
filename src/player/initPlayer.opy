@@ -33,10 +33,10 @@ rule "when a player joins, load player data if they have it and initialize them"
         wait(eventPlayer.getSlot() * 0.032)
         if savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex] != null:
             eventPlayer.playerOnceEventState = savedData.savedPlayerOnceEventState[eventPlayer.savedDataIndex].slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
-        if not eventPlayer.joinTime or eventPlayer.joinTime == 0:
+        if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = savedData.savedJoinTime[eventPlayer.savedDataIndex]
     else:
-        if not eventPlayer.joinTime or eventPlayer.joinTime == 0:
+        if eventPlayer.joinTime == null or eventPlayer.joinTime == 0:
             eventPlayer.joinTime = evalOnce(getTotalTimeElapsed())
     eventPlayer.dmgReduc = false
     eventPlayer.invincible = false

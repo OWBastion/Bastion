@@ -23,7 +23,7 @@ rule "[VishkarEvent]: 献祭":
             eventPlayer.target = eventPlayer.target[0]
         else:
             eventPlayer.target = null
-        if eventPlayer.target:
+        if eventPlayer.target != null:
             damage(eventPlayer, eventPlayer.target, eventPlayer.maxHealthPercent(EVT_DEBUFF_2_DMG_PERCENT * 100))
     wait(SACRIFICE_SCAN_DT)
     if ruleCondition:
