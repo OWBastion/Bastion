@@ -9,10 +9,11 @@
 #   hudPerPlayer.opy 两个文本，打开时创建、关闭时销毁（每名玩家各自一份）
 
 # 位于左列游戏 HUD（排序 2–7）之下
-#!define MENU_HUD_SORT_TITLE 8
-#!define MENU_HUD_SORT_BODY 9
+# 占位元素把整块菜单往下推（同 HUD_PAD_BOTTOM 的 "\n\r" 写法）；增减 "\n\r" 的个数即可改变垂直位置
+#!define MENU_HUD_PAD_TOP "\n\r\n\r\n\r"
+#!define MENU_HUD_SORT_PAD 8
+#!define MENU_HUD_SORT_TITLE 9
+#!define MENU_HUD_SORT_BODY 10
 
-# 标题前的换行把整块菜单往下推；调整行数即可改变垂直位置
-#!define MENU_HUD_TOP_PADDING "\n\n\n"
-#!define MENU_TITLE(viewer) "{0}{1}".format(MENU_HUD_TOP_PADDING, (MENU_MAIN_TITLE(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_TITLE(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_TITLE(viewer))))))
+#!define MENU_TITLE(viewer) ((MENU_MAIN_TITLE(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_TITLE(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_TITLE(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_TITLE(viewer))))))
 #!define MENU_BODY(viewer) (MENU_MAIN_BODY(viewer) if viewer.menu == MENU_PAGE_MAIN else (MENU_HERO_BODY(viewer) if viewer.menu == MENU_PAGE_HERO else (MENU_DEV_ADMIN_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_ADMIN else (MENU_DEV_MOVEMENT_BODY(viewer) if viewer.menu == MENU_PAGE_DEV_MOVEMENT else MENU_DEV_WEIGHTS_BODY(viewer)))))
