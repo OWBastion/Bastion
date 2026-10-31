@@ -46,7 +46,7 @@ rule "[VishkarEvent]: 变形大师 清理形态":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHAPESHIFTER]) == true
 
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.sizeHealth = 1
     setPlayerHP()
     eventPlayer.mod_dmg_taken = 0

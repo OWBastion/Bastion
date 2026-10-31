@@ -126,7 +126,7 @@ rule "Maintain assault form":
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0
     # @Condition not eventPlayer.isInAlternateForm()
 
-    if eventPlayer.target:
+    if eventPlayer.target != null:
         eventPlayer.lastThreatTime = getTotalTimeElapsed()
     
     #this cancels bastion's "standing up" animation so he can sit back down faster
@@ -180,8 +180,8 @@ rule "Acquire target":
     @Condition eventPlayer.isAlive()
 
     wait(random.uniform(
-        SCAN_DT_HAS_TARGET_MIN if eventPlayer.target else SCAN_DT_NO_TARGET_MIN,
-        SCAN_DT_HAS_TARGET_MAX if eventPlayer.target else SCAN_DT_NO_TARGET_MAX
+        SCAN_DT_HAS_TARGET_MIN if eventPlayer.target != null else SCAN_DT_NO_TARGET_MIN,
+        SCAN_DT_HAS_TARGET_MAX if eventPlayer.target != null else SCAN_DT_NO_TARGET_MAX
     ), Wait.IGNORE_CONDITION)
 
     if isBastionTargetEligible(eventPlayer.target) and hasBastionTargetLoS(eventPlayer.target):
@@ -289,7 +289,7 @@ rule "Update aim point":
     @Hero bastion
     @Condition eventPlayer.isDummy()
     @Condition eventPlayer.isAlive()
-    @Condition eventPlayer.target
+    @Condition eventPlayer.target != null
     
     eventPlayer.tempAimPosition = (eventPlayer.target.getPosition() + eventPlayer.target.getEyePosition()) / 2
     if isInLoS(eventPlayer.getEyePosition(), eventPlayer.tempAimPosition):
@@ -489,6 +489,6 @@ rule "Track kills and attacker":
     kills[eventPlayer.getSlot()]++
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
     victim.attacker.stopForcingOutlineFor(victim)
-    waitTick2()
+    wait(0.032)
     victim.attacker = attacker
     victim.attacker.startForcingOutlineFor(victim, true, Color.RED, OutlineVisibility.ALWAYS)

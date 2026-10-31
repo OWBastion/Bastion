@@ -71,14 +71,17 @@ rule "Update targetPlayer when player left":
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.REGROUP_CALL])
     destroyEffect(eventPlayer.invincibleEffect[InvincibleEffectSlot.DEV_TOOL])
     eventPlayer.invincibleEffect = DEFAULT_INVINCIBLE_EFFECTS.slice(0, InvincibleEffectSlot.COUNT)
-    waitLoadBrief()
+    if len(eventPlayer.eventModificationId) > 0:
+        stopDamageModification(eventPlayer.eventModificationId[0])
+        eventPlayer.eventModificationId = []
+    wait(getAverageServerLoad() * 0.00032)
     targetPlayerIndex = 0
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[0]
-    if eventPlayer.hudTextId:
+    if eventPlayer.hudTextId != null:
         destroyHudText(eventPlayer.hudTextId)
 
 rule "initialize color array":
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     breathPalette = [[], [], [], [], []]
     # 呼吸色板为 [起点色, 往返端点色]：称号色按已运行时间在两端点间三角波插值，
     # 替代每帧 chaseOverTime；端点取原 7 档中亮度差最大的一对

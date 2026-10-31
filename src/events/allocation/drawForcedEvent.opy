@@ -39,10 +39,20 @@ def drawForcedEvent():
             filterEventHardEligible()
         else:
             eventPlayer.eventTempIndex = []
-        if len(eventPlayer.eventTempIndex) > 0 and (not eventPlayer.eventLastId or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
+        if len(eventPlayer.eventTempIndex) > 0 and (eventPlayer.eventLastId == null or eventPlayer.eventForceIndex not in eventPlayer.eventLastId or (eventPlayer.eventLoopCount > EVT_FORCED_SAMPLE_DEDUP_TRIES and eventPlayer.eventCandidateIndex == -1)):
             eventPlayer.eventCandidateIndex = eventPlayer.eventForceIndex
             if random.uniform(0, eventWeight) < eventCatalogWeight[eventPlayer.eventCandidateIndex]:
                 eventPlayer.eventIsSelected = true
                 break
+    # 随机试探耗尽仍无候选：对本类别的合格集合做一次完整枚举，保证区间内存在合格事件时契约必然兑现；
+    # 仅当区间确实无合格事件时才返回 -1 交给调用方回落。优先避开最近事件，枚举后无其他选择则放开。
+    if eventPlayer.eventCandidateIndex == -1:
+        wait(getAverageServerLoad() * 0.00032)
+        eventPlayer.eventTempIndex = eventPlayer.eventCompatibleBasePool.filter(lambda candidateIndex: eventCatalogType[candidateIndex] == eventPlayer.eventForceType and eventCatalogWeight[candidateIndex] > 0)
+        filterEventHardEligible()
+        if eventPlayer.eventLastId != null and len(eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)) > 0:
+            eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
+        if len(eventPlayer.eventTempIndex) > 0:
+            eventPlayer.eventCandidateIndex = random.choice(eventPlayer.eventTempIndex)
     if eventPlayer.eventIsSelected == false:
         eventPlayer.eventIsSelected = true

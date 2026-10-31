@@ -1,11 +1,5 @@
 #Global variables
 
-subroutine waitLoadBrief
-subroutine waitLoadShort
-subroutine waitLoadLong
-subroutine waitAllSpawned
-subroutine waitHeroMatch
-subroutine waitTick2
 
 globalvar bastionPosition 0
 globalvar resetPosition 2
@@ -153,13 +147,13 @@ playervar lastThreatTime 108
 playervar hudText 109
 playervar eventMissionGoal 110
 # 事件持有的伤害/治疗修正 ID，以单元素数组存放（空数组 = 未持有；ID 0 与 null 相等）
-playervar eventModificationId
 playervar altFormActive 111
 playervar playerOnceEventState
 playervar menuHeroIndex
 playervar mod_heal_perma
 # 钢铁防线累计的本局永久护甲
 playervar bulwarkArmor
+playervar eventModificationId
 playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex

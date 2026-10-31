@@ -65,7 +65,7 @@ Enable in Workshop settings.
   - Avoid heavy computation in `Ongoing - Each Player` whenever possible
   - Use action-side `If + wait` checks only for explicit frequency control or shared-gate sub-checks
   - Rules with identical gates are execution-order sensitive (earlier declaration runs first)
-- Module docs are under `docs/modules/`. Update related docs together with source changes when relevant.
+- Code is the source of truth. `docs/README.md` indexes the rules and contracts.
 - Keep changes minimal; avoid unrelated include-order changes or broad formatting-only diffs.
 - Release validation baseline: use the latest Workshop code to open a new room. Existing rooms do not hot-reload new scripts, so in-room script replacement is not an acceptance path.
 

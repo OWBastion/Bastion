@@ -16,8 +16,8 @@ rule "hashTag | Host Emre Ability1 Duration Verify":
     @Event global
     @Condition hashTag
 
-    waitUntil(hostPlayer and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1(), Math.INFINITY)
-    waitUntil(not hostPlayer or hostPlayer.getHero() != Hero.EMRE or not hostPlayer.isUsingAbility1(), 6)
+    waitUntil(hostPlayer != null and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1(), Math.INFINITY)
+    waitUntil(hostPlayer == null or hostPlayer.getHero() != Hero.EMRE or not hostPlayer.isUsingAbility1(), 6)
 
-    if hostPlayer and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1():
+    if hostPlayer != null and hostPlayer.getHero() == Hero.EMRE and hostPlayer.isUsingAbility1():
         hashTag = false

@@ -9,7 +9,6 @@
 rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     @Event eachPlayer
     @Team 1
-    @Condition  eventPlayer.getHero() != Hero.BASTION
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.CHEAT_SKIP_HERO, eventPlayer.isHoldingButton(Button.RELOAD), eventPlayer.getHero() == heroList[eventPlayer.heroNumber]]) == true
     
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
@@ -17,13 +16,13 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     eventPlayer.controlCenterIndex = eventPlayer.controlJumpIndex
     eventPlayer.respawn()
     progressHero()
-    waitTick2()
-    if controlRespawnPosition:
+    wait(0.032)
+    if controlRespawnPosition != null:
         if eventPlayer.controlCenterIndex >= len(controlRespawnPosition) or not controlRespawnPosition[eventPlayer.controlCenterIndex]:
             eventPlayer.controlJumpIndex = 0
         else:
             eventPlayer.controlJumpIndex = eventPlayer.controlCenterIndex
         eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
-        if controlJumpPosition and controlJumpPosition[eventPlayer.controlJumpIndex]:
+        if controlJumpPosition != null and controlJumpPosition[eventPlayer.controlJumpIndex]:
             eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
     requestPlayerEventEnd()

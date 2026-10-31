@@ -13,12 +13,12 @@ rule "Select host target":
 
     if targetPlayerIndex == null or targetPlayerIndex >= len(sorted(getPlayers(Team.1))):
         targetPlayerIndex = 0
-        waitLoadBrief()
-    waitLoadBrief()
+        wait(getAverageServerLoad() * 0.00032)
+    wait(getAverageServerLoad() * 0.00032)
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[targetPlayerIndex]
     targetPlayerIndex++
-    waitLoadBrief()
-    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if not targetPlayer else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
+    wait(getAverageServerLoad() * 0.00032)
+    smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_NO_TARGET.format(iconString(Icon.BOLT)) if targetPlayer == null else STR_MSG_ADMIN_MARKED.format(iconString(Icon.BOLT), targetPlayer, targetPlayer.getHero()))
 
 
 rule "Kick host target":
@@ -27,7 +27,7 @@ rule "Kick host target":
     @Condition eventPlayer.menu == 1
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
-    if not targetPlayer or targetPlayer.isDev:
+    if targetPlayer == null or targetPlayer.isDev:
         return
     smallMessage(getPlayers(Team.1).filter(lambda player: player.isDev).concat(hostPlayer), STR_MSG_ADMIN_HOLD_TO_KICK.format(iconString(Icon.BOLT), inputBindingString(Button.RELOAD), targetPlayer))
     wait(2, Wait.ABORT_WHEN_FALSE)

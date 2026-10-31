@@ -20,7 +20,7 @@ def buildCandidatePool():
     @Name "[VishkarEvent]: build player event candidate pool"
 
     eventPlayer.eventTempIndex = eventPlayer.eventCompatibleBasePool.filter(lambda candidateIndex: eventCatalogWeight[candidateIndex] > 0)
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     # 窃贼只改写自然分配的增益机会；强制类型契约不经过候选池（见 drawForcedEvent）
     if eventPlayer.thiefBuffStolen == true:
         eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: eventCatalogType[candidateIndex] != EventType.BUFF)
@@ -33,7 +33,7 @@ def buildCandidatePool():
     if len(getPlayers(Team.1).filter(lambda other: other != eventPlayer and (other.eventId == EventId.PROPHET or other.eventNextIndex == EventId.PROPHET or other.eventCandidateIndex == EventId.PROPHET))) > 0:
         eventPlayer.eventTempIndex.remove(EventId.PROPHET)
 
-    if eventPlayer.eventLastId:
+    if eventPlayer.eventLastId != null:
         eventPlayer.eventCandidateIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in eventPlayer.eventLastId)
         if len(eventPlayer.eventCandidateIndex) > 0:
             eventPlayer.eventTempIndex = eventPlayer.eventCandidateIndex

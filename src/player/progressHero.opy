@@ -14,10 +14,10 @@ def progressHero():
     eventPlayer.controlPlayerRespawnPosition = null
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     eventPlayer.progressionDeathCount = 0
-    waitTick2()
+    wait(0.032)
     eventPlayer.preloadHero(heroList[eventPlayer.heroNumber])
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
-    waitHeroMatch()
+    waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
     eventPlayer.stopForcingCurrentHero()
 
     # Set Ability Enabled 是玩家级覆盖标志，跨英雄切换保留且压过大厅设置；

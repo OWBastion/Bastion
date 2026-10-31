@@ -10,7 +10,7 @@ rule "[VishkarEvent]: 生命源泉":
     @Event eachPlayer
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.LIFE_SPRING]) == true
     
-    waitTick2()
+    wait(0.032)
     if eventPlayer.healthId[3] == null:
         goto lbl_0
     removeHealthPool(eventPlayer.healthId[3])
@@ -20,7 +20,7 @@ rule "[VishkarEvent]: 生命源泉":
     createEffect(getAllPlayers(), Effect.HEAL_TARGET_ACTIVE, Color.YELLOW, eventPlayer, 200, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.eventEffect = getLastCreatedEntity()
     eventPlayer.startHealingOverTime(eventPlayer, 20, eventPlayer.maxHealthPercent(EVT_4_HEAL_PERCENT * 100))
-    waitPlayerEventEnd()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[3])
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     eventPlayer.healthId[3] = null

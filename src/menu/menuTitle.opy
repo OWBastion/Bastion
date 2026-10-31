@@ -11,10 +11,10 @@ rule "Next title":
 
     if eventPlayer.playerTitleIndex == null:
         eventPlayer.playerTitleIndex = 0
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
     eventPlayer.playerTitleIndex = (eventPlayer.playerTitleIndex + 1) % len(eventPlayer.playerTitles)
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
     wait()
@@ -25,7 +25,7 @@ rule "Next title":
         eventPlayer,
         "  {0}  已将称号更改为 {1}".format(iconString(Icon.BOLT), titleText[eventPlayer.playerTitleAndColor])
     )
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
 
 rule "Previous title":
@@ -37,9 +37,9 @@ rule "Previous title":
     if eventPlayer.playerTitleIndex == null or eventPlayer.playerTitleIndex <= 0:
         eventPlayer.playerTitleIndex = len(eventPlayer.playerTitles)
 
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     eventPlayer.playerTitleIndex--
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
 
     # 当前称号ID(使用原变量名,内容改为ID)
     eventPlayer.playerTitleAndColor = eventPlayer.playerTitles[eventPlayer.playerTitleIndex]
@@ -56,4 +56,4 @@ rule "Previous title":
         )
     )
 
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)

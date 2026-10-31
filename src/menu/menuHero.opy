@@ -7,7 +7,7 @@
 
 rule "Display hero page":
     @Event eachPlayer
-    @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
+    @Condition controlRespawnPosition == null or eventPlayer.isWinner or len(controlRespawnPosition) < 3
     @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
 
     destroyHudText(eventPlayer.menuTextID[0])
@@ -54,7 +54,7 @@ rule "Cycle hero selection":
 
 rule "Apply hero selection":
     @Event eachPlayer
-    @Condition not controlRespawnPosition or eventPlayer.isWinner or len(controlRespawnPosition) < 3
+    @Condition controlRespawnPosition == null or eventPlayer.isWinner or len(controlRespawnPosition) < 3
     @Condition (eventPlayer.menu == 2 and not eventPlayer.isDev) or (eventPlayer.menu == 5 and eventPlayer.isDev)
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
     @Condition eventPlayer.isInSpawnRoom() and not eventPlayer.isMoving()
@@ -67,7 +67,7 @@ rule "Apply hero selection":
         ) + 1
     )
     eventPlayer.startForcingHero(heroList[eventPlayer.menuHeroIndex])
-    waitHeroMatch()
+    waitUntil(eventPlayer.getHero() == heroList[eventPlayer.heroNumber], 0.5)
     eventPlayer.stopForcingCurrentHero()
     wait(getServerLoad() * 0.005)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))

@@ -51,4 +51,4 @@ rule "map - 绿洲城":
 
     platformMapRevision_OASIS_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

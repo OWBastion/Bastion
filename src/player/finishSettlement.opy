@@ -14,12 +14,12 @@ rule "Resolve finish":
     @Condition distance(eventPlayer.getPosition() * vect(1, 0, 1), endPosition * vect(1, 0, 1)) <= 4
 
     eventPlayer.respawn()
-    waitTick2()
-    if not controlRespawnPosition:
+    wait(0.032)
+    if controlRespawnPosition == null:
         goto lbl_0
     eventPlayer.controlJumpIndex = 0
     eventPlayer.teleport(controlRespawnPosition[0])
-    waitTick2()
+    wait(0.032)
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
     lbl_0:
     if eventPlayer.heroNumber + 1 < len(heroList) and eventPlayer.getHero() == heroList[eventPlayer.heroNumber]:
@@ -39,13 +39,13 @@ rule "Resolve finish":
                 # 时间部分
                 "{0}{1}{2}".format(
                     # 小时部分
-                    STR_TIME_UNIT_HOUR.format(floor(eventPlayer.winnerTime / 3600)) if (eventPlayer.winnerTime and eventPlayer.winnerTime >= 3600) else "",
+                    STR_TIME_UNIT_HOUR.format(floor(eventPlayer.winnerTime / 3600)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 3600) else "",
 
                     # 分钟部分
-                    STR_TIME_UNIT_MIN.format(floor((eventPlayer.winnerTime % 3600) / 60)) if (eventPlayer.winnerTime and eventPlayer.winnerTime >= 60) else "",
+                    STR_TIME_UNIT_MIN.format(floor((eventPlayer.winnerTime % 3600) / 60)) if (eventPlayer.winnerTime != null and eventPlayer.winnerTime >= 60) else "",
 
                     # 秒部分
-                    STR_TIME_UNIT_SEC.format(floor(eventPlayer.winnerTime % 60)) if (eventPlayer.winnerTime) else STR_TIME_UNIT_ZERO_SEC
+                    STR_TIME_UNIT_SEC.format(floor(eventPlayer.winnerTime % 60)) if (eventPlayer.winnerTime != null) else STR_TIME_UNIT_ZERO_SEC
                 )
             )
         )

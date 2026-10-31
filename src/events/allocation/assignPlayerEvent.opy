@@ -12,7 +12,7 @@ rule "[VishkarEvent]: get player event":
     @Condition eventPlayer.eventCompatibleBasePool != null
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
 
-    if eventPlayer.hudTextId:
+    if eventPlayer.hudTextId != null:
         goto lbl_0
     eventPlayer.hudText = ""
     hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 20, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
@@ -21,12 +21,12 @@ rule "[VishkarEvent]: get player event":
     
     lbl_0:
     wait(10 if evalOnce(debugMode) else random.randint(30, 35) if not eventPlayer.isWinner else 40, Wait.ABORT_WHEN_FALSE)
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     setPlayerEvent()
-    waitPlayerEventEnd()
-    waitLoadBrief()
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    wait(getAverageServerLoad() * 0.00032)
     if eventPlayer.eventId != -1 and eventPlayer.eventEndTime <= getTotalTimeElapsed():
         clearPlayerEvent()
-    waitLoadBrief()
+    wait(getAverageServerLoad() * 0.00032)
     if ruleCondition:
         loop()

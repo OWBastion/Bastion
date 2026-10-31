@@ -138,5 +138,5 @@ rule "map - 釜山":
     __currentMapPioneerText___ = "王牌驾驶员"
     platformMapRevision_BUSAN_DEFAULT()
     startForcingSpawn(Team.1, 2)
-    waitAllSpawned()
+    waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     platformMapRevision_BUSAN_DEFAULT_SETUP_ROUTE()

@@ -17,7 +17,7 @@ rule "3rd person":
 
 rule "springboard":
     @Event eachPlayer
-    @Condition springBoardPosition
+    @Condition springBoardPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= springBoardPosition.y
@@ -26,14 +26,14 @@ rule "springboard":
     wait(INTERACTION_GATE_DT, Wait.ABORT_WHEN_FALSE)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer, 200)
     eventPlayer.applyImpulse(Vector.UP, 14, Relativity.TO_PLAYER)
-    waitTick2()
+    wait(0.032)
     eventPlayer.applyImpulse(worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 3.5, Relativity.TO_WORLD)
     wait(5)
 
 
 rule "portalPosition":
     @Event eachPlayer
-    @Condition portalPosition
+    @Condition portalPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition eventPlayer.getPosition().y >= portalPosition[0].y

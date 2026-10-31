@@ -26,7 +26,7 @@ rule "Stack movement speed":
     updatePlayerStats()
     if ruleCondition:
         loop()
-    waitTick2()
+    wait(0.032)
     eventPlayer.mod_speed_event = 0
     eventPlayer.hudText = ""
     updatePlayerStats()
