@@ -18,12 +18,12 @@ rule "[VishkarEvent]: 作弊：跳过 (更换英雄)":
     eventPlayer.respawn()
     progressHero()
     waitTick2()
-    if controlRespawnPosition:
+    if controlRespawnPosition != null:
         if eventPlayer.controlCenterIndex >= len(controlRespawnPosition) or not controlRespawnPosition[eventPlayer.controlCenterIndex]:
             eventPlayer.controlJumpIndex = 0
         else:
             eventPlayer.controlJumpIndex = eventPlayer.controlCenterIndex
         eventPlayer.teleport(controlRespawnPosition[eventPlayer.controlJumpIndex])
-        if controlJumpPosition and controlJumpPosition[eventPlayer.controlJumpIndex]:
+        if controlJumpPosition != null and controlJumpPosition[eventPlayer.controlJumpIndex]:
             eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[eventPlayer.controlJumpIndex].getPosition()), Relativity.TO_WORLD)
     requestPlayerEventEnd()

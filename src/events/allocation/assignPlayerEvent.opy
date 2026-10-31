@@ -12,7 +12,7 @@ rule "[VishkarEvent]: get player event":
     @Condition eventPlayer.eventCompatibleBasePool != null
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
 
-    if eventPlayer.hudTextId:
+    if eventPlayer.hudTextId != null:
         goto lbl_0
     eventPlayer.hudText = ""
     hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 20, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)

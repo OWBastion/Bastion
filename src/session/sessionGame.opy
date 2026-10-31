@@ -74,7 +74,7 @@ rule "Update targetPlayer when player left":
     waitLoadBrief()
     targetPlayerIndex = 0
     targetPlayer = sorted(getPlayers(Team.1), lambda player: player.joinTime)[0]
-    if eventPlayer.hudTextId:
+    if eventPlayer.hudTextId != null:
         destroyHudText(eventPlayer.hudTextId)
 
 rule "initialize color array":

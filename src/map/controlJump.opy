@@ -8,7 +8,7 @@
 rule "Reset to control respawn":
     @Event eachPlayer
     @Team 1
-    @Condition controlRespawnPosition
+    @Condition controlRespawnPosition != null
     @Condition eventPlayer.hasSpawned()
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isInSpawnRoom()
@@ -23,7 +23,7 @@ rule "Reset to control respawn":
 rule "Advance control jump":
     @Event eachPlayer
     @Team 1
-    @Condition controlRespawnPosition
+    @Condition controlRespawnPosition != null
     @Condition eventPlayer.hasSpawned()
     @Condition eventPlayer.isAlive()
     @Condition not eventPlayer.isInSpawnRoom()
