@@ -9,11 +9,7 @@
 rule "[VishkarEvent]: 魔术大师":
     @Event eachPlayer
     @Team 1
-    @Condition all([
-        eventPlayer.hasSpawned(),
-        eventPlayer.eventId == EventId.MAGIC_MASTER,
-        eventPlayer.isCommunicatingEmote() == true
-    ]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.MAGIC_MASTER and eventPlayer.isCommunicatingEmote()
 
     eventPlayer.targetSilence = true
     eventPlayer.mod_speed_event += EVT_29_SPEED_BOOST
@@ -21,7 +17,7 @@ rule "[VishkarEvent]: 魔术大师":
     if eventPlayer.eventEffect == null:
         createEffect(getAllPlayers() if eventPlayer.isCommunicatingEmote() else null, Effect.ECHO_CLONING, Color.TEAM_1, eventPlayer, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.eventEffect = getLastCreatedEntity()
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.isCommunicatingEmote() == false or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventId == -1 or not eventPlayer.isCommunicatingEmote() or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.targetSilence = false
     eventPlayer.mod_speed_event = 0
     updatePlayerStats()

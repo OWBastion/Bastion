@@ -9,15 +9,15 @@
 rule "[VishkarEvent]: 胜利意志（预备态）":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.hasStatus(Status.UNKILLABLE) != true]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.WILL_TO_WIN and eventPlayer.eventEndTime > getTotalTimeElapsed() and not eventPlayer.hasStatus(Status.UNKILLABLE)
 
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
 rule "[VishkarEvent]: 胜利意志":
     @Event playerTookDamage
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), eventPlayer.eventId == EventId.WILL_TO_WIN, eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN] == null]) == true
-    @Condition any([eventDamage >= eventPlayer.getHealth(), eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.eventId == EventId.WILL_TO_WIN and not eventPlayer.invincibleEffect[InvincibleEffectSlot.WILL_TO_WIN]
+    @Condition eventDamage >= eventPlayer.getHealth() or eventPlayer.healthAtMostPercent(EVT_14_TRIGGER_HP_PERCENT * 100)
 
     # Exception: multi-phase revive/invincible flow keeps explicit phase waits.
     wait()
@@ -33,7 +33,7 @@ rule "[VishkarEvent]: 胜利意志":
     bigMessage(eventPlayer, "胜利意志！")
     resetPlayerCD()
     heal(eventPlayer, eventPlayer, 99999)
-    waitUntil(any([eventPlayer.eventId == -1, eventPlayer.isDead(), eventPlayer.eventEndTime <= getTotalTimeElapsed()]), 5)
+    waitUntil((eventPlayer.eventId == -1 or eventPlayer.isDead() or eventPlayer.eventEndTime <= getTotalTimeElapsed()), 5)
     if eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed():
         return
     requestPlayerEventEnd()

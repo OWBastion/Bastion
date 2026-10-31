@@ -13,7 +13,7 @@ rule "[VishkarEvent]: 4.0":
 rule "[VishkarEvent]: 相位猛冲 (智能检测版)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.PHASE_SURGE, eventPlayer.phaseState == true, eventPlayer.mod_speed_event == 0]) == true
+    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.PHASE_SURGE and eventPlayer.phaseState == true and eventPlayer.mod_speed_event == 0)
     
     eventPlayer.eventMatchCounters[EventMatchCounterSlot.PHASE_SURGE]++
     if eventPlayer.eventEffect == null:
