@@ -23,7 +23,7 @@ rule "Create effect":
 rule "Proximity repel":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.isAlive(), not eventPlayer.hasStatus(Status.PHASED_OUT), eventPlayer.eventId == EventId.STATIC_FIELD, getTotalTimeElapsed() >= eventPlayer.eventMission]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.isAlive() and not eventPlayer.hasStatus(Status.PHASED_OUT) and eventPlayer.eventId == EventId.STATIC_FIELD and getTotalTimeElapsed() >= eventPlayer.eventMission
 
     eventPlayer.target = sorted(getLivingPlayers(Team.1).filter(lambda p: p != eventPlayer and p.hasSpawned()), lambda p: distance(p, eventPlayer))
     if len(eventPlayer.target) > 0 and distance(eventPlayer, eventPlayer.target[0]) <= EVT_DEBUFF_25_TRIGGER_RADIUS:
