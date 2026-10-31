@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 血肉再生":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.FLESH_REGEN)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.FLESH_REGEN]) == true
     
     waitTick2()
     removeHealthPool(eventPlayer.healthId[0])

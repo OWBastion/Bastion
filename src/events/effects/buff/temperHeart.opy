@@ -9,7 +9,7 @@
 rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.TEMPER_HEART and eventPlayer.eventMissionGoal == 0)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.TEMPER_HEART, eventPlayer.eventMissionGoal == 0]) == true
 
     # 记录事件开始时的 heroNumber 基准（借用 eventMission 存基准，结束时比较增量）。
     # 根据是否三合一模式动态决定目标推进英雄数并记录到 eventMissionGoal。
@@ -17,16 +17,16 @@ rule "[VishkarEvent]: 任务：钢化你心 (记录基准)":
     if eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] != TemperHeartState.COMPLETED:
         eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] = TemperHeartState.DRAWN
     eventPlayer.eventMission = eventPlayer.heroNumber
-    eventPlayer.eventMissionGoal = EVT_31_HERO_GOAL_MULTI if (controlJumpPosition and not portalPosition) else EVT_31_HERO_GOAL
+    eventPlayer.eventMissionGoal = EVT_31_HERO_GOAL_MULTI if (controlJumpPosition != null and portalPosition == null) else EVT_31_HERO_GOAL
 
 rule "[VishkarEvent]: 任务：钢化你心 (结束判定)":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.TEMPER_HEART and eventPlayer.eventMissionGoal > 0)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.TEMPER_HEART, eventPlayer.eventMissionGoal > 0]) == true
 
     # 等事件到期或玩家通关。此刻 assignPlayerEvent 的 waitUntil 刚返回、clearPlayerEvent 尚未运行，
     # eventMission 基准与 eventMissionGoal 目标仍有效，可在 clearPlayerEvent 之前发奖励并刷新最大生命值。
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.heroNumber - eventPlayer.eventMission >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     waitLoadBrief()
     if eventPlayer.eventId == -1:
         return

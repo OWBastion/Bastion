@@ -18,7 +18,7 @@ rule "Create effect":
 
 rule "Stack movement speed":
     @Event eachPlayer
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SPEED_STACK and eventPlayer.isMoving() and eventPlayer.getSpeed() != 0
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SPEED_STACK, eventPlayer.isMoving(), eventPlayer.getSpeed() != 0]) == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.mod_speed_event += EVT_6_SPEED_INC_PER_SEC

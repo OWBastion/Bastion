@@ -8,10 +8,10 @@
 
 rule "[VishkarEvent]: 生命源泉":
     @Event eachPlayer
-    @Condition (eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.LIFE_SPRING)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.LIFE_SPRING]) == true
     
     waitTick2()
-    if not eventPlayer.healthId[3]:
+    if eventPlayer.healthId[3] == null:
         goto lbl_0
     removeHealthPool(eventPlayer.healthId[3])
     lbl_0:

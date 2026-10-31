@@ -27,7 +27,7 @@ macro Player.bindCandidates():
 rule "Bind nearest teammate":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SHARED_BLESSING and eventPlayer.eventMissionGoal == 0 and eventPlayer.eventEndTime > getTotalTimeElapsed() and eventPlayer.isHoldingButton(Button.INTERACT)
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.isHoldingButton(Button.INTERACT)]) == true
     @Condition len(eventPlayer.bindCandidates()) > 0
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
@@ -42,15 +42,15 @@ rule "Bind nearest teammate":
 rule "Settle":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SHARED_BLESSING and eventPlayer.eventMissionGoal > 0 and eventPlayer.target and eventPlayer.eventEndTime > getTotalTimeElapsed()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal > 0, eventPlayer.target != null, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
-    waitUntil(eventPlayer.eventId != EventId.SHARED_BLESSING or not eventPlayer.target or not eventPlayer.target in getPlayers(Team.1) or (eventPlayer.heroNumber - eventPlayer.eventMission >= 1 and eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner) or eventPlayer.isWinner or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventId != EventId.SHARED_BLESSING or eventPlayer.target == null or not eventPlayer.target in getPlayers(Team.1) or all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner == true]) or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait()
-    if eventPlayer.eventId == EventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target and (eventPlayer.heroNumber - eventPlayer.eventMission >= 1 and eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner))):
+    if eventPlayer.eventId == EventId.SHARED_BLESSING and (eventPlayer.isWinner or (eventPlayer.target != null and all([eventPlayer.heroNumber - eventPlayer.eventMission >= 1, eventPlayer.target.heroNumber - eventPlayer.eventLoopCount >= 1 or eventPlayer.target.isWinner == true]))):
         eventPlayer.temp = EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)
         bigMessage(eventPlayer, "有福同享 成功！")
         smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), eventPlayer.temp * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
-        if eventPlayer.target and eventPlayer.target in getPlayers(Team.1):
+        if eventPlayer.target != null and eventPlayer.target in getPlayers(Team.1):
             bigMessage(eventPlayer.target, "有福同享 成功！")
             smallMessage(eventPlayer.target, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), eventPlayer.temp * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
             eventPlayer.target.heart_steel[HeartSteelData.STACKS] += eventPlayer.temp * eventPlayer.target.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
@@ -71,7 +71,7 @@ rule "Settle":
 rule "Settle on finish without bind":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.SHARED_BLESSING and eventPlayer.eventMissionGoal == 0 and eventPlayer.isWinner and eventPlayer.eventEndTime > getTotalTimeElapsed()
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.SHARED_BLESSING, eventPlayer.eventMissionGoal == 0, eventPlayer.isWinner == true, eventPlayer.eventEndTime > getTotalTimeElapsed()]) == true
 
     # 通关持有者无法绑定：置哨兵由 "Grant shared blessing" 逐人领取（禁循环/禁新增变量）
     bigMessage(eventPlayer, "有福同享 成功！")
@@ -84,7 +84,7 @@ rule "Settle on finish without bind":
 rule "Grant shared blessing":
     @Event eachPlayer
     @Team 1
-    @Condition (eventPlayer.hasSpawned() and len(getPlayers(Team.1).filter(lambda p: p != eventPlayer and p.eventId == EventId.SHARED_BLESSING and p.eventMissionGoal == 2)) > 0) == true
+    @Condition all([eventPlayer.hasSpawned(), len(getPlayers(Team.1).filter(lambda p: p != eventPlayer and p.eventId == EventId.SHARED_BLESSING and p.eventMissionGoal == 2)) > 0]) == true
 
     smallMessage(eventPlayer, "  {0}  任务奖励：获得 {1} 层心之钢".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]))
     eventPlayer.heart_steel[HeartSteelData.STACKS] += (EVT_34_REWARD_BASE + EVT_34_REWARD_PER_BASTION * len(bastionPosition)) * eventPlayer.heart_steel[HeartSteelData.GAIN_MULTIPLIER]
