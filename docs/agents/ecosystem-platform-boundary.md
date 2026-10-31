@@ -174,7 +174,7 @@ Agents must preserve existing repository-level rules and routed documentation. A
 8. Keep inspector-recording and release-performance guidance aligned with existing performance docs.
 9. Treat server-load regressions as release blockers.
 
-For detailed rules, route to the existing canonical documents in `docs/agents/` and `docs/modules/` rather than duplicating their full contents here.
+For detailed rules, route to the existing canonical documents in `docs/agents/` rather than duplicating their full contents here.
 
 ## 8. Structured Content Editing
 
@@ -266,8 +266,6 @@ Keep the existing route-first model:
 - build and validation: `docs/agents/build-validation.md`;
 - performance and loops: `docs/agents/performance-loop-safety.md`;
 - collaboration and commits: `docs/agents/collaboration-commit.md`;
-- documentation synchronization: `docs/agents/doc-sync.md`;
-- title system: `docs/modules/08-player-effects-title.md`;
-- module-specific implementation: `docs/modules/`.
+- module-specific implementation: the source under `src/`.
 
 If this ecosystem guide conflicts with a more specific local safety rule, follow the stricter local rule and report the conflict.
