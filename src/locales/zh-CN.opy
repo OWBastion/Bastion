@@ -72,7 +72,7 @@
 #!define STR_EVT_BUFF_1_TITLE "疾风祝福"
 #!define STR_EVT_BUFF_1_DESC "移动速度提高{0}%"
 #!define STR_EVT_BUFF_2_TITLE "任务：钢铁防线"
-#!define STR_EVT_BUFF_2_DESC "用屏障抵挡 {0} 点伤害，奖励：本局永久获得 {1} 点护甲"
+#!define STR_EVT_BUFF_2_DESC "用屏障抵挡 {0}+{1}×堡垒数 点伤害，奖励：本局永久获得 {2} 点护甲"
 #!define STR_EVT_BUFF_4_TITLE "生命源泉"
 #!define STR_EVT_BUFF_4_DESC "获得{0}%最大生命值的临时生命值，每秒恢复{1}%最大生命值"
 #!define STR_EVT_BUFF_5_TITLE "黑粉来袭"

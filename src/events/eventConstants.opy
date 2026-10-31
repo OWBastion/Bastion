@@ -75,8 +75,9 @@ enum HeartSteelData:
 #!define EVT_BUFF_2_DURATION 25
 # Weight（权重）
 #!define EVT_BUFF_2_WEIGHT 1.2
-# 事件期间需抵挡的伤害（Damage Blocked 统计增量）
-#!define EVT_2_BLOCK_GOAL 8000
+# 事件期间需抵挡的伤害（Damage Blocked 统计增量）= 基础 + 每个堡垒的增量 × 堡垒数
+#!define EVT_2_BLOCK_GOAL_BASE 5000
+#!define EVT_2_BLOCK_GOAL_PER_BASTION 500
 # 完成奖励：本局永久护甲
 #!define EVT_2_REWARD_ARMOR 50
 # HUD 刷新间隔（秒）

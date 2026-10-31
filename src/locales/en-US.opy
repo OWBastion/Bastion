@@ -67,7 +67,7 @@
 #!define STR_EVT_BUFF_1_TITLE "Wind Blessing"
 #!define STR_EVT_BUFF_1_DESC "Movement speed increased by {0}%."
 #!define STR_EVT_BUFF_2_TITLE "Ironclad Defense"
-#!define STR_EVT_BUFF_2_DESC "Block {0} damage with barriers. Reward: permanently gain {1} armor for this run."
+#!define STR_EVT_BUFF_2_DESC "Block {0} + {1} x bastion count damage with barriers. Reward: permanently gain {2} armor for this run."
 #!define STR_EVT_BUFF_4_TITLE "Fountain of Life"
 #!define STR_EVT_BUFF_4_DESC "Gain {0}% max HP as overhealth. Recover {1}% max HP per second."
 #!define STR_EVT_BUFF_5_TITLE "Fan Attack"

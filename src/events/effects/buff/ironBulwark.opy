@@ -12,8 +12,8 @@ rule "[VishkarEvent]: 钢铁防线 (记录基准)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK, eventPlayer.eventMissionGoal == 0]) == true
 
     eventPlayer.eventMission = eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)
-    eventPlayer.eventMissionGoal = eventPlayer.eventMission + EVT_2_BLOCK_GOAL
-    eventPlayer.hudText = "{0}/{1}".format(0, EVT_2_BLOCK_GOAL)
+    eventPlayer.eventMissionGoal = eventPlayer.eventMission + EVT_2_BLOCK_GOAL_BASE + EVT_2_BLOCK_GOAL_PER_BASTION * len(bastionPosition)
+    eventPlayer.hudText = "{0}/{1}".format(0, eventPlayer.eventMissionGoal - eventPlayer.eventMission)
 
 rule "[VishkarEvent]: 钢铁防线 (更新 HUD)":
     @Event eachPlayer
@@ -23,7 +23,7 @@ rule "[VishkarEvent]: 钢铁防线 (更新 HUD)":
     wait(EVT_2_HUD_INTERVAL, Wait.ABORT_WHEN_FALSE)
     eventPlayer.hudText = "{0}/{1}".format(
         max(0, eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) - eventPlayer.eventMission),
-        EVT_2_BLOCK_GOAL
+        eventPlayer.eventMissionGoal - eventPlayer.eventMission
     )
     if ruleCondition:
         loop()
