@@ -33,11 +33,11 @@ rule "[VishkarEvent]: 钢铁防线 (结束判定)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.IRON_BULWARK, eventPlayer.eventMissionGoal > 0]) == true
 
-    waitUntil(eventPlayer.eventId == -1 or eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
+    waitUntil(eventPlayer.eventId == -1 or eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner == true or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     wait(getAverageServerLoad() * 0.00032)
     if eventPlayer.eventId == -1:
         return
-    if eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal:
+    if eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：钢铁防线 成功！")
         smallMessage(eventPlayer, "  {0}  奖励：本局永久获得 {1} 点护甲".format(abilityIconString(Hero.REINHARDT, Button.SECONDARY_FIRE), EVT_2_REWARD_ARMOR))
         eventPlayer.bulwarkArmor += EVT_2_REWARD_ARMOR
