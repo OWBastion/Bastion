@@ -458,11 +458,11 @@ enum MapTITLEKey:
 # 直布罗陀
 #!define DATA_WATCHPOINT_GIBRALTAR [ \
    playerNameToIndexDelimited(["吾携秋水揽星河", "卖核弹的小女孩"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "一杯美式", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "一杯美式", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_WATCHPOINT_GIBRALTAR_PACKED "7-6|17-8-7-6-15-4-21-28-13-18-12-1|17-8-7-6-15-4-21-28-13-18-12-1|"
+#!define DATA_WATCHPOINT_GIBRALTAR_PACKED "7-6|17-8-7-6-15-4-22-21-28-13-18-12-1|17-8-7-6-15-4-22-21-28-13-18-12-1|"
 # END AUTO-GENERATED MAP_TITLE_DATA
 
 # ------------------------------

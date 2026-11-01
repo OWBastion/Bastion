@@ -72,7 +72,7 @@ enum HeartSteelData:
 
 # --- ID 2: 钢铁防线 ---
 # Duration（秒）
-#!define EVT_BUFF_2_DURATION 25
+#!define EVT_BUFF_2_DURATION 45
 # Weight（权重）
 #!define EVT_BUFF_2_WEIGHT 1.2
 # 事件期间需抵挡的伤害（Damage Blocked 统计增量）= 基础 + 每个堡垒的增量 × 堡垒数
