@@ -52,7 +52,7 @@ rule "[VishkarEvent]: 钢铁防线 (永久护甲)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.bulwarkArmor > 0]) == true
 
-    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkArmor, false, true)
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkArmor, true, false)
     eventPlayer.healthId[1] = getLastCreatedHealthPool()
     # Exception: pool teardown is bound to death or progress reset.
     waitUntil(eventPlayer.hasSpawned() == false or eventPlayer.bulwarkArmor == 0, Math.INFINITY)
