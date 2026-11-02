@@ -33,9 +33,6 @@ globalvar berserkerTime 56
 globalvar eventDuration 58
 globalvar eventName 59
 globalvar eventDesc 60
-globalvar eventCount 61
-globalvar eventType 63
-globalvar eventDurationHud 64
 globalvar eventWeight 65
 globalvar hashTag 69
 globalvar gamblerHeartsteelJackpot 70
@@ -43,7 +40,6 @@ globalvar vishkarEventActivated 72
 globalvar eventCatalogId 82
 globalvar eventCatalogType
 globalvar eventCatalogWeight
-globalvar obstrucVis 89
 globalvar heroColor 90
 globalvar breathPalette 91
 globalvar springBoardPosition 100
@@ -122,11 +118,9 @@ playervar mod_dmg_taken 81
 playervar mod_dmg_perma 82
 playervar healthId 85
 playervar hack_timer 86
-playervar targetWeight 87
 playervar targetSilence 88
 playervar hudTextId 89
 playervar heart_steel 90
-playervar obstrucVis 91
 playervar sizeHealth 92
 playervar empProMax 95
 playervar setPlayerHP 96
