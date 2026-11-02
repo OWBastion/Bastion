@@ -70,7 +70,6 @@ playervar attacker 7
 playervar target 9
 playervar aimPosition 10
 playervar turnSpeed 11
-playervar tempAimPosition 12
 playervar nearestTargetOutOfLoS 13
 playervar dvaStart 14
 playervar healID 15
