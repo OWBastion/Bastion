@@ -312,7 +312,7 @@ rule "Pre-aim nearest target":
     
     wait(PRE_AIM_SCAN_DT, Wait.ABORT_WHEN_FALSE)
     #eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and (not (player.getHero() == Hero.SOMBRA and player.isUsingAbility1()))], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
-    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not eventPlayer.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
+    eventPlayer.nearestTargetOutOfLoS = (sorted([player for player in getLivingPlayers(Team.1) if player.hasSpawned() and not player.isWinner and not player.targetSilence], lambda i: distance(eventPlayer.getEyePosition(), i.getEyePosition())))[0]
     if not eventPlayer.nearestTargetOutOfLoS:
         goto lbl_0
     eventPlayer.aimPosition = eventPlayer.nearestTargetOutOfLoS.getEyePosition() + vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1))
