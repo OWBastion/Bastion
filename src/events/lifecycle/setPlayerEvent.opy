@@ -44,6 +44,9 @@ def setPlayerEvent():
     # 因为 0 是合法事件 ID 且 Workshop 中 0==null。
     # 已承诺的下一个事件（eventNextIndex，先知观测坍缩/旗标变更重取产生）优先于
     # 一切掷骰路径——预览与实发恒等；承诺在作出时已带全部旗标与门控。
+    # eventAssigning 覆盖“分配开始 → 历史追加”：期间 eventLastId 尚未含本次事件，
+    # 且 eventCandidateIndex / eventTempIndex 被本流程占用，先知坍缩不得并发重掷。
+    eventPlayer.eventAssigning = true
     eventPlayer.eventCandidateIndex = -1
     if eventPlayer.eventNextIndex != -1:
         eventPlayer.eventCandidateIndex = eventPlayer.eventNextIndex
@@ -95,6 +98,7 @@ def setPlayerEvent():
     eventPlayer.eventLastId.append(eventPlayer.eventCandidateIndex)
     if len(eventPlayer.eventLastId) > EVT_RECENT_EVENT_DEDUP_COUNT:
         eventPlayer.eventLastId = eventPlayer.eventLastId.slice(len(eventPlayer.eventLastId) - EVT_RECENT_EVENT_DEDUP_COUNT)
+    eventPlayer.eventAssigning = false
     if eventPlayer.eventType == EventType.BUFF:
         playEffect(eventPlayer, DynamicEffect.ANA_BIOTIC_GRENADE_INCREASED_HEALING_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     elif eventPlayer.eventType == EventType.DEBUFF:

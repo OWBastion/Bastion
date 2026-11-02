@@ -17,6 +17,7 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.eventForceSourceId = -1
     eventPlayer.eventLastId = []
     eventPlayer.eventNextIndex = -1
+    eventPlayer.eventAssigning = false
     eventPlayer.eventCompatibleBasePool = null
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)

@@ -161,6 +161,7 @@ playervar mod_heal_perma
 playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex
+playervar eventAssigning
 playervar eventEndTime
 playervar prophetTextId
 
