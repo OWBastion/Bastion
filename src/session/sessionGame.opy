@@ -5,7 +5,6 @@
 
 globalvar savedIndex 17
 globalvar savedData 18
-globalvar globalOnceEventState
 globalvar difficulty
 globalvar difficultyText
 
@@ -55,7 +54,6 @@ rule "Initialize global variables":
     savedIndex = []
     savedData = [[], [], [], [], [], [], []]
     masteryRunCode = null
-    globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
 
