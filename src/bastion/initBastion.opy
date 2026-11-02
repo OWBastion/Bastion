@@ -291,13 +291,12 @@ rule "Update aim point":
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.target != null
     
-    eventPlayer.tempAimPosition = (eventPlayer.target.getPosition() + eventPlayer.target.getEyePosition()) / 2
-    if isInLoS(eventPlayer.getEyePosition(), eventPlayer.tempAimPosition):
-        eventPlayer.aimPosition = eventPlayer.tempAimPosition
-    elif isInLoS(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition()):
-        eventPlayer.aimPosition = eventPlayer.target.getEyePosition()
-    else:
-        eventPlayer.aimPosition = eventPlayer.target.getPosition()
+    eventPlayer.aimPosition = (eventPlayer.target.getPosition() + eventPlayer.target.getEyePosition()) / 2
+    if not isInLoS(eventPlayer.getEyePosition(), eventPlayer.aimPosition):
+        if isInLoS(eventPlayer.getEyePosition(), eventPlayer.target.getEyePosition()):
+            eventPlayer.aimPosition = eventPlayer.target.getEyePosition()
+        else:
+            eventPlayer.aimPosition = eventPlayer.target.getPosition()
     wait(0.064)
     if ruleCondition:
         loop()
