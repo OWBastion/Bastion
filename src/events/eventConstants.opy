@@ -604,7 +604,7 @@ enum GravityAnomalyRoll:
 
 # --- ID 20 (Debuff): 阿德勒斯布鲁恩的冤魂 ---
 # Duration（秒）
-#!define EVT_DEBUFF_21_DURATION 85
+#!define EVT_DEBUFF_21_DURATION 60
 # Weight（权重）
 #!define EVT_DEBUFF_21_WEIGHT 0.4
 # 每秒生命转移量的最大生命值系数（乘以持有者自身消灭数）
@@ -960,7 +960,7 @@ enum MirrorInversionStat:
 
 # --- ID 25 (Mech): 先知 ---
 # Duration（秒）
-#!define EVT_MECH_25_DURATION 90
+#!define EVT_MECH_25_DURATION 120
 # Weight（权重）
 #!define EVT_MECH_25_WEIGHT 0.8
 
