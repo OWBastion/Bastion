@@ -35,7 +35,6 @@ enum InvincibleEffectSlot:
     COUNT
 
 #!define PLAYER_ONCE_EVENT_SLOT_COUNT PlayerOnceEventSlot.COUNT
-#!define GLOBAL_ONCE_EVENT_SLOT_COUNT 0
 #!define DEFAULT_INVINCIBLE_EFFECTS [null, null, null, null]
 enum TemperHeartState:
     NONE = 0
@@ -49,7 +48,6 @@ enum HeartSteelData:
     COUNT
 
 #!define DEFAULT_PLAYER_ONCE_EVENT_STATE [TemperHeartState.NONE]
-#!define DEFAULT_GLOBAL_ONCE_EVENT_STATE []
 #!define DEFAULT_HEART_STEEL_DATA [0, 1, EVT_8_HP_PERCENT_PER_STACK]
 
 # -----------------------------------------------------------------------------

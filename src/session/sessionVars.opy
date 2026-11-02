@@ -96,7 +96,6 @@ playervar eventId 60
 playervar eventLastId 61
 playervar eventType 62
 playervar eventCount 66
-playervar eventLucky 67
 playervar eventEffect 68
 playervar eventLoopCount 70
 playervar eventIsSelected 71

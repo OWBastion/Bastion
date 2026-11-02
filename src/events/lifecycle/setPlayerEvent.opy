@@ -21,14 +21,10 @@ def commitPlayerEventCategory():
     if eventPlayer.eventCategoryCommitted == true or eventPlayer.eventIsSelected == false:
         return
     if eventPlayer.eventType == EventType.BUFF:
-        if eventPlayer.eventId == EventId.OLIVIA_GIFT:
-            goto lbl_0
-        eventPlayer.eventCount[EventType.BUFF]++
-        lbl_0:
-        eventPlayer.eventLucky = eventPlayer.eventLucky + 1 if eventPlayer.eventLucky > 0 else 1
+        if eventPlayer.eventId != EventId.OLIVIA_GIFT:
+            eventPlayer.eventCount[EventType.BUFF]++
     elif eventPlayer.eventType == EventType.DEBUFF:
         eventPlayer.eventCount[EventType.DEBUFF]++
-        eventPlayer.eventLucky = eventPlayer.eventLucky - 1 if eventPlayer.eventLucky < 0 else -1
     elif eventPlayer.eventType == EventType.MECH:
         eventPlayer.eventCount[EventType.MECH]++
     else:
