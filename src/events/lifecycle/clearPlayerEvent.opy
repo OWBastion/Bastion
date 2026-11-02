@@ -32,7 +32,6 @@ def clearPlayerEvent():
     eventPlayer.mod_heal_event = null
     eventPlayer.heal_recv = null
     eventPlayer.mod_dmg_taken = null
-    eventPlayer.targetWeight = null
     eventPlayer.targetSilence = false
     eventPlayer.knockback = null
     eventPlayer.sizeHealth = 1

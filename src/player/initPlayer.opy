@@ -47,7 +47,6 @@ rule "when a player joins, load player data if they have it and initialize them"
     eventPlayer.startForcingHero(heroList[eventPlayer.heroNumber])
     eventPlayer.stopForcingCurrentHero()
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
-    eventPlayer.obstrucVis = []
     if eventPlayer.inSaved(savedIndex):
         smallMessage(eventPlayer, "  你的进度已成功加载")
         smallMessage(getAllPlayers().exclude(eventPlayer), "  {0} 载入 {1}{2}".format(eventPlayer, heroIcon(heroList[eventPlayer.heroNumber]), heroList[eventPlayer.heroNumber]))

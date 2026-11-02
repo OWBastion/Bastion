@@ -60,7 +60,6 @@ rule "Initialize global variables":
     globalOnceEventState = DEFAULT_GLOBAL_ONCE_EVENT_STATE.slice(0, GLOBAL_ONCE_EVENT_SLOT_COUNT)
     gamblerHeartsteelJackpot = 0
     devList = ["他又", "别感冒"]
-    obstrucVis = []
 
 rule "Update targetPlayer when player left":
     @Event playerLeft

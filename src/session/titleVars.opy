@@ -3,7 +3,6 @@ globalvar titleText 44
 globalvar titleColor
 globalvar titlePlayer 45
 globalvar playerTitleSetIndex 46
-globalvar playerTitleRelation 47
 globalvar rgbList 48
 globalvar __currentPioneerText___ 106
 globalvar __currentMapPioneerText___ 107
