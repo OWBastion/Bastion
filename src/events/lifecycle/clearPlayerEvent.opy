@@ -22,7 +22,6 @@ def clearPlayerEvent():
     eventPlayer.eventTempIndex = []
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false
-    eventPlayer.eventDurationHud = 0
     eventPlayer.eventEndTime = null
     eventPlayer.eventEffectPlayers = null
     eventPlayer.mod_speed_event = null
