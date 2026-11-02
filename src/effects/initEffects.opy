@@ -45,8 +45,8 @@ rule "initialize effects":
         null,
         STR_HUD_EVENT_TITLE.format(
             abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1),
-            localPlayer.eventName,
-            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if localPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT
+            eventName[localPlayer.eventId],
+            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if eventDuration[localPlayer.eventId] > 0 else STR_MSG_DURATION_INSTANT
         ),
         HudPosition.TOP, 3, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
@@ -54,7 +54,7 @@ rule "initialize effects":
         null if localPlayer.eventId == -1 or localPlayer.settlementCardEnd != null else localPlayer,
         null,
         null,
-        localPlayer.eventDesc,
+        eventDesc[localPlayer.eventId],
         HudPosition.TOP, 4, Color.WHITE, Color.WHITE, rgb(255, 255, 255, 255), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
 
