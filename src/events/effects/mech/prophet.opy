@@ -31,6 +31,7 @@ rule "Collapse undecided next event under observation":
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
     @Condition len(prophetViewers.exclude(eventPlayer)) > 0
     @Condition eventPlayer.eventNextIndex == -1
+    @Condition eventPlayer.eventAssigning == false
 
     rerollNextEvent()
 

@@ -144,6 +144,7 @@ playervar eventModificationId
 playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex
+playervar eventAssigning
 playervar eventEndTime
 playervar prophetTextId
 
