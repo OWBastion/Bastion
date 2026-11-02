@@ -22,7 +22,6 @@ def resetPlayerEventState():
     eventPlayer.eventNextIndex = -1
     eventPlayer.eventCount = [0, 0, 0]
     eventPlayer.eventLucky = 0
-    eventPlayer.eventDurationHud = 0
     eventPlayer.eventLoopCount = 0
     eventPlayer.eventIsSelected = false
     eventPlayer.eventCandidateIndex = null
