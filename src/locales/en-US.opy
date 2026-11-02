@@ -23,7 +23,6 @@
 #!define STR_SETTING_DEBUG "Debug Mode"
 #!define STR_SETTING_BASTION_TARGET "AI Bastion Targeting Rule"
 #!define STR_SETTING_DIFFICULTY "Difficulty"
-#!define STR_SETTING_ULT_CHARGE "Global Ultimate Charge"
 #!define STR_SETTING_BASTION_GRENADE "AI Bastion Uses Grenade (Ignore Difficulty)"
 #!define STR_SETTING_CLASSIC_MAP_VARIANT "Classic Map Variant"
 

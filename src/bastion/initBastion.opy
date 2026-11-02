@@ -84,13 +84,6 @@ rule "Label bot names":
     eventPlayer.startForcingName(STR_BOT_NAME_FORMAT.format(eventPlayer.getSlot() + 1, kills[eventPlayer.getSlot()]))
 
 
-rule "Apply player damage reduction":
-    @Condition difficulty != 5
-    @Condition not dmgReduction
-    
-    startDamageModification(getPlayers(Team.2), [player for player in getPlayers(Team.1) if not player.isDev], 0.1, DamageReeval.RECEIVERS_AND_DAMAGERS)
-
-
 rule "Disable player HUD":
     @Event eachPlayer
     @Team 1

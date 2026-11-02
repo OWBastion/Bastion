@@ -24,7 +24,6 @@
 #!define STR_SETTING_DEBUG "Debug 模式"
 #!define STR_SETTING_BASTION_TARGET "AI 堡垒瞄准规则"
 #!define STR_SETTING_DIFFICULTY "难度"
-#!define STR_SETTING_ULT_CHARGE "全英雄威能充能"
 #!define STR_SETTING_BASTION_GRENADE "AI 堡垒使用榴弹（忽略难度）"
 #!define STR_SETTING_CLASSIC_MAP_VARIANT "经典版地图"
 
