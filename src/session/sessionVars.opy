@@ -14,7 +14,6 @@ globalvar textIDs 16
 
 globalvar devList 23
 globalvar __currentMap___ 24
-globalvar dmgReduction 25
 
 globalvar rebootTime 27
 globalvar targetPlayer 28

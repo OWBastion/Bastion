@@ -40,8 +40,6 @@ rule "Initialize global variables":
 
     difficulty = createWorkshopSettingEnum(STR_SETTING_CAT_GAME, STR_SETTING_DIFFICULTY, 0, STR_ENUM_DIFFICULTY_OPTIONS, 1)
 
-    dmgReduction = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_ULT_CHARGE, true, 4)
-
     bastionBotSeconFire = createWorkshopSettingBool(STR_SETTING_CAT_GAME, STR_SETTING_BASTION_GRENADE, false, 3)
 
     classicMapVariant = createWorkshopSettingEnum(
