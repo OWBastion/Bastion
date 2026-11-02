@@ -69,9 +69,6 @@ def setPlayerEvent():
     # 逐事件哨兵在分配时强制归零：上一事件的规则可能有越过 clearPlayerEvent 的迟到写入
     eventPlayer.eventMission = 0
     eventPlayer.eventMissionGoal = 0
-    eventPlayer.eventName = eventName[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDesc = eventDesc[eventPlayer.eventCandidateIndex]
-    eventPlayer.eventDuration = eventDuration[eventPlayer.eventCandidateIndex]
     setEventDuration()
     commitPlayerEventCategory()
     wait(getAverageServerLoad() * 0.00032)
@@ -101,20 +98,20 @@ def setPlayerEvent():
         playEffect(eventPlayer, DynamicEffect.DEBUFF_IMPACT_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
     else:
         playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)
-    if eventPlayer.eventDesc != null:
+    if eventDesc[eventPlayer.eventId] != null:
         smallMessage(
             eventPlayer,
             STR_MSG_EVENT_TRIGGER.format(
                 abilityIconString(Hero.SOMBRA, Button.ULTIMATE),
-                eventPlayer.eventName,
-                STR_MSG_DURATION_SEC.format(eventPlayer.eventDuration) if eventPlayer.eventDuration > 0 else STR_MSG_DURATION_INSTANT
+                eventName[eventPlayer.eventId],
+                STR_MSG_DURATION_SEC.format(eventDuration[eventPlayer.eventId]) if eventDuration[eventPlayer.eventId] > 0 else STR_MSG_DURATION_INSTANT
             )
         )
         smallMessage(
             eventPlayer,
             STR_MSG_EVENT_EFFECT.format(
                 abilityIconString(Hero.SOMBRA, Button.ULTIMATE),
-                eventPlayer.eventDesc
+                eventDesc[eventPlayer.eventId]
             )
         )
 
