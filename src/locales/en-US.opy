@@ -513,3 +513,8 @@
 #!define STR_EDITOR_PANEL_TRIGGER "{0}    Trigger Event    {1}    End Event"
 # {0}=reload, {1}=jump
 #!define STR_EDITOR_PANEL_EXTEND "{0}    Extend 30 s    {1}    Extend Without Limit"
+# {0}=primary fire, {1}=mode
+#!define STR_EDITOR_PANEL_FIRE "{0}    Bastion Fire    {1}"
+#!define STR_EDITOR_FIRE_MODE_FIRE "Fire"
+#!define STR_EDITOR_FIRE_MODE_AIM "Aim Only"
+#!define STR_EDITOR_FIRE_MODE_OFF "Off"

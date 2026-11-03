@@ -179,5 +179,6 @@ rule STR_LICENSE_PERMIT:
 #!include "editor/editorPanel.opy"
 #!include "editor/editorEventAllocation.opy"
 #!include "editor/editorEventPanel.opy"
+#!include "editor/editorFireMode.opy"
 #!include "editor/editorJoin.opy"
 #!include "editor/editorHud.opy"

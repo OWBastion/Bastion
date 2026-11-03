@@ -524,3 +524,8 @@
 #!define STR_EDITOR_PANEL_TRIGGER "{0}    触发事件    {1}    结束事件"
 # {0}=装填, {1}=跳跃
 #!define STR_EDITOR_PANEL_EXTEND "{0}    延长 30 秒    {1}    延长至无限"
+# {0}=主要攻击, {1}=模式
+#!define STR_EDITOR_PANEL_FIRE "{0}    堡垒开火    {1}"
+#!define STR_EDITOR_FIRE_MODE_FIRE "开火"
+#!define STR_EDITOR_FIRE_MODE_AIM "仅瞄准"
+#!define STR_EDITOR_FIRE_MODE_OFF "关闭"
