@@ -7,3 +7,4 @@
 #!define PROFILE_RESET_ACHIEVEMENT_LIST() eventPlayer.earnedAchievements = []
 #!define BASTION_FIRE_CONDITION #
 #!define BASTION_TARGETING_CONDITION #
+#!define MAP_INTERACTION_CONDITION #

@@ -482,3 +482,53 @@
 #!define STR_EVT_DEBUFF_26_DESC "受到伤害的 {0} 秒后，再次受到该伤害 {1}% 的额外伤害"
 #!define STR_EVT_MECH_27_TITLE "命运狂想曲"
 #!define STR_EVT_MECH_27_DESC "基于已损失生命值百分比获得对应的伤害减免"
+
+# ------------------------------------------------
+# 地图编辑器
+# ------------------------------------------------
+#!define STR_EDITOR_MODE_NAME "躲避堡垒3 地图编辑器"
+#!define STR_EDITOR_DESC "在游戏内踩点、放置堡垒并试跑路线\n从 Inspector 复制变量，粘贴到 owbastion.com 的地图编辑器"
+#!define STR_EDITOR_TOOL_BASTION "堡垒"
+#!define STR_EDITOR_TOOL_RESET "重置点"
+#!define STR_EDITOR_TOOL_END "终点"
+#!define STR_EDITOR_TOOL_THIRD_PERSON "第三人称点"
+#!define STR_EDITOR_TOOL_CREDITS "结算点"
+#!define STR_EDITOR_HUD_NONE "无"
+#!define STR_EDITOR_HUD_EDIT_TITLE "地图编辑 · 编辑模式"
+# {0}=工具, {1}=堡垒数量, {2}=选中
+#!define STR_EDITOR_HUD_EDIT_STATE "工具 {0} · 堡垒 {1} 个 · 选中 {2}"
+# {0}=主要攻击, {1}=次要攻击, {2}=近战
+#!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} 放置/移动  {1} 选中/取消  {2} 删除"
+# {0}=技能 1, {1}=技能 2, {2}=终极技能
+#!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} 切换工具  {2} 传送到选中点"
+# {0}=跳跃, {1}=蹲下, {2}=装填
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} 上升/下降  {2} 试跑"
+#!define STR_EDITOR_HUD_TRIAL_TITLE "地图编辑 · 试跑模式"
+# {0}=用时
+#!define STR_EDITOR_HUD_TRIAL_TIME "用时 {0}"
+# {0}=互动, {1}=近战
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板"
+# {0}=用时
+#!define STR_EDITOR_MSG_FINISH "到达终点 · 用时 {0}"
+# {0}=互动, {1}=近战
+#!define STR_EDITOR_PANEL_TITLE "试跑面板（{0}+{1} 关闭）"
+# {0}=主要攻击, {1}=开/关
+#!define STR_EDITOR_PANEL_AUTO "{0}    自动事件    {1}"
+# {0}=技能 1, {1}=分类
+#!define STR_EDITOR_PANEL_CATEGORY "{0}    事件分类    {1}"
+# {0}=技能 2, {1}=事件
+#!define STR_EDITOR_PANEL_EVENT "{0}    选择事件    {1}"
+# {0}=终极技能, {1}=次要攻击
+#!define STR_EDITOR_PANEL_TRIGGER "{0}    触发事件    {1}    结束事件"
+# {0}=终极技能
+#!define STR_EDITOR_PANEL_EXTEND "{0}    延长 30 秒"
+# {0}=技能 1
+#!define STR_EDITOR_PANEL_EXTEND_INFINITE "{0}    延长至无限"
+# {0}=终极技能
+#!define STR_EDITOR_PANEL_BACK "{0}    返回编辑模式"
+# {0}=主要攻击, {1}=模式
+#!define STR_EDITOR_PANEL_FIRE "{0}    堡垒开火    {1}"
+#!define STR_EDITOR_FIRE_MODE_FIRE "开火"
+#!define STR_EDITOR_FIRE_MODE_AIM "仅瞄准"
+#!define STR_EDITOR_FIRE_MODE_OFF "关闭"
+#!define STR_EDITOR_MSG_NO_GROUND "下方 50 米内没有地面，未放置"
