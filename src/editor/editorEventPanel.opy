@@ -26,7 +26,7 @@ rule "Toggle automatic event":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.editorMode == 1
-    @Condition eventPlayer.editorPanelPage == 1
+    @Condition eventPlayer.editorPanelPage == 2
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
     eventPlayer.editorAutoEvent = not eventPlayer.editorAutoEvent
@@ -64,7 +64,7 @@ rule "Trigger selected event":
     @Condition eventPlayer.editorPanelPage == 1
     @Condition eventPlayer.editorEventId != -1
     @Condition eventPlayer.eventAssigning != true
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
     if eventPlayer.eventId != -1:
         clearPlayerEvent()
@@ -90,7 +90,7 @@ rule "Extend event":
     @Condition eventPlayer.editorPanelPage == 1
     @Condition eventPlayer.eventId != -1
     @Condition eventDuration[eventPlayer.eventId] > 0
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
 
     eventPlayer.eventEndTime += EDITOR_EVENT_EXTEND_SECONDS
 
@@ -99,9 +99,9 @@ rule "Extend event without limit":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.editorMode == 1
-    @Condition eventPlayer.editorPanelPage == 1
+    @Condition eventPlayer.editorPanelPage == 2
     @Condition eventPlayer.eventId != -1
     @Condition eventDuration[eventPlayer.eventId] > 0
-    @Condition eventPlayer.isHoldingButton(Button.JUMP)
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
 
     eventPlayer.eventEndTime = getTotalTimeElapsed() + EDITOR_EVENT_INFINITE_SECONDS

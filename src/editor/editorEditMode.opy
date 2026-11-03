@@ -31,6 +31,8 @@ def enterEditorEditMode():
     eventPlayer.disallowButton(Button.ULTIMATE)
     eventPlayer.disallowButton(Button.MELEE)
     eventPlayer.disallowButton(Button.RELOAD)
+    eventPlayer.disallowButton(Button.JUMP)
+    eventPlayer.disallowButton(Button.CROUCH)
 
 def leaveEditorEditMode():
     @Name "leave edit mode"
@@ -45,6 +47,8 @@ def leaveEditorEditMode():
     eventPlayer.allowButton(Button.ULTIMATE)
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.allowButton(Button.RELOAD)
+    eventPlayer.allowButton(Button.JUMP)
+    eventPlayer.allowButton(Button.CROUCH)
 
 
 rule "Apply edit mode":

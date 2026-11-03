@@ -506,8 +506,8 @@
 #!define STR_EDITOR_HUD_TRIAL_TITLE "地图编辑 · 试跑模式"
 # {0}=用时
 #!define STR_EDITOR_HUD_TRIAL_TIME "用时 {0}"
-# {0}=互动, {1}=近战, {2}=装填
-#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板  长按 {2} 返回编辑"
+# {0}=互动, {1}=近战
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板"
 # {0}=用时
 #!define STR_EDITOR_MSG_FINISH "到达终点 · 用时 {0}"
 # {0}=互动, {1}=近战
@@ -520,8 +520,12 @@
 #!define STR_EDITOR_PANEL_EVENT "{0}    选择事件    {1}"
 # {0}=终极技能, {1}=次要攻击
 #!define STR_EDITOR_PANEL_TRIGGER "{0}    触发事件    {1}    结束事件"
-# {0}=装填, {1}=跳跃
-#!define STR_EDITOR_PANEL_EXTEND "{0}    延长 30 秒    {1}    延长至无限"
+# {0}=终极技能
+#!define STR_EDITOR_PANEL_EXTEND "{0}    延长 30 秒"
+# {0}=技能 1
+#!define STR_EDITOR_PANEL_EXTEND_INFINITE "{0}    延长至无限"
+# {0}=终极技能
+#!define STR_EDITOR_PANEL_BACK "{0}    返回编辑模式"
 # {0}=主要攻击, {1}=模式
 #!define STR_EDITOR_PANEL_FIRE "{0}    堡垒开火    {1}"
 #!define STR_EDITOR_FIRE_MODE_FIRE "开火"
