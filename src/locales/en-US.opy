@@ -499,14 +499,12 @@
 #!define STR_EDITOR_HUD_TRIAL_TITLE "Map Editor · Trial Mode"
 # {0}=elapsed time
 #!define STR_EDITOR_HUD_TRIAL_TIME "Time {0}"
-# {0}=interact, {1}=melee
-#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel"
+# {0}=interact, {1}=melee, {2}=reload
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel  Hold {2} Back to Edit"
 # {0}=elapsed time
 #!define STR_EDITOR_MSG_FINISH "Reached the end · Time {0}"
 # {0}=interact, {1}=melee
 #!define STR_EDITOR_PANEL_TITLE "Trial Panel ({0}+{1} to close)"
-# {0}=reload
-#!define STR_EDITOR_PANEL_BACK "{0}    Back to Edit Mode"
 # {0}=primary fire, {1}=on/off
 #!define STR_EDITOR_PANEL_AUTO "{0}    Automatic Events    {1}"
 # {0}=ability 1, {1}=category
