@@ -32,6 +32,33 @@ rule "Initialize editor HUD":
     )
     hudSubheader(
         localPlayer if localPlayer.editorMode == 0 else null,
-        STR_EDITOR_HUD_EDIT_KEYS_MOVE.format(inputBindingString(Button.JUMP), inputBindingString(Button.CROUCH)),
+        STR_EDITOR_HUD_EDIT_KEYS_MOVE.format(inputBindingString(Button.JUMP), inputBindingString(Button.CROUCH), inputBindingString(Button.RELOAD)),
         HudPosition.LEFT, 14, rgb(160, 169, 186), HudReeval.VISIBILITY, SpecVisibility.NEVER
+    )
+
+    hudHeader(
+        localPlayer if localPlayer.editorMode == 1 else null,
+        STR_EDITOR_HUD_TRIAL_TITLE,
+        HudPosition.LEFT, 10, Color.ORANGE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudSubheader(
+        localPlayer if localPlayer.editorMode == 1 else null,
+        STR_EDITOR_HUD_TRIAL_TIME.format(hhmmss(getTotalTimeElapsed() - localPlayer.editorTrialStart)),
+        HudPosition.LEFT, 11, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudSubheader(
+        localPlayer if localPlayer.editorMode == 1 and localPlayer.editorPanelPage == 0 else null,
+        STR_EDITOR_HUD_TRIAL_HINT.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)),
+        HudPosition.LEFT, 12, rgb(160, 169, 186), HudReeval.VISIBILITY, SpecVisibility.NEVER
+    )
+
+    hudHeader(
+        localPlayer if localPlayer.editorPanelPage == 1 else null,
+        STR_EDITOR_PANEL_TITLE.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)),
+        HudPosition.TOP, 2, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudSubheader(
+        localPlayer if localPlayer.editorPanelPage == 1 else null,
+        STR_EDITOR_PANEL_BACK.format(inputBindingString(Button.RELOAD)),
+        HudPosition.TOP, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
     )

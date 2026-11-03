@@ -14,3 +14,10 @@ playervar editorTool
 playervar editorSelectedIndex
 playervar editorCandidates
 playervar editorCandidateIndex
+playervar editorHero
+# 试跑开始时刻
+playervar editorTrialStart
+# 试跑面板页：0 关闭
+playervar editorPanelPage
+# 自动事件开关
+playervar editorAutoEvent

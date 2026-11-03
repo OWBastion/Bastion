@@ -38,7 +38,8 @@ const PATHS = {
   localeEn: path.resolve(ROOT, 'src/locales/en-US.opy'),
   catalog: path.resolve(ROOT, 'src/events/catalog/eventCatalog.opy'),
   catalogMain: path.resolve(ROOT, 'src/events/catalog/eventCatalogMain.opy'),
-  catalogDev: path.resolve(ROOT, 'src/events/catalog/eventCatalogDev.opy')
+  catalogDev: path.resolve(ROOT, 'src/events/catalog/eventCatalogDev.opy'),
+  catalogEditor: path.resolve(ROOT, 'src/events/catalog/eventCatalogEditor.opy')
 } as const;
 
 const ENUM_NAME = 'EventId';
@@ -209,10 +210,13 @@ function addCatalogOrderEntry(source: string, key: string): string {
   return source.replace(pattern, `$1, ${ENUM_NAME}.${key}])`);
 }
 
-function removeCatalogOrderEntry(source: string, key: string): string {
+function removeCatalogOrderEntry(source: string, key: string, optional = false): string {
   const escaped = escapeRegExp(`${ENUM_NAME}.${key}`);
   const pattern = new RegExp(`${escaped},\\s*|,\\s*${escaped}`);
   if (!pattern.test(source)) {
+    if (optional) {
+      return source;
+    }
     throw new Error(`${ENUM_NAME}.${key} not found in EVENT_CATALOG_ORDER`);
   }
   return source.replace(pattern, '');
@@ -246,20 +250,22 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
     localeEn: PATHS.localeEn,
     catalog: PATHS.catalog,
     catalogMain: PATHS.catalogMain,
-    catalogDev: PATHS.catalogDev
+    catalogDev: PATHS.catalogDev,
+    catalogEditor: PATHS.catalogEditor
   };
 
-  const [ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev] = await Promise.all([
+  const [ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev, catalogEditor] = await Promise.all([
     fs.readFile(files.ids, 'utf8'),
     fs.readFile(files.constants, 'utf8'),
     fs.readFile(files.localeZh, 'utf8'),
     fs.readFile(files.localeEn, 'utf8'),
     fs.readFile(files.catalog, 'utf8'),
     fs.readFile(files.catalogMain, 'utf8'),
-    fs.readFile(files.catalogDev, 'utf8')
+    fs.readFile(files.catalogDev, 'utf8'),
+    fs.readFile(files.catalogEditor, 'utf8')
   ]);
 
-  let next = { ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev };
+  let next = { ids, constants, localeZh, localeEn, catalog, catalogMain, catalogDev, catalogEditor };
 
   if (spec.action === 'add') {
     next = {
@@ -269,7 +275,8 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
       localeEn: addLocaleEntries(next.localeEn, spec.type, spec.id, spec.titleEn, spec.descEn),
       catalog: addConfigRegistration(next.catalog, spec),
       catalogMain: addCatalogOrderEntry(next.catalogMain, spec.key),
-      catalogDev: addCatalogOrderEntry(next.catalogDev, spec.key)
+      catalogDev: addCatalogOrderEntry(next.catalogDev, spec.key),
+      catalogEditor: addCatalogOrderEntry(next.catalogEditor, spec.key)
     };
   } else {
     next = {
@@ -279,7 +286,9 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
       localeEn: removeLocaleEntries(next.localeEn, spec.type, spec.id),
       catalog: removeConfigRegistration(next.catalog, spec),
       catalogMain: removeCatalogOrderEntry(next.catalogMain, spec.key),
-      catalogDev: removeCatalogOrderEntry(next.catalogDev, spec.key)
+      catalogDev: removeCatalogOrderEntry(next.catalogDev, spec.key),
+      // 编辑器目录不含依赖英雄进度的事件，删除这些事件时没有对应条目
+      catalogEditor: removeCatalogOrderEntry(next.catalogEditor, spec.key, true)
     };
   }
 
@@ -290,7 +299,8 @@ async function mutateFiles(spec: MaintainSpec, dryRun: boolean) {
     [files.localeEn, next.localeEn],
     [files.catalog, next.catalog],
     [files.catalogMain, next.catalogMain],
-    [files.catalogDev, next.catalogDev]
+    [files.catalogDev, next.catalogDev],
+    [files.catalogEditor, next.catalogEditor]
   ] as const;
 
   if (!dryRun) {

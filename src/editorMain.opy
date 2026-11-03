@@ -93,17 +93,71 @@ rule STR_LICENSE_PERMIT:
 #!include "session/sessionGame.opy"
 #!include "session/titleVars.opy"
 #!include "composition/profileEditor.opy"
+#!include "events/catalog/eventCatalogEditor.opy"
+#!include "events/catalog/eventCatalog.opy"
 
-# Runtime modules
+# Runtime modules in emission order
 #!include "map/mapDetection.opy"
 #!include "blacklist/initBlacklist.opy"
 #!include "blacklist/removeFromBlacklist.opy"
+#!include "events/lifecycle/detectFlag.opy"
+
+#!include "heroes/allHero.opy"
+
+#!include "events/allocation/buildCompatibleEventPool.opy"
+
+#!include "events/allocation/filterEventHardEligible.opy"
+
+#!include "events/allocation/buildCandidatePool.opy"
+
+#!include "events/allocation/rejectSampling.opy"
+
+#!include "events/allocation/drawForcedEvent.opy"
+
+# Event services
+#!include "events/effects/healthPool.opy"
+
+#!include "events/effects/dashDetector.opy"
+
+# progressHero() is called by the cheatSkipHero event effect module; the editor never runs it.
+#!include "player/savePlayerData.opy"
+
+#!include "player/progressHero.opy"
+
+#!include "player/playerRegen.opy"
 
 #!include "session/setDifficulty.opy"
 
 #!include "player/thirdPerson.opy"
 
 #!include "bastion/createBastionBot.opy"
+
+# Player attributes and event lifecycle
+#!include "player/updatePlayerStats.opy"
+
+#!include "events/lifecycle/setEventDuration.opy"
+
+#!include "events/lifecycle/resetPlayerCD.opy"
+
+#!include "player/setPlayerSize.opy"
+
+#!include "events/lifecycle/clearEventEffect.opy"
+
+#!include "events/lifecycle/setPlayerEvent.opy"
+
+#!include "events/lifecycle/clearPlayerEvent.opy"
+
+#!include "player/setPlayerHP.opy"
+
+#!include "player/startCombatRegen.opy"
+
+#!include "events/lifecycle/requestPlayerEventEnd.opy"
+
+#!include "events/effects/buffEffects.opy"
+
+#!include "events/effects/debuffEffects.opy"
+
+#!include "events/effects/mechEffects.opy"
 
 # Maps
 #!include "map/setupAllMap.opy"
@@ -114,9 +168,15 @@ rule STR_LICENSE_PERMIT:
 
 #!include "effects/initEffects.opy"
 #!include "map/interactions.opy"
+#!include "effects/nanoEffects.opy"
+
+#!include "events/lifecycle/initPlayerEventState.opy"
 
 # Map editor
 #!include "editor/editorPoints.opy"
 #!include "editor/editorEditMode.opy"
+#!include "editor/editorTrialMode.opy"
+#!include "editor/editorPanel.opy"
+#!include "editor/editorEventAllocation.opy"
 #!include "editor/editorJoin.opy"
 #!include "editor/editorHud.opy"
