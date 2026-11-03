@@ -50,7 +50,9 @@ def refreshEditorOutlines():
         getPlayers(Team.2).filter(lambda bastion: bastion.getSlot() == eventPlayer.editorSelectedIndex).startForcingOutlineFor(eventPlayer, true, Color.YELLOW, OutlineVisibility.ALWAYS)
 
 
-rule "Build point markers when map data is ready":
-    @Condition getTotalTimeElapsed() > 1
+# 分段地图规则在首个队伍 1 玩家出生后覆盖点位；等其写完再重建标记。
+rule "Build point markers after map setup":
+    @Condition getPlayers(Team.1).any(lambda player: player.hasSpawned())
 
+    wait(1)
     rebuildEditorMarkers()

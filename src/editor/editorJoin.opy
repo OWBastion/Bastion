@@ -34,3 +34,11 @@ rule "Refresh event pool when hero changes":
     eventPlayer.setAbility1Enabled(eventPlayer.getHero() not in [Hero.TORBJORN, Hero.SYMMETRA])
     eventPlayer.setAbility2Enabled(eventPlayer.getHero() != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
     refreshCompatibleEventPool()
+
+
+# 实况档位的“Debug 模式”设置可关闭 Inspector；编辑器始终保持启用以便导出变量。
+rule "Keep inspector enabled":
+    @Condition not isInSetup()
+
+    wait(1)
+    enableInspector()

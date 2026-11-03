@@ -8,6 +8,7 @@
 #!define EDITOR_ASCEND_DT 0.05
 #!define EDITOR_SELECT_MAX_DISTANCE 50
 #!define EDITOR_SELECT_MAX_ANGLE 10
+#!define EDITOR_GROUND_SNAP_DISTANCE 50
 
 subroutine enterEditorEditMode
 subroutine leaveEditorEditMode
@@ -123,18 +124,23 @@ rule "Place or move point":
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
+    # 编辑者悬空飞行；点位向正下方吸附到地面，未命中则不放置。
+    eventPlayer.editorGroundPoint = raycastHitPosition(eventPlayer.getPosition() + Vector.UP, eventPlayer.getPosition() + Vector.DOWN * EDITOR_GROUND_SNAP_DISTANCE, null, getAllPlayers(), false)
+    if raycastHitNormal(eventPlayer.getPosition() + Vector.UP, eventPlayer.getPosition() + Vector.DOWN * EDITOR_GROUND_SNAP_DISTANCE, null, getAllPlayers(), false) == vect(0, 0, 0):
+        smallMessage(eventPlayer, STR_EDITOR_MSG_NO_GROUND)
+        return
     if eventPlayer.editorSelectedIndex != -1:
-        bastionPosition[eventPlayer.editorSelectedIndex] = eventPlayer.getPosition()
+        bastionPosition[eventPlayer.editorSelectedIndex] = eventPlayer.editorGroundPoint
     elif eventPlayer.editorTool == 0:
-        bastionPosition.append(eventPlayer.getPosition())
+        bastionPosition.append(eventPlayer.editorGroundPoint)
     elif eventPlayer.editorTool == 1:
-        resetPosition = eventPlayer.getPosition()
+        resetPosition = eventPlayer.editorGroundPoint
     elif eventPlayer.editorTool == 2:
-        endPosition = eventPlayer.getPosition()
+        endPosition = eventPlayer.editorGroundPoint
     elif eventPlayer.editorTool == 3:
-        thirdPersonPosition = eventPlayer.getPosition()
+        thirdPersonPosition = eventPlayer.editorGroundPoint
     else:
-        creditsPosition = eventPlayer.getPosition()
+        creditsPosition = eventPlayer.editorGroundPoint
     rebuildEditorMarkers()
 
 

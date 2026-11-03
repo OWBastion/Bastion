@@ -26,3 +26,4 @@ playervar editorEventCategory
 playervar editorEventIndex
 playervar editorEventId
 playervar editorBeam
+playervar editorGroundPoint
