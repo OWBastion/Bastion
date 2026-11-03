@@ -21,3 +21,7 @@ playervar editorTrialStart
 playervar editorPanelPage
 # 自动事件开关
 playervar editorAutoEvent
+# 面板选中的事件：分类（EventType）、分类内下标、事件 ID（-1 无）
+playervar editorEventCategory
+playervar editorEventIndex
+playervar editorEventId

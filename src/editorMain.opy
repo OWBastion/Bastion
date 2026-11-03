@@ -178,5 +178,6 @@ rule STR_LICENSE_PERMIT:
 #!include "editor/editorTrialMode.opy"
 #!include "editor/editorPanel.opy"
 #!include "editor/editorEventAllocation.opy"
+#!include "editor/editorEventPanel.opy"
 #!include "editor/editorJoin.opy"
 #!include "editor/editorHud.opy"

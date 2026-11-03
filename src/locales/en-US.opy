@@ -503,3 +503,13 @@
 #!define STR_EDITOR_PANEL_TITLE "Trial Panel ({0}+{1} to close)"
 # {0}=reload
 #!define STR_EDITOR_PANEL_BACK "{0}    Back to Edit Mode"
+# {0}=primary fire, {1}=on/off
+#!define STR_EDITOR_PANEL_AUTO "{0}    Automatic Events    {1}"
+# {0}=ability 1, {1}=category
+#!define STR_EDITOR_PANEL_CATEGORY "{0}    Event Category    {1}"
+# {0}=ability 2, {1}=event
+#!define STR_EDITOR_PANEL_EVENT "{0}    Select Event    {1}"
+# {0}=ultimate, {1}=secondary fire
+#!define STR_EDITOR_PANEL_TRIGGER "{0}    Trigger Event    {1}    End Event"
+# {0}=reload, {1}=jump
+#!define STR_EDITOR_PANEL_EXTEND "{0}    Extend 30 s    {1}    Extend Without Limit"
