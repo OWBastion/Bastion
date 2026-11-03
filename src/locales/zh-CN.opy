@@ -505,5 +505,16 @@
 #!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} 放置/移动  {1} 选中/取消  {2} 删除"
 # {0}=技能 1, {1}=技能 2, {2}=终极技能
 #!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} 切换工具  {2} 传送到选中点"
-# {0}=跳跃, {1}=蹲下
-#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} 上升/下降"
+# {0}=跳跃, {1}=蹲下, {2}=装填
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} 上升/下降  {2} 试跑"
+#!define STR_EDITOR_HUD_TRIAL_TITLE "地图编辑 · 试跑模式"
+# {0}=用时
+#!define STR_EDITOR_HUD_TRIAL_TIME "用时 {0}"
+# {0}=互动, {1}=近战
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板"
+# {0}=用时
+#!define STR_EDITOR_MSG_FINISH "到达终点 · 用时 {0}"
+# {0}=互动, {1}=近战
+#!define STR_EDITOR_PANEL_TITLE "试跑面板（{0}+{1} 关闭）"
+# {0}=装填
+#!define STR_EDITOR_PANEL_BACK "{0}    返回编辑模式"

@@ -15,6 +15,9 @@ subroutine leaveEditorEditMode
 def enterEditorEditMode():
     @Name "enter edit mode"
 
+    if eventPlayer.eventId != -1:
+        clearPlayerEvent()
+    eventPlayer.eventNextIndex = -1
     eventPlayer.setGravity(0)
     eventPlayer.setMoveSpeed(EDITOR_FLY_SPEED)
     eventPlayer.disableEnvironmentCollision(true)

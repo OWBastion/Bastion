@@ -494,5 +494,16 @@
 #!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} Place/Move  {1} Select/Deselect  {2} Delete"
 # {0}=ability 1, {1}=ability 2, {2}=ultimate
 #!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} Switch Tool  {2} Teleport to Selected"
-# {0}=jump, {1}=crouch
-#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} Ascend/Descend"
+# {0}=jump, {1}=crouch, {2}=reload
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} Ascend/Descend  {2} Trial Run"
+#!define STR_EDITOR_HUD_TRIAL_TITLE "Map Editor · Trial Mode"
+# {0}=elapsed time
+#!define STR_EDITOR_HUD_TRIAL_TIME "Time {0}"
+# {0}=interact, {1}=melee
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel"
+# {0}=elapsed time
+#!define STR_EDITOR_MSG_FINISH "Reached the end · Time {0}"
+# {0}=interact, {1}=melee
+#!define STR_EDITOR_PANEL_TITLE "Trial Panel ({0}+{1} to close)"
+# {0}=reload
+#!define STR_EDITOR_PANEL_BACK "{0}    Back to Edit Mode"
