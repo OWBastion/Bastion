@@ -168,6 +168,7 @@ rule "Acquire target":
     @Event eachPlayer
     @Team 2
     @Hero bastion
+    BASTION_TARGETING_CONDITION
     @Condition eventPlayer.isDummy()
     @Condition eventPlayer.hasSpawned()
     @Condition eventPlayer.isAlive()
@@ -214,6 +215,7 @@ rule "Force primary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
+    BASTION_FIRE_CONDITION
     @Condition eventPlayer.isDummy()
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.hasNano != true
@@ -244,6 +246,7 @@ rule "Pulse secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
+    BASTION_FIRE_CONDITION
     @Condition any([difficulty == 5, bastionBotSeconFire]) == true
     @Condition eventPlayer.hasNano == false
     @Condition eventPlayer.isDummy()
@@ -263,6 +266,7 @@ rule "Sustain nano secondary fire":
     @Event eachPlayer
     @Team 2
     @Hero bastion
+    BASTION_FIRE_CONDITION
     @Condition eventPlayer.isDummy()
     @Condition eventPlayer.hasNano == true
     @Condition eventPlayer.isAlive()
