@@ -499,8 +499,8 @@
 #!define STR_EDITOR_HUD_TRIAL_TITLE "Map Editor · Trial Mode"
 # {0}=elapsed time
 #!define STR_EDITOR_HUD_TRIAL_TIME "Time {0}"
-# {0}=interact, {1}=melee, {2}=reload
-#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel  Hold {2} Back to Edit"
+# {0}=interact, {1}=melee
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel"
 # {0}=elapsed time
 #!define STR_EDITOR_MSG_FINISH "Reached the end · Time {0}"
 # {0}=interact, {1}=melee
@@ -513,8 +513,12 @@
 #!define STR_EDITOR_PANEL_EVENT "{0}    Select Event    {1}"
 # {0}=ultimate, {1}=secondary fire
 #!define STR_EDITOR_PANEL_TRIGGER "{0}    Trigger Event    {1}    End Event"
-# {0}=reload, {1}=jump
-#!define STR_EDITOR_PANEL_EXTEND "{0}    Extend 30 s    {1}    Extend Without Limit"
+# {0}=ultimate
+#!define STR_EDITOR_PANEL_EXTEND "{0}    Extend 30 s"
+# {0}=ability 1
+#!define STR_EDITOR_PANEL_EXTEND_INFINITE "{0}    Extend Without Limit"
+# {0}=ultimate
+#!define STR_EDITOR_PANEL_BACK "{0}    Back to Edit Mode"
 # {0}=primary fire, {1}=mode
 #!define STR_EDITOR_PANEL_FIRE "{0}    Bastion Fire    {1}"
 #!define STR_EDITOR_FIRE_MODE_FIRE "Fire"

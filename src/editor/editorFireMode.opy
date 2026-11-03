@@ -11,7 +11,7 @@ rule "Cycle bastion fire mode":
     @Team 1
     @Condition eventPlayer.editorMode == 1
     @Condition eventPlayer.editorPanelPage == 2
-    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
 
     editorFireMode = (editorFireMode + 1) % 3
 

@@ -10,3 +10,5 @@
 #!define BASTION_TARGETING_CONDITION @Condition editorFireMode != 2
 # 事件不依赖玩家进度，所有玩家都有资格获得事件。
 #!define PROFILE_EVENT_PLAYER_ELIGIBLE(player) true
+# 编辑模式的跳跃用于上升；地图互动只在试跑模式生效。
+#!define MAP_INTERACTION_CONDITION @Condition eventPlayer.editorMode == 1

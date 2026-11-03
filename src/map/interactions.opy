@@ -7,6 +7,7 @@
 
 rule "3rd person":
     @Event eachPlayer
+    MAP_INTERACTION_CONDITION
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition distance(eventPlayer * vect(1, 0, 1), thirdPersonPosition * vect(1, 0, 1)) <= 1.2
@@ -17,6 +18,7 @@ rule "3rd person":
 
 rule "springboard":
     @Event eachPlayer
+    MAP_INTERACTION_CONDITION
     @Condition springBoardPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
@@ -33,6 +35,7 @@ rule "springboard":
 
 rule "portalPosition":
     @Event eachPlayer
+    MAP_INTERACTION_CONDITION
     @Condition portalPosition != null
     @Condition eventPlayer.isAlive()
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
