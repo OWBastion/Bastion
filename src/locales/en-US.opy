@@ -522,3 +522,4 @@
 #!define STR_EDITOR_FIRE_MODE_FIRE "Fire"
 #!define STR_EDITOR_FIRE_MODE_AIM "Aim Only"
 #!define STR_EDITOR_FIRE_MODE_OFF "Off"
+#!define STR_EDITOR_MSG_NO_GROUND "No ground within 50 m below. Not placed"

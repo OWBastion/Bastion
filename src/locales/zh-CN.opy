@@ -533,3 +533,4 @@
 #!define STR_EDITOR_FIRE_MODE_FIRE "开火"
 #!define STR_EDITOR_FIRE_MODE_AIM "仅瞄准"
 #!define STR_EDITOR_FIRE_MODE_OFF "关闭"
+#!define STR_EDITOR_MSG_NO_GROUND "下方 50 米内没有地面，未放置"
