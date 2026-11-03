@@ -5,7 +5,7 @@ This document is the canonical rule source for entry architecture and structural
 ## Core Rules
 
 1. Include order in entry files is behavior-critical; do not reorder casually.
-2. Keep `src/main.opy`, `src/devMain.opy`, and `src/externalMain.opy` structurally aligned where intended behavior is shared; `main`/`externalMain` share the MAIN catalog order and `devMain` uses the DEV order.
+2. Keep `src/main.opy`, `src/devMain.opy`, and `src/externalMain.opy` structurally aligned where intended behavior is shared; `main`/`externalMain` share the MAIN catalog order and `devMain` uses the DEV order. `src/editorMain.opy` is the map editor entry: it keeps only the shared modules the editor needs, owns its player join, event allocation and finish rules, and sets the profile macros in `composition/profileEditor.opy`. A change to a shared module must keep the `main`, `devMain`, and `externalMain` outputs rule-identical, and the editor entry must still compile.
 3. Event registration lives in `src/events/catalog/eventCatalog.opy`; entry-specific catalog order lives in:
    - `src/events/catalog/eventCatalogMain.opy`
    - `src/events/catalog/eventCatalogDev.opy`

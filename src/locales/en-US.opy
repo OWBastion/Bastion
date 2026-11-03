@@ -471,3 +471,24 @@
 #!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage again {0}s later. The extra damage does not trigger again."
 #!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
 #!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your missing health percentage, up to {0}%."
+
+# ------------------------------------------------
+# Map Editor
+# ------------------------------------------------
+#!define STR_EDITOR_MODE_NAME "Bastion Escape 3 Map Editor"
+#!define STR_EDITOR_DESC "Walk the map, place bastions, and test-run the route in game\nCopy variables from the Inspector and paste them into the owbastion.com map editor"
+#!define STR_EDITOR_TOOL_BASTION "Bastion"
+#!define STR_EDITOR_TOOL_RESET "Reset Point"
+#!define STR_EDITOR_TOOL_END "End Point"
+#!define STR_EDITOR_TOOL_THIRD_PERSON "Third-Person Point"
+#!define STR_EDITOR_TOOL_CREDITS "Credits Point"
+#!define STR_EDITOR_HUD_NONE "None"
+#!define STR_EDITOR_HUD_EDIT_TITLE "Map Editor · Edit Mode"
+# {0}=tool, {1}=bastion count, {2}=selection
+#!define STR_EDITOR_HUD_EDIT_STATE "Tool {0} · {1} bastions · Selected {2}"
+# {0}=primary fire, {1}=secondary fire, {2}=melee
+#!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} Place/Move  {1} Select/Deselect  {2} Delete"
+# {0}=ability 1, {1}=ability 2, {2}=ultimate
+#!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} Switch Tool  {2} Teleport to Selected"
+# {0}=jump, {1}=crouch
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} Ascend/Descend"

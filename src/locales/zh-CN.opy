@@ -482,3 +482,24 @@
 #!define STR_EVT_DEBUFF_26_DESC "受到伤害的 {0} 秒后，再次受到该伤害 {1}% 的额外伤害"
 #!define STR_EVT_MECH_27_TITLE "命运狂想曲"
 #!define STR_EVT_MECH_27_DESC "基于已损失生命值百分比获得对应的伤害减免"
+
+# ------------------------------------------------
+# 地图编辑器
+# ------------------------------------------------
+#!define STR_EDITOR_MODE_NAME "躲避堡垒3 地图编辑器"
+#!define STR_EDITOR_DESC "在游戏内踩点、放置堡垒并试跑路线\n从 Inspector 复制变量，粘贴到 owbastion.com 的地图编辑器"
+#!define STR_EDITOR_TOOL_BASTION "堡垒"
+#!define STR_EDITOR_TOOL_RESET "重置点"
+#!define STR_EDITOR_TOOL_END "终点"
+#!define STR_EDITOR_TOOL_THIRD_PERSON "第三人称点"
+#!define STR_EDITOR_TOOL_CREDITS "结算点"
+#!define STR_EDITOR_HUD_NONE "无"
+#!define STR_EDITOR_HUD_EDIT_TITLE "地图编辑 · 编辑模式"
+# {0}=工具, {1}=堡垒数量, {2}=选中
+#!define STR_EDITOR_HUD_EDIT_STATE "工具 {0} · 堡垒 {1} 个 · 选中 {2}"
+# {0}=主要攻击, {1}=次要攻击, {2}=近战
+#!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} 放置/移动  {1} 选中/取消  {2} 删除"
+# {0}=技能 1, {1}=技能 2, {2}=终极技能
+#!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} 切换工具  {2} 传送到选中点"
+# {0}=跳跃, {1}=蹲下
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} 上升/下降"

@@ -165,6 +165,7 @@ rule STR_LICENSE_PERMIT:
 #!include "player/finishSettlement.opy"
 #!include "events/integrity/masteryRunCode.opy"
 
+#!include "effects/pointEffects.opy"
 #!include "effects/initEffects.opy"
 #!include "effects/initProgressionEffects.opy"
 #!include "map/interactions.opy"
