@@ -506,14 +506,12 @@
 #!define STR_EDITOR_HUD_TRIAL_TITLE "地图编辑 · 试跑模式"
 # {0}=用时
 #!define STR_EDITOR_HUD_TRIAL_TIME "用时 {0}"
-# {0}=互动, {1}=近战
-#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板"
+# {0}=互动, {1}=近战, {2}=装填
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} 打开面板  长按 {2} 返回编辑"
 # {0}=用时
 #!define STR_EDITOR_MSG_FINISH "到达终点 · 用时 {0}"
 # {0}=互动, {1}=近战
 #!define STR_EDITOR_PANEL_TITLE "试跑面板（{0}+{1} 关闭）"
-# {0}=装填
-#!define STR_EDITOR_PANEL_BACK "{0}    返回编辑模式"
 # {0}=主要攻击, {1}=开/关
 #!define STR_EDITOR_PANEL_AUTO "{0}    自动事件    {1}"
 # {0}=技能 1, {1}=分类

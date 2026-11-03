@@ -48,7 +48,7 @@ rule "Initialize editor HUD":
     )
     hudSubheader(
         localPlayer if localPlayer.editorMode == 1 and localPlayer.editorPanelPage == 0 else null,
-        STR_EDITOR_HUD_TRIAL_HINT.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE)),
+        STR_EDITOR_HUD_TRIAL_HINT.format(inputBindingString(Button.INTERACT), inputBindingString(Button.MELEE), inputBindingString(Button.RELOAD)),
         HudPosition.LEFT, 12, rgb(160, 169, 186), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
     )
 
@@ -86,11 +86,6 @@ rule "Initialize editor HUD":
         localPlayer if localPlayer.editorPanelPage == 2 else null,
         STR_EDITOR_PANEL_FIRE.format(inputBindingString(Button.PRIMARY_FIRE), [STR_EDITOR_FIRE_MODE_FIRE, STR_EDITOR_FIRE_MODE_AIM, STR_EDITOR_FIRE_MODE_OFF][editorFireMode]),
         HudPosition.LEFT, 21, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
-    )
-    hudSubheader(
-        localPlayer if localPlayer.editorPanelPage == 2 else null,
-        STR_EDITOR_PANEL_BACK.format(inputBindingString(Button.RELOAD)),
-        HudPosition.LEFT, 22, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
     )
     hudSubheader(
         localPlayer if localPlayer.editorPanelPage != 0 else null,
