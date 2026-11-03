@@ -9,7 +9,7 @@ subroutine refreshCompatibleEventPool
 #!define EVENT_GROUP_HERO_SKIP [EventId.CHEAT_SKIP_HERO]
 
 # 大招没有可持续状态的英雄；暂定名单，补全英雄大招数据前人工维护。
-#!define ULT_NO_SUSTAIN_HEROES [Hero.HANZO, Hero.LIFEWEAVER, Hero.JUNKRAT, Hero.BASTION, Hero.CASSIDY, Hero.PHARAH, Hero.REAPER, Hero.TRACER]
+#!define ULT_NO_SUSTAIN_HEROES [Hero.HANZO, Hero.LIFEWEAVER, Hero.JUNKRAT, Hero.BASTION, Hero.CASSIDY, Hero.PHARAH, Hero.REAPER, Hero.TRACER, Hero.FREJA, Hero.ORISA]
 
 macro Player.supportsPhaseTrigger():
     any([
