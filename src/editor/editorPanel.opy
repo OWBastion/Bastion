@@ -49,11 +49,21 @@ rule "Toggle trial panel":
         openEditorPanel()
 
 
-rule "Return to edit mode":
+rule "Switch trial panel page":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.editorMode == 1
     @Condition eventPlayer.editorPanelPage != 0
+    @Condition eventPlayer.isHoldingButton(Button.CROUCH)
+
+    eventPlayer.editorPanelPage = 1 if eventPlayer.editorPanelPage == 2 else 2
+
+
+rule "Return to edit mode":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.editorMode == 1
+    @Condition eventPlayer.editorPanelPage == 2
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     closeEditorPanel()

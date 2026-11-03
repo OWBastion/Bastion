@@ -17,6 +17,7 @@ rule "Initialize editor player":
     eventPlayer.editorTool = 0
     eventPlayer.editorSelectedIndex = -1
     eventPlayer.editorAutoEvent = true
+    eventPlayer.editorEventId = -1
     eventPlayer.hudText = ""
     hudText(eventPlayer, null, "{0}".format(HUD_PAD_BOTTOM), eventPlayer.hudText, HudPosition.TOP, 20, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     eventPlayer.hudTextId = getLastCreatedText()

@@ -518,3 +518,13 @@
 #!define STR_EDITOR_PANEL_TITLE "试跑面板（{0}+{1} 关闭）"
 # {0}=装填
 #!define STR_EDITOR_PANEL_BACK "{0}    返回编辑模式"
+# {0}=主要攻击, {1}=开/关
+#!define STR_EDITOR_PANEL_AUTO "{0}    自动事件    {1}"
+# {0}=技能 1, {1}=分类
+#!define STR_EDITOR_PANEL_CATEGORY "{0}    事件分类    {1}"
+# {0}=技能 2, {1}=事件
+#!define STR_EDITOR_PANEL_EVENT "{0}    选择事件    {1}"
+# {0}=终极技能, {1}=次要攻击
+#!define STR_EDITOR_PANEL_TRIGGER "{0}    触发事件    {1}    结束事件"
+# {0}=装填, {1}=跳跃
+#!define STR_EDITOR_PANEL_EXTEND "{0}    延长 30 秒    {1}    延长至无限"
