@@ -475,3 +475,24 @@
 #!define STR_EVT_MECH_26_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable event."
 #!define STR_EVT_MECH_26_TARGET "Cycle Replay: {0}"
 #!define STR_EVT_MECH_26_NO_TARGET "No replayable event"
+
+# ------------------------------------------------
+# Map Editor
+# ------------------------------------------------
+#!define STR_EDITOR_MODE_NAME "Bastion Escape 3 Map Editor"
+#!define STR_EDITOR_DESC "Walk the map, place bastions, and test-run the route in game\nCopy variables from the Inspector and paste them into the owbastion.com map editor"
+#!define STR_EDITOR_TOOL_BASTION "Bastion"
+#!define STR_EDITOR_TOOL_RESET "Reset Point"
+#!define STR_EDITOR_TOOL_END "End Point"
+#!define STR_EDITOR_TOOL_THIRD_PERSON "Third-Person Point"
+#!define STR_EDITOR_TOOL_CREDITS "Credits Point"
+#!define STR_EDITOR_HUD_NONE "None"
+#!define STR_EDITOR_HUD_EDIT_TITLE "Map Editor · Edit Mode"
+# {0}=tool, {1}=bastion count, {2}=selection
+#!define STR_EDITOR_HUD_EDIT_STATE "Tool {0} · {1} bastions · Selected {2}"
+# {0}=primary fire, {1}=secondary fire, {2}=melee
+#!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} Place/Move  {1} Select/Deselect  {2} Delete"
+# {0}=ability 1, {1}=ability 2, {2}=ultimate
+#!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} Switch Tool  {2} Teleport to Selected"
+# {0}=jump, {1}=crouch
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} Ascend/Descend"
