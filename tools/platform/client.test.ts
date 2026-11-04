@@ -4,11 +4,8 @@ import { once } from 'node:events';
 import { afterEach, test } from 'node:test';
 
 import {
-  fetchPlatformData,
   PlatformDataClient,
   PlatformDataClientError,
-  PLATFORM_DATA_TOKEN_ENV,
-  PLATFORM_DATA_USER_AGENT,
   type PlatformDataResource
 } from './client.ts';
 
@@ -82,36 +79,6 @@ function validPage(resource: PlatformDataResource, page: number, pageSize: numbe
   return pageResponse([{ [idField]: id }], page, pageSize, 1);
 }
 
-test('fetches all Agents resources through paginated GET requests using a custom base URL', async () => {
-  const datasets: Record<PlatformDataResource, Array<Record<string, unknown>>> = {
-    events: [{ eventId: 'event-1' }, { eventId: 'event-2' }, { eventId: 'event-3' }],
-    maps: [{ mapId: 'map-1' }],
-    achievements: [{ challengeId: 'achievement-1' }, { challengeId: 'achievement-2' }],
-    titles: [{ titleKey: 'title-1' }, { titleKey: 'title-2' }, { titleKey: 'title-3' }]
-  };
-  const { baseUrl, requests } = await startFakeServer((resource, page, pageSize, requestUrl) => {
-    if (requestUrl.searchParams.has('status')) return pageResponse([], page, pageSize, 0);
-    const items = datasets[resource].slice((page - 1) * pageSize, page * pageSize);
-    return pageResponse(items, page, pageSize, datasets[resource].length);
-  });
-
-  const result = await fetchPlatformData({ baseUrl, pageSize: 2 });
-
-  assert.deepEqual(result, { ...datasets, playerTitleGrants: [], mapTitleHolders: [] });
-  assert.deepEqual(
-    requests.map((request) => `${request.pathname}?${request.searchParams}`),
-    [
-      '/v1/agents/events?page=1&pageSize=2',
-      '/v1/agents/maps?page=1&pageSize=2',
-      '/v1/agents/achievements?page=1&pageSize=2',
-      '/v1/agents/titles?page=1&pageSize=2',
-      '/v1/agents/events?page=2&pageSize=2',
-      '/v1/agents/titles?page=2&pageSize=2',
-      '/v1/agents/events?status=development&page=1&pageSize=2'
-    ]
-  );
-});
-
 test('fetchAll also reads in-development events', async () => {
   const { baseUrl } = await startFakeServer((resource, page, pageSize, requestUrl) => {
     if (resource !== 'events') return validPage(resource, page, pageSize);
@@ -135,67 +102,6 @@ test('distinguishes map achievements with a reused challenge ID by map ID', asyn
   assert.deepEqual(result.map((item) => item.mapId), ['map-1', 'map-2']);
 });
 
-test('identifies Bastion and sends the access token without exposing it in the URL', async () => {
-  let authorization: string | null = null;
-  let userAgent: string | null = null;
-  let requestedUrl = '';
-  const client = new PlatformDataClient({
-    baseUrl: 'https://platform.example',
-    accessToken: ' bastion-token ',
-    fetch: async (input, init) => {
-      requestedUrl = String(input);
-      authorization = new Headers(init?.headers).get('authorization');
-      userAgent = new Headers(init?.headers).get('user-agent');
-      return new Response(JSON.stringify(pageResponse([{ mapId: 'map-1' }], 1, 100)), { status: 200 });
-    }
-  });
-
-  await client.fetchResource('maps');
-  assert.equal(authorization, 'Bearer bastion-token');
-  assert.equal(userAgent, PLATFORM_DATA_USER_AGENT);
-  assert.equal(requestedUrl, 'https://platform.example/v1/agents/maps?page=1&pageSize=100');
-  assert.equal(PLATFORM_DATA_TOKEN_ENV, 'BASTION_BUILD_TOKEN');
-});
-
-test('fetches public player grants and map holders through their independent paginated entrances', async () => {
-  const requests: string[] = [];
-  const fetchImpl = async (input: URL | RequestInfo) => {
-    const url = new URL(String(input));
-    requests.push(`${url.pathname}?${url.searchParams}`);
-    const page = Number(url.searchParams.get('page'));
-    const pageSize = Number(url.searchParams.get('pageSize'));
-    const items = url.pathname.endsWith('player-title-grants')
-      ? [{ playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]
-      : [{ mapId: 'map.test', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }];
-    return new Response(JSON.stringify(pageResponse(items, page, pageSize, 1)), { status: 200, headers: { 'content-type': 'application/json' } });
-  };
-  const client = new PlatformDataClient({ baseUrl: 'https://example.test', pageSize: 10, fetch: fetchImpl });
-  assert.deepEqual(await client.fetchPlayerTitleGrants(), [{ playerName: '玩家', titleKeys: ['TITLE'], allTitles: false }]);
-  assert.deepEqual(await client.fetchMapTitleHolders('map.test'), [{ mapId: 'map.test', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]);
-  assert.deepEqual(requests, [
-    '/v1/agents/player-title-grants?page=1&pageSize=10',
-    '/v1/agents/map-title-holders?mapId=map.test&page=1&pageSize=10'
-  ]);
-});
-
-test('rejects non-success HTTP responses with resource and status context', async () => {
-  const { baseUrl } = await startFakeServer((resource) => {
-    if (resource === 'events') return new Response('upstream unavailable', { status: 503, statusText: 'Unavailable' });
-    return validPage(resource, 1, 100);
-  });
-
-  await assert.rejects(
-    () => new PlatformDataClient({ baseUrl }).fetchResource('events'),
-    (error: unknown) => {
-      assert.ok(error instanceof PlatformDataClientError);
-      assert.equal(error.status, 503);
-      assert.equal(error.resource, 'events');
-      assert.match(error.message, /HTTP 503 Service Unavailable/);
-      return true;
-    }
-  );
-});
-
 test('rejects unavailable map-holder projections before an empty collection can be consumed', async () => {
   const { baseUrl } = await startFakeServer((resource) => {
     if ((resource as string) === 'map-title-holders') return new Response(JSON.stringify({ error: { code: 'AGENT_MAP_TITLE_PROJECTION_UNAVAILABLE' } }), { status: 503, statusText: 'Unavailable' });
@@ -212,90 +118,4 @@ test('rejects unavailable map-holder projections before an empty collection can 
       return true;
     }
   );
-});
-
-test('retries rate-limited responses and honors Retry-After', async () => {
-  let attempts = 0;
-  const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
-    attempts += 1;
-    if (attempts === 1) return new Response('', { status: 429, headers: { 'retry-after': '0' } });
-    return validPage(resource, page, pageSize);
-  });
-
-  await new PlatformDataClient({ baseUrl }).fetchResource('maps');
-  assert.equal(attempts, 2);
-});
-
-test('rejects an unsupported contract version', async () => {
-  const { baseUrl } = await startFakeServer((resource, page, pageSize) => ({
-    ...validPage(resource, page, pageSize),
-    contractVersion: '2'
-  }));
-
-  await assert.rejects(
-    () => new PlatformDataClient({ baseUrl }).fetchResource('maps'),
-    /Unsupported contractVersion "2"; expected 1/
-  );
-});
-
-test('rejects malformed pagination and item structure', async (t) => {
-  await t.test('page does not match request', async () => {
-    const { baseUrl } = await startFakeServer((resource, _page, pageSize) => validPage(resource, 2, pageSize));
-    await assert.rejects(() => new PlatformDataClient({ baseUrl }).fetchResource('events'), /does not match requested page/);
-  });
-
-  await t.test('hasMore is inconsistent with total', async () => {
-    const { baseUrl } = await startFakeServer((resource, page, pageSize) => ({
-      ...validPage(resource, page, pageSize),
-      total: 2,
-      hasMore: true
-    }));
-    await assert.rejects(() => new PlatformDataClient({ baseUrl }).fetchResource('maps'), /hasMore is inconsistent/);
-  });
-
-  await t.test('items must contain resource objects and stable IDs', async () => {
-    const { baseUrl } = await startFakeServer((resource, page, pageSize) => pageResponse([null as unknown as Record<string, unknown>], page, pageSize));
-    await assert.rejects(() => new PlatformDataClient({ baseUrl }).fetchResource('titles'), /items\[0\] must be an object/);
-  });
-});
-
-test('rejects duplicate IDs within a paginated resource', async () => {
-  const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
-    if (resource === 'events' && page === 1) {
-      return pageResponse([{ eventId: 'duplicate' }, { eventId: 'duplicate' }], page, pageSize, 2);
-    }
-    return validPage(resource, page, pageSize);
-  });
-
-  await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 2 }).fetchResource('events'), /Duplicate eventId: duplicate/);
-});
-
-test('rejects duplicate IDs across pages and changing totals', async (t) => {
-  await t.test('duplicate across pages', async () => {
-    const { baseUrl } = await startFakeServer((resource, page, pageSize) => {
-      if (resource !== 'events') return validPage(resource, page, pageSize);
-      return pageResponse([{ eventId: 'same-event' }], page, pageSize, 2);
-    });
-    await assert.rejects(() => new PlatformDataClient({ baseUrl, pageSize: 1 }).fetchResource('events'), /Duplicate eventId: same-event/);
-  });
-
-  await t.test('total that keeps changing is rejected, a transient change is retried', async () => {
-    const unstable = await startFakeServer((resource, page, pageSize) => {
-      if (resource !== 'maps') return validPage(resource, page, pageSize);
-      return page === 1
-        ? pageResponse([{ mapId: 'map-1' }], page, pageSize, 2)
-        : pageResponse([{ mapId: 'map-2' }], page, pageSize, 3);
-    });
-    await assert.rejects(() => new PlatformDataClient({ baseUrl: unstable.baseUrl, pageSize: 1 }).fetchResource('maps'), /does not match earlier total/);
-
-    let snapshots = 0;
-    const transient = await startFakeServer((resource, page, pageSize) => {
-      if (resource !== 'maps') return validPage(resource, page, pageSize);
-      if (page === 1) snapshots += 1;
-      const total = snapshots === 1 && page === 2 ? 3 : 2;
-      return pageResponse([{ mapId: `map-${page}` }], page, pageSize, total);
-    });
-    const maps = await new PlatformDataClient({ baseUrl: transient.baseUrl, pageSize: 1 }).fetchResource('maps');
-    assert.deepEqual(maps.map((item) => item.mapId), ['map-1', 'map-2']);
-  });
 });

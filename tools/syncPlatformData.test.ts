@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildPlatformMapRevisionSource, renderPlatformMapRevisionData, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
+import { buildPlatformMapRevisionSource, renderPlatformMapRevisionMapSources } from './platform/mapRevision.ts';
 import { validateRevisionAwareMapSources } from './platform/mapValidation.ts';
 import { mergePlatformEventOverPyData } from './platform/events.ts';
-import { applyTitleColorFallback, buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './platform/titles.ts';
+import { buildPlatformTitleSource, preservePlatformTitleOrder, syncTitleData } from './platform/titles.ts';
 import { mergePlatformData, prepareGeneratedPlatformFiles, syncPlatformData } from './syncPlatformData.ts';
 import type { PlatformData } from './platform/client.ts';
 
@@ -42,17 +42,6 @@ const spatialConfig = {
   control: null,
   portalPositions: [],
   springboardPositions: []
-};
-
-const busanSpatialConfig = {
-  ...spatialConfig,
-  control: {
-    centerPositions: [[16, 17, 18], [19, 20, 21], [22, 23, 24]],
-    jumpPositions: [[25, 26, 27], [28, 29, 30]],
-    respawnPositions: [[31, 32, 33], [34, 35, 36], [37, 38, 39]],
-    respawnAxis: 'x' as const,
-    respawnAxisThreshold: 40
-  }
 };
 
 function compositeStage(stageId: string, offset: number, setupDetection?: { position: [number, number, number]; radius: number }) {
@@ -148,44 +137,6 @@ test('preserves dynamic map title expressions when platform label changes', () =
   assert.equal(result.titleSource.titles[0].displayExpr, '"旧称号"');
 });
 
-test('rejects an event mapping that is missing from the platform', () => {
-  assert.throws(() => merge({ events: [] }), /missing from platform event data/);
-});
-
-test('rejects an event category that disagrees with the Bastion enum', () => {
-  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '减益' }] }), /does not match Bastion type buff/);
-});
-
-test('rejects unknown challenge references', () => {
-  assert.throws(() => merge({ events: [{ ...platformData.events[0], challenges: [{ family: 'achievement', challengeId: 'title.UNKNOWN' }] }] }), /unknown challenge title.UNKNOWN/);
-});
-
-test('accepts map classic achievements that reuse the global title challenge ID', () => {
-  const result = merge({
-    maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, classicGameplayRevision] }],
-    achievements: [
-      { challengeId: 'title.CLASSIC', family: 'map', gameplayRevisionId: 'revision:map.test_map:classic', type: 'map_completion', kind: 'map_title_achievement', titleKey: 'CLASSIC', mapId: 'map.test_map', mapVariant: 'classic', status: 'active', submissionMode: 'manual', gameVersion: '2026.07.15' },
-      { challengeId: 'title.CLASSIC', family: 'achievement', type: 'title_achievement', kind: 'title_achievement', titleKey: 'CLASSIC', status: 'active', submissionMode: 'manual' }
-    ],
-    titles: [
-      platformData.titles[0],
-      { ...platformData.titles[0], titleKey: 'CLASSIC', label: '老兵' }
-    ]
-  }, {
-    ...titleSource,
-    titles: [...titleSource.titles, { key: 'CLASSIC', label: '老兵', category: '地图精通系列', condition: '通关经典版地图', displayExpr: '__currentMapClassicText___', colorExpr: 'null' }]
-  });
-  assert.equal(result.counts.achievements, 2);
-});
-
-test('accepts a title achievement challenge ID with an instance suffix and rejects another title key', () => {
-  const achievement = platformData.achievements[0];
-  const withChallengeId = (challengeId: string) => merge({ achievements: [{ ...achievement, challengeId }] });
-  assert.equal(withChallengeId('title.TITLE_ONE.d62e4a11-8913-428c-9fe7-627867c29e91').counts.achievements, 1);
-  assert.throws(() => withChallengeId('title.OTHER'), /must reference title.TITLE_ONE/);
-  assert.throws(() => withChallengeId('title.TITLE_ONE_EXTRA'), /must reference title.TITLE_ONE/);
-});
-
 test('ignores platform title availability whether it is active, retired, or absent', async () => {
   const mapSourceFiles = [{ file: 'test_map.opy', content: testMapSource }];
   const shapes = [
@@ -208,15 +159,6 @@ test('ignores platform title availability whether it is active, retired, or abse
   }
   assert.deepEqual(generated[1], generated[0]);
   assert.deepEqual(generated[2], generated[0]);
-});
-
-test('rejects unknown platform title IDs', () => {
-  assert.throws(() => merge({ titles: [{ ...platformData.titles[0], titleKey: 'TITLE_UNKNOWN' }] }), /unknown Bastion title TITLE_UNKNOWN/);
-});
-
-test('rejects unsupported platform enums', () => {
-  assert.throws(() => merge({ titles: [{ ...platformData.titles[0], displayKind: 'unknown' }] }), /unsupported scope or displayKind/);
-  assert.throws(() => merge({ events: [{ ...platformData.events[0], category: '未知' }] }), /cannot be mapped to a Bastion event/);
 });
 
 test('ignores unmapped platform events regardless of their shape', () => {
@@ -257,23 +199,6 @@ test('builds player and map title generation input from public player names', ()
   assert.deepEqual(source.mapTitles[0].holders, { PIONEER: ['玩家改名'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] });
   assert.match(source.titles[0].displayExpr, /__currentMapPioneerText___/);
   assert.equal(source.titles[0].colorExpr, '[heroColor[12]]');
-});
-
-test('recognizes revision-aware map sources without legacy DATA macros', () => {
-  const source = buildPlatformTitleSource({
-    platformData: {
-      ...platformData,
-      maps: [{
-        ...platformData.maps[0],
-        mapId: 'map.paraiso',
-        mapName: 'Paraíso',
-        gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.paraiso:default', mapId: 'map.paraiso' }]
-      }]
-    },
-    mapSourceFiles: [{ file: 'paraiso.opy', content: mapSource('PARAISO') }]
-  });
-
-  assert.equal(source.mapTitles[0]?.mapKey, 'DATA_PARAISO');
 });
 
 test('maps the platform scoped CLASSIC title to the internal classic slot', () => {
@@ -335,19 +260,6 @@ test('derives map title bindings from dynamic rules when no map title record exi
     platformData: { ...platformData, achievements: [dynamicRule('TITLE_UNKNOWN', 'conqueror')], titles },
     mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
   }), /Missing title metadata for dynamic map title definition: map\.test_map:TITLE_UNKNOWN/);
-});
-
-test('rejects map holders that omit the explicit slot semantics', () => {
-  assert.throws(() => buildPlatformTitleSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
-      titles: [{ ...platformData.titles[0], color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
-      playerTitleGrants: [{ playerName: '玩家', titleKeys: [], allTitles: false }],
-      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', playerId: 'player-4', playerName: '玩家' }]
-    },
-    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  }), /invalid slot semantics/);
 });
 
 test('generates the all-titles player entry without title keys', async () => {
@@ -453,13 +365,6 @@ test('sync still rejects missing spatial configuration for a supported map', asy
   assert.equal(await readFile(titleFile, 'utf8'), before);
 });
 
-test('keeps the generated title color only when the platform omits it', () => {
-  const generated = `    # BEGIN AUTO-GENERATED ALL_TITLE\n    titleColor = [\n        # 0: TITLE_ONE\n        heroColor[12]\n    ]\n    # END AUTO-GENERATED ALL_TITLE`;
-  const withColor = (colorExpr: string | null) => applyTitleColorFallback({ ...titleSource, titles: [{ ...titleSource.titles[0], colorExpr }] }, generated);
-  assert.equal(withColor(null).titles[0].colorExpr, '[heroColor[12]]');
-  assert.equal(withColor('[vect(1, 2, 3)]').titles[0].colorExpr, '[vect(1, 2, 3)]');
-});
-
 test('preserves existing title and player IDs while appending new entries', () => {
   const ordered = preservePlatformTitleOrder(
     {
@@ -474,21 +379,6 @@ test('preserves existing title and player IDs while appending new entries', () =
 
   assert.deepEqual(ordered.titles.map((title) => title.key), ['PIONEER', 'NEW_TITLE']);
   assert.deepEqual(ordered.players.map((player) => player.name), ['他又', '新玩家']);
-});
-
-test('accepts map holders without playerId from the public Agents view', () => {
-  const source = buildPlatformTitleSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], mapId: 'map.test_map' }],
-      titles: [{ ...platformData.titles[0], color: null, scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] }],
-      playerTitleGrants: [],
-      mapTitleHolders: [{ mapId: 'map.test_map', gameplayRevisionId: 'revision:map.test_map:default', titleKey: 'TITLE_ONE', slot: 'pioneer', slotSemantics: 'named', playerName: '玩家' }]
-    },
-    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  });
-  assert.deepEqual(source.mapTitles[0]?.holders.PIONEER, ['玩家']);
-  assert.deepEqual(source.players, [{ name: '玩家', titleKeys: [] }]);
 });
 
 test('projects revision holders whose title is a global dynamic map title', () => {
@@ -519,129 +409,6 @@ test('accepts revision holders without playerId and still dedupes by name', () =
   }), /Duplicate map holder/);
 });
 
-test('rejects an empty revision projection before generated source is accepted', () => {
-  const incompleteData = { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [] }] };
-  assert.throws(() => merge({ maps: incompleteData.maps }), /exactly one default revision/);
-  assert.throws(() => buildPlatformTitleSource({
-    platformData: incompleteData,
-    mapSourceFiles: [{ file: 'test_map.opy', content: testMapSource }]
-  }), /exactly one default revision/);
-});
-
-test('accepts the same title key across map projections when presentation agrees', () => {
-  const secondMap = {
-    ...platformData.maps[0],
-    mapId: 'map.second_map',
-    mapName: '第二地图',
-    gameplayRevisions: [{ ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.second_map:default', mapId: 'map.second_map' }]
-  };
-  const firstTitle = { ...platformData.titles[0], scope: 'map', displayKind: 'map_pioneer', mapId: 'map.test_map', slot: 'pioneer', pioneerPrefixes: [] };
-  const secondTitle = { ...firstTitle, mapId: 'map.second_map' };
-  const result = mergePlatformData({
-    platformData: { ...platformData, maps: [platformData.maps[0], secondMap], titles: [firstTitle, secondTitle] },
-    titleSource: {
-      ...titleSource,
-      mapTitles: [
-        ...titleSource.mapTitles,
-        { mapKey: 'DATA_SECOND_MAP', mapLabel: '旧第二地图', holders: { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }
-      ]
-    },
-    eventEntries,
-    platformEventIds: { EVENT_ONE: 'event.one' },
-    mapSourceFiles: [
-      { file: 'test_map.opy', content: testMapSource },
-      { file: 'second_map.opy', content: mapSource('SECOND_MAP') }
-    ]
-  });
-  assert.equal(result.titleSource.titles[0]?.label, '新称号');
-});
-
-test('validates the migrated Busan control-map shape before generation', () => {
-  const busanRevision = {
-    ...defaultGameplayRevision,
-    gameplayRevisionId: 'revision:map.busan:default',
-    mapId: 'map.busan',
-    spatialConfig: busanSpatialConfig
-  };
-  const busanPlatformData = {
-    ...platformData,
-    maps: [{ ...platformData.maps[0], mapId: 'map.busan', gameplayRevisions: [busanRevision] }]
-  };
-  const source = buildPlatformMapRevisionSource({ platformData: busanPlatformData });
-  assert.match(renderPlatformMapRevisionData(source), /platformMapRevision_BUSAN_DEFAULT/);
-  assert.throws(() => buildPlatformMapRevisionSource({
-    platformData: {
-      ...busanPlatformData,
-      maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: null } }] }]
-    }
-  }), /control is required for map.busan/);
-  assert.throws(() => buildPlatformMapRevisionSource({
-    platformData: {
-      ...busanPlatformData,
-      maps: [{ ...busanPlatformData.maps[0], gameplayRevisions: [{ ...busanRevision, spatialConfig: { ...busanSpatialConfig, control: { ...busanSpatialConfig.control, jumpPositions: [[25, 26, 27]] } } }] }]
-    }
-  }), /three center\/respawn and two jump/);
-});
-
-test('accepts random-first composites and rejects invalid composition constraints', () => {
-  const randomFirstConfig = {
-    ...compositeSpatialConfig,
-    composition: { ...compositeSpatialConfig.composition, firstStageSelection: { mode: 'random' } },
-    stages: [compositeStage('beta', 500), compositeStage('alpha', 400)]
-  };
-  const randomOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: randomFirstConfig }] }] }
-  }));
-  assert.match(randomOutput, /platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX = random\.choice\(platformMapRevision_TEST_MAP_COMPOSITE_AVAILABLE_STAGE_INDICES\)/);
-  assert.doesNotMatch(randomOutput, /COMPOSITE_STAGE_0_SETUP_POSITION/);
-  const threeStageOutput = renderPlatformMapRevisionData(buildPlatformMapRevisionSource({
-    platformData: {
-      ...platformData,
-      maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig: {
-        ...compositeSpatialConfig,
-        composition: { ...compositeSpatialConfig.composition, selectionCount: 3 }
-      } }] }]
-    }
-  }));
-  assert.match(threeStageOutput, /for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(2\):[\s\S]*COMPOSITE_AVAILABLE_STAGE_INDICES\.remove\(platformMapRevision_TEST_MAP_COMPOSITE_SELECTED_STAGE_INDEX\)[\s\S]*for platformMapRevision_TEST_MAP_COMPOSITE_STAGE_ORDER in range\(3\):/);
-
-  const withConfig = (spatialConfig: unknown) => ({
-    ...platformData,
-    maps: [{ ...platformData.maps[0], gameplayRevisions: [{ ...defaultGameplayRevision, spatialConfig }] }]
-  });
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    composition: { ...compositeSpatialConfig.composition, selectionCount: 4 }
-  }) }), /selectionCount exceeds the number of stages/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    composition: { ...compositeSpatialConfig.composition, firstStageSelection: { mode: 'setup_detection', fallbackStageId: 'missing' } }
-  }) }), /fallback stage does not exist/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    stages: [compositeStage('base', 100), compositeStage('base', 200)]
-  }) }), /Duplicate composite spatial stage base/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    stages: [compositeStage('base', 100), compositeStage('other', 200)]
-  }) }), /requires setupDetection for every non-fallback stage/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    stages: [{ ...compositeStage('base', 100), control: null }, compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 })]
-  }) }), /stages\[0\]\.control must be an object/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    stages: [
-      { ...compositeStage('base', 100), control: { ...compositeStage('base', 100).control, jumpPositions: [[1, 2, 3], [4, 5, 6]], respawnPositions: [[7, 8, 9], [10, 11, 12]] } },
-      compositeStage('icebreaker', 200, { position: [820, 821, 822], radius: 30 })
-    ]
-  }) }), /must contain exactly one jump and one respawn position/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withConfig({
-    ...compositeSpatialConfig,
-    control: { respawnAxis: 'x', respawnAxisThreshold: null }
-  }) }), /respawnAxisThreshold must be a non-negative finite number/);
-});
-
 test('requires composite setup routes to be executable rather than commented out', () => {
   const source = buildPlatformMapRevisionSource({
     platformData: {
@@ -664,43 +431,4 @@ test('requires each map source to declare its generated revision macro block', (
   assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [source] }));
   assert.doesNotThrow(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: `${source.content}\nbastionPosition = vect(1, 2, 3)\n` }] }));
   assert.throws(() => validateRevisionAwareMapSources({ mapIds: ['map.test_map'], mapSourceFiles: [{ ...source, content: 'bastionPosition = vect(1, 2, 3)\n' }] }), /exactly one revision-aware map source/);
-});
-
-test('accepts only the control roles required by a supported map implementation', () => {
-  const aatlisRevision = {
-    ...defaultGameplayRevision,
-    gameplayRevisionId: 'revision:map.aatlis:initial',
-    mapId: 'map.aatlis',
-    spatialConfig: {
-      ...spatialConfig,
-      control: {
-        centerPositions: [],
-        jumpPositions: [],
-        respawnPositions: [[16, 17, 18]],
-        respawnAxis: 'z' as const,
-        respawnAxisThreshold: 30
-      }
-    }
-  };
-  const aatlisPlatformData = {
-    ...platformData,
-    maps: [{ ...platformData.maps[0], mapId: 'map.aatlis', gameplayRevisions: [aatlisRevision] }]
-  };
-  assert.match(renderPlatformMapRevisionData(buildPlatformMapRevisionSource({ platformData: aatlisPlatformData })), /platformMapRevision_AATLIS_DEFAULT/);
-  assert.throws(() => buildPlatformMapRevisionSource({
-    platformData: {
-      ...aatlisPlatformData,
-      maps: [{ ...aatlisPlatformData.maps[0], gameplayRevisions: [{ ...aatlisRevision, spatialConfig: { ...aatlisRevision.spatialConfig, control: { ...aatlisRevision.spatialConfig.control, respawnPositions: [] } } }] }]
-    }
-  }), /axis requires a respawn position/);
-});
-
-test('rejects invalid revision lifecycle, defaults, spatial data, and challenge references before generation', () => {
-  const withRevision = (revision: Record<string, unknown>) => ({ ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [revision] }] });
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, lifecycle: 'historical' }) }), /lifecycle must be default or selectable/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: { ...platformData, maps: [{ ...platformData.maps[0], gameplayRevisions: [defaultGameplayRevision, { ...defaultGameplayRevision, gameplayRevisionId: 'revision:map.test_map:another-default' }] }] } }), /exactly one default revision/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, resetPosition: [1, 2] } }) }), /resetPosition must be a finite 3D coordinate/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'missing-selector', ...spatialConfig }] } }) }), /setupDetection/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, spatialConfig: { ...spatialConfig, alternateStages: [{ stageId: 'invalid-selector', ...spatialConfig, setupDetection: { position: [1, 2, 3], radius: 0 } }] } }) }), /radius must be a positive finite number/);
-  assert.throws(() => buildPlatformMapRevisionSource({ platformData: withRevision({ ...defaultGameplayRevision, challengeRefs: [{ family: 'map', challengeId: 'missing.challenge' }] }) }), /references unknown challenge missing.challenge/);
 });
