@@ -291,9 +291,9 @@ enum HeartSteelData:
 
 # --- ID 24: F5 (循环刷新) ---
 # Duration（秒）
-#!define EVT_BUFF_24_DURATION 60
+#!define EVT_BUFF_24_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_24_WEIGHT 0.4
+#!define EVT_BUFF_24_WEIGHT 1
 #!define EVT_24_REFRESH_INTERVAL 5
 
 # --- ID 25: 治疗光塔 ProMax (全图奶) ---
@@ -822,7 +822,7 @@ enum GravityAnomalyRoll:
 # Duration（秒）
 #!define EVT_MECH_12_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_12_WEIGHT 0.6
+#!define EVT_MECH_12_WEIGHT 0.8
 
 # 胜率阈值：random.randint(0, 99) < 阈值 则胜
 #!define EVT_MECH_12_WIN_CHANCE 90
@@ -887,7 +887,7 @@ enum GravityAnomalyRoll:
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.6
+#!define EVT_MECH_15_WEIGHT 0.8
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 0.5
 # 永久移速变更值（%）
@@ -900,14 +900,14 @@ enum GravityAnomalyRoll:
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.6
+#!define EVT_MECH_16_WEIGHT 0.8
 #!define EVT_MECH_16_WIN_RATE 50
 #!define EVT_MECH_16_WIN_MULTIPLIER 2
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
-#!define EVT_MECH_17_WEIGHT 0.6
+#!define EVT_MECH_17_WEIGHT 0.8
 #!define EVT_MECH_17_WIN_RATE 10
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
@@ -943,7 +943,7 @@ enum GravityAnomalyRoll:
 
 # --- ID 23 (Mech/Special): 镜像反转 ---
 #!define EVT_MECH_23_DURATION 15
-#!define EVT_MECH_23_WEIGHT 0.6
+#!define EVT_MECH_23_WEIGHT 1
 enum MirrorInversionStat:
     DAMAGE = 0
     SPEED
@@ -952,7 +952,7 @@ enum MirrorInversionStat:
 
 # --- ID 24 (Mech/Special): 赌徒：赢家通吃 ---
 #!define EVT_MECH_24_DURATION 15
-#!define EVT_MECH_24_WEIGHT 0.6
+#!define EVT_MECH_24_WEIGHT 0.8
 #!define EVT_MECH_24_STAKE_RATIO 0.25
 #!define EVT_MECH_24_WIN_RATE 10
 #!define EVT_MECH_24_POOL_MIN 8
