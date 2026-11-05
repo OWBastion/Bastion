@@ -12,7 +12,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL]) == true
     
     # 多合一地图目标固定为最小值，不随堡垒数量增加
-    eventPlayer.eventMissionGoal = EVT_21_GOAL_MIN if (controlJumpPosition != null and portalPosition == null) else max(
+    eventPlayer.eventMissionGoal = EVT_21_GOAL_MIN if controlJumpPosition != null else max(
         EVT_21_GOAL_MIN,
         min(
             round(
