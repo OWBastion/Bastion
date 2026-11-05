@@ -156,7 +156,7 @@
 #!define STR_EVT_BUFF_20_DESC "位移技能为最近友方提供护甲"
 #!define STR_EVT_BUFF_21_TITLE "任务：殉道者"
 # {0}=堡垒数量
-#!define STR_EVT_BUFF_21_DESC "被 {1} 个不同的堡垒击杀，奖励：{0}% 永久伤害减免"
+#!define STR_EVT_BUFF_21_DESC "被不同的堡垒击杀，奖励：{0}% 永久伤害减免"
 #!define STR_EVT_BUFF_24_TITLE "F5"
 #!define STR_EVT_BUFF_24_DESC "每{0}秒重置所有技能冷却"
 #!define STR_EVT_BUFF_25_TITLE "治疗光塔 ProMax"

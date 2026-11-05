@@ -11,7 +11,18 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL]) == true
     
-    eventPlayer.eventMissionGoal = EVT_21_GOAL
+    # 多合一地图目标固定为最小值，不随堡垒数量增加
+    eventPlayer.eventMissionGoal = EVT_21_GOAL_MIN if (controlJumpPosition != null and portalPosition == null) else max(
+        EVT_21_GOAL_MIN,
+        min(
+            round(
+                EVT_21_GOAL_MIN
+                + ((random.uniform(0, 1) + random.uniform(0, 1)) / 2)
+                * (MARTYR_GOAL_MAX - EVT_21_GOAL_MIN)
+            ),
+            MARTYR_GOAL_MAX
+        )
+    )
 
     eventPlayer.hudText = "{0}/{1}".format(
         len(eventPlayer.eventMission),

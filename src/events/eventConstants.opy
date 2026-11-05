@@ -264,14 +264,19 @@ enum HeartSteelData:
 #!define EVT_BUFF_21_DURATION 120
 # Weight（权重）
 #!define EVT_BUFF_21_WEIGHT 0.8
-# 任务目标：被不同堡垒击杀的数量
-#!define EVT_21_GOAL 6
+# 任务目标最小值
+#!define EVT_21_GOAL_MIN 6
+
+# 任务目标最大值 = max(EVT_21_GOAL_MIN, round(len(bastionPosition) * factor))
+#!define EVT_21_GOAL_MAX_FACTOR 0.75
 
 # 完成奖励：永久减伤数值（与 mod_dmg_perma 的单位保持一致）
 #!define EVT_21_REWARD_DMG_PERMA -5
 
 # waitUntil 超时时间（秒）
 #!define EVT_21_WAITUNTIL_TIMEOUT 3
+
+#!define MARTYR_GOAL_MAX max(EVT_21_GOAL_MIN, round(len(bastionPosition) * EVT_21_GOAL_MAX_FACTOR))
 
 # --- ID 23: 鼓舞士气 ProMax ---
 # Duration（秒）
