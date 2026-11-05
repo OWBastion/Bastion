@@ -47,7 +47,6 @@ def setPlayerEvent():
     if eventPlayer.eventNextIndex != -1:
         eventPlayer.eventCandidateIndex = eventPlayer.eventNextIndex
         eventPlayer.eventNextIndex = -1
-        eventPlayer.eventNextLocked = false
         eventPlayer.eventIsSelected = true
         # Unique 兜底：承诺先知在先，他人在此期间先一步成为先知。
         # 唯一性优先于承诺——作废承诺，改走正常契约/候选池路径（Unique 门控已剔除先知）。

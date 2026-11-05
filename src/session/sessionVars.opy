@@ -145,8 +145,6 @@ playervar eventModificationId
 playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex
-# 承诺槽由循环往复锁定：窃贼不可窃取，随消费/重置清除
-playervar eventNextLocked
 playervar eventAssigning
 playervar eventEndTime
 playervar prophetTextId

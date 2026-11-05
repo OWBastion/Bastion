@@ -20,7 +20,6 @@ def resetPlayerEventState():
     eventPlayer.hasNano = false
     eventPlayer.eventLastId = []
     eventPlayer.eventNextIndex = -1
-    eventPlayer.eventNextLocked = false
     eventPlayer.eventAssigning = false
     eventPlayer.eventCount = [0, 0, 0]
     eventPlayer.eventDurationHud = 0

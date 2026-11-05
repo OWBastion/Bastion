@@ -6,6 +6,9 @@
 # Event: EventId.THIEF
 # 下线规范：若下线此事件，请在本文件内将相关 rule 标记为 @Disabled（并写明日期/原因），然后同步移除 eventCatalog 注册、EVENT_CATALOG_ORDER 顺序项与聚合 include。
 
+# 排除承诺槽已被循环往复锁定的玩家（见 cycleReplay.opy 头部）
+#!define THIEF_STEALABLE_TARGETS getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.eventNextIndex not in p.eventLastId)
+
 rule "[VishkarEvent]: 窃贼":
     @Event eachPlayer
     @Team 1
@@ -13,11 +16,11 @@ rule "[VishkarEvent]: 窃贼":
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     wait(0.25)
-    if len(getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.eventNextLocked != true)) == 0:
+    if len(THIEF_STEALABLE_TARGETS) == 0:
         smallMessage(eventPlayer, "  {0}  没有可窃取的友方目标".format(iconString(Icon.WARNING)))
         requestPlayerEventEnd()
     else:
-        eventPlayer.target = random.choice(getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.eventNextLocked != true))
+        eventPlayer.target = random.choice(THIEF_STEALABLE_TARGETS)
         eventPlayer.eventForceType = EventType.BUFF
         eventPlayer.eventForceCount = 0
         eventPlayer.eventForceSourceId = EventId.THIEF
