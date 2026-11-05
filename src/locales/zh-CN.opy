@@ -483,6 +483,6 @@
 #!define STR_EVT_MECH_27_TITLE "命运狂想曲"
 #!define STR_EVT_MECH_27_DESC "基于已损失生命值百分比获得对应的伤害减免"
 #!define STR_EVT_MECH_26_TITLE "作弊：循环往复"
-#!define STR_EVT_MECH_26_DESC "长按{0}消耗{1}层心之钢（约{2}%最大生命值）\n下一个事件将为最近一次可循环的增益"
+#!define STR_EVT_MECH_26_DESC "长按{0}消耗{1}层心之钢（约{2}%最大生命值）\n下一个事件将为最近一次可循环的事件"
 #!define STR_EVT_MECH_26_TARGET "循环往复：{0}"
-#!define STR_EVT_MECH_26_NO_TARGET "没有可循环的增益"
+#!define STR_EVT_MECH_26_NO_TARGET "没有可循环的事件"

@@ -9,17 +9,17 @@
 # 变量分工（均由 clearPlayerEvent 统一清零，本事件无需额外清理）：
 #   eventMissionGoal — 目标的 EventId（0=未解析哨兵，-1=无合法目标；白名单内无 0 值）
 #   eventMission     — 执行闩锁（0=未执行，1=已执行；一次事件最多执行一次）
-#   hudText          — 展示将循环的增益名
+#   hudText          — 展示将循环的事件名
 #
 # 交付路径：把目标 EventId 写入承诺槽 eventNextIndex 并结束本事件，由下一次 setPlayerEvent
 # 走真实分配路径消费（类别提交、eventLastId 追加、播报与普通抽取一致），即“延后为下一次事件”，
-# 不在本事件内就地启动增益，保持单事件原则。承诺槽只存活到下一次分配，玩家重置/离开重进时清为 -1。
+# 不在本事件内就地启动事件，保持单事件原则。承诺槽只存活到下一次分配，玩家重置/离开重进时清为 -1。
 #
 # 历史语义：eventLastId 是最近 EVT_RECENT_EVENT_DEDUP_COUNT 个事件的窗口，末尾最新；
-# 过滤白名单后取尾，即“窗口内最近一次可循环增益”。窗口内没有白名单增益时事件不入候选池
+# 过滤白名单后取尾，即“窗口内最近一次可循环事件”。窗口内没有白名单事件时事件不入候选池
 # （filterEventHardEligible）。
 #
-# 白名单 EVT_MECH_26_REPLAYABLE_BUFFS 准入标准：规则在重新激活时按 eventId 干净重建——
+# 白名单 EVT_MECH_26_REPLAYABLE_EVENTS 含增益与机制事件（机制：限时效果型 + 自包含赌徒型，owner 2026-11-05 确认）。增益准入标准：规则在重新激活时按 eventId 干净重建——
 # 纯临时数值修饰或周期效果，无持久状态污染。排除项及理由：
 #   OLIVIA_GIFT         Pack0 特殊彩蛋，无增益语义
 #   PHOTON_SHIELD       向全体队友 target 共享暂存字段写入；任一实例收尾清空共享字段，跨实例互坏
@@ -38,8 +38,8 @@ rule "[VishkarEvent]: 作弊：循环往复 (解析目标)":
     # eventMissionGoal==0 兼作初始化标记，防止 clearPlayerEvent 前条件残留导致重复触发。
     # 判空必须落在解析值上：filter().last() 空集返回 null（=0），若改用 len>0 守卫，
     # eventName[null] 会落到索引 0（奥利维娅的礼物），且 eventMissionGoal 残留 null 令本条件恒真反复触发。
-    if eventPlayer.eventLastId != null and eventPlayer.eventLastId.filter(lambda i: i in EVT_MECH_26_REPLAYABLE_BUFFS).last() != null:
-        eventPlayer.eventMissionGoal = eventPlayer.eventLastId.filter(lambda i: i in EVT_MECH_26_REPLAYABLE_BUFFS).last()
+    if eventPlayer.eventLastId != null and eventPlayer.eventLastId.filter(lambda i: i in EVT_MECH_26_REPLAYABLE_EVENTS).last() != null:
+        eventPlayer.eventMissionGoal = eventPlayer.eventLastId.filter(lambda i: i in EVT_MECH_26_REPLAYABLE_EVENTS).last()
         eventPlayer.hudText = STR_EVT_MECH_26_TARGET.format(eventName[eventPlayer.eventMissionGoal])
     else:
         eventPlayer.eventMissionGoal = -1
@@ -63,4 +63,4 @@ rule "[VishkarEvent]: 作弊：循环往复 (触发)":
         smallMessage(eventPlayer, "  {0}  循环往复：下一个事件将为 {1}".format(iconString(Icon.DIAMOND), eventName[eventPlayer.eventMissionGoal]))
         requestPlayerEventEnd()
     else:
-        smallMessage(eventPlayer, "  {0}  没有可循环的增益或心之钢不足 {1} 层".format(iconString(Icon.WARNING), EVT_MECH_26_STEEL_COST))
+        smallMessage(eventPlayer, "  {0}  没有可循环的事件或心之钢不足 {1} 层".format(iconString(Icon.WARNING), EVT_MECH_26_STEEL_COST))

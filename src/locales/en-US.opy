@@ -472,6 +472,6 @@
 #!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
 #!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your missing health percentage, up to {0}%."
 #!define STR_EVT_MECH_26_TITLE "Cheat: Cycle Replay"
-#!define STR_EVT_MECH_26_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable buff."
+#!define STR_EVT_MECH_26_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable event."
 #!define STR_EVT_MECH_26_TARGET "Cycle Replay: {0}"
-#!define STR_EVT_MECH_26_NO_TARGET "No replayable buff"
+#!define STR_EVT_MECH_26_NO_TARGET "No replayable event"

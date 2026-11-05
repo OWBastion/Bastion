@@ -997,8 +997,8 @@ enum MirrorInversionStat:
 #!define EVT_MECH_26_WEIGHT 0.6
 # 心之钢消耗（层）
 #!define EVT_MECH_26_STEEL_COST 6
-# 可循环增益白名单：准入标准与逐项排除理由见 src/events/effects/mech/cycleReplay.opy 头部。
-#!define EVT_MECH_26_REPLAYABLE_BUFFS [ \
+# 可循环事件白名单（增益 + 机制）：准入标准与逐项排除理由见 src/events/effects/mech/cycleReplay.opy 头部。
+#!define EVT_MECH_26_REPLAYABLE_EVENTS [ \
     EventId.GALE_BLESSING, \
     EventId.IRON_BULWARK, \
     EventId.LIFE_SPRING, \
@@ -1017,7 +1017,21 @@ enum MirrorInversionStat:
     EventId.F5_REFRESH, \
     EventId.HEALING_TOWER_PROMAX, \
     EventId.MAGIC_MASTER, \
-    EventId.DIVINE_REINFORCEMENT \
+    EventId.DIVINE_REINFORCEMENT, \
+    EventId.EXTREME_CHALLENGE, \
+    EventId.STEALTH_CROUCH, \
+    EventId.BRAKE_FAILURE, \
+    EventId.JUMP_THRUST, \
+    EventId.VAMPIRE, \
+    EventId.TRINITY_SSR, \
+    EventId.MIRROR_INVERSION, \
+    EventId.GAMBLER, \
+    EventId.GAMBLER_SPEED_CHALLENGE, \
+    EventId.GAMBLER_DICE_MANIAC, \
+    EventId.GAMBLER_HEART_OF_STEEL, \
+    EventId.GAMBLER_ALL_IN_ART_5, \
+    EventId.GAMBLER_WINNER_TAKE_ALL, \
+    EventId.GAMBLER_HELPFUL_SOUL \
 ]
 
 # -----------------------------------------------------------------------------
