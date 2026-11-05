@@ -157,5 +157,7 @@ enum EventId:
     FATE_RHAPSODY
     # legacy numeric id: 28
     SHAPESHIFTER
+    # legacy numeric id: 26
+    CYCLE_REPLAY
     # sentinel only for integrity checks (do not register as an event)
     COUNT

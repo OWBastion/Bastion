@@ -471,3 +471,7 @@
 #!define STR_EVT_DEBUFF_26_DESC "After you take damage, take {1}% of that damage again {0}s later. The extra damage does not trigger again."
 #!define STR_EVT_MECH_27_TITLE "Fate Rhapsody"
 #!define STR_EVT_MECH_27_DESC "Gain damage reduction equal to your missing health percentage, up to {0}%."
+#!define STR_EVT_MECH_26_TITLE "Cheat: Cycle Replay"
+#!define STR_EVT_MECH_26_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable event."
+#!define STR_EVT_MECH_26_TARGET "Cycle Replay: {0}"
+#!define STR_EVT_MECH_26_NO_TARGET "No replayable event"
