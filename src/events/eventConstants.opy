@@ -264,19 +264,14 @@ enum HeartSteelData:
 #!define EVT_BUFF_21_DURATION 120
 # Weight（权重）
 #!define EVT_BUFF_21_WEIGHT 0.8
-# 任务目标最小值
-#!define EVT_21_GOAL_MIN 6
-
-# 任务目标最大值 = max(EVT_21_GOAL_MIN, round(len(bastionPosition) * factor))
-#!define EVT_21_GOAL_MAX_FACTOR 0.75
+# 任务目标：被不同堡垒击杀的数量
+#!define EVT_21_GOAL 6
 
 # 完成奖励：永久减伤数值（与 mod_dmg_perma 的单位保持一致）
 #!define EVT_21_REWARD_DMG_PERMA -5
 
 # waitUntil 超时时间（秒）
 #!define EVT_21_WAITUNTIL_TIMEOUT 3
-
-#!define MARTYR_GOAL_MAX max(EVT_21_GOAL_MIN, round(len(bastionPosition) * EVT_21_GOAL_MAX_FACTOR))
 
 # --- ID 23: 鼓舞士气 ProMax ---
 # Duration（秒）
@@ -513,7 +508,7 @@ enum GravityAnomalyRoll:
 # Weight（权重）
 #!define EVT_DEBUFF_9_WEIGHT 1.4
 # 扩散伤害系数 (承受原始伤害的百分比)
-#!define EVT_DEBUFF_9_DMG_FACTOR 0.75
+#!define EVT_DEBUFF_9_DMG_FACTOR 0.5
 
 # 视觉特效
 #!define EVT_DEBUFF_9_EFFECT Effect.TORBJORN_OVERLOADING
@@ -654,7 +649,7 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_26_WEIGHT 0.8
 # 额外伤害延迟（秒）与占原伤害的百分比
 #!define EVT_DEBUFF_26_DELAY 1.5
-#!define EVT_DEBUFF_26_DAMAGE_PERCENT 50
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 75
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -822,7 +817,7 @@ enum GravityAnomalyRoll:
 # Duration（秒）
 #!define EVT_MECH_12_DURATION 15
 # Weight（权重）
-#!define EVT_MECH_12_WEIGHT 0.6
+#!define EVT_MECH_12_WEIGHT 0.8
 
 # 胜率阈值：random.randint(0, 99) < 阈值 则胜
 #!define EVT_MECH_12_WIN_CHANCE 90
@@ -887,7 +882,7 @@ enum GravityAnomalyRoll:
 # Duration（秒）
 #!define EVT_MECH_15_DURATION 60
 # Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.6
+#!define EVT_MECH_15_WEIGHT 0.8
 # 单次结算后冷却间隔（秒）
 #!define EVT_MECH_15_ROLL_INTERVAL 0.5
 # 永久移速变更值（%）
@@ -900,14 +895,14 @@ enum GravityAnomalyRoll:
 
 # --- ID 16 (Mech/Special): 赌徒：心之钢 ---
 #!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.6
+#!define EVT_MECH_16_WEIGHT 0.8
 #!define EVT_MECH_16_WIN_RATE 50
 #!define EVT_MECH_16_WIN_MULTIPLIER 2
 #!define EVT_MECH_16_LOSE_RATIO 0.5
 
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
-#!define EVT_MECH_17_WEIGHT 0.6
+#!define EVT_MECH_17_WEIGHT 0.8
 #!define EVT_MECH_17_WIN_RATE 10
 #!define EVT_MECH_17_STAKE_RATIO 0.25
 #!define EVT_MECH_17_MAX_BETS 4
@@ -943,7 +938,7 @@ enum GravityAnomalyRoll:
 
 # --- ID 23 (Mech/Special): 镜像反转 ---
 #!define EVT_MECH_23_DURATION 15
-#!define EVT_MECH_23_WEIGHT 0.6
+#!define EVT_MECH_23_WEIGHT 1
 enum MirrorInversionStat:
     DAMAGE = 0
     SPEED
@@ -952,7 +947,7 @@ enum MirrorInversionStat:
 
 # --- ID 24 (Mech/Special): 赌徒：赢家通吃 ---
 #!define EVT_MECH_24_DURATION 15
-#!define EVT_MECH_24_WEIGHT 0.6
+#!define EVT_MECH_24_WEIGHT 0.8
 #!define EVT_MECH_24_STAKE_RATIO 0.25
 #!define EVT_MECH_24_WIN_RATE 10
 #!define EVT_MECH_24_POOL_MIN 8

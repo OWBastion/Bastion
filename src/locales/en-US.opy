@@ -147,7 +147,7 @@
 #!define STR_EVT_BUFF_20_TITLE "Bodyguard"
 #!define STR_EVT_BUFF_20_DESC "Movement abilities grant temp armor to nearby allies."
 #!define STR_EVT_BUFF_21_TITLE "Mission: Martyr"
-#!define STR_EVT_BUFF_21_DESC "Die to {0} different Bastions. Reward: 5% Permanent DR."
+#!define STR_EVT_BUFF_21_DESC "Die to {1} different Bastions. Reward: {0}% Permanent DR."
 #!define STR_EVT_BUFF_24_TITLE "F5"
 #!define STR_EVT_BUFF_24_DESC "Reset all ability cooldowns every {0}s."
 #!define STR_EVT_BUFF_25_TITLE "Healing Pylon ProMax"

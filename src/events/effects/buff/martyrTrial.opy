@@ -11,17 +11,7 @@ rule "[VishkarEvent]: 任务：殉道者 (初始化)":
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.MARTYR_TRIAL]) == true
     
-    eventPlayer.eventMissionGoal = max(
-        EVT_21_GOAL_MIN,
-        min(
-            round(
-                EVT_21_GOAL_MIN
-                + ((random.uniform(0, 1) + random.uniform(0, 1)) / 2)
-                * (MARTYR_GOAL_MAX - EVT_21_GOAL_MIN)
-            ),
-            MARTYR_GOAL_MAX
-        )
-    )
+    eventPlayer.eventMissionGoal = EVT_21_GOAL
 
     eventPlayer.hudText = "{0}/{1}".format(
         len(eventPlayer.eventMission),

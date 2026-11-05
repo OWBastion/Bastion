@@ -285,7 +285,7 @@ rule "initialize event array":
     eventCatalogType[EventId.BODYGUARD] = EventType.BUFF
 
     eventName[EventId.MARTYR_TRIAL] = STR_EVT_BUFF_21_TITLE
-    eventDesc[EventId.MARTYR_TRIAL] = STR_EVT_BUFF_21_DESC.format(negToPos(EVT_21_REWARD_DMG_PERMA))
+    eventDesc[EventId.MARTYR_TRIAL] = STR_EVT_BUFF_21_DESC.format(negToPos(EVT_21_REWARD_DMG_PERMA), EVT_21_GOAL)
     eventDuration[EventId.MARTYR_TRIAL] = EVT_BUFF_21_DURATION
     eventCatalogWeight[EventId.MARTYR_TRIAL] = EVT_BUFF_21_WEIGHT
     eventCatalogType[EventId.MARTYR_TRIAL] = EventType.BUFF
