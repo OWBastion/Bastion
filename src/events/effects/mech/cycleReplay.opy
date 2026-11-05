@@ -11,6 +11,7 @@
 #   eventMission     — 执行闩锁（0=未执行，1=已执行；一次事件最多执行一次）
 #   hudText          — 展示将循环的事件名
 #
+# 承诺锁：eventNextLocked 标记该承诺由本事件锁定；窃贼的目标选择排除锁定玩家，先知仅在 eventNextIndex==-1 时观测坍缩，故二者都不改写循环结果。
 # 交付路径：把目标 EventId 写入承诺槽 eventNextIndex 并结束本事件，由下一次 setPlayerEvent
 # 走真实分配路径消费（类别提交、eventLastId 追加、播报与普通抽取一致），即“延后为下一次事件”，
 # 不在本事件内就地启动事件，保持单事件原则。承诺槽只存活到下一次分配，玩家重置/离开重进时清为 -1。
@@ -57,6 +58,8 @@ rule "[VishkarEvent]: 作弊：循环往复 (触发)":
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.TEAM_1, eventPlayer, 100)
         # 承诺槽改写：已承诺的 eventNextIndex 被循环目标替换，先知预览随承诺同步更新
         eventPlayer.eventNextIndex = eventPlayer.eventMissionGoal
+        # 锁定承诺：窃贼不得窃取；先知只在无承诺时观测坍缩，不会改写已锁定的承诺
+        eventPlayer.eventNextLocked = true
         smallMessage(eventPlayer, "  {0}  已扣除 {1} 层心之钢（{2}% 最大生命值）".format(abilityIconString(Hero.MAUGA, Button.ABILITY_2), EVT_MECH_26_STEEL_COST, EVT_MECH_26_STEEL_COST * eventPlayer.heart_steel[HeartSteelData.PERCENT_PER_STACK]))
         wait(0.2)
         smallMessage(eventPlayer, "  {0}  循环往复：下一个事件将为 {1}".format(iconString(Icon.DIAMOND), eventName[eventPlayer.eventMissionGoal]))
