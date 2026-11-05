@@ -291,7 +291,7 @@ rule "initialize event array":
     eventCatalogType[EventId.MARTYR_TRIAL] = EventType.BUFF
 
     eventName[EventId.F5_REFRESH] = STR_EVT_BUFF_24_TITLE
-    eventDesc[EventId.F5_REFRESH] = STR_EVT_BUFF_24_DESC.format(EVT_24_REFRESH_INTERVAL)
+    eventDesc[EventId.F5_REFRESH] = STR_EVT_BUFF_24_DESC
     eventDuration[EventId.F5_REFRESH] = EVT_BUFF_24_DURATION
     eventCatalogWeight[EventId.F5_REFRESH] = EVT_BUFF_24_WEIGHT
     eventCatalogType[EventId.F5_REFRESH] = EventType.BUFF

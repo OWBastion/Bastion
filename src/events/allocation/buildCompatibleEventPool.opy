@@ -7,9 +7,13 @@ subroutine refreshCompatibleEventPool
 #!define EVENT_GROUP_PHASE_TRIGGER [EventId.PHASE_SURGE, EventId.BODYGUARD]
 #!define EVENT_GROUP_ULT_SUSTAIN [EventId.ULT_MOMENTUM, EventId.VALKYRIE_DESCENT]
 #!define EVENT_GROUP_HERO_SKIP [EventId.CHEAT_SKIP_HERO]
+#!define EVENT_GROUP_ABILITY_COOLDOWN [EventId.F5_REFRESH]
 
 # 大招没有可持续状态的英雄；暂定名单，补全英雄大招数据前人工维护。
 #!define ULT_NO_SUSTAIN_HEROES [Hero.HANZO, Hero.LIFEWEAVER, Hero.JUNKRAT, Hero.BASTION, Hero.CASSIDY, Hero.PHARAH, Hero.REAPER, Hero.TRACER, Hero.FREJA, Hero.ORISA]
+
+# 这些英雄的 1/2 技能被大厅禁用，冷却类事件对其无效。
+#!define ABILITY_DISABLED_HEROES [Hero.TORBJORN, Hero.SYMMETRA, Hero.LIFEWEAVER]
 
 macro Player.supportsPhaseTrigger():
     any([
@@ -27,6 +31,8 @@ macro Player.incompatibleEventIds():
         EVENT_GROUP_ULT_SUSTAIN if self.getHero() in ULT_NO_SUSTAIN_HEROES else []
     ).concat(
         EVENT_GROUP_HERO_SKIP if self.getHero() == Hero.BASTION else []
+    ).concat(
+        EVENT_GROUP_ABILITY_COOLDOWN if self.getHero() in ABILITY_DISABLED_HEROES else []
     )
 
 def refreshCompatibleEventPool():

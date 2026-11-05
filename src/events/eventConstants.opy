@@ -294,7 +294,6 @@ enum HeartSteelData:
 #!define EVT_BUFF_24_DURATION 45
 # Weight（权重）
 #!define EVT_BUFF_24_WEIGHT 1
-#!define EVT_24_REFRESH_INTERVAL 5
 
 # --- ID 25: 治疗光塔 ProMax (全图奶) ---
 # Duration（秒）

@@ -158,7 +158,7 @@
 # {0}=堡垒数量
 #!define STR_EVT_BUFF_21_DESC "被不同的堡垒击杀，奖励：{0}% 永久伤害减免"
 #!define STR_EVT_BUFF_24_TITLE "F5"
-#!define STR_EVT_BUFF_24_DESC "每{0}秒重置所有技能冷却"
+#!define STR_EVT_BUFF_24_DESC "随机一个技能的冷却时间为0"
 #!define STR_EVT_BUFF_25_TITLE "治疗光塔 ProMax"
 #!define STR_EVT_BUFF_25_DESC "无视距离，每秒为全队提供{0}+{1}%最大生命值的治疗"
 #!define STR_EVT_BUFF_29_TITLE "魔术大师"
