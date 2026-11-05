@@ -28,7 +28,6 @@
 #   TEMPER_HEART        playerOnceEventState 一次性闩锁 + 永久心之钢倍率
 #   BATTLEFIELD_MEDIC   任务型事件（治疗量统计），奖励永久治疗强度
 #   SHARED_BLESSING     绑定队友 + 任务状态 + 双向心之钢奖励
-#   FATE_PRELUDE / FATE_VARIATION / FATE_CONCERTO  晚于白名单评审加入，未经审核，暂不放行
 
 rule "[VishkarEvent]: 作弊：循环往复 (解析目标)":
     @Event eachPlayer

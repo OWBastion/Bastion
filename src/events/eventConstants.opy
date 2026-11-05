@@ -1018,6 +1018,9 @@ enum MirrorInversionStat:
     EventId.HEALING_TOWER_PROMAX, \
     EventId.MAGIC_MASTER, \
     EventId.DIVINE_REINFORCEMENT, \
+    EventId.FATE_PRELUDE, \
+    EventId.FATE_VARIATION, \
+    EventId.FATE_CONCERTO, \
     EventId.EXTREME_CHALLENGE, \
     EventId.STEALTH_CROUCH, \
     EventId.BRAKE_FAILURE, \
