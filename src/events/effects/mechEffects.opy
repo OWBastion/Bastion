@@ -31,3 +31,4 @@
 #!include "mech/prophet.opy"
 #!include "mech/shapeshifter.opy"
 #!include "mech/fateRhapsody.opy"
+#!include "mech/cycleReplay.opy"

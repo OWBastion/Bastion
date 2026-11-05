@@ -28,3 +28,6 @@ def filterEventHardEligible():
         eventPlayer.eventTempIndex.remove(EventId.GAMBLER_WINNER_TAKE_ALL)
     if eventPlayer.mod_dmg_perma <= 0 and eventPlayer.mod_speed_perma >= 0 and eventPlayer.mod_heal_perma >= 0 and eventPlayer.heart_steel[HeartSteelData.STACKS] >= 0:
         eventPlayer.eventTempIndex.remove(EventId.MIRROR_INVERSION)
+    # 循环往复：窗口内无可循环增益，或心之钢不足以支付时不入候选，避免无效扣费
+    if eventPlayer.heart_steel[HeartSteelData.STACKS] < EVT_MECH_26_STEEL_COST or eventPlayer.eventLastId == null or len(eventPlayer.eventLastId.filter(lambda i: i in EVT_MECH_26_REPLAYABLE_BUFFS)) == 0:
+        eventPlayer.eventTempIndex.remove(EventId.CYCLE_REPLAY)

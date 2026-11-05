@@ -73,5 +73,6 @@
   "FATE_CONCERTO": "event.8b9beb9d-3edb-4db6-a2bf-f2f18ed3146e",
   "FATE_FUGUE": "event.991e6fec-eba7-46b8-be6a-45984f9c1541",
   "FATE_RHAPSODY": "event.9c2317c3-826a-4308-83e4-fbeb83e5e72d",
-  "SHAPESHIFTER": "event.e910c533-a72c-44be-b725-e5af00301748"
+  "SHAPESHIFTER": "event.e910c533-a72c-44be-b725-e5af00301748",
+  "CYCLE_REPLAY": "event.86c7d2f5-e90f-4873-9161-0370b9a58ba6"
 }

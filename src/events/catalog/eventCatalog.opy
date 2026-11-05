@@ -522,3 +522,9 @@ rule "initialize event array":
     eventDuration[EventId.FATE_RHAPSODY] = EVT_MECH_27_DURATION
     eventCatalogWeight[EventId.FATE_RHAPSODY] = EVT_MECH_27_WEIGHT
     eventCatalogType[EventId.FATE_RHAPSODY] = EventType.MECH
+
+    eventName[EventId.CYCLE_REPLAY] = STR_EVT_MECH_26_TITLE
+    eventDesc[EventId.CYCLE_REPLAY] = STR_EVT_MECH_26_DESC.format(Button.RELOAD, EVT_MECH_26_STEEL_COST, EVT_MECH_26_STEEL_COST * EVT_8_HP_PERCENT_PER_STACK)
+    eventDuration[EventId.CYCLE_REPLAY] = EVT_MECH_26_DURATION
+    eventCatalogWeight[EventId.CYCLE_REPLAY] = EVT_MECH_26_WEIGHT
+    eventCatalogType[EventId.CYCLE_REPLAY] = EventType.MECH

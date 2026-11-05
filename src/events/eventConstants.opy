@@ -990,4 +990,34 @@ enum MirrorInversionStat:
 #!define EVT_MECH_28_GIANT_VOICE_PITCH 0.5
 #!define EVT_MECH_28_MINI_VOICE_PITCH 1.9
 
+# --- ID 26 (Mech/Cheat): 作弊：循环往复 ---
+# Duration（秒）
+#!define EVT_MECH_26_DURATION 15
+# Weight（权重）
+#!define EVT_MECH_26_WEIGHT 0.6
+# 心之钢消耗（层）
+#!define EVT_MECH_26_STEEL_COST 6
+# 可循环增益白名单：准入标准与逐项排除理由见 src/events/effects/mech/cycleReplay.opy 头部。
+#!define EVT_MECH_26_REPLAYABLE_BUFFS [ \
+    EventId.GALE_BLESSING, \
+    EventId.IRON_BULWARK, \
+    EventId.LIFE_SPRING, \
+    EventId.BLACK_FANS_ASSAULT, \
+    EventId.SPEED_STACK, \
+    EventId.FLESH_REGEN, \
+    EventId.HEART_OF_STEEL, \
+    EventId.DEATH_DELAY, \
+    EventId.KONAMI_CODE, \
+    EventId.REGROUP_CALL, \
+    EventId.WILL_TO_WIN, \
+    EventId.HEART_OF_STEEL_PRO, \
+    EventId.ULT_MOMENTUM, \
+    EventId.PHASE_SURGE, \
+    EventId.BODYGUARD, \
+    EventId.F5_REFRESH, \
+    EventId.HEALING_TOWER_PROMAX, \
+    EventId.MAGIC_MASTER, \
+    EventId.DIVINE_REINFORCEMENT \
+]
+
 # -----------------------------------------------------------------------------
