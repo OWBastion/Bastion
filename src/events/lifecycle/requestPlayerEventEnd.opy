@@ -9,3 +9,4 @@ def requestPlayerEventEnd():
 
     if eventPlayer.eventId != -1:
         eventPlayer.eventEndTime = getTotalTimeElapsed()
+        eventPlayer.eventDurationHud = 0

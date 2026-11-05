@@ -46,7 +46,7 @@ rule "initialize effects":
         STR_HUD_EVENT_TITLE.format(
             abilityIconString(Hero.SOMBRA, Button.ULTIMATE) if localPlayer.eventType == EventType.DEBUFF else abilityIconString(Hero.ZENYATTA, Button.ABILITY_1),
             eventName[localPlayer.eventId],
-            STR_TIME_UNIT_SEC.format(ceil(max(0, localPlayer.eventEndTime - getTotalTimeElapsed()))) if eventDuration[localPlayer.eventId] > 0 else STR_MSG_DURATION_INSTANT
+            STR_TIME_UNIT_SEC.format(localPlayer.eventDurationHud) if eventDuration[localPlayer.eventId] > 0 else STR_MSG_DURATION_INSTANT
         ),
         HudPosition.TOP, 3, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
