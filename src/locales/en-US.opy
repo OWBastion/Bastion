@@ -149,7 +149,7 @@
 #!define STR_EVT_BUFF_21_TITLE "Mission: Martyr"
 #!define STR_EVT_BUFF_21_DESC "Die to {0} different Bastions. Reward: 5% Permanent DR."
 #!define STR_EVT_BUFF_24_TITLE "F5"
-#!define STR_EVT_BUFF_24_DESC "Reset all ability cooldowns every {0}s."
+#!define STR_EVT_BUFF_24_DESC "One random ability has no cooldown."
 #!define STR_EVT_BUFF_25_TITLE "Healing Pylon ProMax"
 #!define STR_EVT_BUFF_25_DESC "Ignore distance and heal the whole team for {0} + {1}% max HP per second."
 #!define STR_EVT_BUFF_29_TITLE "Magic Master"
