@@ -513,7 +513,7 @@ enum GravityAnomalyRoll:
 # Weight（权重）
 #!define EVT_DEBUFF_9_WEIGHT 1.4
 # 扩散伤害系数 (承受原始伤害的百分比)
-#!define EVT_DEBUFF_9_DMG_FACTOR 0.75
+#!define EVT_DEBUFF_9_DMG_FACTOR 0.5
 
 # 视觉特效
 #!define EVT_DEBUFF_9_EFFECT Effect.TORBJORN_OVERLOADING
@@ -654,7 +654,7 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_26_WEIGHT 0.8
 # 额外伤害延迟（秒）与占原伤害的百分比
 #!define EVT_DEBUFF_26_DELAY 1.5
-#!define EVT_DEBUFF_26_DAMAGE_PERCENT 50
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 75
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
