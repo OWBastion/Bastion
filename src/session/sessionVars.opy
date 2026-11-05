@@ -97,6 +97,7 @@ playervar eventLastId 61
 playervar eventType 62
 playervar eventCount 66
 playervar eventEffect 68
+playervar eventDurationHud 69
 playervar eventLoopCount 70
 playervar eventIsSelected 71
 playervar eventCandidateIndex 72
