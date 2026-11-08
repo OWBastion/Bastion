@@ -40,21 +40,26 @@ rule "[VishkarEvent]: 钢铁防线 (结束判定)":
     if eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED) >= eventPlayer.eventMissionGoal or eventPlayer.isWinner:
         bigMessage(eventPlayer, "任务：钢铁防线 成功！")
         smallMessage(eventPlayer, "  {0}  奖励：本局永久获得 {1} 点护甲".format(abilityIconString(Hero.REINHARDT, Button.SECONDARY_FIRE), EVT_2_REWARD_ARMOR))
-        eventPlayer.bulwarkArmor += EVT_2_REWARD_ARMOR
+        eventPlayer.bulwarkCount += 1
+        # 已有护甲池时移除旧池并按新总量重建；首个池由下方永久护甲规则创建。
+        if eventPlayer.bulwarkCount > 1:
+            removeHealthPool(eventPlayer.healthId[1])
+            eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkCount * EVT_2_REWARD_ARMOR, true, false)
+            eventPlayer.healthId[1] = getLastCreatedHealthPool()
         requestPlayerEventEnd()
     else:
         bigMessage(eventPlayer, "任务：钢铁防线 失败")
     eventPlayer.hudText = null
 
-# 永久护甲池独立于事件生命周期：单个池，上限随 bulwarkArmor 重估，累加奖励不重建、不补满。
+# 永久护甲池独立于事件生命周期：始终只有一个池（生命池上限 16）；重生时按完成次数创建，累加奖励时由结束判定规则重建。
 rule "[VishkarEvent]: 钢铁防线 (永久护甲)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.bulwarkArmor > 0]) == true
+    @Condition all([eventPlayer.hasSpawned(), eventPlayer.bulwarkCount > 0]) == true
 
-    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkArmor, true, false)
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkCount * EVT_2_REWARD_ARMOR, true, false)
     eventPlayer.healthId[1] = getLastCreatedHealthPool()
     # Exception: pool teardown is bound to death or progress reset.
-    waitUntil(eventPlayer.hasSpawned() == false or eventPlayer.bulwarkArmor == 0, Math.INFINITY)
+    waitUntil(eventPlayer.hasSpawned() == false or eventPlayer.bulwarkCount == 0, Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.healthId[1] = null
