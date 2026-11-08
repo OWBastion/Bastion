@@ -141,6 +141,8 @@ playervar menuHeroIndex
 playervar mod_heal_perma
 # 钢铁防线累计的本局永久护甲
 playervar bulwarkArmor
+# 当前护甲池按此值创建，用于检测累加后重建
+playervar bulwarkPoolArmor
 playervar eventModificationId
 playervar thiefBuffStolen
 playervar eventMatchCounters

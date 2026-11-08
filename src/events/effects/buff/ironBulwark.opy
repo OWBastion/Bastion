@@ -46,15 +46,18 @@ rule "[VishkarEvent]: 钢铁防线 (结束判定)":
         bigMessage(eventPlayer, "任务：钢铁防线 失败")
     eventPlayer.hudText = null
 
-# 永久护甲池独立于事件生命周期：单个池，上限随 bulwarkArmor 重估，累加奖励不重建、不补满。
+# 永久护甲池独立于事件生命周期：始终只有一个池（生命池上限 16），累加奖励时移除旧池并按新总量重建。
 rule "[VishkarEvent]: 钢铁防线 (永久护甲)":
     @Event eachPlayer
     @Team 1
     @Condition all([eventPlayer.hasSpawned(), eventPlayer.bulwarkArmor > 0]) == true
 
-    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkArmor, true, false)
+    eventPlayer.bulwarkPoolArmor = eventPlayer.bulwarkArmor
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.bulwarkPoolArmor, true, false)
     eventPlayer.healthId[1] = getLastCreatedHealthPool()
     # Exception: pool teardown is bound to death or progress reset.
-    waitUntil(eventPlayer.hasSpawned() == false or eventPlayer.bulwarkArmor == 0, Math.INFINITY)
+    waitUntil(eventPlayer.hasSpawned() == false or eventPlayer.bulwarkArmor != eventPlayer.bulwarkPoolArmor, Math.INFINITY)
     removeHealthPool(eventPlayer.healthId[1])
     eventPlayer.healthId[1] = null
+    if ruleCondition:
+        loop()
