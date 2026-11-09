@@ -882,16 +882,6 @@ enum GravityAnomalyRoll:
 # 循环间隔 (秒)
 #!define EVT_MECH_14_INTERVAL 4
 
-# --- ID 15 (Mech/Special): 赌徒：掷骰狂人 ---
-# Duration（秒）
-# Weight（权重）
-# 单次结算后冷却间隔（秒）
-# 永久移速变更值（%）
-# 心之钢层数变更值
-# 永久减伤/治疗强度变更值（%）
-
-# --- ID 16 (Mech/Special): 赌徒：心之钢 ---
-
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.8
