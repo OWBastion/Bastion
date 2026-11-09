@@ -11,7 +11,7 @@ import type { PlatformData } from './platform/client.ts';
 
 const titleSource = {
   meta: { sourceLabel: 'titles' },
-  titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', condition: '旧条件', displayExpr: '"旧称号"', colorExpr: 'null' }],
+  titles: [{ key: 'TITLE_ONE', label: '旧称号', category: '旧分类', displayExpr: '"旧称号"', colorExpr: 'null' }],
   players: [{ name: '玩家', titleKeys: ['TITLE_ONE'] }],
   mapTitles: [{ mapKey: 'DATA_TEST_MAP', mapLabel: '旧地图', holders: { PIONEER: ['玩家'], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }]
 };
@@ -103,7 +103,7 @@ const platformData: PlatformData = {
   events: [{ eventId: 'event.one', name: '新事件', category: '增益', rarity: 'R', description: '新描述', durationSeconds: 20, weight: 2, archived: false, releaseStatus: 'implemented', challenges: [] }],
   maps: [{ mapId: 'map.test_map', mapName: '新地图', gameVersion: '2026.07.15', difficultyRating: 'T1', mechanics: [], coverUrl: null, backgroundUrl: null, gameplayRevisions: [defaultGameplayRevision] }],
   achievements: [{ challengeId: 'title.TITLE_ONE', family: 'achievement', type: 'title_achievement', kind: 'title_achievement', titleKey: 'TITLE_ONE', status: 'active', submissionMode: 'manual' }],
-  titles: [{ titleKey: 'TITLE_ONE', label: '新称号', icon: 'trophy', category: '新分类', condition: '新条件', scope: 'global', displayKind: 'fixed', gameVersion: '2026.07.15' }]
+  titles: [{ titleKey: 'TITLE_ONE', label: '新称号', icon: 'trophy', category: '新分类', scope: 'global', displayKind: 'fixed', gameVersion: '2026.07.15' }]
   ,playerTitleGrants: [], mapTitleHolders: []
 };
 
@@ -369,7 +369,7 @@ test('preserves existing title and player IDs while appending new entries', () =
   const ordered = preservePlatformTitleOrder(
     {
       meta: { sourceLabel: 'titles' },
-      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }].map((item) => ({ ...item, label: '', category: '', condition: '', displayExpr: '""', colorExpr: null })),
+      titles: [{ key: 'NEW_TITLE' }, { key: 'PIONEER' }].map((item) => ({ ...item, label: '', category: '', displayExpr: '""', colorExpr: null })),
       players: [{ name: '新玩家' }, { name: '他又' }],
       mapTitles: []
     },

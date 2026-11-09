@@ -405,7 +405,6 @@ export type TitleEntry = {
   key: string;
   label: string;
   category: string;
-  condition: string;
   displayExpr: string;
   colorExpr: string | null;
 };
