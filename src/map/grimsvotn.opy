@@ -8,7 +8,7 @@
 macro platformMapRevision_NEW_A021ED61_DEFAULT():
     __currentMapText___ = "监测站：格里姆火山"
 
-    bastionPosition = mapPositionPool.slice(439, 11)
+    bastionPosition = mapPositionPool.slice(444, 11)
     # (-122.36, 13.155, -60.554)
     # (-95.895, 15.006, -81.424)
     # (-77.323, 9.769, -84.199)
@@ -20,10 +20,10 @@ macro platformMapRevision_NEW_A021ED61_DEFAULT():
     # (-18.379, 4.62, -112.326)
     # (6.685, 9.098, -118.302)
     # (-3.923, 4.538, -144.039)
-    resetPosition = mapPositionPool[450] # (-148.4, 6.86, -65.1)
-    endPosition = mapPositionPool[451] # (-4, 2.88, -146.45)
-    thirdPersonPosition = mapPositionPool[452] # (-143.45, 6.86, -68.19)
-    creditsPosition = mapPositionPool[453] # (-146.73, 2, -141.47)
+    resetPosition = mapPositionPool[455] # (-148.4, 6.86, -65.1)
+    endPosition = mapPositionPool[456] # (-4, 2.88, -146.45)
+    thirdPersonPosition = mapPositionPool[457] # (-143.45, 6.86, -68.19)
+    creditsPosition = mapPositionPool[458] # (-146.73, 2, -141.47)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

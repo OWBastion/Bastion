@@ -84,6 +84,7 @@ export function renderSpatialPosition(position: SpatialPosition): string {
 }
 
 export const MAP_POSITION_POOL_VARIABLE = 'mapPositionPool';
+const WORKSHOP_MAX_ARRAY_LENGTH = 1000;
 
 export class SpatialPositionPool {
   private positions: SpatialPosition[] = [];
@@ -134,6 +135,7 @@ export class SpatialPositionPool {
   }
 
   renderBlock(): string {
+    if (this.positions.length > WORKSHOP_MAX_ARRAY_LENGTH) throw new Error(`${MAP_POSITION_POOL_VARIABLE} has ${this.positions.length} entries, above the Workshop array limit of ${WORKSHOP_MAX_ARRAY_LENGTH}`);
     const lines = [
       MAP_REVISION_BEGIN,
       '# Source: OWBastion Agents API',

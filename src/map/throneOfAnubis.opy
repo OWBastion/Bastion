@@ -8,7 +8,7 @@
 macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯王座"
 
-    bastionPosition = mapPositionPool.slice(660, 10)
+    bastionPosition = mapPositionPool.slice(665, 10)
     # (-28.955, 6.079, 65.912)
     # (23.873, 21.939, 104.507)
     # (0.457, 10.482, 97.234)
@@ -19,11 +19,11 @@ macro platformMapRevision_THRONE_OF_ANUBIS_DEFAULT():
     # (11.875, 7.904, -24.293)
     # (-27.944, 5.78, -83.352)
     # (-16.021, 5.815, -98.212)
-    resetPosition = mapPositionPool[670] # (6.28, 9.28, 130.05)
-    endPosition = mapPositionPool[671] # (-10.49, 8.92, -125.57)
-    thirdPersonPosition = mapPositionPool[672] # (3.18, 9.28, 130.71)
-    creditsPosition = mapPositionPool[433] # (-157.98, -90.95, -89.77)
-    controlRespawnPosition = mapPositionPool.slice(673, 1)
+    resetPosition = mapPositionPool[675] # (6.28, 9.28, 130.05)
+    endPosition = mapPositionPool[676] # (-10.49, 8.92, -125.57)
+    thirdPersonPosition = mapPositionPool[677] # (3.18, 9.28, 130.71)
+    creditsPosition = mapPositionPool[438] # (-157.98, -90.95, -89.77)
+    controlRespawnPosition = mapPositionPool.slice(678, 1)
     # (11.4, 9.25, 134.12)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30

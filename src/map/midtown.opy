@@ -8,7 +8,7 @@
 macro platformMapRevision_MIDTOWN_DEFAULT():
     __currentMapText___ = "中城"
 
-    bastionPosition = mapPositionPool.slice(391, 10)
+    bastionPosition = mapPositionPool.slice(396, 10)
     # (59.17, 9.847, -6.159)
     # (118.361, 5.867, -78.645)
     # (133.892, 5.637, -53.775)
@@ -19,10 +19,10 @@ macro platformMapRevision_MIDTOWN_DEFAULT():
     # (7.768, 9.061, 44.804)
     # (11.395, 9.676, 91.561)
     # (-13.854, 9.931, 73.748)
-    resetPosition = mapPositionPool[401] # (119.51, 1.84, -104.94)
-    endPosition = mapPositionPool[402] # (12.91, 3.75, 127.69)
-    thirdPersonPosition = mapPositionPool[403] # (133.91, 1.84, -104.94)
-    creditsPosition = mapPositionPool[404] # (126.5, 3, -125.37)
+    resetPosition = mapPositionPool[406] # (119.51, 1.84, -104.94)
+    endPosition = mapPositionPool[407] # (12.91, 3.75, 127.69)
+    thirdPersonPosition = mapPositionPool[408] # (133.91, 1.84, -104.94)
+    creditsPosition = mapPositionPool[409] # (126.5, 3, -125.37)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
