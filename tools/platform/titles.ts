@@ -437,8 +437,7 @@ export function validateAndMergeTitles(platformData: PlatformData, titleSource: 
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     const label = requireString(item.label, `${prefix}.label`);
     const category = requireString(item.category, `${prefix}.category`);
-    const condition = requireString(item.condition, `${prefix}.condition`);
-    const definition = JSON.stringify({ label, category, condition, displayKind: item.displayKind, color: item.color });
+    const definition = JSON.stringify({ label, category, displayKind: item.displayKind, color: item.color });
     const previousDefinition = seenDefinitions.get(key);
     if (previousDefinition !== undefined && previousDefinition !== definition) throw new Error(`Inconsistent platform title definition: ${key}`);
     seenDefinitions.set(key, definition);
@@ -448,7 +447,6 @@ export function validateAndMergeTitles(platformData: PlatformData, titleSource: 
       local.displayExpr = JSON.stringify(label);
     }
     local.category = category;
-    local.condition = condition;
   }
   return titles;
 }
@@ -519,7 +517,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     const prefix = `titles[${index}]`;
     const key = requireString(item.titleKey, `${prefix}.titleKey`);
     if (!TITLE_SCOPES.has(item.scope) || !TITLE_DISPLAY_KINDS.has(item.displayKind)) throw new Error(`${prefix} has an unsupported scope or displayKind`);
-    requireString(item.category, `${prefix}.category`); requireString(item.condition, `${prefix}.condition`);
+    requireString(item.category, `${prefix}.category`);
     if (item.scope === 'global' && item.mapId !== undefined) throw new Error(`${prefix} global title cannot reference a map`);
     if (item.scope === 'map') {
       const mapId = requireString(item.mapId, `${prefix}.mapId`);
@@ -532,7 +530,7 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       mapTitleMetadata.add(`${mapId}:${key}`);
     }
     const previous = titleRecords.get(key);
-    if (previous && JSON.stringify({ label: previous.label, category: previous.category, condition: previous.condition, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, condition: item.condition, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
+    if (previous && JSON.stringify({ label: previous.label, category: previous.category, displayKind: previous.displayKind, color: previous.color }) !== JSON.stringify({ label: item.label, category: item.category, displayKind: item.displayKind, color: item.color })) throw new Error(`Inconsistent platform title definition: ${key}`);
     titleRecords.set(key, previous ?? item);
   }
   if (!titleRecords.has("CLASSIC")) {
@@ -540,7 +538,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
       titleKey: "CLASSIC",
       label: "賽檤の盡頭灬只剩莪",
       category: "经典版地图系列",
-      condition: "通关对应地图经典版。",
       scope: "map",
       displayKind: "fixed",
       displayExpr: "__currentMapClassicText___",
@@ -596,6 +593,6 @@ export function buildPlatformTitleSource({ platformData, mapSourceFiles }: { pla
     return { name: player.name, titleKeys: player.allTitles ? undefined : [...new Set(player.titleKeys as string[])].sort((a, b) => titleIds.get(a)! - titleIds.get(b)!), allTitles: player.allTitles === true };
   });
   const mapTitles = [...mapIds].sort().map((mapId) => ({ mapKey: mapKeyFromPlatformId(mapId), mapLabel: mapLabels.get(mapId)!, holders: holdersByMap.get(mapKeyFromPlatformId(mapId)) ?? { PIONEER: [], CONQUEROR: [], DOMINATOR: [], CLASSIC: [] } }));
-  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, condition: item.condition, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
+  const titles = [...titleRecords.values()].map((item) => ({ key: item.titleKey, label: item.label, category: item.category, displayExpr: item.titleKey === 'CLASSIC' ? '__currentMapClassicText___' : titleDisplayExpr(item, `titles.${item.titleKey}`), colorExpr: titleColorExpr(item.color, `titles.${item.titleKey}`) }));
   return { meta: { sourceLabel: 'OWBastion Agents API' }, titles, players: normalizedPlayers.map(({ name, titleKeys, allTitles }) => allTitles ? { name, allTitles } : { name, titleKeys }), mapTitles };
 }
