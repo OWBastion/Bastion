@@ -528,3 +528,9 @@ rule "initialize event array":
     eventDuration[EventId.CYCLE_REPLAY] = EVT_MECH_26_DURATION
     eventCatalogWeight[EventId.CYCLE_REPLAY] = EVT_MECH_26_WEIGHT
     eventCatalogType[EventId.CYCLE_REPLAY] = EventType.MECH
+
+    eventName[EventId.GAMBLER_BLACKJACK] = STR_EVT_MECH_29_TITLE
+    eventDesc[EventId.GAMBLER_BLACKJACK] = STR_EVT_MECH_29_DESC.format(Button.RELOAD, percent(EVT_MECH_29_POOL_RATIO), Button.INTERACT)
+    eventDuration[EventId.GAMBLER_BLACKJACK] = EVT_MECH_29_DURATION
+    eventCatalogWeight[EventId.GAMBLER_BLACKJACK] = EVT_MECH_29_WEIGHT
+    eventCatalogType[EventId.GAMBLER_BLACKJACK] = EventType.MECH

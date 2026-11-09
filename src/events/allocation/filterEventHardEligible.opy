@@ -10,7 +10,8 @@ subroutine filterEventHardEligible
 macro EVENT_GROUP_HEART_STEEL = [
     EventId.GAMBLER_SPEED_CHALLENGE,
     EventId.GAMBLER_HEART_OF_STEEL,
-    EventId.GAMBLER_ALL_IN_ART_5
+    EventId.GAMBLER_ALL_IN_ART_5,
+    EventId.GAMBLER_BLACKJACK
 ]
 
 # 动态硬资格的唯一定义：就地过滤 eventTempIndex，统一候选池与强制类型标量抽样（单元素数组）共用。

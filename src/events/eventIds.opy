@@ -159,5 +159,7 @@ enum EventId:
     SHAPESHIFTER
     # legacy numeric id: 26
     CYCLE_REPLAY
+    # legacy numeric id: 29
+    GAMBLER_BLACKJACK
     # sentinel only for integrity checks (do not register as an event)
     COUNT
