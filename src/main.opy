@@ -171,7 +171,9 @@ rule STR_LICENSE_PERMIT:
 #!include "player/finishSettlement.opy"
 #!include "events/integrity/masteryRunCode.opy"
 
+#!include "effects/pointEffects.opy"
 #!include "effects/initEffects.opy"
+#!include "effects/initProgressionEffects.opy"
 #!include "map/interactions.opy"
 #!include "effects/nanoEffects.opy"
 #!include "effects/playerEffects.opy"
@@ -179,6 +181,7 @@ rule STR_LICENSE_PERMIT:
 # 事件完整重置入口；保持在 status.opy 前以维持子程序索引与规则顺序
 #!include "events/lifecycle/resetPlayerEventState.opy"
 #!include "player/status.opy"
+#!include "events/lifecycle/initPlayerEventState.opy"
 #!include "player/initPlayer.opy"
 
 

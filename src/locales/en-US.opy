@@ -475,3 +475,53 @@
 #!define STR_EVT_MECH_26_DESC "Hold {0} to spend {1} Heartsteel stacks (about {2}% max HP).\nYour next event will be your most recent repeatable event."
 #!define STR_EVT_MECH_26_TARGET "Cycle Replay: {0}"
 #!define STR_EVT_MECH_26_NO_TARGET "No replayable event"
+
+# ------------------------------------------------
+# Map Editor
+# ------------------------------------------------
+#!define STR_EDITOR_MODE_NAME "Bastion Escape 3 Map Editor"
+#!define STR_EDITOR_DESC "Walk the map, place bastions, and test-run the route in game\nCopy variables from the Inspector and paste them into the owbastion.com map editor"
+#!define STR_EDITOR_TOOL_BASTION "Bastion"
+#!define STR_EDITOR_TOOL_RESET "Reset Point"
+#!define STR_EDITOR_TOOL_END "End Point"
+#!define STR_EDITOR_TOOL_THIRD_PERSON "Third-Person Point"
+#!define STR_EDITOR_TOOL_CREDITS "Credits Point"
+#!define STR_EDITOR_HUD_NONE "None"
+#!define STR_EDITOR_HUD_EDIT_TITLE "Map Editor · Edit Mode"
+# {0}=tool, {1}=bastion count, {2}=selection
+#!define STR_EDITOR_HUD_EDIT_STATE "Tool {0} · {1} bastions · Selected {2}"
+# {0}=primary fire, {1}=secondary fire, {2}=melee
+#!define STR_EDITOR_HUD_EDIT_KEYS_PLACE "{0} Place/Move  {1} Select/Deselect  {2} Delete"
+# {0}=ability 1, {1}=ability 2, {2}=ultimate
+#!define STR_EDITOR_HUD_EDIT_KEYS_TOOL "{0}/{1} Switch Tool  {2} Teleport to Selected"
+# {0}=jump, {1}=crouch, {2}=reload
+#!define STR_EDITOR_HUD_EDIT_KEYS_MOVE "{0}/{1} Ascend/Descend  {2} Trial Run"
+#!define STR_EDITOR_HUD_TRIAL_TITLE "Map Editor · Trial Mode"
+# {0}=elapsed time
+#!define STR_EDITOR_HUD_TRIAL_TIME "Time {0}"
+# {0}=interact, {1}=melee
+#!define STR_EDITOR_HUD_TRIAL_HINT "{0}+{1} Open Panel"
+# {0}=elapsed time
+#!define STR_EDITOR_MSG_FINISH "Reached the end · Time {0}"
+# {0}=interact, {1}=melee
+#!define STR_EDITOR_PANEL_TITLE "Trial Panel ({0}+{1} to close)"
+# {0}=primary fire, {1}=on/off
+#!define STR_EDITOR_PANEL_AUTO "{0}    Automatic Events    {1}"
+# {0}=ability 1, {1}=category
+#!define STR_EDITOR_PANEL_CATEGORY "{0}    Event Category    {1}"
+# {0}=ability 2, {1}=event
+#!define STR_EDITOR_PANEL_EVENT "{0}    Select Event    {1}"
+# {0}=ultimate, {1}=secondary fire
+#!define STR_EDITOR_PANEL_TRIGGER "{0}    Trigger Event    {1}    End Event"
+# {0}=ultimate
+#!define STR_EDITOR_PANEL_EXTEND "{0}    Extend 30 s"
+# {0}=ability 1
+#!define STR_EDITOR_PANEL_EXTEND_INFINITE "{0}    Extend Without Limit"
+# {0}=ultimate
+#!define STR_EDITOR_PANEL_BACK "{0}    Back to Edit Mode"
+# {0}=primary fire, {1}=mode
+#!define STR_EDITOR_PANEL_FIRE "{0}    Bastion Fire    {1}"
+#!define STR_EDITOR_FIRE_MODE_FIRE "Fire"
+#!define STR_EDITOR_FIRE_MODE_AIM "Aim Only"
+#!define STR_EDITOR_FIRE_MODE_OFF "Off"
+#!define STR_EDITOR_MSG_NO_GROUND "No ground within 50 m below. Not placed"
