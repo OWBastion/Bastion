@@ -490,7 +490,7 @@ rule "initialize event array":
     eventCatalogWeight[EventId.SHAPESHIFTER] = EVT_MECH_28_WEIGHT
     eventCatalogType[EventId.SHAPESHIFTER] = EventType.MECH
 
-    # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
+    # 目录顺序由入口共用的 events/catalog/eventCatalogOrder.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
 
     eventName[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_TITLE
