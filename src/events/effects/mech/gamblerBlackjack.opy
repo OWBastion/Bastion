@@ -28,17 +28,17 @@ def blackjackSettle():
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_BLACKJACK]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_BLACKJACK
 
     eventPlayer.altFormActive = true
     eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO))
-    waitUntil(any([all([eventPlayer.isHoldingButton(Button.RELOAD) == false, eventPlayer.isHoldingButton(Button.INTERACT) == false]), eventPlayer.eventId != EventId.GAMBLER_BLACKJACK]), Math.INFINITY)
+    waitUntil(not (eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.isHoldingButton(Button.INTERACT)) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK, Math.INFINITY)
     eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 赌徒：21点 (买入/发牌/要牌)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_BLACKJACK, eventPlayer.eventEndTime > getTotalTimeElapsed(), eventPlayer.altFormActive != true, eventPlayer.isHoldingButton(Button.RELOAD)]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_BLACKJACK and eventPlayer.eventEndTime > getTotalTimeElapsed() and not eventPlayer.altFormActive and eventPlayer.isHoldingButton(Button.RELOAD)
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if eventPlayer.altFormActive == true:
@@ -57,13 +57,13 @@ rule "[VishkarEvent]: 赌徒：21点 (买入/发牌/要牌)":
         eventPlayer.eventMissionGoal = 0
         eventPlayer.eventLoopCount = random.randint(12, 16)
         eventPlayer.hudText = STR_EVT_MECH_29_HUD_PLAY.format(eventPlayer.eventMission, eventPlayer.eventLoopCount, inputBindingString(Button.RELOAD), inputBindingString(Button.INTERACT))
-    waitUntil(any([eventPlayer.isHoldingButton(Button.RELOAD) == false, eventPlayer.eventId != EventId.GAMBLER_BLACKJACK, eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
+    waitUntil(not eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 赌徒：21点 (停牌/兑回)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_BLACKJACK, eventPlayer.eventEndTime > getTotalTimeElapsed(), any([eventPlayer.eventMission > 0, eventPlayer.eventMissionGoal > 0]), eventPlayer.altFormActive != true, eventPlayer.isHoldingButton(Button.INTERACT)]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_BLACKJACK and eventPlayer.eventEndTime > getTotalTimeElapsed() and eventPlayer.eventMission + eventPlayer.eventMissionGoal > 0 and not eventPlayer.altFormActive and eventPlayer.isHoldingButton(Button.INTERACT)
 
     wait(EVT_INTERACT_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
     if eventPlayer.altFormActive == true:
@@ -76,13 +76,13 @@ rule "[VishkarEvent]: 赌徒：21点 (停牌/兑回)":
         eventPlayer.eventMissionGoal = 0
         eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO))
         setPlayerHP()
-    waitUntil(any([eventPlayer.isHoldingButton(Button.INTERACT) == false, eventPlayer.eventId != EventId.GAMBLER_BLACKJACK, eventPlayer.eventEndTime <= getTotalTimeElapsed()]), Math.INFINITY)
+    waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
 
 rule "[VishkarEvent]: 赌徒：21点 (到期收尾)":
     @Event eachPlayer
     @Team 1
-    @Condition all([eventPlayer.hasSpawned(), eventPlayer.eventId == EventId.GAMBLER_BLACKJACK]) == true
+    @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_BLACKJACK
 
     waitUntil(eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime - getTotalTimeElapsed() <= EVT_MECH_29_END_GUARD, Math.INFINITY)
     if eventPlayer.eventId != EventId.GAMBLER_BLACKJACK:
