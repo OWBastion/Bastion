@@ -657,6 +657,23 @@ enum GravityAnomalyRoll:
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
+
+
+# --- ID 30 (Mech): 赌徒：亡命骰局 ---
+# Duration（秒）
+#!define EVT_MECH_30_DURATION 30
+# Weight（权重）
+#!define EVT_MECH_30_WEIGHT 0.6
+# 每枚骰子数量与计分：1 点、5 点计分，其余无分
+#!define EVT_MECH_30_DICE 3
+#!define EVT_MECH_30_ONE_POINTS 100
+#!define EVT_MECH_30_FIVE_POINTS 50
+# 点数换算：每 N 分 = 1 层心之钢
+#!define EVT_MECH_30_POINTS_PER_STACK 100
+# 本手未存档分数达到此值时自动存档，限制单手收益
+#!define EVT_MECH_30_MAX_UNBANKED 1000
+# 每次掷骰后到下一次可操作的间隔（秒）
+#!define EVT_MECH_30_ROLL_INTERVAL 1
 # -----------------------------------------------------------------------------
 
 # --- ID 0 (Mech/Special): 极限挑战 ---
