@@ -29,4 +29,5 @@ rule "map - dorado":
     @Condition __currentMap___ == Map.DORADO
     
     platformMapRevision_DORADO_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 1)

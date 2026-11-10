@@ -53,5 +53,6 @@ rule "map - 皇家赛道":
         platformMapRevision_CIRCUIT_ROYAL_CLASSIC()
     else:
         platformMapRevision_CIRCUIT_ROYAL_DEFAULT()
+    mapPositionPool = []
     __currentMapClassicText___ = "賽檤の盡頭灬只剩莪"
     startForcingSpawn(Team.1, 2)

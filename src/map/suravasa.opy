@@ -35,4 +35,5 @@ rule "map - 苏拉瓦萨":
     @Condition __currentMap___ == Map.SURAVASA
     
     platformMapRevision_SURAVASA_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 1)

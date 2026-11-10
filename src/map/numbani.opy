@@ -31,4 +31,5 @@ rule "map - numbani":
     @Condition __currentMap___ == Map.NUMBANI
     
     platformMapRevision_NUMBANI_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 1)

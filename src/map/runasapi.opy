@@ -28,4 +28,5 @@ rule "map - 鲁纳塞彼":
     @Condition __currentMap___ == Map.RUNASAPI or __currentMap___ == 8048
 
     platformMapRevision_RUNASAPI_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)

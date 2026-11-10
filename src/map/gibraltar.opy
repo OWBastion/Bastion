@@ -30,5 +30,6 @@ rule "map - watchpoint gibraltar":
     @Condition __currentMap___ == Map.WATCHPOINT_GIBRALTAR
     
     platformMapRevision_WATCHPOINT_GIBRALTAR_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "直布罗陀"
     startForcingSpawn(Team.1, 2)

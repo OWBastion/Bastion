@@ -32,5 +32,6 @@ rule "map - horizon lunar colony":
     @Condition __currentMap___ == Map.HORIZON_LUNAR_COLONY
     
     platformMapRevision_HORIZON_LUNAR_COLONY_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "月球基地"
     startForcingSpawn(Team.1, 0)

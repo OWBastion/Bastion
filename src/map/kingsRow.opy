@@ -28,5 +28,6 @@ rule "map - king's row":
     @Condition __currentMap___ == Map.KINGS_ROW or __currentMap___ == 742
     
     platformMapRevision_KINGS_ROW_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "国王大道"
     startForcingSpawn(Team.1, 1)

@@ -35,6 +35,7 @@ rule "map - 花冈":
      @Condition __currentMap___ == Map.HANAOKA or __currentMap___ == 2601
     
     platformMapRevision_HANAOKA_DEFAULT()
+    mapPositionPool = []
      __currentMapText___ = "花冈"
      startForcingSpawn(Team.1, 2)
      waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

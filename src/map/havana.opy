@@ -29,4 +29,5 @@ rule "map - havana":
     @Condition __currentMap___ == Map.HAVANA
     
     platformMapRevision_HAVANA_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)

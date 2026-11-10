@@ -35,6 +35,7 @@ rule "map - 阿努比斯王座":
     @Condition __currentMap___ == Map.THRONE_OF_ANUBIS or __currentMap___ == 886
     
     platformMapRevision_THRONE_OF_ANUBIS_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "王座"
     startForcingSpawn(Team.1, 1)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

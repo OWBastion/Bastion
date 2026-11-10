@@ -43,5 +43,6 @@ rule "map - 漓江塔":
     @Condition __currentMap___ == Map.LIJIANG_TOWER or __currentMap___ == 3676
 
     platformMapRevision_LIJIANG_TOWER_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

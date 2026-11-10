@@ -50,4 +50,5 @@ rule "map - 花村":
         platformMapRevision_HANAMURA_CLASSIC()
     else:
         platformMapRevision_HANAMURA_DEFAULT()
+    mapPositionPool = []
     __currentMapClassicText___ = "ミ櫻花落亽噯成殤"

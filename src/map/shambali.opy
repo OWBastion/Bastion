@@ -32,5 +32,6 @@ rule "map - shambali monastery":
     @Condition __currentMap___ == Map.SHAMBALI_MONASTERY
     
     platformMapRevision_SHAMBALI_MONASTERY_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "香巴佬寺院"
     startForcingSpawn(Team.1, 2)

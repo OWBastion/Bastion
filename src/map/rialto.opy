@@ -36,4 +36,5 @@ rule "map - rialto":
     @Condition __currentMap___ == Map.RIALTO
 
     platformMapRevision_RIALTO_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)

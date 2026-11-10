@@ -43,5 +43,6 @@ rule "map - 萨摩亚":
     @Condition __currentMap___ == Map.SAMOA or __currentMap___ == 13628
 
     platformMapRevision_SAMOA_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)

@@ -30,5 +30,6 @@ rule "map - paraiso":
     @Condition __currentMap___ == Map.PARAISO
 
     platformMapRevision_PARAISO_DEFAULT()
+    mapPositionPool = []
 
     startForcingSpawn(Team.1, 2)

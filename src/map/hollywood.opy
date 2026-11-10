@@ -29,5 +29,6 @@ rule "map - hollywood":
     @Condition __currentMap___ == Map.HOLLYWOOD or __currentMap___ == 1505
     
     platformMapRevision_HOLLYWOOD_DEFAULT()
+    mapPositionPool = []
     __currentMapText___ = "好莱坞"
     startForcingSpawn(Team.1, 2)

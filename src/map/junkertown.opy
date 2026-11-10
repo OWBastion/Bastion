@@ -28,4 +28,5 @@ rule "map - junkertown":
     @Condition __currentMap___ == Map.JUNKERTOWN
     
     platformMapRevision_JUNKERTOWN_DEFAULT()
+    mapPositionPool = []
     startForcingSpawn(Team.1, 2)

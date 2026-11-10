@@ -103,3 +103,4 @@ rule "map - 南极半岛":
     startForcingSpawn(Team.1, 2)
     waitUntil(getPlayers(Team.1).any(lambda player: player.hasSpawned()), 99999)
     platformMapRevision_ANTARCTIC_PENINSULA_DEFAULT_SETUP_ROUTE()
+    mapPositionPool = []
