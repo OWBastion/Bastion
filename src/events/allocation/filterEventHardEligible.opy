@@ -9,7 +9,6 @@ subroutine filterEventHardEligible
 # candidate inclusion; weights and selection remain attached to each event.
 macro EVENT_GROUP_HEART_STEEL = [
     EventId.GAMBLER_SPEED_CHALLENGE,
-    EventId.GAMBLER_HEART_OF_STEEL,
     EventId.GAMBLER_ALL_IN_ART_5,
     EventId.GAMBLER_BLACKJACK
 ]

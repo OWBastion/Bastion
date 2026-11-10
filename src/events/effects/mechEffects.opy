@@ -19,8 +19,6 @@
 #!include "mech/gamblerLongInvestment.opy"
 #!include "mech/valkyrieDescent.opy"
 #!include "mech/trinitySsr.opy"
-#!include "mech/gamblerDiceManiac.opy"
-#!include "mech/gamblerHeartOfSteel.opy"
 #!include "mech/gamblerAllInArt5.opy"
 #!include "mech/vampire.opy"
 #!include "mech/thief.opy"

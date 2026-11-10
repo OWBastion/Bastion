@@ -79,7 +79,13 @@ enum TITLE:
     PROPHET,          # 65 先知：麦迪文
     QUANTUM_UNLUCKY,  # 66 哪里有完美的时间线
     TASKS_COMPLETED,  # 67 哈！哈！哈！我滴任务完成辣！
-    CHALLENGE_89683D0A # 68 我大受震撼
+    CHALLENGE_89683D0A,# 68 我大受震撼
+    TITLE_1A80056FDAAD4351AE5689510050BA89,# 69 不在今天
+    TITLE_42130F755731467FB02D4DF70AA59B7D,# 70 高山流水
+    TITLE_4ED81CC422FD499BB83FA4A0E9AB0CF6,# 71 新大陆
+    TITLE_5E15AB66377D4F489FFCD65754CECF00,# 72 祸不单行
+    TITLE_78561F19DEE24BC1B4BC6A7C8A350B8C,# 73 闲庭信步
+    TITLE_DE83386D21C047C5906FB91B5C9F22E1 # 74 To Be NO.1
 # END AUTO-GENERATED TITLE ENUM
 
 
@@ -94,8 +100,8 @@ enum MapTITLEKey:
 # 注意：Key (name, titles) 必须不加引号，否则 splitDictArray 会报错
 # ------------------------------
 # BEGIN AUTO-GENERATED PLAYER_TITLE_SET_POOL
-#!define player_title_set_flat compressed([12, 13, 16, 19, 22, 27, 28, 29, 36, 37, 56, 64, 56, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 33, 36, 37, 41, 42, 49, 52, 55, 67, 22, 25, 31, 32, 36, 37, 41, 64, 66, 28, 29, 33, 36, 37, 41, 45, 47, 55, 56, 28, 35, 36, 60, 61, 64, 37, 49, 50, 53, 55, 64, 65, 67, 12, 13, 14, 16, 19, 12, 13, 14, 15, 16, 19, 22, 33, 36, 41, 42, 12, 13, 14, 16, 19, 22, 45, 12, 13, 14, 16, 19, 41, 12, 13, 14, 16, 19, 22, 27, 29, 41, 1, 2, 7, 23, 32, 41, 43, 50, 68, 59, 67, 16, 22, 27, 28, 29, 37, 41, 43, 55, 56, 66, 12, 13, 14, 16, 19, 33, 36, 37, 41, 27, 28, 29, 64, 66, 63, 12, 13, 19, 14, 16, 19, 33, 41, 63, 64, 65, 66, 67])
-#!define player_title_set_off [0, 3, 12, 13, 82, 91, 100, 110, 116, 124, 129, 136, 140, 147, 153, 162, 171, 173, 183, 184, 193, 198, 198, 199, 202, 212]
+#!define player_title_set_flat compressed([12, 13, 16, 19, 22, 27, 28, 29, 36, 37, 56, 64, 56, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 33, 36, 37, 41, 42, 49, 52, 55, 67, 22, 25, 31, 32, 36, 37, 41, 64, 66, 28, 29, 33, 36, 37, 41, 45, 47, 55, 56, 28, 35, 36, 60, 61, 64, 37, 49, 50, 53, 55, 64, 65, 67, 12, 13, 14, 16, 19, 12, 13, 14, 15, 16, 19, 22, 33, 36, 41, 42, 12, 13, 14, 16, 19, 22, 45, 12, 13, 14, 16, 19, 41, 12, 13, 14, 16, 19, 22, 27, 29, 41, 1, 2, 7, 23, 32, 41, 43, 50, 68, 59, 67, 16, 22, 27, 28, 29, 37, 41, 43, 55, 56, 66, 12, 13, 14, 16, 19, 33, 36, 37, 41, 27, 28, 29, 64, 66, 63, 12, 13, 19, 14, 16, 19, 33, 41, 63, 64, 65, 66, 67])
+#!define player_title_set_off [0, 3, 12, 13, 88, 97, 106, 116, 122, 130, 135, 142, 146, 153, 159, 168, 177, 179, 189, 190, 199, 204, 204, 205, 208, 218]
 # END AUTO-GENERATED PLAYER_TITLE_SET_POOL
 # BEGIN AUTO-GENERATED TITLE PLAYER DATABASE
 #!define player_name_list "自律达人游十三‖EruIluvatar‖Fajacy‖他又‖八月八月八‖初一‖卖核弹的小女孩‖吾携秋水揽星河‖嘤嘤嘤丶‖墙上静止的钟‖天树是只臭猫‖眼镜小宅‖训犬大师‖豆本豆豆奶‖銀狼‖锄禾日当午‖别感冒‖好男人从不过夜‖雨鸢‖东子云梦‖黑洛‖一杯美式‖用户‖轩一‖风子修‖南城花开‖Cresc3nt‖听心语‖小满都未满"
@@ -206,11 +212,11 @@ enum MapTITLEKey:
 # 花村
 #!define DATA_HANAMURA [ \
    playerNameToIndexDelimited(["豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    playerNameToIndexDelimited(["嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "Cresc3nt", "小满都未满", "训犬大师"], "-")\
 ]
-#!define DATA_HANAMURA_PACKED "13|17-8-7-6-15-4-22-21-5-28-13-18-12-11-19-1|17-8-7-6-15-4-22-21-5-28-13-18-12-11-19-1|8-7-6-4-26-28-12"
+#!define DATA_HANAMURA_PACKED "13|17-8-7-6-15-4-22-21-5-28-13-10-18-12-11-19-1|17-8-7-6-15-4-22-21-5-28-13-10-18-12-11-19-1|8-7-6-4-26-28-12"
 
 # 花冈
 #!define DATA_HANAOKA [ \
@@ -241,12 +247,12 @@ enum MapTITLEKey:
 
 # 月球基地
 #!define DATA_HORIZON_LUNAR_COLONY [ \
-   playerNameToIndexDelimited(["南城花开", "吾携秋水揽星河", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
-   playerNameToIndexDelimited(["南城花开", "吾携秋水揽星河", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
-   playerNameToIndexDelimited(["南城花开", "吾携秋水揽星河", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "八月八月八", "用户", "风子修", "小满都未满"], "-"), \
    []\
 ]
-#!define DATA_HORIZON_LUNAR_COLONY_PACKED "25-7-4-22-24-28|25-7-4-22-24-28|25-7-4-22-24-28|"
+#!define DATA_HORIZON_LUNAR_COLONY_PACKED "25-8-7-6-4-22-24-28|25-8-7-6-4-22-24-28|25-8-7-6-4-22-24-28|"
 
 # 伊利奥斯
 #!define DATA_ILIOS [ \
@@ -350,11 +356,11 @@ enum MapTITLEKey:
 # 绿洲城
 #!define DATA_OASIS [ \
    playerNameToIndexDelimited(["豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "风子修", "小满都未满", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "风子修", "小满都未满", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "风子修", "小满都未满", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "风子修", "小满都未满", "豆本豆豆奶", "墙上静止的钟", "雨鸢", "训犬大师", "眼镜小宅", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_OASIS_PACKED "13|17-8-7-6-15-4-22-21-2-5-24-28-13-9-18-12-11-1|17-8-7-6-15-4-22-21-2-5-24-28-13-9-18-12-11-1|"
+#!define DATA_OASIS_PACKED "13|25-17-8-7-6-15-4-22-21-2-5-24-28-13-9-18-12-11-1|25-17-8-7-6-15-4-22-21-2-5-24-28-13-9-18-12-11-1|"
 
 # 帕拉伊苏
 #!define DATA_PARAISO [ \
@@ -473,7 +479,7 @@ rule "initialize title array":
 
     wait(getAverageServerLoad() * 0.005)
     # BEGIN AUTO-GENERATED ALL_TITLE
-    titleText = ["{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者")].concat("这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡‖地图不是我做的‖野生开发者‖堡垒建筑师‖友善的地图维护者‖三合一地图作者‖骇人鲸‖纯害战士".split("‖")).concat(["{0}征服者".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat(["{0}主宰".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat("专家幸存者‖传奇挑战者‖地狱穿梭者‖终极闪避‖轻装上阵‖完美无缺‖永不言弃‖坚韧不拔‖速通传奇‖闪避の神‖智瞳开拓者‖大难不死‖胜天半子‖堡垒の偶像‖第一颗蛋‖我还能吃‖万象归一‖守望旅行家‖万域天穹‖狂暴烈焰‖万蛋丛中过‖天选之子‖幸运星‖赌王‖福星高照‖倒霉蛋‖What can i say‖我命由我‖赌神‖牢 大‖V我50‖钢门‖开了‖红包收藏家‖好运来‖千里独行‖踏遍青山‖我不会放过你的酸不辣‖赌圣‖害群之马‖我要验牌‖牌没有问题‖大舍天下‖冲出地表‖把他们上市‖生命守护生命‖怪盗".split("‖")).concat([__currentMapClassicText___]).concat("？？？‖＞_＜‖o_O‖我觉得不行‖我觉得可以‖到此一游‖先知：麦迪文‖哪里有完美的时间线‖哈！哈！哈！我滴任务完成辣！‖我大受震撼".split("‖"))
+    titleText = ["{0}{1}".format(__currentMapPioneerText___ if __currentMapPioneerText___ != null else getCurrentMap(), __currentPioneerText___ if __currentPioneerText___ != null else "开拓者")].concat("这是一个超长的称号测试字段如果到这里还没有被截断说明确实很长你说得对但是广告位招租啊哈大OW是我的家乡‖地图不是我做的‖野生开发者‖堡垒建筑师‖友善的地图维护者‖三合一地图作者‖骇人鲸‖纯害战士".split("‖")).concat(["{0}征服者".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat(["{0}主宰".format(__currentMapText___ if __currentMapText___ != null else getCurrentMap())]).concat("专家幸存者‖传奇挑战者‖地狱穿梭者‖终极闪避‖轻装上阵‖完美无缺‖永不言弃‖坚韧不拔‖速通传奇‖闪避の神‖智瞳开拓者‖大难不死‖胜天半子‖堡垒の偶像‖第一颗蛋‖我还能吃‖万象归一‖守望旅行家‖万域天穹‖狂暴烈焰‖万蛋丛中过‖天选之子‖幸运星‖赌王‖福星高照‖倒霉蛋‖What can i say‖我命由我‖赌神‖牢 大‖V我50‖钢门‖开了‖红包收藏家‖好运来‖千里独行‖踏遍青山‖我不会放过你的酸不辣‖赌圣‖害群之马‖我要验牌‖牌没有问题‖大舍天下‖冲出地表‖把他们上市‖生命守护生命‖怪盗".split("‖")).concat([__currentMapClassicText___]).concat("？？？‖＞_＜‖o_O‖我觉得不行‖我觉得可以‖到此一游‖先知：麦迪文‖哪里有完美的时间线‖哈！哈！哈！我滴任务完成辣！‖我大受震撼‖不在今天‖高山流水‖新大陆‖祸不单行‖闲庭信步‖To Be NO.1".split("‖"))
     titleColor = [
         # 0: PIONEER
         [heroColor[12]],
@@ -612,7 +618,19 @@ rule "initialize title array":
         # 67: TASKS_COMPLETED
         breathPalette.orange,
         # 68: CHALLENGE_89683D0A
-        breathPalette.purple
+        breathPalette.purple,
+        # 69: TITLE_1A80056FDAAD4351AE5689510050BA89
+        null,
+        # 70: TITLE_42130F755731467FB02D4DF70AA59B7D
+        null,
+        # 71: TITLE_4ED81CC422FD499BB83FA4A0E9AB0CF6
+        breathPalette.orange,
+        # 72: TITLE_5E15AB66377D4F489FFCD65754CECF00
+        null,
+        # 73: TITLE_78561F19DEE24BC1B4BC6A7C8A350B8C
+        null,
+        # 74: TITLE_DE83386D21C047C5906FB91B5C9F22E1
+        null
     ]
     # END AUTO-GENERATED ALL_TITLE
     titlePlayer = player_name_list.split("‖")

@@ -894,28 +894,6 @@ enum GravityAnomalyRoll:
 # 循环间隔 (秒)
 #!define EVT_MECH_14_INTERVAL 4
 
-# --- ID 15 (Mech/Special): 赌徒：掷骰狂人 ---
-# Duration（秒）
-#!define EVT_MECH_15_DURATION 60
-# Weight（权重）
-#!define EVT_MECH_15_WEIGHT 0.8
-# 单次结算后冷却间隔（秒）
-#!define EVT_MECH_15_ROLL_INTERVAL 0.5
-# 永久移速变更值（%）
-#!define EVT_MECH_15_SPEED_DELTA 2
-# 心之钢层数变更值
-#!define EVT_MECH_15_HEART_STEEL_DELTA 5
-#!define EVT_MECH_15_HEART_STEEL_DELTA_LOSS 5
-# 永久减伤/治疗强度变更值（%）
-#!define EVT_MECH_15_DMG_HEAL_DELTA 2
-
-# --- ID 16 (Mech/Special): 赌徒：心之钢 ---
-#!define EVT_MECH_16_DURATION 15
-#!define EVT_MECH_16_WEIGHT 0.8
-#!define EVT_MECH_16_WIN_RATE 50
-#!define EVT_MECH_16_WIN_MULTIPLIER 2
-#!define EVT_MECH_16_LOSE_RATIO 0.5
-
 # --- ID 17 (Mech/Special): 赌徒：梭哈艺术 ---
 #!define EVT_MECH_17_DURATION 15
 #!define EVT_MECH_17_WEIGHT 0.8
@@ -1041,8 +1019,6 @@ enum MirrorInversionStat:
     EventId.MIRROR_INVERSION, \
     EventId.GAMBLER, \
     EventId.GAMBLER_SPEED_CHALLENGE, \
-    EventId.GAMBLER_DICE_MANIAC, \
-    EventId.GAMBLER_HEART_OF_STEEL, \
     EventId.GAMBLER_ALL_IN_ART_5, \
     EventId.GAMBLER_WINNER_TAKE_ALL, \
     EventId.GAMBLER_HELPFUL_SOUL \

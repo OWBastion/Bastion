@@ -460,17 +460,7 @@ rule "initialize event array":
     # ================================================
     # Pack 5: Mechanics
     # ================================================
-    eventName[EventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_TITLE
-    eventDesc[EventId.GAMBLER_DICE_MANIAC] = STR_EVT_MECH_15_DESC.format(EVT_MECH_15_DURATION, Button.RELOAD, EVT_INTERACT_HOLD_TIME, EVT_MECH_15_HEART_STEEL_DELTA, EVT_MECH_15_SPEED_DELTA, EVT_MECH_15_DMG_HEAL_DELTA)
-    eventDuration[EventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_DURATION
-    eventCatalogWeight[EventId.GAMBLER_DICE_MANIAC] = EVT_MECH_15_WEIGHT
-    eventCatalogType[EventId.GAMBLER_DICE_MANIAC] = EventType.MECH
 
-    eventName[EventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_TITLE
-    eventDesc[EventId.GAMBLER_HEART_OF_STEEL] = STR_EVT_MECH_16_DESC.format(Button.RELOAD, EVT_MECH_16_WIN_RATE, EVT_MECH_16_WIN_MULTIPLIER, 100 - EVT_MECH_16_WIN_RATE, percent(EVT_MECH_16_LOSE_RATIO))
-    eventDuration[EventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_DURATION
-    eventCatalogWeight[EventId.GAMBLER_HEART_OF_STEEL] = EVT_MECH_16_WEIGHT
-    eventCatalogType[EventId.GAMBLER_HEART_OF_STEEL] = EventType.MECH
 
     eventName[EventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_TITLE
     eventDesc[EventId.GAMBLER_ALL_IN_ART_5] = STR_EVT_MECH_17_DESC.format(Button.RELOAD, percent(EVT_MECH_17_STAKE_RATIO), EVT_MECH_17_WIN_RATE, EVT_MECH_17_WIN_MULTIPLIER)
@@ -490,7 +480,7 @@ rule "initialize event array":
     eventCatalogWeight[EventId.SHAPESHIFTER] = EVT_MECH_28_WEIGHT
     eventCatalogType[EventId.SHAPESHIFTER] = EventType.MECH
 
-    # 目录顺序由入口各自的 events/catalog/eventCatalog{Main,Dev}.opy 提供
+    # 目录顺序由入口共用的 events/catalog/eventCatalogOrder.opy 提供
     eventCatalogId = EVENT_CATALOG_ORDER
 
     eventName[EventId.FATE_PRELUDE] = STR_EVT_BUFF_38_TITLE
