@@ -522,7 +522,7 @@
 #!define STR_EVT_MECH_29_TITLE "Gambler: Blackjack"
 #!define STR_EVT_MECH_29_DESC "Hold {0} to buy in with {1}% of your Heartsteel and deal, all-in each hand; hold {0} to hit, hold {2} to stand; beat the dealer to double your chips"
 #!define STR_EVT_MECH_29_HUD_PLAY "You {0} ?    Dealer {1} ?    Stake {2}\n{3} Hit    {4} Stand"
-#!define STR_EVT_MECH_29_MSG_RESULT "You {0} Dealer {1}, {2}, Chips {3}"
+#!define STR_EVT_MECH_29_MSG_RESULT "You {0} {1}    Dealer {2} {3}, {4}, Chips {5}"
 #!define STR_EVT_MECH_29_MSG_CASHOUT "Settled {0} Heartsteel"
 #!define STR_EVT_MECH_29_HUD_AGAIN "Chips {0}\n{1} Again    {2} Settle"
 #!define STR_EVT_MECH_29_BUYIN "{0} Buy in {1}% of Heartsteel and deal"

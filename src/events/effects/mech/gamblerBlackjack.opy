@@ -24,7 +24,7 @@ def blackjackSettle():
     eventPlayer.temp = random.randint(1, 10)
     # 玩家爆牌或庄家未爆牌且点数更高 = 输；点数相同 = 平；其余 = 赢
     eventPlayer.eventMissionGoal = eventPlayer.eventMission * (0 if eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1] > 21 or (eventPlayer.eventLoopCount[2] + eventPlayer.temp <= 21 and eventPlayer.eventLoopCount[2] + eventPlayer.temp > eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1]) else 1 if eventPlayer.eventLoopCount[2] + eventPlayer.temp == eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1] else 2)
-    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2] + eventPlayer.temp, [STR_EVT_MECH_29_LOSE, STR_EVT_MECH_29_PUSH, STR_EVT_MECH_29_WIN][eventPlayer.eventMissionGoal / eventPlayer.eventMission], eventPlayer.eventMissionGoal))
+    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.temp, [STR_EVT_MECH_29_LOSE, STR_EVT_MECH_29_PUSH, STR_EVT_MECH_29_WIN][eventPlayer.eventMissionGoal / eventPlayer.eventMission], eventPlayer.eventMissionGoal))
     eventPlayer.eventMission = 0
 
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
@@ -94,10 +94,8 @@ rule "[VishkarEvent]: 赌徒：21点 (到期收尾)":
 
 # 事件 HUD：全局创建一次，按本地玩家的事件状态渲染；按键图标（本地值）只能直接写在 HUD 字符串里
 rule "[VishkarEvent]: 赌徒：21点 (HUD)":
-    hudText(
+    hudSubheader(
         localPlayer if localPlayer.eventId == EventId.GAMBLER_BLACKJACK and localPlayer.settlementCardEnd == null else null,
-        null,
-        null,
         STR_EVT_MECH_29_HUD_PLAY.format(localPlayer.eventLoopCount[0], localPlayer.eventLoopCount[2], localPlayer.eventMission, inputBindingString(Button.RELOAD), inputBindingString(Button.INTERACT)) if localPlayer.eventMission > 0 else STR_EVT_MECH_29_HUD_AGAIN.format(localPlayer.eventMissionGoal, inputBindingString(Button.RELOAD), inputBindingString(Button.INTERACT)) if localPlayer.eventMissionGoal > 0 else STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO)),
-        HudPosition.TOP, 21, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+        HudPosition.TOP, 21, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
