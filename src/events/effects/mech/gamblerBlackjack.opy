@@ -24,7 +24,7 @@ def blackjackSettle():
     eventPlayer.temp = random.randint(1, 10)
     # 玩家爆牌或庄家未爆牌且点数更高 = 输；点数相同 = 平；其余 = 赢
     eventPlayer.eventMissionGoal = eventPlayer.eventMission * (0 if eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1] > 21 or (eventPlayer.eventLoopCount[2] + eventPlayer.temp <= 21 and eventPlayer.eventLoopCount[2] + eventPlayer.temp > eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1]) else 1 if eventPlayer.eventLoopCount[2] + eventPlayer.temp == eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1] else 2)
-    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.temp, [STR_EVT_MECH_29_LOSE, STR_EVT_MECH_29_PUSH, STR_EVT_MECH_29_WIN][eventPlayer.eventMissionGoal / eventPlayer.eventMission], eventPlayer.eventMissionGoal))
+    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.temp, STR_EVT_MECH_29_WIN if eventPlayer.eventMissionGoal > eventPlayer.eventMission else STR_EVT_MECH_29_PUSH if eventPlayer.eventMissionGoal == eventPlayer.eventMission else STR_EVT_MECH_29_LOSE, eventPlayer.eventMissionGoal))
     eventPlayer.eventMission = 0
 
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
