@@ -22,7 +22,7 @@ def blackjackSettle():
     eventPlayer.temp = random.randint(12, 16) + random.randint(1, 10)
     # 玩家爆牌或庄家未爆牌且点数更高 = 输；点数相同 = 平；其余 = 赢
     eventPlayer.eventMissionGoal = eventPlayer.eventMission * (0 if eventPlayer.eventLoopCount > 21 or (eventPlayer.temp <= 21 and eventPlayer.temp > eventPlayer.eventLoopCount) else 1 if eventPlayer.temp == eventPlayer.eventLoopCount else 2)
-    eventPlayer.hudText = STR_EVT_MECH_29_HUD_RESULT.format(eventPlayer.eventLoopCount, eventPlayer.temp, [STR_EVT_MECH_29_LOSE, STR_EVT_MECH_29_PUSH, STR_EVT_MECH_29_WIN][eventPlayer.eventMissionGoal / eventPlayer.eventMission], eventPlayer.eventMissionGoal, STR_EVT_MECH_29_AGAIN.format(inputBindingString(Button.RELOAD), inputBindingString(Button.INTERACT)) if eventPlayer.eventMissionGoal > 0 else STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO)))
+    eventPlayer.hudText = STR_EVT_MECH_29_HUD_RESULT.format(eventPlayer.eventLoopCount, eventPlayer.temp, [STR_EVT_MECH_29_LOSE, STR_EVT_MECH_29_PUSH, STR_EVT_MECH_29_WIN][eventPlayer.eventMissionGoal / eventPlayer.eventMission], eventPlayer.eventMissionGoal, STR_EVT_MECH_29_AGAIN.format(Button.RELOAD, Button.INTERACT) if eventPlayer.eventMissionGoal > 0 else STR_EVT_MECH_29_BUYIN.format(Button.RELOAD, percent(EVT_MECH_29_POOL_RATIO)))
     eventPlayer.eventMission = 0
 
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
@@ -31,7 +31,7 @@ rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
     @Condition eventPlayer.hasSpawned() and eventPlayer.eventId == EventId.GAMBLER_BLACKJACK
 
     eventPlayer.altFormActive = true
-    eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO))
+    eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(Button.RELOAD, percent(EVT_MECH_29_POOL_RATIO))
     waitUntil(not (eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.isHoldingButton(Button.INTERACT)) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK, Math.INFINITY)
     eventPlayer.altFormActive = false
 
@@ -56,7 +56,7 @@ rule "[VishkarEvent]: 赌徒：21点 (买入/发牌/要牌)":
         eventPlayer.eventMission = eventPlayer.eventMissionGoal
         eventPlayer.eventMissionGoal = 0
         eventPlayer.eventLoopCount = random.randint(12, 16)
-        eventPlayer.hudText = STR_EVT_MECH_29_HUD_PLAY.format(eventPlayer.eventMission, eventPlayer.eventLoopCount, inputBindingString(Button.RELOAD), inputBindingString(Button.INTERACT))
+        eventPlayer.hudText = STR_EVT_MECH_29_HUD_PLAY.format(eventPlayer.eventMission, eventPlayer.eventLoopCount, Button.RELOAD, Button.INTERACT)
     waitUntil(not eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
 
@@ -74,7 +74,7 @@ rule "[VishkarEvent]: 赌徒：21点 (停牌/兑回)":
     elif eventPlayer.eventMissionGoal > 0:
         eventPlayer.heart_steel[HeartSteelData.STACKS] += eventPlayer.eventMissionGoal
         eventPlayer.eventMissionGoal = 0
-        eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(inputBindingString(Button.RELOAD), percent(EVT_MECH_29_POOL_RATIO))
+        eventPlayer.hudText = STR_EVT_MECH_29_BUYIN.format(Button.RELOAD, percent(EVT_MECH_29_POOL_RATIO))
         setPlayerHP()
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
