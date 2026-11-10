@@ -24,7 +24,6 @@
 # 白名单 EVT_MECH_26_REPLAYABLE_EVENTS 含增益与机制事件（机制：限时效果型 + 自包含赌徒型，owner 2026-11-05 确认）。增益准入标准：规则在重新激活时按 eventId 干净重建——
 # 纯临时数值修饰或周期效果，无持久状态污染。排除项及理由：
 #   OLIVIA_GIFT         Pack0 特殊彩蛋，无增益语义
-#   PHOTON_SHIELD       向全体队友 target 共享暂存字段写入；任一实例收尾清空共享字段，跨实例互坏
 #   PHEIDIPPIDES_TRIAL  任务型事件，奖励为永久移速
 #   MARTYR_TRIAL        任务型事件（eventMission 复用为击杀者数组），奖励永久减伤
 #   TEMPER_HEART        playerOnceEventState 一次性闩锁 + 永久心之钢倍率

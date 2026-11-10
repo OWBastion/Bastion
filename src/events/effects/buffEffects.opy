@@ -21,7 +21,6 @@
 #!include "buff/heartOfSteel.opy"
 #!include "buff/deathDelay.opy"
 #!include "buff/konamiCode.opy"
-#!include "buff/photonShield.opy"
 #!include "buff/regroupCall.opy"
 #!include "buff/willToWin.opy"
 #!include "buff/pheidippidesTrial.opy"

@@ -25,8 +25,6 @@ enum EventId:
     DEATH_DELAY
     # legacy numeric id: 11
     KONAMI_CODE
-    # legacy numeric id: 12
-    PHOTON_SHIELD
     # legacy numeric id: 13
     REGROUP_CALL
     # legacy numeric id: 14

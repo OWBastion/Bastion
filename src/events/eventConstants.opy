@@ -153,17 +153,6 @@ enum HeartSteelData:
 #!define EVT_11_EFFECT_DIE DynamicEffect.TRACER_RECALL_DISAPPEAR
 #!define EVT_11_EFFECT_RESURRECT DynamicEffect.TRACER_RECALL_REAPPEAR
 
-# --- ID 12: 费斯卡光子护盾 (团队共享盾) ---
-# Duration（秒）
-#!define EVT_BUFF_12_DURATION 120
-# Weight（权重）
-#!define EVT_BUFF_12_WEIGHT 0.8
-# 护盾基础值与最大生命值比例
-#!define EVT_12_BASE_SHIELD 50
-#!define EVT_12_SHIELD_PERCENT 0.2
-# 护盾池 ID 索引
-#!define EVT_12_HEALTH_ID 2
-
 # --- ID 13: 向我靠拢 (无敌光环) ---
 # Duration（秒）
 #!define EVT_BUFF_13_DURATION 30
