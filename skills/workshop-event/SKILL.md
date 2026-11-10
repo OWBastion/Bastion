@@ -9,7 +9,7 @@ Keep the change to the target event; no reordering, refactors, placeholder event
 
 ## Scaffold with the tool
 
-`pnpm run event --spec <file.json>` (the spec's `action` is `add` or `remove`; add `--dry-run` first) edit `event_ids`, `event_constants`, both locales, `eventCatalog`, and `EVENT_CATALOG_ORDER` in the Main, Dev, and Editor catalogs. The spec fields are defined in `tools/eventScaffold.ts` (`type`, `key`, `id`, `titleZh/En`, `descZh/En`, `duration`, `weight`, optional `configDescExpr`). Do not repeat that work by hand.
+`pnpm run event --spec <file.json>` (the spec's `action` is `add` or `remove`; add `--dry-run` first) edit `event_ids`, `event_constants`, both locales, `eventCatalog`, and `EVENT_CATALOG_ORDER` in `eventCatalogOrder.opy`. The spec fields are defined in `tools/eventScaffold.ts` (`type`, `key`, `id`, `titleZh/En`, `descZh/En`, `duration`, `weight`, optional `configDescExpr`). Do not repeat that work by hand.
 
 ## What the tool does not do
 

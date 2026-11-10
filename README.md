@@ -55,9 +55,9 @@ Enable in Workshop settings.
 
 - This project supports AI-assisted development. Read `AGENTS.md` first for architecture and collaboration rules.
 - Keep `src/main.opy`, `src/devMain.opy`, and `src/externalMain.opy` structurally aligned whenever practical.
-- When changing event logic, validate the shared catalog and both order files:
+- When changing event logic, validate the catalog and its shared order list:
   - `src/events/catalog/eventCatalog.opy`
-  - `src/events/catalog/eventCatalogMain.opy` / `src/events/catalog/eventCatalogDev.opy`
+  - `src/events/catalog/eventCatalogOrder.opy`
 - Follow server stability rules in `docs/improve-server-stability.md`:
   - Avoid loops without `wait`
   - Default to condition-block gating for continuous rules (`~0.016s` top-to-bottom short-circuit)
