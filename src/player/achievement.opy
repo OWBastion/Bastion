@@ -71,51 +71,45 @@ rule "[VishkarEvent]: Challenge 68 Reset (CHALLENGE_89683D0A)":
 
     eventPlayer.dlcTimeChallenge[3] = 0
 
-# 闲庭信步：Resolve finish 在加速效果内每次英雄闯关计数 dlcTimeChallenge[4]，事件结束复位。
+# 闲庭信步：命运变奏曲开始时在 eventMissionGoal 记录 heroNumber + 1 作基准，事件内 heroNumber 增量达标即解锁。
 rule "[VishkarEvent]: Challenge 73 Track (TITLE_78561F19)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[4] >= EVT_39_CHALLENGE_HERO_CLEARS
+    @Condition eventPlayer.eventId == EventId.FATE_VARIATION
+    @Condition eventPlayer.eventMissionGoal > 0
+    @Condition eventPlayer.heroNumber + 1 - eventPlayer.eventMissionGoal >= EVT_39_CHALLENGE_HERO_CLEARS
     @Condition 73 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(73)
 
-rule "[VishkarEvent]: Challenge 73 Reset (TITLE_78561F19)":
-    @Event eachPlayer
-    @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[4] != 0
-    @Condition eventPlayer.eventId != EventId.FATE_VARIATION
-
-    eventPlayer.dlcTimeChallenge[4] = 0
-
-# 祸不单行：命运赋格曲每次实际结算延迟伤害计数 dlcTimeChallenge[5]，死亡清零；
+# 祸不单行：命运赋格曲每次实际结算延迟伤害计数 dlcTimeChallenge[4]，死亡清零；
 # 事件结束时仍存活且计数达标才解锁。
 rule "[VishkarEvent]: Challenge 72 Track (TITLE_5E15AB66)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[5] != 0
+    @Condition eventPlayer.dlcTimeChallenge[4] != 0
     @Condition eventPlayer.eventId != EventId.FATE_FUGUE
 
-    if hashTag and len(challengeTitleIds) != 0 and eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.dlcTimeChallenge[5] >= EVT_DEBUFF_26_CHALLENGE_HITS and 72 not in eventPlayer.earnedAchievements:
+    if hashTag and len(challengeTitleIds) != 0 and eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.dlcTimeChallenge[4] >= EVT_DEBUFF_26_CHALLENGE_HITS and 72 not in eventPlayer.earnedAchievements:
         eventPlayer.unlockAchievement(72)
-    eventPlayer.dlcTimeChallenge[5] = 0
+    eventPlayer.dlcTimeChallenge[4] = 0
 
 rule "[VishkarEvent]: Challenge 72 Death Reset (TITLE_5E15AB66)":
     @Event playerDied
     @Team 1
     @Condition eventPlayer.eventId == EventId.FATE_FUGUE
-    @Condition eventPlayer.dlcTimeChallenge[5] != 0
+    @Condition eventPlayer.dlcTimeChallenge[4] != 0
 
-    eventPlayer.dlcTimeChallenge[5] = 0
+    eventPlayer.dlcTimeChallenge[4] = 0
 
-# To Be NO.1：赢家通吃赢得奖池达标时置位 dlcTimeChallenge[6]，解锁后立即复位。
+# To Be NO.1：赢家通吃赢得奖池达标时置位 dlcTimeChallenge[5]，解锁后立即复位。
 rule "[VishkarEvent]: Challenge 74 Track (TITLE_DE83386D)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[6] == 1
+    @Condition eventPlayer.dlcTimeChallenge[5] == 1
 
     if hashTag and len(challengeTitleIds) != 0 and 74 not in eventPlayer.earnedAchievements:
         eventPlayer.unlockAchievement(74)
-    eventPlayer.dlcTimeChallenge[6] = 0
+    eventPlayer.dlcTimeChallenge[5] = 0
