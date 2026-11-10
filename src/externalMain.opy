@@ -96,7 +96,15 @@ rule STR_LICENSE_PERMIT:
 #!include "blacklist/removeFromBlacklist.opy"
 #!include "events/lifecycle/detectFlag.opy"
 
+# Map setup
+#!include "map/setupAllMap.opy"
+
 #!include "heroes/allHero.opy"
+
+# Bastion setup
+#!include "bastion/createBastionBot.opy"
+
+#!include "bastion/initBastion.opy"
 
 #!include "events/allocation/buildCompatibleEventPool.opy"
 
@@ -122,8 +130,6 @@ rule STR_LICENSE_PERMIT:
 #!include "session/setDifficulty.opy"
 
 #!include "player/thirdPerson.opy"
-
-#!include "bastion/createBastionBot.opy"
 
 #!include "events/integrity/eventHashtag.opy"
 
@@ -155,11 +161,6 @@ rule STR_LICENSE_PERMIT:
 #!include "events/effects/debuffEffects.opy"
 
 #!include "events/effects/mechEffects.opy"
-
-# Maps
-#!include "map/setupAllMap.opy"
-
-#!include "bastion/initBastion.opy"
 
 #!include "map/controlJump.opy"
 #!include "player/finishSettlement.opy"
