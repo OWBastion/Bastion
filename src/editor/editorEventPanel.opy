@@ -70,6 +70,8 @@ rule "Trigger selected event":
         clearPlayerEvent()
     eventPlayer.eventNextIndex = eventPlayer.editorEventId
     setPlayerEvent()
+    # setPlayerEvent 期间 eventAssigning 使条件变假，结束后若仍按住开火键会再次触发，故等待松开
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), Math.INFINITY)
 
 
 rule "End event now":
