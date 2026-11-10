@@ -93,7 +93,7 @@ rule STR_LICENSE_PERMIT:
 #!include "session/sessionGame.opy"
 #!include "session/titleVars.opy"
 #!include "composition/profileEditor.opy"
-#!include "events/catalog/eventCatalogEditor.opy"
+#!include "events/catalog/eventCatalogOrder.opy"
 #!include "events/catalog/eventCatalog.opy"
 
 # Runtime modules in emission order

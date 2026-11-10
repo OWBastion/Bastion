@@ -88,7 +88,7 @@ rule STR_LICENSE_PERMIT:
 #!include "session/titleVars.opy"
 #!include "title/titleCn.opy"
 #!include "composition/profileCn.opy"
-#!include "events/catalog/eventCatalogDev.opy"
+#!include "events/catalog/eventCatalogOrder.opy"
 #!include "events/catalog/eventCatalog.opy"
 
 # Runtime modules in emission order

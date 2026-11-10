@@ -31,3 +31,12 @@ rule "Clear ended event":
     if eventPlayer.eventId != -1 and eventPlayer.eventEndTime <= getTotalTimeElapsed():
         clearPlayerEvent()
     wait(getAverageServerLoad() * 0.00032)
+
+
+# 这三个事件依赖英雄进度，编辑器不解锁进度，权重置 0 使其不进入随机与指定抽取。
+rule "Exclude progression events":
+    @Condition eventCatalogWeight[EventId.TEMPER_HEART] > 0
+
+    eventCatalogWeight[EventId.TEMPER_HEART] = 0
+    eventCatalogWeight[EventId.CHEAT_SKIP_HERO] = 0
+    eventCatalogWeight[EventId.SHARED_BLESSING] = 0
