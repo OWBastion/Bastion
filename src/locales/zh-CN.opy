@@ -532,7 +532,7 @@
 #!define STR_EDITOR_MSG_NO_GROUND "下方 50 米内没有地面，未放置"
 #!define STR_EVT_MECH_29_TITLE "赌徒：21点"
 #!define STR_EVT_MECH_29_DESC "长按{0}以{1}%心之钢买入并发牌，每手全押；长按{0}要牌，长按{2}停牌，点数高于庄家则筹码翻倍"
-#!define STR_EVT_MECH_29_HUD_PLAY "押注 {0}    我方 {1}    庄家 ?\n{2} 要牌（仅一次，超过21点爆牌）    {3} 停牌"
+#!define STR_EVT_MECH_29_HUD_PLAY "押注 {0}    我方 {1}    庄家 ?\n{2} 要牌    {3} 停牌"
 #!define STR_EVT_MECH_29_HUD_RESULT "我方 {0}    庄家 {1}\n{2}    筹码 {3}\n{4}"
 #!define STR_EVT_MECH_29_AGAIN "{0} 全押再来    {1} 兑回心之钢"
 #!define STR_EVT_MECH_29_BUYIN "{0} 买入{1}%心之钢并发牌"
