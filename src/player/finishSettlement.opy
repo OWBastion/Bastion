@@ -23,6 +23,8 @@ rule "Resolve finish":
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), controlJumpPosition[0].getPosition()), Relativity.TO_WORLD)
     lbl_0:
     if eventPlayer.heroNumber + 1 < len(heroList) and eventPlayer.getHero() == heroList[eventPlayer.heroNumber]:
+        if eventPlayer.eventId == EventId.FATE_VARIATION and eventPlayer.mod_speed_event > 0:
+            eventPlayer.dlcTimeChallenge[4] += 1
         progressHero()
     elif eventPlayer.getHero() == heroList.last() and not eventPlayer.isWinner:
         eventPlayer.isWinner = true

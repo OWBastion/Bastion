@@ -362,6 +362,7 @@ enum HeartSteelData:
 #!define EVT_39_DECAY_SECONDS 3
 # 衰减刷新间隔（秒）
 #!define EVT_39_DECAY_STEP 0.1
+#!define EVT_39_CHALLENGE_HERO_CLEARS 4
 
 # --- ID 40: 命运协奏曲 ---
 # Duration（秒）
@@ -643,6 +644,7 @@ enum GravityAnomalyRoll:
 # 额外伤害延迟（秒）与占原伤害的百分比
 #!define EVT_DEBUFF_26_DELAY 1.5
 #!define EVT_DEBUFF_26_DAMAGE_PERCENT 100
+#!define EVT_DEBUFF_26_CHALLENGE_HITS 5
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
@@ -935,6 +937,7 @@ enum MirrorInversionStat:
 #!define EVT_MECH_24_WIN_RATE 10
 #!define EVT_MECH_24_POOL_MIN 8
 #!define EVT_MECH_24_PLAYER_STACKS_MIN 4
+#!define EVT_MECH_24_CHALLENGE_JACKPOT 800
 
 # --- ID 25 (Mech): 先知 ---
 # Duration（秒）
