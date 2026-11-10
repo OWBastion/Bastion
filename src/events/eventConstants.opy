@@ -64,7 +64,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_1_DURATION 25
 # Weight（权重）
-#!define EVT_BUFF_1_WEIGHT 1.5
+#!define EVT_BUFF_1_WEIGHT 1
 #!define EVT_1_SPEED_BOOST 50
 #!define EVT_1_EFFECT Effect.SOLDIER_SPRINTING
 
@@ -297,7 +297,7 @@ enum HeartSteelData:
 # Duration（秒）
 #!define EVT_BUFF_29_DURATION 45
 # Weight（权重）
-#!define EVT_BUFF_29_WEIGHT 1.2
+#!define EVT_BUFF_29_WEIGHT 1
 #!define EVT_29_SPEED_BOOST 60
 
 # --- ID 30: 天降神兵 ---
@@ -359,7 +359,7 @@ enum HeartSteelData:
 #!define EVT_BUFF_39_WEIGHT 0.8
 # 受伤后的初始移速加成（%），在衰减时间内线性衰减至 0
 #!define EVT_39_SPEED_BOOST 300
-#!define EVT_39_DECAY_SECONDS 2
+#!define EVT_39_DECAY_SECONDS 3
 # 衰减刷新间隔（秒）
 #!define EVT_39_DECAY_STEP 0.1
 
@@ -642,10 +642,22 @@ enum GravityAnomalyRoll:
 #!define EVT_DEBUFF_26_WEIGHT 0.8
 # 额外伤害延迟（秒）与占原伤害的百分比
 #!define EVT_DEBUFF_26_DELAY 1.5
-#!define EVT_DEBUFF_26_DAMAGE_PERCENT 75
+#!define EVT_DEBUFF_26_DAMAGE_PERCENT 100
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
+
+# --- ID 29 (Mech): 赌徒：21点 ---
+# Duration（秒）
+#!define EVT_MECH_29_DURATION 90
+# Weight（权重）
+#!define EVT_MECH_29_WEIGHT 1
+# 每次买入的筹码 = 买入时当前心之钢层数 × 此比例（至少 1 层，不超过现有层数），立即从心之钢扣除
+#!define EVT_MECH_29_POOL_RATIO 0.25
+# 事件剩余时间不超过此值时：自动停牌结算并兑回筹码（秒）
+#!define EVT_MECH_29_END_GUARD 3
+# 事件剩余时间不超过此值时不再买入或发牌（秒）
+#!define EVT_MECH_29_MIN_DEAL_TIME 6
 # -----------------------------------------------------------------------------
 
 # --- ID 0 (Mech/Special): 极限挑战 ---
