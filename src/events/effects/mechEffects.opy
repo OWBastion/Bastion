@@ -30,3 +30,4 @@
 #!include "mech/shapeshifter.opy"
 #!include "mech/fateRhapsody.opy"
 #!include "mech/cycleReplay.opy"
+#!include "mech/gamblerBlackjack.opy"
