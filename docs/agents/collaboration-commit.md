@@ -20,6 +20,8 @@ A verified local worktree is not the shared review surface.
 - Never push implementation commits directly to the default branch unless explicitly authorized.
 - Merge, release, deployment, production mutation, destructive actions, and material scope expansion remain separate authorization boundaries.
 
+- A PR that implements an Issue uses `Closes #N`, not `Refs #N`. Gameplay verification in the game cannot run automatically, so it does not block closing: merge, then close the Issue. The user reopens or files a new Issue if a defect appears.
+
 Why: leaving verified work only in an agent worktree, or leaving review conclusions only in chat, creates coordination work for the user and leaves the authoritative GitHub surface stale.
 
 ## Review output
