@@ -660,9 +660,9 @@ enum GravityAnomalyRoll:
 
 # --- ID 29 (Mech): 赌徒：21点 ---
 # Duration（秒）
-#!define EVT_MECH_29_DURATION 60
+#!define EVT_MECH_29_DURATION 90
 # Weight（权重）
-#!define EVT_MECH_29_WEIGHT 0.6
+#!define EVT_MECH_29_WEIGHT 1
 # 每次买入的筹码 = 买入时当前心之钢层数 × 此比例（至少 1 层，不超过现有层数），立即从心之钢扣除
 #!define EVT_MECH_29_POOL_RATIO 0.25
 # 事件剩余时间不超过此值时：自动停牌结算并兑回筹码（秒）
