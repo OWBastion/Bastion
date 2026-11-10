@@ -131,11 +131,6 @@ rule "initialize event array":
     eventCatalogWeight[EventId.KONAMI_CODE] = EVT_BUFF_11_WEIGHT
     eventCatalogType[EventId.KONAMI_CODE] = EventType.BUFF
 
-    eventName[EventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_TITLE
-    eventDesc[EventId.PHOTON_SHIELD] = STR_EVT_BUFF_12_DESC.format(EVT_12_BASE_SHIELD, percent(EVT_12_SHIELD_PERCENT))
-    eventDuration[EventId.PHOTON_SHIELD] = EVT_BUFF_12_DURATION
-    eventCatalogWeight[EventId.PHOTON_SHIELD] = EVT_BUFF_12_WEIGHT
-    eventCatalogType[EventId.PHOTON_SHIELD] = EventType.BUFF
 
     # ================================================
     # Pack 2: Debuffs
