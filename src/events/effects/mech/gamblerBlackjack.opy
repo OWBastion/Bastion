@@ -9,7 +9,7 @@
 # 无实体牌：玩家起手 12~16 点，最多追加一次 1~10 点；庄家起手 12~16 点对玩家可见，结算时才给出 1~10 点的暗牌。
 # 状态全部放在事件 scratch 槽，clearPlayerEvent 统一清零：
 # eventMissionGoal = 筹码（买入时立即从心之钢扣除，兑回或到期收尾时一次性加回）；
-# eventMission > 0 = 手牌进行中，值为本手全押的筹码；eventLoopCount = [玩家起手点数, 玩家追加点数(0=未要牌), 庄家起手点数, 庄家暗牌, 玩家总点, 庄家总点]（发牌时整体覆盖）；
+# eventMission > 0 = 手牌进行中，值为本手全押的筹码；eventLoopCount = [玩家起手点数, 玩家追加点数(0=未要牌), 庄家起手点数, 庄家暗牌, 玩家总点, 庄家总点, 结果码, 结算筹码]（发牌时整体覆盖）；
 # 事件 HUD 由文件末尾的全局 rule 按这些槽位渲染，不写 hudText 变量（按键图标是本地值，不能存进变量）；
 # altFormActive 输入互斥锁，必须松开按键才能再次触发。死亡不会结束事件；玩家主动重置进度时未兑回的筹码随状态清零。
 
@@ -24,16 +24,19 @@ def blackjackSettle():
     eventPlayer.eventLoopCount[3] = random.randint(1, 10)
     eventPlayer.eventLoopCount[4] = eventPlayer.eventLoopCount[0] + eventPlayer.eventLoopCount[1]
     eventPlayer.eventLoopCount[5] = eventPlayer.eventLoopCount[2] + eventPlayer.eventLoopCount[3]
-    # 玩家爆牌或庄家未爆牌且点数更高 = 输；点数相同 = 平；其余 = 赢
+    # 玩家爆牌或庄家未爆牌且点数更高 = 输；点数相同 = 平；其余 = 赢。结果码存槽 6：0 输 / 1 平 / 2 赢
     if eventPlayer.eventLoopCount[4] > 21:
-        eventPlayer.eventMissionGoal = 0
+        eventPlayer.eventLoopCount[6] = 0
     elif eventPlayer.eventLoopCount[5] <= 21 and eventPlayer.eventLoopCount[5] > eventPlayer.eventLoopCount[4]:
-        eventPlayer.eventMissionGoal = 0
+        eventPlayer.eventLoopCount[6] = 0
     elif eventPlayer.eventLoopCount[5] == eventPlayer.eventLoopCount[4]:
-        eventPlayer.eventMissionGoal = eventPlayer.eventMission
+        eventPlayer.eventLoopCount[6] = 1
     else:
-        eventPlayer.eventMissionGoal = eventPlayer.eventMission * 2
-    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.eventLoopCount[3], STR_EVT_MECH_29_WIN if eventPlayer.eventMissionGoal > eventPlayer.eventMission else STR_EVT_MECH_29_PUSH if eventPlayer.eventMissionGoal == eventPlayer.eventMission else STR_EVT_MECH_29_LOSE, eventPlayer.eventMissionGoal))
+        eventPlayer.eventLoopCount[6] = 2
+    eventPlayer.eventLoopCount[7] = eventPlayer.eventMission * eventPlayer.eventLoopCount[6]
+    eventPlayer.eventMissionGoal = eventPlayer.eventLoopCount[7]
+    # 消息只读结果槽，不读 eventMission：下一行把它清零，消息若在其后才求值会把输/爆牌显示成平局
+    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.eventLoopCount[3], STR_EVT_MECH_29_WIN if eventPlayer.eventLoopCount[6] == 2 else STR_EVT_MECH_29_PUSH if eventPlayer.eventLoopCount[6] == 1 else STR_EVT_MECH_29_LOSE, eventPlayer.eventLoopCount[7]))
     eventPlayer.eventMission = 0
 
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
@@ -65,7 +68,7 @@ rule "[VishkarEvent]: 赌徒：21点 (买入/发牌/要牌)":
             setPlayerHP()
         eventPlayer.eventMission = eventPlayer.eventMissionGoal
         eventPlayer.eventMissionGoal = 0
-        eventPlayer.eventLoopCount = [random.randint(12, 16), 0, random.randint(12, 16), 0, 0, 0]
+        eventPlayer.eventLoopCount = [random.randint(12, 16), 0, random.randint(12, 16), 0, 0, 0, 0, 0]
     waitUntil(not eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
     eventPlayer.altFormActive = false
 
