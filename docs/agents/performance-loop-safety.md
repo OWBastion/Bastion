@@ -13,6 +13,9 @@ This document is the canonical rule source for server-load and loop safety.
 7. Split heavy action bursts across frames where needed.
 8. Prefer absorbing new checks into existing gated rules when feasible to reduce startup condition explosion.
 9. In AOE-triggered event rules, do not rely on post-`wait` event target context for multi-target behavior; either move those actions before `wait`, switch to per-victim event paths (for example `Player Took Damage`), or cache and iterate bounded target sets.
+10. Add a variable, subroutine, event-level macro, or element only when no existing one can serve. State the reuse check in the PR. Derive a value from existing state (for example completions × 100) instead of storing it. AI fortresses share player variables, so check their dedicated variables for merges first.
+11. Ship element-cost and startup-cost optimizations as small atomic commits, one PR per independently revertable unit. Why: a bundled set of optimizations broke event draw and crashed the server, and one revert removed all of them; atomic units let each be observed in game and reverted alone.
+12. An event cleans up in its own rules. The generic fallback (`clearPlayerEvent`) only backstops all events, and player leave uses one unified cleanup rule, not per-event leave handling.
 
 ## Deep References
 
