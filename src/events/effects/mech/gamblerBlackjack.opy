@@ -36,7 +36,7 @@ def blackjackSettle():
     eventPlayer.eventLoopCount[7] = eventPlayer.eventMission * eventPlayer.eventLoopCount[6]
     eventPlayer.eventMissionGoal = eventPlayer.eventLoopCount[7]
     # 消息只读结果槽，不读 eventMission：下一行把它清零，消息若在其后才求值会把输/爆牌显示成平局
-    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1], eventPlayer.eventLoopCount[2], eventPlayer.eventLoopCount[3], STR_EVT_MECH_29_WIN if eventPlayer.eventLoopCount[6] == 2 else STR_EVT_MECH_29_PUSH if eventPlayer.eventLoopCount[6] == 1 else STR_EVT_MECH_29_LOSE, eventPlayer.eventLoopCount[7]))
+    smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1] if eventPlayer.eventLoopCount[1] > 0 else "-", eventPlayer.eventLoopCount[2], eventPlayer.eventLoopCount[3], STR_EVT_MECH_29_WIN if eventPlayer.eventLoopCount[6] == 2 else STR_EVT_MECH_29_PUSH if eventPlayer.eventLoopCount[6] == 1 else STR_EVT_MECH_29_LOSE, eventPlayer.eventLoopCount[7]))
     eventPlayer.eventMission = 0
 
 rule "[VishkarEvent]: 赌徒：21点 (入场提示)":
