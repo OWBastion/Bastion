@@ -69,6 +69,10 @@ Code, tests, and `package.json` define current behavior. `docs/` holds only rule
 
 Link to canonical owners instead of duplicating their full guidance.
 
+## Analysis tools
+
+To trace rule order, rule flow, subroutine indices, or rule cost, run `wright` first (see the `wright` skill). Use `rg` and `Read` for source text. Do not rebuild the include chain by hand with `sed`, `grep`, or `cat`.
+
 ## Commands
 
 `package.json` scripts and `docs/agents/build-validation.md` are the command source of truth; do not copy command inventories here.
