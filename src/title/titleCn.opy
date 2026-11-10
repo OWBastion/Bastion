@@ -436,12 +436,12 @@ enum MapTITLEKey:
 
 # 阿努比斯神殿
 #!define DATA_TEMPLE_OF_ANUBIS [ \
-   playerNameToIndexDelimited(["吾携秋水揽星河", "豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "銀狼", "卖核弹的小女孩", "锄禾日当午", "八月八月八", "用户", "一杯美式", "初一", "小满都未满", "豆本豆豆奶", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   [], \
+   [], \
+   [], \
    []\
 ]
-#!define DATA_TEMPLE_OF_ANUBIS_PACKED "7-13|17-8-7-14-6-15-4-22-21-5-28-13-18-12-11-19-1|17-8-7-14-6-15-4-22-21-5-28-13-18-12-11-19-1|"
+#!define DATA_TEMPLE_OF_ANUBIS_PACKED "|||"
 
 # 阿努比斯王座
 #!define DATA_THRONE_OF_ANUBIS [ \

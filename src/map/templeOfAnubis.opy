@@ -9,19 +9,22 @@ macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯神殿"
 
     bastionPosition = [
-        vect(-17.188, 11.237, 105.646),
-        vect(-3.47, 20.35, 97.61),
-        vect(-4.69, 22.57, 79.47),
-        vect(-37.62, 1.91, 47.85),
-        vect(-25.2, 1.07, 25.16),
-        vect(-37.5, 16.8, -4.79),
-        vect(-0.35, 17.87, -24.21)
+        vect(-30.115, 9.922, 122.607),
+        vect(-7.842, 4.625, 103.274),
+        vect(11.571, 4.413, 124.972),
+        vect(-5.32, 22.584, 79.126),
+        vect(-13.472, 22.584, 79.761),
+        vect(-35.951, 17.538, 63.843),
+        vect(-22.726, 8.029, 41.783),
+        vect(-26.368, 10.903, 19.658),
+        vect(-19.242, 21.163, 7.157),
+        vect(-1.506, 20.195, 17.402),
+        vect(8.352, 15.617, -16.322)
     ]
     resetPosition = vect(-17.16, 4.46, 137.76)
-    endPosition = vect(-7.02, -0.66, -36.43)
+    endPosition = vect(2.45, 0.3, -19.4)
     thirdPersonPosition = vect(-7.969, 4.701, 137.39)
     creditsPosition = vect(-11.3, 7.35, 149.11)
-    springBoardPosition = vect(-47.93, 1.5, 51.33)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
