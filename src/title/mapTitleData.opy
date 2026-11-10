@@ -103,7 +103,7 @@
     DATA_ANTARCTIC_PENINSULA_PACKED, \
     DATA_AATLIS_PACKED \
 ]
-#!define MAP_TITLE_OVR "␞␞␞␞瓦拉纳西‖守护者␞␞␞␞␞␞␞␞␞‖黄金节拍␞␞␞␞␞␞␞桥元御守‖␞桥元御守‖␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞‖永别了牢笼␞␞␞␞␞␞␞␞␞␞␞␞大城‖守护者␞织金‖门徒␞科研先锋‖␞科研先锋‖␞织金‖门徒"
+#!define MAP_TITLE_OVR "␞␞␞荷鲁斯之眼‖␞瓦拉纳西‖守护者␞␞␞␞␞␞␞␞␞‖黄金节拍␞␞␞␞␞␞␞桥元御守‖␞桥元御守‖␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞␞‖永别了牢笼␞␞␞␞␞␞␞␞␞␞␞␞大城‖守护者␞织金‖门徒␞科研先锋‖␞科研先锋‖␞织金‖门徒"
 
 rule "Load CN map title holders":
     @Condition __currentMapText___
