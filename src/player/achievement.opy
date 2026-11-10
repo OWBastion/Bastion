@@ -7,8 +7,6 @@
 rule "Init Achievement Data":
     waitUntil(len(titleText) > 0, Math.INFINITY)
     challengeTitleIds = [
-        59, # EMOTICON_CONFUSED ？？？ 通过「作弊：暗箱操作」触发「作弊：我要验牌」，再通过「作弊：我要验牌」触发「奥利维娅的礼物」
-        61, # EMOTICON_SURPRISED o_O 触发「镜像反转」并将 4 个为负的属性全部反转
         68, # CHALLENGE_89683D0A 我大受震撼 触发「先知」，并在首次观测中观测到 7 个减益事件
         72, # TITLE_5E15AB66 祸不单行 在「命运赋格曲」的单次事件内承受至少 5 次实际结算的延迟伤害，并存活至事件结束
         73, # TITLE_78561F19 闲庭信步 在「命运变奏曲」的单次事件加速效果内完成 4 次英雄闯关
@@ -18,26 +16,6 @@ rule "Init Achievement Data":
     if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
         challengeTitleIds = []
 
-
-rule "[VishkarEvent]: Challenge 59 Track (EMOTICON_CONFUSED)":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag
-    @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[1] >= 2
-    @Condition 59 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(59)
-
-rule "[VishkarEvent]: Challenge 61 Track (EMOTICON_SURPRISED)":
-    @Event eachPlayer
-    @Team 1
-    @Condition hashTag
-    @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[2] >= 2
-    @Condition 61 not in eventPlayer.earnedAchievements
-
-    eventPlayer.unlockAchievement(61)
 
 # 我大受震撼：「先知」打开后只结算一次首次观测。
 # 观测范围：其他已出生的一队玩家；等待他们的下一个事件坍缩（最多 2 秒，先知缓存每秒刷新一次），
