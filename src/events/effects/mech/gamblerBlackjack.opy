@@ -85,7 +85,8 @@ rule "[VishkarEvent]: 赌徒：21点 (停牌/兑回)":
         blackjackSettle()
     elif eventPlayer.eventMissionGoal > 0:
         eventPlayer.heart_steel[HeartSteelData.STACKS] += eventPlayer.eventMissionGoal
-        smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_CASHOUT.format(eventPlayer.eventMissionGoal))
+        # 兑回提示也读取结算结果槽，避免 eventMissionGoal 清零后显示 0。
+        smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_CASHOUT.format(eventPlayer.eventLoopCount[7]))
         eventPlayer.eventMissionGoal = 0
         setPlayerHP()
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or eventPlayer.eventId != EventId.GAMBLER_BLACKJACK or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)
