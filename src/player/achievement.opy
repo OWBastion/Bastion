@@ -8,7 +8,7 @@ rule "Init Achievement Data":
     waitUntil(len(titleText) > 0, Math.INFINITY)
     challengeTitleIds = [
         68, # CHALLENGE_89683D0A 我大受震撼 触发「先知」，并在首次观测中观测到 7 个减益事件
-        72, # TITLE_5E15AB66 祸不单行 在「命运赋格曲」的单次事件内承受至少 5 次实际结算的延迟伤害，并存活至事件结束
+        72, # TITLE_5E15AB66 祸不单行 在「命运赋格曲」的单次事件内承受至少 3 次实际结算的延迟伤害，并到达终点
         73, # TITLE_78561F19 闲庭信步 在「命运变奏曲」的单次事件内 heroNumber 增加至少 4
         74, # TITLE_DE83386D To Be NO.1 在「赌徒：赢家通吃」中单次赢得至少 800 层心之钢
     ]
@@ -63,15 +63,26 @@ rule "[VishkarEvent]: Challenge 73 Track (TITLE_78561F19)":
     eventPlayer.unlockAchievement(73)
 
 # 祸不单行：命运赋格曲每次实际结算延迟伤害计数 dlcTimeChallenge[4]，死亡清零；
-# 事件结束时仍存活且计数达标才解锁。
+# 事件内计数达标且 heroNumber 相对事件开始时增加（或通关）即解锁，基准 eventMissionGoal 由命运赋格曲开始规则记录。
 rule "[VishkarEvent]: Challenge 72 Track (TITLE_5E15AB66)":
+    @Event eachPlayer
+    @Team 1
+    @Condition hashTag
+    @Condition len(challengeTitleIds) != 0
+    @Condition eventPlayer.eventId == EventId.FATE_FUGUE
+    @Condition eventPlayer.eventMissionGoal > 0
+    @Condition eventPlayer.dlcTimeChallenge[4] >= EVT_DEBUFF_26_CHALLENGE_HITS
+    @Condition eventPlayer.heroNumber + 1 - eventPlayer.eventMissionGoal >= 1 or eventPlayer.isWinner
+    @Condition 72 not in eventPlayer.earnedAchievements
+
+    eventPlayer.unlockAchievement(72)
+
+rule "[VishkarEvent]: Challenge 72 Reset (TITLE_5E15AB66)":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.dlcTimeChallenge[4] != 0
     @Condition eventPlayer.eventId != EventId.FATE_FUGUE
 
-    if hashTag and len(challengeTitleIds) != 0 and eventPlayer.hasSpawned() and eventPlayer.isAlive() and eventPlayer.dlcTimeChallenge[4] >= EVT_DEBUFF_26_CHALLENGE_HITS and 72 not in eventPlayer.earnedAchievements:
-        eventPlayer.unlockAchievement(72)
     eventPlayer.dlcTimeChallenge[4] = 0
 
 rule "[VishkarEvent]: Challenge 72 Death Reset (TITLE_5E15AB66)":

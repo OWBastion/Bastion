@@ -644,7 +644,7 @@ enum GravityAnomalyRoll:
 # 额外伤害延迟（秒）与占原伤害的百分比
 #!define EVT_DEBUFF_26_DELAY 1.5
 #!define EVT_DEBUFF_26_DAMAGE_PERCENT 100
-#!define EVT_DEBUFF_26_CHALLENGE_HITS 5
+#!define EVT_DEBUFF_26_CHALLENGE_HITS 3
 
 # -----------------------------------------------------------------------------
 # MECH 事件（按ID排序）
