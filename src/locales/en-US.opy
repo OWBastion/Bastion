@@ -520,7 +520,7 @@
 #!define STR_EDITOR_FIRE_MODE_OFF "Off"
 #!define STR_EDITOR_MSG_NO_GROUND "No ground within 50 m below. Not placed"
 #!define STR_EVT_MECH_29_TITLE "Gambler: Blackjack"
-#!define STR_EVT_MECH_29_DESC "Hold {0} to buy in with {1}% of your Heartsteel and deal, all-in each hand; hold {0} to hit, hold {2} to stand; beat the dealer to double your chips"
+#!define STR_EVT_MECH_29_DESC "Hold {0} to buy in with {1}% of your Heartsteel and deal, all-in each hand; hold {0} to hit, hold {2} to stand; beat the dealer to triple your chips"
 #!define STR_EVT_MECH_29_HUD_PLAY "You {0} ?    Dealer {1} ?    Stake {2}\n{3} Hit    {4} Stand"
 #!define STR_EVT_MECH_29_MSG_RESULT "You {0} {1}    Dealer {2} {3}, {4}, Chips {5}"
 #!define STR_EVT_MECH_29_MSG_CASHOUT "Settled {0} Heartsteel"
