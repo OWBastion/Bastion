@@ -8,7 +8,7 @@
 macro platformMapRevision_NUMBANI_DEFAULT():
     __currentMapText___ = "努巴尼"
 
-    bastionPosition = mapPositionPool.slice(493, 10)
+    bastionPosition = mapPositionPool.slice(497, 10)
     # (203.716, 0.209, -0.271)
     # (151.942, 4.337, -5.45)
     # (127.026, 2.25, 17.094)
@@ -19,10 +19,10 @@ macro platformMapRevision_NUMBANI_DEFAULT():
     # (32.85, 3.119, 34.634)
     # (69.994, 6.25, 15.541)
     # (118.084, 4.25, 3.814)
-    resetPosition = mapPositionPool[503] # (224.54, 0.2, 0.39)
-    endPosition = mapPositionPool[504] # (23, 3.12, 39.72)
-    thirdPersonPosition = mapPositionPool[505] # (225.74, 0.2, 4.55)
-    creditsPosition = mapPositionPool[506] # (254.54, 3.2, 22.87)
+    resetPosition = mapPositionPool[507] # (224.54, 0.2, 0.39)
+    endPosition = mapPositionPool[508] # (23, 3.12, 39.72)
+    thirdPersonPosition = mapPositionPool[509] # (225.74, 0.2, 4.55)
+    creditsPosition = mapPositionPool[510] # (254.54, 3.2, 22.87)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

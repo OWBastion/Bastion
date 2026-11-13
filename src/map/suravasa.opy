@@ -8,7 +8,7 @@
 macro platformMapRevision_SURAVASA_DEFAULT():
     __currentMapText___ = "苏拉瓦萨"
 
-    bastionPosition = mapPositionPool.slice(640, 9)
+    bastionPosition = mapPositionPool.slice(644, 9)
     # (16.734, 10.5, 72.11)
     # (-33.04, 4.174, 73.197)
     # (-0.913, 5.25, 62.388)
@@ -18,11 +18,11 @@ macro platformMapRevision_SURAVASA_DEFAULT():
     # (-20.737, 4.005, 18.929)
     # (-2.818, 3.976, -36.071)
     # (-20.587, 4.008, -19.155)
-    resetPosition = mapPositionPool[649] # (-4.55, 4, 124.39)
-    endPosition = mapPositionPool[650] # (-2.43, 4.13, 0.75)
-    thirdPersonPosition = mapPositionPool[651] # (5.54, 4, 124.39)
-    creditsPosition = mapPositionPool[474] # (0.68, 11.77, 120.02)
-    controlRespawnPosition = mapPositionPool.slice(652, 1)
+    resetPosition = mapPositionPool[653] # (-4.55, 4, 124.39)
+    endPosition = mapPositionPool[654] # (-2.43, 4.13, 0.75)
+    thirdPersonPosition = mapPositionPool[655] # (5.54, 4, 124.39)
+    creditsPosition = mapPositionPool[478] # (0.68, 11.77, 120.02)
+    controlRespawnPosition = mapPositionPool.slice(656, 1)
     # (-0.36, 4, 136.68)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 50

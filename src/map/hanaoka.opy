@@ -8,7 +8,7 @@
 macro platformMapRevision_HANAOKA_DEFAULT():
     __currentMapText___ = "花冈"
 
-    bastionPosition = mapPositionPool.slice(265, 10)
+    bastionPosition = mapPositionPool.slice(269, 10)
     # (-22.263, 46.024, -89.586)
     # (-5.326, 42.977, -59.814)
     # (6.729, 45.55, -48.776)
@@ -19,11 +19,11 @@ macro platformMapRevision_HANAOKA_DEFAULT():
     # (14.139, 41.045, 99.842)
     # (-12.338, 40.538, 39.81)
     # (-17.161, 40.545, -19.673)
-    resetPosition = mapPositionPool[275] # (-9.08, 44.05, -133.26)
-    endPosition = mapPositionPool[276] # (20.36, 39.83, 112.51)
-    thirdPersonPosition = mapPositionPool[277] # (-0.64, 44.05, -133.89)
-    creditsPosition = mapPositionPool[278] # (-5.02, 50.05, -142.63)
-    controlRespawnPosition = mapPositionPool.slice(279, 1)
+    resetPosition = mapPositionPool[279] # (-9.08, 44.05, -133.26)
+    endPosition = mapPositionPool[280] # (20.36, 39.83, 112.51)
+    thirdPersonPosition = mapPositionPool[281] # (-0.64, 44.05, -133.89)
+    creditsPosition = mapPositionPool[282] # (-5.02, 50.05, -142.63)
+    controlRespawnPosition = mapPositionPool.slice(283, 1)
     # (-7.69, 44.25, -140.5)
     controlRespawnAxis = 2
     controlRespawnAxisThreshold = 30

@@ -8,7 +8,7 @@
 macro platformMapRevision_VOLSKAYA_DEFAULT():
     __currentMapText___ = "沃斯卡娅工业区"
 
-    bastionPosition = mapPositionPool.slice(682, 10)
+    bastionPosition = mapPositionPool.slice(686, 10)
     # (-93.173, 6.029, 40.928)
     # (-70.245, 2.97, 40.205)
     # (-68.376, 2.029, 82.568)
@@ -19,10 +19,10 @@ macro platformMapRevision_VOLSKAYA_DEFAULT():
     # (-13.277, 5.363, 41.99)
     # (-3.16, 5.314, 41.863)
     # (-13.455, 5.513, 31.919)
-    resetPosition = mapPositionPool[692] # (-115.18, -1.98, 35.24)
-    endPosition = mapPositionPool[693] # (-42.09, 2.02, 42.31)
-    thirdPersonPosition = mapPositionPool[694] # (-113.051, -1.98, 31.996)
-    creditsPosition = mapPositionPool[695] # (-128.25, 0.5, 24.75)
+    resetPosition = mapPositionPool[696] # (-115.18, -1.98, 35.24)
+    endPosition = mapPositionPool[697] # (-42.09, 2.02, 42.31)
+    thirdPersonPosition = mapPositionPool[698] # (-113.051, -1.98, 31.996)
+    creditsPosition = mapPositionPool[699] # (-128.25, 0.5, 24.75)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

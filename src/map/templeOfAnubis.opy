@@ -8,7 +8,7 @@
 macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     __currentMapText___ = "阿努比斯神殿"
 
-    bastionPosition = mapPositionPool.slice(653, 11)
+    bastionPosition = mapPositionPool.slice(657, 11)
     # (-30.115, 9.922, 122.607)
     # (-7.842, 4.625, 103.274)
     # (11.571, 4.413, 124.972)
@@ -20,10 +20,10 @@ macro platformMapRevision_TEMPLE_OF_ANUBIS_DEFAULT():
     # (-19.242, 21.163, 7.157)
     # (-1.506, 20.195, 17.402)
     # (8.352, 15.617, -16.322)
-    resetPosition = mapPositionPool[664] # (-17.16, 4.46, 137.76)
-    endPosition = mapPositionPool[665] # (2.45, 0.3, -19.4)
-    thirdPersonPosition = mapPositionPool[666] # (-7.969, 4.701, 137.39)
-    creditsPosition = mapPositionPool[667] # (-11.3, 7.35, 149.11)
+    resetPosition = mapPositionPool[668] # (-17.16, 4.46, 137.76)
+    endPosition = mapPositionPool[669] # (2.45, 0.3, -19.4)
+    thirdPersonPosition = mapPositionPool[670] # (-7.969, 4.701, 137.39)
+    creditsPosition = mapPositionPool[671] # (-11.3, 7.35, 149.11)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 

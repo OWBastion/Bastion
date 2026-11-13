@@ -8,7 +8,7 @@
 macro platformMapRevision_KINGS_ROW_DEFAULT():
     __currentMapText___ = "国王大道"
 
-    bastionPosition = mapPositionPool.slice(362, 7)
+    bastionPosition = mapPositionPool.slice(366, 7)
     # (-143.9, 7.13, 10.15)
     # (-116.44, 6.13, 5.72)
     # (-103.12, 6.93, -4.02)
@@ -16,10 +16,10 @@ macro platformMapRevision_KINGS_ROW_DEFAULT():
     # (-66.62, 4.5, -35.93)
     # (-29.17, 2.55, -31.43)
     # (-10.67, 16.97, 5.65)
-    resetPosition = mapPositionPool[369] # (-175.23, -0.07, 43.03)
-    endPosition = mapPositionPool[370] # (-1.9, 5, -0.29)
-    thirdPersonPosition = mapPositionPool[371] # (-176.048, -0.07, 36.54)
-    creditsPosition = mapPositionPool[372] # (-185.56, 3.53, 38.32)
+    resetPosition = mapPositionPool[373] # (-175.23, -0.07, 43.03)
+    endPosition = mapPositionPool[374] # (-1.9, 5, -0.29)
+    thirdPersonPosition = mapPositionPool[375] # (-176.048, -0.07, 36.54)
+    creditsPosition = mapPositionPool[376] # (-185.56, 3.53, 38.32)
 
 # END AUTO-GENERATED PLATFORM MAP REVISION
 
