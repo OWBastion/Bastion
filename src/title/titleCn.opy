@@ -104,8 +104,8 @@ enum MapTITLEKey:
 #!define player_title_set_off [0, 3, 12, 13, 88, 97, 106, 116, 122, 130, 135, 142, 146, 153, 159, 168, 177, 179, 189, 190, 199, 204, 204, 205, 208, 218]
 # END AUTO-GENERATED PLAYER_TITLE_SET_POOL
 # BEGIN AUTO-GENERATED TITLE PLAYER DATABASE
-#!define player_name_list "自律达人游十三‖EruIluvatar‖Fajacy‖他又‖八月八月八‖初一‖卖核弹的小女孩‖吾携秋水揽星河‖嘤嘤嘤丶‖墙上静止的钟‖天树是只臭猫‖眼镜小宅‖训犬大师‖豆本豆豆奶‖銀狼‖锄禾日当午‖别感冒‖好男人从不过夜‖雨鸢‖东子云梦‖黑洛‖一杯美式‖用户‖轩一‖风子修‖南城花开‖Cresc3nt‖听心语‖小满都未满"
-#!define player_title_set_index [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 21, 22, 23, 21, 21, 24]
+#!define player_name_list "自律达人游十三‖EruIluvatar‖Fajacy‖他又‖八月八月八‖初一‖卖核弹的小女孩‖吾携秋水揽星河‖嘤嘤嘤丶‖墙上静止的钟‖天树是只臭猫‖眼镜小宅‖训犬大师‖豆本豆豆奶‖銀狼‖锄禾日当午‖别感冒‖好男人从不过夜‖雨鸢‖东子云梦‖黑洛‖一杯美式‖用户‖轩一‖风子修‖南城花开‖Cresc3nt‖听心语‖小满都未满‖金泰亨"
+#!define player_title_set_index [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 18, 19, 20, 21, 22, 23, 21, 21, 24, 21]
 # END AUTO-GENERATED TITLE PLAYER DATABASE
 
 
@@ -176,11 +176,11 @@ enum MapTITLEKey:
 # 斗兽场
 #!define DATA_COLOSSEO [ \
    playerNameToIndexDelimited(["豆本豆豆奶"], "-"), \
-   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "Cresc3nt", "风子修", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
-   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "Cresc3nt", "风子修", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "金泰亨", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "Cresc3nt", "风子修", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
+   playerNameToIndexDelimited(["南城花开", "好男人从不过夜", "嘤嘤嘤丶", "吾携秋水揽星河", "卖核弹的小女孩", "他又", "金泰亨", "锄禾日当午", "八月八月八", "用户", "一杯美式", "Fajacy", "初一", "Cresc3nt", "风子修", "小满都未满", "豆本豆豆奶", "天树是只臭猫", "雨鸢", "训犬大师", "眼镜小宅", "东子云梦", "EruIluvatar"], "-"), \
    []\
 ]
-#!define DATA_COLOSSEO_PACKED "13|25-17-8-7-6-3-15-4-22-21-2-5-26-24-28-13-10-18-12-11-19-1|25-17-8-7-6-3-15-4-22-21-2-5-26-24-28-13-10-18-12-11-19-1|"
+#!define DATA_COLOSSEO_PACKED "13|25-17-8-7-6-3-29-15-4-22-21-2-5-26-24-28-13-10-18-12-11-19-1|25-17-8-7-6-3-29-15-4-22-21-2-5-26-24-28-13-10-18-12-11-19-1|"
 
 # 多拉多
 #!define DATA_DORADO [ \
@@ -436,12 +436,12 @@ enum MapTITLEKey:
 
 # 阿努比斯神殿
 #!define DATA_TEMPLE_OF_ANUBIS [ \
-   playerNameToIndexDelimited(["小满都未满"], "-"), \
-   playerNameToIndexDelimited(["小满都未满"], "-"), \
-   playerNameToIndexDelimited(["小满都未满"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "小满都未满"], "-"), \
+   playerNameToIndexDelimited(["好男人从不过夜", "小满都未满"], "-"), \
    []\
 ]
-#!define DATA_TEMPLE_OF_ANUBIS_PACKED "28|28|28|"
+#!define DATA_TEMPLE_OF_ANUBIS_PACKED "17-28|17-28|17-28|"
 
 # 阿努比斯王座
 #!define DATA_THRONE_OF_ANUBIS [ \
