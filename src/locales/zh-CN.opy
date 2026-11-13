@@ -531,7 +531,7 @@
 #!define STR_EDITOR_FIRE_MODE_OFF "关闭"
 #!define STR_EDITOR_MSG_NO_GROUND "下方 50 米内没有地面，未放置"
 #!define STR_EVT_MECH_29_TITLE "赌徒：21点"
-#!define STR_EVT_MECH_29_DESC "长按{0}投入{1}%心之钢开局，每手全部投入；长按{0}要牌，长按{2}结算，点数高于对手则心之钢翻倍"
+#!define STR_EVT_MECH_29_DESC "长按{0}投入{1}%心之钢开局，每手全部投入；长按{0}要牌，长按{2}结算，点数高于对手则心之钢变为三倍"
 #!define STR_EVT_MECH_29_HUD_PLAY "我方 {0} ?    对手 {1} ?    投入 {2}\n{3} 要牌    {4} 结算"
 #!define STR_EVT_MECH_29_MSG_RESULT "我方 {0} {1}    对手 {2} {3}，{4}，本金 {5}"
 #!define STR_EVT_MECH_29_MSG_CASHOUT "结算 {0} 心之钢"
