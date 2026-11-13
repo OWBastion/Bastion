@@ -26,4 +26,4 @@ rule "[VishkarEvent]: 命运赋格曲":
     if eventPlayer.eventId != EventId.FATE_FUGUE or eventPlayer.isAlive() != true:
         return
     damage(eventPlayer, null, eventDamage * EVT_DEBUFF_26_DAMAGE_PERCENT / 100)
-    eventPlayer.dlcTimeChallenge[4] += 1
+    eventPlayer.dlcTimeChallenge[1] += 1

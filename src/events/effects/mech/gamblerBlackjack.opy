@@ -42,6 +42,9 @@ def blackjackSettle():
     else:
         eventPlayer.eventLoopCount[7] = 0
         gamblerHeartsteelJackpot += eventPlayer.eventMission
+    # 赌神挑战：以 21 点获胜时累计次数，达标后由 achievement.opy 解锁
+    if eventPlayer.eventLoopCount[6] == 2 and eventPlayer.eventLoopCount[4] == 21:
+        eventPlayer.dlcTimeChallenge[3] += 1
     eventPlayer.eventMissionGoal = eventPlayer.eventLoopCount[7]
     # 消息只读结果槽，不读 eventMission：下一行把它清零，消息若在其后才求值会把输/爆牌显示成平局
     smallMessage(eventPlayer, STR_EVT_MECH_29_MSG_RESULT.format(eventPlayer.eventLoopCount[0], eventPlayer.eventLoopCount[1] if eventPlayer.eventLoopCount[1] > 0 else "-", eventPlayer.eventLoopCount[2], eventPlayer.eventLoopCount[3], STR_EVT_MECH_29_WIN if eventPlayer.eventLoopCount[6] == 2 else STR_EVT_MECH_29_PUSH if eventPlayer.eventLoopCount[6] == 1 else STR_EVT_MECH_29_LOSE, eventPlayer.eventLoopCount[7]))
