@@ -11,6 +11,7 @@ rule "Init Achievement Data":
         72, # TITLE_5E15AB66 祸不单行 在「命运赋格曲」的单次事件内承受至少 3 次实际结算的延迟伤害，并到达终点
         73, # TITLE_78561F19 闲庭信步 在「命运变奏曲」的单次事件内 heroNumber 增加至少 4
         74, # TITLE_DE83386D To Be NO.1 在「赌徒：赢家通吃」中单次赢得至少 800 层心之钢
+        39, # 赌神 在「赌徒：21点」中以 21 点赢得赌局，累计 7 次
     ]
 
     if classicMapVariant != CLASSIC_MAP_VARIANT_OFF:
@@ -102,3 +103,14 @@ rule "[VishkarEvent]: Challenge 74 Track (TITLE_DE83386D)":
     if hashTag and len(challengeTitleIds) != 0 and 74 not in eventPlayer.earnedAchievements:
         eventPlayer.unlockAchievement(74)
     eventPlayer.dlcTimeChallenge[5] = 0
+
+# 赌神：「赌徒：21点」以 21 点获胜累计达标即解锁，计数 dlcTimeChallenge[6] 由 21点 settle 累加。
+rule "[VishkarEvent]: Challenge 39 Track (GOD_GAMBLER)":
+    @Event eachPlayer
+    @Team 1
+    @Condition hashTag
+    @Condition len(challengeTitleIds) != 0
+    @Condition eventPlayer.dlcTimeChallenge[6] >= EVT_MECH_29_CHALLENGE_WINS
+    @Condition 39 not in eventPlayer.earnedAchievements
+
+    eventPlayer.unlockAchievement(39)
