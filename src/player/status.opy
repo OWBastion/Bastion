@@ -32,8 +32,8 @@ def resetPlayerProgressState():
     eventPlayer.mod_heal_perma = 0
     eventPlayer.bulwarkCount = 0
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)
-    # dlcTimeChallenge: [0:保留, 1-2:保留, 3:我大受震撼首次观测已结算, 4:祸不单行延迟伤害数, 5:To Be NO.1 单次赢得达标, 6:赌神以 21 点获胜次数]
-    eventPlayer.dlcTimeChallenge = [0, 0, 0, 0, 0, 0, 0]
+    # dlcTimeChallenge: [0:我大受震撼首次观测已结算, 1:祸不单行延迟伤害数, 2:To Be NO.1 单次赢得达标, 3:赌神以 21 点获胜次数]
+    eventPlayer.dlcTimeChallenge = [0, 0, 0, 0]
     eventPlayer.eventForceType = -1
     eventPlayer.eventForceCount = 0
     eventPlayer.eventForceSourceId = -1

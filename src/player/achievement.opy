@@ -22,14 +22,14 @@ rule "Init Achievement Data":
 # 观测范围：其他已出生的一队玩家；等待他们的下一个事件坍缩（最多 2 秒，先知缓存每秒刷新一次），
 # 再统计其中已确定的下一个事件里的减益事件数。无资格的玩家不会坍缩，只会让等待跑满 2 秒。
 # 过滤数组内不能引用 PROFILE_EVENT_PLAYER_ELIGIBLE(p)：它展开为对元素玩家变量的两层数组取值，Workshop 客户端会拒绝导入。
-# dlcTimeChallenge[3] 标记本次先知已结算，先知结束时复位。
+# dlcTimeChallenge[0] 标记本次先知已结算，先知结束时复位。
 rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.eventId == EventId.PROPHET
-    @Condition eventPlayer.dlcTimeChallenge[3] == 0
+    @Condition eventPlayer.dlcTimeChallenge[0] == 0
     @Condition 68 not in eventPlayer.earnedAchievements
 
     waitUntil(
@@ -38,17 +38,17 @@ rule "[VishkarEvent]: Challenge 68 Track (CHALLENGE_89683D0A)":
     )
     if eventPlayer.eventId != EventId.PROPHET:
         return
-    eventPlayer.dlcTimeChallenge[3] = 1
+    eventPlayer.dlcTimeChallenge[0] = 1
     if len(getPlayers(Team.1).exclude(eventPlayer).filter(lambda p: p.eventNextIndex != -1 and eventCatalogType[p.eventNextIndex] == EventType.DEBUFF)) >= 7:
         eventPlayer.unlockAchievement(68)
 
 rule "[VishkarEvent]: Challenge 68 Reset (CHALLENGE_89683D0A)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[3] == 1
+    @Condition eventPlayer.dlcTimeChallenge[0] == 1
     @Condition eventPlayer.eventId != EventId.PROPHET
 
-    eventPlayer.dlcTimeChallenge[3] = 0
+    eventPlayer.dlcTimeChallenge[0] = 0
 
 # 闲庭信步：命运变奏曲开始时在 eventMissionGoal 记录 heroNumber + 1 作基准，事件内 heroNumber 增量达标即解锁。
 rule "[VishkarEvent]: Challenge 73 Track (TITLE_78561F19)":
@@ -63,7 +63,7 @@ rule "[VishkarEvent]: Challenge 73 Track (TITLE_78561F19)":
 
     eventPlayer.unlockAchievement(73)
 
-# 祸不单行：命运赋格曲每次实际结算延迟伤害计数 dlcTimeChallenge[4]，死亡清零；
+# 祸不单行：命运赋格曲每次实际结算延迟伤害计数 dlcTimeChallenge[1]，死亡清零；
 # 事件内计数达标且 heroNumber 相对事件开始时增加（或通关）即解锁，基准 eventMissionGoal 由命运赋格曲开始规则记录。
 rule "[VishkarEvent]: Challenge 72 Track (TITLE_5E15AB66)":
     @Event eachPlayer
@@ -72,7 +72,7 @@ rule "[VishkarEvent]: Challenge 72 Track (TITLE_5E15AB66)":
     @Condition len(challengeTitleIds) != 0
     @Condition eventPlayer.eventId == EventId.FATE_FUGUE
     @Condition eventPlayer.eventMissionGoal > 0
-    @Condition eventPlayer.dlcTimeChallenge[4] >= EVT_DEBUFF_26_CHALLENGE_HITS
+    @Condition eventPlayer.dlcTimeChallenge[1] >= EVT_DEBUFF_26_CHALLENGE_HITS
     @Condition eventPlayer.heroNumber + 1 - eventPlayer.eventMissionGoal >= 1 or eventPlayer.isWinner
     @Condition 72 not in eventPlayer.earnedAchievements
 
@@ -81,36 +81,36 @@ rule "[VishkarEvent]: Challenge 72 Track (TITLE_5E15AB66)":
 rule "[VishkarEvent]: Challenge 72 Reset (TITLE_5E15AB66)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[4] != 0
+    @Condition eventPlayer.dlcTimeChallenge[1] != 0
     @Condition eventPlayer.eventId != EventId.FATE_FUGUE
 
-    eventPlayer.dlcTimeChallenge[4] = 0
+    eventPlayer.dlcTimeChallenge[1] = 0
 
 rule "[VishkarEvent]: Challenge 72 Death Reset (TITLE_5E15AB66)":
     @Event playerDied
     @Team 1
     @Condition eventPlayer.eventId == EventId.FATE_FUGUE
-    @Condition eventPlayer.dlcTimeChallenge[4] != 0
+    @Condition eventPlayer.dlcTimeChallenge[1] != 0
 
-    eventPlayer.dlcTimeChallenge[4] = 0
+    eventPlayer.dlcTimeChallenge[1] = 0
 
-# To Be NO.1：赢家通吃赢得奖池达标时置位 dlcTimeChallenge[5]，解锁后立即复位。
+# To Be NO.1：赢家通吃赢得奖池达标时置位 dlcTimeChallenge[2]，解锁后立即复位。
 rule "[VishkarEvent]: Challenge 74 Track (TITLE_DE83386D)":
     @Event eachPlayer
     @Team 1
-    @Condition eventPlayer.dlcTimeChallenge[5] == 1
+    @Condition eventPlayer.dlcTimeChallenge[2] == 1
 
     if hashTag and len(challengeTitleIds) != 0 and 74 not in eventPlayer.earnedAchievements:
         eventPlayer.unlockAchievement(74)
-    eventPlayer.dlcTimeChallenge[5] = 0
+    eventPlayer.dlcTimeChallenge[2] = 0
 
-# 赌神：「赌徒：21点」以 21 点获胜累计达标即解锁，计数 dlcTimeChallenge[6] 由 21点 settle 累加。
+# 赌神：「赌徒：21点」以 21 点获胜累计达标即解锁，计数 dlcTimeChallenge[3] 由 21点 settle 累加。
 rule "[VishkarEvent]: Challenge 39 Track (GOD_GAMBLER)":
     @Event eachPlayer
     @Team 1
     @Condition hashTag
     @Condition len(challengeTitleIds) != 0
-    @Condition eventPlayer.dlcTimeChallenge[6] >= EVT_MECH_29_CHALLENGE_WINS
+    @Condition eventPlayer.dlcTimeChallenge[3] >= EVT_MECH_29_CHALLENGE_WINS
     @Condition 39 not in eventPlayer.earnedAchievements
 
     eventPlayer.unlockAchievement(39)
