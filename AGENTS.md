@@ -12,10 +12,6 @@ Platform-owned metadata is consumed through the platform contract. Do not duplic
 
 Is the product the [organization product goal](../.github/docs/product-goal.md) protects: a maintained Bastion Escape 3 that keeps fixed-route runs, event-driven change, and map knowledge, with new and reworked events judged by decision space, replayability, and Workshop stability and performance. Build and Agents API sync exist to ship that content reliably, not as independent systems.
 
-## Repository delivery constraints
-
-Follow the organization [PR delivery](../.github/docs/pr-delivery.md) and [issue readiness](../.github/docs/issue-readiness.md) policies, plus `docs/agents/collaboration-commit.md` for the repository's local delivery contract.
-
 ## Minimal red lines
 
 1. Do not reorder the entry include flow casually.
@@ -38,7 +34,7 @@ Read only documents needed for the actual change:
 | Event lifecycle, temporary state/effects, reconnect/leave cleanup | `docs/agents/performance-loop-safety.md` | affected event/module source |
 | Random-event selection, eligibility, weighting, history/duplication | affected selection source and tests | performance guidance if hot-path behavior changes |
 | Platform metadata, title/event/map sync, Agents API, cross-repo contracts | `docs/agents/ecosystem-platform-boundary.md` | `docs/agents/build-validation.md`, affected sync tooling |
-| PR/commit/review delivery | `docs/agents/collaboration-commit.md` | this file |
+| PR/commit/review delivery | `docs/agents/collaboration-commit.md` | organization [PR delivery](../.github/docs/pr-delivery.md) and [issue readiness](../.github/docs/issue-readiness.md) |
 | Documentation changes | `docs/README.md` | organization [documentation policy](../.github/docs/documentation.md) |
 
 ## Gameplay verification
@@ -59,16 +55,6 @@ Apply the organization [testing](../.github/docs/testing-policy.md) and [verific
 
 Code, tests, and `package.json` define current behavior. `docs/` holds only rules, contracts, and external references; it does not describe the implementation. Locate code with `rg`/`rg --files`, not with prose indexes. Read touched files first, then their direct dependencies, then only the routed rule document.
 
-## Canonical rule index
-
-1. Architecture consistency and entry constraints -> `docs/agents/architecture-rules.md`
-2. Build and validation -> `docs/agents/build-validation.md`
-3. Performance and loop safety -> `docs/agents/performance-loop-safety.md`
-4. Collaboration, delivery, and commit hygiene -> `docs/agents/collaboration-commit.md`
-5. Ecosystem/platform boundaries -> `docs/agents/ecosystem-platform-boundary.md`
-
-Link to canonical owners instead of duplicating their full guidance.
-
 ## Analysis tools
 
 To trace rule order, rule flow, subroutine indices, or rule cost, run `wright` first (see the `wright` skill). Use `rg` and `Read` for source text. Do not rebuild the include chain by hand with `sed`, `grep`, or `cat`.
@@ -83,4 +69,4 @@ Player title grants remain platform-owned; Bastion has no local grant helper.
 
 - `workshop-event`: events are added, changed, or removed (enum, constants, i18n, catalog, effects, platform ID mapping).
 
-`skills/` in this repository owns Bastion workflow procedures. Workspace governance skills (`owbastion-reclaim-entropy`, `owbastion-verify-change`, `owbastion-test-design-review`) apply per the organization routing. Platform title metadata follows `docs/agents/ecosystem-platform-boundary.md`.
+`skills/` in this repository owns Bastion workflow procedures; workspace skills apply per the organization routing.
