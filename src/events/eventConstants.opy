@@ -658,6 +658,8 @@ enum GravityAnomalyRoll:
 #!define EVT_MECH_29_POOL_RATIO 0.25
 # 获胜时返还的筹码倍数（含本金）
 #!define EVT_MECH_29_WIN_MULTIPLIER 3
+# 单手结算筹码上限（层）；防止连胜指数增长撑爆心之钢与生命值
+#!define EVT_MECH_29_MAX_CHIPS 2000
 # 赌神挑战：以 21 点获胜的累计次数
 #!define EVT_MECH_29_CHALLENGE_WINS 7
 # 事件剩余时间不超过此值时：自动停牌结算并兑回筹码（秒）
