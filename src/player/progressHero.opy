@@ -10,6 +10,8 @@ def progressHero():
     
     eventPlayer.eventCompatibleBasePool = null
     eventPlayer.heroNumber++
+    if eventPlayer.heroNumber % EVT_PICK_HERO_INTERVAL == 0:
+        eventPlayer.eventPickPending++
     eventPlayer.controlJumpIndex = 0
     eventPlayer.controlPlayerRespawnPosition = null
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 200)

@@ -155,6 +155,7 @@ rule STR_LICENSE_PERMIT:
 #!include "events/lifecycle/requestPlayerEventEnd.opy"
 
 #!include "events/allocation/assignPlayerEvent.opy"
+#!include "events/allocation/buildEventOffer.opy"
 
 #!include "events/effects/buffEffects.opy"
 

@@ -146,6 +146,11 @@ playervar thiefBuffStolen
 playervar eventMatchCounters
 playervar eventNextIndex
 playervar eventAssigning
+# 自选事件：待使用的选择次数 / 当前三选一候选（EventId 数组，空 = 无候选）/ 已确认待分配 / 确认时暂存的候选下标
+playervar eventPickPending
+playervar eventOffer
+playervar eventPickReady
+playervar eventPickIndex
 playervar eventEndTime
 playervar prophetTextId
 

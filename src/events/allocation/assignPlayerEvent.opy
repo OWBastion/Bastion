@@ -10,6 +10,7 @@ rule "[VishkarEvent]: get player event":
     @Condition getNumberOfPlayers(Team.2) == len(bastionPosition)
     @Condition all([vishkarEventActivated, eventPlayer.hasSpawned(), eventPlayer.eventId == -1]) == true
     @Condition eventPlayer.eventCompatibleBasePool != null
+    @Condition eventPlayer.eventPickReady == true
     @Condition PROFILE_EVENT_PLAYER_ELIGIBLE(eventPlayer)
 
     if eventPlayer.hudTextId != null:
@@ -20,7 +21,7 @@ rule "[VishkarEvent]: get player event":
         
     
     lbl_0:
-    wait(10 if evalOnce(debugMode) else random.randint(30, 35) if not eventPlayer.isWinner else 40, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.eventPickReady = false
     wait(getAverageServerLoad() * 0.00032)
     setPlayerEvent()
     waitUntil(eventPlayer.eventId == -1 or eventPlayer.eventEndTime <= getTotalTimeElapsed(), Math.INFINITY)

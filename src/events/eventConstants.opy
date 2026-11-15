@@ -11,6 +11,10 @@
 #!define EVT_RECENT_EVENT_DEDUP_COUNT 10
 # 事件交互长按判定时长（秒）
 #!define EVT_INTERACT_HOLD_TIME 1
+# 自选事件：每通过 N 个新英雄获得一次选择机会 / 每次候选数量 / 确认长按时长（秒）
+#!define EVT_PICK_HERO_INTERVAL 2
+#!define EVT_PICK_OFFER_COUNT 3
+#!define EVT_PICK_CONFIRM_HOLD_TIME 0.5
 
 enum EventType:
     BUFF = 0

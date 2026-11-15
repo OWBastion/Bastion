@@ -17,6 +17,9 @@ def initPlayerEventState():
     eventPlayer.eventLastId = []
     eventPlayer.eventNextIndex = -1
     eventPlayer.eventAssigning = false
+    eventPlayer.eventPickPending = 0
+    eventPlayer.eventOffer = []
+    eventPlayer.eventPickReady = false
     eventPlayer.eventCompatibleBasePool = null
     eventPlayer.playerOnceEventState = DEFAULT_PLAYER_ONCE_EVENT_STATE.slice(0, PLAYER_ONCE_EVENT_SLOT_COUNT)
     eventPlayer.heart_steel = DEFAULT_HEART_STEEL_DATA.slice(0, HeartSteelData.COUNT)

@@ -46,6 +46,38 @@ rule "initialize effects":
     )
 
     # --------------------------------------------------------------------------------------------------------------------------------
+    # 自选事件三选一 (顶部中央)：与事件详情互斥（仅 eventId == -1 时有候选），沿用同一排序区间
+    # --------------------------------------------------------------------------------------------------------------------------------
+    hudText(
+        null if len(localPlayer.eventOffer) == 0 or localPlayer.settlementCardEnd != null else localPlayer,
+        STR_HUD_EVENT_OFFER_TITLE.format(localPlayer.eventPickPending),
+        null,
+        STR_HUD_EVENT_OFFER_HINT.format(inputBindingString(Button.INTERACT), inputBindingString(Button.PRIMARY_FIRE), inputBindingString(Button.SECONDARY_FIRE), inputBindingString(Button.RELOAD)),
+        HudPosition.TOP, 3, rgb(36, 205, 244), Color.WHITE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudText(
+        null if len(localPlayer.eventOffer) < 1 or localPlayer.settlementCardEnd != null else localPlayer,
+        STR_HUD_EVENT_OFFER_ENTRY.format(inputBindingString(Button.PRIMARY_FIRE), eventName[localPlayer.eventOffer[0]]),
+        null,
+        eventDesc[localPlayer.eventOffer[0]],
+        HudPosition.TOP, 4, Color.WHITE, Color.WHITE, rgb(255, 255, 255, 255), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudText(
+        null if len(localPlayer.eventOffer) < 2 or localPlayer.settlementCardEnd != null else localPlayer,
+        STR_HUD_EVENT_OFFER_ENTRY.format(inputBindingString(Button.SECONDARY_FIRE), eventName[localPlayer.eventOffer[1]]),
+        null,
+        eventDesc[localPlayer.eventOffer[1]],
+        HudPosition.TOP, 5, Color.WHITE, Color.WHITE, rgb(255, 255, 255, 255), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+    hudText(
+        null if len(localPlayer.eventOffer) < 3 or localPlayer.settlementCardEnd != null else localPlayer,
+        STR_HUD_EVENT_OFFER_ENTRY.format(inputBindingString(Button.RELOAD), eventName[localPlayer.eventOffer[2]]),
+        null,
+        eventDesc[localPlayer.eventOffer[2]],
+        HudPosition.TOP, 6, Color.WHITE, Color.WHITE, rgb(255, 255, 255, 255), HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER
+    )
+
+    # --------------------------------------------------------------------------------------------------------------------------------
     # Goal Effects
     # --------------------------------------------------------------------------------------------------------------------------------
     wait(0.5)

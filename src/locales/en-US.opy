@@ -229,6 +229,7 @@
 # ------------------------------------------------
 # {0}=Icon, {1}=Event Name, {2}=Duration
 #!define STR_MSG_EVENT_TRIGGER "  {0}  Event Triggered: {1} ({2})"
+#!define STR_MSG_EVENT_PICK_TAKEN "  {0}  That event is held by a teammate; options were regenerated"
 
 # {0}=Seconds
 #!define STR_MSG_DURATION_SEC "{0}s"
@@ -325,6 +326,12 @@
 # Event Detail Format
 # {0}=Name, {1}=Time, {2}=Desc
 #!define STR_HUD_EVENT_TITLE "{0} {1} ({2})"
+
+# Event pick offer (HUD Text)
+# Title {0}=pending picks; hint {0}=confirm key {1}{2}{3}=option keys; entry {0}=key {1}=event name
+#!define STR_HUD_EVENT_OFFER_TITLE "Choose your next event ({0} pending)"
+#!define STR_HUD_EVENT_OFFER_HINT "Hold {0}, then press {1} / {2} / {3} to choose"
+#!define STR_HUD_EVENT_OFFER_ENTRY "[{0}] {1}"
 
 # Attribute panel
 # {0}=Heartsteel stacks, {1}=Permanent movement speed bonus, {2}=Permanent damage reduction, {3}=Healing power

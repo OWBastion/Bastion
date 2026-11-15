@@ -15,6 +15,7 @@ def resetPlayerProgressState():
     @Name "[VishkarEvent]: reset player progress state"
 
     eventPlayer.heroNumber = 0
+    eventPlayer.eventPickPending = 0
     eventPlayer.progressionDeathCount = 0
     eventPlayer.skipCount = 0
     eventPlayer.runDeathCount = 0

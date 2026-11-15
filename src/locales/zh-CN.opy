@@ -239,6 +239,7 @@
 # 原文："{0} 触发事件：{1}（{2}）"
 # {0}=图标, {1}=事件名, {2}=持续时间
 #!define STR_MSG_EVENT_TRIGGER "  {0}  触发事件：{1}（{2}）"
+#!define STR_MSG_EVENT_PICK_TAKEN "  {0}  该事件已被队友占用，已重新生成选项"
 
 # 原文："{0}秒"
 # {0}=秒数
@@ -333,6 +334,12 @@
 # 事件详情格式 (HUD Text)
 # {0}=名称, {1}=时间, {2}=描述
 #!define STR_HUD_EVENT_TITLE "{0} {1}（{2}）"
+
+# 自选事件三选一 (HUD Text)
+# 标题 {0}=待选次数；提示 {0}=确认键 {1}{2}{3}=三个选项键；选项 {0}=按键 {1}=事件名
+#!define STR_HUD_EVENT_OFFER_TITLE "选择下一个事件（待选 {0}）"
+#!define STR_HUD_EVENT_OFFER_HINT "按住 {0}，再按 {1} / {2} / {3} 选择"
+#!define STR_HUD_EVENT_OFFER_ENTRY "[{0}] {1}"
 
 # 玩家属性面板
 # {0}=心之钢层数, {1}=永久移速加成, {2}=永久减伤, {3}=治疗强度
