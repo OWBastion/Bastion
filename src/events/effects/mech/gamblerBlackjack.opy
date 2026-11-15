@@ -36,7 +36,7 @@ def blackjackSettle():
         eventPlayer.eventLoopCount[6] = 2
     # 结算筹码：输 0、平 1 倍、赢 EVT_MECH_29_WIN_MULTIPLIER 倍；输掉的筹码进入全局心之钢奖池
     if eventPlayer.eventLoopCount[6] == 2:
-        eventPlayer.eventLoopCount[7] = min(eventPlayer.eventMission * EVT_MECH_29_WIN_MULTIPLIER, EVT_MECH_29_MAX_CHIPS)
+        eventPlayer.eventLoopCount[7] = min(floor(eventPlayer.eventMission * EVT_MECH_29_WIN_MULTIPLIER), EVT_MECH_29_MAX_CHIPS)
     elif eventPlayer.eventLoopCount[6] == 1:
         eventPlayer.eventLoopCount[7] = eventPlayer.eventMission
     else:

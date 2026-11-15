@@ -657,7 +657,7 @@ enum GravityAnomalyRoll:
 # 每次买入的筹码 = 买入时当前心之钢层数 × 此比例（至少 1 层，不超过现有层数），立即从心之钢扣除
 #!define EVT_MECH_29_POOL_RATIO 0.25
 # 获胜时返还的筹码倍数（含本金）
-#!define EVT_MECH_29_WIN_MULTIPLIER 3
+#!define EVT_MECH_29_WIN_MULTIPLIER 2.5
 # 单手结算筹码上限（层）；防止连胜指数增长撑爆心之钢与生命值
 #!define EVT_MECH_29_MAX_CHIPS 2000
 # 赌神挑战：以 21 点获胜的累计次数
