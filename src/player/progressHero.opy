@@ -25,11 +25,22 @@ def progressHero():
     # 否则大厅禁用的技能（托比昂炮台/秩序之光哨戒炮/生命之梭生命之握）会被泄漏打开。
     eventPlayer.setAbility1Enabled(heroList[eventPlayer.heroNumber] not in [Hero.TORBJORN, Hero.SYMMETRA])
     eventPlayer.setAbility2Enabled(heroList[eventPlayer.heroNumber] != Hero.LIFEWEAVER or PROFILE_LIFEWEAVER_GRIP_ELIGIBLE(eventPlayer))
-    wait(getServerLoad() * 0.005)
     eventPlayer.setAllowedHeroes(heroList.slice(0, eventPlayer.heroNumber + 1))
+    eventPlayer.progressTailPending = true
+
+
+# 收尾（事件池刷新、存档）与负载成正比且在事件激活前会阻塞，
+# 不能留在调用方规则里，否则终点判定规则会在此期间无法处理下一次到达。
+rule "Finish hero progression":
+    @Event eachPlayer
+    @Team 1
+    @Condition eventPlayer.progressTailPending == true
+
+    eventPlayer.progressTailPending = false
     refreshCompatibleEventPool()
-    wait(getServerLoad() * 0.005)
-    wait(getServerLoad() * 0.005)
+    wait(getServerLoad() * 0.01)
     wait(3)
     savePlayerData()
     wait(0.1)
+    if ruleCondition:
+        loop()
