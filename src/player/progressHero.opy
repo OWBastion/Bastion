@@ -31,12 +31,14 @@ def progressHero():
 
 # 收尾（事件池刷新、存档）与负载成正比且在事件激活前会阻塞，
 # 不能留在调用方规则里，否则终点判定规则会在此期间无法处理下一次到达。
+# 多名玩家同时通关时按槽位错开，并按负载放慢，避免事件池刷新同帧堆叠。
 rule "Finish hero progression":
     @Event eachPlayer
     @Team 1
     @Condition eventPlayer.progressTailPending == true
 
     eventPlayer.progressTailPending = false
+    wait(eventPlayer.getSlot() * 0.032 + getServerLoad() * 0.005)
     refreshCompatibleEventPool()
     wait(getServerLoad() * 0.01)
     wait(3)
