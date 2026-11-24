@@ -18,6 +18,10 @@ macro EVENT_GROUP_HEART_STEEL = [
 def filterEventHardEligible():
     @Name "[VishkarEvent]: filter hard-eligible event candidates"
 
+    if Hero.ILLARI not in heroList.slice(0, eventPlayer.heroNumber + 1):
+        eventPlayer.eventTempIndex.remove(EventId.BATTLEFIELD_MEDIC)
+    if Hero.RAMATTRA not in heroList.slice(0, eventPlayer.heroNumber + 1):
+        eventPlayer.eventTempIndex.remove(EventId.IRON_BULWARK)
     if eventPlayer.heart_steel[HeartSteelData.STACKS] <= 0:
         eventPlayer.eventTempIndex = eventPlayer.eventTempIndex.filter(lambda candidateIndex: candidateIndex not in EVENT_GROUP_HEART_STEEL)
     if eventPlayer.playerOnceEventState != null and len(eventPlayer.playerOnceEventState) > PlayerOnceEventSlot.TEMPER_HEART and eventPlayer.playerOnceEventState[PlayerOnceEventSlot.TEMPER_HEART] == TemperHeartState.COMPLETED:
